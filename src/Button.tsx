@@ -6,11 +6,17 @@ import classnames from "classnames";
 import React from "react";
 import { Button as LibraryButton } from "@trendmicro/react-buttons";
 
-const Button: React.FC<ButtonProps> = ({ icon, children, compact }) => {
+const Button: React.FC<ButtonProps> = ({
+  onClick,
+  icon,
+  children,
+  compact,
+  className,
+}) => {
   console.log(icon);
   return (
     <div className={classnames("button", { compact })}>
-      <LibraryButton>
+      <LibraryButton onClick={onClick}>
         {icon && (
           <div className="icon">
             <FontAwesomeIcon icon={icon} />
