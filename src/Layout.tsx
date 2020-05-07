@@ -4,7 +4,11 @@ import { faInfoCircle } from "@fortawesome/free-solid-svg-icons";
 import Button from "../src/Button";
 import classnames from "classnames";
 
-const Layout: React.FC<LayoutProps> = ({}) => {
+const Layout: React.FC<LayoutProps> = ({
+  sideMenuContent,
+  mainContent,
+  sidebarContent,
+}) => {
   const [showSideMenu, setShowSideMenu] = React.useState(false);
   const [showSidebar, setShowSidebar] = React.useState(false);
   return (
@@ -18,24 +22,28 @@ const Layout: React.FC<LayoutProps> = ({}) => {
           Menu
         </Button>{" "}
         This will be the header.
-        <div className="sidebar-button">
-          <Button
-            icon={faInfoCircle}
-            compact
-            onClick={() => setShowSidebar(!showSidebar)}
-          >
-            Menu
-          </Button>
-        </div>
+        {sidebarContent && (
+          <div className="sidebar-button">
+            <Button
+              icon={faInfoCircle}
+              compact
+              onClick={() => setShowSidebar(!showSidebar)}
+            >
+              Menu
+            </Button>
+          </div>
+        )}
       </div>
       <div className="body">
         <div className={classnames("side-menu", { visible: showSideMenu })}>
-          <div className="side-menu-content">This is the side-menu.</div>
+          <div className="side-menu-content">{sideMenuContent}</div>
         </div>
-        <div className={classnames("sidebar", { visible: showSidebar })}>
-          This will be the sidebar.
-        </div>
-        <div className="content">This will be the content.</div>
+        {sidebarContent && (
+          <div className={classnames("sidebar", { visible: showSidebar })}>
+            {sidebarContent}
+          </div>
+        )}
+        <div className="content">{mainContent}</div>
       </div>
       <style jsx>{`
         .layout {
@@ -51,6 +59,7 @@ const Layout: React.FC<LayoutProps> = ({}) => {
         }
         .header {
           background-color: green;
+          height: 50px;
         }
         .sidebar {
           width: 25%;
@@ -113,6 +122,8 @@ const Layout: React.FC<LayoutProps> = ({}) => {
 
 interface LayoutProps {
   sidebarContent?: Element;
+  mainContent: Element;
+  sideMenuContent: Element;
 }
 
 export default Layout;
