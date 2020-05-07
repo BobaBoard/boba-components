@@ -6,6 +6,7 @@ import BoardsGroup from "../src/BoardsGroup";
 import Card from "../src/Card";
 import Footer, { modes as footerModes } from "../src/post/Footer";
 import Editor from "@bobaboard/boba-editor";
+import Tag from "../src/Tag";
 
 import goreBackground from "./images/gore.png";
 
@@ -120,7 +121,11 @@ export const Attempt1 = () => {
               avatar={`/${goreBackground}`}
               description="Love me some bruised bois (and more)."
               onClick={() => console.log("go!")}
-            ></BoardPreview>
+            >
+              <Tag name="blood" color="#f96680" />
+              <Tag name="knifeplay" color="#93b3b0" />
+              <Tag name="aesthetic" color="#24d282" />
+            </BoardPreview>
           </div>
         }
       />
