@@ -13,7 +13,6 @@ const Button: React.FC<ButtonProps> = ({
   children,
   compact,
 }) => {
-  console.log(icon);
   return (
     <div className={classnames("button", { compact })}>
       <LibraryButton onClick={onClick}>

@@ -188,7 +188,8 @@ const BoardPreview: React.FC<BoardPreviewProps> = ({
             background-size: cover;
             background-position: 0px -100px;
             height: 150px;
-            width: 350px;
+            max-width: 350px;
+            min-width: 250px;
             border-radius: 15px;
             border: 3px ${chosenColor} solid;
             box-sizing: border-box;

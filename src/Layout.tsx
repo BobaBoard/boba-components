@@ -75,6 +75,7 @@ const Layout: React.FC<LayoutProps> = ({
           top: 0;
           bottom: 0;
           width: 0;
+          padding-top: 5px;
           overflow: hidden;
           transition-property: width;
           transition-duration: 1s;
@@ -85,6 +86,7 @@ const Layout: React.FC<LayoutProps> = ({
           width: 300px;
         }
         .side-menu.visible {
+          padding: 5px 0px;
           width: 300px;
         }
         .sidebar-button {
@@ -110,6 +112,7 @@ const Layout: React.FC<LayoutProps> = ({
             transition-property: height;
             transition-duration: 1s;
             transition-timing-function: easeInSine;
+            z-index: 5;
           }
           .sidebar.visible {
             height: 90%;

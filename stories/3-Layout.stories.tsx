@@ -2,6 +2,7 @@ import React from "react";
 //import { linkTo } from "@storybook/addon-links";
 import Layout from "../src/Layout";
 import BoardPreview from "../src/BoardPreview";
+import BoardsGroup from "../src/BoardsGroup";
 import Card from "../src/Card";
 import Footer, { modes as footerModes } from "../src/post/Footer";
 import Editor from "@bobaboard/boba-editor";
@@ -91,22 +92,24 @@ export const Attempt1 = () => {
         }
         sideMenuContent={
           <div>
-            <BoardPreview
-              slug="fic-club"
-              avatar={`/${goreBackground}`}
-              description="Love me some bruised bois (and more)."
-              onClick={() => console.log("go!")}
-              compact
-              color="#f96680"
-            ></BoardPreview>
-            <BoardPreview
-              slug="meta"
-              avatar={`/${goreBackground}`}
-              description="Love me some bruised bois (and more)."
-              onClick={() => console.log("go!")}
-              compact
-              color="#24d282"
-            ></BoardPreview>
+            <BoardsGroup>
+              <BoardPreview
+                slug="fic-club"
+                avatar={`/${goreBackground}`}
+                description="Love me some bruised bois (and more)."
+                onClick={() => console.log("go!")}
+                compact
+                color="#f96680"
+              />
+              <BoardPreview
+                slug="meta"
+                avatar={`/${goreBackground}`}
+                description="Love me some bruised bois (and more)."
+                onClick={() => console.log("go!")}
+                compact
+                color="#24d282"
+              />
+            </BoardsGroup>
           </div>
         }
         sidebarContent={
