@@ -4,6 +4,7 @@ import { IconDefinition } from "@fortawesome/fontawesome-common-types";
 import classnames from "classnames";
 
 import React from "react";
+// @ts-ignore
 import { Button as LibraryButton } from "@trendmicro/react-buttons";
 
 const Button: React.FC<ButtonProps> = ({
@@ -44,7 +45,7 @@ const Button: React.FC<ButtonProps> = ({
 
 export default Button;
 
-interface ButtonProps {
+export interface ButtonProps {
   children: string;
   icon?: IconDefinition;
   compact?: boolean;
