@@ -1,9 +1,17 @@
 import React from "react";
 import classnames from "classnames";
 
-const Slug: React.FC<{ name: string; visible: boolean }> = ({
+const DEFAULT_COLOR = "#000000";
+
+const hex2rgba = (hex, alpha = 1) => {
+  const [r, g, b] = hex.match(/\w\w/g).map((x) => parseInt(x, 16));
+  return `rgba(${r},${g},${b},${alpha})`;
+};
+
+const Slug: React.FC<{ name: string; visible: boolean; color: string }> = ({
   name,
   visible,
+  color,
   compact,
 }) => {
   return (
@@ -29,8 +37,8 @@ const Slug: React.FC<{ name: string; visible: boolean }> = ({
           top: 0;
           width: 100%;
           position: absolute;
-          border: 3px black solid;
-          background-color: rgba(0, 0, 0, 0.3);
+          border: 3px ${color} solid;
+          background-color: ${hex2rgba(color, 0.2)};
           border-radius: 15px;
         }
         .slug-container.hidden {
@@ -44,7 +52,7 @@ const Slug: React.FC<{ name: string; visible: boolean }> = ({
           filter: invert(100%);
         }
         .slug-container.regular span {
-          background-color: rgba(0, 0, 0, 0.6);
+          background-color: ${hex2rgba(color, 0.6)};
           font-weight: bold;
           border-radius: 15px;
           padding: 5px 15px;
@@ -64,7 +72,8 @@ const Description: React.FC<{
   description: string;
   visible: boolean;
   compact: boolean;
-}> = ({ description, visible, compact }) => {
+  color: string;
+}> = ({ description, visible, compact, color }) => {
   return (
     <div
       className={classnames("description-container", {
@@ -93,16 +102,16 @@ const Description: React.FC<{
           top: 0;
           width: 100%;
           position: absolute;
-          border: 3px black solid;
+          border: 3px ${color} solid;
           text-align: center;
-          background-color: rgba(0, 0, 0, 0.3);
+          background-color: ${hex2rgba(color, 0.3)};
           border-radius: 15px;
         }
         .description-container.regular {
           font-size: 30px;
         }
         .description-container.regular span {
-          background-color: rgba(0, 0, 0, 0.3);
+          background-color: ${hex2rgba(color, 0.3)};
           border-radius: 15px;
           padding: 25px;
           display: block;
@@ -131,41 +140,48 @@ const BoardPreview: React.FC<BoardPreviewProps> = ({
   description,
   onClick,
   children,
+  color,
 }) => {
   const [showDescription, setShowDescription] = React.useState(false);
+  const chosenColor = color || DEFAULT_COLOR;
   return (
     <div
       className="container"
       onMouseEnter={() => setShowDescription(true)}
       onMouseLeave={() => setShowDescription(false)}
     >
-      <div
-        className={classnames("board-header", { compact, regular: !compact })}
-        onClick={onClick}
-      ></div>
-      <Slug
-        name={slug}
-        visible={!showDescription || !compact}
-        compact={compact}
-      />
-      <Description
-        description={description}
-        visible={showDescription || !compact}
-        compact={compact}
-      />
+      <div className="board-header">
+        <div
+          className={classnames("board-image", { compact, regular: !compact })}
+          onClick={onClick}
+        ></div>
+        <Slug
+          name={slug}
+          visible={!showDescription || !compact}
+          compact={compact}
+          color={chosenColor}
+        />
+        <Description
+          description={description}
+          visible={showDescription || !compact}
+          compact={compact}
+          color={chosenColor}
+        />
+      </div>
       <div className={classnames("preview-footer", { hidden: !children })}>
         {children}
       </div>
       <style jsx>{`
         .container {
-          position: relative;
           display: inline-block;
-          border-radius: 15px;
         }
         .container.compact {
           cursor: pointer;
         }
-        .board-header {
+        .board-header{
+          position: relative;
+        }
+        .board-image {
             cursor: pointer;
             position: relative;
             background: url("${avatar}");
@@ -174,10 +190,11 @@ const BoardPreview: React.FC<BoardPreviewProps> = ({
             height: 150px;
             width: 350px;
             border-radius: 15px;
-            border: 3px black solid;
+            border: 3px ${chosenColor} solid;
             box-sizing: border-box;
+            border-radius: 15px;
         }
-        .board-header.regular {
+        .board-image.regular {
             margin-bottom: 15px;
         }
         .preview-footer {
@@ -199,6 +216,7 @@ export interface BoardPreviewProps {
   avatar: string;
   description: string;
   compact?: boolean;
+  color?: string;
   onClick: () => void;
 }
 
