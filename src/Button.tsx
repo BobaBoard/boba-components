@@ -11,7 +11,6 @@ const Button: React.FC<ButtonProps> = ({
   icon,
   children,
   compact,
-  className,
 }) => {
   console.log(icon);
   return (

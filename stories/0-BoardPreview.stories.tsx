@@ -23,6 +23,20 @@ BoardPreviewSimple.story = {
   name: "simple",
 };
 
+export const BoardPreviewCompact = () => (
+  <BoardPreview
+    slug="gore"
+    avatar={`/${goreBackground}`}
+    description="Love me some bruised bois (and more)."
+    onClick={() => console.log("go!")}
+    compact
+  ></BoardPreview>
+);
+
+BoardPreviewCompact.story = {
+  name: "compact",
+};
+
 export const BoardPreviewWithTags = () => (
   <BoardPreview
     slug="gore"
