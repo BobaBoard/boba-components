@@ -1,6 +1,6 @@
 import React from "react";
-//import { linkTo } from "@storybook/addon-links";
 import Layout from "../src/Layout";
+import BoardSidebar from "../src/BoardSidebar";
 import BoardPreview from "../src/BoardPreview";
 import BoardsGroup from "../src/BoardsGroup";
 import Card from "../src/Card";
@@ -114,20 +114,16 @@ export const Attempt1 = () => {
           </div>
         }
         sidebarContent={
-          <div>
-            {" "}
-            <BoardPreview
-              slug="gore"
-              avatar={`/${goreBackground}`}
-              description="Love me some bruised bois (and more)."
-              onClick={() => console.log("go!")}
-            >
-              <Tag name="blood" color="#f96680" />
-              <Tag name="knifeplay" color="#93b3b0" />
-              <Tag name="aesthetic" color="#24d282" />
-            </BoardPreview>
-          </div>
+          <BoardSidebar
+            board={{
+              slug: "gore",
+              avatar: `/${goreBackground}`,
+              description: "Love me some bruised bois (and more).",
+              color: "#f96680",
+            }}
+          />
         }
+        headerAccent="#f96680"
       />
 
       <style jsx>

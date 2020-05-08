@@ -16,6 +16,7 @@ const Layout: React.FC<LayoutProps> = ({
   sideMenuContent,
   mainContent,
   sidebarContent,
+  headerAccent,
 }) => {
   const [showSideMenu, setShowSideMenu] = React.useState(false);
   const [showSidebar, setShowSidebar] = React.useState(false);
@@ -35,7 +36,9 @@ const Layout: React.FC<LayoutProps> = ({
               Menu
             </Button>{" "}
           </div>
-          <img src={logo} />
+          <a className="logo">
+            <img src={logo} />
+          </a>
           {sidebarContent && (
             <div className="sidebar-button">
               <Button
@@ -84,7 +87,27 @@ const Layout: React.FC<LayoutProps> = ({
           align-items: center;
           box-sizing: border-box;
         }
-        .header > img {
+        .logo {
+          position: relative;
+          height: 100%;
+        }
+        .logo > img {
+          height: 100%;
+          z-index: 5;
+          position: relative;
+        }
+        .logo::after {
+          content: "";
+          background-color: ${headerAccent || "transparent"};
+          mask: url(${logo}) no-repeat;
+          display: block;
+          position: absolute;
+          z-index: 1;
+          mask-size: 100%;
+          top: 2px;
+          opacity: 0.8;
+          left: 3px;
+          width: 100%;
           height: 100%;
         }
         .sidemenu-button {
@@ -152,6 +175,7 @@ export interface LayoutProps {
   sidebarContent?: JSX.Element;
   mainContent: JSX.Element;
   sideMenuContent: JSX.Element;
+  headerAccent?: string;
 }
 
 export default Layout;

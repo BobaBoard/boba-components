@@ -195,7 +195,6 @@ const BoardPreview: React.FC<BoardPreviewProps> = ({
           position:absolute;
         }
         .board-image {
-            cursor: pointer;
             position: relative;
             background: url("${avatar}");
             background-size: cover;
@@ -229,7 +228,7 @@ export interface BoardPreviewProps {
   description: string;
   compact?: boolean;
   color?: string;
-  onClick: () => void;
+  onClick?: () => void;
 }
 
 export default BoardPreview;
