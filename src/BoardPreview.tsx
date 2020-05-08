@@ -22,7 +22,7 @@ const Slug: React.FC<{ name: string; visible: boolean; color: string }> = ({
         regular: !compact,
       })}
     >
-      <span>/{name}/</span>
+      <span>!{name}</span>
       <style jsx>{`
         .slug-container {
           height: 100%;
@@ -174,12 +174,21 @@ const BoardPreview: React.FC<BoardPreviewProps> = ({
       <style jsx>{`
         .container {
           display: inline-block;
+          min-width: 250px;
+          max-width: 350px;
         }
         .container.compact {
           cursor: pointer;
         }
         .board-header{
           position: relative;
+        }
+        .board-header::before {
+          display: block;
+          content: "";
+          width: 100%;
+          padding-top: calc((9 / 16) * 100%);
+          position:absolute;
         }
         .board-image {
             cursor: pointer;
@@ -188,8 +197,6 @@ const BoardPreview: React.FC<BoardPreviewProps> = ({
             background-size: cover;
             background-position: 0px -100px;
             height: 150px;
-            max-width: 350px;
-            min-width: 250px;
             border-radius: 15px;
             border: 3px ${chosenColor} solid;
             box-sizing: border-box;

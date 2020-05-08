@@ -60,6 +60,7 @@ const Layout: React.FC<LayoutProps> = ({
         .header {
           background-color: green;
           height: 50px;
+          flex-shrink: 0;
         }
         .sidebar {
           width: 25%;

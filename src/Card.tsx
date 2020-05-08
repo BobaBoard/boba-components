@@ -19,10 +19,17 @@ const Card: React.FC<CardProps> = ({ children }) => {
       </div>
       <style jsx>{`
         .card {
-          padding: 25px 10px;
-          border-radius: 10px;
+          padding: 15px 10px;
+          border-radius: 5px;
           background-color: white;
-          max-width: 500px;
+          max-width: 450px;
+        }
+        .content {
+          margin-bottom: 15px;
+        }
+        .footer {
+          border-top: 1px rgba(0, 0, 0, 0.3) solid;
+          padding-top: 15px;
         }
       `}</style>
     </>
