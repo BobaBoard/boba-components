@@ -4,6 +4,8 @@ import { faInfoCircle } from "@fortawesome/free-solid-svg-icons";
 import Button from "../src/Button";
 import classnames from "classnames";
 
+import "normalize.css";
+
 import logo from "./images/logo.svg";
 
 const LIGHT_GREY = "#2f2f30";
@@ -60,6 +62,7 @@ const Layout: React.FC<LayoutProps> = ({
           background-color: pink;
           display: flex;
           height: 100vh;
+          font-family: "Inter", sans-serif;
         }
         .body {
           display: flex;
