@@ -148,10 +148,10 @@ const Layout: React.FC<LayoutProps> = ({
   );
 };
 
-interface LayoutProps {
-  sidebarContent?: Element;
-  mainContent: Element;
-  sideMenuContent: Element;
+export interface LayoutProps {
+  sidebarContent?: JSX.Element;
+  mainContent: JSX.Element;
+  sideMenuContent: JSX.Element;
 }
 
 export default Layout;

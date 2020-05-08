@@ -3,17 +3,21 @@ import classnames from "classnames";
 
 const DEFAULT_COLOR = "#000000";
 
-const hex2rgba = (hex, alpha = 1) => {
-  const [r, g, b] = hex.match(/\w\w/g).map((x) => parseInt(x, 16));
+const hex2rgba = (hex: string, alpha = 1) => {
+  const [r, g, b] =
+    hex.match(/\w\w/g)?.map((x: string) => parseInt(x, 16)) || [];
+  if (r == undefined) {
+    return hex;
+  }
   return `rgba(${r},${g},${b},${alpha})`;
 };
 
-const Slug: React.FC<{ name: string; visible: boolean; color: string }> = ({
-  name,
-  visible,
-  color,
-  compact,
-}) => {
+const Slug: React.FC<{
+  name: string;
+  visible: boolean;
+  color: string;
+  compact: boolean;
+}> = ({ name, visible, color, compact }) => {
   return (
     <div
       className={classnames("slug-container", {
@@ -158,13 +162,13 @@ const BoardPreview: React.FC<BoardPreviewProps> = ({
         <Slug
           name={slug}
           visible={!showDescription || !compact}
-          compact={compact}
+          compact={!!compact}
           color={chosenColor}
         />
         <Description
           description={description}
           visible={showDescription || !compact}
-          compact={compact}
+          compact={!!compact}
           color={chosenColor}
         />
       </div>
