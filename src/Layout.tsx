@@ -103,12 +103,12 @@ const Layout: React.FC<LayoutProps> = ({
           transition-timing-function: easeInSine;
           z-index: 1;
           width: 0;
+          padding: 15px 0px;
         }
         .side-menu-content {
           width: 300px;
         }
         .side-menu.visible {
-          padding: 5px 0px;
           width: 300px;
         }
         .sidebar-button {
