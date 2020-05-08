@@ -88,7 +88,7 @@ const Layout: React.FC<LayoutProps> = ({
           margin: 0 10px;
         }
         .sidebar {
-          width: 25%;
+          width: 350px;
           background-color: ${MEDIUM_GREY};
         }
         .content {
