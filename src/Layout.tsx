@@ -4,6 +4,12 @@ import { faInfoCircle } from "@fortawesome/free-solid-svg-icons";
 import Button from "../src/Button";
 import classnames from "classnames";
 
+import logo from "./images/logo.svg";
+
+const LIGHT_GREY = "#2f2f30";
+const MEDIUM_GREY = "#1c1c1c";
+const DARK_GREY = "#131518";
+
 const Layout: React.FC<LayoutProps> = ({
   sideMenuContent,
   mainContent,
@@ -13,75 +19,90 @@ const Layout: React.FC<LayoutProps> = ({
   const [showSidebar, setShowSidebar] = React.useState(false);
   return (
     <div className="layout">
-      <div className="header">
-        <Button
-          icon={faBars}
-          compact
-          onClick={() => setShowSideMenu(!showSideMenu)}
-        >
-          Menu
-        </Button>{" "}
-        This will be the header.
-        {sidebarContent && (
-          <div className="sidebar-button">
-            <Button
-              icon={faInfoCircle}
-              compact
-              onClick={() => setShowSidebar(!showSidebar)}
-            >
-              Menu
-            </Button>
-          </div>
-        )}
+      <div className={classnames("side-menu", { visible: showSideMenu })}>
+        <div className="side-menu-content">{sideMenuContent}</div>
       </div>
       <div className="body">
-        <div className={classnames("side-menu", { visible: showSideMenu })}>
-          <div className="side-menu-content">{sideMenuContent}</div>
-        </div>
-        {sidebarContent && (
-          <div className={classnames("sidebar", { visible: showSidebar })}>
-            {sidebarContent}
+        <div className="header">
+          <div className="sidemenu-button">
+            <Button
+              icon={faBars}
+              compact
+              onClick={() => setShowSideMenu(!showSideMenu)}
+            >
+              Menu
+            </Button>{" "}
           </div>
-        )}
-        <div className="content">{mainContent}</div>
+          <img src={logo} />
+          {sidebarContent && (
+            <div className="sidebar-button">
+              <Button
+                icon={faInfoCircle}
+                compact
+                onClick={() => setShowSidebar(!showSidebar)}
+              >
+                Menu
+              </Button>
+            </div>
+          )}
+        </div>
+        <div className="board-content">
+          {sidebarContent && (
+            <div className={classnames("sidebar", { visible: showSidebar })}>
+              {sidebarContent}
+            </div>
+          )}
+          <div className="content">{mainContent}</div>
+        </div>
       </div>
       <style jsx>{`
         .layout {
           background-color: pink;
           display: flex;
-          flex-direction: column;
           height: 100vh;
         }
         .body {
+          display: flex;
+          flex-direction: column;
+          flex-grow: 1;
+        }
+        .board-content {
           display: flex;
           flex-grow: 1;
           position: relative;
         }
         .header {
-          background-color: green;
-          height: 50px;
+          background-color: ${DARK_GREY};
+          height: 60px;
           flex-shrink: 0;
+          position: relative;
+          padding: 5px;
+          display: flex;
+          align-items: center;
+          box-sizing: border-box;
+        }
+        .header > img {
+          height: 100%;
+        }
+        .sidemenu-button {
+          margin: 0 10px;
         }
         .sidebar {
           width: 25%;
-          background-color: red;
+          background-color: ${MEDIUM_GREY};
         }
         .content {
-          background-color: yellow;
+          background-color: ${LIGHT_GREY};
           flex-grow: 1;
         }
         .side-menu {
-          position: absolute;
-          background-color: purple;
-          top: 0;
-          bottom: 0;
-          width: 0;
-          padding-top: 5px;
+          background-color: ${DARK_GREY};
           overflow: hidden;
           transition-property: width;
-          transition-duration: 1s;
+          transition-duration: 0.4s;
           transition-timing-function: easeInSine;
           z-index: 1;
+          width: 0;
         }
         .side-menu-content {
           width: 300px;
