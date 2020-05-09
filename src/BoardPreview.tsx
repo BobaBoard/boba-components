@@ -57,7 +57,7 @@ const Slug: React.FC<{
           display: none;
         }
         .slug-container.regular {
-          margin-bottom: 15px;
+          margin-bottom: -15px;
           font-size: 30px;
         }
         .slug-container.regular span:hover {
@@ -119,16 +119,17 @@ const Description: React.FC<{
           border-radius: 15px;
         }
         .description-container.regular {
-          font-size: 30px;
+          font-size: 20px;
         }
         .description-container.regular span {
-          background-color: ${hex2rgba(color, 0.3)};
+          background-color: ${hex2rgba("#ffffff", 0.8)};
+          color: ${color};
           border-radius: 15px;
-          padding: 25px;
+          padding: 15px;
+          padding-top: 20px;
           display: block;
           margin-top: 0px;
-          margin: 15px;
-          font-size: 20px;
+          font-size: 18px;
         }
         .description-container.compact span {
           top: 50%;
