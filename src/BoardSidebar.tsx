@@ -13,7 +13,7 @@ const BoardSidebar: React.FC<BoardSidebarProps> = ({ board }) => {
           description={board.description}
           color={board.color}
         ></BoardPreview>
-        <div>
+        <div className="tag-clouds">
           <h2>Board-wide Tags</h2>
           <div className="tag-group">
             <Tag name="gore" color="#f96680" />
@@ -33,6 +33,7 @@ const BoardSidebar: React.FC<BoardSidebarProps> = ({ board }) => {
             <Tag name="torture" color="#f96680" />
             <Tag name="necrophilia" color="#93b3b0" />
             <Tag name="fanfiction" color="#27caba" />
+            <Tag name="rec" color="#f9e066" />
             <Tag name="doujinshi" color="#f96680" />
             <Tag name="untagged" color="#93b3b0" />
           </div>
@@ -68,6 +69,9 @@ const BoardSidebar: React.FC<BoardSidebarProps> = ({ board }) => {
           color: white;
           font-size: 16px;
           font-weight: bold;
+        }
+        .tag-clouds {
+          margin-top: 30px;
         }
         .tag-group {
           display: flex;
