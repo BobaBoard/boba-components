@@ -114,11 +114,11 @@ const Description: React.FC<{
           font-size: 20px;
         }
         .description-container.regular span {
-          background-color: ${hex2rgba("#ffffff", 0.8)};
+          background-color: #2f2f30;
           color: ${color};
           border-radius: 15px;
           padding: 15px;
-          padding-top: 20px;
+          padding-top: 25px;
           display: block;
           margin-top: 0px;
           font-size: 18px;
