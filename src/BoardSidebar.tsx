@@ -1,6 +1,7 @@
 import React from "react";
 
 import BoardPreview from "../src/BoardPreview";
+import Tag from "../src/Tag";
 
 const BoardSidebar: React.FC<BoardSidebarProps> = ({ board }) => {
   return (
@@ -11,11 +12,15 @@ const BoardSidebar: React.FC<BoardSidebarProps> = ({ board }) => {
           avatar={board.avatar}
           description={board.description}
           color={board.color}
-        />
+        >
+          <Tag name="blood" color="#f96680" />
+          <Tag name="knifeplay" color="#93b3b0" />
+          <Tag name="aesthetic" color="#24d282" />
+        </BoardPreview>
       </div>
       <style jsx>{`
         .sidebar {
-          padding: 15px;
+          padding: 20px;
         }
         .board-details {
           margin-top: 30px;
