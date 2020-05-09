@@ -1,18 +1,10 @@
 import React from "react";
 import classnames from "classnames";
+import { hex2rgba } from "./utils";
 
 import HighlightedText from "./HighlightedText";
 
 const DEFAULT_COLOR = "#000000";
-
-const hex2rgba = (hex: string, alpha = 1) => {
-  const [r, g, b] =
-    hex.match(/\w\w/g)?.map((x: string) => parseInt(x, 16)) || [];
-  if (r == undefined) {
-    return hex;
-  }
-  return `rgba(${r},${g},${b},${alpha})`;
-};
 
 const Slug: React.FC<{
   name: string;

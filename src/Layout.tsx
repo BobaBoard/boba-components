@@ -1,7 +1,7 @@
 import React from "react";
 import { faBars } from "@fortawesome/free-solid-svg-icons";
 import { faInfoCircle } from "@fortawesome/free-solid-svg-icons";
-import Button from "../src/Button";
+import Button, { ButtonStyle } from "../src/Button";
 import classnames from "classnames";
 
 import "normalize.css";
@@ -32,6 +32,8 @@ const Layout: React.FC<LayoutProps> = ({
               icon={faBars}
               compact
               onClick={() => setShowSideMenu(!showSideMenu)}
+              color={headerAccent}
+              theme={ButtonStyle.DARK}
             >
               Menu
             </Button>{" "}
@@ -79,10 +81,10 @@ const Layout: React.FC<LayoutProps> = ({
         }
         .header {
           background-color: ${DARK_GREY};
-          height: 60px;
+          height: 70px;
           flex-shrink: 0;
           position: relative;
-          padding: 5px;
+          padding: 15px;
           display: flex;
           align-items: center;
           box-sizing: border-box;
@@ -105,7 +107,6 @@ const Layout: React.FC<LayoutProps> = ({
           z-index: 1;
           mask-size: 100%;
           top: 2px;
-          opacity: 0.8;
           left: 3px;
           width: 100%;
           height: 100%;
