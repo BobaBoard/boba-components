@@ -1,6 +1,8 @@
 import React from "react";
 import classnames from "classnames";
 
+import HighlightedText from "./HighlightedText";
+
 const DEFAULT_COLOR = "#000000";
 
 const hex2rgba = (hex: string, alpha = 1) => {
@@ -26,7 +28,13 @@ const Slug: React.FC<{
         regular: !compact,
       })}
     >
-      <span>!{name}</span>
+      {compact ? (
+        <span>!{name}</span>
+      ) : (
+        <HighlightedText highlightColor={color}>
+          <span>!{name}</span>
+        </HighlightedText>
+      )}
       <style jsx>{`
         .slug-container {
           height: 100%;
@@ -56,7 +64,6 @@ const Slug: React.FC<{
           filter: invert(100%);
         }
         .slug-container.regular span {
-          background-color: ${hex2rgba(color, 0.6)};
           font-weight: bold;
           border-radius: 15px;
           padding: 5px 15px;
