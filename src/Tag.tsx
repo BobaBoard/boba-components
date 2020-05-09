@@ -2,6 +2,7 @@ import React from "react";
 
 export interface TagProps {
   name: string;
+  symbol?: string;
   avatar?: string;
   color?: string;
 }
@@ -9,7 +10,7 @@ const Tag: React.FC<TagProps> = (props) => {
   return (
     <>
       <div className="tag">
-        <span className="hashtag">#</span>
+        <span className="hashtag">{props.symbol || "#"}</span>
         {props.name}
       </div>
       <style jsx>{`

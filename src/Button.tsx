@@ -3,8 +3,6 @@ import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { IconDefinition } from "@fortawesome/fontawesome-common-types";
 import classnames from "classnames";
 
-import { hex2rgba } from "utils";
-
 import React from "react";
 // @ts-ignore
 import { Button as LibraryButton } from "@trendmicro/react-buttons";

@@ -2,6 +2,7 @@ import React from "react";
 import { faBars } from "@fortawesome/free-solid-svg-icons";
 import { faInfoCircle } from "@fortawesome/free-solid-svg-icons";
 import Button, { ButtonStyle } from "../src/Button";
+import UserBar from "../src/UserBar";
 import classnames from "classnames";
 
 import "normalize.css";
@@ -27,31 +28,34 @@ const Layout: React.FC<LayoutProps> = ({
       </div>
       <div className="body">
         <div className="header">
-          <div className="sidemenu-button">
-            <Button
-              icon={faBars}
-              compact
-              onClick={() => setShowSideMenu(!showSideMenu)}
-              color={headerAccent}
-              theme={ButtonStyle.DARK}
-            >
-              Menu
-            </Button>{" "}
-          </div>
-          <a className="logo">
-            <img src={logo} />
-          </a>
-          {sidebarContent && (
-            <div className="sidebar-button">
+          <div className="title-bar">
+            <div className="sidemenu-button">
               <Button
-                icon={faInfoCircle}
+                icon={faBars}
                 compact
-                onClick={() => setShowSidebar(!showSidebar)}
+                onClick={() => setShowSideMenu(!showSideMenu)}
+                color={headerAccent}
+                theme={ButtonStyle.DARK}
               >
                 Menu
-              </Button>
+              </Button>{" "}
             </div>
-          )}
+            <a className="logo">
+              <img src={logo} />
+            </a>
+            {sidebarContent && (
+              <div className="sidebar-button">
+                <Button
+                  icon={faInfoCircle}
+                  compact
+                  onClick={() => setShowSidebar(!showSidebar)}
+                >
+                  Menu
+                </Button>
+              </div>
+            )}
+          </div>
+          <UserBar color={headerAccent} />
         </div>
         <div className="board-content">
           {sidebarContent && (
@@ -81,13 +85,20 @@ const Layout: React.FC<LayoutProps> = ({
         }
         .header {
           background-color: ${DARK_GREY};
-          height: 70px;
+          height: 40px;
           flex-shrink: 0;
           position: relative;
           padding: 15px;
           display: flex;
+          justify-content: space-between;
           align-items: center;
-          box-sizing: border-box;
+        }
+        .title-bar {
+          display: flex;
+          align-items: center;
+          min-width: 250px;
+          position: relative;
+          height: 100%;
         }
         .logo {
           position: relative;
@@ -113,6 +124,7 @@ const Layout: React.FC<LayoutProps> = ({
         }
         .sidemenu-button {
           margin: 0 10px;
+          display: inline-block;
         }
         .sidebar {
           width: 350px;
