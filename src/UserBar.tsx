@@ -12,7 +12,7 @@ const UserBar: React.FC<UserBarProps> = ({ color }) => {
         color={color}
         theme={ButtonStyle.DARK}
       >
-        Menu
+        User Menu
       </Button>{" "}
       <style jsx>{`
         .sidebar {

@@ -23,6 +23,7 @@ const BoardSidebar: React.FC<BoardSidebarProps> = ({ board }) => {
           </div>
           <h2>Canonical Board Tags</h2>
           <div className="tag-group">
+            <Tag name="request" color="#27caba" />
             <Tag name="blood" color="#f96680" />
             <Tag name="knifeplay" color="#93b3b0" />
             <Tag name="aesthetic" color="#24d282" />
@@ -31,16 +32,17 @@ const BoardSidebar: React.FC<BoardSidebarProps> = ({ board }) => {
             <Tag name="hanging" color="#f9e066" />
             <Tag name="torture" color="#f96680" />
             <Tag name="necrophilia" color="#93b3b0" />
-            <Tag name="request" color="#27caba" />
             <Tag name="fanfiction" color="#27caba" />
             <Tag name="doujinshi" color="#f96680" />
             <Tag name="untagged" color="#93b3b0" />
           </div>
-          <h2 className="tag-group">Content Rules</h2>
-          <Tag symbol="✓" name="shota" color="#66f98c" />
-          <Tag symbol="✓" name="nsfw" color="#66f98c" />
-          <Tag symbol="✘" name="IRL" color="#ff0124" />
-          <Tag symbol="✘" name="RolePlay" color="#ff0124" />
+          <h2>Content Rules</h2>
+          <div className="tag-group">
+            <Tag symbol="✓" name="shota" color="#66f98c" />
+            <Tag symbol="✓" name="nsfw" color="#66f98c" />
+            <Tag symbol="✘" name="IRL" color="#ff0124" />
+            <Tag symbol="✘" name="RP" color="#ff0124" />
+          </div>
           <h2>Other Rules</h2>
           <div className="other">
             <ul>
@@ -72,7 +74,8 @@ const BoardSidebar: React.FC<BoardSidebarProps> = ({ board }) => {
           flex-wrap: wrap;
         }
         .tag-group > :global(div) {
-          margin-bottom: 5px;
+          margin-bottom: 3px;
+          margin-right: 3px;
         }
         .sidebar {
           padding: 20px;
