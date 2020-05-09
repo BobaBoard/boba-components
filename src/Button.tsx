@@ -20,6 +20,8 @@ const Button: React.FC<ButtonProps> = ({
   color,
   theme,
 }) => {
+  const THEME_COLOR = theme == ButtonStyle.DARK ? "#1c1c1c" : "#fff";
+  const REVERSE_THEME_COLOR = theme == ButtonStyle.DARK ? "#fff" : "#1c1c1c";
   return (
     <div className={classnames("button", { compact })}>
       <LibraryButton btnStyle="flat" onClick={onClick}>
@@ -43,24 +45,28 @@ const Button: React.FC<ButtonProps> = ({
         }
 
         .compact > :global(button):hover {
-          background-color: ${theme == ButtonStyle.LIGHT ? "#1c1c1c" : "#fff"};
-          border: 2px solid ${color || "#fff"};
-          color: ${color || "#fff"};
+          background-color: ${REVERSE_THEME_COLOR};
+          border: 2px solid ${color || THEME_COLOR};
+          color: ${color || THEME_COLOR};
         }
         .compact > :global(button):active:focus {
-          background-color: ${theme == ButtonStyle.LIGHT ? "#1c1c1c" : "#fff"};
-          border: 2px solid ${color || "#fff"};
-          color: ${color || "#fff"};
+          background-color: ${REVERSE_THEME_COLOR};
+          border: 2px solid ${color || THEME_COLOR};
+          color: ${color || THEME_COLOR};
+        }
+        .compact > :global(button):hover .icon {
+          color: ${color || THEME_COLOR};
         }
         .compact > :global(button) {
           min-width: 25px;
           color: ${color || "#fff"};
-          background-color: ${theme == ButtonStyle.DARK ? "#1c1c1c" : "#fff"};
-          border: 2px solid ${color || "#fff"};
+          background-color: ${THEME_COLOR};
+          border: 2px solid ${color || REVERSE_THEME_COLOR};
           background-image: none;
         }
         .compact .icon {
           margin-right: 0px;
+          color: ${color || REVERSE_THEME_COLOR};
         }
       `}</style>
     </div>
