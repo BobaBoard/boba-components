@@ -1,5 +1,7 @@
 import React from "react";
 
+import classnames from "classnames";
+
 export interface CardProps {}
 const Card: React.FC<CardProps> = ({ children }) => {
   let content = null;
@@ -13,7 +15,11 @@ const Card: React.FC<CardProps> = ({ children }) => {
 
   return (
     <>
-      <div className="card">
+      <div
+        className={classnames("card", {
+          "no-footer": !footer,
+        })}
+      >
         <div className="content">{content}</div>
         {<div className="footer">{footer}</div>}
       </div>
@@ -26,6 +32,9 @@ const Card: React.FC<CardProps> = ({ children }) => {
         }
         .content {
           margin-bottom: 15px;
+        }
+        .card.no-footer .footer {
+          display: none;
         }
         .footer {
           border-top: 1px rgba(0, 0, 0, 0.3) solid;

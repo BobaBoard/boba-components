@@ -1,8 +1,9 @@
 import React from "react";
 //import { linkTo } from "@storybook/addon-links";
-import Card from "../src/Card";
+import Card from "../src/common/Card";
 import Header, { HeaderStyle } from "../src/post/Header";
 import Footer, { modes as footerModes } from "../src/post/Footer";
+import Post, { modes as postModes } from "../src/post/Post";
 import Editor from "@bobaboard/boba-editor";
 
 import oncelerAvatar from "./images/oncie.jpg";
@@ -38,7 +39,7 @@ export const CardSimple = () => (
 );
 
 CardSimple.story = {
-  name: "content only",
+  name: "content card",
 };
 
 export const FooterStory = () => (
@@ -124,26 +125,19 @@ HeaderStory.story = {
 };
 
 export const EditableWithFooter = () => (
-  <Card>
-    <Editor
-      editable
-      initialText={JSON.parse(
-        '[{"insert":"Open RP"},{"attributes":{"header":1},"insert":"\\n"},{"insert":{"block-image":"https://cdn.discordapp.com/attachments/443967088118333442/691486081895628830/unknown.png"}}, {"attributes":{"italic":true},"insert":"You have my sword..."}]'
-      )}
-      onTextChange={() => {
-        console.log("changed!");
-      }}
-      focus={true}
-      onIsEmptyChange={() => {
-        console.log("empty!");
-      }}
-      onSubmit={() => {
-        // This is for cmd + enter pressed while in the editor
-        console.log("submit!");
-      }}
-    />
-    <Footer mode={footerModes.CREATE} />
-  </Card>
+  <Post
+    mode={postModes.CREATE}
+    createdTime="2019/05/14 at 7:34pm"
+    text={
+      '[{"insert":"Open RP"},{"attributes":{"header":1},"insert":"\\n"},{"insert":{"block-image":"https://cdn.discordapp.com/attachments/443967088118333442/691486081895628830/unknown.png"}}, {"attributes":{"italic":true},"insert":"You have my sword..."}]'
+    }
+    secretIdentity={{ name: "Tuxedo Mask", avatar: `/${tuxedoAvatar}` }}
+    userIdentity={{ name: "SexyDaddy69", avatar: `/${mamoruAvatar}` }}
+    onSubmit={() => console.log("click!")}
+    onCancel={() => console.log("click!")}
+    onNewContribution={() => console.log("click!")}
+    onNewComment={() => console.log("click!")}
+  />
 );
 
 export const NonEditable = () => (
@@ -170,9 +164,9 @@ export const NonEditable = () => (
 );
 
 EditableWithFooter.story = {
-  name: "editable with footer",
+  name: "editable post",
 };
 
 NonEditable.story = {
-  name: "non-editable with footer",
+  name: "non-editable post",
 };

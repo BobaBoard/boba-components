@@ -116,7 +116,7 @@ const PostHeader: React.FC<PostHeaderProps> = (props) => {
           width: 100%;
           padding-top: 100%;
           position: absolute;
-          border-radius: 15px;
+          border-radius: 50%;
         }
         .post-container {
           display: flex;
@@ -136,7 +136,7 @@ const PostHeader: React.FC<PostHeaderProps> = (props) => {
 export default PostHeader;
 
 export interface PostHeaderProps {
-  size: string;
+  size?: string;
   secretIdentity: {
     avatar: string;
     name: string;

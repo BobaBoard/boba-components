@@ -3,7 +3,7 @@ import Layout from "../src/Layout";
 import BoardSidebar from "../src/BoardSidebar";
 import BoardPreview from "../src/BoardPreview";
 import BoardsGroup from "../src/BoardsGroup";
-import Card from "../src/Card";
+import Card from "../src/common/Card";
 import Footer, { modes as footerModes } from "../src/post/Footer";
 import Editor from "@bobaboard/boba-editor";
 
