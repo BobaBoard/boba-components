@@ -6,7 +6,6 @@ import BoardsGroup from "../src/BoardsGroup";
 import Card from "../src/Card";
 import Footer, { modes as footerModes } from "../src/post/Footer";
 import Editor from "@bobaboard/boba-editor";
-import Tag from "../src/Tag";
 
 import goreBackground from "./images/gore.png";
 

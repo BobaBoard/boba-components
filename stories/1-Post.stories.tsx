@@ -1,8 +1,15 @@
 import React from "react";
 //import { linkTo } from "@storybook/addon-links";
 import Card from "../src/Card";
+import Header, { HeaderStyle } from "../src/post/Header";
 import Footer, { modes as footerModes } from "../src/post/Footer";
 import Editor from "@bobaboard/boba-editor";
+
+import oncelerAvatar from "./images/oncie.jpg";
+import greedlerAvatar from "./images/greedler.jpg";
+import tuxedoAvatar from "./images/tuxedo-mask.jpg";
+import mamoruAvatar from "./images/mamoru.png";
+
 export default {
   title: "Post Preview",
   component: Card,
@@ -31,7 +38,89 @@ export const CardSimple = () => (
 );
 
 CardSimple.story = {
-  name: "simple",
+  name: "content only",
+};
+
+export const FooterStory = () => (
+  <div>
+    <Footer mode={footerModes.CREATE} />
+    <Footer mode={footerModes.VIEW} />
+    <style jsx>
+      {`
+        div {
+          max-width: 500px;
+          margin-top: 25px;
+        }
+        div > :global(div) {
+          margin-top: 15px;
+          background-color: pink;
+        }
+      `}
+    </style>
+  </div>
+);
+
+FooterStory.story = {
+  name: "footer",
+};
+
+export const HeaderStory = () => (
+  <div>
+    <Header
+      secretIdentity={{
+        name: "Good Onceler",
+        avatar: `/${oncelerAvatar}`,
+      }}
+      createdMessage="Posted on: 2019/05/14 at 7:34pm"
+      size={HeaderStyle.REGULAR}
+    />
+    <Header
+      secretIdentity={{ name: "Bad Onceler", avatar: `/${greedlerAvatar}` }}
+      createdMessage="Posted on: 2019/06/14 at 4:20pm"
+      size={HeaderStyle.COMPACT}
+    />
+    <Header
+      secretIdentity={{ name: "Tuxedo Mask", avatar: `/${tuxedoAvatar}` }}
+      userIdentity={{ name: "SexyDaddy69", avatar: `/${mamoruAvatar}` }}
+      createdMessage="Posted on: 2019/06/14 at 4:20pm"
+      size={HeaderStyle.REGULAR}
+    />
+    <Header
+      secretIdentity={{ name: "Tuxedo Mask", avatar: `/${tuxedoAvatar}` }}
+      userIdentity={{ name: "SexyDaddy69", avatar: `/${mamoruAvatar}` }}
+      createdMessage="Posted on: 2019/06/14 at 4:20pm"
+      size={HeaderStyle.REGULAR}
+      forceHide
+    />
+    <Header
+      secretIdentity={{ name: "Tuxedo Mask", avatar: `/${tuxedoAvatar}` }}
+      userIdentity={{ name: "SexyDaddy69", avatar: `/${mamoruAvatar}` }}
+      createdMessage="Posted on: 2019/06/14 at 4:20pm"
+      size={HeaderStyle.COMPACT}
+    />
+    <Header
+      secretIdentity={{ name: "Tuxedo Mask", avatar: `/${tuxedoAvatar}` }}
+      userIdentity={{ name: "SexyDaddy69", avatar: `/${mamoruAvatar}` }}
+      createdMessage="Posted on: 2019/06/14 at 4:20pm"
+      size={HeaderStyle.COMPACT}
+      forceHide
+    />
+    <style jsx>
+      {`
+        div {
+          max-width: 500px;
+          margin-top: 25px;
+        }
+        div > :global(div) {
+          margin-top: 15px;
+        }
+      `}
+    </style>
+  </div>
+);
+
+HeaderStory.story = {
+  name: "header",
 };
 
 export const EditableWithFooter = () => (

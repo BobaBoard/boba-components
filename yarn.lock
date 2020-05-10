@@ -9264,6 +9264,11 @@ react-textarea-autosize@^7.1.0:
     "@babel/runtime" "^7.1.2"
     prop-types "^15.6.0"
 
+react-tiny-popover@^4.1.0:
+  version "4.1.0"
+  resolved "https://registry.yarnpkg.com/react-tiny-popover/-/react-tiny-popover-4.1.0.tgz#62a3fc4db66ec0f9c7ac1c110ecabf69acd94574"
+  integrity sha512-bp6yUsc6V+dMln3SihrW1itse3nx+2KiC4s5ED3GDCzYsvCUs67x+e3eGbocfgTVft9wrnfRgcSHRn2q1KLziA==
+
 react@^16.8.3:
   version "16.13.1"
   resolved "https://registry.yarnpkg.com/react/-/react-16.13.1.tgz#2e818822f1a9743122c063d6410d85c1e3afe48e"

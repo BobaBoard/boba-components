@@ -32,6 +32,7 @@ const BoardSidebar: React.FC<BoardSidebarProps> = ({ board }) => {
             <Tag name="hanging" color="#f9e066" />
             <Tag name="torture" color="#f96680" />
             <Tag name="necrophilia" color="#93b3b0" />
+            <Tag name="shota" color="#e22b4b" />
             <Tag name="fanfiction" color="#27caba" />
             <Tag name="rec" color="#f9e066" />
             <Tag name="doujinshi" color="#f96680" />
