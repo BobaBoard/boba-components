@@ -2,43 +2,46 @@ import React from "react";
 
 import classnames from "classnames";
 
-export interface CardProps {}
-const Card: React.FC<CardProps> = ({ children }) => {
-  let content = null;
-  let footer = null;
-  if (Array.isArray(children)) {
-    content = children[0];
-    footer = children[1];
-  } else {
-    content = children;
-  }
-
+export interface CardProps {
+  footer?: JSX.Element;
+  header?: JSX.Element;
+}
+const Card: React.FC<CardProps> = ({ children, footer, header }) => {
   return (
     <>
       <div
         className={classnames("card", {
-          "no-footer": !footer,
+          "with-footer": !!footer,
+          "with-header": !!header,
         })}
       >
-        <div className="content">{content}</div>
+        {<div className="header">{header}</div>}
+        <div className="content">{children}</div>
         {<div className="footer">{footer}</div>}
       </div>
       <style jsx>{`
         .card {
           padding: 15px 10px;
-          border-radius: 5px;
+          border-radius: 15px;
           background-color: white;
           max-width: 450px;
         }
-        .content {
-          margin-bottom: 15px;
+        .card.with-header {
+          padding-top: 0px;
+          padding-left: 0px;
+          padding-right: 0px;
         }
-        .card.no-footer .footer {
-          display: none;
+
+        .card.with-header .content,
+        .card.with-footer .content {
+          padding-left: 10px;
+          padding-right: 10px;
         }
-        .footer {
-          border-top: 1px rgba(0, 0, 0, 0.3) solid;
-          padding-top: 15px;
+
+        .card.with-footer {
+          padding-bottom: 0px;
+          padding-left: 0px;
+          padding-right: 0px;
         }
       `}</style>
     </>

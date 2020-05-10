@@ -3,9 +3,12 @@ import Layout from "../src/Layout";
 import BoardSidebar from "../src/BoardSidebar";
 import BoardPreview from "../src/BoardPreview";
 import BoardsGroup from "../src/BoardsGroup";
-import Card from "../src/common/Card";
-import Footer, { modes as footerModes } from "../src/post/Footer";
-import Editor from "@bobaboard/boba-editor";
+import Post from "../src/post/Post";
+
+import oncelerAvatar from "./images/oncie.jpg";
+import greedlerAvatar from "./images/greedler.jpg";
+import tuxedoAvatar from "./images/tuxedo-mask.jpg";
+import mamoruAvatar from "./images/mamoru.png";
 
 import goreBackground from "./images/gore.png";
 
@@ -47,47 +50,58 @@ export const Attempt1 = () => {
       <Layout
         mainContent={
           <div className="main">
-            <Card>
-              <Editor
-                editable={false}
-                initialText={JSON.parse(
+            <div className="post">
+              <Post
+                createdTime="2019/05/14 at 7:34pm"
+                text={
                   '[{"insert":"Open RP"},{"attributes":{"header":1},"insert":"\\n"},{"insert":{"block-image":"https://cdn.discordapp.com/attachments/443967088118333442/691486081895628830/unknown.png"}}, {"attributes":{"italic":true},"insert":"You have my sword..."}]'
-                )}
-                onTextChange={() => {
-                  console.log("changed!");
+                }
+                secretIdentity={{
+                  name: "Good Guy",
+                  avatar: `/${oncelerAvatar}`,
                 }}
-                focus={true}
-                onIsEmptyChange={() => {
-                  console.log("empty!");
-                }}
-                onSubmit={() => {
-                  // This is for cmd + enter pressed while in the editor
-                  console.log("submit!");
-                }}
+                onSubmit={() => console.log("click!")}
+                onCancel={() => console.log("click!")}
+                onNewContribution={() => console.log("click!")}
+                onNewComment={() => console.log("click!")}
               />
-              <Footer mode={footerModes.VIEW} />
-            </Card>
-
-            <Card>
-              <Editor
-                editable={false}
-                initialText={JSON.parse(
+            </div>
+            <div className="post">
+              <Post
+                createdTime="2019/05/14 at 7:34pm"
+                text={
                   '[{"insert":"Open RP"},{"attributes":{"header":1},"insert":"\\n"},{"insert":{"block-image":"https://cdn.discordapp.com/attachments/443967088118333442/691486081895628830/unknown.png"}}, {"attributes":{"italic":true},"insert":"You have my sword..."}]'
-                )}
-                onTextChange={() => {
-                  console.log("changed!");
+                }
+                secretIdentity={{
+                  name: "Tuxedo Mask",
+                  avatar: `/${tuxedoAvatar}`,
                 }}
-                focus={true}
-                onIsEmptyChange={() => {
-                  console.log("empty!");
+                userIdentity={{
+                  name: "SexyDaddy69",
+                  avatar: `/${mamoruAvatar}`,
                 }}
-                onSubmit={() => {
-                  // This is for cmd + enter pressed while in the editor
-                  console.log("submit!");
-                }}
+                onSubmit={() => console.log("click!")}
+                onCancel={() => console.log("click!")}
+                onNewContribution={() => console.log("click!")}
+                onNewComment={() => console.log("click!")}
               />
-              <Footer mode={footerModes.VIEW} />
-            </Card>
+            </div>
+            <div className="post">
+              <Post
+                createdTime="2019/05/14 at 7:34pm"
+                text={
+                  '[{"insert":"Open RP"},{"attributes":{"header":1},"insert":"\\n"},{"insert":{"block-image":"https://cdn.discordapp.com/attachments/443967088118333442/691486081895628830/unknown.png"}}, {"attributes":{"italic":true},"insert":"You have my sword..."}]'
+                }
+                secretIdentity={{
+                  name: "Bad Guy",
+                  avatar: `/${greedlerAvatar}`,
+                }}
+                onSubmit={() => console.log("click!")}
+                onCancel={() => console.log("click!")}
+                onNewContribution={() => console.log("click!")}
+                onNewComment={() => console.log("click!")}
+              />
+            </div>
           </div>
         }
         sideMenuContent={
@@ -127,9 +141,10 @@ export const Attempt1 = () => {
 
       <style jsx>
         {`
-          .main > :global(div) {
+          .post {
+            max-width: 450px;
             margin: 0 auto;
-            margin-bottom: 5px;
+            margin-top: 25px;
           }
         `}
       </style>

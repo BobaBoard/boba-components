@@ -141,26 +141,18 @@ export const EditableWithFooter = () => (
 );
 
 export const NonEditable = () => (
-  <Card>
-    <Editor
-      editable={false}
-      initialText={JSON.parse(
-        '[{"insert":"Open RP"},{"attributes":{"header":1},"insert":"\\n"},{"insert":{"block-image":"https://cdn.discordapp.com/attachments/443967088118333442/691486081895628830/unknown.png"}}, {"attributes":{"italic":true},"insert":"You have my sword..."}]'
-      )}
-      onTextChange={() => {
-        console.log("changed!");
-      }}
-      focus={true}
-      onIsEmptyChange={() => {
-        console.log("empty!");
-      }}
-      onSubmit={() => {
-        // This is for cmd + enter pressed while in the editor
-        console.log("submit!");
-      }}
-    />
-    <Footer mode={footerModes.VIEW} />
-  </Card>
+  <Post
+    createdTime="2019/05/14 at 7:34pm"
+    text={
+      '[{"insert":"Open RP"},{"attributes":{"header":1},"insert":"\\n"},{"insert":{"block-image":"https://cdn.discordapp.com/attachments/443967088118333442/691486081895628830/unknown.png"}}, {"attributes":{"italic":true},"insert":"You have my sword..."}]'
+    }
+    secretIdentity={{ name: "Tuxedo Mask", avatar: `/${tuxedoAvatar}` }}
+    userIdentity={{ name: "SexyDaddy69", avatar: `/${mamoruAvatar}` }}
+    onSubmit={() => console.log("click!")}
+    onCancel={() => console.log("click!")}
+    onNewContribution={() => console.log("click!")}
+    onNewComment={() => console.log("click!")}
+  />
 );
 
 EditableWithFooter.story = {

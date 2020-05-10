@@ -1,7 +1,7 @@
 import React from "react";
 
+import DefaultTheme from "../theme/default";
 import Tooltip from "../common/Tooltip";
-
 import classnames from "classnames";
 
 export enum HeaderStyle {
@@ -43,7 +43,7 @@ const Metadata: React.FC<PostHeaderProps> = (props) => {
           }
           .timestamp {
             font-size: smaller;
-            color: rgba(255, 255, 255, 0.5);
+            color: ${DefaultTheme.POST_HEADER_DATE_COLOR};
           }
           .container.compact .nickname {
             font-size: 18px;
@@ -125,7 +125,6 @@ const PostHeader: React.FC<PostHeaderProps> = (props) => {
         .post-header {
           display: flex;
           align-items: flex-start;
-          margin-top: 10px;
           position: relative;
         }
       `}</style>
