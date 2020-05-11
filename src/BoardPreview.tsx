@@ -3,6 +3,7 @@ import classnames from "classnames";
 import { hex2rgba } from "./utils";
 
 import HighlightedText from "./HighlightedText";
+import Tooltip from "./common/Tooltip";
 
 const DEFAULT_COLOR = "#000000";
 
@@ -173,8 +174,12 @@ const BoardPreview: React.FC<BoardPreviewProps> = ({
         regular: displayStyle == DisplayStyle.REGULAR,
         mini: displayStyle == DisplayStyle.MINI,
       })}
-      onMouseEnter={() => setShowDescription(true)}
-      onMouseLeave={() => setShowDescription(false)}
+      onMouseEnter={() => {
+        setShowDescription(true);
+      }}
+      onMouseLeave={() => {
+        setShowDescription(false);
+      }}
     >
       <div className="board-header">
         <div
@@ -232,6 +237,11 @@ const BoardPreview: React.FC<BoardPreviewProps> = ({
           width: 100%;
           padding-top: calc((9 / 16) * 100%);
           position:absolute;
+        }
+        .tooltip-content {
+          padding: 15px;
+          position: relative;
+          z-index: 15;
         }
         .board-image {
             position: relative;

@@ -26,7 +26,7 @@ const SideMenu: React.FC<SideMenuProps> = ({ board }) => {
           <BoardPreview
             slug="gore"
             avatar={board.avatar}
-            description="This is the gore board!"
+            description="Love me some bruised bois (and more)."
             onClick={() => console.log("go!")}
             color="#f96680"
             displayStyle={DisplayStyle.MINI}
@@ -34,7 +34,7 @@ const SideMenu: React.FC<SideMenuProps> = ({ board }) => {
           <BoardPreview
             slug="anime"
             avatar={"/" + anime}
-            description="Love me some bruised bois (and more)."
+            description="We put the weeb in dweeb."
             onClick={() => console.log("go!")}
             displayStyle={DisplayStyle.MINI}
             color="#24d282"
@@ -44,7 +44,7 @@ const SideMenu: React.FC<SideMenuProps> = ({ board }) => {
           <BoardPreview
             slug="crack"
             avatar={"/" + crack}
-            description="Love me some bruised bois (and more)."
+            description="What's crackalackin"
             onClick={() => console.log("go!")}
             displayStyle={DisplayStyle.MINI}
             color="#f9e066"
@@ -54,7 +54,7 @@ const SideMenu: React.FC<SideMenuProps> = ({ board }) => {
           <BoardPreview
             slug="fic-club"
             avatar={"/" + book}
-            description="Love me some bruised bois (and more)."
+            description="Come enjoy all the fics!"
             onClick={() => console.log("go!")}
             displayStyle={DisplayStyle.MINI}
             color="#7724d2"
