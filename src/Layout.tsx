@@ -26,7 +26,11 @@ const Layout: React.FC<LayoutProps> = ({
       <div className={classnames("side-menu", { visible: showSideMenu })}>
         <div className="side-menu-content">{sideMenuContent}</div>
       </div>
-      <div className="body">
+      <div
+        className={classnames("body", {
+          "side-menu-open": showSideMenu,
+        })}
+      >
         <div
           className={classnames("backdrop", {
             visible: showSideMenu || showSidebar,
@@ -191,10 +195,15 @@ const Layout: React.FC<LayoutProps> = ({
         }
         .body {
           flex-shrink: 0;
+          width: 100%;
         }
         @media only screen and (max-width: 800px) {
           .body {
             flex-direction: column;
+            flex-shrink: 1;
+          }
+          .body.side-menu-open {
+            flex-shrink: 0;
           }
           .content {
             padding: 0 20px;
