@@ -72,6 +72,7 @@ const Layout: React.FC<LayoutProps> = ({
           display: flex;
           height: 100vh;
           font-family: "Inter", sans-serif;
+          overflow: hidden;
         }
         .body {
           display: flex;
@@ -82,6 +83,8 @@ const Layout: React.FC<LayoutProps> = ({
           display: flex;
           flex-grow: 1;
           position: relative;
+          overflow-y: auto;
+          background-color: ${LIGHT_GREY};
         }
         .header {
           background-color: ${DARK_GREY};
@@ -131,31 +134,32 @@ const Layout: React.FC<LayoutProps> = ({
           background-color: ${MEDIUM_GREY};
         }
         .content {
-          background-color: ${LIGHT_GREY};
           flex-grow: 1;
         }
         .side-menu {
           background-color: ${DARK_GREY};
           overflow: hidden;
           transition-property: width;
-          transition-duration: 0.4s;
+          transition-duration: 0.3s;
           transition-timing-function: easeInSine;
           z-index: 1;
           width: 0;
           padding: 15px 0px;
+          flex-shrink: 0;
         }
         .side-menu-content {
-          width: 300px;
+          width: 500px;
         }
         .side-menu.visible {
-          width: 300px;
+          width: 500px;
         }
         .sidebar-button {
           display: none;
         }
         .body {
+          flex-shrink: 0;
         }
-        @media only screen and (max-width: 600px) {
+        @media only screen and (max-width: 800px) {
           .body {
             flex-direction: column;
           }
