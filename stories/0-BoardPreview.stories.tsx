@@ -1,6 +1,6 @@
 import React from "react";
 //import { linkTo } from "@storybook/addon-links";
-import BoardPreview from "../src/BoardPreview";
+import BoardPreview, { DisplayStyle } from "../src/BoardPreview";
 import Tag from "../src/Tag";
 
 import goreBackground from "./images/gore.png";
@@ -29,12 +29,26 @@ export const BoardPreviewCompact = () => (
     avatar={`/${goreBackground}`}
     description="Love me some bruised bois (and more)."
     onClick={() => console.log("go!")}
-    compact
+    displayStyle={DisplayStyle.COMPACT}
   ></BoardPreview>
 );
 
 BoardPreviewCompact.story = {
   name: "compact",
+};
+
+export const BoardPreviewMini = () => (
+  <BoardPreview
+    slug="gore"
+    avatar={`/${goreBackground}`}
+    description="Love me some bruised bois (and more)."
+    onClick={() => console.log("go!")}
+    displayStyle={DisplayStyle.MINI}
+  ></BoardPreview>
+);
+
+BoardPreviewMini.story = {
+  name: "mini",
 };
 
 export const BoardPreviewWithTags = () => (
@@ -61,7 +75,7 @@ export const BoardPreviewWithTags = () => (
       avatar={`/${goreBackground}`}
       description="Love me some bruised bois (and more)."
       onClick={() => console.log("go!")}
-      compact
+      displayStyle={DisplayStyle.COMPACT}
     >
       <Tag name="blood" color="#f96680" />
       <Tag name="knifeplay" color="#93b3b0" />
@@ -93,7 +107,7 @@ export const BoardPreviewWithColors = () => (
         avatar={`/${goreBackground}`}
         description="Love me some bruised bois (and more)."
         onClick={() => console.log("go!")}
-        compact
+        displayStyle={DisplayStyle.COMPACT}
       >
         <Tag name="blood" color="#f96680" />
         <Tag name="knifeplay" color="#93b3b0" />
@@ -118,7 +132,7 @@ export const BoardPreviewWithColors = () => (
         avatar={`/${goreBackground}`}
         description="Love me some bruised bois (and more)."
         onClick={() => console.log("go!")}
-        compact
+        displayStyle={DisplayStyle.COMPACT}
         color="#f96680"
       >
         <Tag name="blood" color="#f96680" />
@@ -144,7 +158,7 @@ export const BoardPreviewWithColors = () => (
         avatar={`/${goreBackground}`}
         description="Love me some bruised bois (and more)."
         onClick={() => console.log("go!")}
-        compact
+        displayStyle={DisplayStyle.COMPACT}
         color="#24d282"
       >
         <Tag name="blood" color="#f96680" />

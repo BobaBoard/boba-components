@@ -6,26 +6,33 @@ import HighlightedText from "./HighlightedText";
 
 const DEFAULT_COLOR = "#000000";
 
+export enum DisplayStyle {
+  REGULAR,
+  COMPACT,
+  MINI,
+}
+
 const Slug: React.FC<{
   name: string;
   visible: boolean;
   color: string;
-  compact: boolean;
-}> = ({ name, visible, color, compact }) => {
+  displayStyle: DisplayStyle;
+}> = ({ name, visible, color, displayStyle }) => {
   return (
     <div
       className={classnames("slug-container", {
         hidden: !visible,
-        compact,
-        regular: !compact,
+        compact: displayStyle == DisplayStyle.COMPACT,
+        regular: displayStyle == DisplayStyle.REGULAR,
+        mini: displayStyle == DisplayStyle.MINI,
       })}
     >
-      {compact ? (
-        <span>!{name}</span>
-      ) : (
+      {displayStyle == DisplayStyle.REGULAR ? (
         <HighlightedText highlightColor={color}>
           <span>!{name}</span>
         </HighlightedText>
+      ) : (
+        <span>!{name}</span>
       )}
       <style jsx>{`
         .slug-container {
@@ -37,7 +44,8 @@ const Slug: React.FC<{
           text-align: center;
           cursor: pointer;
         }
-        .slug-container.compact {
+        .slug-container.compact,
+        .slug-container.mini {
           top: 0;
           width: 100%;
           position: absolute;
@@ -51,6 +59,9 @@ const Slug: React.FC<{
         .slug-container.regular {
           margin-bottom: -15px;
           font-size: 30px;
+        }
+        .slug-container.mini span {
+          display: none;
         }
         .slug-container.regular span:hover {
           filter: invert(100%);
@@ -74,14 +85,15 @@ const Slug: React.FC<{
 const Description: React.FC<{
   description: string;
   visible: boolean;
-  compact: boolean;
   color: string;
-}> = ({ description, visible, compact, color }) => {
+  displayStyle: DisplayStyle;
+}> = ({ description, visible, color, displayStyle }) => {
   return (
     <div
       className={classnames("description-container", {
-        compact,
-        regular: !compact,
+        compact: displayStyle == DisplayStyle.COMPACT,
+        regular: displayStyle == DisplayStyle.REGULAR,
+        mini: displayStyle == DisplayStyle.MINI,
         hidden: !visible,
       })}
     >
@@ -123,6 +135,9 @@ const Description: React.FC<{
           margin-top: 0px;
           font-size: 18px;
         }
+        .description-container.mini span {
+          display: none;
+        }
         .description-container.compact span {
           top: 50%;
           left: 50%;
@@ -140,7 +155,7 @@ const Description: React.FC<{
 const BoardPreview: React.FC<BoardPreviewProps> = ({
   slug,
   avatar,
-  compact,
+  displayStyle,
   description,
   onClick,
   children,
@@ -148,27 +163,36 @@ const BoardPreview: React.FC<BoardPreviewProps> = ({
 }) => {
   const [showDescription, setShowDescription] = React.useState(false);
   const chosenColor = color || DEFAULT_COLOR;
+  displayStyle = displayStyle || DisplayStyle.REGULAR;
   return (
     <div
-      className="container"
+      className={classnames("container", {
+        compact: displayStyle == DisplayStyle.COMPACT,
+        regular: displayStyle == DisplayStyle.REGULAR,
+        mini: displayStyle == DisplayStyle.MINI,
+      })}
       onMouseEnter={() => setShowDescription(true)}
       onMouseLeave={() => setShowDescription(false)}
     >
       <div className="board-header">
         <div
-          className={classnames("board-image", { compact, regular: !compact })}
+          className={classnames("board-image", {
+            compact: displayStyle == DisplayStyle.COMPACT,
+            regular: displayStyle == DisplayStyle.REGULAR,
+            mini: displayStyle == DisplayStyle.MINI,
+          })}
           onClick={onClick}
         ></div>
         <Slug
           name={slug}
-          visible={!showDescription || !compact}
-          compact={!!compact}
+          visible={!showDescription || displayStyle == DisplayStyle.REGULAR}
+          displayStyle={displayStyle}
           color={chosenColor}
         />
         <Description
           description={description}
-          visible={showDescription || !compact}
-          compact={!!compact}
+          visible={showDescription || displayStyle == DisplayStyle.REGULAR}
+          displayStyle={displayStyle}
           color={chosenColor}
         />
       </div>
@@ -181,11 +205,16 @@ const BoardPreview: React.FC<BoardPreviewProps> = ({
           min-width: 250px;
           max-width: 350px;
         }
-        .container.compact {
+        .container.compact,
+        .container.mini {
           cursor: pointer;
         }
         .board-header{
           position: relative;
+        }
+        .container.mini .board-header {
+          height: 65px;
+          width: calc((16/9) * 65px);
         }
         .board-header::before {
           display: block;
@@ -198,12 +227,15 @@ const BoardPreview: React.FC<BoardPreviewProps> = ({
             position: relative;
             background: url("${avatar}");
             background-size: cover;
-            background-position: 0px -100px;
             height: 150px;
             border-radius: 15px;
             border: 3px ${chosenColor} solid;
             box-sizing: border-box;
             border-radius: 15px;
+        }
+        .board-image.mini {
+          height: 65px;
+          width: calc((16/9) * 65px);
         }
         .board-image.regular {
             margin-bottom: 15px;
@@ -226,7 +258,7 @@ export interface BoardPreviewProps {
   slug: string;
   avatar: string;
   description: string;
-  compact?: boolean;
+  displayStyle?: DisplayStyle;
   color?: string;
   onClick?: () => void;
 }
