@@ -7,12 +7,14 @@ const BoardSidebar: React.FC<BoardSidebarProps> = ({ board }) => {
   return (
     <div className="sidebar">
       <div className="board-details">
-        <BoardPreview
-          slug={board.slug}
-          avatar={board.avatar}
-          description={board.description}
-          color={board.color}
-        ></BoardPreview>
+        <div className="board-preview">
+          <BoardPreview
+            slug={board.slug}
+            avatar={board.avatar}
+            description={board.description}
+            color={board.color}
+          ></BoardPreview>
+        </div>
         <div className="tag-clouds">
           <h2>Board-wide Tags</h2>
           <div className="tag-group">
@@ -88,6 +90,9 @@ const BoardSidebar: React.FC<BoardSidebarProps> = ({ board }) => {
         }
         .board-details {
           margin-top: 30px;
+        }
+        .board-preview {
+          text-align: center;
         }
         .other ul {
           padding-left: 30px;
