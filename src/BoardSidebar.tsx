@@ -42,6 +42,7 @@ const BoardSidebar: React.FC<BoardSidebarProps> = ({ board }) => {
           <div className="tag-group">
             <Tag symbol="✓" name="shota" color="#66f98c" />
             <Tag symbol="✓" name="nsfw" color="#66f98c" />
+            <Tag symbol="✓" name="noncon" color="#66f98c" />
             <Tag symbol="✘" name="IRL" color="#ff0124" />
             <Tag symbol="✘" name="RP" color="#ff0124" />
           </div>
