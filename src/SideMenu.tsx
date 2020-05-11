@@ -15,6 +15,7 @@ import meta from "../stories/images/meta.png";
 import book from "../stories/images/book.png";
 import villains from "../stories/images/villains.png";
 import kinkmeme from "../stories/images/kink-meme.png";
+import art from "../stories/images/art-crit.png";
 
 const SideMenu: React.FC<SideMenuProps> = ({ board }) => {
   const [searchVisible, setSearchVisible] = React.useState(false);
@@ -91,17 +92,17 @@ const SideMenu: React.FC<SideMenuProps> = ({ board }) => {
         >
           <BoardsGroup title="Search Results">
             <BoardPreview
-              slug="fic-club"
-              avatar={board.avatar}
-              description="Come enjoy all the fics!"
+              slug="villain-thirst"
+              avatar={"/" + villains}
+              description="Love to love 'em."
               onClick={() => console.log("go!")}
-              color="#7724d2"
               displayStyle={DisplayStyle.COMPACT}
+              color="#e22b4b"
             />
             <BoardPreview
-              slug="fic-club"
-              avatar={board.avatar}
-              description="Come enjoy all the fics!"
+              slug="art-crit"
+              avatar={"/" + art}
+              description="Let's learn together!"
               onClick={() => console.log("go!")}
               color="#27caba"
               displayStyle={DisplayStyle.COMPACT}
