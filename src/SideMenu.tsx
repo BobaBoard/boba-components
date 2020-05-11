@@ -8,6 +8,14 @@ import classnames from "classnames";
 import SimpleBar from "simplebar-react";
 import "simplebar/dist/simplebar.min.css";
 
+import anime from "../stories/images/anime.png";
+import crack from "../stories/images/crack.png";
+import oncelerBoard from "../stories/images/onceler-board.png";
+import meta from "../stories/images/meta.png";
+import book from "../stories/images/book.png";
+import villains from "../stories/images/villains.png";
+import kinkmeme from "../stories/images/kink-meme.png";
+
 const SideMenu: React.FC<SideMenuProps> = ({ board }) => {
   const [searchVisible, setSearchVisible] = React.useState(false);
   return (
@@ -15,16 +23,16 @@ const SideMenu: React.FC<SideMenuProps> = ({ board }) => {
       <div className="side-menu">
         <BoardsGroup title="Pinned Boards">
           <BoardPreview
-            slug="fic-club"
+            slug="gore"
             avatar={board.avatar}
-            description="Come enjoy all the fics!"
+            description="This is the gore board!"
             onClick={() => console.log("go!")}
             color="#f96680"
             displayStyle={DisplayStyle.MINI}
           />
           <BoardPreview
-            slug="meta"
-            avatar={board.avatar}
+            slug="anime"
+            avatar={"/" + anime}
             description="Love me some bruised bois (and more)."
             onClick={() => console.log("go!")}
             displayStyle={DisplayStyle.MINI}
@@ -33,16 +41,18 @@ const SideMenu: React.FC<SideMenuProps> = ({ board }) => {
             backgroundColor="#131518"
           />
           <BoardPreview
-            slug="meta"
-            avatar={board.avatar}
+            slug="crack"
+            avatar={"/" + crack}
             description="Love me some bruised bois (and more)."
             onClick={() => console.log("go!")}
             displayStyle={DisplayStyle.MINI}
             color="#f9e066"
+            updates={3}
+            backgroundColor="#131518"
           />
           <BoardPreview
-            slug="meta"
-            avatar={board.avatar}
+            slug="fic-club"
+            avatar={"/" + book}
             description="Love me some bruised bois (and more)."
             onClick={() => console.log("go!")}
             displayStyle={DisplayStyle.MINI}
@@ -52,16 +62,16 @@ const SideMenu: React.FC<SideMenuProps> = ({ board }) => {
           />
           <BoardPreview
             slug="meta"
-            avatar={board.avatar}
-            description="Love me some bruised bois (and more)."
+            avatar={"/" + meta}
+            description="In My TiMeS wE CaLlEd It WaNk"
             onClick={() => console.log("go!")}
             displayStyle={DisplayStyle.MINI}
             color="#f9e066"
           />
           <BoardPreview
-            slug="meta"
-            avatar={board.avatar}
-            description="Love me some bruised bois (and more)."
+            slug="villain-thirst"
+            avatar={"/" + villains}
+            description="Love to love 'em."
             onClick={() => console.log("go!")}
             displayStyle={DisplayStyle.MINI}
             color="#e22b4b"
@@ -103,9 +113,17 @@ const SideMenu: React.FC<SideMenuProps> = ({ board }) => {
         >
           <BoardsGroup title="Recent Boards">
             <BoardPreview
-              slug="fic-club"
+              slug="gore"
               avatar={board.avatar}
-              description="Come enjoy all the fics!"
+              description="Love me some bruised bois (and more)."
+              onClick={() => console.log("go!")}
+              color="#f96680"
+              displayStyle={DisplayStyle.COMPACT}
+            />
+            <BoardPreview
+              slug="oncie-den"
+              avatar={"/" + oncelerBoard}
+              description="Party like it's 2012"
               onClick={() => console.log("go!")}
               color="#27caba"
               displayStyle={DisplayStyle.COMPACT}
@@ -114,32 +132,26 @@ const SideMenu: React.FC<SideMenuProps> = ({ board }) => {
             />
             <BoardPreview
               slug="fic-club"
-              avatar={board.avatar}
+              avatar={"/" + book}
               description="Come enjoy all the fics!"
               onClick={() => console.log("go!")}
               color="#7724d2"
               displayStyle={DisplayStyle.COMPACT}
+              updates={5}
+              backgroundColor="#131518"
             />
             <BoardPreview
-              slug="fic-club"
-              avatar={board.avatar}
-              description="Come enjoy all the fics!"
+              slug="kink-memes"
+              avatar={"/" + kinkmeme}
+              description="No limits. No shame."
               onClick={() => console.log("go!")}
               color="#000000"
               displayStyle={DisplayStyle.COMPACT}
             />
             <BoardPreview
-              slug="fic-club"
-              avatar={board.avatar}
-              description="Come enjoy all the fics!"
-              onClick={() => console.log("go!")}
-              color="#f96680"
-              displayStyle={DisplayStyle.COMPACT}
-            />
-            <BoardPreview
-              slug="fic-club"
-              avatar={board.avatar}
-              description="Come enjoy all the fics!"
+              slug="crack"
+              avatar={"/" + crack}
+              description="What's crackalackin"
               onClick={() => console.log("go!")}
               color="#f9e066"
               displayStyle={DisplayStyle.COMPACT}
