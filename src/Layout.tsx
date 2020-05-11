@@ -27,6 +27,15 @@ const Layout: React.FC<LayoutProps> = ({
         <div className="side-menu-content">{sideMenuContent}</div>
       </div>
       <div className="body">
+        <div
+          className={classnames("backdrop", {
+            visible: showSideMenu || showSidebar,
+          })}
+          onClick={() => {
+            setShowSidebar(false);
+            setShowSideMenu(false);
+          }}
+        />
         <div className="header">
           <div className="title-bar">
             <div className="sidemenu-button">
@@ -59,7 +68,13 @@ const Layout: React.FC<LayoutProps> = ({
         </div>
         <div className="board-content">
           {sidebarContent && (
-            <div className={classnames("sidebar", { visible: showSidebar })}>
+            <div
+              className={classnames("sidebar", { visible: showSidebar })}
+              onClick={(e) => {
+                console.log("clack!");
+                e.stopPropagation();
+              }}
+            >
               {sidebarContent}
             </div>
           )}
@@ -78,13 +93,32 @@ const Layout: React.FC<LayoutProps> = ({
           display: flex;
           flex-direction: column;
           flex-grow: 1;
+          position: relative;
         }
         .board-content {
           display: flex;
           flex-grow: 1;
           position: relative;
           overflow-y: auto;
-          background-color: ${LIGHT_GREY};
+          background: linear-gradient(
+            to right,
+            ${MEDIUM_GREY} 350px,
+            ${LIGHT_GREY} 350px
+          );
+        }
+        .backdrop {
+          position: absolute;
+          background-color: black;
+          top: 0;
+          bottom: 0;
+          left: 0;
+          right: 0;
+          opacity: 0.5;
+          z-index: 3;
+          display: none;
+        }
+        .backdrop.visible {
+          display: block;
         }
         .header {
           background-color: ${DARK_GREY};
@@ -109,7 +143,7 @@ const Layout: React.FC<LayoutProps> = ({
         }
         .logo > img {
           height: 100%;
-          z-index: 5;
+          z-index: 2;
           position: relative;
         }
         .logo::after {
@@ -131,7 +165,6 @@ const Layout: React.FC<LayoutProps> = ({
         }
         .sidebar {
           width: 350px;
-          background-color: ${MEDIUM_GREY};
         }
         .content {
           flex-grow: 1;
@@ -163,24 +196,40 @@ const Layout: React.FC<LayoutProps> = ({
           .body {
             flex-direction: column;
           }
+          .content {
+            padding: 0 20px;
+          }
+          .board-content {
+            background: ${LIGHT_GREY};
+          }
           .sidebar-button {
             display: inline-block;
           }
+          .side-menu-content {
+            width: calc(100% - 100px);
+            max-width: 500px;
+          }
+          .side-menu.visible {
+            width: calc(100% - 100px);
+            max-width: 500px;
+          }
           .sidebar {
+            border-radius: 25px 25px 0px 0px;
             width: 95%;
             position: fixed;
             left: 50%;
             transform: translateX(-50%);
             bottom: 0;
             height: 0;
-            overflow: hidden;
+            overflow-x: hidden;
             transition-property: height;
-            transition-duration: 1s;
+            transition-duration: 0.6s;
             transition-timing-function: easeInSine;
             z-index: 5;
+            background: ${MEDIUM_GREY};
           }
           .sidebar.visible {
-            height: 90%;
+            height: 85%;
           }
         }
       `}</style>
