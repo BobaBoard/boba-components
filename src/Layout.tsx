@@ -6,6 +6,8 @@ import UserBar from "../src/UserBar";
 import classnames from "classnames";
 
 import "normalize.css";
+import SimpleBar from "simplebar-react";
+import "simplebar/dist/simplebar.min.css";
 
 import logo from "./images/logo.svg";
 
@@ -79,7 +81,9 @@ const Layout: React.FC<LayoutProps> = ({
                 e.stopPropagation();
               }}
             >
-              {sidebarContent}
+              <SimpleBar style={{ maxHeight: "100vh" }}>
+                {sidebarContent}
+              </SimpleBar>
             </div>
           )}
           <div className="content">{mainContent}</div>
@@ -215,7 +219,7 @@ const Layout: React.FC<LayoutProps> = ({
             display: inline-block;
           }
           .side-menu-content {
-            width: calc(100% - 100px);
+            width: 100%;
             max-width: 500px;
           }
           .side-menu.visible {
@@ -230,7 +234,7 @@ const Layout: React.FC<LayoutProps> = ({
             transform: translateX(-50%);
             bottom: 0;
             height: 0;
-            overflow-x: hidden;
+            overflow: hidden;
             transition-property: height;
             transition-duration: 0.6s;
             transition-timing-function: easeInSine;
