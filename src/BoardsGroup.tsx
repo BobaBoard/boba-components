@@ -4,17 +4,22 @@ const BoardsGroup: React.FC<BoardsGroupProps> = (props) => {
   return (
     <div className="boards-group">
       {props.title && <div className="title">{props.title}</div>}
-      {props.children.map((board, i) => (
-        <div className="single-board" key={i}>
-          {board}
-        </div>
-      ))}
+      <div className="boards">
+        {props.children.map((board, i) => (
+          <div className="single-board" key={i}>
+            {board}
+          </div>
+        ))}
+      </div>
       <style jsx>{`
         .title {
           color: white;
           margin-bottom: 10px;
           font-weight: bold;
           font-size: 20px;
+        }
+        .boards {
+          margin-left: 10px;
         }
         .boards-group {
           margin-bottom: 15px;
