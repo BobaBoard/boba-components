@@ -3,7 +3,7 @@ import React from "react";
 const BoardsGroup: React.FC<BoardsGroupProps> = (props) => {
   return (
     <div className="boards-group">
-      <div className="title">{props.title}</div>
+      {props.title && <div className="title">{props.title}</div>}
       {props.children.map((board, i) => (
         <div className="single-board" key={i}>
           {board}
@@ -33,5 +33,5 @@ export default BoardsGroup;
 
 export interface BoardsGroupProps {
   children: JSX.Element[];
-  title: string;
+  title?: string;
 }
