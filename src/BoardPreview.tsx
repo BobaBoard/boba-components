@@ -160,6 +160,8 @@ const BoardPreview: React.FC<BoardPreviewProps> = ({
   onClick,
   children,
   color,
+  updates,
+  backgroundColor,
 }) => {
   const [showDescription, setShowDescription] = React.useState(false);
   const chosenColor = color || DEFAULT_COLOR;
@@ -182,7 +184,9 @@ const BoardPreview: React.FC<BoardPreviewProps> = ({
             mini: displayStyle == DisplayStyle.MINI,
           })}
           onClick={onClick}
-        ></div>
+        >
+          {updates && <div className="updates">{updates}</div>}
+        </div>
         <Slug
           name={slug}
           visible={!showDescription || displayStyle == DisplayStyle.REGULAR}
@@ -256,6 +260,30 @@ const BoardPreview: React.FC<BoardPreviewProps> = ({
         .preview-footer.hidden {
           display: none;
         }
+        .updates {
+          color: white;
+          font-size: 15px;
+          background-color: ${chosenColor};
+          z-index: 10;
+          border-radius: 50%;
+          /* display: inline-block; */
+          /* padding: 100%; */
+          width: 30px;
+          height: 30px;
+          text-align: center;
+          line-height: 30px;
+          position: absolute;
+          bottom: -10px;
+          right: -10px;
+          border: 5px solid ${backgroundColor || "#2f2f30"};
+        }
+        .board-image.mini .updates {
+          width: 25px;
+          height: 25px;
+          line-height: 25px;
+          border-width: 3px;
+          font-size: 13px;
+        }
       `}</style>
     </div>
   );
@@ -267,7 +295,9 @@ export interface BoardPreviewProps {
   description: string;
   displayStyle?: DisplayStyle;
   color?: string;
+  backgroundColor?: string;
   onClick?: () => void;
+  updates?: number;
 }
 
 export default BoardPreview;

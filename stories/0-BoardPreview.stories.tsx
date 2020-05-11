@@ -51,6 +51,41 @@ BoardPreviewMini.story = {
   name: "mini",
 };
 
+export const BoardPreviewWithUpdates = () => (
+  <div style={{ display: "flex", justifyContent: "space-evenly" }}>
+    <BoardPreview
+      slug="gore"
+      avatar={`/${goreBackground}`}
+      description="Love me some bruised bois (and more)."
+      onClick={() => console.log("go!")}
+      updates={5}
+      backgroundColor="#333"
+    />
+    <BoardPreview
+      slug="gore"
+      avatar={`/${goreBackground}`}
+      description="Love me some bruised bois (and more)."
+      onClick={() => console.log("go!")}
+      displayStyle={DisplayStyle.COMPACT}
+      updates={5}
+      backgroundColor="#333"
+    />
+    <BoardPreview
+      slug="gore"
+      avatar={`/${goreBackground}`}
+      description="Love me some bruised bois (and more)."
+      onClick={() => console.log("go!")}
+      displayStyle={DisplayStyle.MINI}
+      updates={5}
+      backgroundColor="#333"
+    />
+  </div>
+);
+
+BoardPreviewWithUpdates.story = {
+  name: "with updates",
+};
+
 export const BoardPreviewWithTags = () => (
   <div
     style={{
