@@ -1,8 +1,7 @@
 import React from "react";
 import Layout from "../src/Layout";
 import BoardSidebar from "../src/BoardSidebar";
-import BoardPreview from "../src/BoardPreview";
-import BoardsGroup from "../src/BoardsGroup";
+import SideMenu from "../src/SideMenu";
 import Post from "../src/post/Post";
 
 import oncelerAvatar from "./images/oncie.jpg";
@@ -42,6 +41,44 @@ export const LayoutWithSidebar = () => {
 
 LayoutWithSidebar.story = {
   name: "with sidebar",
+};
+
+export const BoardSidebarPreview = () => {
+  return (
+    <div style={{ maxWidth: "500px" }}>
+      <BoardSidebar
+        board={{
+          slug: "gore",
+          avatar: `/${goreBackground}`,
+          description: "Love me some bruised bois (and more).",
+          color: "#f96680",
+        }}
+      />
+    </div>
+  );
+};
+
+BoardSidebarPreview.story = {
+  name: "sidebar",
+};
+
+export const SideMenuPreview = () => {
+  return (
+    <div style={{ maxWidth: "500px", backgroundColor: "#131518" }}>
+      <SideMenu
+        board={{
+          slug: "gore",
+          avatar: `/${goreBackground}`,
+          description: "Love me some bruised bois (and more).",
+          color: "#f96680",
+        }}
+      />
+    </div>
+  );
+};
+
+SideMenuPreview.story = {
+  name: "sidemenu",
 };
 
 export const Attempt1 = () => {
@@ -105,26 +142,14 @@ export const Attempt1 = () => {
           </div>
         }
         sideMenuContent={
-          <div>
-            <BoardsGroup>
-              <BoardPreview
-                slug="fic-club"
-                avatar={`/${goreBackground}`}
-                description="Love me some bruised bois (and more)."
-                onClick={() => console.log("go!")}
-                compact
-                color="#f96680"
-              />
-              <BoardPreview
-                slug="meta"
-                avatar={`/${goreBackground}`}
-                description="Love me some bruised bois (and more)."
-                onClick={() => console.log("go!")}
-                compact
-                color="#24d282"
-              />
-            </BoardsGroup>
-          </div>
+          <SideMenu
+            board={{
+              slug: "gore",
+              avatar: `/${goreBackground}`,
+              description: "Love me some bruised bois (and more).",
+              color: "#f96680",
+            }}
+          />
         }
         sidebarContent={
           <BoardSidebar

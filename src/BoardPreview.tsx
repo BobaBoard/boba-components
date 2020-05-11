@@ -209,6 +209,12 @@ const BoardPreview: React.FC<BoardPreviewProps> = ({
         .container.mini {
           cursor: pointer;
         }
+        .container.compact {
+          min-width: 200px;
+        }
+        .container.mini {
+          min-width: 0;
+        }
         .board-header{
           position: relative;
         }
@@ -227,6 +233,7 @@ const BoardPreview: React.FC<BoardPreviewProps> = ({
             position: relative;
             background: url("${avatar}");
             background-size: cover;
+            background-position: center;
             height: 150px;
             border-radius: 15px;
             border: 3px ${chosenColor} solid;
