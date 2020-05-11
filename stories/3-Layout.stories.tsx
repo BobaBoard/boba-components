@@ -162,6 +162,7 @@ export const Attempt1 = () => {
           />
         }
         headerAccent="#f96680"
+        boardName="gore"
       />
 
       <style jsx>

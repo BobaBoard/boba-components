@@ -1,9 +1,9 @@
 import React from "react";
 import { faBars } from "@fortawesome/free-solid-svg-icons";
-import { faInfoCircle } from "@fortawesome/free-solid-svg-icons";
 import Button, { ButtonStyle } from "../src/Button";
 import UserBar from "../src/UserBar";
 import classnames from "classnames";
+import HighlightedText from "./HighlightedText";
 
 import "normalize.css";
 import SimpleBar from "simplebar-react";
@@ -20,6 +20,7 @@ const Layout: React.FC<LayoutProps> = ({
   mainContent,
   sidebarContent,
   headerAccent,
+  boardName,
 }) => {
   const [showSideMenu, setShowSideMenu] = React.useState(false);
   const [showSidebar, setShowSidebar] = React.useState(false);
@@ -58,15 +59,16 @@ const Layout: React.FC<LayoutProps> = ({
             <a className="logo">
               <img src={logo} />
             </a>
-            {sidebarContent && (
-              <div className="sidebar-button">
-                <Button
-                  icon={faInfoCircle}
-                  compact
-                  onClick={() => setShowSidebar(!showSidebar)}
-                >
-                  Menu
-                </Button>
+            {sidebarContent && boardName && (
+              <div
+                className="sidebar-button"
+                onClick={() => {
+                  setShowSidebar(!showSidebar);
+                }}
+              >
+                <HighlightedText highlightColor={headerAccent || "#fffff"}>
+                  <span>!{boardName}</span>
+                </HighlightedText>
               </div>
             )}
           </div>
@@ -81,9 +83,13 @@ const Layout: React.FC<LayoutProps> = ({
                 e.stopPropagation();
               }}
             >
-              <SimpleBar style={{ maxHeight: "100vh" }}>
-                {sidebarContent}
-              </SimpleBar>
+              {showSidebar ? (
+                <SimpleBar style={{ maxHeight: "100vh" }}>
+                  {sidebarContent}
+                </SimpleBar>
+              ) : (
+                sidebarContent
+              )}
             </div>
           )}
           <div className="content">{mainContent}</div>
@@ -196,6 +202,11 @@ const Layout: React.FC<LayoutProps> = ({
         }
         .sidebar-button {
           display: none;
+          margin: 0px 35px;
+          color: white;
+          font-size: 30px;
+          font-weight: bold;
+          cursor: pointer;
         }
         .body {
           flex-shrink: 0;
@@ -222,6 +233,9 @@ const Layout: React.FC<LayoutProps> = ({
             width: 100%;
             max-width: 500px;
           }
+          .side-menu {
+            transition-duration: 0.5s;
+          }
           .side-menu.visible {
             width: calc(100% - 100px);
             max-width: 500px;
@@ -236,7 +250,7 @@ const Layout: React.FC<LayoutProps> = ({
             height: 0;
             overflow: hidden;
             transition-property: height;
-            transition-duration: 0.6s;
+            transition-duration: 0.5s;
             transition-timing-function: easeInSine;
             z-index: 5;
             background: ${MEDIUM_GREY};
@@ -255,6 +269,7 @@ export interface LayoutProps {
   mainContent: JSX.Element;
   sideMenuContent: JSX.Element;
   headerAccent?: string;
+  boardName: string;
 }
 
 export default Layout;
