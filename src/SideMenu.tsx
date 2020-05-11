@@ -38,7 +38,7 @@ const SideMenu: React.FC<SideMenuProps> = ({ board }) => {
             description="Love me some bruised bois (and more)."
             onClick={() => console.log("go!")}
             displayStyle={DisplayStyle.MINI}
-            color="#24d282"
+            color="#f9e066"
           />
           <BoardPreview
             slug="meta"
@@ -46,7 +46,7 @@ const SideMenu: React.FC<SideMenuProps> = ({ board }) => {
             description="Love me some bruised bois (and more)."
             onClick={() => console.log("go!")}
             displayStyle={DisplayStyle.MINI}
-            color="#24d282"
+            color="#7724d2"
             updates={5}
             backgroundColor="#131518"
           />
@@ -56,7 +56,7 @@ const SideMenu: React.FC<SideMenuProps> = ({ board }) => {
             description="Love me some bruised bois (and more)."
             onClick={() => console.log("go!")}
             displayStyle={DisplayStyle.MINI}
-            color="#24d282"
+            color="#f9e066"
           />
           <BoardPreview
             slug="meta"
@@ -64,7 +64,7 @@ const SideMenu: React.FC<SideMenuProps> = ({ board }) => {
             description="Love me some bruised bois (and more)."
             onClick={() => console.log("go!")}
             displayStyle={DisplayStyle.MINI}
-            color="#24d282"
+            color="#e22b4b"
           />
         </BoardsGroup>
         <BoardsGroup title="Recent Boards">
@@ -73,7 +73,7 @@ const SideMenu: React.FC<SideMenuProps> = ({ board }) => {
             avatar={board.avatar}
             description="Come enjoy all the fics!"
             onClick={() => console.log("go!")}
-            color="#f96680"
+            color="#27caba"
             displayStyle={DisplayStyle.COMPACT}
             updates={10}
             backgroundColor="#131518"
@@ -83,7 +83,15 @@ const SideMenu: React.FC<SideMenuProps> = ({ board }) => {
             avatar={board.avatar}
             description="Come enjoy all the fics!"
             onClick={() => console.log("go!")}
-            color="#f96680"
+            color="#7724d2"
+            displayStyle={DisplayStyle.COMPACT}
+          />
+          <BoardPreview
+            slug="fic-club"
+            avatar={board.avatar}
+            description="Come enjoy all the fics!"
+            onClick={() => console.log("go!")}
+            color="#000000"
             displayStyle={DisplayStyle.COMPACT}
           />
           <BoardPreview
@@ -107,15 +115,7 @@ const SideMenu: React.FC<SideMenuProps> = ({ board }) => {
             avatar={board.avatar}
             description="Come enjoy all the fics!"
             onClick={() => console.log("go!")}
-            color="#f96680"
-            displayStyle={DisplayStyle.COMPACT}
-          />
-          <BoardPreview
-            slug="fic-club"
-            avatar={board.avatar}
-            description="Come enjoy all the fics!"
-            onClick={() => console.log("go!")}
-            color="#f96680"
+            color="#f9e066"
             displayStyle={DisplayStyle.COMPACT}
             updates={3}
             backgroundColor="#131518"
@@ -136,7 +136,7 @@ const SideMenu: React.FC<SideMenuProps> = ({ board }) => {
               avatar={board.avatar}
               description="Come enjoy all the fics!"
               onClick={() => console.log("go!")}
-              color="#f96680"
+              color="#7724d2"
               displayStyle={DisplayStyle.COMPACT}
             />
             <BoardPreview
@@ -144,7 +144,7 @@ const SideMenu: React.FC<SideMenuProps> = ({ board }) => {
               avatar={board.avatar}
               description="Come enjoy all the fics!"
               onClick={() => console.log("go!")}
-              color="#f96680"
+              color="#27caba"
               displayStyle={DisplayStyle.COMPACT}
             />
           </BoardsGroup>
