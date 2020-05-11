@@ -29,6 +29,8 @@ const SideMenu: React.FC<SideMenuProps> = ({ board }) => {
             onClick={() => console.log("go!")}
             displayStyle={DisplayStyle.MINI}
             color="#24d282"
+            updates={2}
+            backgroundColor="#131518"
           />
           <BoardPreview
             slug="meta"
@@ -45,6 +47,8 @@ const SideMenu: React.FC<SideMenuProps> = ({ board }) => {
             onClick={() => console.log("go!")}
             displayStyle={DisplayStyle.MINI}
             color="#24d282"
+            updates={5}
+            backgroundColor="#131518"
           />
           <BoardPreview
             slug="meta"
@@ -71,6 +75,8 @@ const SideMenu: React.FC<SideMenuProps> = ({ board }) => {
             onClick={() => console.log("go!")}
             color="#f96680"
             displayStyle={DisplayStyle.COMPACT}
+            updates={10}
+            backgroundColor="#131518"
           />
           <BoardPreview
             slug="fic-club"
@@ -111,6 +117,8 @@ const SideMenu: React.FC<SideMenuProps> = ({ board }) => {
             onClick={() => console.log("go!")}
             color="#f96680"
             displayStyle={DisplayStyle.COMPACT}
+            updates={3}
+            backgroundColor="#131518"
           />
         </BoardsGroup>
         <SearchBar

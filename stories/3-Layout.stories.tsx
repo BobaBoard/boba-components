@@ -21,6 +21,7 @@ export const SimpleLayout = () => {
     <Layout
       mainContent={<div>This is the main content!</div>}
       sideMenuContent={<div>Get a load of this menu content!</div>}
+      boardName="gore"
     />
   );
 };
@@ -35,6 +36,7 @@ export const LayoutWithSidebar = () => {
       mainContent={<div>This is the main content!</div>}
       sideMenuContent={<div>Get a load of this menu content!</div>}
       sidebarContent={<div>We have a sidebar now</div>}
+      boardName="gore"
     />
   );
 };
