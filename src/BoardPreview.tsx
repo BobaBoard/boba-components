@@ -3,7 +3,6 @@ import classnames from "classnames";
 import { hex2rgba } from "./utils";
 
 import HighlightedText from "./HighlightedText";
-import Tooltip from "./common/Tooltip";
 
 const DEFAULT_COLOR = "#000000";
 

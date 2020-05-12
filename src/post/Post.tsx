@@ -13,7 +13,7 @@ export const modes = {
 };
 
 const Post: React.FC<PostProps> = (props) => {
-  const [newText, setNewText] = React.useState("");
+  const [newText, setNewText] = React.useState(JSON.parse(props.text));
   return (
     <>
       <div className="container">
@@ -37,6 +37,7 @@ const Post: React.FC<PostProps> = (props) => {
                       ? footerModes.CREATE
                       : footerModes.VIEW
                   }
+                  onSubmit={() => props.onSubmit(newText)}
                 />
               </div>
             }
@@ -46,7 +47,7 @@ const Post: React.FC<PostProps> = (props) => {
               editable={props.mode == modes.CREATE}
               focus={props.focus || false}
               onSubmit={() => props.onSubmit(newText)}
-              onTextChange={(text) => setNewText(JSON.stringify(text))}
+              onTextChange={(text) => setNewText(JSON.stringify(text.ops))}
             />
           </Card>
         </div>

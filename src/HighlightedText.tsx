@@ -2,7 +2,7 @@ import React from "react";
 
 function getBackgroundDivs(
   containerRect: DOMRect,
-  textRects: DOMRect,
+  textRects: DOMRectList,
   highlightColor: string
 ) {
   const rotateStart = -4;

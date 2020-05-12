@@ -65,7 +65,7 @@ const Metadata: React.FC<PostHeaderProps> = (props) => {
           .metadata {
             display: flex;
             align-items: center;
-            height: 60px;
+            min-height: 60px;
           }
         `}
       </style>
@@ -117,6 +117,8 @@ const PostHeader: React.FC<PostHeaderProps> = (props) => {
           padding-top: 100%;
           position: absolute;
           border-radius: 50%;
+          top: 50%;
+          transform: translateY(-50%);
         }
         .post-container {
           display: flex;
@@ -124,7 +126,7 @@ const PostHeader: React.FC<PostHeaderProps> = (props) => {
         }
         .post-header {
           display: flex;
-          align-items: flex-start;
+          align-items: center;
           position: relative;
         }
       `}</style>

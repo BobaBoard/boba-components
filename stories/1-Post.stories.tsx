@@ -133,7 +133,7 @@ export const EditableWithFooter = () => (
     }
     secretIdentity={{ name: "Tuxedo Mask", avatar: `/${tuxedoAvatar}` }}
     userIdentity={{ name: "SexyDaddy69", avatar: `/${mamoruAvatar}` }}
-    onSubmit={() => console.log("click!")}
+    onSubmit={(text) => console.log(text)}
     onCancel={() => console.log("click!")}
     onNewContribution={() => console.log("click!")}
     onNewComment={() => console.log("click!")}
