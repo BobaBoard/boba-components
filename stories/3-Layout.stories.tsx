@@ -146,14 +146,14 @@ export const Attempt1 = () => {
               <Post
                 createdTime="2019/05/14 at 7:34pm"
                 text={
-                  '[{"insert":{"block-image":"https://media.tenor.com/images/97b761adf7bdc9d72fc1fadbbaa3a4a6/tenor.gif"}},{"insert":"(I got inspired to write a quick cannibalism drabble. Wanted to share it and get your opinion while I decide whether to turn it in a longer fic!)\\n"}]'
+                  '[{"insert":{"block-image":"https://media.tenor.com/images/97b761adf7bdc9d72fc1fadbbaa3a4a6/tenor.gif"}},{"insert":"(I got inspired to write a quick cannibalism drabble. Wanted to share it and get your opinion while I decide whether to turn it into a longer fic!)\\n"}]'
                 }
                 secretIdentity={{
-                  name: "xXxNiceTherapistxXx",
-                  avatar: `/${greedlerAvatar}`,
+                  name: "Nice Therapist",
+                  avatar: `/${hannibalAvatar}`,
                 }}
                 userIdentity={{
-                  name: "Chesapeake Ripper",
+                  name: "xXxChesapeakeRipperxXx",
                   avatar: `/${hannibalAvatar}`,
                 }}
                 onSubmit={() => console.log("click!")}
