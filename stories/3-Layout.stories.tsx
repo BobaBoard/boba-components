@@ -153,7 +153,7 @@ export const Attempt1 = () => {
                   avatar: `/${greedlerAvatar}`,
                 }}
                 userIdentity={{
-                  name: "Cheasapeake Ripper",
+                  name: "Chesapeake Ripper",
                   avatar: `/${hannibalAvatar}`,
                 }}
                 onSubmit={() => console.log("click!")}
