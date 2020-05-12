@@ -119,6 +119,7 @@ const Layout: React.FC<LayoutProps> = ({
             ${MEDIUM_GREY} 350px,
             ${LIGHT_GREY} 350px
           );
+          overflow-x: hidden;
         }
         .backdrop {
           position: absolute;
@@ -212,7 +213,7 @@ const Layout: React.FC<LayoutProps> = ({
           flex-shrink: 0;
           width: 100%;
         }
-        @media only screen and (max-width: 800px) {
+        @media only screen and (max-width: 850px) {
           .body {
             flex-direction: column;
             flex-shrink: 1;
@@ -222,6 +223,7 @@ const Layout: React.FC<LayoutProps> = ({
           }
           .content {
             padding: 0 20px;
+            width: calc(100% - 40px);
           }
           .board-content {
             background: ${LIGHT_GREY};
