@@ -2,11 +2,29 @@ import React from "react";
 
 import classnames from "classnames";
 
+export enum CardSizes {
+  REGULAR,
+  WIDE,
+}
+
 export interface CardProps {
   footer?: JSX.Element;
   header?: JSX.Element;
+  size?: CardSizes;
 }
-const Card: React.FC<CardProps> = ({ children, footer, header }) => {
+
+const getMaxWidth = (size?: CardSizes) => {
+  switch (size) {
+    case CardSizes.REGULAR:
+      return 450;
+    case CardSizes.WIDE:
+      return 800;
+    default:
+      return 450;
+  }
+};
+
+const Card: React.FC<CardProps> = ({ children, footer, header, size }) => {
   return (
     <>
       <div
@@ -24,7 +42,7 @@ const Card: React.FC<CardProps> = ({ children, footer, header }) => {
           padding: 15px 10px;
           border-radius: 15px;
           background-color: white;
-          max-width: 450px;
+          max-width: ${getMaxWidth(size)}px;
         }
         .card.with-header {
           padding-top: 0px;

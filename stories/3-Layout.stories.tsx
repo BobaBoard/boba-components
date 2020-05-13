@@ -11,6 +11,7 @@ import mamoruAvatar from "./images/mamoru.png";
 import hannibalAvatar from "./images/hannibal.png";
 
 import goreBackground from "./images/gore.png";
+import { CardSizes } from "../src/common/Card";
 
 export default {
   title: "Layout Preview",
@@ -124,6 +125,7 @@ export const Attempt1 = () => {
                 onCancel={() => console.log("click!")}
                 onNewContribution={() => console.log("click!")}
                 onNewComment={() => console.log("click!")}
+                size={CardSizes.WIDE}
               />
             </div>
             <div className="post">
@@ -191,9 +193,13 @@ export const Attempt1 = () => {
       <style jsx>
         {`
           .post {
-            max-width: 450px;
             margin: 0 auto;
             margin-top: 25px;
+          }
+          .main {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
           }
         `}
       </style>
