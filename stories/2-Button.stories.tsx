@@ -1,6 +1,6 @@
 import React from "react";
 //import { linkTo } from "@storybook/addon-links";
-import Button, { ButtonStyle } from "../src/Button";
+import Button, { ButtonStyle } from "../src/common/Button";
 import { faCoffee } from "@fortawesome/free-solid-svg-icons";
 
 export default {

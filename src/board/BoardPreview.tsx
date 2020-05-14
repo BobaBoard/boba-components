@@ -2,7 +2,7 @@ import React from "react";
 import classnames from "classnames";
 import { hex2rgba } from "../utils";
 
-import HighlightedText from "../HighlightedText";
+import HighlightedText from "../common/HighlightedText";
 
 const DEFAULT_COLOR = "#000000";
 

@@ -9,13 +9,36 @@ import Theme from "../theme/default";
 interface PopoverProps extends LibraryPopoverProps {
   background?: string;
   zoom?: number;
+  delay?: number;
 }
 
 const Popover: React.FC<PopoverProps> = (props) => {
+  const [innerIsOpen, setInnerIsOpen] = React.useState(props.isOpen);
+  const [openTimeout, setOpenTimeout] = React.useState<
+    NodeJS.Timeout | undefined
+  >(undefined);
+  React.useEffect(() => {
+    if (openTimeout) {
+      clearTimeout(openTimeout);
+      setOpenTimeout(undefined);
+    }
+    if (props.isOpen) {
+      const timeout = setTimeout(() => setInnerIsOpen(true), props.delay || 0);
+      setOpenTimeout(timeout);
+    } else {
+      setInnerIsOpen(false);
+    }
+    return () => {
+      if (openTimeout) {
+        clearTimeout(openTimeout);
+        setOpenTimeout(undefined);
+      }
+    };
+  }, [props.isOpen]);
   return (
     <>
       <LibraryPopover
-        isOpen={props.isOpen}
+        isOpen={innerIsOpen}
         position={props.position}
         padding={props.padding || 10}
         onClickOutside={() => props.onClickOutside}
@@ -44,6 +67,7 @@ const Popover: React.FC<PopoverProps> = (props) => {
           zoom: ${props.zoom || 1};
           z-index: 15;
           position: relative;
+          color: white;
         }
       `}</style>
     </>

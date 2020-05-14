@@ -58,7 +58,6 @@ const Metadata: React.FC<PostHeaderProps> = (props) => {
           }
           .secret-identity {
             font-size: 15px;
-            display: inline-block;
             opacity: 0.7;
             margin-left: 5px;
           }

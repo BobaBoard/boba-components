@@ -15,12 +15,11 @@ export interface CardProps {
 
 const getMaxWidth = (size?: CardSizes) => {
   switch (size) {
-    case CardSizes.REGULAR:
-      return 450;
     case CardSizes.WIDE:
-      return 800;
+      return 850;
+    case CardSizes.REGULAR:
     default:
-      return 450;
+      return 550;
   }
 };
 

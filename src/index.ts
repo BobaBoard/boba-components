@@ -1,6 +1,6 @@
 import BoardPreview from "./board/BoardPreview";
 import Card from "./common/Card";
-import Tag from "./Tag";
-import Button from "./Button";
+import Tag from "./common/Tag";
+import Button from "./common/Button";
 
 export { BoardPreview, Card, Tag, Button };

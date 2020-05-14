@@ -1,9 +1,9 @@
 import React from "react";
 import { faBars } from "@fortawesome/free-solid-svg-icons";
-import Button, { ButtonStyle } from "../src/Button";
+import Button, { ButtonStyle } from "./common/Button";
 import UserBar from "../src/UserBar";
 import classnames from "classnames";
-import HighlightedText from "./HighlightedText";
+import HighlightedText from "./common/HighlightedText";
 
 import "normalize.css";
 import SimpleBar from "simplebar-react";

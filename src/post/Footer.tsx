@@ -1,9 +1,13 @@
 import React from "react";
 
-import Button from "../Button";
+import Button from "../common/Button";
+import DeafultTheme from "../theme/default";
 import classNames from "classnames";
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 
 import { faComment, faPlusSquare } from "@fortawesome/free-regular-svg-icons";
+
+import { faAngleDoubleDown } from "@fortawesome/free-solid-svg-icons";
 
 export const modes = {
   VIEW: "VIEW",
@@ -58,37 +62,79 @@ const DisplayFooter: React.FC<FooterProps> = ({
   answerable,
 }) => {
   return (
-    <div
-      className={classNames("footer-actions", {
-        compact,
-      })}
-    >
-      <Button
-        onClick={onContribution}
-        icon={faPlusSquare}
-        disabled={!answerable}
-      >
-        Contribute
-      </Button>
+    <div className="footer">
+      <div className="notes">
+        <Button tooltip="15 contributions (5 direct)">
+          <>
+            <span className="note-count">
+              15
+              <FontAwesomeIcon icon={faPlusSquare} />
+            </span>
+            <span className="note-breakdown">
+              [
+              <span className="note-count">
+                5<FontAwesomeIcon icon={faAngleDoubleDown} />
+              </span>
+              ]
+            </span>
+          </>
+        </Button>
 
-      <Button onClick={onComment} icon={faComment} disabled={!answerable}>
-        Comment
-      </Button>
+        <Button>
+          <span className="note-count">
+            6
+            <FontAwesomeIcon icon={faComment} />
+          </span>
+        </Button>
+      </div>
+      <div
+        className={classNames("footer-actions", {
+          compact,
+        })}
+      >
+        <Button
+          onClick={onContribution}
+          icon={faPlusSquare}
+          disabled={!answerable}
+        >
+          Contribute
+        </Button>
+
+        <Button onClick={onComment} icon={faComment} disabled={!answerable}>
+          Comment
+        </Button>
+      </div>
 
       <style jsx>{`
-        .footer-actions {
+        .notes .note-count {
+          color: ${DeafultTheme.LAYOUT_BOARD_BACKGROUND_COLOR};
+          font-size: large;
+          font-weight: bold;
+        }
+        .notes .note-breakdown {
+          opacity: 0.5;
+          margin-right: 5px;
+          font-size: revert;
+        }
+        .notes .note-breakdown > span :global(svg) {
+          height: 13px;
+          padding: 1px 0px;
+        }
+        .notes > span :global(svg) {
+          height: 15px;
+          padding: 1px 0px;
+        }
+        .footer {
           display: flex;
-          justify-content: flex-end;
+          justify-content: space-between;
           position: relative;
+          align-items: center;
         }
         .footer-actions > :global(div:not(:first-child)) > :global(button) {
           margin-left: 10px;
         }
         .footer-actions > :global(button) > :global(span) {
           margin: 0 auto;
-        }
-        .compact .text {
-          display: none;
         }
         .compact.footer-actions :global(button) > :global(span) {
           margin: 0 auto;

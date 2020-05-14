@@ -1,7 +1,7 @@
 import React from "react";
 //import { linkTo } from "@storybook/addon-links";
 import BoardPreview, { DisplayStyle } from "../src/board/BoardPreview";
-import Tag from "../src/Tag";
+import Tag from "../src/common/Tag";
 
 import goreBackground from "./images/gore.png";
 
