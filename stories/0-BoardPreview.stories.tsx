@@ -1,6 +1,6 @@
 import React from "react";
 //import { linkTo } from "@storybook/addon-links";
-import BoardPreview, { DisplayStyle } from "../src/BoardPreview";
+import BoardPreview, { DisplayStyle } from "../src/board/BoardPreview";
 import Tag from "../src/Tag";
 
 import goreBackground from "./images/gore.png";

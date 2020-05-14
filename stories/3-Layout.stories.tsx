@@ -1,6 +1,6 @@
 import React from "react";
 import Layout from "../src/Layout";
-import BoardSidebar from "../src/BoardSidebar";
+import BoardSidebar from "../src/board/BoardSidebar";
 import SideMenu from "../src/SideMenu";
 import Post from "../src/post/Post";
 

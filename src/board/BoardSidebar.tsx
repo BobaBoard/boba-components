@@ -1,7 +1,7 @@
 import React from "react";
 
-import BoardPreview from "../src/BoardPreview";
-import Tag from "../src/Tag";
+import BoardPreview from "./BoardPreview";
+import Tag from "../Tag";
 
 const BoardSidebar: React.FC<BoardSidebarProps> = ({ board }) => {
   return (
