@@ -44,6 +44,7 @@ const BoardFeed: React.FC<BoardFeedProps> = ({ posts }) => {
               newPost={post.newPost}
               newComments={post.newComments}
               newContributions={post.newContributions}
+              collapsed={post.newComments && post.newContributions}
             />
           </div>
         ))}

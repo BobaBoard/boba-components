@@ -46,7 +46,7 @@ const Card: React.FC<CardProps> = ({
         {<div className="header">{header}</div>}
         <div className="content">
           {children}
-          {!isExpanded && (
+          {height && !isExpanded && (
             <div
               className="expand-overlay"
               onClick={() => {

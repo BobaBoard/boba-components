@@ -12,12 +12,15 @@ export const modes = {
   CREATE: "CREATE",
 };
 
+const COLLAPSED_HEIGHT = 250;
+
 const Post: React.FC<PostProps> = (props) => {
   const [newText, setNewText] = React.useState(JSON.parse(props.text));
   return (
     <>
       <div className="post-container">
         <Card
+          height={props.collapsed ? COLLAPSED_HEIGHT : undefined}
           header={
             <div className="header">
               <Header
@@ -97,4 +100,5 @@ export interface PostProps {
   onCancel: (id: string) => void;
   onNewContribution: () => void;
   onNewComment: () => void;
+  collapsed?: boolean;
 }
