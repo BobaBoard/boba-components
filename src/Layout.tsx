@@ -188,7 +188,7 @@ const Layout: React.FC<LayoutProps> = ({
             display: inline-block;
           }
           .side-menu-content {
-            width: 100%;
+            width: calc(100vw - 100px);
             max-width: 500px;
           }
           .side-menu {
@@ -198,7 +198,7 @@ const Layout: React.FC<LayoutProps> = ({
             display: block;
           }
           .side-menu.visible {
-            width: calc(100% - 100px);
+            width: calc(100vw - 100px);
             max-width: 500px;
           }
         }
