@@ -1,7 +1,10 @@
 import React from "react";
 
 import classnames from "classnames";
-import { faAngleDoubleDown } from "@fortawesome/free-solid-svg-icons";
+import {
+  faAngleDoubleDown,
+  faAngleDoubleUp,
+} from "@fortawesome/free-solid-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 
 export enum CardSizes {
@@ -46,14 +49,16 @@ const Card: React.FC<CardProps> = ({
         {<div className="header">{header}</div>}
         <div className="content">
           {children}
-          {height && !isExpanded && (
+          {height && (
             <div
               className="expand-overlay"
               onClick={() => {
-                setExpanded(true);
+                setExpanded(!isExpanded);
               }}
             >
-              <FontAwesomeIcon icon={faAngleDoubleDown} />
+              <FontAwesomeIcon
+                icon={isExpanded ? faAngleDoubleUp : faAngleDoubleDown}
+              />
             </div>
           )}
         </div>
