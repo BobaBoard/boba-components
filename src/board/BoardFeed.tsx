@@ -164,10 +164,6 @@ const BoardFeed: React.FC<BoardFeedProps> = ({
             }
             .backdrop.visible {
               display: block;
-              touch-action: none;
-            }
-            .sidebar :global(*) {
-              touch-action: none;
             }
             .sidebar {
               border-radius: ${Theme.BORDER_RADIUS_REGULAR}
