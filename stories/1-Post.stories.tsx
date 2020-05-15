@@ -56,6 +56,25 @@ export const CardSimple = () => (
         }}
       />
     </Card>
+    <Card height={300}>
+      <Editor
+        editable={false}
+        initialText={JSON.parse(
+          '[{"insert":"Open RP"},{"attributes":{"header":1},"insert":"\\n"},{"insert":{"block-image":"https://cdn.discordapp.com/attachments/443967088118333442/691486081895628830/unknown.png"}}, {"attributes":{"italic":true},"insert":"You have my sword..."}]'
+        )}
+        onTextChange={() => {
+          console.log("changed!");
+        }}
+        focus={true}
+        onIsEmptyChange={() => {
+          console.log("empty!");
+        }}
+        onSubmit={() => {
+          // This is for cmd + enter pressed while in the editor
+          console.log("submit!");
+        }}
+      />
+    </Card>
     <style jsx>
       {`
         div > :global(div) {
