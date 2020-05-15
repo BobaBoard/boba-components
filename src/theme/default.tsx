@@ -3,6 +3,9 @@ const DefaultTheme: ThemeProperties = {
   POPOVER_DEFAULT_BACKGROUND: "#1c1c1c",
   POST_HEADER_DATE_COLOR: "#2f2f30",
   POST_BACKGROUND_COLOR: "white",
+  NEW_POST_COLOR: "#f96680",
+  NEW_CONTRIBUTION_COLOR: "#f96680",
+  NEW_COMMENT_COLOR: "#f96680",
 };
 
 export default DefaultTheme;
@@ -12,4 +15,7 @@ export interface ThemeProperties {
   POPOVER_DEFAULT_BACKGROUND: string;
   POST_HEADER_DATE_COLOR: string;
   POST_BACKGROUND_COLOR: string;
+  NEW_POST_COLOR: string;
+  NEW_CONTRIBUTION_COLOR: string;
+  NEW_COMMENT_COLOR: string;
 }

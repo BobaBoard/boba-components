@@ -25,6 +25,9 @@ const Post: React.FC<PostProps> = (props) => {
                 userIdentity={props.userIdentity}
                 createdMessage={`Posted on: ${props.createdTime}`}
                 size={HeaderStyle.REGULAR}
+                newPost={props.newPost}
+                newComments={props.newComments}
+                newContributions={props.newContributions}
               />
             </div>
           }
@@ -87,6 +90,9 @@ export interface PostProps {
     name: string;
   };
   size?: CardSizes;
+  newPost?: boolean;
+  newComments?: boolean;
+  newContributions?: boolean;
   onSubmit: (text: string) => void;
   onCancel: (id: string) => void;
   onNewContribution: () => void;

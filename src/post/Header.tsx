@@ -2,7 +2,12 @@ import React from "react";
 
 import DefaultTheme from "../theme/default";
 import Tooltip from "../common/Tooltip";
+import Tag from "../common/Tag";
 import classnames from "classnames";
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+
+import { faComment, faPlusSquare } from "@fortawesome/free-regular-svg-icons";
+import { faCertificate } from "@fortawesome/free-solid-svg-icons";
 
 export enum HeaderStyle {
   REGULAR = "REGULAR",
@@ -91,9 +96,37 @@ const PostHeader: React.FC<PostHeaderProps> = (props) => {
   return (
     <>
       <div className="post-header">
-        <Metadata {...props}>
-          <div className="avatar" />
-        </Metadata>
+        <div className="identity">
+          <Metadata {...props}>
+            <div className="avatar" />
+          </Metadata>
+        </div>
+        <div className="new-tags">
+          {props.newPost && (
+            <Tag
+              name="new"
+              symbol={<FontAwesomeIcon icon={faCertificate} />}
+              compact
+              color={DefaultTheme.NEW_POST_COLOR}
+            />
+          )}
+          {props.newComments && (
+            <Tag
+              name="new"
+              symbol={<FontAwesomeIcon icon={faPlusSquare} />}
+              compact
+              color={DefaultTheme.NEW_CONTRIBUTION_COLOR}
+            />
+          )}
+          {props.newContributions && (
+            <Tag
+              name="new"
+              symbol={<FontAwesomeIcon icon={faComment} />}
+              compact
+              color={DefaultTheme.NEW_COMMENT_COLOR}
+            />
+          )}
+        </div>
       </div>
       <style jsx>{`
         .avatar {
@@ -102,6 +135,16 @@ const PostHeader: React.FC<PostHeaderProps> = (props) => {
           margin-right: 15px;
           height: 60px;
           display: block;
+        }
+        .identity {
+          display: flex;
+        }
+        .new-tags {
+            display: flex;
+            flex-direction: column;
+            align-self: stretch;
+            justify-content: space-evenly;
+            margin-right: 15px;
         }
         .avatar::before {
           background: url("${
@@ -119,14 +162,11 @@ const PostHeader: React.FC<PostHeaderProps> = (props) => {
           top: 50%;
           transform: translateY(-50%);
         }
-        .post-container {
-          display: flex;
-          flex-direction: column;
-        }
         .post-header {
           display: flex;
           align-items: center;
           position: relative;
+          justify-content: space-between;
         }
       `}</style>
     </>
@@ -147,4 +187,7 @@ export interface PostHeaderProps {
   };
   createdMessage: string;
   forceHide?: boolean;
+  newPost?: boolean;
+  newComments?: boolean;
+  newContributions?: boolean;
 }

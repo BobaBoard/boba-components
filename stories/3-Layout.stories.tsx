@@ -100,6 +100,7 @@ export const Attempt1 = () => {
                   name: "Good Guy",
                   avatar: `/${oncelerAvatar}`,
                 },
+                newPost: true,
               },
               {
                 createdTime: "2019/05/14 at 7:34pm",
@@ -116,6 +117,7 @@ export const Attempt1 = () => {
                 options: {
                   size: CardSizes.WIDE,
                 },
+                newComments: true,
               },
               {
                 createdTime: "2019/05/14 at 7:34pm",
@@ -125,6 +127,8 @@ export const Attempt1 = () => {
                   name: "Bad Guy",
                   avatar: `/${greedlerAvatar}`,
                 },
+                newComments: true,
+                newContributions: true,
               },
               {
                 createdTime: "2019/05/14 at 7:34pm",
@@ -138,6 +142,7 @@ export const Attempt1 = () => {
                   name: "xXxChesapeakeRipperxXx",
                   avatar: `/${hannibalAvatar}`,
                 },
+                newContributions: true,
               },
             ]}
           />

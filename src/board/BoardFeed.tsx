@@ -19,6 +19,9 @@ export interface BoardFeedProps {
     options?: {
       size?: CardSizes;
     };
+    newPost?: boolean;
+    newComments?: boolean;
+    newContributions?: boolean;
   }[];
 }
 
@@ -38,6 +41,9 @@ const BoardFeed: React.FC<BoardFeedProps> = ({ posts }) => {
               onNewContribution={() => console.log("click!")}
               onNewComment={() => console.log("click!")}
               size={post.options?.size}
+              newPost={post.newPost}
+              newComments={post.newComments}
+              newContributions={post.newContributions}
             />
           </div>
         ))}
