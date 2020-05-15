@@ -1,8 +1,8 @@
 import React from "react";
 import Layout from "../src/Layout";
-import BoardSidebar from "../src/board/BoardSidebar";
 import SideMenu from "../src/SideMenu";
 import BoardFeed from "../src/board/BoardFeed";
+import BoardSidebar from "../src/board/BoardSidebar";
 import { CardSizes } from "../src/common/Card";
 
 import oncelerAvatar from "./images/oncie.jpg";
@@ -23,7 +23,7 @@ export const SimpleLayout = () => {
     <Layout
       mainContent={<div>This is the main content!</div>}
       sideMenuContent={<div>Get a load of this menu content!</div>}
-      boardName="gore"
+      title="!gore"
     />
   );
 };
@@ -37,8 +37,7 @@ export const LayoutWithSidebar = () => {
     <Layout
       mainContent={<div>This is the main content!</div>}
       sideMenuContent={<div>Get a load of this menu content!</div>}
-      sidebarContent={<div>We have a sidebar now</div>}
-      boardName="gore"
+      title="!gore"
     />
   );
 };
@@ -86,6 +85,7 @@ SideMenuPreview.story = {
 };
 
 export const Attempt1 = () => {
+  const [showSidebar, setShowSidebar] = React.useState(false);
   return (
     <>
       <Layout
@@ -145,6 +145,14 @@ export const Attempt1 = () => {
                 newContributions: true,
               },
             ]}
+            showSidebar={showSidebar}
+            onCloseSidebar={() => setShowSidebar(false)}
+            boardInfo={{
+              slug: "gore",
+              avatar: `/${goreBackground}`,
+              description: "Love me some bruised bois (and more).",
+              color: "#f96680",
+            }}
           />
         }
         sideMenuContent={
@@ -157,18 +165,11 @@ export const Attempt1 = () => {
             }}
           />
         }
-        sidebarContent={
-          <BoardSidebar
-            board={{
-              slug: "gore",
-              avatar: `/${goreBackground}`,
-              description: "Love me some bruised bois (and more).",
-              color: "#f96680",
-            }}
-          />
-        }
         headerAccent="#f96680"
-        boardName="gore"
+        title="!gore"
+        onTitleClick={() => {
+          setShowSidebar(!showSidebar);
+        }}
       />
     </>
   );
