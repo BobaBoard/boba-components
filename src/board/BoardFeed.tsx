@@ -25,8 +25,8 @@ export interface BoardFeedProps {
       size?: CardSizes;
     };
     newPost?: boolean;
-    newComments?: boolean;
-    newContributions?: boolean;
+    newComments?: number;
+    newContributions?: number;
   }[];
   showSidebar?: boolean;
   boardInfo: {

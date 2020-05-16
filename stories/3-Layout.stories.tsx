@@ -117,7 +117,7 @@ export const Attempt1 = () => {
                 options: {
                   size: CardSizes.WIDE,
                 },
-                newComments: true,
+                newComments: 5,
               },
               {
                 createdTime: "yesterday",
@@ -127,8 +127,8 @@ export const Attempt1 = () => {
                   name: "Bad Guy",
                   avatar: `/${greedlerAvatar}`,
                 },
-                newComments: true,
-                newContributions: true,
+                newComments: 5,
+                newContributions: 2,
               },
               {
                 createdTime: "3 days ago",
@@ -142,7 +142,7 @@ export const Attempt1 = () => {
                   name: "xXxChesapeakeRipperxXx",
                   avatar: `/${hannibalAvatar}`,
                 },
-                newContributions: true,
+                newContributions: 3,
               },
             ]}
             showSidebar={showSidebar}

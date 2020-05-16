@@ -181,6 +181,7 @@ const PostHeader: React.FC<PostHeaderProps> = (props) => {
             width: 35px;
             height: 35px;
         }
+
         .identity {
           display: flex;
           max-width: 100%;

@@ -1,5 +1,6 @@
 import React from "react";
 
+import UpdatesHeader from "./UpdatesHeader";
 import Header, { HeaderStyle } from "./Header";
 import Footer, { modes as footerModes } from "./Footer";
 import Card, { CardSizes } from "../common/Card";
@@ -19,6 +20,11 @@ const Post: React.FC<PostProps> = (props) => {
   return (
     <>
       <div className="post-container">
+        <UpdatesHeader
+          newPost={props.newPost}
+          newComments={props.newComments}
+          newContributions={props.newContributions}
+        />
         <Card
           height={props.collapsed ? COLLAPSED_HEIGHT : undefined}
           header={
@@ -28,9 +34,6 @@ const Post: React.FC<PostProps> = (props) => {
                 userIdentity={props.userIdentity}
                 createdMessage={`${props.createdTime}`}
                 size={HeaderStyle.REGULAR}
-                newPost={props.newPost}
-                newComments={props.newComments}
-                newContributions={props.newContributions}
               />
             </div>
           }
@@ -94,8 +97,8 @@ export interface PostProps {
   };
   size?: CardSizes;
   newPost?: boolean;
-  newComments?: boolean;
-  newContributions?: boolean;
+  newComments?: number;
+  newContributions?: number;
   onSubmit: (text: string) => void;
   onCancel: (id: string) => void;
   onNewContribution: () => void;
