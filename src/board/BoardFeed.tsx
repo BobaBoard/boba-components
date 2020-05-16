@@ -121,6 +121,7 @@ const BoardFeed: React.FC<BoardFeedProps> = ({
           .post {
             margin: 0 auto;
             margin-top: 25px;
+            max-width: 100%;
           }
           .content {
             width: 100%;
@@ -182,6 +183,9 @@ const BoardFeed: React.FC<BoardFeedProps> = ({
             }
             .sidebar.visible {
               height: 85%;
+            }
+            .main {
+              width: calc(100% - 40px);
             }
           }
         `}

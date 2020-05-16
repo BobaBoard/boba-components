@@ -10,6 +10,7 @@ import "normalize.css";
 import "simplebar/dist/simplebar.min.css";
 
 import logo from "./images/logo.svg";
+import compactLogo from "./images/logo-compact.svg";
 
 const Layout: React.FC<LayoutProps> = ({
   sideMenuContent,
@@ -51,7 +52,8 @@ const Layout: React.FC<LayoutProps> = ({
               </Button>{" "}
             </div>
             <a className="logo">
-              <img src={logo} />
+              <img src={logo} className="regular" />
+              <img src={compactLogo} className="compact" />
             </a>
             {title && (
               <div className="title" onClick={onTitleClick}>
@@ -127,6 +129,9 @@ const Layout: React.FC<LayoutProps> = ({
           z-index: 2;
           position: relative;
         }
+        .logo .compact {
+          display: none;
+        }
         .logo::after {
           content: "";
           background-color: ${headerAccent || "transparent"};
@@ -200,6 +205,15 @@ const Layout: React.FC<LayoutProps> = ({
           .side-menu.visible {
             width: calc(100vw - 100px);
             max-width: 500px;
+          }
+          .logo .regular {
+            display: none;
+          }
+          .logo .compact {
+            display: block;
+          }
+          .logo::after {
+            mask: url(${compactLogo}) no-repeat;
           }
         }
       `}</style>
