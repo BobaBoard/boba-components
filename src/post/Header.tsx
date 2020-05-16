@@ -5,6 +5,8 @@ import Tooltip from "../common/Tooltip";
 import Tag from "../common/Tag";
 import classnames from "classnames";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import useComponentSize from "@rehooks/component-size";
+import fitty from "fitty";
 
 import { faComment, faPlusSquare } from "@fortawesome/free-regular-svg-icons";
 import { faCertificate } from "@fortawesome/free-solid-svg-icons";
@@ -16,27 +18,40 @@ export enum HeaderStyle {
 
 const Metadata: React.FC<PostHeaderProps> = (props) => {
   const [popoverOpen, setPopoverOpen] = React.useState(false);
+  let ref = React.useRef(null);
+  let nicknameRef = React.useRef(null);
+  let { width, height } = useComponentSize(ref);
+  React.useEffect(() => {
+    if (!nicknameRef.current) {
+      return;
+    }
+    fitty(nicknameRef.current, {
+      maxSize: 24,
+    });
+    console.log(nicknameRef.current.style.fontSize);
+  }, [width]);
   let metadata = (
     <>
       <div
         className={classnames("container", {
           compact: HeaderStyle.COMPACT == props.size,
         })}
+        ref={ref}
       >
         <div className="metadata">
-          <div className="metadata-main">
-            <div className="nickname">
+          <div className="metadata-identity">
+            <div className="nickname" ref={nicknameRef}>
               {props.userIdentity && !props.forceHide
                 ? props.userIdentity.name
                 : props.secretIdentity.name}
-              {props.userIdentity && !props.forceHide && (
-                <div className="secret-identity">
-                  ({props.secretIdentity.name})
-                </div>
-              )}
             </div>
-            <div className="timestamp">{props.createdMessage}</div>
+            {props.userIdentity && !props.forceHide && (
+              <div className="secret-identity">
+                ({props.secretIdentity.name})
+              </div>
+            )}
           </div>
+          <div className="timestamp">{props.createdMessage}</div>
         </div>
       </div>
       <style jsx>
@@ -44,11 +59,18 @@ const Metadata: React.FC<PostHeaderProps> = (props) => {
           .nickname {
             font-size: 24px;
             font-weight: bold;
-            margin-bottom: 5px;
+            white-space: nowrap;
+            text-overflow: ellipsis;
+            overflow: hidden;
+            display: inline-block;
+            max-width: 100%;
           }
           .timestamp {
             font-size: smaller;
             color: ${DefaultTheme.POST_HEADER_DATE_COLOR};
+          }
+          .container {
+            min-width: 0;
           }
           .container.compact .nickname {
             font-size: 18px;
@@ -64,12 +86,15 @@ const Metadata: React.FC<PostHeaderProps> = (props) => {
           .secret-identity {
             font-size: 15px;
             opacity: 0.7;
-            margin-left: 5px;
+          }
+          .metadata-identity {
+            margin-bottom: 5px;
           }
           .metadata {
             display: flex;
-            align-items: center;
             min-height: 60px;
+            flex-direction: column;
+            min-width: 0;
           }
         `}
       </style>
@@ -132,12 +157,18 @@ const PostHeader: React.FC<PostHeaderProps> = (props) => {
         .avatar {
           position: relative;
           width: 60px;
-          margin-right: 15px;
+          margin-right: 5%;
           height: 60px;
+          min-width: 30px;
+          min-height:  30px;
           display: block;
+          align-self: center;
         }
         .identity {
           display: flex;
+          max-width: 100%;
+          flex-grow: 1;
+          min-width: 0;
         }
         .new-tags {
             display: flex;

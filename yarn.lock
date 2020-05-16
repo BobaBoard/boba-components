@@ -1500,6 +1500,11 @@
     prop-types "^15.6.1"
     react-lifecycles-compat "^3.0.4"
 
+"@rehooks/component-size@^1.0.3":
+  version "1.0.3"
+  resolved "https://registry.yarnpkg.com/@rehooks/component-size/-/component-size-1.0.3.tgz#823eabeb42084893d46d43e3a9d1d0e34252b3cb"
+  integrity sha512-pnYld+8SSF2vXwdLOqBGUyOrv/SjzwLjIUcs/4c1JJgR0q4E9eBtBfuZMD6zUD51fvSehSsbnlQMzotSmPTXPg==
+
 "@sinonjs/commons@^1.7.0":
   version "1.7.2"
   resolved "https://registry.yarnpkg.com/@sinonjs/commons/-/commons-1.7.2.tgz#505f55c74e0272b43f6c52d81946bed7058fc0e2"
@@ -5348,6 +5353,11 @@ findup-sync@3.0.0:
     is-glob "^4.0.0"
     micromatch "^3.0.4"
     resolve-dir "^1.0.1"
+
+fitty@^2.3.0:
+  version "2.3.0"
+  resolved "https://registry.yarnpkg.com/fitty/-/fitty-2.3.0.tgz#abf8a59987a8e01fe00bd09a4ce91570b183d830"
+  integrity sha512-a4axS2xr0Lcp95We4hIrAvpgdzp6WHPaHp9neb5kMdjefCsNLoD4lPx69yKtKe60X/ZMEJznsPot6C1Tw5KZOA==
 
 flush-write-stream@^1.0.0:
   version "1.1.1"

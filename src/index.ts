@@ -1,3 +1,5 @@
+import "resize-observer-polyfill";
+
 import BoardPreview from "./board/BoardPreview";
 import Card from "./common/Card";
 import Tag from "./common/Tag";

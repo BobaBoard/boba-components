@@ -26,7 +26,7 @@ const Post: React.FC<PostProps> = (props) => {
               <Header
                 secretIdentity={props.secretIdentity}
                 userIdentity={props.userIdentity}
-                createdMessage={`Posted on: ${props.createdTime}`}
+                createdMessage={`${props.createdTime}`}
                 size={HeaderStyle.REGULAR}
                 newPost={props.newPost}
                 newComments={props.newComments}

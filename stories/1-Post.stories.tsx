@@ -153,11 +153,20 @@ export const HeaderStory = () => (
       size={HeaderStyle.COMPACT}
       forceHide
     />
+    <div style={{ width: "200px", backgroundColor: "green" }}>
+      <Header
+        secretIdentity={{ name: "Tuxedo Mask", avatar: `/${tuxedoAvatar}` }}
+        userIdentity={{ name: "SuperSexyDaddy69", avatar: `/${mamoruAvatar}` }}
+        createdMessage="Posted on: 2019/06/14 at 4:20pm"
+        size={HeaderStyle.REGULAR}
+      />
+    </div>
     <style jsx>
       {`
         div {
           max-width: 500px;
           margin-top: 25px;
+          background-color: white;
         }
         div > :global(div) {
           margin-top: 15px;
