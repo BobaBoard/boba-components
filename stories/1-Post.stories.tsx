@@ -153,12 +153,44 @@ export const HeaderStory = () => (
       size={HeaderStyle.COMPACT}
       forceHide
     />
+
+    <Header
+      secretIdentity={{ name: "Tuxedo Mask", avatar: `/${tuxedoAvatar}` }}
+      userIdentity={{ name: "SexyDaddy69", avatar: `/${mamoruAvatar}` }}
+      createdMessage="Posted on: 2019/06/14 at 4:20pm"
+      newPost
+    />
+
+    <Header
+      secretIdentity={{ name: "Tuxedo Mask", avatar: `/${tuxedoAvatar}` }}
+      userIdentity={{ name: "SexyDaddy69", avatar: `/${mamoruAvatar}` }}
+      createdMessage="Posted on: 2019/06/14 at 4:20pm"
+      newComments
+    />
+
+    <Header
+      secretIdentity={{ name: "Tuxedo Mask", avatar: `/${tuxedoAvatar}` }}
+      userIdentity={{ name: "SexyDaddy69", avatar: `/${mamoruAvatar}` }}
+      createdMessage="Posted on: 2019/06/14 at 4:20pm"
+      newComments
+      newContributions
+    />
     <div style={{ width: "200px", backgroundColor: "green" }}>
       <Header
         secretIdentity={{ name: "Tuxedo Mask", avatar: `/${tuxedoAvatar}` }}
         userIdentity={{ name: "SuperSexyDaddy69", avatar: `/${mamoruAvatar}` }}
         createdMessage="Posted on: 2019/06/14 at 4:20pm"
         size={HeaderStyle.REGULAR}
+      />
+    </div>
+    <div style={{ width: "200px", backgroundColor: "yellow" }}>
+      <Header
+        secretIdentity={{ name: "Tuxedo Mask", avatar: `/${tuxedoAvatar}` }}
+        userIdentity={{ name: "SuperSexyDaddy69", avatar: `/${mamoruAvatar}` }}
+        createdMessage="Posted on: 2019/06/14 at 4:20pm"
+        size={HeaderStyle.REGULAR}
+        newComments
+        newContributions
       />
     </div>
     <style jsx>

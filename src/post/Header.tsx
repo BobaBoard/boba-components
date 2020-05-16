@@ -18,17 +18,17 @@ export enum HeaderStyle {
 
 const Metadata: React.FC<PostHeaderProps> = (props) => {
   const [popoverOpen, setPopoverOpen] = React.useState(false);
-  let ref = React.useRef(null);
+  let ref = React.useRef<HTMLDivElement>(null);
   let nicknameRef = React.useRef(null);
   let { width, height } = useComponentSize(ref);
   React.useEffect(() => {
     if (!nicknameRef.current) {
       return;
     }
+    // @ts-ignore
     fitty(nicknameRef.current, {
       maxSize: 24,
     });
-    console.log(nicknameRef.current.style.fontSize);
   }, [width]);
   let metadata = (
     <>
@@ -68,6 +68,9 @@ const Metadata: React.FC<PostHeaderProps> = (props) => {
           .timestamp {
             font-size: smaller;
             color: ${DefaultTheme.POST_HEADER_DATE_COLOR};
+            white-space: nowrap;
+            text-overflow: ellipsis;
+            overflow: hidden;
           }
           .container {
             min-width: 0;
@@ -118,9 +121,18 @@ const Metadata: React.FC<PostHeaderProps> = (props) => {
 };
 
 const PostHeader: React.FC<PostHeaderProps> = (props) => {
+  const [tagsOnNewLine, setTagsOnNewLine] = React.useState(false);
+  let ref = React.useRef<HTMLDivElement>(null);
+  let { width, height } = useComponentSize(ref);
+  React.useEffect(() => {
+    setTagsOnNewLine(width < 300);
+  }, [width]);
   return (
     <>
-      <div className="post-header">
+      <div
+        className={classnames("post-header", { squeezed: tagsOnNewLine })}
+        ref={ref}
+      >
         <div className="identity">
           <Metadata {...props}>
             <div className="avatar" />
@@ -164,6 +176,11 @@ const PostHeader: React.FC<PostHeaderProps> = (props) => {
           display: block;
           align-self: center;
         }
+
+        .post-header.squeezed .avatar {
+            width: 35px;
+            height: 35px;
+        }
         .identity {
           display: flex;
           max-width: 100%;
@@ -198,6 +215,19 @@ const PostHeader: React.FC<PostHeaderProps> = (props) => {
           align-items: center;
           position: relative;
           justify-content: space-between;
+        }
+        .post-header.squeezed {
+          flex-direction: column;
+          align-items: stretch;
+          width: 100%;
+        }
+        .post-header.squeezed .new-tags {
+            margin-top: 5px;
+            flex-direction: row;
+            justify-content: flex-start;
+        }
+        .post-header.squeezed .new-tags > :global(div) {
+            margin-right: 3px;
         }
       `}</style>
     </>
