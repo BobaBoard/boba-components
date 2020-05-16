@@ -59,63 +59,65 @@ const BoardFeed: React.FC<BoardFeedProps> = ({
   const scrollableNodeRef = React.createRef<SimpleBar>();
   return (
     <>
-      <div className="content">
-        <div
-          className={classnames("backdrop", {
-            visible: showSidebar,
-          })}
-          onClick={(e) => {
-            onCloseSidebar && onCloseSidebar();
-            e.stopPropagation();
-          }}
-        />
-        <div
-          className={classnames("sidebar", { visible: showSidebar })}
-          onClick={(e) => {
-            console.log("clack!");
-            e.stopPropagation();
-          }}
-        >
-          {showSidebar ? (
-            <SimpleBar style={{ maxHeight: "100%" }} ref={scrollableNodeRef}>
-              <div
-                onWheel={(e) => {
-                  maybePreventScrollOverflow(
-                    e,
-                    // @ts-ignore
-                    scrollableNodeRef.current?.contentWrapperEl
-                  );
-                }}
-              >
-                <BoardSidebar board={boardInfo} />
+      <SimpleBar style={{ maxHeight: "100%" }}>
+        <div className="content">
+          <div
+            className={classnames("backdrop", {
+              visible: showSidebar,
+            })}
+            onClick={(e) => {
+              onCloseSidebar && onCloseSidebar();
+              e.stopPropagation();
+            }}
+          />
+          <div
+            className={classnames("sidebar", { visible: showSidebar })}
+            onClick={(e) => {
+              console.log("clack!");
+              e.stopPropagation();
+            }}
+          >
+            {showSidebar ? (
+              <SimpleBar style={{ maxHeight: "100%" }} ref={scrollableNodeRef}>
+                <div
+                  onWheel={(e) => {
+                    maybePreventScrollOverflow(
+                      e,
+                      // @ts-ignore
+                      scrollableNodeRef.current?.contentWrapperEl
+                    );
+                  }}
+                >
+                  <BoardSidebar board={boardInfo} />
+                </div>
+              </SimpleBar>
+            ) : (
+              <BoardSidebar board={boardInfo} />
+            )}
+          </div>
+          <div className="main">
+            {posts.map((post) => (
+              <div className="post">
+                <Post
+                  createdTime={post.createdTime}
+                  text={post.text}
+                  secretIdentity={post.secretIdentity}
+                  userIdentity={post.userIdentity}
+                  onSubmit={() => console.log("click!")}
+                  onCancel={() => console.log("click!")}
+                  onNewContribution={() => console.log("click!")}
+                  onNewComment={() => console.log("click!")}
+                  size={post.options?.size}
+                  newPost={post.newPost}
+                  newComments={post.newComments}
+                  newContributions={post.newContributions}
+                  collapsed={post.newComments && post.newContributions}
+                />
               </div>
-            </SimpleBar>
-          ) : (
-            <BoardSidebar board={boardInfo} />
-          )}
+            ))}
+          </div>
         </div>
-        <div className="main">
-          {posts.map((post) => (
-            <div className="post">
-              <Post
-                createdTime={post.createdTime}
-                text={post.text}
-                secretIdentity={post.secretIdentity}
-                userIdentity={post.userIdentity}
-                onSubmit={() => console.log("click!")}
-                onCancel={() => console.log("click!")}
-                onNewContribution={() => console.log("click!")}
-                onNewComment={() => console.log("click!")}
-                size={post.options?.size}
-                newPost={post.newPost}
-                newComments={post.newComments}
-                newContributions={post.newContributions}
-                collapsed={post.newComments && post.newContributions}
-              />
-            </div>
-          ))}
-        </div>
-      </div>
+      </SimpleBar>
       <style jsx>
         {`
           .post {
@@ -124,15 +126,17 @@ const BoardFeed: React.FC<BoardFeedProps> = ({
             max-width: 100%;
           }
           .content {
-            width: 100%;
+            width: 100vw;
             display: flex;
             background-image: linear-gradient(
               to right,
               ${Theme.LAYOUT_BOARD_SIDEBAR_BACKGROUND_COLOR} 350px,
               transparent 350px
             );
-            overflow: hidden;
-            overflow-y: auto;
+             {
+              /* overflow: hidden;
+            overflow-y: auto; */
+            }
           }
           .main {
             display: flex;
