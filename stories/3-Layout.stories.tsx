@@ -153,6 +153,7 @@ export const Attempt1 = () => {
               description: "Love me some bruised bois (and more).",
               color: "#f96680",
             }}
+            accentColor={"#f96680"}
           />
         }
         sideMenuContent={

@@ -75,8 +75,9 @@ const ThreadContent: React.FC<{ posts: PostDetailsType[] }> = ({ posts }) => {
           }
           return <PostContent {...post} showHeader={index != 0} />;
         })}
-        }{expandDiv}
+        {expandDiv}
       </div>
+      <div>5 more</div>
       <div className="old-last">
         {<PostContent {...oldPosts[oldPosts.length - 1]} />}
       </div>
@@ -96,6 +97,7 @@ const ThreadContent: React.FC<{ posts: PostDetailsType[] }> = ({ posts }) => {
           }
           .old-posts {
             padding-bottom: 20px;
+            border-bottom: 1px solid black;
           }
           .post {
             background-color: red;

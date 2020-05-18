@@ -10,6 +10,7 @@ const DefaultTheme: ThemeProperties = {
   NEW_CONTRIBUTION_COLOR: "#f96680",
   NEW_COMMENT_COLOR: "#f96680",
   BORDER_RADIUS_REGULAR: "25px",
+  DEFAULT_ACCENT_COLOR: "#ff5252",
 };
 
 export default DefaultTheme;
@@ -26,4 +27,5 @@ export interface ThemeProperties {
   LAYOUT_HEADER_BACKGROUND_COLOR: string;
   LAYOUT_BOARD_SIDEBAR_BACKGROUND_COLOR: string;
   BORDER_RADIUS_REGULAR: string;
+  DEFAULT_ACCENT_COLOR: string;
 }

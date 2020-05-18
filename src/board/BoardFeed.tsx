@@ -4,6 +4,7 @@ import Post from "../post/Post";
 import classnames from "classnames";
 import BoardSidebar from "./BoardSidebar";
 import SimpleBar from "simplebar-react";
+import PostingActionButtion from "./PostingActionButton";
 
 import Theme from "../theme/default";
 
@@ -36,6 +37,7 @@ export interface BoardFeedProps {
     color: string;
   };
   onCloseSidebar?: () => void;
+  accentColor?: string;
 }
 
 const maybePreventScrollOverflow = (
@@ -55,6 +57,7 @@ const BoardFeed: React.FC<BoardFeedProps> = ({
   showSidebar,
   onCloseSidebar,
   boardInfo,
+  accentColor,
 }) => {
   const scrollableNodeRef = React.createRef<SimpleBar>();
   return (
@@ -115,6 +118,7 @@ const BoardFeed: React.FC<BoardFeedProps> = ({
                 />
               </div>
             ))}
+            <PostingActionButtion accentColor={accentColor} />
           </div>
         </div>
       </SimpleBar>
