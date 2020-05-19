@@ -1,29 +1,25 @@
 import React from "react";
 import { faBars } from "@fortawesome/free-solid-svg-icons";
-import Button, { ButtonStyle } from "../src/Button";
+import Button, { ButtonStyle } from "./common/Button";
 import UserBar from "../src/UserBar";
 import classnames from "classnames";
-import HighlightedText from "./HighlightedText";
+import HighlightedText from "./common/HighlightedText";
+import Theme from "./theme/default";
 
 import "normalize.css";
-import SimpleBar from "simplebar-react";
 import "simplebar/dist/simplebar.min.css";
 
 import logo from "./images/logo.svg";
-
-const LIGHT_GREY = "#2f2f30";
-const MEDIUM_GREY = "#1c1c1c";
-const DARK_GREY = "#131518";
+import compactLogo from "./images/logo-compact.svg";
 
 const Layout: React.FC<LayoutProps> = ({
   sideMenuContent,
   mainContent,
-  sidebarContent,
   headerAccent,
-  boardName,
+  title,
+  onTitleClick,
 }) => {
   const [showSideMenu, setShowSideMenu] = React.useState(false);
-  const [showSidebar, setShowSidebar] = React.useState(false);
   return (
     <div className="layout">
       <div className={classnames("side-menu", { visible: showSideMenu })}>
@@ -36,10 +32,9 @@ const Layout: React.FC<LayoutProps> = ({
       >
         <div
           className={classnames("backdrop", {
-            visible: showSideMenu || showSidebar,
+            visible: showSideMenu,
           })}
           onClick={() => {
-            setShowSidebar(false);
             setShowSideMenu(false);
           }}
         />
@@ -57,43 +52,20 @@ const Layout: React.FC<LayoutProps> = ({
               </Button>{" "}
             </div>
             <a className="logo">
-              <img src={logo} />
+              <img src={logo} className="regular" />
+              <img src={compactLogo} className="compact" />
             </a>
-            {sidebarContent && boardName && (
-              <div
-                className="sidebar-button"
-                onClick={() => {
-                  setShowSidebar(!showSidebar);
-                }}
-              >
+            {title && (
+              <div className="title" onClick={onTitleClick}>
                 <HighlightedText highlightColor={headerAccent || "#fffff"}>
-                  <span>!{boardName}</span>
+                  <span>{title}</span>
                 </HighlightedText>
               </div>
             )}
           </div>
           <UserBar color={headerAccent} />
         </div>
-        <div className="board-content">
-          {sidebarContent && (
-            <div
-              className={classnames("sidebar", { visible: showSidebar })}
-              onClick={(e) => {
-                console.log("clack!");
-                e.stopPropagation();
-              }}
-            >
-              {showSidebar ? (
-                <SimpleBar style={{ maxHeight: "100vh" }}>
-                  {sidebarContent}
-                </SimpleBar>
-              ) : (
-                sidebarContent
-              )}
-            </div>
-          )}
-          <div className="content">{mainContent}</div>
-        </div>
+        <div className="content">{mainContent}</div>
       </div>
       <style jsx>{`
         .layout {
@@ -109,16 +81,12 @@ const Layout: React.FC<LayoutProps> = ({
           flex-grow: 1;
           position: relative;
         }
-        .board-content {
+        .content {
           display: flex;
           flex-grow: 1;
           position: relative;
           overflow-y: auto;
-          background: linear-gradient(
-            to right,
-            ${MEDIUM_GREY} 350px,
-            ${LIGHT_GREY} 350px
-          );
+          background: ${Theme.LAYOUT_BOARD_BACKGROUND_COLOR};
           overflow-x: hidden;
         }
         .backdrop {
@@ -136,7 +104,7 @@ const Layout: React.FC<LayoutProps> = ({
           display: block;
         }
         .header {
-          background-color: ${DARK_GREY};
+          background-color: ${Theme.LAYOUT_HEADER_BACKGROUND_COLOR};
           height: 40px;
           flex-shrink: 0;
           position: relative;
@@ -161,6 +129,9 @@ const Layout: React.FC<LayoutProps> = ({
           z-index: 2;
           position: relative;
         }
+        .logo .compact {
+          display: none;
+        }
         .logo::after {
           content: "";
           background-color: ${headerAccent || "transparent"};
@@ -178,14 +149,11 @@ const Layout: React.FC<LayoutProps> = ({
           margin: 0 10px;
           display: inline-block;
         }
-        .sidebar {
-          width: 350px;
-        }
         .content {
           flex-grow: 1;
         }
         .side-menu {
-          background-color: ${DARK_GREY};
+          background-color: ${Theme.LAYOUT_SIDEMENU_BACKGROUND_COLOR};
           overflow: hidden;
           transition-property: width;
           transition-duration: 0.3s;
@@ -201,7 +169,7 @@ const Layout: React.FC<LayoutProps> = ({
         .side-menu.visible {
           width: 500px;
         }
-        .sidebar-button {
+        .title {
           display: none;
           margin: 0px 35px;
           color: white;
@@ -221,44 +189,31 @@ const Layout: React.FC<LayoutProps> = ({
           .body.side-menu-open {
             flex-shrink: 0;
           }
-          .content {
-            padding: 0 20px;
-            width: calc(100% - 40px);
-          }
-          .board-content {
-            background: ${LIGHT_GREY};
-          }
           .sidebar-button {
             display: inline-block;
           }
           .side-menu-content {
-            width: 100%;
+            width: calc(100vw - 100px);
             max-width: 500px;
           }
           .side-menu {
             transition-duration: 0.5s;
           }
+          .title {
+            display: block;
+          }
           .side-menu.visible {
-            width: calc(100% - 100px);
+            width: calc(100vw - 100px);
             max-width: 500px;
           }
-          .sidebar {
-            border-radius: 25px 25px 0px 0px;
-            width: 95%;
-            position: fixed;
-            left: 50%;
-            transform: translateX(-50%);
-            bottom: 0;
-            height: 0;
-            overflow: hidden;
-            transition-property: height;
-            transition-duration: 0.5s;
-            transition-timing-function: easeInSine;
-            z-index: 5;
-            background: ${MEDIUM_GREY};
+          .logo .regular {
+            display: none;
           }
-          .sidebar.visible {
-            height: 85%;
+          .logo .compact {
+            display: block;
+          }
+          .logo::after {
+            mask: url(${compactLogo}) no-repeat;
           }
         }
       `}</style>
@@ -271,7 +226,8 @@ export interface LayoutProps {
   mainContent: JSX.Element;
   sideMenuContent: JSX.Element;
   headerAccent?: string;
-  boardName: string;
+  title?: string;
+  onTitleClick?: () => void;
 }
 
 export default Layout;

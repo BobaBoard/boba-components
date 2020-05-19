@@ -1,8 +1,9 @@
 import React from "react";
 
+import UpdatesHeader from "./UpdatesHeader";
 import Header, { HeaderStyle } from "./Header";
 import Footer, { modes as footerModes } from "./Footer";
-import Card from "../common/Card";
+import Card, { CardSizes } from "../common/Card";
 import Editor from "@bobaboard/boba-editor";
 
 import Theme from "../theme/default";
@@ -12,45 +13,52 @@ export const modes = {
   CREATE: "CREATE",
 };
 
+const COLLAPSED_HEIGHT = 250;
+
 const Post: React.FC<PostProps> = (props) => {
   const [newText, setNewText] = React.useState(JSON.parse(props.text));
   return (
     <>
-      <div className="container">
-        <div className="post-container">
-          <Card
-            header={
-              <div className="header">
-                <Header
-                  secretIdentity={props.secretIdentity}
-                  userIdentity={props.userIdentity}
-                  createdMessage={`Posted on: ${props.createdTime}`}
-                  size={HeaderStyle.REGULAR}
-                />
-              </div>
-            }
-            footer={
-              <div className="footer">
-                <Footer
-                  mode={
-                    props.mode == modes.CREATE
-                      ? footerModes.CREATE
-                      : footerModes.VIEW
-                  }
-                  onSubmit={() => props.onSubmit(newText)}
-                />
-              </div>
-            }
-          >
-            <Editor
-              initialText={JSON.parse(props.text)}
-              editable={props.mode == modes.CREATE}
-              focus={props.focus || false}
-              onSubmit={() => props.onSubmit(newText)}
-              onTextChange={(text) => setNewText(JSON.stringify(text.ops))}
-            />
-          </Card>
-        </div>
+      <div className="post-container">
+        <UpdatesHeader
+          newPost={props.newPost}
+          newComments={props.newComments}
+          newContributions={props.newContributions}
+        />
+        <Card
+          height={props.collapsed ? COLLAPSED_HEIGHT : undefined}
+          header={
+            <div className="header">
+              <Header
+                secretIdentity={props.secretIdentity}
+                userIdentity={props.userIdentity}
+                createdMessage={`${props.createdTime}`}
+                size={HeaderStyle.REGULAR}
+              />
+            </div>
+          }
+          footer={
+            <div className="footer">
+              <Footer
+                mode={
+                  props.mode == modes.CREATE
+                    ? footerModes.CREATE
+                    : footerModes.VIEW
+                }
+                onSubmit={() => props.onSubmit(newText)}
+              />
+            </div>
+          }
+          size={props.size}
+        >
+          <Editor
+            initialText={JSON.parse(props.text)}
+            editable={props.mode == modes.CREATE}
+            focus={props.focus || false}
+            onSubmit={() => props.onSubmit(newText)}
+            onTextChange={(text) => setNewText(JSON.stringify(text.ops))}
+          />
+        </Card>
       </div>
       <style jsx>{`
         .header {
@@ -58,10 +66,7 @@ const Post: React.FC<PostProps> = (props) => {
           background-color: ${Theme.POST_BACKGROUND_COLOR};
           padding: 10px;
         }
-        .container {
-          max-width: 450px;
-          display: flex;
-          flex-direction: column;
+        .post-container {
           margin-bottom: 50px;
         }
         .footer {
@@ -90,8 +95,13 @@ export interface PostProps {
     avatar: string;
     name: string;
   };
+  size?: CardSizes;
+  newPost?: boolean;
+  newComments?: number;
+  newContributions?: number;
   onSubmit: (text: string) => void;
   onCancel: (id: string) => void;
   onNewContribution: () => void;
   onNewComment: () => void;
+  collapsed?: boolean;
 }

@@ -1,15 +1,17 @@
 import React from "react";
+import classnames from "classnames";
 
 export interface TagProps {
   name: string;
-  symbol?: string;
+  symbol?: string | JSX.Element;
   avatar?: string;
   color?: string;
+  compact?: boolean;
 }
 const Tag: React.FC<TagProps> = (props) => {
   return (
     <>
-      <div className="tag">
+      <div className={classnames("tag", { compact: !!props.compact })}>
         <span className="hashtag">{props.symbol || "#"}</span>
         {props.name}
       </div>
@@ -26,6 +28,12 @@ const Tag: React.FC<TagProps> = (props) => {
           background-color: ${props.color};
           font-weight: bold;
           cursor: pointer;
+        }
+        .tag.compact {
+          border: 0px;
+          font-size: smaller;
+          padding: 3px 6px;
+          font-weight: normal;
         }
       `}</style>
     </>

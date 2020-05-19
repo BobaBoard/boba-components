@@ -1,6 +1,6 @@
 import React from "react";
 //import { linkTo } from "@storybook/addon-links";
-import Card from "../src/common/Card";
+import Card, { CardSizes } from "../src/common/Card";
 import Header, { HeaderStyle } from "../src/post/Header";
 import Footer, { modes as footerModes } from "../src/post/Footer";
 import Post, { modes as postModes } from "../src/post/Post";
@@ -17,25 +17,72 @@ export default {
 };
 
 export const CardSimple = () => (
-  <Card>
-    <Editor
-      editable={false}
-      initialText={JSON.parse(
-        '[{"insert":"Open RP"},{"attributes":{"header":1},"insert":"\\n"},{"insert":{"block-image":"https://cdn.discordapp.com/attachments/443967088118333442/691486081895628830/unknown.png"}}, {"attributes":{"italic":true},"insert":"You have my sword..."}]'
-      )}
-      onTextChange={() => {
-        console.log("changed!");
-      }}
-      focus={true}
-      onIsEmptyChange={() => {
-        console.log("empty!");
-      }}
-      onSubmit={() => {
-        // This is for cmd + enter pressed while in the editor
-        console.log("submit!");
-      }}
-    />
-  </Card>
+  <div>
+    <Card>
+      <Editor
+        editable={false}
+        initialText={JSON.parse(
+          '[{"insert":"Open RP"},{"attributes":{"header":1},"insert":"\\n"},{"insert":{"block-image":"https://cdn.discordapp.com/attachments/443967088118333442/691486081895628830/unknown.png"}}, {"attributes":{"italic":true},"insert":"You have my sword..."}]'
+        )}
+        onTextChange={() => {
+          console.log("changed!");
+        }}
+        focus={true}
+        onIsEmptyChange={() => {
+          console.log("empty!");
+        }}
+        onSubmit={() => {
+          // This is for cmd + enter pressed while in the editor
+          console.log("submit!");
+        }}
+      />
+    </Card>
+    <Card size={CardSizes.WIDE}>
+      <Editor
+        editable={false}
+        initialText={JSON.parse(
+          '[{"insert":"Open RP"},{"attributes":{"header":1},"insert":"\\n"},{"insert":{"block-image":"https://cdn.discordapp.com/attachments/443967088118333442/691486081895628830/unknown.png"}}, {"attributes":{"italic":true},"insert":"You have my sword..."}]'
+        )}
+        onTextChange={() => {
+          console.log("changed!");
+        }}
+        focus={true}
+        onIsEmptyChange={() => {
+          console.log("empty!");
+        }}
+        onSubmit={() => {
+          // This is for cmd + enter pressed while in the editor
+          console.log("submit!");
+        }}
+      />
+    </Card>
+    <Card height={300}>
+      <Editor
+        editable={false}
+        initialText={JSON.parse(
+          '[{"insert":"Open RP"},{"attributes":{"header":1},"insert":"\\n"},{"insert":{"block-image":"https://cdn.discordapp.com/attachments/443967088118333442/691486081895628830/unknown.png"}}, {"attributes":{"italic":true},"insert":"You have my sword..."}]'
+        )}
+        onTextChange={() => {
+          console.log("changed!");
+        }}
+        focus={true}
+        onIsEmptyChange={() => {
+          console.log("empty!");
+        }}
+        onSubmit={() => {
+          // This is for cmd + enter pressed while in the editor
+          console.log("submit!");
+        }}
+      />
+    </Card>
+    <style jsx>
+      {`
+        div > :global(div) {
+          margin-bottom: 10px;
+        }
+      `}
+    </style>
+  </div>
 );
 
 CardSimple.story = {
@@ -106,11 +153,52 @@ export const HeaderStory = () => (
       size={HeaderStyle.COMPACT}
       forceHide
     />
+
+    <Header
+      secretIdentity={{ name: "Tuxedo Mask", avatar: `/${tuxedoAvatar}` }}
+      userIdentity={{ name: "SexyDaddy69", avatar: `/${mamoruAvatar}` }}
+      createdMessage="Posted on: 2019/06/14 at 4:20pm"
+      newPost
+    />
+
+    <Header
+      secretIdentity={{ name: "Tuxedo Mask", avatar: `/${tuxedoAvatar}` }}
+      userIdentity={{ name: "SexyDaddy69", avatar: `/${mamoruAvatar}` }}
+      createdMessage="Posted on: 2019/06/14 at 4:20pm"
+      newComments
+    />
+
+    <Header
+      secretIdentity={{ name: "Tuxedo Mask", avatar: `/${tuxedoAvatar}` }}
+      userIdentity={{ name: "SexyDaddy69", avatar: `/${mamoruAvatar}` }}
+      createdMessage="Posted on: 2019/06/14 at 4:20pm"
+      newComments
+      newContributions
+    />
+    <div style={{ width: "200px", backgroundColor: "green" }}>
+      <Header
+        secretIdentity={{ name: "Tuxedo Mask", avatar: `/${tuxedoAvatar}` }}
+        userIdentity={{ name: "SuperSexyDaddy69", avatar: `/${mamoruAvatar}` }}
+        createdMessage="Posted on: 2019/06/14 at 4:20pm"
+        size={HeaderStyle.REGULAR}
+      />
+    </div>
+    <div style={{ width: "200px", backgroundColor: "yellow" }}>
+      <Header
+        secretIdentity={{ name: "Tuxedo Mask", avatar: `/${tuxedoAvatar}` }}
+        userIdentity={{ name: "SuperSexyDaddy69", avatar: `/${mamoruAvatar}` }}
+        createdMessage="Posted on: 2019/06/14 at 4:20pm"
+        size={HeaderStyle.REGULAR}
+        newComments
+        newContributions
+      />
+    </div>
     <style jsx>
       {`
         div {
           max-width: 500px;
           margin-top: 25px;
+          background-color: white;
         }
         div > :global(div) {
           margin-top: 15px;
@@ -123,23 +211,6 @@ export const HeaderStory = () => (
 HeaderStory.story = {
   name: "header",
 };
-
-export const EditableWithFooter = () => (
-  <Post
-    mode={postModes.CREATE}
-    createdTime="2019/05/14 at 7:34pm"
-    text={
-      '[{"insert":"Open RP"},{"attributes":{"header":1},"insert":"\\n"},{"insert":{"block-image":"https://cdn.discordapp.com/attachments/443967088118333442/691486081895628830/unknown.png"}}, {"attributes":{"italic":true},"insert":"You have my sword..."}]'
-    }
-    secretIdentity={{ name: "Tuxedo Mask", avatar: `/${tuxedoAvatar}` }}
-    userIdentity={{ name: "SexyDaddy69", avatar: `/${mamoruAvatar}` }}
-    onSubmit={(text) => console.log(text)}
-    onCancel={() => console.log("click!")}
-    onNewContribution={() => console.log("click!")}
-    onNewComment={() => console.log("click!")}
-  />
-);
-
 export const NonEditable = () => (
   <Post
     createdTime="2019/05/14 at 7:34pm"
@@ -155,10 +226,26 @@ export const NonEditable = () => (
   />
 );
 
-EditableWithFooter.story = {
-  name: "editable post",
-};
-
+export const UpdatedPost = () => (
+  <Post
+    createdTime="2019/05/14 at 7:34pm"
+    text={
+      '[{"insert":"Open RP"},{"attributes":{"header":1},"insert":"\\n"},{"insert":{"block-image":"https://cdn.discordapp.com/attachments/443967088118333442/691486081895628830/unknown.png"}}, {"attributes":{"italic":true},"insert":"You have my sword..."}]'
+    }
+    secretIdentity={{ name: "Tuxedo Mask", avatar: `/${tuxedoAvatar}` }}
+    userIdentity={{ name: "SexyDaddy69", avatar: `/${mamoruAvatar}` }}
+    onSubmit={() => console.log("click!")}
+    onCancel={() => console.log("click!")}
+    onNewContribution={() => console.log("click!")}
+    onNewComment={() => console.log("click!")}
+    newComments={3}
+    newContributions={5}
+  />
+);
 NonEditable.story = {
   name: "non-editable post",
+};
+
+UpdatedPost.story = {
+  name: "updated post",
 };

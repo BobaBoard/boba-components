@@ -1,7 +1,7 @@
 import React from "react";
 
-import BoardPreview, { DisplayStyle } from "../src/BoardPreview";
-import BoardsGroup from "../src/BoardsGroup";
+import BoardPreview, { DisplayStyle } from "./board/BoardPreview";
+import BoardsGroup from "./board/BoardsGroup";
 import SearchBar from "../src/common/SearchBar";
 
 import classnames from "classnames";

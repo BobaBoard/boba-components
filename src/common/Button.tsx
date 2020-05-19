@@ -6,6 +6,7 @@ import classnames from "classnames";
 import React from "react";
 // @ts-ignore
 import { Button as LibraryButton } from "@trendmicro/react-buttons";
+import Tooltip from "./Tooltip";
 
 export enum ButtonStyle {
   LIGHT = "LIGHT",
@@ -19,19 +20,29 @@ const Button: React.FC<ButtonProps> = ({
   compact,
   color,
   theme,
+  tooltip,
 }) => {
+  const [tooltipOpen, setTooltipOpen] = React.useState(false);
   const THEME_COLOR = theme == ButtonStyle.DARK ? "#1c1c1c" : "#fff";
   const REVERSE_THEME_COLOR = theme == ButtonStyle.DARK ? "#fff" : "#1c1c1c";
   return (
-    <div className={classnames("button", { compact })}>
-      <LibraryButton btnStyle="flat" onClick={onClick}>
-        {icon && (
-          <div className="icon">
-            <FontAwesomeIcon icon={icon} />
-          </div>
-        )}
-        {!compact && children}
-      </LibraryButton>
+    <>
+      <Tooltip content={<div>{tooltip}</div>} isOpen={tooltipOpen} delay={1000}>
+        <div
+          className={classnames("button", { compact })}
+          onMouseEnter={() => tooltip && setTooltipOpen(true)}
+          onMouseLeave={() => setTooltipOpen(false)}
+        >
+          <LibraryButton btnStyle="flat" onClick={onClick}>
+            {icon && (
+              <div className="icon">
+                <FontAwesomeIcon icon={icon} />
+              </div>
+            )}
+            {!compact && children}
+          </LibraryButton>
+        </div>
+      </Tooltip>
       <style jsx>{`
         .button {
           display: inline-block;
@@ -69,14 +80,15 @@ const Button: React.FC<ButtonProps> = ({
           color: ${color || REVERSE_THEME_COLOR};
         }
       `}</style>
-    </div>
+    </>
   );
 };
 
 export default Button;
 
 export interface ButtonProps {
-  children: string;
+  children: string | JSX.Element;
+  tooltip?: string | JSX.Element;
   icon?: IconDefinition;
   compact?: boolean;
   tooltip?: string;
