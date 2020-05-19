@@ -211,23 +211,6 @@ export const HeaderStory = () => (
 HeaderStory.story = {
   name: "header",
 };
-
-export const EditableWithFooter = () => (
-  <Post
-    mode={postModes.CREATE}
-    createdTime="2019/05/14 at 7:34pm"
-    text={
-      '[{"insert":"Open RP"},{"attributes":{"header":1},"insert":"\\n"},{"insert":{"block-image":"https://cdn.discordapp.com/attachments/443967088118333442/691486081895628830/unknown.png"}}, {"attributes":{"italic":true},"insert":"You have my sword..."}]'
-    }
-    secretIdentity={{ name: "Tuxedo Mask", avatar: `/${tuxedoAvatar}` }}
-    userIdentity={{ name: "SexyDaddy69", avatar: `/${mamoruAvatar}` }}
-    onSubmit={(text) => console.log(text)}
-    onCancel={() => console.log("click!")}
-    onNewContribution={() => console.log("click!")}
-    onNewComment={() => console.log("click!")}
-  />
-);
-
 export const NonEditable = () => (
   <Post
     createdTime="2019/05/14 at 7:34pm"
@@ -259,11 +242,6 @@ export const UpdatedPost = () => (
     newContributions={5}
   />
 );
-
-EditableWithFooter.story = {
-  name: "editable post",
-};
-
 NonEditable.story = {
   name: "non-editable post",
 };

@@ -51,7 +51,9 @@ const Metadata: React.FC<PostHeaderProps> = (props) => {
               </div>
             )}
           </div>
-          <div className="timestamp">{props.createdMessage}</div>
+          {props.createdMessage && (
+            <div className="timestamp">{props.createdMessage}</div>
+          )}
         </div>
       </div>
       <style jsx>
@@ -138,6 +140,7 @@ const PostHeader: React.FC<PostHeaderProps> = (props) => {
             <div className="avatar" />
           </Metadata>
         </div>
+        {props.children}
         <div className="new-tags">
           {props.newPost && (
             <Tag
@@ -247,7 +250,7 @@ export interface PostHeaderProps {
     avatar: string;
     name: string;
   };
-  createdMessage: string;
+  createdMessage?: string;
   forceHide?: boolean;
   newPost?: boolean;
   newComments?: boolean;
