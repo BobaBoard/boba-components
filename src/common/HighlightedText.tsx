@@ -36,8 +36,8 @@ function getBackgroundDivs(
 
 const HighlightedText: React.FC<HighlightedTextProps> = (props) => {
   const header = React.useRef<HTMLDivElement>();
-  const background = React.useRef<HTMLDivElement>();
-  const [backgroundDivs, setBackgroundDivs] = React.useState([]);
+  const background = React.useRef<HTMLDivElement>(null);
+  const [backgroundDivs, setBackgroundDivs] = React.useState<JSX.Element[]>([]);
 
   React.useEffect(() => {
     let throttled = false;
@@ -49,7 +49,7 @@ const HighlightedText: React.FC<HighlightedTextProps> = (props) => {
       }
       if (!header.current || !background.current) {
         // TODO: figure out why this happens.
-        console.log(`uh-oh, ${props.children.key}`);
+        console.log(`uh-oh, ${props.children}`);
         return;
       }
       const textRects = header.current.getClientRects();
@@ -113,4 +113,5 @@ export default HighlightedText;
 
 export interface HighlightedTextProps {
   highlightColor: string;
+  children: JSX.Element;
 }

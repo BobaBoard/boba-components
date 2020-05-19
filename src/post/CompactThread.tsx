@@ -164,4 +164,7 @@ export interface CompactThreadProps {
   size?: CardSizes;
   onNewContribution: () => void;
   onNewComment: () => void;
+  newPost?: boolean;
+  newComments?: number;
+  newContributions?: number;
 }

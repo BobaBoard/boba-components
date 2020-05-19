@@ -9,8 +9,6 @@ import Theme from "../theme/default";
 import Button from "../common/Button";
 import { faPortrait, faImage } from "@fortawesome/free-solid-svg-icons";
 
-const COLLAPSED_HEIGHT = 250;
-
 const PostEditor: React.FC<PostEditorProps> = (props) => {
   const [size, setNewSize] = React.useState(
     props.defaultSize || CardSizes.REGULAR

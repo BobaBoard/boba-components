@@ -91,7 +91,6 @@ export interface ButtonProps {
   tooltip?: string | JSX.Element;
   icon?: IconDefinition;
   compact?: boolean;
-  tooltip?: string;
   onClick?: () => void;
   disabled?: boolean;
   primary?: boolean;

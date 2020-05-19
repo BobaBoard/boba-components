@@ -1,23 +1,26 @@
 {
-  "name": "bobaboard-ui",
-  "version": "1.0.0",
+  "name": "@bobaboard/ui-components",
+  "version": "0.0.1",
   "description": "BobaBoard's UI components",
   "main": "dist/main.js",
+  "types": "dist/index.d.ts",
   "type": "module",
   "scripts": {
-    "build": "./node_modules/.bin/webpack --mode production",
+    "build": "rm -rf dist && tsc -p tsconfig.export.json --emitDeclarationOnly && webpack --mode production",
+    "build:dev": "rm -rf dist && tsc -p tsconfig.export.json --emitDeclarationOnly && webpack --mode development",
+    "build:force-dev": "rm -rf dist && webpack --mode development",
     "test": "echo \"Error: no test specified\" && exit 1",
     "storybook": "start-storybook -p 6006",
     "build-storybook": "build-storybook",
-    "visual-testing": "./node_modules/.bin/backstop test",
-    "approve-visuals": "./node_modules/.bin/backstop approve"
+    "visual-testing": "backstop test",
+    "approve-visuals": "backstop approve"
   },
   "repository": {
     "type": "git",
     "url": "git+https://github.com/essential-randomness/bobaboard-ui.git"
   },
-  "author": "",
-  "license": "ISC",
+  "author": "Essential Randomness",
+  "license": "GPL-3.0-or-later",
   "bugs": {
     "url": "https://github.com/essential-randomness/bobaboard-ui/issues"
   },
@@ -30,7 +33,6 @@
     "@fortawesome/react-fontawesome": "^0.1.9",
     "@rehooks/component-size": "^1.0.3",
     "@trendmicro/react-buttons": "^1.3.1",
-    "@types/react-modal": "^3.10.5",
     "fitty": "^2.3.0",
     "normalize.css": "^8.0.1",
     "pluralize": "^8.0.0",
@@ -45,6 +47,8 @@
   "devDependencies": {
     "@babel/cli": "^7.8.4",
     "@babel/core": "^7.9.6",
+    "@babel/preset-env": "^7.9.6",
+    "@babel/preset-react": "^7.9.4",
     "@babel/preset-typescript": "^7.9.0",
     "@storybook/addon-actions": "^5.3.18",
     "@storybook/addon-info": "^5.3.18",
@@ -58,6 +62,7 @@
     "@types/pluralize": "^0.0.29",
     "@types/react": "^16.9.34",
     "@types/react-dom": "^16.9.7",
+    "@types/react-modal": "^3.10.5",
     "@types/styled-jsx": "^2.2.8",
     "babel-loader": "^8.1.0",
     "babel-preset-react-app": "^9.1.2",
@@ -65,6 +70,7 @@
     "cross-env": "^7.0.2",
     "file-loader": "^6.0.0",
     "jest": "^25.5.4",
+    "mini-css-extract-plugin": "^0.9.0",
     "react-docgen-typescript-loader": "^3.7.2",
     "ts-jest": "^25.4.0",
     "typescript": "^3.8.3",

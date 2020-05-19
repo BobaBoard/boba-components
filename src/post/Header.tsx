@@ -20,6 +20,7 @@ const Metadata: React.FC<PostHeaderProps> = (props) => {
   const [popoverOpen, setPopoverOpen] = React.useState(false);
   let ref = React.useRef<HTMLDivElement>(null);
   let nicknameRef = React.useRef(null);
+  // @ts-ignore
   let { width, height } = useComponentSize(ref);
   React.useEffect(() => {
     if (!nicknameRef.current) {
@@ -125,6 +126,7 @@ const Metadata: React.FC<PostHeaderProps> = (props) => {
 const PostHeader: React.FC<PostHeaderProps> = (props) => {
   const [tagsOnNewLine, setTagsOnNewLine] = React.useState(false);
   let ref = React.useRef<HTMLDivElement>(null);
+  // @ts-ignore
   let { width, height } = useComponentSize(ref);
   React.useEffect(() => {
     setTagsOnNewLine(width < 300);

@@ -30,3 +30,5 @@ const Modal: React.FC<LibraryModal.Props> = (props) => {
     </div>
   );
 };
+
+export default Modal;
