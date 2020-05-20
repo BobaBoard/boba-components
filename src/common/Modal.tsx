@@ -1,5 +1,6 @@
 import React from "react";
 import LibraryModal from "react-modal";
+import Theme from "../theme/default";
 
 const customStyles = {
   content: {
@@ -9,6 +10,9 @@ const customStyles = {
     bottom: "auto",
     marginRight: "-50%",
     transform: "translate(-50%, -50%)",
+  },
+  overlay: {
+    backgroundColor: Theme.MODAL_BACKGROUND_COLOR,
   },
 };
 

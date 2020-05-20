@@ -11,6 +11,7 @@ const DefaultTheme: ThemeProperties = {
   NEW_COMMENT_COLOR: "#f96680",
   BORDER_RADIUS_REGULAR: "25px",
   DEFAULT_ACCENT_COLOR: "#ff5252",
+  MODAL_BACKGROUND_COLOR: "rgba(0, 0, 0, 0.5)",
 };
 
 export default DefaultTheme;
@@ -28,4 +29,5 @@ export interface ThemeProperties {
   LAYOUT_BOARD_SIDEBAR_BACKGROUND_COLOR: string;
   BORDER_RADIUS_REGULAR: string;
   DEFAULT_ACCENT_COLOR: string;
+  MODAL_BACKGROUND_COLOR: string;
 }

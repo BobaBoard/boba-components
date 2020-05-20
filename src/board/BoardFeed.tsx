@@ -157,12 +157,11 @@ const BoardFeed: React.FC<BoardFeedProps> = ({
 
           .backdrop {
             position: fixed;
-            background-color: black;
+            background-color: ${Theme.MODAL_BACKGROUND_COLOR};
             top: 0;
             bottom: 0;
             left: 0;
             right: 0;
-            opacity: 0.5;
             z-index: 3;
             display: none;
           }

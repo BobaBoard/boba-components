@@ -92,7 +92,7 @@ const Layout: React.FC<LayoutProps> = ({
         }
         .backdrop {
           position: absolute;
-          background-color: black;
+          background-color: ${Theme.MODAL_BACKGROUND_COLOR};
           top: 0;
           bottom: 0;
           left: 0;
