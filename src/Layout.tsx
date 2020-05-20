@@ -5,6 +5,7 @@ import UserBar from "../src/UserBar";
 import classnames from "classnames";
 import HighlightedText from "./common/HighlightedText";
 import Theme from "./theme/default";
+import "@bobaboard/boba-editor/dist/main.css";
 
 import "normalize.css";
 import "simplebar/dist/simplebar.min.css";

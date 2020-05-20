@@ -5,7 +5,7 @@ import BoardsGroup from "./board/BoardsGroup";
 import SearchBar from "../src/common/SearchBar";
 
 import classnames from "classnames";
-import SimpleBar from "simplebar-react";
+import Scrollbar from "./common/Scrollbar";
 import "simplebar/dist/simplebar.min.css";
 
 import anime from "../stories/images/anime.png";
@@ -20,7 +20,7 @@ import art from "../stories/images/art-crit.png";
 const SideMenu: React.FC<SideMenuProps> = ({ board }) => {
   const [searchVisible, setSearchVisible] = React.useState(false);
   return (
-    <SimpleBar style={{ maxHeight: "100vh" }}>
+    <Scrollbar>
       <div className="side-menu">
         <BoardsGroup title="Pinned Boards">
           <BoardPreview
@@ -186,7 +186,7 @@ const SideMenu: React.FC<SideMenuProps> = ({ board }) => {
           `}
         </style>
       </div>
-    </SimpleBar>
+    </Scrollbar>
   );
 };
 

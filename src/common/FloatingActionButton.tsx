@@ -1,6 +1,5 @@
 import React from "react";
 //@ts-ignore
-import { Container, Button, Link } from "react-floating-action-button";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { IconDefinition } from "@fortawesome/free-solid-svg-icons";
 
@@ -16,6 +15,11 @@ export interface FloatingActionButtonProps {
 }
 
 const FloatingActionButton: React.FC<FloatingActionButtonProps> = (props) => {
+  if (typeof window === "undefined") {
+    return <div />;
+  }
+  const Container = require("react-floating-action-button").Container;
+  const Button = require("react-floating-action-button").Button;
   return (
     <Container styles={{ bottom: "4vh", right: "3vw" }}>
       {props.actions.map((action) => {

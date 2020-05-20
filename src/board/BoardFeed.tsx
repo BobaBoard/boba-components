@@ -3,7 +3,7 @@ import React from "react";
 import Post from "../post/Post";
 import classnames from "classnames";
 import BoardSidebar from "./BoardSidebar";
-import SimpleBar from "simplebar-react";
+import Scrollbar from "../common/Scrollbar";
 import PostingActionButtion from "./PostingActionButton";
 
 import Theme from "../theme/default";
@@ -59,10 +59,10 @@ const BoardFeed: React.FC<BoardFeedProps> = ({
   boardInfo,
   accentColor,
 }) => {
-  const scrollableNodeRef = React.createRef<SimpleBar>();
+  const scrollableNodeRef = React.createRef<any>();
   return (
     <>
-      <SimpleBar style={{ maxHeight: "100%" }}>
+      <Scrollbar>
         <div className="content">
           <div
             className={classnames("backdrop", {
@@ -81,7 +81,7 @@ const BoardFeed: React.FC<BoardFeedProps> = ({
             }}
           >
             {showSidebar ? (
-              <SimpleBar style={{ maxHeight: "100%" }} ref={scrollableNodeRef}>
+              <Scrollbar ref={scrollableNodeRef}>
                 <div
                   onWheel={(e) => {
                     maybePreventScrollOverflow(
@@ -93,7 +93,7 @@ const BoardFeed: React.FC<BoardFeedProps> = ({
                 >
                   <BoardSidebar board={boardInfo} />
                 </div>
-              </SimpleBar>
+              </Scrollbar>
             ) : (
               <BoardSidebar board={boardInfo} />
             )}
@@ -121,7 +121,7 @@ const BoardFeed: React.FC<BoardFeedProps> = ({
             <PostingActionButtion accentColor={accentColor} />
           </div>
         </div>
-      </SimpleBar>
+      </Scrollbar>
       <style jsx>
         {`
           .post {
