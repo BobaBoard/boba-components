@@ -49,7 +49,7 @@ const Post: React.FC<PostProps> = (props) => {
               />
             </div>
           }
-          size={props.size}
+          size={props.wide ? CardSizes.WIDE : CardSizes.REGULAR}
         >
           <Editor
             initialText={JSON.parse(props.text)}
@@ -95,7 +95,7 @@ export interface PostProps {
     avatar: string;
     name: string;
   };
-  size?: CardSizes;
+  wide?: boolean;
   newPost?: boolean;
   newComments?: number;
   newContributions?: number;
