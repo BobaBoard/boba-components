@@ -35,6 +35,19 @@ export interface BoardFeedProps {
     avatar: string;
     description: string;
     color: string;
+    boardWideTags: {
+      name: string;
+      color: string;
+    }[];
+    canonicalTags: {
+      name: string;
+      color: string;
+    }[];
+    contentRulesTags: {
+      allowed: boolean;
+      name: string;
+    }[];
+    otherRules: JSX.Element;
   };
   onCloseSidebar?: () => void;
   accentColor?: string;

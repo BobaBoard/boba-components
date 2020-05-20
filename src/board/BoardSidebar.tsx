@@ -18,52 +18,28 @@ const BoardSidebar: React.FC<BoardSidebarProps> = ({ board }) => {
         <div className="tag-clouds">
           <h2>Board-wide Tags</h2>
           <div className="tag-group">
-            <Tag name="gore" color="#f96680" />
-            <Tag name="guro" color="#e22b4b" />
-            <Tag name="nsfw" color="#27caba" />
-            <Tag name="dead dove" color="#f9e066" />
+            {board.boardWideTags.map((tag) => (
+              <Tag name={tag.name} color={tag.color} />
+            ))}
           </div>
           <h2>Canonical Board Tags</h2>
           <div className="tag-group">
-            <Tag name="request" color="#27caba" />
-            <Tag name="blood" color="#f96680" />
-            <Tag name="knifeplay" color="#93b3b0" />
-            <Tag name="aesthetic" color="#24d282" />
-            <Tag name="impalement" color="#27caba" />
-            <Tag name="skullfuck" color="#e22b4b" />
-            <Tag name="hanging" color="#f9e066" />
-            <Tag name="torture" color="#f96680" />
-            <Tag name="necrophilia" color="#93b3b0" />
-            <Tag name="shota" color="#e22b4b" />
-            <Tag name="fanfiction" color="#27caba" />
-            <Tag name="rec" color="#f9e066" />
-            <Tag name="doujinshi" color="#f96680" />
-            <Tag name="untagged" color="#93b3b0" />
+            {board.canonicalTags.map((tag) => (
+              <Tag name={tag.name} color={tag.color} />
+            ))}
           </div>
           <h2>Content Rules</h2>
           <div className="tag-group">
-            <Tag symbol="✓" name="shota" color="#66f98c" />
-            <Tag symbol="✓" name="nsfw" color="#66f98c" />
-            <Tag symbol="✓" name="noncon" color="#66f98c" />
-            <Tag symbol="✘" name="IRL" color="#ff0124" />
-            <Tag symbol="✘" name="RP" color="#ff0124" />
+            {board.contentRulesTags.map((tag) => (
+              <Tag
+                symbol={tag.allowed ? "✓" : "✘"}
+                name={tag.name}
+                color={tag.allowed ? "#66f98c" : "#ff0124"}
+              />
+            ))}
           </div>
           <h2>Other Rules</h2>
-          <div className="other">
-            <ul>
-              <li>
-                Shota <strong>must</strong> be tagged.
-              </li>
-              <li>
-                Requests go in the appropriate tag. If the same request has been
-                made less than a month ago, it will be deleted by the mods.
-              </li>
-              <li>
-                Mods might add any TWs tag as they see fit. If you need help,
-                add #untagged and a mod will take care of it.
-              </li>
-            </ul>
-          </div>
+          <div className="other">{board.otherRules}</div>
           <div></div>
           <div></div>
         </div>
@@ -94,10 +70,10 @@ const BoardSidebar: React.FC<BoardSidebarProps> = ({ board }) => {
         .board-preview {
           text-align: center;
         }
-        .other ul {
+        .other :global(ul) {
           padding-left: 30px;
         }
-        .other li {
+        .other :global(li) {
           color: white;
           font-size: 15px;
           margin-bottom: 10px;
@@ -115,5 +91,18 @@ export interface BoardSidebarProps {
     avatar: string;
     description: string;
     color: string;
+    boardWideTags: {
+      name: string;
+      color: string;
+    }[];
+    canonicalTags: {
+      name: string;
+      color: string;
+    }[];
+    contentRulesTags: {
+      allowed: boolean;
+      name: string;
+    }[];
+    otherRules: JSX.Element;
   };
 }
