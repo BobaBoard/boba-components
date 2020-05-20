@@ -153,6 +153,10 @@ export interface PostEditorProps {
   };
   loading?: boolean;
   defaultSize?: CardSizes;
+<<<<<<< HEAD
   onSubmit: (post: { text: string; large: boolean }) => void;
+=======
+  onSubmit: ({ text: string, large: boolean }) => void;
+>>>>>>> 0c765228242c08417c7aff3d07d38edd2740d399
   onCancel: () => void;
 }
