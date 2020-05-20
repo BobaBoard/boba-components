@@ -38,3 +38,20 @@ export const EditableInModal = () => (
 EditableInModal.story = {
   name: "editable with modal",
 };
+
+export const Loading = () => (
+  <PostEditor
+    initialText={
+      '[{"insert":"Open RP"},{"attributes":{"header":1},"insert":"\\n"},{"insert":{"block-image":"https://cdn.discordapp.com/attachments/443967088118333442/691486081895628830/unknown.png"}}, {"attributes":{"italic":true},"insert":"You have my sword..."}]'
+    }
+    secretIdentity={{ name: "Tuxedo Mask", avatar: `/${tuxedoAvatar}` }}
+    userIdentity={{ name: "SexyDaddy69", avatar: `/${mamoruAvatar}` }}
+    onSubmit={(text) => console.log(text)}
+    onCancel={() => console.log("click!")}
+    loading
+  />
+);
+
+Loading.story = {
+  name: "loading state",
+};

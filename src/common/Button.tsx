@@ -20,6 +20,7 @@ const Button: React.FC<ButtonProps> = ({
   compact,
   color,
   theme,
+  disabled,
   tooltip,
 }) => {
   const [tooltipOpen, setTooltipOpen] = React.useState(false);
@@ -33,7 +34,7 @@ const Button: React.FC<ButtonProps> = ({
           onMouseEnter={() => tooltip && setTooltipOpen(true)}
           onMouseLeave={() => setTooltipOpen(false)}
         >
-          <LibraryButton btnStyle="flat" onClick={onClick}>
+          <LibraryButton btnStyle="flat" onClick={onClick} disabled={disabled}>
             {icon && (
               <div className="icon">
                 <FontAwesomeIcon icon={icon} />

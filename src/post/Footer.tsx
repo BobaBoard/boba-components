@@ -20,6 +20,7 @@ const EditFooter: React.FC<FooterProps> = ({
   onCancel,
   onSubmit,
   submittable,
+  cancellable,
 }) => {
   return (
     <>
@@ -28,8 +29,10 @@ const EditFooter: React.FC<FooterProps> = ({
           compact,
         })}
       >
-        <Button onClick={onCancel}>Cancel</Button>
-        <Button onClick={onSubmit} primary disabled={!submittable}>
+        <Button onClick={onCancel} disabled={cancellable === false}>
+          Cancel
+        </Button>
+        <Button onClick={onSubmit} primary disabled={submittable === false}>
           Post
         </Button>
       </div>
@@ -59,7 +62,6 @@ const DisplayFooter: React.FC<FooterProps> = ({
   compact,
   onContribution,
   onComment,
-  answerable,
 }) => {
   return (
     <div className="footer">
@@ -92,15 +94,11 @@ const DisplayFooter: React.FC<FooterProps> = ({
           compact,
         })}
       >
-        <Button
-          onClick={onContribution}
-          icon={faPlusSquare}
-          disabled={!answerable}
-        >
+        <Button onClick={onContribution} icon={faPlusSquare}>
           Contribute
         </Button>
 
-        <Button onClick={onComment} icon={faComment} disabled={!answerable}>
+        <Button onClick={onComment} icon={faComment}>
           Comment
         </Button>
       </div>
@@ -174,5 +172,5 @@ interface FooterProps {
   compact?: boolean;
   editable?: boolean;
   submittable?: boolean;
-  answerable?: boolean;
+  cancellable?: boolean;
 }

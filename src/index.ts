@@ -1,5 +1,6 @@
 import "resize-observer-polyfill";
 import "@fortawesome/fontawesome-svg-core/styles.css";
+import "react-loader-spinner/dist/loader/css/react-spinner-loader.css";
 
 import BoardFeed from "./board/BoardFeed";
 import SideMenu from "./SideMenu";
