@@ -66,13 +66,16 @@ const PostEditor: React.FC<PostEditorProps> = (props) => {
         </Card>
       </div>
       <style jsx>{`
+        .post-container {
+          width: 100%;
+        }
+        .post-container > :global(div) {
+          margin: 0 auto;
+        }
         .header {
           border-radius: 15px 15px 0px 0px;
           background-color: ${Theme.POST_BACKGROUND_COLOR};
           padding: 10px;
-        }
-        .post-container {
-          margin-bottom: 50px;
         }
         .footer {
           border-radius: 0px 0px 15px 15px;

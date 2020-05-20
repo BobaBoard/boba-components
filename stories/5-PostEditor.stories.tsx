@@ -1,6 +1,7 @@
 import React from "react";
 //import { linkTo } from "@storybook/addon-links";
 import PostEditor from "../src/post/PostEditor";
+import Modal from "../src/common/Modal";
 
 import tuxedoAvatar from "./images/tuxedo-mask.jpg";
 import mamoruAvatar from "./images/mamoru.png";
@@ -21,4 +22,19 @@ export const EditableWithFooter = () => (
 
 EditableWithFooter.story = {
   name: "editable",
+};
+
+export const EditableInModal = () => (
+  <Modal isOpen={true}>
+    <PostEditor
+      secretIdentity={{ name: "Tuxedo Mask", avatar: `/${tuxedoAvatar}` }}
+      userIdentity={{ name: "SexyDaddy69", avatar: `/${mamoruAvatar}` }}
+      onSubmit={(text) => console.log(text)}
+      onCancel={() => console.log("click!")}
+    />
+  </Modal>
+);
+
+EditableInModal.story = {
+  name: "editable with modal",
 };

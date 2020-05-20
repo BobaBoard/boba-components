@@ -10,6 +10,9 @@ const customStyles = {
     bottom: "auto",
     marginRight: "-50%",
     transform: "translate(-50%, -50%)",
+    backgroundColor: "transparent",
+    border: "none",
+    width: "100%",
   },
   overlay: {
     backgroundColor: Theme.MODAL_BACKGROUND_COLOR,
