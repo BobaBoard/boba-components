@@ -19,6 +19,7 @@ const Layout: React.FC<LayoutProps> = ({
   headerAccent,
   title,
   onTitleClick,
+  actionButton,
 }) => {
   const [showSideMenu, setShowSideMenu] = React.useState(false);
   return (
@@ -66,7 +67,10 @@ const Layout: React.FC<LayoutProps> = ({
           </div>
           <UserBar color={headerAccent} />
         </div>
-        <div className="content">{mainContent}</div>
+        <div className="content">
+          {mainContent}
+          {actionButton}
+        </div>
       </div>
       <style jsx>{`
         .layout {
@@ -228,6 +232,7 @@ export interface LayoutProps {
   sideMenuContent: JSX.Element;
   headerAccent?: string;
   title?: string;
+  actionButton?: JSX.Element;
   onTitleClick?: () => void;
 }
 

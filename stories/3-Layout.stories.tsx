@@ -2,6 +2,7 @@ import React from "react";
 import Layout from "../src/Layout";
 import SideMenu from "../src/SideMenu";
 import BoardFeed from "../src/board/BoardFeed";
+import PostingActionButton from "../src/board/PostingActionButton";
 import BoardSidebar from "../src/board/BoardSidebar";
 
 import oncelerAvatar from "./images/oncie.jpg";
@@ -243,6 +244,12 @@ export const Attempt1 = () => {
               description: "Love me some bruised bois (and more).",
               color: "#f96680",
             }}
+          />
+        }
+        actionButton={
+          <PostingActionButton
+            accentColor="#f96680"
+            onNewPost={() => console.log("hi!")}
           />
         }
         headerAccent="#f96680"

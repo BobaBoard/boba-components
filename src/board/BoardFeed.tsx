@@ -4,7 +4,6 @@ import Post from "../post/Post";
 import classnames from "classnames";
 import BoardSidebar from "./BoardSidebar";
 import Scrollbar from "../common/Scrollbar";
-import PostingActionButtion from "./PostingActionButton";
 
 import Theme from "../theme/default";
 
@@ -131,7 +130,6 @@ const BoardFeed: React.FC<BoardFeedProps> = ({
                 />
               </div>
             ))}
-            <PostingActionButtion accentColor={accentColor} />
           </div>
         </div>
       </Scrollbar>

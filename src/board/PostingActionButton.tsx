@@ -4,6 +4,7 @@ import { faPlusSquare } from "@fortawesome/free-solid-svg-icons";
 
 export interface PostingActionButtonProps {
   accentColor?: string;
+  onNewPost: () => void;
 }
 
 const PostingActionButtion: React.FC<PostingActionButtonProps> = (props) => {
@@ -14,9 +15,7 @@ const PostingActionButtion: React.FC<PostingActionButtonProps> = (props) => {
         {
           icon: faPlusSquare,
           tooltip: "New Post",
-          action: () => {
-            console.log("bobop!");
-          },
+          action: props.onNewPost,
         },
       ]}
     />

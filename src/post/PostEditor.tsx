@@ -47,6 +47,7 @@ const PostEditor: React.FC<PostEditorProps> = (props) => {
               <Footer
                 mode={footerModes.CREATE}
                 onSubmit={() => props.onSubmit(newText)}
+                onCancel={props.onCancel}
               />
             </div>
           }
