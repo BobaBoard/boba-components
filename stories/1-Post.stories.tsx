@@ -3,7 +3,7 @@ import React from "react";
 import Card, { CardSizes } from "../src/common/Card";
 import Header, { HeaderStyle } from "../src/post/Header";
 import Footer, { modes as footerModes } from "../src/post/Footer";
-import Post, { modes as postModes } from "../src/post/Post";
+import Post from "../src/post/Post";
 import Editor from "@bobaboard/boba-editor";
 
 import oncelerAvatar from "./images/oncie.jpg";
