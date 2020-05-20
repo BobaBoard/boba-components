@@ -7,8 +7,6 @@ import tuxedoAvatar from "./images/tuxedo-mask.jpg";
 import mamoruAvatar from "./images/mamoru.png";
 import hannibalAvatar from "./images/hannibal.png";
 
-import goreBackground from "./images/gore.png";
-
 export default {
   title: "Thread Preview",
   component: CompactThread,

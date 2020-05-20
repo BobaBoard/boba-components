@@ -3,7 +3,6 @@ import Layout from "../src/Layout";
 import SideMenu from "../src/SideMenu";
 import BoardFeed from "../src/board/BoardFeed";
 import BoardSidebar from "../src/board/BoardSidebar";
-import { CardSizes } from "../src/common/Card";
 
 import oncelerAvatar from "./images/oncie.jpg";
 import greedlerAvatar from "./images/greedler.jpg";
@@ -115,7 +114,7 @@ export const Attempt1 = () => {
                   avatar: `/${mamoruAvatar}`,
                 },
                 options: {
-                  size: CardSizes.WIDE,
+                  wide: true,
                 },
                 newComments: 5,
               },

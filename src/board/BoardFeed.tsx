@@ -23,7 +23,7 @@ export interface BoardFeedProps {
       avatar: string;
     };
     options?: {
-      size?: CardSizes;
+      wide?: boolean;
     };
     newPost?: boolean;
     newComments?: number;
@@ -110,7 +110,7 @@ const BoardFeed: React.FC<BoardFeedProps> = ({
                   onCancel={() => console.log("click!")}
                   onNewContribution={() => console.log("click!")}
                   onNewComment={() => console.log("click!")}
-                  size={post.options?.size}
+                  size={post.options?.wide ? CardSizes.WIDE : CardSizes.REGULAR}
                   newPost={post.newPost}
                   newComments={post.newComments}
                   newContributions={post.newContributions}
