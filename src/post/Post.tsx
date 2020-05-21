@@ -3,7 +3,7 @@ import React from "react";
 import UpdatesHeader from "./UpdatesHeader";
 import Header, { HeaderStyle } from "./Header";
 import Footer, { modes as footerModes } from "./Footer";
-import Card, { CardSizes } from "../common/Card";
+import Card from "../common/Card";
 import Editor from "@bobaboard/boba-editor";
 
 import Theme from "../theme/default";
@@ -11,6 +11,21 @@ import Theme from "../theme/default";
 export const modes = {
   VIEW: "VIEW",
   CREATE: "CREATE",
+};
+
+export enum PostSizes {
+  REGULAR,
+  WIDE,
+}
+
+export const getPostWidth = (size?: PostSizes) => {
+  switch (size) {
+    case PostSizes.WIDE:
+      return 850;
+    case PostSizes.REGULAR:
+    default:
+      return 550;
+  }
 };
 
 const COLLAPSED_HEIGHT = 250;
@@ -49,14 +64,13 @@ const Post: React.FC<PostProps> = (props) => {
               />
             </div>
           }
-          size={props.size}
         >
           <Editor
             initialText={JSON.parse(props.text)}
             editable={props.mode == modes.CREATE}
             focus={props.focus || false}
             onSubmit={() => props.onSubmit(newText)}
-            onTextChange={(text) => setNewText(JSON.stringify(text.ops))}
+            onTextChange={(text: any) => setNewText(JSON.stringify(text.ops))}
           />
         </Card>
       </div>
@@ -68,6 +82,7 @@ const Post: React.FC<PostProps> = (props) => {
         }
         .post-container {
           margin-bottom: 50px;
+          max-width: ${getPostWidth(props.size)}px;
         }
         .footer {
           border-radius: 0px 0px 15px 15px;
@@ -95,7 +110,7 @@ export interface PostProps {
     avatar: string;
     name: string;
   };
-  size?: CardSizes;
+  size?: PostSizes;
   newPost?: boolean;
   newComments?: number;
   newContributions?: number;

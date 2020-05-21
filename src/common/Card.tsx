@@ -7,35 +7,13 @@ import {
 } from "@fortawesome/free-solid-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 
-export enum CardSizes {
-  REGULAR,
-  WIDE,
-}
-
 export interface CardProps {
   footer?: JSX.Element;
   header?: JSX.Element;
-  size?: CardSizes;
   height?: number;
 }
 
-const getMaxWidth = (size?: CardSizes) => {
-  switch (size) {
-    case CardSizes.WIDE:
-      return 850;
-    case CardSizes.REGULAR:
-    default:
-      return 550;
-  }
-};
-
-const Card: React.FC<CardProps> = ({
-  children,
-  footer,
-  header,
-  size,
-  height,
-}) => {
+const Card: React.FC<CardProps> = ({ children, footer, header, height }) => {
   const [isExpanded, setExpanded] = React.useState(false);
   return (
     <>
@@ -91,7 +69,7 @@ const Card: React.FC<CardProps> = ({
           padding: 15px 10px;
           border-radius: 15px;
           background-color: white;
-          max-width: ${getMaxWidth(size)}px;
+          width: 100%;
         }
         .card.with-header {
           padding-top: 0px;

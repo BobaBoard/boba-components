@@ -26,7 +26,6 @@ const FloatingActionButton: React.FC<FloatingActionButtonProps> = (props) => {
         return (
           <Button
             tooltip={action.tooltip}
-            rotate={true}
             onClick={action.action}
             styles={{
               backgroundColor: props.accentColor || Theme.DEFAULT_ACCENT_COLOR,

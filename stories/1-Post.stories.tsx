@@ -1,6 +1,6 @@
 import React from "react";
 //import { linkTo } from "@storybook/addon-links";
-import Card, { CardSizes } from "../src/common/Card";
+import Card from "../src/common/Card";
 import Header, { HeaderStyle } from "../src/post/Header";
 import Footer, { modes as footerModes } from "../src/post/Footer";
 import Post from "../src/post/Post";
@@ -17,68 +17,126 @@ export default {
 };
 
 export const CardSimple = () => (
-  <div>
-    <Card>
-      <Editor
-        editable={false}
-        initialText={JSON.parse(
-          '[{"insert":"Open RP"},{"attributes":{"header":1},"insert":"\\n"},{"insert":{"block-image":"https://cdn.discordapp.com/attachments/443967088118333442/691486081895628830/unknown.png"}}, {"attributes":{"italic":true},"insert":"You have my sword..."}]'
-        )}
-        onTextChange={() => {
-          console.log("changed!");
-        }}
-        focus={true}
-        onIsEmptyChange={() => {
-          console.log("empty!");
-        }}
-        onSubmit={() => {
-          // This is for cmd + enter pressed while in the editor
-          console.log("submit!");
-        }}
-      />
-    </Card>
-    <Card size={CardSizes.WIDE}>
-      <Editor
-        editable={false}
-        initialText={JSON.parse(
-          '[{"insert":"Open RP"},{"attributes":{"header":1},"insert":"\\n"},{"insert":{"block-image":"https://cdn.discordapp.com/attachments/443967088118333442/691486081895628830/unknown.png"}}, {"attributes":{"italic":true},"insert":"You have my sword..."}]'
-        )}
-        onTextChange={() => {
-          console.log("changed!");
-        }}
-        focus={true}
-        onIsEmptyChange={() => {
-          console.log("empty!");
-        }}
-        onSubmit={() => {
-          // This is for cmd + enter pressed while in the editor
-          console.log("submit!");
-        }}
-      />
-    </Card>
-    <Card height={300}>
-      <Editor
-        editable={false}
-        initialText={JSON.parse(
-          '[{"insert":"Open RP"},{"attributes":{"header":1},"insert":"\\n"},{"insert":{"block-image":"https://cdn.discordapp.com/attachments/443967088118333442/691486081895628830/unknown.png"}}, {"attributes":{"italic":true},"insert":"You have my sword..."}]'
-        )}
-        onTextChange={() => {
-          console.log("changed!");
-        }}
-        focus={true}
-        onIsEmptyChange={() => {
-          console.log("empty!");
-        }}
-        onSubmit={() => {
-          // This is for cmd + enter pressed while in the editor
-          console.log("submit!");
-        }}
-      />
-    </Card>
+  <div className="test-centering">
+    <div className="container">
+      <Card>
+        <Editor
+          editable={false}
+          initialText={JSON.parse(
+            '[{"insert":"Open RP"},{"attributes":{"header":1},"insert":"\\n"},{"insert":{"block-image":"https://cdn.discordapp.com/attachments/443967088118333442/691486081895628830/unknown.png"}}, {"attributes":{"italic":true},"insert":"You have my sword..."}]'
+          )}
+          onTextChange={() => {
+            console.log("changed!");
+          }}
+          focus={true}
+          onIsEmptyChange={() => {
+            console.log("empty!");
+          }}
+          onSubmit={() => {
+            // This is for cmd + enter pressed while in the editor
+            console.log("submit!");
+          }}
+        />
+      </Card>
+    </div>
+    <div className="container large">
+      <Card>
+        <Editor
+          editable={false}
+          initialText={JSON.parse(
+            '[{"insert":"Open RP"},{"attributes":{"header":1},"insert":"\\n"},{"insert":{"block-image":"https://cdn.discordapp.com/attachments/443967088118333442/691486081895628830/unknown.png"}}, {"attributes":{"italic":true},"insert":"You have my sword..."}]'
+          )}
+          onTextChange={() => {
+            console.log("changed!");
+          }}
+          focus={true}
+          onIsEmptyChange={() => {
+            console.log("empty!");
+          }}
+          onSubmit={() => {
+            // This is for cmd + enter pressed while in the editor
+            console.log("submit!");
+          }}
+        />
+      </Card>
+    </div>
+    <div className="container">
+      <Card>
+        <Editor
+          editable={false}
+          initialText={JSON.parse(
+            '[{"insert":"This card has little content."}]'
+          )}
+          onTextChange={() => {
+            console.log("changed!");
+          }}
+          focus={true}
+          onIsEmptyChange={() => {
+            console.log("empty!");
+          }}
+          onSubmit={() => {
+            // This is for cmd + enter pressed while in the editor
+            console.log("submit!");
+          }}
+        />
+      </Card>
+    </div>
+    <div className="container">
+      <Card>
+        <Editor
+          editable={false}
+          initialText={JSON.parse(
+            '[{"insert":"This card has a really long word: JugemuJugemuGokonoSurikireKaijarisuigyonoSuigyomatsuUnraimatsuFuraimatsuKuNeruTokoroniSumuTokoroYaburaKojinoBuraKojiPaipopaipoPaiponoShuringanShuringannoGurindaiGurindainoPonpokopinoPonpokonanoChokyumeinoChosuke."}]'
+          )}
+          onTextChange={() => {
+            console.log("changed!");
+          }}
+          focus={true}
+          onIsEmptyChange={() => {
+            console.log("empty!");
+          }}
+          onSubmit={() => {
+            // This is for cmd + enter pressed while in the editor
+            console.log("submit!");
+          }}
+        />
+      </Card>
+    </div>
+    <div className="container">
+      <Card height={300}>
+        <Editor
+          editable={false}
+          initialText={JSON.parse(
+            '[{"insert":"Open RP"},{"attributes":{"header":1},"insert":"\\n"},{"insert":{"block-image":"https://cdn.discordapp.com/attachments/443967088118333442/691486081895628830/unknown.png"}}, {"attributes":{"italic":true},"insert":"You have my sword..."}]'
+          )}
+          onTextChange={() => {
+            console.log("changed!");
+          }}
+          focus={true}
+          onIsEmptyChange={() => {
+            console.log("empty!");
+          }}
+          onSubmit={() => {
+            // This is for cmd + enter pressed while in the editor
+            console.log("submit!");
+          }}
+        />
+      </Card>
+    </div>
     <style jsx>
       {`
-        div > :global(div) {
+        .test-centering {
+          display: flex;
+          flex-direction: column;
+          align-items: center;
+        }
+        .container {
+          max-width: 450px;
           margin-bottom: 10px;
+          width: 100%;
+        }
+        .container.large {
+          max-width: 800px;
         }
       `}
     </style>

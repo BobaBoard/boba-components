@@ -1,13 +1,11 @@
 import React from "react";
 
-import Post from "../post/Post";
+import Post, { PostSizes } from "../post/Post";
 import classnames from "classnames";
 import BoardSidebar from "./BoardSidebar";
 import Scrollbar from "../common/Scrollbar";
 
 import Theme from "../theme/default";
-
-import { CardSizes } from "../common/Card";
 
 export interface BoardFeedProps {
   posts: {
@@ -111,9 +109,10 @@ const BoardFeed: React.FC<BoardFeedProps> = ({
             )}
           </div>
           <div className="main">
-            {posts.map((post) => (
+            {posts.map((post, i) => (
               <div className="post">
                 <Post
+                  key={post.text}
                   createdTime={post.createdTime}
                   text={post.text}
                   secretIdentity={post.secretIdentity}
@@ -122,7 +121,7 @@ const BoardFeed: React.FC<BoardFeedProps> = ({
                   onCancel={() => console.log("click!")}
                   onNewContribution={() => console.log("click!")}
                   onNewComment={() => console.log("click!")}
-                  size={post.options?.wide ? CardSizes.WIDE : CardSizes.REGULAR}
+                  size={post.options?.wide ? PostSizes.WIDE : PostSizes.REGULAR}
                   newPost={post.newPost}
                   newComments={post.newComments}
                   newContributions={post.newContributions}
@@ -138,7 +137,10 @@ const BoardFeed: React.FC<BoardFeedProps> = ({
           .post {
             margin: 0 auto;
             margin-top: 25px;
-            max-width: 100%;
+            width: 100%;
+          }
+          .post > :global(div) {
+            margin: 0 auto;
           }
           .content {
             width: 100vw;

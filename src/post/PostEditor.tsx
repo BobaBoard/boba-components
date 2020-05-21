@@ -2,7 +2,8 @@ import React from "react";
 
 import Header, { HeaderStyle } from "./Header";
 import Footer, { modes as footerModes } from "./Footer";
-import Card, { CardSizes } from "../common/Card";
+import Card from "../common/Card";
+import { PostSizes } from "./Post";
 import Spinner from "../common/Spinner";
 import Editor from "@bobaboard/boba-editor";
 
@@ -13,7 +14,7 @@ import classnames from "classnames";
 
 const PostEditor: React.FC<PostEditorProps> = (props) => {
   const [size, setNewSize] = React.useState(
-    props.defaultSize || CardSizes.REGULAR
+    props.defaultSize || PostSizes.REGULAR
   );
   const [newText, setNewText] = React.useState(
     props.initialText ? props.initialText : ""
@@ -32,17 +33,17 @@ const PostEditor: React.FC<PostEditorProps> = (props) => {
                 size={HeaderStyle.REGULAR}
               >
                 <Button
-                  icon={size == CardSizes.REGULAR ? faImage : faPortrait}
+                  icon={size == PostSizes.REGULAR ? faImage : faPortrait}
                   onClick={() =>
                     setNewSize(
-                      size == CardSizes.REGULAR
-                        ? CardSizes.WIDE
-                        : CardSizes.REGULAR
+                      size == PostSizes.REGULAR
+                        ? PostSizes.WIDE
+                        : PostSizes.REGULAR
                     )
                   }
                   disabled={props.loading}
                 >
-                  {size == CardSizes.REGULAR ? "Enlarge" : "Shrink"}
+                  {size == PostSizes.REGULAR ? "Enlarge" : "Shrink"}
                 </Button>
               </Header>
             </div>
@@ -54,7 +55,7 @@ const PostEditor: React.FC<PostEditorProps> = (props) => {
                 onSubmit={() =>
                   props.onSubmit({
                     text: newText,
-                    large: size == CardSizes.WIDE,
+                    large: size == PostSizes.WIDE,
                   })
                 }
                 onCancel={props.onCancel}
@@ -63,7 +64,6 @@ const PostEditor: React.FC<PostEditorProps> = (props) => {
               />
             </div>
           }
-          size={size}
         >
           <div
             className={classnames("editor-container", {
@@ -75,6 +75,7 @@ const PostEditor: React.FC<PostEditorProps> = (props) => {
             </div>
             <div className="editor">
               <Editor
+                key="editor"
                 initialText={
                   props.initialText ? JSON.parse(props.initialText) : ""
                 }
@@ -83,13 +84,15 @@ const PostEditor: React.FC<PostEditorProps> = (props) => {
                 onSubmit={() =>
                   props.onSubmit({
                     text: newText,
-                    large: size == CardSizes.WIDE,
+                    large: size == PostSizes.WIDE,
                   })
                 }
-                onIsEmptyChange={(empty) => {
+                onIsEmptyChange={(empty: boolean) => {
                   setIsEmpty(empty);
                 }}
-                onTextChange={(text) => setNewText(JSON.stringify(text.ops))}
+                onTextChange={(text: any) =>
+                  setNewText(JSON.stringify(text.ops))
+                }
               />
             </div>
           </div>
@@ -152,7 +155,7 @@ export interface PostEditorProps {
     name: string;
   };
   loading?: boolean;
-  defaultSize?: CardSizes;
+  defaultSize?: PostSizes;
   onSubmit: (post: { text: string; large: boolean }) => void;
   onCancel: () => void;
 }

@@ -126,6 +126,15 @@ export const Attempt1 = () => {
           <BoardFeed
             posts={[
               {
+                createdTime: "1 minute ago",
+                text: '[{"insert":"A short post."}]',
+                secretIdentity: {
+                  name: "Good Guy",
+                  avatar: `/${oncelerAvatar}`,
+                },
+                newPost: true,
+              },
+              {
                 createdTime: "5 minutes ago",
                 text:
                   '[{"insert":"Nishin Masumi Reading Group (Week 2)"},{"attributes":{"header":1},"insert":"\\n"},{"insert":"\\nAs you know, we\'re going through \\"Host is Down\\" this week! \\n\\n"},{"attributes":{"alt":"Host is Down by Mado Fuchiya (Nishin)"},"insert":{"image":"https://i.gr-assets.com/images/S/compressed.photo.goodreads.com/books/1564868627l/50190748._SX1200_SY630_.jpg"}},{"insert":"\\n\\nThis is the official discussion thread. Feel free to comment, but remember to tag spoilers (or suffer the mods\' wrath).\\n"}]',
