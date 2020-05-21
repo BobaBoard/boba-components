@@ -3,7 +3,7 @@ import React from "react";
 import Header, { HeaderStyle } from "./Header";
 import Footer, { modes as footerModes } from "./Footer";
 import Card from "../common/Card";
-import { PostSizes } from "./Post";
+import { PostSizes, getPostWidth } from "./Post";
 import Spinner from "../common/Spinner";
 import Editor from "@bobaboard/boba-editor";
 
@@ -23,7 +23,9 @@ const PostEditor: React.FC<PostEditorProps> = (props) => {
 
   return (
     <>
-      <div className="post-container">
+      <div
+        className={classnames("post-container", { centered: props.centered })}
+      >
         <Card
           header={
             <div className="header">
@@ -101,8 +103,9 @@ const PostEditor: React.FC<PostEditorProps> = (props) => {
       <style jsx>{`
         .post-container {
           width: 100%;
+          max-width: ${getPostWidth(size)}px;
         }
-        .post-container > :global(div) {
+        .post-container.centered {
           margin: 0 auto;
         }
         .header {
@@ -158,4 +161,5 @@ export interface PostEditorProps {
   defaultSize?: PostSizes;
   onSubmit: (post: { text: string; large: boolean }) => void;
   onCancel: () => void;
+  centered?: boolean;
 }

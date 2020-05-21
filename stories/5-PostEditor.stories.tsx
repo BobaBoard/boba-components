@@ -18,6 +18,7 @@ export const EditableWithFooter = () => (
     userIdentity={{ name: "SexyDaddy69", avatar: `/${mamoruAvatar}` }}
     onSubmit={(text) => console.log(text)}
     onCancel={() => console.log("click!")}
+    centered
   />
 );
 
@@ -32,12 +33,32 @@ export const EditableInModal = () => (
       userIdentity={{ name: "SexyDaddy69", avatar: `/${mamoruAvatar}` }}
       onSubmit={(text) => console.log(text)}
       onCancel={() => console.log("click!")}
+      centered
     />
   </Modal>
 );
 
 EditableInModal.story = {
   name: "editable with modal",
+};
+
+export const LongEditableInModal = () => (
+  <Modal isOpen={true}>
+    <PostEditor
+      initialText={
+        '[{"insert":"Open RP"},{"attributes":{"header":1},"insert":"\\n"},{"insert":{"block-image":"https://cdn.discordapp.com/attachments/443967088118333442/691486081895628830/unknown.png"}}, {"attributes":{"italic":true},"insert":"You have my sword..."},{"insert":"Open RP"},{"attributes":{"header":1},"insert":"\\n"},{"insert":{"block-image":"https://cdn.discordapp.com/attachments/443967088118333442/691486081895628830/unknown.png"}}, {"attributes":{"italic":true},"insert":"You have my sword..."},{"insert":"Open RP"},{"attributes":{"header":1},"insert":"\\n"},{"insert":{"block-image":"https://cdn.discordapp.com/attachments/443967088118333442/691486081895628830/unknown.png"}}, {"attributes":{"italic":true},"insert":"You have my sword..."}]'
+      }
+      secretIdentity={{ name: "Tuxedo Mask", avatar: `/${tuxedoAvatar}` }}
+      userIdentity={{ name: "SexyDaddy69", avatar: `/${mamoruAvatar}` }}
+      onSubmit={(text) => console.log(text)}
+      onCancel={() => console.log("click!")}
+      centered
+    />
+  </Modal>
+);
+
+LongEditableInModal.story = {
+  name: "long editable with modal",
 };
 
 export const Loading = () => {
@@ -53,6 +74,7 @@ export const Loading = () => {
         onSubmit={(text) => console.log(text)}
         onCancel={() => console.log("click!")}
         loading={loading}
+        centered
       />
       <Button onClick={() => setLoading(!loading)}>Change Load State</Button>
     </div>

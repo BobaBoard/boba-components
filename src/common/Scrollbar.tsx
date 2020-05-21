@@ -4,12 +4,16 @@ import SimpleBar from "simplebar-react";
 export interface ScrollbarProps {
   children: JSX.Element;
   ref?: React.RefObject<any>;
+  height?: string;
 }
 
 const Scrollbar: React.ComponentType<ScrollbarProps> = React.forwardRef(
   (props, ref) => {
     return (
-      <SimpleBar style={{ maxHeight: "100%", width: "100%" }} ref={ref}>
+      <SimpleBar
+        style={{ maxHeight: props.height || "100%", width: "100%" }}
+        ref={ref}
+      >
         {props.children}
       </SimpleBar>
     ) as JSX.Element;

@@ -1,6 +1,7 @@
 import React from "react";
 import LibraryModal from "react-modal";
 import Theme from "../theme/default";
+import Scrollbar from "../common/Scrollbar";
 
 const customStyles = {
   content: {
@@ -32,7 +33,9 @@ const Modal: React.FC<LibraryModal.Props> = (props) => {
         onRequestClose={props.onRequestClose}
         style={customStyles}
       >
-        {props.children}
+        <Scrollbar height="95vh">
+          <div>{props.children}</div>
+        </Scrollbar>
       </LibraryModal>
     </div>
   );
