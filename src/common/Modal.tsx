@@ -17,6 +17,7 @@ const customStyles = {
   },
   overlay: {
     backgroundColor: Theme.MODAL_BACKGROUND_COLOR,
+    zIndex: 100,
   },
 };
 

@@ -3,7 +3,7 @@ import React from "react";
 import UpdatesHeader from "./UpdatesHeader";
 import Header, { HeaderStyle } from "./Header";
 import Footer, { modes as footerModes } from "./Footer";
-import Card, { CardSizes } from "../common/Card";
+import Card from "../common/Card";
 import Editor from "@bobaboard/boba-editor";
 import classnames from "classnames";
 import { useCompact } from "../utils";
@@ -133,7 +133,6 @@ const CompactThread: React.FC<CompactThreadProps> = (props) => {
               <Footer mode={footerModes.VIEW} />
             </div>
           }
-          size={props.size}
         >
           <ThreadContent posts={props.posts} />
         </Card>
@@ -161,7 +160,6 @@ export default CompactThread;
 
 export interface CompactThreadProps {
   posts: PostDetailsType[];
-  size?: CardSizes;
   onNewContribution: () => void;
   onNewComment: () => void;
   newPost?: boolean;
