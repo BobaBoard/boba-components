@@ -1,7 +1,9 @@
 import React from "react";
 import LibraryModal from "react-modal";
 import Theme from "../theme/default";
+// @ts-ignore
 import Scrollbar from "../common/Scrollbar";
+import Div100vh from "react-div-100vh";
 
 const customStyles = {
   content: {
@@ -34,10 +36,19 @@ const Modal: React.FC<LibraryModal.Props> = (props) => {
         onRequestClose={props.onRequestClose}
         style={customStyles}
       >
-        <Scrollbar height="95vh">
-          <div>{props.children}</div>
-        </Scrollbar>
+        <Div100vh>
+          <Scrollbar height="100%">
+            <div className="content">{props.children}</div>
+          </Scrollbar>
+        </Div100vh>
       </LibraryModal>
+
+      <style jsx>{`
+        .content {
+          margin-top: 3vh;
+          margin-bottom: 3vh;
+        }
+      `}</style>
     </div>
   );
 };
