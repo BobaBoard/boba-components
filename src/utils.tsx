@@ -55,7 +55,11 @@ export const useCompact = (
           position: absolute;
           height: 40px;
           width: 100%;
-          background: linear-gradient(transparent 10%, ${color} 30%, ${color});
+          background: linear-gradient(
+            rgba(255, 255, 255, 0.001) 10%,
+            ${color} 30%,
+            ${color}
+          );
           bottom: 0;
           cursor: pointer;
           text-align: center;

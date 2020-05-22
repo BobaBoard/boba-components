@@ -55,8 +55,13 @@ const Card: React.FC<CardProps> = ({ children, footer, header, height }) => {
         .expand-overlay {
           position: absolute;
           height: 40px;
-          width: 100%;
-          background: linear-gradient(transparent 10%, #ffffff 30%, #ffffff);
+          left: 0;
+          right: 0;
+          background: linear-gradient(
+            rgba(255, 255, 255, 0.001) 10%,
+            #ffffff 30%,
+            #ffffff
+          );
           bottom: 0;
           cursor: pointer;
           text-align: center;

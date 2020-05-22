@@ -62,6 +62,16 @@ const maybePreventScrollOverflow = (
   }
 };
 
+const preventEvent = (ref: HTMLDivElement) => {
+  return (e: TouchEvent) => {
+    let found = e.composedPath().filter((tgt) => tgt == ref);
+    if (found.length == 0) {
+      e.preventDefault();
+      e.stopImmediatePropagation();
+    }
+  };
+};
+
 const BoardFeed: React.FC<BoardFeedProps> = ({
   posts,
   showSidebar,
@@ -70,10 +80,54 @@ const BoardFeed: React.FC<BoardFeedProps> = ({
   accentColor,
 }) => {
   const scrollableNodeRef = React.createRef<any>();
+  const scrollableContentRef = React.createRef<any>();
+
+  /**
+   * This horrible, horrible section prevents scrolling of the background element
+   * on mobile (especially iOS). It works by creating a touch event handler that
+   * looks at whether the sidebar is part of the targets of the touch event, and
+   * prevents its side effect (scrolling) if it isn't. This way only scroll events
+   * that occurr on the sidebar itself will cause the scroll to actually happen,
+   * and those with no sidebar involvement will be instead cancelled.
+   *
+   * This is only applied while the sidebar is explicitly open.
+   */
+  const scrollableMenuRef = React.useCallback<any>((node: HTMLDivElement) => {
+    if (node) {
+      setTouchEventHandler(() => preventEvent(node));
+    }
+  }, []);
+  const [touchEventHandler, setTouchEventHandler] = React.useState<any>(null);
+
+  React.useEffect(() => {
+    if (showSidebar && touchEventHandler) {
+      scrollableContentRef.current.addEventListener(
+        "touchmove",
+        touchEventHandler,
+        {
+          capture: false,
+          passive: false,
+        }
+      );
+    } else if (touchEventHandler) {
+      scrollableContentRef.current.removeEventListener(
+        "touchmove",
+        touchEventHandler,
+        {
+          capture: false,
+          passive: false,
+        }
+      );
+    }
+  }, [showSidebar, touchEventHandler]);
+  /**
+   * End of horrible section.
+   */
+
   return (
     <>
       <Scrollbar>
-        <div className="content">
+        <div className="content" ref={scrollableContentRef}>
           <div
             className={classnames("backdrop", {
               visible: showSidebar,
@@ -89,6 +143,7 @@ const BoardFeed: React.FC<BoardFeedProps> = ({
               console.log("clack!");
               e.stopPropagation();
             }}
+            ref={scrollableMenuRef}
           >
             {showSidebar ? (
               <Scrollbar ref={scrollableNodeRef}>
@@ -100,6 +155,7 @@ const BoardFeed: React.FC<BoardFeedProps> = ({
                       scrollableNodeRef.current?.contentWrapperEl
                     );
                   }}
+                  style={{ overscrollBehavior: "contain" }}
                 >
                   <BoardSidebar board={boardInfo} />
                 </div>
