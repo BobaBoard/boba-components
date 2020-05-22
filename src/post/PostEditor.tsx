@@ -120,6 +120,8 @@ const PostEditor: React.FC<PostEditorProps> = (props) => {
         }
         .editor-container {
           padding-top: 5px;
+        }
+        .editor {
           min-height: 300px;
         }
         .editor-container.loading .editor {
