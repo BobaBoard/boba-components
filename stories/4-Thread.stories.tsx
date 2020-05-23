@@ -1,7 +1,7 @@
 import React from "react";
 import CompactThread from "../src/post/CompactThread";
 import ThreadIndent from "../src/post/ThreadIndent";
-import Post from "../src/post/Post";
+import Post, { PostSizes } from "../src/post/Post";
 
 import Theme from "../src/theme/default";
 
@@ -84,24 +84,25 @@ export const SampleThread = () => {
   return (
     <div
       style={{
-        maxWidth: "550px",
         marginLeft: "100px",
         backgroundColor: Theme.LAYOUT_BOARD_BACKGROUND_COLOR,
       }}
     >
       <ThreadIndent level={0}>
-        <Post
-          createdTime="2019/05/14 at 7:34pm"
-          text={
-            '[{"insert":"Open RP"},{"attributes":{"header":1},"insert":"\\n"},{"insert":{"block-image":"https://cdn.discordapp.com/attachments/443967088118333442/691486081895628830/unknown.png"}}, {"attributes":{"italic":true},"insert":"You have my sword..."}]'
-          }
-          secretIdentity={{ name: "Tuxedo Mask", avatar: `/${tuxedoAvatar}` }}
-          userIdentity={{ name: "SexyDaddy69", avatar: `/${mamoruAvatar}` }}
-          onNewContribution={() => console.log("click!")}
-          onNewComment={() => console.log("click!")}
-          newComments={3}
-          newContributions={5}
-        />
+        <div style={{ paddingTop: "15px", maxWidth: "550px" }}>
+          <Post
+            createdTime="2019/05/14 at 7:34pm"
+            text={
+              '[{"insert":"Open RP"},{"attributes":{"header":1},"insert":"\\n"},{"insert":{"block-image":"https://cdn.discordapp.com/attachments/443967088118333442/691486081895628830/unknown.png"}}, {"attributes":{"italic":true},"insert":"You have my sword..."}]'
+            }
+            secretIdentity={{ name: "Tuxedo Mask", avatar: `/${tuxedoAvatar}` }}
+            userIdentity={{ name: "SexyDaddy69", avatar: `/${mamoruAvatar}` }}
+            onNewContribution={() => console.log("click!")}
+            onNewComment={() => console.log("click!")}
+            newComments={3}
+            newContributions={5}
+          />
+        </div>
         <ThreadIndent level={1}>
           <div style={{ paddingTop: "15px" }}>
             <Post
@@ -119,10 +120,11 @@ export const SampleThread = () => {
               }}
               onNewContribution={() => console.log("click!")}
               onNewComment={() => console.log("click!")}
+              size={PostSizes.WIDE}
             />
           </div>
           <ThreadIndent level={2}>
-            <div style={{ paddingTop: "15px" }}>
+            <div style={{ paddingTop: "15px", maxWidth: "550px" }}>
               <Post
                 createdTime="2019/05/14 at 7:34pm"
                 text={
@@ -137,7 +139,7 @@ export const SampleThread = () => {
               />
             </div>
           </ThreadIndent>
-          <div style={{ paddingTop: "15px" }}>
+          <div style={{ paddingTop: "15px", maxWidth: "550px" }}>
             <Post
               createdTime="2019/05/14 at 7:34pm"
               text={
@@ -156,7 +158,7 @@ export const SampleThread = () => {
             />
           </div>
           <ThreadIndent level={2}>
-            <div style={{ paddingTop: "15px" }}>
+            <div style={{ paddingTop: "15px", maxWidth: "550px" }}>
               <Post
                 createdTime="2019/05/14 at 7:34pm"
                 text={
