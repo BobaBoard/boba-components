@@ -240,8 +240,8 @@ const BoardFeed: React.FC<BoardFeedProps> = ({
               display: block;
             }
             .sidebar {
-              border-radius: ${Theme.BORDER_RADIUS_REGULAR}
-                ${Theme.BORDER_RADIUS_REGULAR} 0px 0px;
+              border-radius: ${Theme.BORDER_RADIUS_LARGE}
+                ${Theme.BORDER_RADIUS_LARGE} 0px 0px;
               width: 95%;
               position: fixed;
               left: 50%;

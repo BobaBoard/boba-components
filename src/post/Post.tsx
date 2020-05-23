@@ -80,7 +80,8 @@ const Post: React.FC<PostProps> = (props) => {
       </div>
       <style jsx>{`
         .header {
-          border-radius: 15px 15px 0px 0px;
+          border-radius: ${Theme.BORDER_RADIUS_REGULAR}
+            ${Theme.BORDER_RADIUS_REGULAR} 0px 0px;
           background-color: ${Theme.POST_BACKGROUND_COLOR};
           padding: 10px;
         }
@@ -88,7 +89,8 @@ const Post: React.FC<PostProps> = (props) => {
           max-width: ${getPostWidth(props.size)}px;
         }
         .footer {
-          border-radius: 0px 0px 15px 15px;
+          border-radius: 0px 0px ${Theme.BORDER_RADIUS_REGULAR}
+            ${Theme.BORDER_RADIUS_REGULAR};
           background-color: ${Theme.POST_BACKGROUND_COLOR};
           padding: 15px;
         }

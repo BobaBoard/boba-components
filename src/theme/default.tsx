@@ -9,9 +9,11 @@ const DefaultTheme: ThemeProperties = {
   NEW_POST_COLOR: "#f96680",
   NEW_CONTRIBUTION_COLOR: "#f96680",
   NEW_COMMENT_COLOR: "#f96680",
-  BORDER_RADIUS_REGULAR: "25px",
+  BORDER_RADIUS_REGULAR: "15px",
+  BORDER_RADIUS_LARGE: "25px",
   DEFAULT_ACCENT_COLOR: "#ff5252",
   MODAL_BACKGROUND_COLOR: "rgba(0, 0, 0, 0.5)",
+  INDENT_COLORS: ["#f96680", "#24d282", "#27caba", "#f9e066"],
 };
 
 export default DefaultTheme;
@@ -28,6 +30,8 @@ export interface ThemeProperties {
   LAYOUT_HEADER_BACKGROUND_COLOR: string;
   LAYOUT_BOARD_SIDEBAR_BACKGROUND_COLOR: string;
   BORDER_RADIUS_REGULAR: string;
+  BORDER_RADIUS_LARGE: string;
   DEFAULT_ACCENT_COLOR: string;
   MODAL_BACKGROUND_COLOR: string;
+  INDENT_COLORS: string[];
 }

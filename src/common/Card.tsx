@@ -6,6 +6,7 @@ import {
   faAngleDoubleUp,
 } from "@fortawesome/free-solid-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import Theme from "../theme/default";
 
 export interface CardProps {
   footer?: JSX.Element;
@@ -72,7 +73,7 @@ const Card: React.FC<CardProps> = ({ children, footer, header, height }) => {
         }
         .card {
           padding: 15px 10px;
-          border-radius: 15px;
+          border-radius: ${Theme.BORDER_RADIUS_REGULAR};
           background-color: white;
           width: 100%;
         }

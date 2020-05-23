@@ -1,7 +1,7 @@
 import React from "react";
 
 import Button from "../common/Button";
-import DeafultTheme from "../theme/default";
+import Theme from "../theme/default";
 import classNames from "classnames";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 
@@ -105,7 +105,7 @@ const DisplayFooter: React.FC<FooterProps> = ({
 
       <style jsx>{`
         .notes .note-count {
-          color: ${DeafultTheme.LAYOUT_BOARD_BACKGROUND_COLOR};
+          color: ${Theme.LAYOUT_BOARD_BACKGROUND_COLOR};
           font-size: large;
           font-weight: bold;
         }
