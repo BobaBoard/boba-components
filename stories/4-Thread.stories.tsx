@@ -1,5 +1,6 @@
 import React from "react";
 import CompactThread from "../src/post/CompactThread";
+import Post from "../src/post/Post";
 
 import oncelerAvatar from "./images/oncie.jpg";
 import greedlerAvatar from "./images/greedler.jpg";
@@ -73,5 +74,56 @@ export const CompactThreadStory = () => {
 };
 
 CompactThreadStory.story = {
-  name: "simple",
+  name: "compact",
+};
+
+export const SampleThread = () => {
+  return (
+    <div style={{ maxWidth: "550px", marginLeft: "100px" }}>
+      <Post
+        createdTime="2019/05/14 at 7:34pm"
+        text={
+          '[{"insert":"Open RP"},{"attributes":{"header":1},"insert":"\\n"},{"insert":{"block-image":"https://cdn.discordapp.com/attachments/443967088118333442/691486081895628830/unknown.png"}}, {"attributes":{"italic":true},"insert":"You have my sword..."}]'
+        }
+        secretIdentity={{ name: "Tuxedo Mask", avatar: `/${tuxedoAvatar}` }}
+        userIdentity={{ name: "SexyDaddy69", avatar: `/${mamoruAvatar}` }}
+        onNewContribution={() => console.log("click!")}
+        onNewComment={() => console.log("click!")}
+        newComments={3}
+        newContributions={5}
+      />
+      <Post
+        createdTime="2019/05/14 at 7:34pm"
+        text={
+          '[{"insert":{"block-image":"https://si.wsj.net/public/resources/images/BN-GA217_legola_G_20141215080444.jpg"}}, {"attributes":{"italic":true}, "insert":"...and my bow..."}]'
+        }
+        secretIdentity={{
+          name: "Nice Therapist",
+          avatar: `/${hannibalAvatar}`,
+        }}
+        userIdentity={{
+          name: "xXxChesapeakeRipperxXx",
+          avatar: `/${hannibalAvatar}`,
+        }}
+        onNewContribution={() => console.log("click!")}
+        onNewComment={() => console.log("click!")}
+      />
+      <Post
+        createdTime="2019/05/14 at 7:34pm"
+        text={
+          '[{"insert":{"block-image":"https://cdn.discordapp.com/attachments/443967088118333442/691401632940032040/AbJqbbOwrc74AAAAAElFTkSuQmCC.png"}}]'
+        }
+        secretIdentity={{
+          name: "Bad Guy",
+          avatar: `/${greedlerAvatar}`,
+        }}
+        onNewContribution={() => console.log("click!")}
+        onNewComment={() => console.log("click!")}
+      />
+    </div>
+  );
+};
+
+SampleThread.story = {
+  name: "sample",
 };

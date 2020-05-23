@@ -173,8 +173,6 @@ const BoardFeed: React.FC<BoardFeedProps> = ({
                   text={post.text}
                   secretIdentity={post.secretIdentity}
                   userIdentity={post.userIdentity}
-                  onSubmit={() => console.log("click!")}
-                  onCancel={() => console.log("click!")}
                   onNewContribution={() => console.log("click!")}
                   onNewComment={() => console.log("click!")}
                   size={post.options?.wide ? PostSizes.WIDE : PostSizes.REGULAR}
@@ -191,8 +189,7 @@ const BoardFeed: React.FC<BoardFeedProps> = ({
       <style jsx>
         {`
           .post {
-            margin: 0 auto;
-            margin-top: 25px;
+            margin: 20px auto;
             width: 100%;
           }
           .post > :global(div) {

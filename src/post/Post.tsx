@@ -31,15 +31,18 @@ export const getPostWidth = (size?: PostSizes) => {
 const COLLAPSED_HEIGHT = 250;
 
 const Post: React.FC<PostProps> = (props) => {
-  const [newText, setNewText] = React.useState(JSON.parse(props.text));
+  const hasUpdate =
+    props.newComments || props.newContributions || props.newPost;
   return (
     <>
       <div className="post-container">
-        <UpdatesHeader
-          newPost={props.newPost}
-          newComments={props.newComments}
-          newContributions={props.newContributions}
-        />
+        {hasUpdate && (
+          <UpdatesHeader
+            newPost={props.newPost}
+            newComments={props.newComments}
+            newContributions={props.newContributions}
+          />
+        )}
         <Card
           height={props.collapsed ? COLLAPSED_HEIGHT : undefined}
           header={
@@ -55,22 +58,23 @@ const Post: React.FC<PostProps> = (props) => {
           footer={
             <div className="footer">
               <Footer
-                mode={
-                  props.mode == modes.CREATE
-                    ? footerModes.CREATE
-                    : footerModes.VIEW
-                }
-                onSubmit={() => props.onSubmit(newText)}
+                mode={footerModes.VIEW}
+                onContribution={() => props.onNewContribution()}
+                onComment={() => props.onNewComment()}
               />
             </div>
           }
         >
           <Editor
             initialText={JSON.parse(props.text)}
-            editable={props.mode == modes.CREATE}
+            editable={false}
             focus={props.focus || false}
-            onSubmit={() => props.onSubmit(newText)}
-            onTextChange={(text: any) => setNewText(JSON.stringify(text.ops))}
+            onSubmit={() => {
+              /*no-op*/
+            }}
+            onTextChange={(text: any) => {
+              /*no-op*/
+            }}
           />
         </Card>
       </div>
@@ -81,7 +85,6 @@ const Post: React.FC<PostProps> = (props) => {
           padding: 10px;
         }
         .post-container {
-          margin-bottom: 50px;
           max-width: ${getPostWidth(props.size)}px;
         }
         .footer {
@@ -114,8 +117,6 @@ export interface PostProps {
   newPost?: boolean;
   newComments?: number;
   newContributions?: number;
-  onSubmit: (text: string) => void;
-  onCancel: (id: string) => void;
   onNewContribution: () => void;
   onNewComment: () => void;
   collapsed?: boolean;

@@ -277,8 +277,6 @@ export const NonEditable = () => (
     }
     secretIdentity={{ name: "Tuxedo Mask", avatar: `/${tuxedoAvatar}` }}
     userIdentity={{ name: "SexyDaddy69", avatar: `/${mamoruAvatar}` }}
-    onSubmit={() => console.log("click!")}
-    onCancel={() => console.log("click!")}
     onNewContribution={() => console.log("click!")}
     onNewComment={() => console.log("click!")}
   />
@@ -292,8 +290,6 @@ export const UpdatedPost = () => (
     }
     secretIdentity={{ name: "Tuxedo Mask", avatar: `/${tuxedoAvatar}` }}
     userIdentity={{ name: "SexyDaddy69", avatar: `/${mamoruAvatar}` }}
-    onSubmit={() => console.log("click!")}
-    onCancel={() => console.log("click!")}
     onNewContribution={() => console.log("click!")}
     onNewComment={() => console.log("click!")}
     newComments={3}
