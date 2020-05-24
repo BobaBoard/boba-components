@@ -11,7 +11,7 @@
     "build:force-dev": "rm -rf dist && webpack --mode development",
     "test": "echo \"Error: no test specified\" && exit 1",
     "storybook": "start-storybook -p 6006",
-    "build-storybook": "build-storybook",
+    "build-storybook": "yarn add react react-dom @bobaboard/boba-editor && build-storybook",
     "visual-testing": "backstop test",
     "approve-visuals": "backstop approve",
     "postinstall": "patch-package"
