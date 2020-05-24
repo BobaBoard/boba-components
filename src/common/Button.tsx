@@ -22,6 +22,7 @@ const Button: React.FC<ButtonProps> = ({
   theme,
   disabled,
   tooltip,
+  updates,
 }) => {
   const [tooltipOpen, setTooltipOpen] = React.useState(false);
   const THEME_COLOR = theme == ButtonStyle.DARK ? "#1c1c1c" : "#fff";
@@ -34,6 +35,7 @@ const Button: React.FC<ButtonProps> = ({
           onMouseEnter={() => tooltip && setTooltipOpen(true)}
           onMouseLeave={() => setTooltipOpen(false)}
         >
+          {updates && <div className="updates">{updates}</div>}
           <LibraryButton btnStyle="flat" onClick={onClick} disabled={disabled}>
             {icon && (
               <div className="icon">
@@ -47,6 +49,7 @@ const Button: React.FC<ButtonProps> = ({
       <style jsx>{`
         .button {
           display: inline-block;
+          position: relative;
         }
         .button > :global(button) {
           border-radius: 25px;
@@ -54,6 +57,20 @@ const Button: React.FC<ButtonProps> = ({
         .icon {
           display: inline-block;
           margin-right: 5px;
+        }
+        .updates {
+          background-color: ${color || REVERSE_THEME_COLOR};
+          position: absolute;
+          border-radius: 50%;
+          width: 20px;
+          height: 20px;
+          right: -5px;
+          top: -5px;
+          text-align: center;
+          color: ${THEME_COLOR};
+          font-size: 14px;
+          line-height: 20px;
+          font-weight: bold;
         }
 
         .compact > :global(button):hover {
@@ -97,4 +114,5 @@ export interface ButtonProps {
   primary?: boolean;
   color?: string;
   theme?: ButtonStyle;
+  updates?: number;
 }
