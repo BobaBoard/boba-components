@@ -11,7 +11,7 @@
     "build:force-dev": "rm -rf dist && webpack --mode development",
     "test": "echo \"Error: no test specified\" && exit 1",
     "storybook": "start-storybook -p 6006",
-    "build-storybook": "yarn add react react-dom @bobaboard/boba-editor && build-storybook",
+    "build-storybook": "build-storybook",
     "visual-testing": "backstop test",
     "approve-visuals": "backstop approve",
     "postinstall": "patch-package"
@@ -83,7 +83,7 @@
     "webpack-cli": "^3.3.11"
   },
   "peerDependencies": {
-    "@bobaboard/boba-editor": "^0.0.3",
+    "@bobaboard/boba-editor": "^0.0.4",
     "react": "^16.13.1",
     "react-dom": "^16.13.1"
   }
