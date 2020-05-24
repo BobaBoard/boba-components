@@ -28,7 +28,7 @@ export const getPostWidth = (size?: PostSizes) => {
   }
 };
 
-const COLLAPSED_HEIGHT = 250;
+const COLLAPSED_HEIGHT = 150;
 
 const Post: React.FC<PostProps> = (props) => {
   const hasUpdate =

@@ -85,5 +85,4 @@ export default ThreadIndent;
 export interface ThreadIndentProps {
   children: JSX.Element | JSX.Element[];
   level: number;
-  hasMorePeers: boolean;
 }

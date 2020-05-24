@@ -104,8 +104,8 @@ export const SampleThread = () => {
           />
         </div>
       </ThreadIndent>
-      <ThreadIndent level={1} hasMorePeers={true}>
-        <div style={{ paddingTop: "15px" }}>
+      <ThreadIndent level={1}>
+        <div style={{ paddingTop: "15px", opacity: 0.7 }}>
           <Post
             createdTime="2019/05/14 at 7:34pm"
             text={
@@ -122,11 +122,12 @@ export const SampleThread = () => {
             onNewContribution={() => console.log("click!")}
             onNewComment={() => console.log("click!")}
             size={PostSizes.WIDE}
+            collapsed
           />
         </div>
       </ThreadIndent>
-      <ThreadIndent level={2} hasMorePeers={false}>
-        <div style={{ paddingTop: "15px", maxWidth: "550px" }}>
+      <ThreadIndent level={2}>
+        <div style={{ paddingTop: "15px", maxWidth: "550px", opacity: 0.7 }}>
           <Post
             createdTime="2019/05/14 at 7:34pm"
             text={
@@ -138,10 +139,11 @@ export const SampleThread = () => {
             }}
             onNewContribution={() => console.log("click!")}
             onNewComment={() => console.log("click!")}
+            collapsed
           />
         </div>
       </ThreadIndent>
-      <ThreadIndent level={1} hasMorePeers={false}>
+      <ThreadIndent level={1}>
         <div style={{ paddingTop: "15px", maxWidth: "550px" }}>
           <Post
             createdTime="2019/05/14 at 7:34pm"
@@ -161,7 +163,7 @@ export const SampleThread = () => {
           />
         </div>
       </ThreadIndent>
-      <ThreadIndent level={2} hasMorePeers={false}>
+      <ThreadIndent level={2}>
         <div style={{ paddingTop: "15px", maxWidth: "550px" }}>
           <Post
             createdTime="2019/05/14 at 7:34pm"
