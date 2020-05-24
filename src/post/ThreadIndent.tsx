@@ -15,7 +15,7 @@ const withNesting = (
       <style jsx>{`
         .nested {
           position: relative;
-          margin-top: 15px;
+          margin-top: 2px;
           z-index: ${level};
         }
         .nested {
@@ -64,7 +64,6 @@ const ThreadIndent: React.FC<ThreadIndentProps> = (props) => {
       <style jsx>{`
         .thread-level {
           position: relative;
-          margin-top: 15px;
           margin-left: ${props.level == 0 ? 0 : indentationSizePx}px;
           {/* margin-left: ${10 * props.level}px; */}
           ]};
