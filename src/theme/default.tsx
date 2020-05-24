@@ -13,7 +13,11 @@ const DefaultTheme: ThemeProperties = {
   BORDER_RADIUS_LARGE: "25px",
   DEFAULT_ACCENT_COLOR: "#ff5252",
   MODAL_BACKGROUND_COLOR: "rgba(0, 0, 0, 0.5)",
-  INDENT_COLORS: ["#f96680", "#24d282", "#27caba", "#f9e066"],
+  //INDENT_COLORS: ["#BEBEBE", "#808080", "#27caba", "#f9e066"],
+  INDENT_COLORS: ["rgba(255, 255, 255, 0.2)"],
+  //INDENT_COLORS: ["rgba(255, 106, 106, 0.3)"],
+  //INDENT_BACKGROUND: "white",
+  INDENT_BACKGROUND: "transparent",
 };
 
 export default DefaultTheme;
@@ -34,4 +38,5 @@ export interface ThemeProperties {
   DEFAULT_ACCENT_COLOR: string;
   MODAL_BACKGROUND_COLOR: string;
   INDENT_COLORS: string[];
+  INDENT_BACKGROUND: string;
 }
