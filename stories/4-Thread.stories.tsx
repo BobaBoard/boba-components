@@ -10,6 +10,7 @@ import greedlerAvatar from "./images/greedler.jpg";
 import tuxedoAvatar from "./images/tuxedo-mask.jpg";
 import mamoruAvatar from "./images/mamoru.png";
 import hannibalAvatar from "./images/hannibal.png";
+import threadTest from "./images/thread-test.png";
 
 export default {
   title: "Thread Preview",
@@ -159,4 +160,14 @@ export const SampleThread = () => {
 
 SampleThread.story = {
   name: "sample",
+};
+
+export const ThreadAttempt = () => (
+  <div style={{ marginTop: "15px" }}>
+    <img src={`/${threadTest}`} />
+  </div>
+);
+
+ThreadAttempt.story = {
+  name: "twitter",
 };
