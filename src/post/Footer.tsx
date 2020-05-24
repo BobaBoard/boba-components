@@ -3,6 +3,7 @@ import React from "react";
 import Button from "../common/Button";
 import Theme from "../theme/default";
 import classNames from "classnames";
+import pluralize from "pluralize";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 
 import { faComment, faPlusSquare } from "@fortawesome/free-regular-svg-icons";
@@ -62,32 +63,47 @@ const DisplayFooter: React.FC<FooterProps> = ({
   compact,
   onContribution,
   onComment,
+  totalContributions,
+  directContributions,
+  newContributions,
+  totalComments,
+  newComments,
 }) => {
   return (
     <div className="footer">
       <div className="notes">
-        <Button tooltip="15 contributions (5 direct)">
-          <>
-            <span className="note-count">
-              15
-              <FontAwesomeIcon icon={faPlusSquare} />
-            </span>
-            <span className="note-breakdown">
-              [
+        <span className="notes-button">
+          <Button
+            tooltip={`${totalContributions || 0} ${pluralize(
+              "contribution",
+              totalContributions
+            )} (${directContributions || 0} direct)`}
+            updates={newContributions}
+          >
+            <>
               <span className="note-count">
-                5<FontAwesomeIcon icon={faAngleDoubleDown} />
+                {totalContributions || 0}
+                <FontAwesomeIcon icon={faPlusSquare} />
               </span>
-              ]
+              <span className="note-breakdown">
+                [
+                <span className="note-count">
+                  {directContributions || 0}
+                  <FontAwesomeIcon icon={faAngleDoubleDown} />
+                </span>
+                ]
+              </span>
+            </>
+          </Button>
+        </span>
+        <span className="notes-button comments">
+          <Button updates={newComments}>
+            <span className="note-count">
+              {totalComments || 0}
+              <FontAwesomeIcon icon={faComment} />
             </span>
-          </>
-        </Button>
-
-        <Button>
-          <span className="note-count">
-            6
-            <FontAwesomeIcon icon={faComment} />
-          </span>
-        </Button>
+          </Button>
+        </span>
       </div>
       <div
         className={classNames("footer-actions", {
@@ -110,15 +126,19 @@ const DisplayFooter: React.FC<FooterProps> = ({
           font-weight: bold;
         }
         .notes .note-breakdown {
-          opacity: 0.5;
+          opacity: 0.4;
           margin-right: 5px;
-          font-size: revert;
+          font-size: large;
+          font-weight: normal;
         }
-        .notes .note-breakdown > span :global(svg) {
+        .notes-button {
+          margin-right: 5px;
+        }
+        .notes .note-breakdown span :global(svg) {
           height: 13px;
           padding: 1px 0px;
         }
-        .notes > span :global(svg) {
+        .notes span :global(svg) {
           height: 15px;
           padding: 1px 0px;
         }
@@ -173,4 +193,9 @@ interface FooterProps {
   editable?: boolean;
   submittable?: boolean;
   cancellable?: boolean;
+  totalContributions?: number;
+  directContributions?: number;
+  newContributions?: number;
+  totalComments?: number;
+  newComments?: number;
 }

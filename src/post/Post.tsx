@@ -61,6 +61,11 @@ const Post: React.FC<PostProps> = (props) => {
                 mode={footerModes.VIEW}
                 onContribution={() => props.onNewContribution()}
                 onComment={() => props.onNewComment()}
+                totalContributions={props.totalContributions}
+                directContributions={props.directContributions}
+                totalComments={props.totalComments}
+                newContributions={props.newContributions}
+                newComments={props.newComments}
               />
             </div>
           }
@@ -117,8 +122,11 @@ export interface PostProps {
   };
   size?: PostSizes;
   newPost?: boolean;
-  newComments?: number;
+  totalContributions?: number;
+  directContributions?: number;
   newContributions?: number;
+  totalComments?: number;
+  newComments?: number;
   onNewContribution: () => void;
   onNewComment: () => void;
   collapsed?: boolean;

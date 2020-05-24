@@ -149,12 +149,124 @@ CardSimple.story = {
 
 export const FooterStory = () => (
   <div>
-    <Footer mode={footerModes.CREATE} />
-    <Footer mode={footerModes.VIEW} />
+    <h2>Empty</h2>
+    <div style={{ maxWidth: "500px" }}>
+      <Footer mode={footerModes.CREATE} />
+      <Footer mode={footerModes.VIEW} />
+    </div>
+    <div style={{ maxWidth: "250px" }}>
+      <Footer mode={footerModes.CREATE} />
+      <Footer mode={footerModes.VIEW} />
+    </div>
+    <h2>No Updates</h2>
+    <div style={{ maxWidth: "500px" }}>
+      <Footer
+        mode={footerModes.CREATE}
+        totalContributions={5}
+        directContributions={2}
+        totalComments={5}
+      />
+      <Footer
+        mode={footerModes.VIEW}
+        totalContributions={5}
+        directContributions={2}
+        totalComments={5}
+      />
+    </div>
+    <div style={{ maxWidth: "250px" }}>
+      <Footer
+        mode={footerModes.CREATE}
+        totalContributions={5}
+        directContributions={2}
+        totalComments={5}
+      />
+      <Footer
+        mode={footerModes.VIEW}
+        totalContributions={5}
+        directContributions={2}
+        totalComments={5}
+      />
+    </div>
+    <h2>With Updates</h2>
+    <div style={{ maxWidth: "500px" }}>
+      <Footer
+        mode={footerModes.CREATE}
+        totalContributions={5}
+        directContributions={2}
+        newContributions={1}
+        newComments={3}
+        totalComments={5}
+      />
+      <Footer
+        mode={footerModes.VIEW}
+        totalContributions={5}
+        directContributions={2}
+        newContributions={1}
+        newComments={3}
+        totalComments={5}
+      />
+    </div>
+    <div style={{ maxWidth: "250px" }}>
+      <Footer
+        mode={footerModes.CREATE}
+        totalContributions={5}
+        directContributions={2}
+        newContributions={1}
+        newComments={3}
+        totalComments={5}
+      />
+      <Footer
+        mode={footerModes.VIEW}
+        totalContributions={5}
+        directContributions={2}
+        newContributions={1}
+        newComments={3}
+        totalComments={5}
+      />
+    </div>
+    <h2>With High Counts</h2>
+    <div style={{ maxWidth: "500px" }}>
+      <Footer
+        mode={footerModes.CREATE}
+        totalContributions={305}
+        directContributions={20}
+        newContributions={12}
+        newComments={30}
+        totalComments={599}
+      />
+      <Footer
+        mode={footerModes.VIEW}
+        totalContributions={305}
+        directContributions={20}
+        newContributions={12}
+        newComments={30}
+        totalComments={599}
+      />
+    </div>
+    <div style={{ maxWidth: "250px" }}>
+      <Footer
+        mode={footerModes.CREATE}
+        totalContributions={305}
+        directContributions={20}
+        newContributions={12}
+        newComments={30}
+        totalComments={599}
+      />
+      <Footer
+        mode={footerModes.VIEW}
+        totalContributions={305}
+        directContributions={20}
+        newContributions={12}
+        newComments={30}
+        totalComments={599}
+      />
+    </div>
     <style jsx>
       {`
+        h2 {
+          color: white;
+        }
         div {
-          max-width: 500px;
           margin-top: 25px;
         }
         div > :global(div) {
@@ -292,6 +404,9 @@ export const UpdatedPost = () => (
     userIdentity={{ name: "SexyDaddy69", avatar: `/${mamoruAvatar}` }}
     onNewContribution={() => console.log("click!")}
     onNewComment={() => console.log("click!")}
+    totalContributions={15}
+    directContributions={3}
+    totalComments={5}
     newComments={3}
     newContributions={5}
   />
