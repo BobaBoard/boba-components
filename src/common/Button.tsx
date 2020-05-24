@@ -42,7 +42,7 @@ const Button: React.FC<ButtonProps> = ({
                 <FontAwesomeIcon icon={icon} />
               </div>
             )}
-            {!compact && children}
+            {(!compact || !icon) && children}
           </LibraryButton>
         </div>
       </Tooltip>
@@ -53,6 +53,23 @@ const Button: React.FC<ButtonProps> = ({
         }
         .button > :global(button) {
           border-radius: 25px;
+          background-image: none;
+          border: 2px solid ${color || REVERSE_THEME_COLOR};
+          color: ${color || REVERSE_THEME_COLOR};
+          background-color: ${THEME_COLOR};
+        }
+        .button > :global(button):hover {
+          background-color: ${REVERSE_THEME_COLOR};
+          border: 2px solid ${color || THEME_COLOR};
+          color: ${color || THEME_COLOR};
+        }
+        .button > :global(button):active:focus {
+          background-color: ${REVERSE_THEME_COLOR};
+          border: 2px solid ${color || THEME_COLOR};
+          color: ${color || THEME_COLOR};
+        }
+        .button > :global(button):hover .icon {
+          color: ${color || THEME_COLOR};
         }
         .icon {
           display: inline-block;
@@ -72,26 +89,12 @@ const Button: React.FC<ButtonProps> = ({
           line-height: 20px;
           font-weight: bold;
         }
-
-        .compact > :global(button):hover {
-          background-color: ${REVERSE_THEME_COLOR};
-          border: 2px solid ${color || THEME_COLOR};
-          color: ${color || THEME_COLOR};
-        }
-        .compact > :global(button):active:focus {
-          background-color: ${REVERSE_THEME_COLOR};
-          border: 2px solid ${color || THEME_COLOR};
-          color: ${color || THEME_COLOR};
-        }
-        .compact > :global(button):hover .icon {
-          color: ${color || THEME_COLOR};
-        }
         .compact > :global(button) {
           min-width: 25px;
-          color: ${color || "#fff"};
-          background-color: ${THEME_COLOR};
-          border: 2px solid ${color || REVERSE_THEME_COLOR};
-          background-image: none;
+          max-width: 60px;
+          white-space: nowrap;
+          overflow: hidden;
+          text-overflow: ellipsis;
         }
         .compact .icon {
           margin-right: 0px;
