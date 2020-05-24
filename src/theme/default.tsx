@@ -13,7 +13,9 @@ const DefaultTheme: ThemeProperties = {
   BORDER_RADIUS_LARGE: "25px",
   DEFAULT_ACCENT_COLOR: "#ff5252",
   MODAL_BACKGROUND_COLOR: "rgba(0, 0, 0, 0.5)",
-  INDENT_COLORS: ["#f96680", "#24d282", "#27caba", "#f9e066"],
+  //INDENT_COLORS: ["#f96680", "#24d282", "#27caba", "#f9e066"],
+  //INDENT_COLORS: ["#535353", "#808080", "#27caba", "#f9e066"],
+  INDENT_COLORS: ["#a8d5c0", "#f0b3b2", "#27caba", "#f9e066"],
 };
 
 export default DefaultTheme;

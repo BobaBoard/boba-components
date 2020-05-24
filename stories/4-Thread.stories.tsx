@@ -103,77 +103,79 @@ export const SampleThread = () => {
             newContributions={5}
           />
         </div>
-        <ThreadIndent level={1}>
-          <div style={{ paddingTop: "15px" }}>
-            <Post
-              createdTime="2019/05/14 at 7:34pm"
-              text={
-                '[{"insert":{"block-image":"https://si.wsj.net/public/resources/images/BN-GA217_legola_G_20141215080444.jpg"}}, {"attributes":{"italic":true}, "insert":"...and my bow..."}]'
-              }
-              secretIdentity={{
-                name: "Nice Therapist",
-                avatar: `/${hannibalAvatar}`,
-              }}
-              userIdentity={{
-                name: "xXxChesapeakeRipperxXx",
-                avatar: `/${hannibalAvatar}`,
-              }}
-              onNewContribution={() => console.log("click!")}
-              onNewComment={() => console.log("click!")}
-              size={PostSizes.WIDE}
-            />
-          </div>
-          <ThreadIndent level={2}>
-            <div style={{ paddingTop: "15px", maxWidth: "550px" }}>
-              <Post
-                createdTime="2019/05/14 at 7:34pm"
-                text={
-                  '[{"insert":{"block-image":"https://cdn.discordapp.com/attachments/443967088118333442/691401632940032040/AbJqbbOwrc74AAAAAElFTkSuQmCC.png"}}]'
-                }
-                secretIdentity={{
-                  name: "Bad Guy",
-                  avatar: `/${greedlerAvatar}`,
-                }}
-                onNewContribution={() => console.log("click!")}
-                onNewComment={() => console.log("click!")}
-              />
-            </div>
-          </ThreadIndent>
-          <div style={{ paddingTop: "15px", maxWidth: "550px" }}>
-            <Post
-              createdTime="2019/05/14 at 7:34pm"
-              text={
-                '[{"insert":{"block-image":"https://si.wsj.net/public/resources/images/BN-GA217_legola_G_20141215080444.jpg"}}, {"attributes":{"italic":true}, "insert":"...and my bow..."}]'
-              }
-              secretIdentity={{
-                name: "Nice Therapist",
-                avatar: `/${hannibalAvatar}`,
-              }}
-              userIdentity={{
-                name: "xXxChesapeakeRipperxXx",
-                avatar: `/${hannibalAvatar}`,
-              }}
-              onNewContribution={() => console.log("click!")}
-              onNewComment={() => console.log("click!")}
-            />
-          </div>
-          <ThreadIndent level={2}>
-            <div style={{ paddingTop: "15px", maxWidth: "550px" }}>
-              <Post
-                createdTime="2019/05/14 at 7:34pm"
-                text={
-                  '[{"insert":{"block-image":"https://cdn.discordapp.com/attachments/443967088118333442/691401632940032040/AbJqbbOwrc74AAAAAElFTkSuQmCC.png"}}]'
-                }
-                secretIdentity={{
-                  name: "Bad Guy",
-                  avatar: `/${greedlerAvatar}`,
-                }}
-                onNewContribution={() => console.log("click!")}
-                onNewComment={() => console.log("click!")}
-              />
-            </div>
-          </ThreadIndent>
-        </ThreadIndent>
+      </ThreadIndent>
+      <ThreadIndent level={1} hasMorePeers={true}>
+        <div style={{ paddingTop: "15px" }}>
+          <Post
+            createdTime="2019/05/14 at 7:34pm"
+            text={
+              '[{"insert":{"block-image":"https://si.wsj.net/public/resources/images/BN-GA217_legola_G_20141215080444.jpg"}}, {"attributes":{"italic":true}, "insert":"...and my bow..."}]'
+            }
+            secretIdentity={{
+              name: "Nice Therapist",
+              avatar: `/${hannibalAvatar}`,
+            }}
+            userIdentity={{
+              name: "xXxChesapeakeRipperxXx",
+              avatar: `/${hannibalAvatar}`,
+            }}
+            onNewContribution={() => console.log("click!")}
+            onNewComment={() => console.log("click!")}
+            size={PostSizes.WIDE}
+          />
+        </div>
+      </ThreadIndent>
+      <ThreadIndent level={2} hasMorePeers={false}>
+        <div style={{ paddingTop: "15px", maxWidth: "550px" }}>
+          <Post
+            createdTime="2019/05/14 at 7:34pm"
+            text={
+              '[{"insert":{"block-image":"https://cdn.discordapp.com/attachments/443967088118333442/691401632940032040/AbJqbbOwrc74AAAAAElFTkSuQmCC.png"}}]'
+            }
+            secretIdentity={{
+              name: "Bad Guy",
+              avatar: `/${greedlerAvatar}`,
+            }}
+            onNewContribution={() => console.log("click!")}
+            onNewComment={() => console.log("click!")}
+          />
+        </div>
+      </ThreadIndent>
+      <ThreadIndent level={1} hasMorePeers={false}>
+        <div style={{ paddingTop: "15px", maxWidth: "550px" }}>
+          <Post
+            createdTime="2019/05/14 at 7:34pm"
+            text={
+              '[{"insert":{"block-image":"https://si.wsj.net/public/resources/images/BN-GA217_legola_G_20141215080444.jpg"}}, {"attributes":{"italic":true}, "insert":"...and my bow..."}]'
+            }
+            secretIdentity={{
+              name: "Nice Therapist",
+              avatar: `/${hannibalAvatar}`,
+            }}
+            userIdentity={{
+              name: "xXxChesapeakeRipperxXx",
+              avatar: `/${hannibalAvatar}`,
+            }}
+            onNewContribution={() => console.log("click!")}
+            onNewComment={() => console.log("click!")}
+          />
+        </div>
+      </ThreadIndent>
+      <ThreadIndent level={2} hasMorePeers={false}>
+        <div style={{ paddingTop: "15px", maxWidth: "550px" }}>
+          <Post
+            createdTime="2019/05/14 at 7:34pm"
+            text={
+              '[{"insert":{"block-image":"https://cdn.discordapp.com/attachments/443967088118333442/691401632940032040/AbJqbbOwrc74AAAAAElFTkSuQmCC.png"}}]'
+            }
+            secretIdentity={{
+              name: "Bad Guy",
+              avatar: `/${greedlerAvatar}`,
+            }}
+            onNewContribution={() => console.log("click!")}
+            onNewComment={() => console.log("click!")}
+          />
+        </div>
       </ThreadIndent>
     </div>
   );

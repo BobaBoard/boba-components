@@ -2,32 +2,81 @@ import React from "react";
 
 import Theme from "../theme/default";
 
-const ThreadIndent: React.FC<ThreadIndentProps> = (props) => {
+const indentationSizePx = 4;
+const barGap = 5;
+
+const withNesting = (
+  el: JSX.Element | JSX.Element[],
+  level: number,
+  maxLevel: number
+) => {
   return (
     <>
-      <div className={`nested`}>{props.children}</div>
+      <div className={`nested`}> {el}</div>
       <style jsx>{`
         .nested {
           position: relative;
         }
-        .nested:nth-child(n + 2) {
-          margin-left: ${Theme.BORDER_RADIUS_REGULAR};
+        .nested {
+          margin-left: ${indentationSizePx * (maxLevel - level) + barGap}px;
         }
-        .nested:nth-child(n + 2)::before {
+        .nested::before {
           content: "";
           position: absolute;
-          left: -3px;
-          top: 0;
+          left: -${indentationSizePx + barGap}px;
+          top: -30px;
           bottom: 15px;
-          border-bottom-left-radius: 5px;
           background-color: ${Theme.INDENT_COLORS[
-            (props.level - 1) % Theme.INDENT_COLORS.length
+            (maxLevel - level) % Theme.INDENT_COLORS.length
           ]};
-          width: 3px;
-          opacity: 0.6;
+          width: ${indentationSizePx}px;
+          opacity: 1;
+          border-bottom-left-radius: ${30}px;
         }
       `}</style>
     </>
+  );
+};
+
+const ThreadIndent: React.FC<ThreadIndentProps> = (props) => {
+  let current = (
+    <div className="content">
+      {props.children}
+      <style jsx>{`
+        .content {
+          z-index: 2;
+          position: relative;
+        }
+      `}</style>
+    </div>
+  );
+  for (let i = 0; i < props.level; i++) {
+    current = withNesting(current, i + 1, props.level);
+  }
+  return (
+    <div className="thread-level">
+      {current}
+      <style jsx>{`
+        .thread-level {
+          position: relative;
+          margin-left: ${props.level == 0 ? 0 : indentationSizePx}px;
+          {/* margin-left: ${10 * props.level}px; */}
+          ]};
+        }
+        .thread-level::before {
+          border-radius: ${Theme.BORDER_RADIUS_REGULAR} 0 0
+            ${Theme.BORDER_RADIUS_REGULAR};
+          content: "";
+          position: absolute;
+          left: -${indentationSizePx}px;
+          top: 0;
+          bottom: 0;
+          width: ${30 * props.level}px;
+          opacity: 1;
+          z-index: 0;
+        }
+      `}</style>
+    </div>
   );
 };
 
@@ -36,4 +85,5 @@ export default ThreadIndent;
 export interface ThreadIndentProps {
   children: JSX.Element | JSX.Element[];
   level: number;
+  hasMorePeers: boolean;
 }
