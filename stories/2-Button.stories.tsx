@@ -17,6 +17,9 @@ export const SimpleButton = () => {
         <Button icon={faCoffee} updates={5}>
           This is a button with updates
         </Button>
+        <Button icon={faCoffee} updates={5} disabled>
+          Disabled
+        </Button>
         <Button compact>No icon</Button>
         <Button icon={faCoffee} compact>
           This is a compact button with icon
@@ -33,6 +36,9 @@ export const SimpleButton = () => {
         </Button>
         <Button theme={ButtonStyle.DARK} icon={faCoffee} updates={5}>
           This is a button with updates
+        </Button>
+        <Button theme={ButtonStyle.DARK} icon={faCoffee} updates={5} disabled>
+          Disabled
         </Button>
         <Button theme={ButtonStyle.DARK} compact>
           No icon
@@ -52,6 +58,9 @@ export const SimpleButton = () => {
         </Button>
         <Button color="#f96680" icon={faCoffee} updates={5}>
           This is a button with updates
+        </Button>
+        <Button color="#f96680" icon={faCoffee} updates={5} disabled>
+          Disabled
         </Button>
         <Button color="#f96680" compact>
           No icon
@@ -78,6 +87,15 @@ export const SimpleButton = () => {
           updates={5}
         >
           This is a button with updates
+        </Button>
+        <Button
+          theme={ButtonStyle.DARK}
+          color="#f96680"
+          icon={faCoffee}
+          updates={5}
+          disabled
+        >
+          Disabled
         </Button>
         <Button theme={ButtonStyle.DARK} color="#f96680" compact>
           No icon

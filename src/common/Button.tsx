@@ -31,7 +31,7 @@ const Button: React.FC<ButtonProps> = ({
     <>
       <Tooltip content={<div>{tooltip}</div>} isOpen={tooltipOpen} delay={1000}>
         <div
-          className={classnames("button", { compact })}
+          className={classnames("button", { compact }, { disabled })}
           onMouseEnter={() => tooltip && setTooltipOpen(true)}
           onMouseLeave={() => setTooltipOpen(false)}
         >
@@ -58,18 +58,26 @@ const Button: React.FC<ButtonProps> = ({
           color: ${color || REVERSE_THEME_COLOR};
           background-color: ${THEME_COLOR};
         }
-        .button > :global(button):hover {
+        .button:not(.disabled) > :global(button):hover {
           background-color: ${REVERSE_THEME_COLOR};
           border: 2px solid ${color || THEME_COLOR};
           color: ${color || THEME_COLOR};
         }
-        .button > :global(button):active:focus {
+        .button:not(.disabled) > :global(button):active:focus {
           background-color: ${REVERSE_THEME_COLOR};
           border: 2px solid ${color || THEME_COLOR};
           color: ${color || THEME_COLOR};
         }
-        .button > :global(button):hover .icon {
+        .button:not(.disabled) > :global(button):hover .icon {
           color: ${color || THEME_COLOR};
+        }
+        .button.disabled > :global(button:hover) {
+          background-image: none;
+          background-color: ${THEME_COLOR};
+          border-color: ${color || REVERSE_THEME_COLOR};
+        }
+        .disabled .updates {
+          opacity: 0.8;
         }
         .icon {
           display: inline-block;
