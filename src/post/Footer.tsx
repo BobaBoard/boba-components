@@ -1,7 +1,6 @@
 import React from "react";
 
 import Button from "../common/Button";
-import Theme from "../theme/default";
 import classNames from "classnames";
 import pluralize from "pluralize";
 import useComponentSize from "@rehooks/component-size";

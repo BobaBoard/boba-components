@@ -83,13 +83,14 @@ const CommentFooter = (props: {
 };
 const MAX_CHARACTERS = 200;
 const Comment: React.FC<Props> = (props) => {
-  const containerRef = React.useRef<HTMLDivElement>();
+  const containerRef = React.useRef<HTMLDivElement>(null);
+  // @ts-ignore
   const [showCancelModal, setShowCancelModal] = React.useState(false);
   const [size, setSize] = React.useState(SIZES.COMPACT);
   const [sized, setSized] = React.useState(false);
   const [charactersTyped, setCharactersTyped] = React.useState(1);
   const [text, setText] = React.useState(props.initialText);
-
+  // @ts-ignore
   let { width, height } = useComponentSize(containerRef);
   React.useEffect(() => {
     setSize(width > SIZE_TRIGGER ? SIZES.REGULAR : SIZES.COMPACT);
@@ -119,10 +120,10 @@ const Comment: React.FC<Props> = (props) => {
         >
           <Editor
             key={props.id + "_editor"}
-            editable={props.editable}
+            editable={!!props.editable}
             initialText={JSON.parse(text)}
             onTextChange={(text) => setText(JSON.stringify(text))}
-            focus={props.focus}
+            focus={!!props.focus}
             onCharactersChange={(characters) => setCharactersTyped(characters)}
             onSubmit={() => {
               // This is for cmd + enter
