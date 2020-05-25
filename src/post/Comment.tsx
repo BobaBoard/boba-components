@@ -82,7 +82,7 @@ const CommentFooter = (props: {
   );
 };
 const MAX_CHARACTERS = 200;
-const Comment: React.FC<Props> = (props) => {
+const Comment: React.FC<CommentProps> = (props) => {
   const containerRef = React.useRef<HTMLDivElement>(null);
   // @ts-ignore
   const [showCancelModal, setShowCancelModal] = React.useState(false);
@@ -221,7 +221,7 @@ const Comment: React.FC<Props> = (props) => {
   );
 };
 
-interface Props {
+export interface CommentProps {
   id: string;
   editable?: boolean;
   focus?: boolean;

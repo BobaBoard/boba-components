@@ -4,6 +4,7 @@ import "react-loader-spinner/dist/loader/css/react-spinner-loader.css";
 
 import BoardFeed from "./board/BoardFeed";
 import SideMenu from "./layout/SideMenu";
+import FeedWithMenu from "./layout/FeedWithMenu";
 import Button from "./common/Button";
 import Modal from "./common/Modal";
 import PostEditor from "./post/PostEditor";
@@ -24,4 +25,5 @@ export {
   PostingActionButton,
   Comment,
   ThreadIndent,
+  FeedWithMenu,
 };

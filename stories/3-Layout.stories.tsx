@@ -1,9 +1,11 @@
 import React from "react";
 import Layout from "../src/layout/Layout";
 import SideMenu from "../src/layout/SideMenu";
+import FeedWithMenu from "../src/layout/FeedWithMenu";
 import BoardFeed from "../src/board/BoardFeed";
 import PostingActionButton from "../src/board/PostingActionButton";
 import BoardSidebar from "../src/board/BoardSidebar";
+import Button from "../src/common/Button";
 
 import oncelerAvatar from "./images/oncie.jpg";
 import greedlerAvatar from "./images/greedler.jpg";
@@ -115,6 +117,72 @@ export const SideMenuPreview = () => {
 
 SideMenuPreview.story = {
   name: "sidemenu",
+};
+
+export const FeedWithMenuShortPreview = () => {
+  return (
+    <Layout
+      mainContent={
+        <FeedWithMenu
+          sidebarContent={
+            <div
+              style={{ height: "500px", width: "50%", backgroundColor: "red" }}
+            >
+              Sidebar!!
+            </div>
+          }
+          feedContent={
+            <div style={{ height: "500px", backgroundColor: "green" }}>
+              Feed!!
+            </div>
+          }
+        />
+      }
+      sideMenuContent={<div>Side menu side menu!</div>}
+      title="test!"
+      headerAccent="purple"
+    />
+  );
+};
+
+FeedWithMenuShortPreview.story = {
+  name: "feed with menu (short)",
+};
+
+export const FeedWithMenuPreview = () => {
+  const [showSidebar, setShowSidebar] = React.useState(false);
+  return (
+    <Layout
+      mainContent={
+        <FeedWithMenu
+          sidebarContent={
+            <div
+              style={{ height: "5000px", width: "50%", backgroundColor: "red" }}
+            >
+              Sidebar!!
+            </div>
+          }
+          feedContent={
+            <div style={{ height: "5000px", backgroundColor: "green" }}>
+              Feed!!
+              <Button onClick={() => setShowSidebar(!showSidebar)}>
+                Click!
+              </Button>
+            </div>
+          }
+          showSidebar={showSidebar}
+          onCloseSidebar={() => setShowSidebar(false)}
+        />
+      }
+      sideMenuContent={<div>Side menu side menu!</div>}
+      title="test!"
+      headerAccent="purple"
+    />
+  );
+};
+
+FeedWithMenuPreview.story = {
+  name: "feed with menu",
 };
 
 export const Attempt1 = () => {
