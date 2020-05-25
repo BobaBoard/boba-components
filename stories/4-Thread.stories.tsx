@@ -163,6 +163,22 @@ export const SampleThread = () => {
           />
         </div>
       </ThreadIndent>
+      <ThreadIndent level={3}>
+        <div style={{ paddingTop: "15px", maxWidth: "550px" }}>
+          <Post
+            createdTime="2019/05/14 at 7:34pm"
+            text={
+              '[{"insert":{"block-image":"https://littlelessonslearned.files.wordpress.com/2012/03/the-lorax-pic091.jpg"}}]'
+            }
+            secretIdentity={{
+              name: "Bad Guy",
+              avatar: `/${greedlerAvatar}`,
+            }}
+            onNewContribution={() => console.log("click!")}
+            onNewComment={() => console.log("click!")}
+          />
+        </div>
+      </ThreadIndent>
     </div>
   );
 };
