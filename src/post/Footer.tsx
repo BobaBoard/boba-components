@@ -59,6 +59,8 @@ const EditFooter: React.FC<FooterProps> = ({
   );
 };
 
+const COMPACT_FOOTER_TRIGGER_SIZE = 450;
+
 // Footer for posts in "view" mode.
 const DisplayFooter: React.FC<FooterProps> = ({
   compact,
@@ -75,7 +77,7 @@ const DisplayFooter: React.FC<FooterProps> = ({
   // @ts-ignore
   let { width, height } = useComponentSize(ref);
   React.useEffect(() => {
-    setCompactFooter(width <= 300);
+    setCompactFooter(width < COMPACT_FOOTER_TRIGGER_SIZE);
   }, [width]);
   return (
     <div className="footer" ref={ref}>
