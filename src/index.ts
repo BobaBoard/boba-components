@@ -7,6 +7,9 @@ import SideMenu from "./SideMenu";
 import Button from "./common/Button";
 import Modal from "./common/Modal";
 import PostEditor from "./post/PostEditor";
+import Post from "./post/Post";
+import Comment from "./post/Comment";
+import ThreadIndent from "./post/ThreadIndent";
 import PostingActionButton from "./board/PostingActionButton";
 import Layout from "./Layout";
 
@@ -16,6 +19,9 @@ export {
   Button,
   SideMenu,
   Modal,
+  Post,
   PostEditor,
   PostingActionButton,
+  Comment,
+  ThreadIndent,
 };
