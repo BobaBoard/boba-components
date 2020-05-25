@@ -4,6 +4,7 @@ import Button from "../common/Button";
 import Theme from "../theme/default";
 import classNames from "classnames";
 import pluralize from "pluralize";
+import useComponentSize from "@rehooks/component-size";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 
 import { faComment, faPlusSquare } from "@fortawesome/free-regular-svg-icons";
@@ -69,8 +70,15 @@ const DisplayFooter: React.FC<FooterProps> = ({
   totalComments,
   newComments,
 }) => {
+  let [compactFooter, setCompactFooter] = React.useState(false);
+  let ref = React.useRef<HTMLDivElement>(null);
+  // @ts-ignore
+  let { width, height } = useComponentSize(ref);
+  React.useEffect(() => {
+    setCompactFooter(width <= 300);
+  }, [width]);
   return (
-    <div className="footer">
+    <div className="footer" ref={ref}>
       <div className="notes">
         <span className="notes-button">
           <Button
@@ -79,25 +87,28 @@ const DisplayFooter: React.FC<FooterProps> = ({
               totalContributions
             )} (${directContributions || 0} direct)`}
             updates={newContributions}
+            compact={compactFooter}
           >
             <>
               <span className="note-count">
                 {totalContributions || 0}
                 <FontAwesomeIcon icon={faPlusSquare} />
               </span>
-              <span className="note-breakdown">
-                [
-                <span className="note-count">
-                  {directContributions || 0}
-                  <FontAwesomeIcon icon={faAngleDoubleDown} />
+              {!compactFooter && (
+                <span className="note-breakdown">
+                  [
+                  <span className="note-count">
+                    <FontAwesomeIcon icon={faAngleDoubleDown} />
+                    {directContributions || 0}
+                  </span>
+                  ]
                 </span>
-                ]
-              </span>
+              )}
             </>
           </Button>
         </span>
         <span className="notes-button comments">
-          <Button updates={newComments}>
+          <Button updates={newComments} compact={compactFooter}>
             <span className="note-count">
               {totalComments || 0}
               <FontAwesomeIcon icon={faComment} />
@@ -110,18 +121,21 @@ const DisplayFooter: React.FC<FooterProps> = ({
           compact,
         })}
       >
-        <Button onClick={onContribution} icon={faPlusSquare}>
+        <Button
+          onClick={onContribution}
+          icon={faPlusSquare}
+          compact={compactFooter}
+        >
           Contribute
         </Button>
 
-        <Button onClick={onComment} icon={faComment}>
+        <Button onClick={onComment} icon={faComment} compact={compactFooter}>
           Comment
         </Button>
       </div>
 
       <style jsx>{`
         .notes .note-count {
-          color: ${Theme.LAYOUT_BOARD_BACKGROUND_COLOR};
           font-size: large;
           font-weight: bold;
         }
@@ -148,8 +162,12 @@ const DisplayFooter: React.FC<FooterProps> = ({
           position: relative;
           align-items: center;
         }
+        .footer-actions {
+          display: flex;
+          flex-wrap: no-wrap;
+        }
         .footer-actions > :global(div:not(:first-child)) > :global(button) {
-          margin-left: 10px;
+          margin-left: 5px;
         }
         .footer-actions > :global(button) > :global(span) {
           margin: 0 auto;

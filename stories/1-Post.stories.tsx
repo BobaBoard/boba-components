@@ -232,7 +232,7 @@ export const FooterStory = () => (
         directContributions={20}
         newContributions={12}
         newComments={30}
-        totalComments={599}
+        totalComments={69}
       />
       <Footer
         mode={footerModes.VIEW}
@@ -240,7 +240,7 @@ export const FooterStory = () => (
         directContributions={20}
         newContributions={12}
         newComments={30}
-        totalComments={599}
+        totalComments={69}
       />
     </div>
     <div style={{ maxWidth: "250px" }}>
@@ -250,7 +250,7 @@ export const FooterStory = () => (
         directContributions={20}
         newContributions={12}
         newComments={30}
-        totalComments={599}
+        totalComments={69}
       />
       <Footer
         mode={footerModes.VIEW}
@@ -258,7 +258,7 @@ export const FooterStory = () => (
         directContributions={20}
         newContributions={12}
         newComments={30}
-        totalComments={599}
+        totalComments={69}
       />
     </div>
     <style jsx>
