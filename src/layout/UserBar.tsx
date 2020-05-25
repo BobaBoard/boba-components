@@ -1,5 +1,5 @@
 import React from "react";
-import Button, { ButtonStyle } from "./common/Button";
+import Button, { ButtonStyle } from "../common/Button";
 import { faUser } from "@fortawesome/free-solid-svg-icons";
 
 const UserBar: React.FC<UserBarProps> = ({ color }) => {

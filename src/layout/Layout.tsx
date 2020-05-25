@@ -1,10 +1,10 @@
 import React from "react";
 import { faBars } from "@fortawesome/free-solid-svg-icons";
-import Button, { ButtonStyle } from "./common/Button";
-import UserBar from "../src/UserBar";
+import Button, { ButtonStyle } from "../common/Button";
+import UserBar from "./UserBar";
 import classnames from "classnames";
-import HighlightedText from "./common/HighlightedText";
-import Theme from "./theme/default";
+import HighlightedText from "../common/HighlightedText";
+import Theme from "../theme/default";
 import Div100vh from "react-div-100vh";
 
 import "@bobaboard/boba-editor/dist/main.css";
@@ -12,8 +12,8 @@ import "@bobaboard/boba-editor/dist/main.css";
 import "normalize.css";
 import "simplebar/dist/simplebar.min.css";
 
-import logo from "./images/logo.svg";
-import compactLogo from "./images/logo-compact.svg";
+import logo from "../images/logo.svg";
+import compactLogo from "../images/logo-compact.svg";
 
 const Layout: React.FC<LayoutProps> = ({
   sideMenuContent,

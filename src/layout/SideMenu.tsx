@@ -1,21 +1,21 @@
 import React from "react";
 
-import BoardPreview, { DisplayStyle } from "./board/BoardPreview";
-import BoardsGroup from "./board/BoardsGroup";
-import SearchBar from "../src/common/SearchBar";
+import BoardPreview, { DisplayStyle } from "../board/BoardPreview";
+import BoardsGroup from "../board/BoardsGroup";
+import SearchBar from "../common/SearchBar";
 
 import classnames from "classnames";
-import Scrollbar from "./common/Scrollbar";
+import Scrollbar from "../common/Scrollbar";
 import "simplebar/dist/simplebar.min.css";
 
-import anime from "../stories/images/anime.png";
-import crack from "../stories/images/crack.png";
-import oncelerBoard from "../stories/images/onceler-board.png";
-import meta from "../stories/images/meta.png";
-import book from "../stories/images/book.png";
-import villains from "../stories/images/villains.png";
-import kinkmeme from "../stories/images/kink-meme.png";
-import art from "../stories/images/art-crit.png";
+import anime from "../../stories/images/anime.png";
+import crack from "../../stories/images/crack.png";
+import oncelerBoard from "../../stories/images/onceler-board.png";
+import meta from "../../stories/images/meta.png";
+import book from "../../stories/images/book.png";
+import villains from "../../stories/images/villains.png";
+import kinkmeme from "../../stories/images/kink-meme.png";
+import art from "../../stories/images/art-crit.png";
 
 const SideMenu: React.FC<SideMenuProps> = ({ board }) => {
   const [searchVisible, setSearchVisible] = React.useState(false);
