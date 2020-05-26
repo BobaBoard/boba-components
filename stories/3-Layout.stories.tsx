@@ -15,6 +15,112 @@ import hannibalAvatar from "./images/hannibal.png";
 
 import goreBackground from "./images/gore.png";
 
+import anime from "./images/anime.png";
+import crack from "./images/crack.png";
+import oncelerBoard from "./images/onceler-board.png";
+import meta from "./images/meta.png";
+import book from "./images/book.png";
+import villains from "./images/villains.png";
+import kinkmeme from "./images/kink-meme.png";
+import art from "./images/art-crit.png";
+
+const PINNED_BOARDS = [
+  {
+    slug: "gore",
+    avatar: "/" + goreBackground,
+    description: "Love me some bruised bois (and more).",
+    color: "#f96680",
+  },
+  {
+    slug: "anime",
+    avatar: "/" + anime,
+    description: "We put the weeb in dweeb.",
+    color: "#24d282",
+    updates: 2,
+    backgroundColor: "#131518",
+  },
+  {
+    slug: "crack",
+    avatar: "/" + crack,
+    description: "What's crackalackin",
+    color: "#f9e066",
+    updates: 3,
+    backgroundColor: "#131518",
+  },
+  {
+    slug: "fic-club",
+    avatar: "/" + book,
+    description: "Come enjoy all the fics!",
+    color: "#7724d2",
+    updates: 5,
+    backgroundColor: "#131518",
+  },
+  {
+    slug: "meta",
+    avatar: "/" + meta,
+    description: "In My TiMeS wE CaLlEd It WaNk",
+    color: "#f9e066",
+  },
+  {
+    slug: "villain-thirst",
+    avatar: "/" + villains,
+    description: "Love to love 'em.",
+    color: "#e22b4b",
+  },
+];
+const SEARCH_BOARDS = [
+  {
+    slug: "villain-thirst",
+    avatar: "/" + villains,
+    description: "Love to love 'em.",
+    color: "#e22b4b",
+  },
+  {
+    slug: "art-crit",
+    avatar: "/" + art,
+    description: "Let's learn together!",
+    color: "#27caba",
+  },
+];
+const RECENT_BOARDS = [
+  {
+    slug: "gore",
+    avatar: "/" + goreBackground,
+    description: "Love me some bruised bois (and more).",
+    color: "#f96680",
+  },
+  {
+    slug: "oncie-den",
+    avatar: "/" + oncelerBoard,
+    description: "Party like it's 2012",
+    color: "#27caba",
+    updates: 10,
+    backgroundColor: "#131518",
+  },
+  {
+    slug: "fic-club",
+    avatar: "/" + book,
+    description: "Come enjoy all the fics!",
+    color: "#7724d2",
+    updates: 5,
+    backgroundColor: "#131518",
+  },
+  {
+    slug: "kink-memes",
+    avatar: "/" + kinkmeme,
+    description: "No limits. No shame.",
+    color: "#000000",
+  },
+  {
+    slug: "crack",
+    avatar: "/" + crack,
+    description: "What's crackalackin",
+    color: "#f9e066",
+    updates: 3,
+    backgroundColor: "#131518",
+  },
+];
+
 export default {
   title: "Layout Preview",
   component: Layout,
@@ -104,12 +210,9 @@ export const SideMenuPreview = () => {
   return (
     <div style={{ maxWidth: "500px", backgroundColor: "#131518" }}>
       <SideMenu
-        board={{
-          slug: "gore",
-          avatar: `/${goreBackground}`,
-          description: "Love me some bruised bois (and more).",
-          color: "#f96680",
-        }}
+        pinnedBoards={PINNED_BOARDS}
+        searchBoards={SEARCH_BOARDS}
+        recentBoards={RECENT_BOARDS}
       />
     </div>
   );
@@ -330,12 +433,9 @@ export const Attempt1 = () => {
         }
         sideMenuContent={
           <SideMenu
-            board={{
-              slug: "gore",
-              avatar: `/${goreBackground}`,
-              description: "Love me some bruised bois (and more).",
-              color: "#f96680",
-            }}
+            pinnedBoards={PINNED_BOARDS}
+            searchBoards={SEARCH_BOARDS}
+            recentBoards={RECENT_BOARDS}
           />
         }
         actionButton={
