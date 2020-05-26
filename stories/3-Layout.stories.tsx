@@ -201,6 +201,9 @@ export const Attempt1 = () => {
                   avatar: `/${oncelerAvatar}`,
                 },
                 newPost: true,
+                totalComments: 6,
+                totalContributions: 5,
+                directContributions: 3,
               },
               {
                 createdTime: "5 minutes ago",
@@ -211,6 +214,9 @@ export const Attempt1 = () => {
                   avatar: `/${oncelerAvatar}`,
                 },
                 newPost: true,
+                totalComments: 6,
+                totalContributions: 5,
+                directContributions: 3,
               },
               {
                 createdTime: "10 hours ago",
@@ -228,6 +234,9 @@ export const Attempt1 = () => {
                   wide: true,
                 },
                 newComments: 5,
+                totalComments: 6,
+                totalContributions: 5,
+                directContributions: 3,
               },
               {
                 createdTime: "yesterday",
@@ -239,6 +248,9 @@ export const Attempt1 = () => {
                 },
                 newComments: 5,
                 newContributions: 2,
+                totalComments: 6,
+                totalContributions: 5,
+                directContributions: 3,
               },
               {
                 createdTime: "3 days ago",
@@ -253,6 +265,9 @@ export const Attempt1 = () => {
                   avatar: `/${hannibalAvatar}`,
                 },
                 newContributions: 3,
+                totalComments: 6,
+                totalContributions: 5,
+                directContributions: 3,
               },
             ]}
             showSidebar={showSidebar}
