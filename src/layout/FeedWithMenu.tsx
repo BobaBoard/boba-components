@@ -131,13 +131,6 @@ const FeedWithMenu: React.FC<FeedWithMenuProps> = ({
       </Scrollbar>
       <style jsx>
         {`
-          .post {
-            margin: 20px auto;
-            width: 100%;
-          }
-          .post > :global(div) {
-            margin: 0 auto;
-          }
           .content {
             width: 100vw;
             display: flex;
