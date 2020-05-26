@@ -1,6 +1,7 @@
 import React from "react";
 //import { linkTo } from "@storybook/addon-links";
 import Comment from "../src/post/Comment";
+import CommentEditor from "../src/post/CommentEditor";
 
 import tuxedoAvatar from "./images/tuxedo-mask.jpg";
 import mamoruAvatar from "./images/mamoru.png";
@@ -13,26 +14,20 @@ export default {
 export const Editable = () => (
   <>
     <div style={{ width: "500px" }}>
-      <Comment
-        id="comment"
-        initialText={"[]"}
+      <CommentEditor
         secretIdentity={{ name: "Tuxedo Mask", avatar: `/${tuxedoAvatar}` }}
         userIdentity={{ name: "SexyDaddy69", avatar: `/${mamoruAvatar}` }}
         onSubmit={(text) => console.log(text)}
         onCancel={() => console.log("click!")}
-        editable
       />
     </div>
 
     <div style={{ width: "250px" }}>
-      <Comment
-        id="comment"
-        initialText={"[]"}
+      <CommentEditor
         secretIdentity={{ name: "Tuxedo Mask", avatar: `/${tuxedoAvatar}` }}
         userIdentity={{ name: "SexyDaddy69", avatar: `/${mamoruAvatar}` }}
         onSubmit={(text) => console.log(text)}
         onCancel={() => console.log("click!")}
-        editable
       />
     </div>
   </>
@@ -52,8 +47,6 @@ export const NonEditable = () => (
         }
         secretIdentity={{ name: "Tuxedo Mask", avatar: `/${tuxedoAvatar}` }}
         userIdentity={{ name: "SexyDaddy69", avatar: `/${mamoruAvatar}` }}
-        onSubmit={(text) => console.log(text)}
-        onCancel={() => console.log("click!")}
       />
     </div>
 
@@ -65,8 +58,6 @@ export const NonEditable = () => (
         }
         secretIdentity={{ name: "Tuxedo Mask", avatar: `/${tuxedoAvatar}` }}
         userIdentity={{ name: "SexyDaddy69", avatar: `/${mamoruAvatar}` }}
-        onSubmit={(text) => console.log(text)}
-        onCancel={() => console.log("click!")}
       />
     </div>
   </>
