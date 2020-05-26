@@ -23,6 +23,9 @@ export interface BoardFeedProps {
       wide?: boolean;
     };
     newPost?: boolean;
+    totalComments: number;
+    totalContributions: number;
+    directContributions: number;
     newComments?: number;
     newContributions?: number;
   }[];
@@ -179,6 +182,9 @@ const BoardFeed: React.FC<BoardFeedProps> = ({
                   newPost={post.newPost}
                   newComments={post.newComments}
                   newContributions={post.newContributions}
+                  totalComments={post.totalComments}
+                  totalContributions={post.totalContributions}
+                  directContributions={post.directContributions}
                   collapsed={!!post.newComments && !!post.newContributions}
                 />
               </div>
