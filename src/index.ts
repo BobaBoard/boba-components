@@ -14,6 +14,8 @@ import ThreadIndent from "./post/ThreadIndent";
 import PostingActionButton from "./board/PostingActionButton";
 import Layout from "./layout/Layout";
 
+import flush from "styled-jsx/server";
+
 export {
   Layout,
   BoardFeed,
@@ -26,4 +28,5 @@ export {
   Comment,
   ThreadIndent,
   FeedWithMenu,
+  flush,
 };

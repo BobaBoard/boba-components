@@ -42,7 +42,7 @@ module.exports = {
         // Include ts, tsx, js, and jsx files.
         test: /\.(ts|js)x?$/,
         exclude: /node_modules/,
-        loader: "babel-loader",
+        use: [{ loader: "babel-loader", options: { babelrc: true } }],
       },
       {
         test: /\.css$/i,
