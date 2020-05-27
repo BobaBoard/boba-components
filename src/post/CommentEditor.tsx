@@ -106,6 +106,7 @@ const Comment: React.FC<CommentProps> = (props) => {
         className={classNames("comment-container", {
           compact: size == SIZES.COMPACT,
           loading: props.loading,
+          centered: props.centered,
         })}
         ref={containerRef}
       >
@@ -148,11 +149,7 @@ const Comment: React.FC<CommentProps> = (props) => {
               props.onSubmit(text);
             }}
             onCancel={() => {
-              if (charactersTyped == 1) {
-                props.onCancel();
-              } else {
-                setShowCancelModal(true);
-              }
+              props.onCancel();
             }}
             loading={!!props.loading}
           />
@@ -190,11 +187,13 @@ const Comment: React.FC<CommentProps> = (props) => {
       </div>
       <style jsx>{`
         .comment-container {
-          margin-top: 15px;
-          margin-left: 30px;
           align-items: start;
           display: flex;
           position: relative;
+          max-width: 550px;
+        }
+        .comment-container.centered {
+          margin: 0 auto;
         }
         .header {
           margin-right: 10px;
@@ -251,6 +250,7 @@ export interface CommentProps {
   onCancel: () => void;
   onSubmit: (text: string) => void;
   loading?: boolean;
+  centered?: boolean;
 }
 
 export default Comment;

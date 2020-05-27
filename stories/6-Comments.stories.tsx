@@ -15,7 +15,7 @@ export default {
 
 export const Editable = () => (
   <>
-    <div style={{ width: "500px" }}>
+    <div style={{}}>
       <CommentEditor
         secretIdentity={{ name: "Tuxedo Mask", avatar: `/${tuxedoAvatar}` }}
         userIdentity={{ name: "SexyDaddy69", avatar: `/${mamoruAvatar}` }}
@@ -41,7 +41,7 @@ Editable.story = {
 
 export const NonEditable = () => (
   <>
-    <div style={{ width: "500px" }}>
+    <div style={{}}>
       <Comment
         id="comment"
         initialText={
@@ -73,7 +73,7 @@ export const LoadingState = () => {
   const [loading, setLoading] = React.useState(true);
   return (
     <>
-      <div style={{ width: "500px" }}>
+      <div style={{}}>
         <CommentEditor
           initialText={'[{ "insert": "Text text text" }]'}
           secretIdentity={{ name: "Tuxedo Mask", avatar: `/${tuxedoAvatar}` }}

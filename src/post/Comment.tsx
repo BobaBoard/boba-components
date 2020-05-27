@@ -59,6 +59,7 @@ const Comment: React.FC<CommentProps> = (props) => {
           margin-left: 30px;
           align-items: start;
           display: flex;
+          max-width: 550px;
         }
         .header {
           margin-right: 10px;
