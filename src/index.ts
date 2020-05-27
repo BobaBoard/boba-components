@@ -11,6 +11,7 @@ import Modal from "./common/Modal";
 import PostEditor from "./post/PostEditor";
 import Post, { PostSizes } from "./post/Post";
 import Comment from "./post/Comment";
+import CommentEditor from "./post/CommentEditor";
 import ThreadIndent from "./post/ThreadIndent";
 import PostingActionButton from "./board/PostingActionButton";
 import Layout from "./layout/Layout";
@@ -28,6 +29,7 @@ export {
   PostEditor,
   PostingActionButton,
   Comment,
+  CommentEditor,
   ThreadIndent,
   FeedWithMenu,
   BoardSidebar,
