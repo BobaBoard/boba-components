@@ -5,6 +5,7 @@ import Header, { HeaderStyle } from "./Header";
 import Button from "../common/Button";
 import { faCross, faCheck } from "@fortawesome/free-solid-svg-icons";
 import useComponentSize from "@rehooks/component-size";
+import Spinner from "../common/Spinner";
 
 export const modes = {
   VIEW: "VIEW",
@@ -23,6 +24,7 @@ const CommentFooter = (props: {
   onCancel: () => void;
   size: string;
   onSubmit: () => void;
+  loading: boolean;
 }) => {
   return (
     <>
@@ -40,12 +42,15 @@ const CommentFooter = (props: {
             onClick={props.onCancel}
             icon={faCross}
             compact={props.size === SIZES.COMPACT}
+            disabled={props.loading}
           >
             Cancel
           </Button>
           <Button
             onClick={props.onSubmit}
-            disabled={props.isEmpty || props.charactersLeft < 0}
+            disabled={
+              props.isEmpty || props.charactersLeft < 0 || props.loading
+            }
             icon={faCheck}
             compact={props.size === SIZES.COMPACT}
           >
@@ -87,14 +92,12 @@ const Comment: React.FC<CommentProps> = (props) => {
   // @ts-ignore
   const [showCancelModal, setShowCancelModal] = React.useState(false);
   const [size, setSize] = React.useState(SIZES.COMPACT);
-  const [sized, setSized] = React.useState(false);
   const [charactersTyped, setCharactersTyped] = React.useState(1);
-  const [text, setText] = React.useState("[]");
+  const [text, setText] = React.useState(props.initialText || "[]");
   // @ts-ignore
   let { width, height } = useComponentSize(containerRef);
-  React.useEffect(() => {
+  React.useLayoutEffect(() => {
     setSize(width > SIZE_TRIGGER ? SIZES.REGULAR : SIZES.COMPACT);
-    setSized(true);
   }, [width]);
 
   return (
@@ -102,7 +105,7 @@ const Comment: React.FC<CommentProps> = (props) => {
       <div
         className={classNames("comment-container", {
           compact: size == SIZES.COMPACT,
-          sized: sized,
+          loading: props.loading,
         })}
         ref={containerRef}
       >
@@ -114,20 +117,29 @@ const Comment: React.FC<CommentProps> = (props) => {
           />
         </div>
         <div className={classNames("comment")}>
-          <Editor
-            key={"comment_editor"}
-            editable
-            initialText={JSON.parse(text)}
-            onTextChange={(text) => setText(JSON.stringify(text))}
-            focus={!!props.focus}
-            onCharactersChange={(characters) => setCharactersTyped(characters)}
-            onSubmit={() => {
-              // This is for cmd + enter
-              props.onSubmit(text);
-            }}
-            singleLine={true}
-            showTooltip={false}
-          />
+          <div className="editor">
+            <div className={"spinner"}>
+              <Spinner size={50} />
+            </div>
+            <div>
+              <Editor
+                key={"comment_editor"}
+                editable={!props.loading}
+                initialText={JSON.parse(text)}
+                onTextChange={(text) => setText(JSON.stringify(text))}
+                focus={!!props.focus}
+                onCharactersChange={(characters) =>
+                  setCharactersTyped(characters)
+                }
+                onSubmit={() => {
+                  // This is for cmd + enter
+                  props.onSubmit(text);
+                }}
+                singleLine={true}
+                showTooltip={false}
+              />
+            </div>
+          </div>
           <CommentFooter
             size={size}
             charactersLeft={MAX_CHARACTERS - charactersTyped}
@@ -142,6 +154,7 @@ const Comment: React.FC<CommentProps> = (props) => {
                 setShowCancelModal(true);
               }
             }}
+            loading={!!props.loading}
           />
         </div>
         {/* 
@@ -176,14 +189,12 @@ const Comment: React.FC<CommentProps> = (props) => {
           </ModalTransition> */}
       </div>
       <style jsx>{`
-        .comment-container.sized {
-          display: flex;
-        }
         .comment-container {
           margin-top: 15px;
           margin-left: 30px;
           align-items: start;
-          display: none;
+          display: flex;
+          position: relative;
         }
         .header {
           margin-right: 10px;
@@ -201,6 +212,26 @@ const Comment: React.FC<CommentProps> = (props) => {
         .error {
           color: red;
         }
+        .editor {
+          position: relative;
+        }
+        .comment-container.loading .editor div:not(.spinner) {
+          opacity: 0.5;
+        }
+        .spinner {
+          position: absolute;
+          top: 0;
+          bottom: 0;
+          left: 0;
+          right: 0;
+          justify-content: center;
+          align-items: center;
+          z-index: 100;
+          display: none;
+        }
+        .comment-container.loading .spinner {
+          display: flex;
+        }
       `}</style>
     </>
   );
@@ -216,8 +247,10 @@ export interface CommentProps {
     avatar: string;
     name: string;
   };
+  initialText?: string;
   onCancel: () => void;
   onSubmit: (text: string) => void;
+  loading?: boolean;
 }
 
 export default Comment;
