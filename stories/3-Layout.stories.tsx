@@ -141,6 +141,7 @@ SimpleLayout.story = {
 };
 
 export const BoardSidebarPreview = () => {
+  const [color, setColor] = React.useState("#f96680");
   return (
     <div style={{ maxWidth: "500px" }}>
       <BoardSidebar
@@ -148,7 +149,7 @@ export const BoardSidebarPreview = () => {
           slug: "gore",
           avatar: `/${goreBackground}`,
           description: "Love me some bruised bois (and more).",
-          color: "#f96680",
+          color,
           boardWideTags: [
             { name: "gore", color: "#f96680" },
             { name: "guro", color: "#e22b4b" },
@@ -198,6 +199,9 @@ export const BoardSidebarPreview = () => {
           ),
         }}
       />
+      <Button onClick={() => setColor("#f96680")}>Pink</Button>
+      <Button onClick={() => setColor("#24d282")}>Green</Button>
+      <Button onClick={() => setColor("#27caba")}>Blue</Button>
     </div>
   );
 };

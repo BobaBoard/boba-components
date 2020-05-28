@@ -73,7 +73,7 @@ const HighlightedText: React.FC<HighlightedTextProps> = (props) => {
     setTimeout(addBackground, 150);
 
     return () => window.removeEventListener("resize", addBackground);
-  }, []);
+  }, [props.highlightColor]);
 
   return (
     <div>
