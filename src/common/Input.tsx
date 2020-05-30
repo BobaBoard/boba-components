@@ -31,6 +31,7 @@ const Input: React.FC<InputProps> = (props) => {
         error: !!props.errorMessage,
         focused,
         empty: props.value.length == 0,
+        disabled: props.disabled,
       })}
     >
       <div className="label">{props.label}</div>
@@ -50,9 +51,12 @@ const Input: React.FC<InputProps> = (props) => {
           type={props.password ? "password" : "text"}
           value={props.value}
           placeholder={props.label}
-          onChange={(e) => props.onTextChange(e.target.value)}
-          onFocus={() => !props.disabled && setFocused(true)}
+          onChange={(e) =>
+            !props.disabled && props.onTextChange(e.target.value)
+          }
+          onFocus={(e) => !props.disabled && setFocused(true)}
           onBlur={() => !props.disabled && setFocused(false)}
+          disabled={props.disabled}
         />
       </label>
       <style jsx>{`
@@ -60,6 +64,9 @@ const Input: React.FC<InputProps> = (props) => {
           display: inline-block;
           position: relative;
           width: 100%;
+        }
+        .input.disabled {
+          opacity: 0.8;
         }
         .input .label {
           opacity: 1;
@@ -77,11 +84,12 @@ const Input: React.FC<InputProps> = (props) => {
         }
         .input-field {
           border-radius: 25px;
-          padding: 10px 10px;
+          padding: 10px 15px;
           border: 2px solid ${props.color || REVERSE_THEME_COLOR};
           color: ${props.color || REVERSE_THEME_COLOR};
           background-color: ${THEME_COLOR};
           width: 100%;
+          box-sizing: border-box;
         }
         .input-field:focus {
           outline: none;

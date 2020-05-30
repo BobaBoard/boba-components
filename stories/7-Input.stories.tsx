@@ -105,3 +105,59 @@ export const Password = () => {
 Password.story = {
   name: "password",
 };
+
+export const Disabled = () => {
+  const [text, setText] = React.useState("disabled");
+  return (
+    <>
+      <div style={{ margin: "25px" }}>
+        <Input
+          id="test1"
+          value={text}
+          label="A text input"
+          onTextChange={(text) => setText(text)}
+          disabled
+        />
+        <Input
+          id="test1"
+          value={text}
+          label="A text input"
+          onTextChange={(text) => setText(text)}
+          theme={InputStyle.DARK}
+          disabled
+        />
+        <Input
+          id="test1"
+          value={text}
+          label="A text input"
+          onTextChange={(text) => setText(text)}
+          theme={InputStyle.LIGHT}
+          color="#f96680"
+          disabled
+        />
+        <Input
+          id="test1"
+          value={text}
+          label="A text input"
+          onTextChange={(text) => setText(text)}
+          theme={InputStyle.DARK}
+          color="#f96680"
+          disabled
+        />
+        <Input
+          id="test1"
+          value={text}
+          label="A text input"
+          onTextChange={(text) => setText(text)}
+          theme={InputStyle.DARK}
+          color="#f96680"
+          disabled
+        />
+      </div>
+    </>
+  );
+};
+
+Disabled.story = {
+  name: "disabled",
+};
