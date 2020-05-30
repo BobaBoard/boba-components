@@ -13,7 +13,7 @@ export interface InputProps {
   label: string;
   disabled?: boolean;
   errorMessage?: string;
-  onTextChange: (string) => void;
+  onTextChange: (text: string) => void;
   theme?: InputStyle;
   color?: string;
   password?: boolean;

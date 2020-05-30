@@ -7,6 +7,7 @@ import BoardSidebar from "./board/BoardSidebar";
 import SideMenu from "./layout/SideMenu";
 import FeedWithMenu from "./layout/FeedWithMenu";
 import Button from "./common/Button";
+import Input from "./common/Input";
 import Modal from "./common/Modal";
 import PostEditor from "./post/PostEditor";
 import Post, { PostSizes } from "./post/Post";
@@ -23,6 +24,7 @@ export {
   BoardFeed,
   Button,
   SideMenu,
+  Input,
   Modal,
   Post,
   PostSizes,
