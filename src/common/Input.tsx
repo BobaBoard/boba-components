@@ -59,6 +59,7 @@ const Input: React.FC<InputProps> = (props) => {
         .input {
           display: inline-block;
           position: relative;
+          width: 100%;
         }
         .input .label {
           opacity: 1;
@@ -80,6 +81,7 @@ const Input: React.FC<InputProps> = (props) => {
           border: 2px solid ${props.color || REVERSE_THEME_COLOR};
           color: ${props.color || REVERSE_THEME_COLOR};
           background-color: ${THEME_COLOR};
+          width: 100%;
         }
         .input-field:focus {
           outline: none;
