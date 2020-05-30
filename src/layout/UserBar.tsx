@@ -2,18 +2,18 @@ import React from "react";
 import Button, { ButtonStyle } from "../common/Button";
 import { faUser } from "@fortawesome/free-solid-svg-icons";
 
-const UserBar: React.FC<UserBarProps> = ({ color }) => {
+const UserBar: React.FC<UserBarProps> = ({ color, onClick }) => {
   return (
     <div className="container">
       <Button
         icon={faUser}
         compact
-        onClick={() => console.log("click!")}
+        onClick={onClick}
         color={color}
         theme={ButtonStyle.DARK}
       >
         User Menu
-      </Button>{" "}
+      </Button>
       <style jsx>{`
         .sidebar {
           padding: 20px;
@@ -30,4 +30,5 @@ export default UserBar;
 
 export interface UserBarProps {
   color?: string;
+  onClick?: () => void;
 }
