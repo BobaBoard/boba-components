@@ -3,7 +3,6 @@ import React from "react";
 import Comment from "../src/post/Comment";
 import CommentEditor from "../src/post/CommentEditor";
 import Button from "../src/common/Button";
-6352;
 
 import tuxedoAvatar from "./images/tuxedo-mask.jpg";
 import mamoruAvatar from "./images/mamoru.png";
