@@ -5,12 +5,32 @@ import Footer, { modes as footerModes } from "./Footer";
 import Card from "../common/Card";
 import { PostSizes, getPostWidth } from "./Post";
 import Spinner from "../common/Spinner";
-import Editor from "@bobaboard/boba-editor";
+import Editor, { getAllImages, replaceImages } from "@bobaboard/boba-editor";
 
 import Theme from "../theme/default";
 import Button from "../common/Button";
 import { faPortrait, faImage } from "@fortawesome/free-solid-svg-icons";
 import classnames from "classnames";
+
+const prepareForSubmission = (
+  text: string,
+  uploadFunction: (src: string) => Promise<string>
+) => {
+  const delta = JSON.parse(text);
+  const images = getAllImages(delta);
+  return Promise.all(images.map((src) => uploadFunction(src))).then(
+    (uploadedImages) => {
+      const replacements = images.reduce((obj, image, index) => {
+        return {
+          ...obj,
+          [image]: uploadedImages[index],
+        };
+      }, {});
+      replaceImages(delta, replacements);
+      return JSON.stringify(delta);
+    }
+  );
+};
 
 const PostEditor: React.FC<PostEditorProps> = (props) => {
   const [size, setNewSize] = React.useState(
@@ -55,10 +75,15 @@ const PostEditor: React.FC<PostEditorProps> = (props) => {
               <Footer
                 mode={footerModes.CREATE}
                 onSubmit={() =>
-                  props.onSubmit({
-                    text: newText,
-                    large: size == PostSizes.WIDE,
-                  })
+                  props.onSubmit(
+                    prepareForSubmission(
+                      newText,
+                      props.onImageUploadRequest
+                    ).then((uploadedText) => ({
+                      text: uploadedText,
+                      large: size == PostSizes.WIDE,
+                    }))
+                  )
                 }
                 onCancel={props.onCancel}
                 submittable={!props.loading && !isEmpty}
@@ -84,10 +109,15 @@ const PostEditor: React.FC<PostEditorProps> = (props) => {
                 editable={!props.loading}
                 focus={true}
                 onSubmit={() =>
-                  props.onSubmit({
-                    text: newText,
-                    large: size == PostSizes.WIDE,
-                  })
+                  props.onSubmit(
+                    prepareForSubmission(
+                      newText,
+                      props.onImageUploadRequest
+                    ).then((uploadedText) => ({
+                      text: uploadedText,
+                      large: size == PostSizes.WIDE,
+                    }))
+                  )
                 }
                 onIsEmptyChange={(empty: boolean) => {
                   setIsEmpty(empty);
@@ -161,7 +191,8 @@ export interface PostEditorProps {
   };
   loading?: boolean;
   defaultSize?: PostSizes;
-  onSubmit: (post: { text: string; large: boolean }) => void;
+  onImageUploadRequest: (imgUrl: string) => Promise<string>;
+  onSubmit: (postPromise: Promise<{ text: string; large: boolean }>) => void;
   onCancel: () => void;
   centered?: boolean;
 }
