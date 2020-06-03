@@ -66,6 +66,8 @@ const Post: React.FC<PostProps> = (props) => {
                 totalComments={props.totalComments}
                 newContributions={props.newContributions}
                 newComments={props.newComments}
+                onOpenComments={props.onOpenComments}
+                onOpenContributions={props.onOpenContributions}
               />
             </div>
           }
@@ -130,4 +132,6 @@ export interface PostProps {
   onNewContribution: () => void;
   onNewComment: () => void;
   collapsed?: boolean;
+  onOpenComments?: () => void;
+  onOpenContributions?: () => void;
 }

@@ -65,6 +65,8 @@ const DisplayFooter: React.FC<FooterProps> = ({
   compact,
   onContribution,
   onComment,
+  onOpenContributions,
+  onOpenComments,
   totalContributions,
   directContributions,
   newContributions,
@@ -89,6 +91,7 @@ const DisplayFooter: React.FC<FooterProps> = ({
             )} (${directContributions || 0} direct)`}
             updates={newContributions}
             compact={compactFooter}
+            onClick={onOpenContributions}
           >
             <>
               <span className="note-count">
@@ -109,7 +112,11 @@ const DisplayFooter: React.FC<FooterProps> = ({
           </Button>
         </span>
         <span className="notes-button comments">
-          <Button updates={newComments} compact={compactFooter}>
+          <Button
+            updates={newComments}
+            compact={compactFooter}
+            onClick={onOpenComments}
+          >
             <span className="note-count">
               {totalComments || 0}
               <FontAwesomeIcon icon={faComment} />
@@ -217,4 +224,6 @@ interface FooterProps {
   newContributions?: number;
   totalComments?: number;
   newComments?: number;
+  onOpenComments?: () => void;
+  onOpenContributions?: () => void;
 }
