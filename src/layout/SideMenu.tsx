@@ -12,6 +12,7 @@ const SideMenu: React.FC<SideMenuProps> = ({
   pinnedBoards,
   recentBoards,
   searchBoards,
+  showSearch,
 }) => {
   const [searchVisible, setSearchVisible] = React.useState(false);
   return (
@@ -23,7 +24,7 @@ const SideMenu: React.FC<SideMenuProps> = ({
               slug={board.slug}
               avatar={board.avatar}
               description={board.description}
-              onClick={() => console.log("go!")}
+              onClick={() => board.onClick?.(board.slug)}
               displayStyle={DisplayStyle.MINI}
               updates={board.updates}
               color={board.color}
@@ -31,47 +32,57 @@ const SideMenu: React.FC<SideMenuProps> = ({
           ))}
         </BoardsGroup>
 
-        <div className="search-bar">
-          <SearchBar
-            initialText={"Search Boards"}
-            onChange={(text) => {
-              setSearchVisible(text != "");
-            }}
-          />
-        </div>
-        <div
-          className={classnames("search-result", { visible: searchVisible })}
-        >
-          <BoardsGroup title="Search Results">
-            {searchBoards.map((board) => (
-              <BoardPreview
-                slug={board.slug}
-                avatar={board.avatar}
-                description={board.description}
-                onClick={() => console.log("go!")}
-                displayStyle={DisplayStyle.COMPACT}
-                updates={board.updates}
-                color={board.color}
+        {showSearch && (
+          <>
+            <div className="search-bar">
+              <SearchBar
+                initialText={"Search Boards"}
+                onChange={(text) => {
+                  setSearchVisible(text != "");
+                }}
               />
-            ))}
-          </BoardsGroup>
-        </div>
+            </div>
+            <div
+              className={classnames("search-result", {
+                visible: searchVisible,
+              })}
+            >
+              {searchBoards && (
+                <BoardsGroup title="Search Results">
+                  {searchBoards.map((board) => (
+                    <BoardPreview
+                      slug={board.slug}
+                      avatar={board.avatar}
+                      description={board.description}
+                      onClick={() => board.onClick?.(board.slug)}
+                      displayStyle={DisplayStyle.COMPACT}
+                      updates={board.updates}
+                      color={board.color}
+                    />
+                  ))}
+                </BoardsGroup>
+              )}
+            </div>
+          </>
+        )}
         <div
           className={classnames("recent-boards", { visible: !searchVisible })}
         >
-          <BoardsGroup title="Recent Boards">
-            {recentBoards.map((board) => (
-              <BoardPreview
-                slug={board.slug}
-                avatar={board.avatar}
-                description={board.description}
-                onClick={() => console.log("go!")}
-                displayStyle={DisplayStyle.COMPACT}
-                updates={board.updates}
-                color={board.color}
-              />
-            ))}
-          </BoardsGroup>
+          {recentBoards && (
+            <BoardsGroup title="Recent Boards">
+              {recentBoards.map((board) => (
+                <BoardPreview
+                  slug={board.slug}
+                  avatar={board.avatar}
+                  description={board.description}
+                  onClick={() => board.onClick?.(board.slug)}
+                  displayStyle={DisplayStyle.COMPACT}
+                  updates={board.updates}
+                  color={board.color}
+                />
+              ))}
+            </BoardsGroup>
+          )}
         </div>
         <style jsx>
           {`
@@ -111,19 +122,23 @@ export interface SideMenuProps {
     description: string;
     color: string;
     updates?: number;
+    onClick?: (slug: string) => void;
   }[];
-  recentBoards: {
+  recentBoards?: {
     slug: string;
     avatar: string;
     description: string;
     color: string;
     updates?: number;
+    onClick?: (slug: string) => void;
   }[];
-  searchBoards: {
+  searchBoards?: {
     slug: string;
     avatar: string;
     description: string;
     color: string;
     updates?: number;
+    onClick?: (slug: string) => void;
   }[];
+  showSearch: boolean;
 }

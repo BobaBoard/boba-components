@@ -31,6 +31,8 @@ const Metadata: React.FC<PostHeaderProps> = (props) => {
       maxSize: 24,
     });
   }, [width]);
+  const hasUserIdentity =
+    props.userIdentity && props.userIdentity.name && props.userIdentity.avatar;
   let metadata = (
     <>
       <div
@@ -42,11 +44,11 @@ const Metadata: React.FC<PostHeaderProps> = (props) => {
         <div className="metadata">
           <div className="metadata-identity">
             <div className="nickname" ref={nicknameRef}>
-              {props.userIdentity && !props.forceHide
-                ? props.userIdentity.name
+              {hasUserIdentity && !props.forceHide
+                ? props.userIdentity?.name
                 : props.secretIdentity.name}
             </div>
-            {props.userIdentity && !props.forceHide && (
+            {hasUserIdentity && !props.forceHide && (
               <div className="secret-identity">
                 ({props.secretIdentity.name})
               </div>
