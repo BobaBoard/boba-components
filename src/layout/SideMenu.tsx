@@ -15,6 +15,7 @@ const SideMenu: React.FC<SideMenuProps> = ({
   showSearch,
 }) => {
   const [searchVisible, setSearchVisible] = React.useState(false);
+  const hasSearchBar = showSearch || typeof showSearch === "undefined";
   return (
     <Scrollbar>
       <div className="side-menu">
@@ -32,7 +33,7 @@ const SideMenu: React.FC<SideMenuProps> = ({
           ))}
         </BoardsGroup>
 
-        {showSearch && (
+        {hasSearchBar && (
           <>
             <div className="search-bar">
               <SearchBar
@@ -140,5 +141,5 @@ export interface SideMenuProps {
     updates?: number;
     onClick?: (slug: string) => void;
   }[];
-  showSearch: boolean;
+  showSearch?: boolean;
 }
