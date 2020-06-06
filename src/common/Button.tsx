@@ -23,6 +23,7 @@ const Button: React.FC<ButtonProps> = ({
   disabled,
   tooltip,
   updates,
+  imageUrl,
 }) => {
   const [tooltipOpen, setTooltipOpen] = React.useState(false);
   const THEME_COLOR = theme == ButtonStyle.DARK ? "#1c1c1c" : "#fff";
@@ -42,7 +43,9 @@ const Button: React.FC<ButtonProps> = ({
                 <FontAwesomeIcon icon={icon} />
               </div>
             )}
-            {(!compact || !icon) && children}
+            {imageUrl && <img className="image" src={imageUrl} />}
+            {/* if the button is compact then don't display the text, unless there's no icon or image.*/}
+            {(!compact || (!icon && !imageUrl)) && children}
           </LibraryButton>
         </div>
       </Tooltip>
@@ -83,6 +86,19 @@ const Button: React.FC<ButtonProps> = ({
           display: inline-block;
           margin-right: 5px;
         }
+        .image {
+          margin-right: 5px;
+          vertical-align: middle;
+          width: 20px;
+          height: auto;
+          margin-top: -3px;
+          margin-left: -3px;
+          border-radius: 50%;
+        }
+        .compact .image {
+          margin-left: 0px;
+          margin-right: 0px;
+        }
         .updates {
           background-color: ${color || REVERSE_THEME_COLOR};
           position: absolute;
@@ -119,6 +135,7 @@ export interface ButtonProps {
   children: string | JSX.Element;
   tooltip?: string | JSX.Element;
   icon?: IconDefinition;
+  imageUrl?: string;
   compact?: boolean;
   onClick?: () => void;
   disabled?: boolean;

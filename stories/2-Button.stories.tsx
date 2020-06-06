@@ -2,6 +2,7 @@ import React from "react";
 //import { linkTo } from "@storybook/addon-links";
 import Button, { ButtonStyle } from "../src/common/Button";
 import { faCoffee } from "@fortawesome/free-solid-svg-icons";
+import mamoru from "./images/mamoru.png";
 
 export default {
   title: "Button Preview",
@@ -27,6 +28,12 @@ export const SimpleButton = () => {
         <Button icon={faCoffee} compact updates={5}>
           This is a compact button with updates
         </Button>
+        <Button imageUrl={mamoru} updates={5}>
+          This is a button with image
+        </Button>
+        <Button imageUrl={mamoru} compact updates={5}>
+          This is a compact button with image
+        </Button>
       </div>
 
       <div>
@@ -49,6 +56,12 @@ export const SimpleButton = () => {
         <Button theme={ButtonStyle.DARK} icon={faCoffee} compact updates={5}>
           This is a compact button with updates
         </Button>
+        <Button theme={ButtonStyle.DARK} imageUrl={mamoru} updates={5}>
+          This is a button with image
+        </Button>
+        <Button theme={ButtonStyle.DARK} imageUrl={mamoru} compact updates={5}>
+          This is a compact button with image
+        </Button>
       </div>
 
       <div>
@@ -70,6 +83,12 @@ export const SimpleButton = () => {
         </Button>
         <Button color="#f96680" icon={faCoffee} compact updates={5}>
           This is a compact button with updates
+        </Button>
+        <Button color="#f96680" imageUrl={mamoru} updates={5}>
+          This is a button with image
+        </Button>
+        <Button color="#f96680" imageUrl={mamoru} compact updates={5}>
+          This is a compact button with image
         </Button>
       </div>
 
@@ -117,6 +136,23 @@ export const SimpleButton = () => {
         >
           This is a compact button with updates
         </Button>
+        <Button
+          color="#f96680"
+          theme={ButtonStyle.DARK}
+          imageUrl={mamoru}
+          updates={5}
+        >
+          This is a button with image
+        </Button>
+        <Button
+          color="#f96680"
+          theme={ButtonStyle.DARK}
+          imageUrl={mamoru}
+          compact
+          updates={5}
+        >
+          This is a compact button with image
+        </Button>
       </div>
 
       <style jsx>
@@ -124,6 +160,7 @@ export const SimpleButton = () => {
           div > div {
             display: flex;
             justify-content: space-evenly;
+            flex-wrap: wrap;
             margin-top: 15px;
           }
         `}

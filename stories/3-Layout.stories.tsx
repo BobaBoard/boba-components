@@ -23,6 +23,7 @@ import book from "./images/book.png";
 import villains from "./images/villains.png";
 import kinkmeme from "./images/kink-meme.png";
 import art from "./images/art-crit.png";
+import mamoru from "./images/mamoru.png";
 
 const PINNED_BOARDS = [
   {
@@ -138,6 +139,24 @@ export const SimpleLayout = () => {
 
 SimpleLayout.story = {
   name: "simple",
+};
+
+export const LoggedInLayout = () => {
+  return (
+    <Layout
+      mainContent={<div>This is the main content!</div>}
+      sideMenuContent={<div>Get a load of this menu content!</div>}
+      title="!gore"
+      user={{
+        username: "SexyDaddy69",
+        avatarUrl: mamoru,
+      }}
+    />
+  );
+};
+
+LoggedInLayout.story = {
+  name: "logged in",
 };
 
 export const BoardSidebarPreview = () => {

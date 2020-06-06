@@ -23,6 +23,8 @@ const Layout: React.FC<LayoutProps> = ({
   onTitleClick,
   onUserBarClick,
   actionButton,
+  user,
+  loading,
 }) => {
   const [showSideMenu, setShowSideMenu] = React.useState(false);
   return (
@@ -69,7 +71,12 @@ const Layout: React.FC<LayoutProps> = ({
                 </div>
               )}
             </div>
-            <UserBar color={headerAccent} onClick={onUserBarClick} />
+            <UserBar
+              color={headerAccent}
+              onClick={onUserBarClick}
+              user={user}
+              loading={loading}
+            />
           </div>
           <div className="content">
             {mainContent}
@@ -238,8 +245,10 @@ export interface LayoutProps {
   headerAccent?: string;
   title?: string;
   actionButton?: JSX.Element;
+  user?: { username: string; avatarUrl?: string };
   onTitleClick?: () => void;
   onUserBarClick?: () => void;
+  loading?: boolean;
 }
 
 export default Layout;
