@@ -5,6 +5,7 @@ import Header, { HeaderStyle } from "./Header";
 import Footer, { modes as footerModes } from "./Footer";
 import Card from "../common/Card";
 import Editor from "@bobaboard/boba-editor";
+import classnames from "classnames";
 
 import Theme from "../theme/default";
 
@@ -35,7 +36,9 @@ const Post: React.FC<PostProps> = (props) => {
     props.newComments || props.newContributions || props.newPost;
   return (
     <>
-      <div className="post-container">
+      <div
+        className={classnames("post-container", { centered: props.centered })}
+      >
         {hasUpdate && (
           <UpdatesHeader
             newPost={props.newPost}
@@ -95,6 +98,9 @@ const Post: React.FC<PostProps> = (props) => {
         .post-container {
           max-width: ${getPostWidth(props.size)}px;
         }
+        .post-container.centered {
+          margin: 0 auto;
+        }
         .footer {
           border-radius: 0px 0px ${Theme.BORDER_RADIUS_REGULAR}
             ${Theme.BORDER_RADIUS_REGULAR};
@@ -134,4 +140,5 @@ export interface PostProps {
   collapsed?: boolean;
   onOpenComments?: () => void;
   onOpenContributions?: () => void;
+  centered?: boolean;
 }
