@@ -71,3 +71,33 @@ export const LoggedIn = () => {
 LoggedIn.story = {
   name: "logged in",
 };
+
+export const Loading = () => {
+  return (
+    <>
+      <div style={{ margin: "25px" }}>
+        <UserBar
+          user={{
+            username: "SexyDaddy69",
+          }}
+          onClick={() => console.log("click!")}
+          loading={true}
+        />
+      </div>
+      <div style={{ margin: "25px" }}>
+        <UserBar
+          user={{
+            username: "SexyDaddy69",
+          }}
+          onClick={() => console.log("click!")}
+          color="orange"
+          loading={true}
+        />
+      </div>
+    </>
+  );
+};
+
+Loading.story = {
+  name: "loading",
+};

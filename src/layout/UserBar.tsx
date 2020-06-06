@@ -2,7 +2,7 @@ import React from "react";
 import Button, { ButtonStyle } from "../common/Button";
 import { faUser } from "@fortawesome/free-solid-svg-icons";
 
-const UserBar: React.FC<UserBarProps> = ({ user, color, onClick }) => {
+const UserBar: React.FC<UserBarProps> = ({ user, color, onClick, loading }) => {
   return (
     <div className="container">
       <Button
@@ -12,7 +12,7 @@ const UserBar: React.FC<UserBarProps> = ({ user, color, onClick }) => {
         color={color}
         theme={ButtonStyle.DARK}
       >
-        {user?.username || "Login"}
+        {loading ? "loading..." : user?.username || "Login"}
       </Button>
       <style jsx>{`
         .sidebar {
