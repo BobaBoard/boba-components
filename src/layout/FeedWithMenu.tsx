@@ -134,11 +134,7 @@ const FeedWithMenu: React.FC<FeedWithMenuProps> = ({
           .content {
             width: 100vw;
             display: flex;
-            background-image: linear-gradient(
-              to right,
-              ${Theme.LAYOUT_BOARD_SIDEBAR_BACKGROUND_COLOR} 350px,
-              transparent 350px
-            );
+            min-height: calc(100vh - 70px);
           }
           .main {
             display: flex;
@@ -151,7 +147,7 @@ const FeedWithMenu: React.FC<FeedWithMenuProps> = ({
             width: 350px;
             background-color: ${Theme.LAYOUT_BOARD_SIDEBAR_BACKGROUND_COLOR};
             flex-shrink: 0;
-            height: 100%;
+            height: auto;
           }
 
           .backdrop {

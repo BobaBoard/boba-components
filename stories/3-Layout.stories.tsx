@@ -254,12 +254,12 @@ export const FeedWithMenuShortPreview = () => {
             <div
               style={{ height: "500px", width: "50%", backgroundColor: "red" }}
             >
-              Sidebar!!
+              Sidebar Content!!
             </div>
           }
           feedContent={
             <div style={{ height: "500px", backgroundColor: "green" }}>
-              Feed!!
+              Feed Content!!
             </div>
           }
         />
