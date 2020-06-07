@@ -64,7 +64,7 @@ CompactThreadStory.story = {
   name: "compact",
 };
 
-export const SampleThread = () => {
+export const RegularThread = () => {
   return (
     <div
       style={{
@@ -183,6 +183,58 @@ export const SampleThread = () => {
   );
 };
 
-SampleThread.story = {
-  name: "sample",
+RegularThread.story = {
+  name: "regular",
+};
+
+export const ShortContent = () => {
+  return (
+    <div
+      style={{
+        marginLeft: "100px",
+        backgroundColor: Theme.LAYOUT_BOARD_BACKGROUND_COLOR,
+      }}
+    >
+      <ThreadIndent level={0}>
+        <div style={{ paddingTop: "15px", maxWidth: "550px" }}>
+          <Post
+            createdTime="2019/05/14 at 7:34pm"
+            text={
+              '[{"insert":"Open RP"}, {"attributes":{"italic":true},"insert":"You have my sword..."}]'
+            }
+            secretIdentity={{ name: "Tuxedo Mask", avatar: `/${tuxedoAvatar}` }}
+            userIdentity={{ name: "SexyDaddy69", avatar: `/${mamoruAvatar}` }}
+            onNewContribution={() => console.log("click!")}
+            onNewComment={() => console.log("click!")}
+            newComments={3}
+            newContributions={5}
+          />
+        </div>
+      </ThreadIndent>
+      <ThreadIndent level={1}>
+        <div style={{ paddingTop: "15px", opacity: 0.7 }}>
+          <Post
+            createdTime="2019/05/14 at 7:34pm"
+            text={
+              '[{"attributes":{"italic":true}, "insert":"...and my bow..."}]'
+            }
+            secretIdentity={{
+              name: "Nice Therapist",
+              avatar: `/${hannibalAvatar}`,
+            }}
+            userIdentity={{
+              name: "xXxChesapeakeRipperxXx",
+              avatar: `/${hannibalAvatar}`,
+            }}
+            onNewContribution={() => console.log("click!")}
+            onNewComment={() => console.log("click!")}
+          />
+        </div>
+      </ThreadIndent>
+    </div>
+  );
+};
+
+ShortContent.story = {
+  name: "short content (flex)",
 };

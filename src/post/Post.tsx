@@ -96,7 +96,8 @@ const Post: React.FC<PostProps> = (props) => {
           padding: 10px;
         }
         .post-container {
-          max-width: ${getPostWidth(props.size)}px;
+          width: ${getPostWidth(props.size)}px;
+          max-width: 100%;
         }
         .post-container.centered {
           margin: 0 auto;

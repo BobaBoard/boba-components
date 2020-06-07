@@ -132,7 +132,6 @@ const PostEditor: React.FC<PostEditorProps> = (props) => {
       </div>
       <style jsx>{`
         .post-container {
-          width: 100%;
           max-width: ${getPostWidth(size)}px;
         }
         .post-container.centered {

@@ -55,8 +55,8 @@ const Comment: React.FC<CommentProps> = (props) => {
       </div>
       <style jsx>{`
         .comment-container {
-          margin-top: 15px;
-          margin-left: 30px;
+          padding-top: 15px;
+          padding-left: 30px;
           align-items: start;
           display: flex;
           max-width: 550px;

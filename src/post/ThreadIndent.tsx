@@ -25,13 +25,13 @@ const withNesting = (
           position: absolute;
           left: -${indentationSizePx + barGap}px;
           top: -150px;
-          bottom: 15px;
+          bottom: 0;
           background-color: ${Theme.INDENT_COLORS[
             (maxLevel - level) % Theme.INDENT_COLORS.length
           ]};
           width: ${indentationSizePx}px;
           opacity: 1;
-          border-bottom-left-radius: ${30}px;
+          border-radius: 100px;
         }
       `}</style>
     </>
