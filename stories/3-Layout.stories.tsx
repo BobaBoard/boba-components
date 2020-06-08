@@ -133,6 +133,7 @@ export const SimpleLayout = () => {
       mainContent={<div>This is the main content!</div>}
       sideMenuContent={<div>Get a load of this menu content!</div>}
       title="!gore"
+      onLogoClick={() => console.log("clack")}
     />
   );
 };
@@ -469,6 +470,7 @@ export const Attempt1 = () => {
         }
         headerAccent="#f96680"
         title="!gore"
+        onLogoClick={() => console.log("clack")}
         onTitleClick={() => {
           setShowSidebar(!showSidebar);
         }}

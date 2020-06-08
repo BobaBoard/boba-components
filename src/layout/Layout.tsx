@@ -22,6 +22,7 @@ const Layout: React.FC<LayoutProps> = ({
   title,
   onTitleClick,
   onUserBarClick,
+  onLogoClick,
   actionButton,
   user,
   loading,
@@ -59,7 +60,7 @@ const Layout: React.FC<LayoutProps> = ({
                   Menu
                 </Button>{" "}
               </div>
-              <a className="logo">
+              <a className="logo" onClick={onLogoClick}>
                 <img src={logo} className="regular" />
                 <img src={compactLogo} className="compact" />
               </a>
@@ -139,6 +140,7 @@ const Layout: React.FC<LayoutProps> = ({
           .logo {
             position: relative;
             height: 100%;
+            cursor: pointer;
           }
           .logo > img {
             height: 100%;
@@ -246,6 +248,7 @@ export interface LayoutProps {
   title?: string;
   actionButton?: JSX.Element;
   user?: { username: string; avatarUrl?: string };
+  onLogoClick?: () => void;
   onTitleClick?: () => void;
   onUserBarClick?: () => void;
   loading?: boolean;
