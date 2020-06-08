@@ -20,13 +20,13 @@ const UpdatesHeader: React.FC<UpdatesHeaderProps> = (props) => {
           <FontAwesomeIcon icon={faCertificate} /> New post
         </div>
       )}
-      {props.newContributions && (
+      {!!props.newContributions && (
         <div className="update new-contributions">
           <FontAwesomeIcon icon={faPlusSquare} /> {props.newContributions} new{" "}
           {pluralize("contribution", props.newContributions)}
         </div>
       )}
-      {props.newComments && (
+      {!!props.newComments && (
         <div className="update new-comments">
           <FontAwesomeIcon icon={faComment} /> {props.newComments} new{" "}
           {pluralize("comment", props.newComments)}

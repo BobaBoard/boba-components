@@ -89,7 +89,7 @@ const DisplayFooter: React.FC<FooterProps> = ({
               "contribution",
               totalContributions
             )} (${directContributions || 0} direct)`}
-            updates={newContributions}
+            updates={newContributions || undefined}
             compact={compactFooter}
             onClick={onOpenContributions}
           >
@@ -113,7 +113,7 @@ const DisplayFooter: React.FC<FooterProps> = ({
         </span>
         <span className="notes-button comments">
           <Button
-            updates={newComments}
+            updates={newComments || undefined}
             compact={compactFooter}
             onClick={onOpenComments}
           >
