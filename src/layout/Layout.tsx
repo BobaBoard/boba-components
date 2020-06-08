@@ -23,6 +23,7 @@ const Layout: React.FC<LayoutProps> = ({
   onTitleClick,
   onUserBarClick,
   onLogoClick,
+  onSideMenuOpen,
   actionButton,
   user,
   loading,
@@ -251,6 +252,7 @@ export interface LayoutProps {
   onLogoClick?: () => void;
   onTitleClick?: () => void;
   onUserBarClick?: () => void;
+  onSideMenuOpen?: (open: boolean) => void;
   loading?: boolean;
 }
 
