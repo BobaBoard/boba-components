@@ -1,6 +1,7 @@
 import React from "react";
 import classnames from "classnames";
 import { hex2rgba } from "../utils";
+import fitty from "fitty";
 
 import HighlightedText from "../common/HighlightedText";
 
@@ -18,6 +19,18 @@ const Slug: React.FC<{
   color: string;
   displayStyle: DisplayStyle;
 }> = ({ name, visible, color, displayStyle }) => {
+  let ref = React.useRef<HTMLSpanElement>(null);
+
+  React.useEffect(() => {
+    if (!ref.current) {
+      return;
+    }
+    // @ts-ignore
+    fitty(ref.current, {
+      maxSize: 80,
+    });
+  }, [ref.current]);
+
   return (
     <div
       className={classnames("slug-container", {
@@ -32,7 +45,7 @@ const Slug: React.FC<{
           <span>!{name}</span>
         </HighlightedText>
       ) : (
-        <span>!{name}</span>
+        <span ref={ref}>!{name}</span>
       )}
       <style jsx>{`
         .slug-container {
@@ -61,7 +74,7 @@ const Slug: React.FC<{
           font-size: 30px;
         }
         .slug-container.mini span {
-          display: none;
+          display: none !important;
         }
         .slug-container.regular span:hover {
           filter: invert(100%);
@@ -76,6 +89,10 @@ const Slug: React.FC<{
           left: 50%;
           transform: translate(-50%, -50%);
           position: absolute;
+          text-overflow: ellipsis;
+          width: 100%;
+          overflow: hidden;
+          padding: 5px;
         }
       `}</style>
     </div>
@@ -88,6 +105,17 @@ const Description: React.FC<{
   color: string;
   displayStyle: DisplayStyle;
 }> = ({ description, visible, color, displayStyle }) => {
+  let ref = React.useRef<HTMLDivlement>(null);
+
+  React.useEffect(() => {
+    if (!ref.current) {
+      return;
+    }
+    // @ts-ignore
+    fitty(ref.current, {
+      maxSize: 80,
+    });
+  }, [ref.current]);
   return (
     <div
       className={classnames("description-container", {
@@ -96,6 +124,7 @@ const Description: React.FC<{
         mini: displayStyle == DisplayStyle.MINI,
         hidden: !visible,
       })}
+      ref={ref}
     >
       <span>{description}</span>
       <style jsx>{`
@@ -110,7 +139,7 @@ const Description: React.FC<{
           text-align: left;
         }
         .description-container.hidden {
-          display: none;
+          display: none !important;
         }
         .description-container.compact {
           cursor: pointer;
@@ -121,6 +150,9 @@ const Description: React.FC<{
           text-align: center;
           background-color: ${hex2rgba(color, 0.3)};
           border-radius: 15px;
+          text-overflow: ellipsis;
+          overflow: hidden;
+          padding: 5px;
         }
         .description-container.regular {
           font-size: 20px;
@@ -135,8 +167,8 @@ const Description: React.FC<{
           margin-top: 0px;
           font-size: 18px;
         }
-        .description-container.mini span {
-          display: none;
+        .description-container.mini {
+          display: none !important;
         }
         .description-container.compact span {
           top: 50%;

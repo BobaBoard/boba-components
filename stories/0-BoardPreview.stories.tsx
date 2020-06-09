@@ -34,13 +34,26 @@ BoardPreviewSimple.story = {
 };
 
 export const BoardPreviewCompact = () => (
-  <BoardPreview
-    slug="gore"
-    avatar={`/${goreBackground}`}
-    description="Love me some bruised bois (and more)."
-    onClick={() => console.log("go!")}
-    displayStyle={DisplayStyle.COMPACT}
-  ></BoardPreview>
+  <div>
+    <div>
+      <BoardPreview
+        slug="gore"
+        avatar={`/${goreBackground}`}
+        description="Love me some bruised bois (and more)."
+        onClick={() => console.log("go!")}
+        displayStyle={DisplayStyle.COMPACT}
+      ></BoardPreview>
+    </div>
+    <div>
+      <BoardPreview
+        slug="thisisalongslug"
+        avatar={`/${goreBackground}`}
+        description="haveyoueverseen a description this long? oh shit boy here we come. Hey whaddup!"
+        onClick={() => console.log("go!")}
+        displayStyle={DisplayStyle.COMPACT}
+      ></BoardPreview>
+    </div>
+  </div>
 );
 
 BoardPreviewCompact.story = {
