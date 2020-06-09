@@ -32,7 +32,7 @@ const Layout: React.FC<LayoutProps> = ({
   const [showSideMenu, setShowSideMenu] = React.useState(false);
   return (
     <Div100vh>
-      <LoadingBar loading={loading} />
+      <LoadingBar loading={loading} accentColor={headerAccent} />
       <div className="layout">
         <div className={classnames("side-menu", { visible: showSideMenu })}>
           <div className="side-menu-content">{sideMenuContent}</div>

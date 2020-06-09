@@ -2,7 +2,6 @@ import React from "react";
 // @ts-ignore
 import LoadingBar from "react-top-loading-bar";
 import css from "styled-jsx/css";
-import { hex2rgba } from "../utils";
 
 const getLoadingBarStyle = (color: string) => {
   return css.resolve`
