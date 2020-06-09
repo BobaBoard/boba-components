@@ -151,22 +151,24 @@ export const FooterStory = () => (
   <div>
     <h2>Empty</h2>
     <div style={{ maxWidth: "500px" }}>
-      <Footer mode={footerModes.CREATE} />
-      <Footer mode={footerModes.VIEW} />
+      <Footer answerable mode={footerModes.CREATE} />
+      <Footer answerable mode={footerModes.VIEW} />
     </div>
     <div style={{ maxWidth: "250px" }}>
-      <Footer mode={footerModes.CREATE} />
-      <Footer mode={footerModes.VIEW} />
+      <Footer answerable mode={footerModes.CREATE} />
+      <Footer answerable mode={footerModes.VIEW} />
     </div>
     <h2>No Updates</h2>
     <div style={{ maxWidth: "500px" }}>
       <Footer
+        answerable
         mode={footerModes.CREATE}
         totalContributions={5}
         directContributions={2}
         totalComments={5}
       />
       <Footer
+        answerable
         mode={footerModes.VIEW}
         totalContributions={5}
         directContributions={2}
@@ -175,12 +177,14 @@ export const FooterStory = () => (
     </div>
     <div style={{ maxWidth: "250px" }}>
       <Footer
+        answerable
         mode={footerModes.CREATE}
         totalContributions={5}
         directContributions={2}
         totalComments={5}
       />
       <Footer
+        answerable
         mode={footerModes.VIEW}
         totalContributions={5}
         directContributions={2}
@@ -190,6 +194,7 @@ export const FooterStory = () => (
     <h2>With Updates</h2>
     <div style={{ maxWidth: "500px" }}>
       <Footer
+        answerable
         mode={footerModes.CREATE}
         totalContributions={5}
         directContributions={2}
@@ -198,6 +203,7 @@ export const FooterStory = () => (
         totalComments={5}
       />
       <Footer
+        answerable
         mode={footerModes.VIEW}
         totalContributions={5}
         directContributions={2}
@@ -208,6 +214,7 @@ export const FooterStory = () => (
     </div>
     <div style={{ maxWidth: "250px" }}>
       <Footer
+        answerable
         mode={footerModes.CREATE}
         totalContributions={5}
         directContributions={2}
@@ -216,6 +223,7 @@ export const FooterStory = () => (
         totalComments={5}
       />
       <Footer
+        answerable
         mode={footerModes.VIEW}
         totalContributions={5}
         directContributions={2}
@@ -227,6 +235,7 @@ export const FooterStory = () => (
     <h2>With High Counts</h2>
     <div style={{ maxWidth: "500px" }}>
       <Footer
+        answerable
         mode={footerModes.CREATE}
         totalContributions={305}
         directContributions={20}
@@ -235,6 +244,7 @@ export const FooterStory = () => (
         totalComments={69}
       />
       <Footer
+        answerable
         mode={footerModes.VIEW}
         totalContributions={305}
         directContributions={20}
@@ -245,6 +255,7 @@ export const FooterStory = () => (
     </div>
     <div style={{ maxWidth: "250px" }}>
       <Footer
+        answerable
         mode={footerModes.CREATE}
         totalContributions={305}
         directContributions={20}
@@ -253,6 +264,7 @@ export const FooterStory = () => (
         totalComments={69}
       />
       <Footer
+        answerable
         mode={footerModes.VIEW}
         totalContributions={305}
         directContributions={20}
@@ -428,10 +440,34 @@ export const UpdatedPost = () => (
     />
   </>
 );
+export const answerablePost = () => (
+  <>
+    <Post
+      createdTime="2019/05/14 at 7:34pm"
+      text={
+        '[{"insert":"Open RP"},{"attributes":{"header":1},"insert":"\\n"},{"insert":{"block-image":"https://cdn.discordapp.com/attachments/443967088118333442/691486081895628830/unknown.png"}}, {"attributes":{"italic":true},"insert":"You have my sword..."}]'
+      }
+      secretIdentity={{ name: "Tuxedo Mask", avatar: `/${tuxedoAvatar}` }}
+      userIdentity={{ name: "SexyDaddy69", avatar: `/${mamoruAvatar}` }}
+      onNewContribution={() => console.log("click!")}
+      onNewComment={() => console.log("click!")}
+      totalContributions={15}
+      directContributions={3}
+      totalComments={5}
+      newComments={3}
+      newContributions={5}
+      answerable={true}
+    />
+  </>
+);
+
 NonEditable.story = {
   name: "non-editable post",
 };
 
 UpdatedPost.story = {
   name: "updated post",
+};
+answerablePost.story = {
+  name: "answerable",
 };

@@ -72,6 +72,7 @@ const DisplayFooter: React.FC<FooterProps> = ({
   newContributions,
   totalComments,
   newComments,
+  answerable,
 }) => {
   let [compactFooter, setCompactFooter] = React.useState(false);
   let ref = React.useRef<HTMLDivElement>(null);
@@ -129,17 +130,25 @@ const DisplayFooter: React.FC<FooterProps> = ({
           compact,
         })}
       >
-        <Button
-          onClick={onContribution}
-          icon={faPlusSquare}
-          compact={compactFooter}
-        >
-          Contribute
-        </Button>
+        {answerable && (
+          <>
+            <Button
+              onClick={onContribution}
+              icon={faPlusSquare}
+              compact={compactFooter}
+            >
+              Contribute
+            </Button>
 
-        <Button onClick={onComment} icon={faComment} compact={compactFooter}>
-          Comment
-        </Button>
+            <Button
+              onClick={onComment}
+              icon={faComment}
+              compact={compactFooter}
+            >
+              Comment
+            </Button>
+          </>
+        )}
       </div>
 
       <style jsx>{`
@@ -216,7 +225,7 @@ interface FooterProps {
   onComment?: () => void;
   onContribution?: () => void;
   compact?: boolean;
-  editable?: boolean;
+  answerable?: boolean;
   submittable?: boolean;
   cancellable?: boolean;
   totalContributions?: number;

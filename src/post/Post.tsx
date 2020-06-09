@@ -71,6 +71,7 @@ const Post: React.FC<PostProps> = (props) => {
                 newComments={props.newComments}
                 onOpenComments={props.onOpenComments}
                 onOpenContributions={props.onOpenContributions}
+                answerable={props.answerable}
               />
             </div>
           }
@@ -119,6 +120,7 @@ export interface PostProps {
   mode?: string;
   focus?: boolean;
   editable?: boolean;
+  answerable?: boolean;
   text: string;
   createdTime: string;
   secretIdentity: {
