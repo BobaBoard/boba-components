@@ -28,6 +28,7 @@ const Layout: React.FC<LayoutProps> = ({
   actionButton,
   user,
   loading,
+  updates,
 }) => {
   const [showSideMenu, setShowSideMenu] = React.useState(false);
   return (
@@ -59,6 +60,7 @@ const Layout: React.FC<LayoutProps> = ({
                   onClick={() => setShowSideMenu(!showSideMenu)}
                   color={headerAccent}
                   theme={ButtonStyle.DARK}
+                  updates={updates}
                 >
                   Menu
                 </Button>{" "}
@@ -256,6 +258,7 @@ export interface LayoutProps {
   onUserBarClick?: () => void;
   onSideMenuOpen?: (open: boolean) => void;
   loading?: boolean;
+  updates?: number | boolean;
 }
 
 export default Layout;
