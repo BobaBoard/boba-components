@@ -16,32 +16,46 @@ const BoardSidebar: React.FC<BoardSidebarProps> = ({ board }) => {
           ></BoardPreview>
         </div>
         <div className="tag-clouds">
-          <h2>Board-wide Tags</h2>
-          <div className="tag-group">
-            {board.boardWideTags.map((tag) => (
-              <Tag name={tag.name} color={tag.color} />
-            ))}
-          </div>
-          <h2>Canonical Board Tags</h2>
-          <div className="tag-group">
-            {board.canonicalTags.map((tag) => (
-              <Tag name={tag.name} color={tag.color} />
-            ))}
-          </div>
-          <h2>Content Rules</h2>
-          <div className="tag-group">
-            {board.contentRulesTags.map((tag) => (
-              <Tag
-                symbol={tag.allowed ? "✓" : "✘"}
-                name={tag.name}
-                color={tag.allowed ? "#66f98c" : "#ff0124"}
-              />
-            ))}
-          </div>
-          <h2>Other Rules</h2>
-          <div className="other">{board.otherRules}</div>
-          <div></div>
-          <div></div>
+          {board.boardWideTags && (
+            <>
+              <h2>Board-wide Tags</h2>
+              <div className="tag-group">
+                {board.boardWideTags.map((tag) => (
+                  <Tag name={tag.name} color={tag.color} />
+                ))}
+              </div>
+            </>
+          )}
+          {board.canonicalTags && (
+            <>
+              <h2>Canonical Board Tags</h2>
+              <div className="tag-group">
+                {board.canonicalTags.map((tag) => (
+                  <Tag name={tag.name} color={tag.color} />
+                ))}
+              </div>
+            </>
+          )}
+          {board.contentRulesTags && (
+            <>
+              <h2>Content Rules</h2>
+              <div className="tag-group">
+                {board.contentRulesTags.map((tag) => (
+                  <Tag
+                    symbol={tag.allowed ? "✓" : "✘"}
+                    name={tag.name}
+                    color={tag.allowed ? "#66f98c" : "#ff0124"}
+                  />
+                ))}
+              </div>
+            </>
+          )}
+          {board.otherRules && (
+            <>
+              <h2>Other Rules</h2>
+              <div className="other">{board.otherRules}</div>
+            </>
+          )}
         </div>
       </div>
       <style jsx>{`
@@ -91,18 +105,18 @@ export interface BoardSidebarProps {
     avatar: string;
     description: string;
     color: string;
-    boardWideTags: {
+    boardWideTags?: {
       name: string;
       color: string;
     }[];
-    canonicalTags: {
+    canonicalTags?: {
       name: string;
       color: string;
     }[];
-    contentRulesTags: {
+    contentRulesTags?: {
       allowed: boolean;
       name: string;
     }[];
-    otherRules: JSX.Element;
+    otherRules?: JSX.Element;
   };
 }

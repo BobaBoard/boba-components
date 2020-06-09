@@ -19,19 +19,21 @@ const SideMenu: React.FC<SideMenuProps> = ({
   return (
     <Scrollbar>
       <div className="side-menu">
-        <BoardsGroup title="Pinned Boards">
-          {pinnedBoards.map((board) => (
-            <BoardPreview
-              slug={board.slug}
-              avatar={board.avatar}
-              description={board.description}
-              onClick={() => board.onClick?.(board.slug)}
-              displayStyle={DisplayStyle.MINI}
-              updates={board.updates}
-              color={board.color}
-            />
-          ))}
-        </BoardsGroup>
+        {pinnedBoards && (
+          <BoardsGroup title="Pinned Boards">
+            {pinnedBoards.map((board) => (
+              <BoardPreview
+                slug={board.slug}
+                avatar={board.avatar}
+                description={board.description}
+                onClick={() => board.onClick?.(board.slug)}
+                displayStyle={DisplayStyle.MINI}
+                updates={board.updates}
+                color={board.color}
+              />
+            ))}
+          </BoardsGroup>
+        )}
 
         {hasSearchBar && (
           <>
@@ -117,7 +119,7 @@ const SideMenu: React.FC<SideMenuProps> = ({
 export default SideMenu;
 
 export interface SideMenuProps {
-  pinnedBoards: {
+  pinnedBoards?: {
     slug: string;
     avatar: string;
     description: string;
