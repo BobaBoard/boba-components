@@ -6,6 +6,7 @@ import classnames from "classnames";
 import HighlightedText from "../common/HighlightedText";
 import Theme from "../theme/default";
 import Div100vh from "react-div-100vh";
+import LoadingBar from "../common/LoadingBar";
 
 import "@bobaboard/boba-editor/dist/main.css";
 
@@ -31,6 +32,7 @@ const Layout: React.FC<LayoutProps> = ({
   const [showSideMenu, setShowSideMenu] = React.useState(false);
   return (
     <Div100vh>
+      <LoadingBar loading={loading} />
       <div className="layout">
         <div className={classnames("side-menu", { visible: showSideMenu })}>
           <div className="side-menu-content">{sideMenuContent}</div>

@@ -160,6 +160,30 @@ LoggedInLayout.story = {
   name: "logged in",
 };
 
+export const LoadingLayout = () => {
+  const [loading, setLoading] = React.useState(true);
+  return (
+    <Layout
+      mainContent={
+        <div>
+          <Button onClick={() => setLoading(!loading)}>toggle</Button>
+        </div>
+      }
+      sideMenuContent={<div>Get a load of this menu content!</div>}
+      title="!gore"
+      user={{
+        username: "SexyDaddy69",
+        avatarUrl: mamoru,
+      }}
+      loading={loading}
+    />
+  );
+};
+
+LoadingLayout.story = {
+  name: "loading",
+};
+
 export const BoardSidebarPreview = () => {
   const [color, setColor] = React.useState("#f96680");
   return (
