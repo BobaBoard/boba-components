@@ -154,6 +154,31 @@ export const SimpleButton = () => {
           This is a compact button with image
         </Button>
       </div>
+      <div>
+        <Button color="#f96680" imageUrl={mamoru} updates={true}>
+          This is a button with an undisclosed number of updates
+        </Button>
+        <Button color="#f96680" imageUrl={mamoru} compact updates={true}>
+          This is a compact button with an undisclosed number of updates
+        </Button>
+        <Button
+          color="#f96680"
+          theme={ButtonStyle.DARK}
+          imageUrl={mamoru}
+          updates={true}
+        >
+          This is a button with an undisclosed number of updates
+        </Button>
+        <Button
+          color="#f96680"
+          theme={ButtonStyle.DARK}
+          imageUrl={mamoru}
+          compact
+          updates={true}
+        >
+          This is a compact button with an undisclosed number of updates
+        </Button>
+      </div>
 
       <style jsx>
         {`

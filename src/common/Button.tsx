@@ -1,6 +1,7 @@
 import "@trendmicro/react-buttons/dist/react-buttons.css";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { IconDefinition } from "@fortawesome/fontawesome-common-types";
+import { faCertificate } from "@fortawesome/free-solid-svg-icons";
 import classnames from "classnames";
 
 import React from "react";
@@ -36,7 +37,15 @@ const Button: React.FC<ButtonProps> = ({
           onMouseEnter={() => tooltip && setTooltipOpen(true)}
           onMouseLeave={() => setTooltipOpen(false)}
         >
-          {updates && <div className="updates">{updates}</div>}
+          {updates && (
+            <div className="updates">
+              {updates === true ? (
+                <FontAwesomeIcon icon={faCertificate} />
+              ) : (
+                updates
+              )}
+            </div>
+          )}
           <LibraryButton btnStyle="flat" onClick={onClick} disabled={disabled}>
             {icon && (
               <div className="icon">
@@ -142,5 +151,5 @@ export interface ButtonProps {
   primary?: boolean;
   color?: string;
   theme?: ButtonStyle;
-  updates?: number;
+  updates?: number | boolean;
 }
