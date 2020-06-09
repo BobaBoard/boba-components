@@ -1,9 +1,19 @@
 import React from "react";
 //import { linkTo } from "@storybook/addon-links";
 import BoardPreview, { DisplayStyle } from "../src/board/BoardPreview";
+import BoardsDisplay from "../src/board/BoardsDisplay";
 import Tag from "../src/common/Tag";
 
 import goreBackground from "./images/gore.png";
+import anime from "./images/anime.png";
+import crack from "./images/crack.png";
+import oncelerBoard from "./images/onceler-board.png";
+import meta from "./images/meta.png";
+import book from "./images/book.png";
+import villains from "./images/villains.png";
+import kinkmeme from "./images/kink-meme.png";
+import art from "./images/art-crit.png";
+import mamoru from "./images/mamoru.png";
 
 export default {
   title: "Board Preview",
@@ -214,4 +224,56 @@ export const BoardPreviewWithColors = () => (
 
 BoardPreviewWithColors.story = {
   name: "with colors",
+};
+
+export const BoardsDisplayStory = () => (
+  <div style={{ width: "500px" }}>
+    <BoardsDisplay
+      boards={[
+        {
+          slug: "gore",
+          avatar: "/" + goreBackground,
+          description: "Love me some bruised bois (and more).",
+          color: "#f96680",
+        },
+        {
+          slug: "anime",
+          avatar: "/" + anime,
+          description: "We put the weeb in dweeb.",
+          color: "#24d282",
+          updates: 2,
+        },
+        {
+          slug: "crack",
+          avatar: "/" + crack,
+          description: "What's crackalackin",
+          color: "#f9e066",
+          updates: 3,
+        },
+        {
+          slug: "fic-club",
+          avatar: "/" + book,
+          description: "Come enjoy all the fics!",
+          color: "#7724d2",
+          updates: 5,
+        },
+        {
+          slug: "meta",
+          avatar: "/" + meta,
+          description: "In My TiMeS wE CaLlEd It WaNk",
+          color: "#f9e066",
+        },
+        {
+          slug: "villain-thirst",
+          avatar: "/" + villains,
+          description: "Love to love 'em.",
+          color: "#e22b4b",
+        },
+      ]}
+      onBoardClick={(slug) => console.log(slug)}
+    />
+  </div>
+);
+BoardsDisplayStory.story = {
+  name: "boards display",
 };

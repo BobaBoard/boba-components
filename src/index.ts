@@ -4,6 +4,7 @@ import "react-loader-spinner/dist/loader/css/react-spinner-loader.css";
 
 import BoardFeed from "./board/BoardFeed";
 import BoardSidebar from "./board/BoardSidebar";
+import BoardsDisplay from "./board/BoardsDisplay";
 import SideMenu from "./layout/SideMenu";
 import FeedWithMenu from "./layout/FeedWithMenu";
 import Button, { ButtonStyle } from "./common/Button";
@@ -37,5 +38,6 @@ export {
   ThreadIndent,
   FeedWithMenu,
   BoardSidebar,
+  BoardsDisplay,
   flush,
 };

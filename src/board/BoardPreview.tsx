@@ -306,7 +306,7 @@ export interface BoardPreviewProps {
   color?: string;
   backgroundColor?: string;
   onClick?: () => void;
-  updates?: number;
+  updates?: number | boolean;
 }
 
 export default BoardPreview;
