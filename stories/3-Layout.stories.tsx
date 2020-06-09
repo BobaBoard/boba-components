@@ -176,6 +176,7 @@ export const LoadingLayout = () => {
         avatarUrl: mamoru,
       }}
       loading={loading}
+      updates={true}
     />
   );
 };
