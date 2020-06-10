@@ -19,7 +19,7 @@ const Slug: React.FC<{
   color: string;
   displayStyle: DisplayStyle;
 }> = ({ name, visible, color, displayStyle }) => {
-  let ref = React.useRef<HTMLSpanElement>(null);
+  const ref = React.useRef<HTMLSpanElement>(null);
 
   React.useEffect(() => {
     if (!ref.current) {
@@ -105,7 +105,7 @@ const Description: React.FC<{
   color: string;
   displayStyle: DisplayStyle;
 }> = ({ description, visible, color, displayStyle }) => {
-  let ref = React.useRef<HTMLDivlement>(null);
+  const ref = React.useRef<HTMLDivElement>(null);
 
   React.useEffect(() => {
     if (!ref.current) {
@@ -144,6 +144,9 @@ const Description: React.FC<{
         .description-container.compact {
           cursor: pointer;
           top: 0;
+          left: 0;
+          bottom: 0;
+          right: 0;
           width: 100%;
           position: absolute;
           border: 3px ${color} solid;
@@ -156,6 +159,7 @@ const Description: React.FC<{
         }
         .description-container.regular {
           font-size: 20px;
+          white-space: normal !important;
         }
         .description-container.regular span {
           background-color: #2f2f30;
