@@ -17,7 +17,7 @@ const SideMenu: React.FC<SideMenuProps> = ({
   const [searchVisible, setSearchVisible] = React.useState(false);
   const hasSearchBar = showSearch || typeof showSearch === "undefined";
   return (
-    <Scrollbar>
+    <Scrollbar height="100vh">
       <div className="side-menu">
         {pinnedBoards && (
           <BoardsGroup title="Pinned Boards">
@@ -90,7 +90,7 @@ const SideMenu: React.FC<SideMenuProps> = ({
         <style jsx>
           {`
             .side-menu {
-              padding: 15px;
+              padding: 20px 15px;
             }
             .search-bar {
               margin-top: 20px;

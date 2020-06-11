@@ -192,11 +192,11 @@ const Layout = React.forwardRef<{ closeSideMenu: () => void }, LayoutProps>(
               transition-timing-function: easeInSine;
               z-index: 1;
               width: 0;
-              padding: 15px 0px;
               flex-shrink: 0;
             }
             .side-menu-content {
               width: 500px;
+              position: relative;
             }
             .side-menu.visible {
               width: 500px;
