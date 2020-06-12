@@ -30,6 +30,7 @@ const Layout = React.forwardRef<{ closeSideMenu: () => void }, LayoutProps>(
       user,
       loading,
       updates,
+      forceHideTitle,
     },
     ref
   ) => {
@@ -78,8 +79,13 @@ const Layout = React.forwardRef<{ closeSideMenu: () => void }, LayoutProps>(
                   <img src={logo} className="regular" />
                   <img src={compactLogo} className="compact" />
                 </a>
-                {title && (
-                  <div className="title" onClick={onTitleClick}>
+                {title && !forceHideTitle && (
+                  <div
+                    className={classnames("title", {
+                      "desktop-hidden": forceHideTitle,
+                    })}
+                    onClick={onTitleClick}
+                  >
                     <HighlightedText highlightColor={headerAccent || "#fffff"}>
                       <span className="title-text">{title}</span>
                     </HighlightedText>
@@ -202,12 +208,14 @@ const Layout = React.forwardRef<{ closeSideMenu: () => void }, LayoutProps>(
               width: 500px;
             }
             .title {
-              display: none;
               margin: 0px 35px;
               color: white;
               font-size: 30px;
               font-weight: bold;
               cursor: pointer;
+            }
+            .title.desktop-hidden {
+              display: none;
             }
             .title-text {
               outline: none;
@@ -237,6 +245,9 @@ const Layout = React.forwardRef<{ closeSideMenu: () => void }, LayoutProps>(
               .title {
                 display: block;
               }
+              .title.desktop-hidden {
+                display: block;
+              }
               .side-menu.visible {
                 width: calc(100vw - 100px);
                 max-width: 500px;
@@ -264,6 +275,8 @@ export interface LayoutProps {
   sideMenuContent: JSX.Element;
   headerAccent?: string;
   title?: string;
+  // Force hides the title from desktop
+  forceHideTitle?: boolean;
   actionButton?: JSX.Element;
   user?: { username: string; avatarUrl?: string };
   onLogoClick?: () => void;
