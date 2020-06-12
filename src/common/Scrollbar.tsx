@@ -7,17 +7,15 @@ export interface ScrollbarProps {
   height?: string;
 }
 
-const Scrollbar: React.ComponentType<ScrollbarProps> = React.forwardRef(
-  (props, ref) => {
-    return (
-      <SimpleBar
-        style={{ maxHeight: props.height || "100%", width: "100%" }}
-        ref={ref}
-      >
-        {props.children}
-      </SimpleBar>
-    ) as JSX.Element;
-  }
-);
+const Scrollbar = React.forwardRef<SimpleBar, ScrollbarProps>((props, ref) => {
+  return (
+    <SimpleBar
+      style={{ maxHeight: props.height || "100%", width: "100%" }}
+      ref={ref}
+    >
+      {props.children}
+    </SimpleBar>
+  ) as JSX.Element;
+});
 
 export default Scrollbar;
