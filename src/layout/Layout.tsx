@@ -79,7 +79,7 @@ const Layout = React.forwardRef<{ closeSideMenu: () => void }, LayoutProps>(
                   <img src={logo} className="regular" />
                   <img src={compactLogo} className="compact" />
                 </a>
-                {title && !forceHideTitle && (
+                {title && (
                   <div
                     className={classnames("title", {
                       "desktop-hidden": forceHideTitle,

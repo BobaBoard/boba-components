@@ -9,6 +9,7 @@ import SideMenu from "./layout/SideMenu";
 import FeedWithMenu from "./layout/FeedWithMenu";
 import Button, { ButtonStyle } from "./common/Button";
 import Input, { InputStyle } from "./common/Input";
+import ToastContainer, { toast } from "./common/Toast";
 import Modal from "./common/Modal";
 import PostEditor from "./post/PostEditor";
 import Post, { PostSizes } from "./post/Post";
@@ -39,5 +40,7 @@ export {
   FeedWithMenu,
   BoardSidebar,
   BoardsDisplay,
+  ToastContainer,
+  toast,
   flush,
 };

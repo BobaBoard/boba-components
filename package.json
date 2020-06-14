@@ -44,6 +44,7 @@
     "react-modal": "^3.11.2",
     "react-search-field": "^1.0.0",
     "react-tiny-popover": "^4.1.0",
+    "react-toastify": "^6.0.5",
     "react-top-loading-bar": "^1.2.0",
     "resize-observer-polyfill": "^1.5.1",
     "simplebar-react": "^2.2.0",
