@@ -5,12 +5,18 @@ import Footer, { modes as footerModes } from "./Footer";
 import Card from "../common/Card";
 import { PostSizes, getPostWidth } from "./Post";
 import Spinner from "../common/Spinner";
-import Editor, { getAllImages, replaceImages } from "@bobaboard/boba-editor";
+import Editor, {
+  getAllImages,
+  replaceImages,
+  setTumblrEmbedFetcher as libSetFetcher,
+} from "@bobaboard/boba-editor";
 
 import Theme from "../theme/default";
 import Button from "../common/Button";
 import { faPortrait, faImage } from "@fortawesome/free-solid-svg-icons";
 import classnames from "classnames";
+
+export const setTumblrEmbedFetcher = libSetFetcher;
 
 const prepareForSubmission = (
   text: string,

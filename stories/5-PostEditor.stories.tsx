@@ -1,6 +1,6 @@
 import React from "react";
 //import { linkTo } from "@storybook/addon-links";
-import PostEditor from "../src/post/PostEditor";
+import PostEditor, { setTumblrEmbedFetcher } from "../src/post/PostEditor";
 import Modal from "../src/common/Modal";
 import Button from "../src/common/Button";
 
@@ -11,6 +11,17 @@ export default {
   title: "Post Editor",
   component: PostEditor,
 };
+
+setTumblrEmbedFetcher((url: string) => {
+  console.log(`""Fetching"" from ${url}`);
+  return Promise.resolve({
+    url:
+      "https://turquoisemagpie.tumblr.com/post/618042321716510720/eternity-stuck-in-white-noise-can-drive-you-a",
+    href:
+      "https://embed.tumblr.com/embed/post/2_D8XbYRWYBtQD0A9Pfw-w/618042321716510720",
+    did: "22a0a2f8b7a33dc50bbf5f49fb53f92b181a88aa",
+  });
+});
 
 export const EditableWithFooter = () => (
   <PostEditor

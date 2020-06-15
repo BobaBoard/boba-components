@@ -11,7 +11,7 @@ import Button, { ButtonStyle } from "./common/Button";
 import Input, { InputStyle } from "./common/Input";
 import ToastContainer, { toast } from "./common/Toast";
 import Modal from "./common/Modal";
-import PostEditor from "./post/PostEditor";
+import PostEditor, { setTumblrEmbedFetcher } from "./post/PostEditor";
 import Post, { PostSizes } from "./post/Post";
 import Comment from "./post/Comment";
 import CommentEditor from "./post/CommentEditor";
@@ -42,5 +42,6 @@ export {
   BoardsDisplay,
   ToastContainer,
   toast,
+  setTumblrEmbedFetcher,
   flush,
 };
