@@ -6,6 +6,7 @@ import SearchBar from "../common/SearchBar";
 
 import classnames from "classnames";
 import Scrollbar from "../common/Scrollbar";
+import Div100vh from "react-div-100vh";
 import "simplebar/dist/simplebar.min.css";
 
 const SideMenu: React.FC<SideMenuProps> = ({
@@ -17,102 +18,105 @@ const SideMenu: React.FC<SideMenuProps> = ({
   const [searchVisible, setSearchVisible] = React.useState(false);
   const hasSearchBar = showSearch || typeof showSearch === "undefined";
   return (
-    <Scrollbar height="100vh">
-      <div className="side-menu">
-        {pinnedBoards && (
-          <BoardsGroup title="Pinned Boards">
-            {pinnedBoards.map((board) => (
-              <BoardPreview
-                slug={board.slug}
-                avatar={board.avatar}
-                description={board.description}
-                onClick={() => board.onClick?.(board.slug)}
-                displayStyle={DisplayStyle.MINI}
-                updates={board.updates}
-                color={board.color}
-              />
-            ))}
-          </BoardsGroup>
-        )}
-
-        {hasSearchBar && (
-          <>
-            <div className="search-bar">
-              <SearchBar
-                initialText={"Search Boards"}
-                onChange={(text) => {
-                  setSearchVisible(text != "");
-                }}
-              />
-            </div>
-            <div
-              className={classnames("search-result", {
-                visible: searchVisible,
-              })}
-            >
-              {searchBoards && (
-                <BoardsGroup title="Search Results">
-                  {searchBoards.map((board) => (
-                    <BoardPreview
-                      slug={board.slug}
-                      avatar={board.avatar}
-                      description={board.description}
-                      onClick={() => board.onClick?.(board.slug)}
-                      displayStyle={DisplayStyle.COMPACT}
-                      updates={board.updates}
-                      color={board.color}
-                    />
-                  ))}
-                </BoardsGroup>
-              )}
-            </div>
-          </>
-        )}
-        <div
-          className={classnames("recent-boards", { visible: !searchVisible })}
-        >
-          {recentBoards && (
-            <BoardsGroup title="Recent Boards">
-              {recentBoards.map((board) => (
+    <Div100vh>
+      <Scrollbar height="100%">
+        <div className="side-menu">
+          {pinnedBoards && (
+            <BoardsGroup title="Pinned Boards">
+              {pinnedBoards.map((board) => (
                 <BoardPreview
+                  key={board.slug}
                   slug={board.slug}
                   avatar={board.avatar}
                   description={board.description}
                   onClick={() => board.onClick?.(board.slug)}
-                  displayStyle={DisplayStyle.COMPACT}
+                  displayStyle={DisplayStyle.MINI}
                   updates={board.updates}
                   color={board.color}
                 />
               ))}
             </BoardsGroup>
           )}
+
+          {hasSearchBar && (
+            <>
+              <div className="search-bar">
+                <SearchBar
+                  initialText={"Search Boards"}
+                  onChange={(text) => {
+                    setSearchVisible(text != "");
+                  }}
+                />
+              </div>
+              <div
+                className={classnames("search-result", {
+                  visible: searchVisible,
+                })}
+              >
+                {searchBoards && (
+                  <BoardsGroup title="Search Results">
+                    {searchBoards.map((board) => (
+                      <BoardPreview
+                        slug={board.slug}
+                        avatar={board.avatar}
+                        description={board.description}
+                        onClick={() => board.onClick?.(board.slug)}
+                        displayStyle={DisplayStyle.COMPACT}
+                        updates={board.updates}
+                        color={board.color}
+                      />
+                    ))}
+                  </BoardsGroup>
+                )}
+              </div>
+            </>
+          )}
+          <div
+            className={classnames("recent-boards", { visible: !searchVisible })}
+          >
+            {recentBoards && (
+              <BoardsGroup title="Recent Boards">
+                {recentBoards.map((board) => (
+                  <BoardPreview
+                    slug={board.slug}
+                    avatar={board.avatar}
+                    description={board.description}
+                    onClick={() => board.onClick?.(board.slug)}
+                    displayStyle={DisplayStyle.COMPACT}
+                    updates={board.updates}
+                    color={board.color}
+                  />
+                ))}
+              </BoardsGroup>
+            )}
+          </div>
         </div>
-        <style jsx>
-          {`
-            .side-menu {
-              padding: 20px 15px;
-            }
-            .search-bar {
-              margin-top: 20px;
-              text-align: center;
-              margin-bottom: 15px;
-            }
-            .recent-boards {
-              display: none;
-            }
-            .recent-boards.visible {
-              display: block;
-            }
-            .search-result {
-              display: none;
-            }
-            .search-result.visible {
-              display: block;
-            }
-          `}
-        </style>
-      </div>
-    </Scrollbar>
+      </Scrollbar>
+      <style jsx>
+        {`
+          .side-menu {
+            padding: 20px 15px;
+          }
+          .search-bar {
+            margin-top: 20px;
+            text-align: center;
+            margin-bottom: 15px;
+          }
+          .recent-boards {
+            display: none;
+          }
+          .recent-boards.visible {
+            display: block;
+          }
+          .search-result {
+            display: none;
+          }
+          .search-result.visible {
+            display: block;
+          }
+        `}
+      </style>
+    </Div100vh>
   );
 };
 

@@ -25,6 +25,7 @@ const FloatingActionButton: React.FC<FloatingActionButtonProps> = (props) => {
       {props.actions.map((action) => {
         return (
           <Button
+            key={action.tooltip}
             tooltip={action.tooltip}
             onClick={action.action}
             styles={{

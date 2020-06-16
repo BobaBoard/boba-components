@@ -31,7 +31,6 @@ const Popover: React.FC<PopoverProps> = (props) => {
     return () => {
       if (openTimeout) {
         clearTimeout(openTimeout);
-        setOpenTimeout(undefined);
       }
     };
   }, [props.isOpen]);
