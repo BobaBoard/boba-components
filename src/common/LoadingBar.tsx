@@ -36,7 +36,7 @@ const getLoadingBarContainerStyle = (color: string, height: number) => {
 };
 
 const getGrandpa = (className: string) => {
-  return document.getElementsByClassName(className)[0].parentElement
+  return document.getElementsByClassName(className)[0]?.parentElement
     ?.parentElement;
 };
 

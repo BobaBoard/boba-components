@@ -11,6 +11,7 @@ export interface FeedWithMenuProps {
   showSidebar?: boolean;
   onCloseSidebar?: () => void;
   accentColor?: string;
+  onReachEnd?: () => void;
 }
 
 const maybePreventScrollOverflow = (
@@ -40,6 +41,7 @@ const FeedWithMenu: React.FC<FeedWithMenuProps> = ({
   feedContent,
   showSidebar,
   onCloseSidebar,
+  onReachEnd,
 }) => {
   const scrollableNodeRef = React.createRef<any>();
   const scrollableContentRef = React.createRef<any>();
@@ -88,7 +90,7 @@ const FeedWithMenu: React.FC<FeedWithMenuProps> = ({
 
   return (
     <>
-      <Scrollbar>
+      <Scrollbar onReachEnd={onReachEnd}>
         <div className="content" ref={scrollableContentRef}>
           <div
             className={classnames("backdrop", {

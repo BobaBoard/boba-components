@@ -301,34 +301,59 @@ FeedWithMenuShortPreview.story = {
   name: "feed with menu (short)",
 };
 
+const COLORS = ["blue", "green", "pink"];
 export const FeedWithMenuPreview = () => {
   const [showSidebar, setShowSidebar] = React.useState(false);
+  const [loading, setLoading] = React.useState(false);
+  const [feedItemsNumber, setFeedItemsNumber] = React.useState(1);
+
   return (
     <Layout
       mainContent={
         <FeedWithMenu
           sidebarContent={
             <div
-              style={{ height: "5000px", width: "50%", backgroundColor: "red" }}
+              style={{ height: "500px", width: "50%", backgroundColor: "red" }}
             >
               Sidebar!!
             </div>
           }
           feedContent={
-            <div style={{ height: "5000px", backgroundColor: "green" }}>
-              Feed!!
-              <Button onClick={() => setShowSidebar(!showSidebar)}>
-                Click!
-              </Button>
-            </div>
+            <>
+              {Array.from({ length: feedItemsNumber }).map((_, index) => (
+                <div
+                  style={{
+                    height: "1500px",
+                    backgroundColor: COLORS[index % 3],
+                  }}
+                  key={index}
+                >
+                  Feed {index + 1} of {feedItemsNumber}!!
+                  <Button onClick={() => setShowSidebar(!showSidebar)}>
+                    Click!
+                  </Button>
+                </div>
+              ))}
+            </>
           }
           showSidebar={showSidebar}
           onCloseSidebar={() => setShowSidebar(false)}
+          onReachEnd={() => {
+            if (loading) {
+              return;
+            }
+            setTimeout(() => {
+              setFeedItemsNumber(feedItemsNumber + 1);
+              setLoading(false);
+            }, 3000);
+            setLoading(true);
+          }}
         />
       }
       sideMenuContent={<div>Side menu side menu!</div>}
       title="test!"
       headerAccent="purple"
+      loading={loading}
     />
   );
 };
