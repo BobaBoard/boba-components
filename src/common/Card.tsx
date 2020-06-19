@@ -47,7 +47,6 @@ const Card: React.FC<CardProps> = ({ children, footer, header, height }) => {
       <style jsx>{`
         .content {
           max-height: ${height + "px" || "unset"};
-          overflow: hidden;
           position: relative;
         }
         .card.expanded .content {
