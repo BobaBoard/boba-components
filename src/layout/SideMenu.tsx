@@ -17,6 +17,7 @@ const SideMenu: React.FC<SideMenuProps> = ({
   recentBoards,
   searchBoards,
   showSearch,
+  showDismissNotifications,
   onNotificationsDismissRequest,
 }) => {
   const [searchVisible, setSearchVisible] = React.useState(false);
@@ -94,11 +95,13 @@ const SideMenu: React.FC<SideMenuProps> = ({
               </BoardsGroup>
             )}
           </div>
-          <div className="notifications-dismiss-container">
-            <Button icon={faCheck} onClick={onNotificationsDismissRequest}>
-              Dismiss Notifications
-            </Button>
-          </div>
+          {showDismissNotifications && (
+            <div className="notifications-dismiss-container">
+              <Button icon={faCheck} onClick={onNotificationsDismissRequest}>
+                Dismiss Notifications
+              </Button>
+            </div>
+          )}
         </div>
       </Scrollbar>
       <style jsx>
@@ -161,5 +164,6 @@ export interface SideMenuProps {
     onClick?: (slug: string) => void;
   }[];
   showSearch?: boolean;
-  onNotificationsDismissRequest: () => void;
+  showDismissNotifications?: boolean;
+  onNotificationsDismissRequest?: () => void;
 }
