@@ -3,17 +3,21 @@ import React from "react";
 import BoardPreview, { DisplayStyle } from "../board/BoardPreview";
 import BoardsGroup from "../board/BoardsGroup";
 import SearchBar from "../common/SearchBar";
+import Button from "../common/Button";
 
 import classnames from "classnames";
 import Scrollbar from "../common/Scrollbar";
 import Div100vh from "react-div-100vh";
 import "simplebar/dist/simplebar.min.css";
 
+import { faCheck } from "@fortawesome/free-solid-svg-icons";
+
 const SideMenu: React.FC<SideMenuProps> = ({
   pinnedBoards,
   recentBoards,
   searchBoards,
   showSearch,
+  onNotificationsDismissRequest,
 }) => {
   const [searchVisible, setSearchVisible] = React.useState(false);
   const hasSearchBar = showSearch || typeof showSearch === "undefined";
@@ -90,6 +94,11 @@ const SideMenu: React.FC<SideMenuProps> = ({
               </BoardsGroup>
             )}
           </div>
+          <div className="notifications-dismiss-container">
+            <Button icon={faCheck} onClick={onNotificationsDismissRequest}>
+              Dismiss Notifications
+            </Button>
+          </div>
         </div>
       </Scrollbar>
       <style jsx>
@@ -113,6 +122,10 @@ const SideMenu: React.FC<SideMenuProps> = ({
           }
           .search-result.visible {
             display: block;
+          }
+          .notifications-dismiss-container {
+            margin-top: 30px;
+            text-align: center;
           }
         `}
       </style>
@@ -148,4 +161,5 @@ export interface SideMenuProps {
     onClick?: (slug: string) => void;
   }[];
   showSearch?: boolean;
+  onNotificationsDismissRequest: () => void;
 }

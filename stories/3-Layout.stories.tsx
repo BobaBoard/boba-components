@@ -262,6 +262,7 @@ export const SideMenuPreview = () => {
         pinnedBoards={PINNED_BOARDS}
         searchBoards={SEARCH_BOARDS}
         recentBoards={RECENT_BOARDS}
+        onNotificationsDismissRequest={() => {}}
       />
     </div>
   );
@@ -510,6 +511,7 @@ export const Attempt1 = () => {
             pinnedBoards={PINNED_BOARDS}
             searchBoards={SEARCH_BOARDS}
             recentBoards={RECENT_BOARDS}
+            onNotificationsDismissRequest={() => {}}
           />
         }
         actionButton={
