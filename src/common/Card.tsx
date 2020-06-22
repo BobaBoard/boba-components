@@ -15,7 +15,7 @@ export interface CardProps {
 }
 
 const Card: React.FC<CardProps> = ({ children, footer, header, height }) => {
-  const [isExpanded, setExpanded] = React.useState(false);
+  const [isExpanded, setExpanded] = React.useState(!height);
   return (
     <>
       <div
@@ -48,9 +48,11 @@ const Card: React.FC<CardProps> = ({ children, footer, header, height }) => {
         .content {
           max-height: ${height + "px" || "unset"};
           position: relative;
+          overflow: hidden;
         }
         .card.expanded .content {
           max-height: unset;
+          overflow: visible;
         }
         .expand-overlay {
           position: absolute;
