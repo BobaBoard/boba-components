@@ -2,7 +2,7 @@ import React from "react";
 
 import UpdatesHeader from "./UpdatesHeader";
 import Header, { HeaderStyle } from "./Header";
-import Footer, { modes as footerModes } from "./Footer";
+import Footer from "./Footer";
 import { PostSizes, getPostWidth } from "./Post";
 import Card from "../common/Card";
 import Editor from "@bobaboard/boba-editor";
@@ -125,7 +125,7 @@ const CompactThread: React.FC<CompactThreadProps> = (props) => {
           }
           footer={
             <div className="footer">
-              <Footer mode={footerModes.VIEW} />
+              <Footer />
             </div>
           }
         >

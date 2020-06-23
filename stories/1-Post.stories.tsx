@@ -379,6 +379,8 @@ export const NonEditable = () => (
     userIdentity={{ name: "SexyDaddy69", avatar: `/${mamoruAvatar}` }}
     onNewContribution={() => console.log("click!")}
     onNewComment={() => console.log("click!")}
+    onNotesClick={() => console.log("click")}
+    notesUrl={"#"}
   />
 );
 
@@ -393,6 +395,8 @@ export const UpdatedPost = () => (
       userIdentity={{ name: "SexyDaddy69", avatar: `/${mamoruAvatar}` }}
       onNewContribution={() => console.log("click!")}
       onNewComment={() => console.log("click!")}
+      onNotesClick={() => console.log("click")}
+      notesUrl={"#"}
       totalContributions={15}
       directContributions={3}
       totalComments={5}
@@ -408,6 +412,8 @@ export const UpdatedPost = () => (
       userIdentity={{ name: "SexyDaddy69", avatar: `/${mamoruAvatar}` }}
       onNewContribution={() => console.log("click!")}
       onNewComment={() => console.log("click!")}
+      onNotesClick={() => console.log("click")}
+      notesUrl={"#"}
       totalContributions={0}
       directContributions={0}
       totalComments={0}
@@ -427,6 +433,8 @@ export const answerablePost = () => (
       userIdentity={{ name: "SexyDaddy69", avatar: `/${mamoruAvatar}` }}
       onNewContribution={() => console.log("click!")}
       onNewComment={() => console.log("click!")}
+      onNotesClick={() => console.log("click")}
+      notesUrl={"#"}
       totalContributions={15}
       directContributions={3}
       totalComments={5}

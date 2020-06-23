@@ -186,6 +186,8 @@ const BoardFeed: React.FC<BoardFeedProps> = ({
                   totalContributions={post.totalContributions}
                   directContributions={post.directContributions}
                   collapsed={!!post.newComments && !!post.newContributions}
+                  onNotesClick={() => console.log("click")}
+                  notesUrl={"#"}
                 />
               </div>
             ))}

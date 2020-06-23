@@ -2,13 +2,12 @@ import React from "react";
 
 import Button from "../common/Button";
 import classNames from "classnames";
-import pluralize from "pluralize";
 import useComponentSize from "@rehooks/component-size";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 
 import { faComment, faPlusSquare } from "@fortawesome/free-regular-svg-icons";
 
-import { faAngleDoubleDown } from "@fortawesome/free-solid-svg-icons";
+import { faCodeBranch } from "@fortawesome/free-solid-svg-icons";
 
 const COMPACT_FOOTER_TRIGGER_SIZE = 450;
 
@@ -16,14 +15,14 @@ const Footer: React.FC<FooterProps> = ({
   compact,
   onContribution,
   onComment,
-  onOpenContributions,
-  onOpenComments,
+  onOpenClick,
   totalContributions,
   directContributions,
   newContributions,
   totalComments,
   newComments,
   answerable,
+  notesUrl,
 }) => {
   let [compactFooter, setCompactFooter] = React.useState(false);
   let ref = React.useRef<HTMLDivElement>(null);
@@ -35,49 +34,51 @@ const Footer: React.FC<FooterProps> = ({
   return (
     <div className="footer" ref={ref}>
       <div className="notes">
-        <span className="notes-button">
-          <Button
-            tooltip={`${totalContributions || 0} ${pluralize(
-              "contribution",
-              totalContributions
-            )} (${directContributions || 0} direct)`}
-            updates={
-              newContributions &&
-              (newContributions > 99 ? Infinity : newContributions)
-            }
-            compact={compactFooter}
-            onClick={onOpenContributions}
-          >
-            <>
-              <span className="note-count">
-                {totalContributions || 0}
+        {(!!newContributions || !!newComments) && (
+          <div className="notes-update">
+            {!!newContributions && (
+              <span className="contributions-update">
+                {newContributions > 99 ? "∞" : newContributions}
                 <FontAwesomeIcon icon={faPlusSquare} />
               </span>
-              {!compactFooter && (
-                <span className="note-breakdown">
-                  [
-                  <span className="note-count">
-                    <FontAwesomeIcon icon={faAngleDoubleDown} />
-                    {directContributions || 0}
-                  </span>
-                  ]
-                </span>
-              )}
-            </>
-          </Button>
-        </span>
-        <span className="notes-button comments">
-          <Button
-            updates={newComments && (newComments > 99 ? Infinity : newComments)}
-            compact={compactFooter}
-            onClick={onOpenComments}
+            )}
+            {!!newComments && (
+              <span className="comments-update">
+                {newComments > 99 ? "∞" : newComments}
+                <FontAwesomeIcon icon={faComment} />
+              </span>
+            )}
+          </div>
+        )}
+        <div className="notes-button">
+          <a
+            href={notesUrl || "#"}
+            onClick={(e) => {
+              if (!onOpenClick) {
+                return;
+              }
+              e.preventDefault();
+              onOpenClick();
+            }}
           >
-            <span className="note-count">
+            <span className="note-count contributions">
+              {totalContributions || 0}
+              <FontAwesomeIcon icon={faPlusSquare} />
+            </span>
+            <span className="note-breakdown">
+              [
+              <span className="note-count">
+                {directContributions || 0}
+                <FontAwesomeIcon icon={faCodeBranch} />
+              </span>
+              ]
+            </span>
+            <span className="note-count comments">
               {totalComments || 0}
               <FontAwesomeIcon icon={faComment} />
             </span>
-          </Button>
-        </span>
+          </a>
+        </div>
       </div>
       <div
         className={classNames("footer-actions", {
@@ -106,9 +107,14 @@ const Footer: React.FC<FooterProps> = ({
       </div>
 
       <style jsx>{`
+        .notes {
+          position: relative;
+          min-width: 0;
+        }
         .notes .note-count {
           font-size: large;
           font-weight: bold;
+          vertical-align: middle;
         }
         .notes .note-breakdown {
           opacity: 0.4;
@@ -118,12 +124,42 @@ const Footer: React.FC<FooterProps> = ({
         }
         .notes-button {
           margin-right: 5px;
+          padding: 5px 12px;
+          color: rgb(28, 28, 28);
+          background-color: rgb(255, 255, 255);
+          border-radius: 25px;
+          border-width: 2px;
+          border-style: solid;
+          border-color: rgb(28, 28, 28);
+          user-select: none;
+          white-space: nowrap;
+          overflow: hidden;
         }
-        .notes .note-breakdown span :global(svg) {
-          height: 13px;
-          padding: 1px 0px;
+        .notes-update {
+          background-color: rgb(28, 28, 28);
+          border-radius: 25px;
+          color: white;
+          padding: 3px 5px;
+          position: absolute;
+          right: 0;
+          top: -1px;
+          transform: translate(20%, -50%);
+          font-size: smaller;
         }
-        .notes span :global(svg) {
+        .notes-update :global(svg) {
+          height: 12px;
+          display: inline-block;
+          padding-right: 2px;
+        }
+        .note-count.comments {
+          margin-left: 5%;
+          padding-right: 4px;
+        }
+        .notes-button a {
+          color: black;
+          text-decoration: none;
+        }
+        .notes-button span :global(svg) {
           height: 15px;
           padding: 1px 0px;
         }
@@ -169,6 +205,6 @@ interface FooterProps {
   newContributions?: number;
   totalComments?: number;
   newComments?: number;
-  onOpenComments?: () => void;
-  onOpenContributions?: () => void;
+  onOpenClick?: () => void;
+  notesUrl?: string;
 }

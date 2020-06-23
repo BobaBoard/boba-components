@@ -68,8 +68,8 @@ const Post: React.FC<PostProps> = (props) => {
                 totalComments={props.totalComments}
                 newContributions={props.newContributions}
                 newComments={props.newComments}
-                onOpenComments={props.onOpenComments}
-                onOpenContributions={props.onOpenContributions}
+                onOpenClick={props.onNotesClick}
+                notesUrl={props.notesUrl}
                 answerable={props.answerable}
               />
             </div>
@@ -140,7 +140,7 @@ export interface PostProps {
   onNewContribution: () => void;
   onNewComment: () => void;
   collapsed?: boolean;
-  onOpenComments?: () => void;
-  onOpenContributions?: () => void;
+  onNotesClick: () => void;
+  notesUrl: string;
   centered?: boolean;
 }
