@@ -10,58 +10,9 @@ import { faComment, faPlusSquare } from "@fortawesome/free-regular-svg-icons";
 
 import { faAngleDoubleDown } from "@fortawesome/free-solid-svg-icons";
 
-export const modes = {
-  VIEW: "VIEW",
-  CREATE: "CREATE",
-};
-
-// Footer for posts in "create" mode.
-const EditFooter: React.FC<FooterProps> = ({
-  compact,
-  onCancel,
-  onSubmit,
-  submittable,
-  cancellable,
-}) => {
-  return (
-    <>
-      <div
-        className={classNames("footer-actions", "footer-edit-actions", {
-          compact,
-        })}
-      >
-        <Button onClick={onCancel} disabled={cancellable === false}>
-          Cancel
-        </Button>
-        <Button onClick={onSubmit} primary disabled={submittable === false}>
-          Post
-        </Button>
-      </div>
-
-      <style jsx>{`
-        .footer-actions {
-          display: flex;
-          justify-content: flex-end;
-          position: relative;
-        }
-        .footer-actions :global(button) {
-          margin-left: 10px;
-          min-width: 25%;
-        }
-        .footer-actions :global(button) > :global(span) {
-          margin: 0 auto;
-        }
-        @media screen and (max-width: 500px) {
-        }
-      `}</style>
-    </>
-  );
-};
-
 const COMPACT_FOOTER_TRIGGER_SIZE = 450;
 
-// Footer for posts in "view" mode.
-const DisplayFooter: React.FC<FooterProps> = ({
+const Footer: React.FC<FooterProps> = ({
   compact,
   onContribution,
   onComment,
@@ -90,7 +41,10 @@ const DisplayFooter: React.FC<FooterProps> = ({
               "contribution",
               totalContributions
             )} (${directContributions || 0} direct)`}
-            updates={newContributions || undefined}
+            updates={
+              newContributions &&
+              (newContributions > 99 ? Infinity : newContributions)
+            }
             compact={compactFooter}
             onClick={onOpenContributions}
           >
@@ -114,7 +68,7 @@ const DisplayFooter: React.FC<FooterProps> = ({
         </span>
         <span className="notes-button comments">
           <Button
-            updates={newComments || undefined}
+            updates={newComments && (newComments > 99 ? Infinity : newComments)}
             compact={compactFooter}
             onClick={onOpenComments}
           >
@@ -203,31 +157,13 @@ const DisplayFooter: React.FC<FooterProps> = ({
     </div>
   );
 };
-
-const Footer: React.FC<FooterProps> = (props) => {
-  return (
-    <div className="footer">
-      {props.mode == modes.CREATE ? (
-        <EditFooter {...props} />
-      ) : (
-        <DisplayFooter {...props} />
-      )}
-    </div>
-  );
-};
-
 export default Footer;
 
 interface FooterProps {
-  mode?: string;
-  onSubmit?: () => void;
-  onCancel?: () => void;
   onComment?: () => void;
   onContribution?: () => void;
   compact?: boolean;
   answerable?: boolean;
-  submittable?: boolean;
-  cancellable?: boolean;
   totalContributions?: number;
   directContributions?: number;
   newContributions?: number;

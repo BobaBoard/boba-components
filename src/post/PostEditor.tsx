@@ -1,7 +1,7 @@
 import React from "react";
 
 import Header, { HeaderStyle } from "./Header";
-import Footer, { modes as footerModes } from "./Footer";
+import EditorFooter from "./EditorFooter";
 import Card from "../common/Card";
 import { PostSizes, getPostWidth } from "./Post";
 import Spinner from "../common/Spinner";
@@ -78,8 +78,7 @@ const PostEditor: React.FC<PostEditorProps> = (props) => {
           }
           footer={
             <div className="footer">
-              <Footer
-                mode={footerModes.CREATE}
+              <EditorFooter
                 onSubmit={() =>
                   props.onSubmit(
                     prepareForSubmission(

@@ -2,7 +2,8 @@ import React from "react";
 //import { linkTo } from "@storybook/addon-links";
 import Card from "../src/common/Card";
 import Header, { HeaderStyle } from "../src/post/Header";
-import Footer, { modes as footerModes } from "../src/post/Footer";
+import Footer from "../src/post/Footer";
+import EditorFooter from "../src/post/EditorFooter";
 import Post from "../src/post/Post";
 import Editor from "@bobaboard/boba-editor";
 
@@ -151,25 +152,15 @@ export const FooterStory = () => (
   <div>
     <h2>Empty</h2>
     <div style={{ maxWidth: "500px" }}>
-      <Footer answerable mode={footerModes.CREATE} />
-      <Footer answerable mode={footerModes.VIEW} />
+      <Footer answerable />
     </div>
     <div style={{ maxWidth: "250px" }}>
-      <Footer answerable mode={footerModes.CREATE} />
-      <Footer answerable mode={footerModes.VIEW} />
+      <Footer answerable />
     </div>
     <h2>No Updates</h2>
     <div style={{ maxWidth: "500px" }}>
       <Footer
         answerable
-        mode={footerModes.CREATE}
-        totalContributions={5}
-        directContributions={2}
-        totalComments={5}
-      />
-      <Footer
-        answerable
-        mode={footerModes.VIEW}
         totalContributions={5}
         directContributions={2}
         totalComments={5}
@@ -178,14 +169,6 @@ export const FooterStory = () => (
     <div style={{ maxWidth: "250px" }}>
       <Footer
         answerable
-        mode={footerModes.CREATE}
-        totalContributions={5}
-        directContributions={2}
-        totalComments={5}
-      />
-      <Footer
-        answerable
-        mode={footerModes.VIEW}
         totalContributions={5}
         directContributions={2}
         totalComments={5}
@@ -195,16 +178,6 @@ export const FooterStory = () => (
     <div style={{ maxWidth: "500px" }}>
       <Footer
         answerable
-        mode={footerModes.CREATE}
-        totalContributions={5}
-        directContributions={2}
-        newContributions={1}
-        newComments={3}
-        totalComments={5}
-      />
-      <Footer
-        answerable
-        mode={footerModes.VIEW}
         totalContributions={5}
         directContributions={2}
         newContributions={1}
@@ -215,16 +188,6 @@ export const FooterStory = () => (
     <div style={{ maxWidth: "250px" }}>
       <Footer
         answerable
-        mode={footerModes.CREATE}
-        totalContributions={5}
-        directContributions={2}
-        newContributions={1}
-        newComments={3}
-        totalComments={5}
-      />
-      <Footer
-        answerable
-        mode={footerModes.VIEW}
         totalContributions={5}
         directContributions={2}
         newContributions={1}
@@ -236,17 +199,27 @@ export const FooterStory = () => (
     <div style={{ maxWidth: "500px" }}>
       <Footer
         answerable
-        mode={footerModes.CREATE}
         totalContributions={305}
-        directContributions={20}
-        newContributions={12}
-        newComments={30}
-        totalComments={69}
+        directContributions={200}
+        newContributions={122}
+        newComments={300}
+        totalComments={690}
       />
+    </div>
+    <div style={{ maxWidth: "250px" }}>
       <Footer
         answerable
-        mode={footerModes.VIEW}
         totalContributions={305}
+        directContributions={200}
+        newContributions={122}
+        newComments={300}
+        totalComments={690}
+      />
+    </div>
+    <h2>Non Answerable</h2>
+    <div style={{ maxWidth: "500px" }}>
+      <Footer
+        totalContributions={35}
         directContributions={20}
         newContributions={12}
         newComments={30}
@@ -255,18 +228,7 @@ export const FooterStory = () => (
     </div>
     <div style={{ maxWidth: "250px" }}>
       <Footer
-        answerable
-        mode={footerModes.CREATE}
-        totalContributions={305}
-        directContributions={20}
-        newContributions={12}
-        newComments={30}
-        totalComments={69}
-      />
-      <Footer
-        answerable
-        mode={footerModes.VIEW}
-        totalContributions={305}
+        totalContributions={35}
         directContributions={20}
         newContributions={12}
         newComments={30}
@@ -292,6 +254,20 @@ export const FooterStory = () => (
 
 FooterStory.story = {
   name: "footer",
+};
+
+export const EditorFooterStory = () => (
+  <div>
+    <h2>Editor Footer</h2>
+    <div style={{ maxWidth: "250px", backgroundColor: "turquoise" }}>
+      <EditorFooter />
+      <EditorFooter submittable={false} />
+      <EditorFooter cancellable={false} />
+    </div>
+  </div>
+);
+EditorFooterStory.story = {
+  name: "editor footer",
 };
 
 export const HeaderStory = () => (

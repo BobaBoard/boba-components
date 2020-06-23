@@ -41,6 +41,8 @@ const Button: React.FC<ButtonProps> = ({
             <div className="updates">
               {updates === true ? (
                 <FontAwesomeIcon icon={faCertificate} />
+              ) : updates == Infinity ? (
+                "∞"
               ) : (
                 updates
               )}
