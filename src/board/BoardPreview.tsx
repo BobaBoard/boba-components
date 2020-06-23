@@ -163,7 +163,7 @@ const Description: React.FC<{
         }
         .description-container.regular span {
           background-color: #2f2f30;
-          color: ${color};
+          color: white;
           border-radius: 15px;
           padding: 15px;
           padding-top: 25px;
