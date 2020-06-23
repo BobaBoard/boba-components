@@ -7,14 +7,9 @@ import Tag from "../src/common/Tag";
 import goreBackground from "./images/gore.png";
 import anime from "./images/anime.png";
 import crack from "./images/crack.png";
-import oncelerBoard from "./images/onceler-board.png";
 import meta from "./images/meta.png";
 import book from "./images/book.png";
 import villains from "./images/villains.png";
-import kinkmeme from "./images/kink-meme.png";
-import art from "./images/art-crit.png";
-import mamoru from "./images/mamoru.png";
-
 export default {
   title: "Board Preview",
   component: BoardPreview,
