@@ -78,6 +78,7 @@ export const BoardPreviewWithUpdates = () => (
       onClick={() => console.log("go!")}
       updates={5}
       backgroundColor="#333"
+      color="#ff0f4b"
     />
     <BoardPreview
       slug="gore"
@@ -86,7 +87,7 @@ export const BoardPreviewWithUpdates = () => (
       onClick={() => console.log("go!")}
       displayStyle={DisplayStyle.COMPACT}
       updates={5}
-      backgroundColor="#333"
+      color="#ff0f4b"
     />
     <BoardPreview
       slug="gore"
@@ -95,7 +96,7 @@ export const BoardPreviewWithUpdates = () => (
       onClick={() => console.log("go!")}
       displayStyle={DisplayStyle.MINI}
       updates={5}
-      backgroundColor="#333"
+      color="#ff0f4b"
     />
   </div>
 );
