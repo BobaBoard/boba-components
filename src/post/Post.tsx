@@ -3,6 +3,7 @@ import React from "react";
 import UpdatesHeader from "./UpdatesHeader";
 import Header, { HeaderStyle } from "./Header";
 import Footer from "./Footer";
+import Tags from "./Tags";
 import Card from "../common/Card";
 import Editor from "@bobaboard/boba-editor";
 import classnames from "classnames";
@@ -60,18 +61,21 @@ const Post: React.FC<PostProps> = (props) => {
           }
           footer={
             <div className="footer">
-              <Footer
-                onContribution={() => props.onNewContribution()}
-                onComment={() => props.onNewComment()}
-                totalContributions={props.totalContributions}
-                directContributions={props.directContributions}
-                totalComments={props.totalComments}
-                newContributions={props.newContributions}
-                newComments={props.newComments}
-                onOpenClick={props.onNotesClick}
-                notesUrl={props.notesUrl}
-                answerable={props.answerable}
-              />
+              <Tags tags={props.tags?.whisperTags || []} />
+              <div className="notes">
+                <Footer
+                  onContribution={() => props.onNewContribution()}
+                  onComment={() => props.onNewComment()}
+                  totalContributions={props.totalContributions}
+                  directContributions={props.directContributions}
+                  totalComments={props.totalComments}
+                  newContributions={props.newContributions}
+                  newComments={props.newComments}
+                  onOpenClick={props.onNotesClick}
+                  notesUrl={props.notesUrl}
+                  answerable={props.answerable}
+                />
+              </div>
             </div>
           }
         >
@@ -102,11 +106,9 @@ const Post: React.FC<PostProps> = (props) => {
         .post-container.centered {
           margin: 0 auto;
         }
-        .footer {
-          border-radius: 0px 0px ${Theme.BORDER_RADIUS_REGULAR}
-            ${Theme.BORDER_RADIUS_REGULAR};
-          background-color: ${Theme.POST_BACKGROUND_COLOR};
+        .notes {
           padding: 15px;
+          padding-top: 10px;
         }
       `}</style>
     </>
@@ -129,6 +131,9 @@ export interface PostProps {
   userIdentity?: {
     avatar: string;
     name: string;
+  };
+  tags?: {
+    whisperTags: string[];
   };
   size?: PostSizes;
   newPost?: boolean;

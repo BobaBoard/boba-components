@@ -53,7 +53,7 @@ const TagsInput: React.FC<TagsInputProps> = ({
                 }
                 log(`Deleting previous tag`);
                 setDeleteState(false);
-                onTagsChange(tags.slice(0, -1));
+                onTagsChange?.(tags.slice(0, -1));
                 return;
               }
               setDeleteState(false);
@@ -64,7 +64,7 @@ const TagsInput: React.FC<TagsInputProps> = ({
                   return;
                 }
                 log(`Entering new tag ${inputValue}`);
-                onTagsChange([...tags, inputValue]);
+                onTagsChange?.([...tags, inputValue]);
                 (e.target as HTMLInputElement).innerText = "";
                 e.preventDefault();
               }
@@ -74,7 +74,7 @@ const TagsInput: React.FC<TagsInputProps> = ({
               const parent = target.parentElement;
               const currentPosition =
                 target.getBoundingClientRect().left -
-                parent.getBoundingClientRect().left;
+                (parent?.getBoundingClientRect().left || 0);
               target.style.display = currentPosition < 10 ? "normal" : "nowrap";
             }}
             contentEditable={true}
@@ -116,6 +116,6 @@ export default TagsInput;
 
 export interface TagsInputProps {
   tags: string[];
-  onTagsChange: (newTags: string[]) => void;
+  onTagsChange?: (newTags: string[]) => void;
   editable?: boolean;
 }

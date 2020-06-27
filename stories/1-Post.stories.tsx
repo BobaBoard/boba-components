@@ -422,7 +422,7 @@ export const UpdatedPost = () => (
     />
   </>
 );
-export const answerablePost = () => (
+export const AnswerablePost = () => (
   <>
     <Post
       createdTime="2019/05/14 at 7:34pm"
@@ -452,6 +452,41 @@ NonEditable.story = {
 UpdatedPost.story = {
   name: "updated post",
 };
-answerablePost.story = {
+AnswerablePost.story = {
   name: "answerable",
+};
+
+export const TaggedPost = () => (
+  <>
+    <Post
+      createdTime="2019/05/14 at 7:34pm"
+      text={
+        '[{"insert":"Open RP"},{"attributes":{"header":1},"insert":"\\n"},{"insert":{"block-image":"https://cdn.discordapp.com/attachments/443967088118333442/691486081895628830/unknown.png"}}, {"attributes":{"italic":true},"insert":"You have my sword..."}]'
+      }
+      secretIdentity={{ name: "Tuxedo Mask", avatar: `/${tuxedoAvatar}` }}
+      userIdentity={{ name: "SexyDaddy69", avatar: `/${mamoruAvatar}` }}
+      onNewContribution={() => console.log("click!")}
+      onNewComment={() => console.log("click!")}
+      onNotesClick={() => console.log("click")}
+      notesUrl={"#"}
+      tags={{
+        whisperTags: [
+          "tag1",
+          "tag2",
+          "a long tag",
+          "a very very very very very long tag with many words",
+          "JugemuJugemuGokonoSurikireKaijarisuigyonoSuigyomatsuUnraimatsuFuraimatsuKuNeruTokoroniSumuTokoroYaburaKojinoBuraKojiPaipopaipoPaiponoShuringanShuringannoGurindaiGurindainoPonpokopinoPonpokonanoChokyumeinoChosuke",
+        ],
+      }}
+      totalContributions={15}
+      directContributions={3}
+      totalComments={5}
+      newComments={3}
+      newContributions={5}
+      answerable={true}
+    />
+  </>
+);
+TaggedPost.story = {
+  name: "tagged post",
 };
