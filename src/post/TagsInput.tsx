@@ -100,9 +100,6 @@ const TagsInput: React.FC<TagsInputProps> = ({ tags, onTagsChange }) => {
           display: flex;
           align-items: center;
         }
-        .tag.deleting {
-          color: red;
-        }
       `}</style>
     </>
   );
