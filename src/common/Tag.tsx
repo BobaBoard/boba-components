@@ -6,6 +6,7 @@ export interface TagProps {
   symbol?: string | JSX.Element;
   avatar?: string;
   color?: string;
+  highlightColor?: string;
   compact?: boolean;
 }
 const Tag: React.FC<TagProps> = (props) => {
@@ -20,14 +21,17 @@ const Tag: React.FC<TagProps> = (props) => {
           opacity: 0.6;
           margin-right: 2px;
         }
+        .tag:hover {
+          cursor: pointer;
+        }
         .tag {
           display: inline-block;
           padding: 5px 10px;
-          border: 3px black solid;
+          border: 3px ${props.highlightColor || "black"} solid;
           border-radius: 10px;
           background-color: ${props.color};
           font-weight: bold;
-          cursor: pointer;
+          color: ${props.highlightColor || "black"};
         }
         .tag.compact {
           border: 0px;

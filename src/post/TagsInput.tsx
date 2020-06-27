@@ -1,5 +1,6 @@
 import React from "react";
 
+import Tag from "../common/Tag";
 import classnames from "classnames";
 import debug from "debug";
 
@@ -15,11 +16,19 @@ const TagsInput: React.FC<TagsInputProps> = ({ tags, onTagsChange }) => {
             {tags.map((tag, index) => (
               <div
                 key={tag}
-                className={classnames("tag", {
+                className={classnames("tag-container", {
                   deleting: deleteState && index == tags.length - 1,
                 })}
               >
-                {tag}
+                <Tag
+                  name={tag}
+                  compact
+                  highlightColor={
+                    deleteState && index == tags.length - 1
+                      ? "red"
+                      : "rgba(0, 0, 0, 0.8)"
+                  }
+                />
               </div>
             ))}
           </>
@@ -61,7 +70,6 @@ const TagsInput: React.FC<TagsInputProps> = ({ tags, onTagsChange }) => {
             const currentPosition =
               target.getBoundingClientRect().left -
               parent.getBoundingClientRect().left;
-            console.log(currentPosition);
             target.style.display = currentPosition < 10 ? "normal" : "nowrap";
           }}
           contentEditable={true}
@@ -84,16 +92,13 @@ const TagsInput: React.FC<TagsInputProps> = ({ tags, onTagsChange }) => {
           padding: 5px;
           margin: 2px 2px;
         }
-        .tag:before {
-          content: "#";
+        .tag-container:hover {
+          cursor: pointer;
         }
-        .tag {
-          display: inline-block;
-          color: blue;
-          background-color: yellow;
-          word-break: break-word;
-          padding: 5px;
-          margin: 2px 2px;
+        .tag-container {
+          margin-right: 3px;
+          display: flex;
+          align-items: center;
         }
         .tag.deleting {
           color: red;
