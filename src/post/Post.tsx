@@ -5,6 +5,7 @@ import Header, { HeaderStyle } from "./Header";
 import Footer from "./Footer";
 import Tags from "./Tags";
 import Card from "../common/Card";
+import Reaction from "../common/Reaction";
 import Editor from "@bobaboard/boba-editor";
 import classnames from "classnames";
 
@@ -76,6 +77,13 @@ const Post: React.FC<PostProps> = (props) => {
                   answerable={props.answerable}
                 />
               </div>
+              <div className="reactions">
+                {props.reactions?.map((reaction) => (
+                  <div className="reaction">
+                    <Reaction image={reaction.image} count={reaction.count} />
+                  </div>
+                ))}
+              </div>
             </div>
           }
         >
@@ -106,9 +114,21 @@ const Post: React.FC<PostProps> = (props) => {
         .post-container.centered {
           margin: 0 auto;
         }
+        .footer {
+          position: relative;
+        }
         .notes {
           padding: 15px;
           padding-top: 10px;
+        }
+        .reactions {
+          display: flex;
+          position: absolute;
+          right: 15px;
+          bottom: -30px;
+        }
+        .reaction {
+          margin-right: 5px;
         }
       `}</style>
     </>
@@ -135,6 +155,10 @@ export interface PostProps {
   tags?: {
     whisperTags: string[];
   };
+  reactions?: {
+    image: string;
+    count: number;
+  }[];
   size?: PostSizes;
   newPost?: boolean;
   totalContributions?: number;

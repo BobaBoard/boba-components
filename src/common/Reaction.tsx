@@ -14,11 +14,13 @@ const Reaction: React.FC<ReactionProps> = (props) => {
       </div>
       <style jsx>{`
         .reaction {
-          border: 3px solid black;
+          border: 2px solid black;
           display: inline-flex;
           width: 63px;
           border-radius: 10px;
           align-items: center;
+          background-color: white;
+          opacity: 0.8;
         }
         .count:hover,
         .reaction:hover {
@@ -36,7 +38,7 @@ const Reaction: React.FC<ReactionProps> = (props) => {
           background-image: url(${props.image});
           background-position: center;
           background-size: contain;
-          border-right: 3px solid black;
+          border-right: 2px solid black;
           border-radius: 5px 0px 0px 5px;
         }
         .hashtag {
