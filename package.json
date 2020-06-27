@@ -21,7 +21,7 @@
     "url": "git+https://github.com/essential-randomness/bobaboard-ui.git"
   },
   "author": "Essential Randomness",
-  "license": "GPL-3.0-or-later",
+  "license": "mit",
   "bugs": {
     "url": "https://github.com/essential-randomness/bobaboard-ui/issues"
   },
