@@ -6,7 +6,11 @@ import debug from "debug";
 
 const log = debug("bobaui:tagsinput-log");
 
-const TagsInput: React.FC<TagsInputProps> = ({ tags, onTagsChange }) => {
+const TagsInput: React.FC<TagsInputProps> = ({
+  tags,
+  onTagsChange,
+  editable,
+}) => {
   const [deleteState, setDeleteState] = React.useState(false);
   return (
     <>
@@ -33,49 +37,51 @@ const TagsInput: React.FC<TagsInputProps> = ({ tags, onTagsChange }) => {
             ))}
           </>
         )}
-        <span
-          className="tag-input"
-          placeholder="add a tag..."
-          onKeyDown={(e) => {
-            const inputValue = (e.target as HTMLSpanElement).innerText;
+        {!!editable && (
+          <span
+            className="tag-input"
+            placeholder="add a tag..."
+            onKeyDown={(e) => {
+              const inputValue = (e.target as HTMLSpanElement).innerText;
 
-            if (inputValue.length == 0 && e.key == "Backspace") {
-              log(`Received backspace on empty tag`);
-              if (!deleteState) {
-                log(`Entering delete state for previous tag`);
-                setDeleteState(true);
+              if (inputValue.length == 0 && e.key == "Backspace") {
+                log(`Received backspace on empty tag`);
+                if (!deleteState) {
+                  log(`Entering delete state for previous tag`);
+                  setDeleteState(true);
+                  return;
+                }
+                log(`Deleting previous tag`);
+                setDeleteState(false);
+                onTagsChange(tags.slice(0, -1));
                 return;
               }
-              log(`Deleting previous tag`);
               setDeleteState(false);
-              onTagsChange(tags.slice(0, -1));
-              return;
-            }
-            setDeleteState(false);
 
-            if (e.key === "Enter") {
-              if (inputValue.trim().length == 0) {
-                log(`Received enter on empty tag`);
-                return;
+              if (e.key === "Enter") {
+                if (inputValue.trim().length == 0) {
+                  log(`Received enter on empty tag`);
+                  return;
+                }
+                log(`Entering new tag ${inputValue}`);
+                onTagsChange([...tags, inputValue]);
+                (e.target as HTMLInputElement).innerText = "";
+                e.preventDefault();
               }
-              log(`Entering new tag ${inputValue}`);
-              onTagsChange([...tags, inputValue]);
-              (e.target as HTMLInputElement).innerText = "";
-              e.preventDefault();
-            }
-          }}
-          onKeyUp={(e) => {
-            const target = e.target as HTMLSpanElement;
-            const parent = target.parentElement;
-            const currentPosition =
-              target.getBoundingClientRect().left -
-              parent.getBoundingClientRect().left;
-            target.style.display = currentPosition < 10 ? "normal" : "nowrap";
-          }}
-          contentEditable={true}
-        >
-          add a tag...
-        </span>
+            }}
+            onKeyUp={(e) => {
+              const target = e.target as HTMLSpanElement;
+              const parent = target.parentElement;
+              const currentPosition =
+                target.getBoundingClientRect().left -
+                parent.getBoundingClientRect().left;
+              target.style.display = currentPosition < 10 ? "normal" : "nowrap";
+            }}
+            contentEditable={true}
+          >
+            add a tag...
+          </span>
+        )}
       </div>
       <style jsx>{`
         .container {
@@ -99,6 +105,7 @@ const TagsInput: React.FC<TagsInputProps> = ({ tags, onTagsChange }) => {
           margin-right: 3px;
           display: flex;
           align-items: center;
+          word-break: break-all;
         }
       `}</style>
     </>
@@ -110,4 +117,5 @@ export default TagsInput;
 export interface TagsInputProps {
   tags: string[];
   onTagsChange: (newTags: string[]) => void;
+  editable?: boolean;
 }

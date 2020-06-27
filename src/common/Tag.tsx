@@ -21,9 +21,6 @@ const Tag: React.FC<TagProps> = (props) => {
           opacity: 0.6;
           margin-right: 2px;
         }
-        .tag:hover {
-          cursor: pointer;
-        }
         .tag {
           display: inline-block;
           padding: 5px 10px;
@@ -32,6 +29,7 @@ const Tag: React.FC<TagProps> = (props) => {
           background-color: ${props.color};
           font-weight: bold;
           color: ${props.highlightColor || "black"};
+          overflow-wrap: break-word;
         }
         .tag.compact {
           border: 0px;
