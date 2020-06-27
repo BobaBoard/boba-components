@@ -4,11 +4,12 @@ import classnames from "classnames";
 export interface ReactionProps {
   image: string;
   count: number;
+  onClick?: () => void;
 }
 const Reaction: React.FC<ReactionProps> = (props) => {
   return (
     <>
-      <div className={classnames("reaction")}>
+      <div className={classnames("reaction")} onClick={props.onClick}>
         <div className="image" />
         <span className="count"> {props.count}</span>
       </div>
@@ -19,7 +20,8 @@ const Reaction: React.FC<ReactionProps> = (props) => {
           width: 40px;
         }
         .count:hover,
-        .reaction:hover {
+        .reaction:hover,
+        .image:hover {
           cursor: pointer;
         }
         .count {

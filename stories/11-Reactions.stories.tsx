@@ -9,10 +9,14 @@ export default {
 };
 
 export const ReactionStory = () => {
-  const [tags, setTags] = React.useState(["tag1", "tag2"]);
+  const [count, setCount] = React.useState(1);
   return (
-    <div style={{ width: "500px", backgroundColor: "white" }}>
-      <Reaction image={oncieReaction} count={1} />
+    <div style={{ width: "500px", backgroundColor: "white", padding: "15px" }}>
+      <Reaction
+        image={oncieReaction}
+        count={count}
+        onClick={() => setCount(count + 1)}
+      />
     </div>
   );
 };
