@@ -8,6 +8,8 @@ import Card from "../common/Card";
 import Reaction from "../common/Reaction";
 import Editor from "@bobaboard/boba-editor";
 import classnames from "classnames";
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import { faPlus } from "@fortawesome/free-solid-svg-icons";
 
 import Theme from "../theme/default";
 
@@ -61,7 +63,11 @@ const Post: React.FC<PostProps> = (props) => {
             </div>
           }
           footer={
-            <div className="footer">
+            <div
+              className={classnames("footer", {
+                "with-reactions": !!props.reactions?.length,
+              })}
+            >
               <Tags tags={props.tags?.whisperTags || []} />
               <div className="notes">
                 <Footer
@@ -83,6 +89,9 @@ const Post: React.FC<PostProps> = (props) => {
                     <Reaction image={reaction.image} count={reaction.count} />
                   </div>
                 ))}
+                <div className="add-reaction">
+                  <FontAwesomeIcon icon={faPlus} />
+                </div>
               </div>
             </div>
           }
@@ -117,6 +126,24 @@ const Post: React.FC<PostProps> = (props) => {
         .footer {
           position: relative;
         }
+        .footer.with-reactions {
+          padding-bottom: 10px;
+        }
+        .add-reaction {
+          background-color: rgb(28, 28, 28);
+          height: 25px;
+          width: 25px;
+          border-radius: 50%;
+          text-align: center;
+          line-height: 25px;
+          margin-top: 5px;
+        }
+        .add-reaction:hover {
+          cursor: pointer;
+        }
+        .add-reaction :global(svg) {
+          color: white;
+        }
         .notes {
           padding: 15px;
           padding-top: 10px;
@@ -124,8 +151,8 @@ const Post: React.FC<PostProps> = (props) => {
         .reactions {
           display: flex;
           position: absolute;
-          right: 15px;
-          bottom: -30px;
+          right: 17px;
+          bottom: -20px;
         }
         .reaction {
           margin-right: 5px;

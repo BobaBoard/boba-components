@@ -14,23 +14,26 @@ const Reaction: React.FC<ReactionProps> = (props) => {
       </div>
       <style jsx>{`
         .reaction {
-          border: 2px solid black;
-          display: inline-flex;
-          width: 63px;
-          border-radius: 10px;
-          align-items: center;
-          background-color: white;
-          opacity: 0.8;
+          display: inline-block;
+          position: relative;
+          width: 40px;
         }
         .count:hover,
         .reaction:hover {
           cursor: pointer;
         }
         .count {
-          flex-grow: 1;
           text-align: center;
-          font-size: larger;
-          margin-right: 3px;
+          font-size: x-small;
+          line-height: 15px;
+          width: 20px;
+          height: 15px;
+          border-radius: 5px;
+          background-color: rgb(28, 28, 28);
+          color: white;
+          position: absolute;
+          bottom: -5px;
+          left: 20px;
         }
         .image {
           width: 30px;
@@ -38,12 +41,8 @@ const Reaction: React.FC<ReactionProps> = (props) => {
           background-image: url(${props.image});
           background-position: center;
           background-size: contain;
-          border-right: 2px solid black;
-          border-radius: 5px 0px 0px 5px;
-        }
-        .hashtag {
-          opacity: 0.6;
-          margin-right: 2px;
+          border-radius: 50%;
+          border: 2px solid rgb(28, 28, 28);
         }
       `}</style>
     </>
