@@ -3,9 +3,13 @@ import React from "react";
 import UpdatesHeader from "./UpdatesHeader";
 import Header, { HeaderStyle } from "./Header";
 import Footer from "./Footer";
+import Tags from "./Tags";
 import Card from "../common/Card";
+import Reaction from "../common/Reaction";
 import Editor from "@bobaboard/boba-editor";
 import classnames from "classnames";
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import { faPlus } from "@fortawesome/free-solid-svg-icons";
 
 import Theme from "../theme/default";
 
@@ -59,19 +63,36 @@ const Post: React.FC<PostProps> = (props) => {
             </div>
           }
           footer={
-            <div className="footer">
-              <Footer
-                onContribution={() => props.onNewContribution()}
-                onComment={() => props.onNewComment()}
-                totalContributions={props.totalContributions}
-                directContributions={props.directContributions}
-                totalComments={props.totalComments}
-                newContributions={props.newContributions}
-                newComments={props.newComments}
-                onOpenClick={props.onNotesClick}
-                notesUrl={props.notesUrl}
-                answerable={props.answerable}
-              />
+            <div
+              className={classnames("footer", {
+                "with-reactions": !!props.reactions?.length,
+              })}
+            >
+              <Tags tags={props.tags?.whisperTags || []} />
+              <div className="notes">
+                <Footer
+                  onContribution={() => props.onNewContribution()}
+                  onComment={() => props.onNewComment()}
+                  totalContributions={props.totalContributions}
+                  directContributions={props.directContributions}
+                  totalComments={props.totalComments}
+                  newContributions={props.newContributions}
+                  newComments={props.newComments}
+                  onOpenClick={props.onNotesClick}
+                  notesUrl={props.notesUrl}
+                  answerable={props.answerable}
+                />
+              </div>
+              <div className="reactions">
+                {props.reactions?.map((reaction) => (
+                  <div className="reaction">
+                    <Reaction image={reaction.image} count={reaction.count} />
+                  </div>
+                ))}
+                <div className="add-reaction">
+                  <FontAwesomeIcon icon={faPlus} />
+                </div>
+              </div>
             </div>
           }
         >
@@ -103,10 +124,38 @@ const Post: React.FC<PostProps> = (props) => {
           margin: 0 auto;
         }
         .footer {
-          border-radius: 0px 0px ${Theme.BORDER_RADIUS_REGULAR}
-            ${Theme.BORDER_RADIUS_REGULAR};
-          background-color: ${Theme.POST_BACKGROUND_COLOR};
+          position: relative;
+        }
+        .footer.with-reactions {
+          padding-bottom: 10px;
+        }
+        .add-reaction {
+          background-color: rgb(28, 28, 28);
+          height: 25px;
+          width: 25px;
+          border-radius: 50%;
+          text-align: center;
+          line-height: 25px;
+          margin-top: 5px;
+        }
+        .add-reaction:hover {
+          cursor: pointer;
+        }
+        .add-reaction :global(svg) {
+          color: white;
+        }
+        .notes {
           padding: 15px;
+          padding-top: 10px;
+        }
+        .reactions {
+          display: flex;
+          position: absolute;
+          right: 17px;
+          bottom: -20px;
+        }
+        .reaction {
+          margin-right: 5px;
         }
       `}</style>
     </>
@@ -130,6 +179,13 @@ export interface PostProps {
     avatar: string;
     name: string;
   };
+  tags?: {
+    whisperTags: string[];
+  };
+  reactions?: {
+    image: string;
+    count: number;
+  }[];
   size?: PostSizes;
   newPost?: boolean;
   totalContributions?: number;
