@@ -4,6 +4,8 @@ BobaBoard's UI components.
 
 ## Installation
 
+You need nodejs v12 (the one I use is 12.9.1).
+
 ```
 git clone https://github.com/essential-randomness/bobaboard-ui.git
 cd bobaboard-ui/
