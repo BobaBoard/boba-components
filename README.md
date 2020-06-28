@@ -2,6 +2,16 @@
 
 BobaBoard's UI components.
 
+## Installation
+
+```
+git clone https://github.com/essential-randomness/bobaboard-ui.git
+cd bobaboard-ui/
+yarn install
+yarn add @bobaboard/boba-editor
+yarn run storybook
+```
+
 ## Demo
 
 [Demo on Netlify!](https://bobaboard-ui.netlify.app/)
