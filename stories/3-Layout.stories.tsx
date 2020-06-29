@@ -152,6 +152,11 @@ export const LoggedInLayout = () => {
         username: "SexyDaddy69",
         avatarUrl: mamoru,
       }}
+      onUserBarClick={() => console.log("userbar click!")}
+      loggedInMenuOptions={[
+        { name: "opt1", onClick: () => console.log("opt1 click!") },
+        { name: "opt2", onClick: () => console.log("opt2 click!") },
+      ]}
     />
   );
 };
@@ -528,6 +533,11 @@ export const Attempt1 = () => {
         onTitleClick={() => {
           setShowSidebar(!showSidebar);
         }}
+        onUserBarClick={() => console.log("userbar click!")}
+        loggedInMenuOptions={[
+          { name: "opt1", onClick: () => console.log("opt1 click!") },
+          { name: "opt2", onClick: () => console.log("opt2 click!") },
+        ]}
       />
     </>
   );

@@ -4,13 +4,16 @@ import Tooltip from "./Tooltip";
 
 export interface DropdownProps {
   children: JSX.Element;
-  options: {
+  options?: {
     name: string;
     onClick: () => void;
   }[];
 }
 const DropdownMenu: React.FC<DropdownProps> = (props) => {
   const [isOpen, setOpen] = React.useState(false);
+  if (!props.options) {
+    return props.children;
+  }
   return (
     <>
       <Tooltip
@@ -20,6 +23,7 @@ const DropdownMenu: React.FC<DropdownProps> = (props) => {
           <div className={"menu"}>
             {props.options.map((option, index) => (
               <div
+                key={option.name}
                 className={classnames("option")}
                 onClick={() => {
                   option.onClick();
@@ -39,7 +43,7 @@ const DropdownMenu: React.FC<DropdownProps> = (props) => {
       </Tooltip>
       <style jsx>{`
         .menu {
-          width: 300px;
+          min-width: 200px;
           color: black;
         }
         .option {

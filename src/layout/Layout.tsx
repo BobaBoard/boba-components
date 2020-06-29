@@ -31,6 +31,7 @@ const Layout = React.forwardRef<{ closeSideMenu: () => void }, LayoutProps>(
       loading,
       updates,
       forceHideTitle,
+      loggedInMenuOptions,
     },
     ref
   ) => {
@@ -97,6 +98,7 @@ const Layout = React.forwardRef<{ closeSideMenu: () => void }, LayoutProps>(
                 onClick={onUserBarClick}
                 user={user}
                 loading={loading}
+                menuOptions={loggedInMenuOptions}
               />
             </div>
             <div className="content">
@@ -284,6 +286,10 @@ export interface LayoutProps {
   onUserBarClick?: () => void;
   loading?: boolean;
   updates?: number | boolean;
+  loggedInMenuOptions?: {
+    name: string;
+    onClick: () => void;
+  }[];
 }
 
 export default Layout;

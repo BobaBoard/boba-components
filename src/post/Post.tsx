@@ -57,7 +57,7 @@ const Post: React.FC<PostProps> = (props) => {
           header={
             <div className="header">
               {props.menuOptions && (
-                <div style={{ float: "right", marginTop: "15px" }}>
+                <div style={{ float: "right" }}>
                   <DropdownListMenu options={props.menuOptions}>
                     <Button icon={faEllipsisV} compact>
                       Open Menu
