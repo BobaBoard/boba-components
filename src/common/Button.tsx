@@ -150,7 +150,6 @@ export interface ButtonProps {
   compact?: boolean;
   onClick?: () => void;
   disabled?: boolean;
-  primary?: boolean;
   color?: string;
   theme?: ButtonStyle;
   updates?: number | boolean;

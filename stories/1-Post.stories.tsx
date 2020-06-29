@@ -537,3 +537,51 @@ export const ReactionsPost = () => (
 ReactionsPost.story = {
   name: "post with reactions",
 };
+
+export const ActionPost = () => (
+  <>
+    <Post
+      createdTime="2019/05/14 at 7:34pm"
+      text={
+        '[{"insert":"Open RP"},{"attributes":{"header":1},"insert":"\\n"},{"insert":{"block-image":"https://cdn.discordapp.com/attachments/443967088118333442/691486081895628830/unknown.png"}}, {"attributes":{"italic":true},"insert":"You have my sword..."}]'
+      }
+      secretIdentity={{ name: "Tuxedo Mask", avatar: `/${tuxedoAvatar}` }}
+      userIdentity={{ name: "SexyDaddy69", avatar: `/${mamoruAvatar}` }}
+      onNewContribution={() => console.log("click!")}
+      onNewComment={() => console.log("click!")}
+      onNotesClick={() => console.log("click")}
+      notesUrl={"#"}
+      tags={{
+        whisperTags: [
+          "tag1",
+          "tag2",
+          "a long tag",
+          "a very very very very very long tag with many words",
+          "JugemuJugemuGokonoSurikireKaijarisuigyonoSuigyomatsuUnraimatsuFuraimatsuKuNeruTokoroniSumuTokoroYaburaKojinoBuraKojiPaipopaipoPaiponoShuringanShuringannoGurindaiGurindainoPonpokopinoPonpokonanoChokyumeinoChosuke",
+        ],
+      }}
+      totalContributions={15}
+      directContributions={3}
+      totalComments={5}
+      newComments={3}
+      newContributions={5}
+      answerable={true}
+      reactions={[
+        { image: oncieReaction, count: 3 },
+        { image: sportacusReaction, count: 6 },
+        { image: luigiReaction, count: 11 },
+        { image: junkoReaction, count: 20 },
+      ]}
+      reactable
+      menuOptions={[
+        {
+          name: "Copy Link",
+          onClick: () => {},
+        },
+      ]}
+    />
+  </>
+);
+ActionPost.story = {
+  name: "post with actions",
+};

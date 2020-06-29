@@ -10,6 +10,7 @@ interface PopoverProps extends LibraryPopoverProps {
   background?: string;
   zoom?: number;
   delay?: number;
+  padding?: number;
 }
 
 const Popover: React.FC<PopoverProps> = (props) => {
@@ -40,20 +41,23 @@ const Popover: React.FC<PopoverProps> = (props) => {
         isOpen={innerIsOpen}
         position={props.position}
         padding={props.padding || 10}
-        onClickOutside={() => props.onClickOutside}
+        onClickOutside={(e) => {
+          props.onClickOutside?.(e);
+        }}
         content={({ position, targetRect, popoverRect }) => {
           return (
             <ArrowContainer // if you'd like an arrow, you can import the ArrowContainer!
               position={position}
               targetRect={targetRect}
               popoverRect={popoverRect}
-              arrowColor={props.background || Theme.POPOVER_DEFAULT_BACKGROUND}
+              arrowColor={Theme.POPOVER_DEFAULT_BACKGROUND}
               arrowSize={10}
             >
               <div className="popover-content">{props.content}</div>
             </ArrowContainer>
           );
         }}
+        transitionDuration={0.2}
       >
         {props.children}
       </LibraryPopover>
@@ -61,12 +65,15 @@ const Popover: React.FC<PopoverProps> = (props) => {
         .popover-content {
           background-color: ${props.background ||
           Theme.POPOVER_DEFAULT_BACKGROUND};
-          padding: 10px;
-          border-radius: 15px;
+          padding: ${typeof props.padding === "undefined"
+            ? 10
+            : props.padding}px;
+          border-radius: ${Theme.BORDER_RADIUS_REGULAR};
           zoom: ${props.zoom || 1};
           z-index: 15;
           position: relative;
           color: white;
+          border: 2px solid ${Theme.POPOVER_DEFAULT_BACKGROUND};
         }
       `}</style>
     </>

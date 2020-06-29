@@ -4,12 +4,14 @@ import UpdatesHeader from "./UpdatesHeader";
 import Header, { HeaderStyle } from "./Header";
 import Footer from "./Footer";
 import Tags from "./Tags";
+import DropdownListMenu from "../common/DropdownListMenu";
 import Card from "../common/Card";
+import Button from "../common/Button";
 import Reaction from "../common/Reaction";
 import Editor from "@bobaboard/boba-editor";
 import classnames from "classnames";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import { faPlus } from "@fortawesome/free-solid-svg-icons";
+import { faPlus, faEllipsisV } from "@fortawesome/free-solid-svg-icons";
 
 import Theme from "../theme/default";
 
@@ -54,6 +56,15 @@ const Post: React.FC<PostProps> = (props) => {
           height={props.collapsed ? COLLAPSED_HEIGHT : undefined}
           header={
             <div className="header">
+              {props.menuOptions && (
+                <div style={{ float: "right", marginTop: "15px" }}>
+                  <DropdownListMenu options={props.menuOptions}>
+                    <Button icon={faEllipsisV} compact>
+                      Open Menu
+                    </Button>
+                  </DropdownListMenu>
+                </div>
+              )}
               <Header
                 secretIdentity={props.secretIdentity}
                 userIdentity={props.userIdentity}
@@ -202,4 +213,8 @@ export interface PostProps {
   notesUrl: string;
   centered?: boolean;
   reactable?: boolean;
+  menuOptions?: {
+    name: string;
+    onClick: () => void;
+  }[];
 }
