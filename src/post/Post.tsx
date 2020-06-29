@@ -6,11 +6,12 @@ import Footer from "./Footer";
 import Tags from "./Tags";
 import DropdownMenu from "../common/DropdownMenu";
 import Card from "../common/Card";
+import Button from "../common/Button";
 import Reaction from "../common/Reaction";
 import Editor from "@bobaboard/boba-editor";
 import classnames from "classnames";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import { faPlus } from "@fortawesome/free-solid-svg-icons";
+import { faPlus, faEllipsisV } from "@fortawesome/free-solid-svg-icons";
 
 import Theme from "../theme/default";
 
@@ -57,7 +58,11 @@ const Post: React.FC<PostProps> = (props) => {
             <div className="header">
               {props.menuOptions && (
                 <div style={{ float: "right", marginTop: "15px" }}>
-                  <DropdownMenu options={props.menuOptions} />
+                  <DropdownMenu options={props.menuOptions}>
+                    <Button icon={faEllipsisV} compact>
+                      Open Menu
+                    </Button>
+                  </DropdownMenu>
                 </div>
               )}
               <Header

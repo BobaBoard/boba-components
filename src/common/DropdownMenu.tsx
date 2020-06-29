@@ -1,10 +1,9 @@
 import React from "react";
 import classnames from "classnames";
 import Tooltip from "./Tooltip";
-import Button from "./Button";
-import { faPlus, faEllipsisV } from "@fortawesome/free-solid-svg-icons";
 
 export interface DropdownProps {
+  children: JSX.Element;
   options: {
     name: string;
     onClick: () => void;
@@ -36,11 +35,7 @@ const DropdownMenu: React.FC<DropdownProps> = (props) => {
         background="white"
         padding={0}
       >
-        <span>
-          <Button icon={faEllipsisV} onClick={() => setOpen(!isOpen)} compact>
-            Open Menu
-          </Button>
-        </span>
+        <span onClick={() => setOpen(!isOpen)}>{props.children}</span>
       </Tooltip>
       <style jsx>{`
         .menu {
