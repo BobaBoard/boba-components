@@ -4,7 +4,7 @@ import UpdatesHeader from "./UpdatesHeader";
 import Header, { HeaderStyle } from "./Header";
 import Footer from "./Footer";
 import Tags from "./Tags";
-import DropdownMenu from "../common/DropdownMenu";
+import DropdownListMenu from "../common/DropdownListMenu";
 import Card from "../common/Card";
 import Button from "../common/Button";
 import Reaction from "../common/Reaction";
@@ -58,11 +58,11 @@ const Post: React.FC<PostProps> = (props) => {
             <div className="header">
               {props.menuOptions && (
                 <div style={{ float: "right", marginTop: "15px" }}>
-                  <DropdownMenu options={props.menuOptions}>
+                  <DropdownListMenu options={props.menuOptions}>
                     <Button icon={faEllipsisV} compact>
                       Open Menu
                     </Button>
-                  </DropdownMenu>
+                  </DropdownListMenu>
                 </div>
               )}
               <Header

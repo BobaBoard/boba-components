@@ -1,16 +1,16 @@
 import React from "react";
-import DropdownMenu from "../src/common/DropdownMenu";
+import DropdownListMenu from "../src/common/DropdownListMenu";
+import Button from "../src/common/Button";
 
 export default {
   title: "Popup Preview",
-  component: DropdownMenu,
+  component: DropdownListMenu,
 };
 
 export const ReactionStory = () => {
-  const [count, setCount] = React.useState(1);
   return (
     <div style={{ width: "500px", backgroundColor: "white", padding: "15px" }}>
-      <DropdownMenu
+      <DropdownListMenu
         options={[
           {
             name: "test1",
@@ -31,7 +31,9 @@ export const ReactionStory = () => {
             },
           },
         ]}
-      />
+      >
+        <Button>Click me!</Button>
+      </DropdownListMenu>
     </div>
   );
 };
