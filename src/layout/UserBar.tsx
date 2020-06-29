@@ -1,6 +1,6 @@
 import React from "react";
 import Button, { ButtonStyle } from "../common/Button";
-import DropdownListMenu from "../common/DropdownListMenu";
+import DropdownListMenu, { DropdownStyle } from "../common/DropdownListMenu";
 import { faUser } from "@fortawesome/free-solid-svg-icons";
 
 const UserBar: React.FC<UserBarProps> = ({
@@ -12,7 +12,11 @@ const UserBar: React.FC<UserBarProps> = ({
 }) => {
   return (
     <div className="container">
-      <DropdownListMenu options={menuOptions}>
+      <DropdownListMenu
+        options={menuOptions}
+        style={DropdownStyle.DARK}
+        accentColor={color}
+      >
         <Button
           icon={user?.avatarUrl ? undefined : faUser}
           imageUrl={user?.avatarUrl}

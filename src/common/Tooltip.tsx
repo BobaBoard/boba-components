@@ -11,6 +11,7 @@ interface PopoverProps extends LibraryPopoverProps {
   zoom?: number;
   delay?: number;
   padding?: number;
+  accentColor?: string;
 }
 
 const Popover: React.FC<PopoverProps> = (props) => {
@@ -50,7 +51,7 @@ const Popover: React.FC<PopoverProps> = (props) => {
               position={position}
               targetRect={targetRect}
               popoverRect={popoverRect}
-              arrowColor={Theme.POPOVER_DEFAULT_BACKGROUND}
+              arrowColor={props.accentColor || Theme.POPOVER_DEFAULT_BACKGROUND}
               arrowSize={10}
             >
               <div className="popover-content">{props.content}</div>
@@ -73,7 +74,8 @@ const Popover: React.FC<PopoverProps> = (props) => {
           z-index: 15;
           position: relative;
           color: white;
-          border: 2px solid ${Theme.POPOVER_DEFAULT_BACKGROUND};
+          border: 2px solid
+            ${props.accentColor || Theme.POPOVER_DEFAULT_BACKGROUND};
         }
       `}</style>
     </>

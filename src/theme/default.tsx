@@ -5,7 +5,7 @@ const DefaultTheme: ThemeProperties = {
   LAYOUT_BOARD_SIDEBAR_BACKGROUND_COLOR: "#1c1c1c",
   POPOVER_DEFAULT_BACKGROUND: "#1c1c1c",
   POST_HEADER_DATE_COLOR: "#2f2f30",
-  POST_BACKGROUND_COLOR: "white",
+  POST_BACKGROUND_COLOR: "#ffffff",
   NEW_POST_COLOR: "#f96680",
   NEW_CONTRIBUTION_COLOR: "#f96680",
   NEW_COMMENT_COLOR: "#f96680",
@@ -13,6 +13,9 @@ const DefaultTheme: ThemeProperties = {
   BORDER_RADIUS_LARGE: "25px",
   DEFAULT_ACCENT_COLOR: "#ff5252",
   MODAL_BACKGROUND_COLOR: "rgba(0, 0, 0, 0.5)",
+  DROPDOWN_BACKGROUND_COLOR_LIGHT: "#ffffff",
+  DROPDOWN_BACKGROUND_COLOR_DARK: "#1c1c1c",
+
   //INDENT_COLORS: ["#f96680", "#24d282", "#27caba", "#f9e066"],
   //INDENT_COLORS: ["#535353", "#808080", "#27caba", "#f9e066"],
   INDENT_COLORS: ["#a8d5c0", "#f0b3b2", "#27caba", "#f9e066"],
@@ -36,4 +39,6 @@ export interface ThemeProperties {
   DEFAULT_ACCENT_COLOR: string;
   MODAL_BACKGROUND_COLOR: string;
   INDENT_COLORS: string[];
+  DROPDOWN_BACKGROUND_COLOR_LIGHT: string;
+  DROPDOWN_BACKGROUND_COLOR_DARK: string;
 }
