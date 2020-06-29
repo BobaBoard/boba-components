@@ -4,6 +4,7 @@ import UpdatesHeader from "./UpdatesHeader";
 import Header, { HeaderStyle } from "./Header";
 import Footer from "./Footer";
 import Tags from "./Tags";
+import DropdownMenu from "../common/DropdownMenu";
 import Card from "../common/Card";
 import Reaction from "../common/Reaction";
 import Editor from "@bobaboard/boba-editor";
@@ -54,6 +55,11 @@ const Post: React.FC<PostProps> = (props) => {
           height={props.collapsed ? COLLAPSED_HEIGHT : undefined}
           header={
             <div className="header">
+              {props.menuOptions && (
+                <div style={{ float: "right", marginTop: "15px" }}>
+                  <DropdownMenu options={props.menuOptions} />
+                </div>
+              )}
               <Header
                 secretIdentity={props.secretIdentity}
                 userIdentity={props.userIdentity}
@@ -202,4 +208,8 @@ export interface PostProps {
   notesUrl: string;
   centered?: boolean;
   reactable?: boolean;
+  menuOptions?: {
+    name: string;
+    onClick: () => void;
+  }[];
 }

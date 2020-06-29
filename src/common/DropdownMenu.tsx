@@ -2,7 +2,7 @@ import React from "react";
 import classnames from "classnames";
 import Tooltip from "./Tooltip";
 import Button from "./Button";
-import Theme from "../theme/default";
+import { faPlus, faEllipsisV } from "@fortawesome/free-solid-svg-icons";
 
 export interface DropdownProps {
   options: {
@@ -37,7 +37,9 @@ const DropdownMenu: React.FC<DropdownProps> = (props) => {
         padding={0}
       >
         <span>
-          <Button onClick={() => setOpen(!isOpen)}>Contribute</Button>
+          <Button icon={faEllipsisV} onClick={() => setOpen(!isOpen)} compact>
+            Open Menu
+          </Button>
         </span>
       </Tooltip>
       <style jsx>{`
@@ -50,10 +52,12 @@ const DropdownMenu: React.FC<DropdownProps> = (props) => {
           border-bottom: 2px solid black;
         }
         .option:first-child {
-          border-radius: 10px 10px 0px 0px;
+          border-top-left-radius: 10px;
+          border-top-right-radius: 10px;
         }
         .option:last-child {
-          border-radius: 0px 0px 10px 10px;
+          border-bottom-left-radius: 10px;
+          border-bottom-right-radius: 10px;
         }
         .option:hover {
           color: white;

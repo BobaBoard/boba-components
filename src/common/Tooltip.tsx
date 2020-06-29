@@ -57,7 +57,7 @@ const Popover: React.FC<PopoverProps> = (props) => {
             </ArrowContainer>
           );
         }}
-        transitionDuration={0.25}
+        transitionDuration={0.2}
       >
         {props.children}
       </LibraryPopover>
