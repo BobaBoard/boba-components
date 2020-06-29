@@ -530,6 +530,7 @@ export const ReactionsPost = () => (
         { image: luigiReaction, count: 11 },
         { image: junkoReaction, count: 20 },
       ]}
+      reactable
     />
   </>
 );

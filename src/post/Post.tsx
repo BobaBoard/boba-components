@@ -83,16 +83,18 @@ const Post: React.FC<PostProps> = (props) => {
                   answerable={props.answerable}
                 />
               </div>
-              <div className="reactions">
-                {props.reactions?.map((reaction) => (
-                  <div className="reaction">
-                    <Reaction image={reaction.image} count={reaction.count} />
+              {!!props.reactable && (
+                <div className="reactions">
+                  {props.reactions?.map((reaction) => (
+                    <div className="reaction">
+                      <Reaction image={reaction.image} count={reaction.count} />
+                    </div>
+                  ))}
+                  <div className="add-reaction">
+                    <FontAwesomeIcon icon={faPlus} />
                   </div>
-                ))}
-                <div className="add-reaction">
-                  <FontAwesomeIcon icon={faPlus} />
                 </div>
-              </div>
+              )}
             </div>
           }
         >
@@ -199,4 +201,5 @@ export interface PostProps {
   onNotesClick: () => void;
   notesUrl: string;
   centered?: boolean;
+  reactable?: boolean;
 }
