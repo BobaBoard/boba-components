@@ -44,9 +44,9 @@ const Comment: React.FC<CommentProps> = (props) => {
             key={props.id + "_editor"}
             editable={false}
             initialText={JSON.parse(props.initialText)}
-            onTextChange={(text) => {}}
+            onTextChange={(text: any) => {}}
             focus={!!props.focus}
-            onCharactersChange={(text) => {}}
+            onCharactersChange={(characters: number) => {}}
             onSubmit={() => {}}
             singleLine={true}
             showTooltip={false}

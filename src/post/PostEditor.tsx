@@ -24,14 +24,17 @@ const prepareForSubmission = (
 ) => {
   const delta = JSON.parse(text);
   const images = getAllImages(delta);
-  return Promise.all(images.map((src) => uploadFunction(src))).then(
+  return Promise.all(images.map((src: string) => uploadFunction(src))).then(
     (uploadedImages) => {
-      const replacements = images.reduce((obj, image, index) => {
-        return {
-          ...obj,
-          [image]: uploadedImages[index],
-        };
-      }, {});
+      const replacements = images.reduce(
+        (obj: any, image: string, index: number) => {
+          return {
+            ...obj,
+            [image]: uploadedImages[index],
+          };
+        },
+        {}
+      );
       replaceImages(delta, replacements);
       return JSON.stringify(delta);
     }

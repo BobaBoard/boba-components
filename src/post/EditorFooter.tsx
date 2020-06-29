@@ -23,7 +23,6 @@ const EditorFooter: React.FC<FooterProps> = ({
         <Button
           icon={faCheck}
           onClick={onSubmit}
-          primary
           disabled={submittable === false}
         >
           Post

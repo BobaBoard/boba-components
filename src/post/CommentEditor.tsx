@@ -127,9 +127,9 @@ const Comment: React.FC<CommentProps> = (props) => {
                 key={"comment_editor"}
                 editable={!props.loading}
                 initialText={JSON.parse(text)}
-                onTextChange={(text) => setText(JSON.stringify(text))}
+                onTextChange={(text: any) => setText(JSON.stringify(text))}
                 focus={!!props.focus}
-                onCharactersChange={(characters) =>
+                onCharactersChange={(characters: number) =>
                   setCharactersTyped(characters)
                 }
                 onSubmit={() => {
