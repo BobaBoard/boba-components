@@ -9,6 +9,7 @@ const UserBar: React.FC<UserBarProps> = ({
   onClick,
   loading,
   menuOptions,
+  compact,
 }) => {
   return (
     <div className="container">
@@ -23,6 +24,7 @@ const UserBar: React.FC<UserBarProps> = ({
           onClick={onClick}
           color={color}
           theme={ButtonStyle.DARK}
+          compact={compact}
         >
           {loading ? "loading..." : user?.username || "Login"}
         </Button>
@@ -50,4 +52,5 @@ export interface UserBarProps {
     name: string;
     onClick: () => void;
   }[];
+  compact?: boolean;
 }

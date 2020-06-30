@@ -7,6 +7,7 @@ import HighlightedText from "../common/HighlightedText";
 import Theme from "../theme/default";
 import Div100vh from "react-div-100vh";
 import LoadingBar from "../common/LoadingBar";
+import useComponentSize from "@rehooks/component-size";
 
 import "@bobaboard/boba-editor/dist/main.css";
 
@@ -36,6 +37,8 @@ const Layout = React.forwardRef<{ closeSideMenu: () => void }, LayoutProps>(
     ref
   ) => {
     const [showSideMenu, setShowSideMenu] = React.useState(false);
+    const headerRef = React.useRef<HTMLDivElement>(null);
+    let { width } = useComponentSize(headerRef);
     React.useImperativeHandle(ref, () => ({
       closeSideMenu: () => {
         setShowSideMenu(false);
@@ -62,7 +65,7 @@ const Layout = React.forwardRef<{ closeSideMenu: () => void }, LayoutProps>(
                 setShowSideMenu(false);
               }}
             />
-            <div className="header">
+            <div className="header" ref={headerRef}>
               <div className="title-bar">
                 <div className="sidemenu-button">
                   <Button
@@ -99,6 +102,7 @@ const Layout = React.forwardRef<{ closeSideMenu: () => void }, LayoutProps>(
                 user={user}
                 loading={loading}
                 menuOptions={loggedInMenuOptions}
+                compact={width < 500}
               />
             </div>
             <div className="content">
