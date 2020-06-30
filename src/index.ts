@@ -11,6 +11,7 @@ import Button, { ButtonStyle } from "./common/Button";
 import Input, { InputStyle } from "./common/Input";
 import ToastContainer, { toast } from "./common/Toast";
 import Modal from "./common/Modal";
+import ModalWithButtons from "./common/ModalWithButtons";
 import PostEditor, { setTumblrEmbedFetcher } from "./post/PostEditor";
 import Post, { PostSizes } from "./post/Post";
 import Comment from "./post/Comment";
@@ -30,6 +31,7 @@ export {
   Input,
   InputStyle,
   Modal,
+  ModalWithButtons,
   Post,
   PostSizes,
   PostEditor,

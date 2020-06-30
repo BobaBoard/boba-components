@@ -6,6 +6,8 @@ import BoardFeed from "../src/board/BoardFeed";
 import PostingActionButton from "../src/board/PostingActionButton";
 import BoardSidebar from "../src/board/BoardSidebar";
 import Button from "../src/common/Button";
+import ModalWithButtons from "../src/common/ModalWithButtons";
+import Input from "../src/common/Input";
 
 import oncelerAvatar from "./images/oncie.jpg";
 import greedlerAvatar from "./images/greedler.jpg";
@@ -545,4 +547,35 @@ export const Attempt1 = () => {
 
 Attempt1.story = {
   name: "there was an attempt",
+};
+
+export const ModalWithButtonsStory = () => {
+  const [username, setUsername] = React.useState("Bobatan");
+  return (
+    <ModalWithButtons
+      isOpen={true}
+      onCloseModal={() => {}}
+      color={"#93b3b0"}
+      primaryText={"Login"}
+      primaryDisabled={username.length == 0}
+      secondaryText={"Cancel"}
+      onSubmit={() => {
+        console.log("tada!");
+      }}
+    >
+      <div>
+        <Input
+          id={"username"}
+          value={username}
+          label={"Username"}
+          onTextChange={(text: string) => setUsername(text)}
+          color={"#93b3b0"}
+        />
+      </div>
+    </ModalWithButtons>
+  );
+};
+
+ModalWithButtonsStory.story = {
+  name: "modal with buttons",
 };

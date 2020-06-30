@@ -34,6 +34,7 @@ const Modal: React.FC<LibraryModal.Props> = (props) => {
         isOpen={props.isOpen}
         onAfterOpen={props.onAfterOpen}
         onRequestClose={props.onRequestClose}
+        shouldCloseOnOverlayClick={props.shouldCloseOnOverlayClick}
         style={customStyles}
       >
         <Div100vh>
