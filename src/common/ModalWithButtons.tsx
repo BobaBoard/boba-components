@@ -8,6 +8,7 @@ const ModalWithButtons: React.FC<ModalWithButtonsProps> = (props) => {
     <Modal
       isOpen={props.isOpen}
       shouldCloseOnOverlayClick={props.shouldCloseOnOverlayClick}
+      onRequestClose={props.onCloseModal}
     >
       <div className="content">
         <div className={classnames("content-container")}>{props.children}</div>

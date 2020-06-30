@@ -30,6 +30,14 @@ const DropdownMenu: React.FC<DropdownProps> = (props) => {
     DropdownStyle.DARK == props.style
       ? Theme.DROPDOWN_BACKGROUND_COLOR_LIGHT
       : Theme.DROPDOWN_BACKGROUND_COLOR_DARK;
+  const hoverColor =
+    DropdownStyle.DARK == props.style
+      ? Theme.DROPDOWN_BACKGROUND_COLOR_LIGHT
+      : themeColor;
+  const hoverBackgroundColor =
+    DropdownStyle.DARK == props.style
+      ? Theme.LAYOUT_SIDEMENU_BACKGROUND_COLOR
+      : reverseThemeColor;
   const accentColor = props.accentColor || reverseThemeColor;
   return (
     <>
@@ -78,8 +86,8 @@ const DropdownMenu: React.FC<DropdownProps> = (props) => {
           border-bottom: 0px solid ${accentColor};
         }
         .option:hover {
-          color: ${themeColor};
-          background-color: ${reverseThemeColor};
+          color: ${hoverColor};
+          background-color: ${hoverBackgroundColor};
           cursor: pointer;
         }
         .option:first-child:hover {
