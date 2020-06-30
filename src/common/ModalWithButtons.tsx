@@ -3,7 +3,7 @@ import Modal from "./Modal";
 import Button, { ButtonStyle } from "./Button";
 import classnames from "classnames";
 
-const PostEditorModal: React.FC<PostEditorModalProps> = (props) => {
+const ModalWithButtons: React.FC<ModalWithButtonsProps> = (props) => {
   return (
     <Modal
       isOpen={props.isOpen}
@@ -66,7 +66,7 @@ const PostEditorModal: React.FC<PostEditorModalProps> = (props) => {
   );
 };
 
-export interface PostEditorModalProps {
+export interface ModalWithButtonsProps {
   isOpen: boolean;
   onCloseModal: () => void;
   onSubmit: () => void;
@@ -77,4 +77,4 @@ export interface PostEditorModalProps {
   shouldCloseOnOverlayClick?: boolean;
 }
 
-export default PostEditorModal;
+export default ModalWithButtons;
