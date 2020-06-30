@@ -47,6 +47,7 @@ const Input: React.FC<InputProps> = (props) => {
             error: !!props.errorMessage,
             focused,
           })}
+          name={props.label}
           id={props.id}
           type={props.password ? "password" : "text"}
           value={props.value}
