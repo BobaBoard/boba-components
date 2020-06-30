@@ -3,6 +3,7 @@ import React from "react";
 import Header, { HeaderStyle } from "./Header";
 import EditorFooter from "./EditorFooter";
 import Card from "../common/Card";
+import Tags from "./Tags";
 import { PostSizes, getPostWidth } from "./Post";
 import Spinner from "../common/Spinner";
 import Editor, {
@@ -49,6 +50,7 @@ const PostEditor: React.FC<PostEditorProps> = (props) => {
     props.initialText ? props.initialText : ""
   );
   const [isEmpty, setIsEmpty] = React.useState(true);
+  const [tags, setTags] = React.useState(["tag1", "tag2"]);
 
   return (
     <>
@@ -81,22 +83,30 @@ const PostEditor: React.FC<PostEditorProps> = (props) => {
           }
           footer={
             <div className="footer">
-              <EditorFooter
-                onSubmit={() =>
-                  props.onSubmit(
-                    prepareForSubmission(
-                      newText,
-                      props.onImageUploadRequest
-                    ).then((uploadedText) => ({
-                      text: uploadedText,
-                      large: size == PostSizes.WIDE,
-                    }))
-                  )
-                }
-                onCancel={props.onCancel}
-                submittable={!props.loading && !isEmpty}
-                cancellable={!props.loading}
+              <Tags
+                tags={tags}
+                onTagsChange={(tags) => setTags(tags)}
+                editable
               />
+              <div className="footer-actions">
+                <EditorFooter
+                  onSubmit={() =>
+                    props.onSubmit(
+                      prepareForSubmission(
+                        newText,
+                        props.onImageUploadRequest
+                      ).then((uploadedText) => ({
+                        text: uploadedText,
+                        large: size == PostSizes.WIDE,
+                        tags,
+                      }))
+                    )
+                  }
+                  onCancel={props.onCancel}
+                  submittable={!props.loading && !isEmpty}
+                  cancellable={!props.loading}
+                />
+              </div>
             </div>
           }
         >
@@ -151,9 +161,13 @@ const PostEditor: React.FC<PostEditorProps> = (props) => {
           padding: 10px;
         }
         .footer {
-          border-radius: 0px 0px 15px 15px;
+          border-top: 1px dotted rgb(47, 47, 48);
           background-color: ${Theme.POST_BACKGROUND_COLOR};
-          padding: 15px;
+          border-radius: 0px 0px 15px 15px;
+          padding: 5px;
+        }
+        .footer-actions {
+          padding: 5px;
         }
         .editor-container {
           padding-top: 5px;
@@ -199,7 +213,9 @@ export interface PostEditorProps {
   loading?: boolean;
   defaultSize?: PostSizes;
   onImageUploadRequest: (imgUrl: string) => Promise<string>;
-  onSubmit: (postPromise: Promise<{ text: string; large: boolean }>) => void;
+  onSubmit: (
+    postPromise: Promise<{ text: string; large: boolean; tags?: string[] }>
+  ) => void;
   onCancel: () => void;
   centered?: boolean;
 }
