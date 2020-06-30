@@ -76,6 +76,8 @@ object-assign
 
 /*! react-buttons v1.3.1 | (c) 2018 Trend Micro Inc. | MIT | https://github.com/trendmicro-frontend/react-buttons */
 
+/*! safe-buffer. MIT License. Feross Aboukhadijeh <https://feross.org/opensource> */
+
 /** @license React v0.19.1
  * scheduler.production.min.js
  *

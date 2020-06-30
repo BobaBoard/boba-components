@@ -6,12 +6,22 @@ import debug from "debug";
 
 const log = debug("bobaui:tagsinput-log");
 
+const TAG_LENGTH_LIMIT = 100;
+const ADD_A_TAG_STRING = "add a tag...";
+
 const TagsInput: React.FC<TagsInputProps> = ({
   tags,
   onTagsChange,
   editable,
 }) => {
   const [deleteState, setDeleteState] = React.useState(false);
+  const spanRef = React.useRef<HTMLSpanElement>(null);
+  React.useEffect(() => {
+    if (spanRef.current) {
+      spanRef.current.innerHTML = ADD_A_TAG_STRING;
+    }
+  }, [spanRef]);
+
   return (
     <>
       <div className="container">
@@ -19,7 +29,7 @@ const TagsInput: React.FC<TagsInputProps> = ({
           <>
             {tags.map((tag, index) => (
               <div
-                key={tag}
+                key={index}
                 className={classnames("tag-container", {
                   deleting: deleteState && index == tags.length - 1,
                 })}
@@ -40,7 +50,7 @@ const TagsInput: React.FC<TagsInputProps> = ({
         {!!editable && (
           <span
             className="tag-input"
-            placeholder="add a tag..."
+            ref={spanRef}
             onKeyDown={(e) => {
               const inputValue = (e.target as HTMLSpanElement).innerText;
 
@@ -61,12 +71,63 @@ const TagsInput: React.FC<TagsInputProps> = ({
               if (e.key === "Enter") {
                 if (inputValue.trim().length == 0) {
                   log(`Received enter on empty tag`);
+                  e.preventDefault();
                   return;
                 }
                 log(`Entering new tag ${inputValue}`);
                 onTagsChange?.([...tags, inputValue]);
-                (e.target as HTMLInputElement).innerText = "";
+                if (spanRef.current) {
+                  spanRef.current.innerText = "";
+                }
                 e.preventDefault();
+              }
+            }}
+            onBeforeInput={(e) => {
+              const target = e.target as HTMLSpanElement;
+              let inputValue = target.innerText;
+              if (inputValue.length >= TAG_LENGTH_LIMIT) {
+                log("Tag Limit Reached Cannot Insert new Value");
+                e.preventDefault();
+              }
+
+              if (/[\n]/g.test(inputValue)) {
+                log("Found New Line Blocking");
+                e.preventDefault();
+              }
+            }}
+            onInputCapture={(e) => {
+              const target = e.target as HTMLSpanElement;
+              let value = target.innerHTML;
+              if (/<\/?[^>]+(>|$)|\n/g.test(value)) {
+                let text = value.replace(/<\/?[^>]+(>|$)/g, "");
+                text = text.replace(/\n/g, " ");
+                text = text.replace(/&nbsp;/g, " ");
+                log("Removing newLine and HTML tags");
+                target.textContent = text.substr(0, TAG_LENGTH_LIMIT);
+              }
+            }}
+            onFocus={(e) => {
+              const target = e.target as HTMLSpanElement;
+              const value = target.innerText;
+              if (value === ADD_A_TAG_STRING) {
+                log('Focused: Removing "add a tag..."');
+                if (spanRef.current) {
+                  spanRef.current.innerText = "";
+                }
+              } else {
+                log("Focused: Found text not Removing anything");
+              }
+            }}
+            onBlur={(e) => {
+              if (!spanRef.current) {
+                return;
+              }
+              const value = spanRef.current.innerText;
+              if (value.trim() === "") {
+                log('Blur: Adding "Add a tag..."');
+                spanRef.current.innerText = ADD_A_TAG_STRING;
+              } else {
+                log('Blur: Found Text not Adding "Add a tag..."');
               }
             }}
             onKeyUp={(e) => {
@@ -78,9 +139,7 @@ const TagsInput: React.FC<TagsInputProps> = ({
               target.style.display = currentPosition < 10 ? "normal" : "nowrap";
             }}
             contentEditable={true}
-          >
-            add a tag...
-          </span>
+          />
         )}
       </div>
       <style jsx>{`
@@ -93,7 +152,7 @@ const TagsInput: React.FC<TagsInputProps> = ({
         }
         .tag-input {
           flex: 1;
-          word-break: break-word;
+          word-break: normal;
           max-width: 500px;
           padding: 5px;
           margin: 2px 2px;

@@ -6,16 +6,11 @@ import Footer from "./Footer";
 import Tags from "./Tags";
 import DropdownListMenu from "../common/DropdownListMenu";
 import Card from "../common/Card";
-import Button from "../common/Button";
 import Reaction from "../common/Reaction";
 import Editor from "@bobaboard/boba-editor";
 import classnames from "classnames";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import {
-  faPlus,
-  faChevronDown,
-  faAngleDown,
-} from "@fortawesome/free-solid-svg-icons";
+import { faPlus, faAngleDown } from "@fortawesome/free-solid-svg-icons";
 
 import Theme from "../theme/default";
 
