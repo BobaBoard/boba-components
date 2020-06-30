@@ -11,7 +11,11 @@ import Reaction from "../common/Reaction";
 import Editor from "@bobaboard/boba-editor";
 import classnames from "classnames";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import { faPlus, faEllipsisV } from "@fortawesome/free-solid-svg-icons";
+import {
+  faPlus,
+  faChevronDown,
+  faAngleDown,
+} from "@fortawesome/free-solid-svg-icons";
 
 import Theme from "../theme/default";
 
@@ -57,11 +61,11 @@ const Post: React.FC<PostProps> = (props) => {
           header={
             <div className="header">
               {props.menuOptions && (
-                <div style={{ float: "right" }}>
+                <div className="post-options">
                   <DropdownListMenu options={props.menuOptions}>
-                    <Button icon={faEllipsisV} compact>
-                      Open Menu
-                    </Button>
+                    <span className="post-options-icon">
+                      <FontAwesomeIcon icon={faAngleDown} />
+                    </span>
                   </DropdownListMenu>
                 </div>
               )}
@@ -169,6 +173,25 @@ const Post: React.FC<PostProps> = (props) => {
         }
         .reaction {
           margin-right: 5px;
+        }
+        .post-options {
+          width: 20px;
+          height: 25px;
+          text-align: center;
+          line-height: 1em;
+          margin: 2px 5px 0 0;
+          float: right;
+        }
+        .post-options-icon {
+          display: block;
+          width: 20px;
+          height: 30px;
+          font-size: 25px;
+          color: rgb(28, 28, 28);
+        }
+        .post-options-icon:hover {
+          color: rgb(28, 28, 28, 0.8);
+          cursor: pointer;
         }
       `}</style>
     </>
