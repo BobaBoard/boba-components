@@ -88,6 +88,20 @@ const PostEditor: React.FC<PostEditorProps> = (props) => {
                 tags={tags}
                 onTagsChange={(tags: string[]) => setTags(tags)}
                 editable
+                onSubmit={(newTags) => {
+                  if (!isEmpty) {
+                    props.onSubmit(
+                      prepareForSubmission(
+                        newText,
+                        props.onImageUploadRequest
+                      ).then((uploadedText) => ({
+                        text: uploadedText,
+                        large: size == PostSizes.WIDE,
+                        tags: newTags,
+                      }))
+                    );
+                  }
+                }}
               />
               <div className="footer-actions">
                 <EditorFooter

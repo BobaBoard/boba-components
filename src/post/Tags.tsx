@@ -70,18 +70,24 @@ const TagsInput: React.FC<TagsInputProps> = ({
               setDeleteState(false);
 
               if (e.key === "Enter") {
-                if (inputValue.trim().length != 0) {
-                  log(`Entering new tag ${inputValue}`);
-                  onTagsChange?.([...tags, inputValue.trim()]);
-                  if (spanRef.current) {
-                    spanRef.current.innerText = "";
-                    spanRef.current.style.width = "auto";
-                    spanRef.current.style.flex = "1";
+                if (inputValue.trim().length == 0) {
+                  log(`Received enter on empty tag`);
+                  if (e.metaKey || e.shiftKey) {
+                    onSubmit?.([...tags]);
                   }
+                  e.preventDefault();
+                  return;
+                }
+                log(`Entering new tag ${inputValue}`);
+                onTagsChange?.([...tags, inputValue.trim()]);
+                if (spanRef.current) {
+                  spanRef.current.innerText = "";
+                  spanRef.current.style.width = "auto";
+                  spanRef.current.style.flex = "1";
                 }
 
                 if (e.metaKey || e.shiftKey) {
-                  onSubmit?.();
+                  onSubmit?.([...tags, inputValue.trim()]);
                 }
                 e.preventDefault();
               }
@@ -185,5 +191,5 @@ export interface TagsInputProps {
   tags: string[];
   onTagsChange?: (newTags: string[]) => void;
   editable?: boolean;
-  onSubmit?: () => void;
+  onSubmit?: (newTags: string[]) => void;
 }
