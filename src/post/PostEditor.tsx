@@ -10,6 +10,7 @@ import Editor, {
   getAllImages,
   replaceImages,
   setTumblrEmbedFetcher as libSetFetcher,
+  // @ts-ignore
 } from "@bobaboard/boba-editor";
 
 import Theme from "../theme/default";
@@ -50,7 +51,7 @@ const PostEditor: React.FC<PostEditorProps> = (props) => {
     props.initialText ? props.initialText : ""
   );
   const [isEmpty, setIsEmpty] = React.useState(true);
-  const [tags, setTags] = React.useState(["tag1", "tag2"]);
+  const [tags, setTags] = React.useState<string[]>([]);
 
   return (
     <>
@@ -85,7 +86,7 @@ const PostEditor: React.FC<PostEditorProps> = (props) => {
             <div className="footer">
               <Tags
                 tags={tags}
-                onTagsChange={(tags) => setTags(tags)}
+                onTagsChange={(tags: string[]) => setTags(tags)}
                 editable
               />
               <div className="footer-actions">

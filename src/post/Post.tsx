@@ -7,6 +7,7 @@ import Tags from "./Tags";
 import DropdownListMenu from "../common/DropdownListMenu";
 import Card from "../common/Card";
 import Reaction from "../common/Reaction";
+// @ts-ignore
 import Editor from "@bobaboard/boba-editor";
 import classnames from "classnames";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";

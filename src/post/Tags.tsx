@@ -8,6 +8,7 @@ const log = debug("bobaui:tagsinput-log");
 
 const TAG_LENGTH_LIMIT = 100;
 const ADD_A_TAG_STRING = "add a tag...";
+const HEIGHT_TRIGGER = 30;
 
 const TagsInput: React.FC<TagsInputProps> = ({
   tags,
@@ -75,9 +76,11 @@ const TagsInput: React.FC<TagsInputProps> = ({
                   return;
                 }
                 log(`Entering new tag ${inputValue}`);
-                onTagsChange?.([...tags, inputValue]);
+                onTagsChange?.([...tags, inputValue.trim()]);
                 if (spanRef.current) {
                   spanRef.current.innerText = "";
+                  spanRef.current.style.width = "auto";
+                  spanRef.current.style.flex = "1";
                 }
                 e.preventDefault();
               }
@@ -95,7 +98,7 @@ const TagsInput: React.FC<TagsInputProps> = ({
                 e.preventDefault();
               }
             }}
-            onInputCapture={(e) => {
+            onPaste={(e) => {
               const target = e.target as HTMLSpanElement;
               let value = target.innerHTML;
               if (/<\/?[^>]+(>|$)|\n/g.test(value)) {
@@ -123,20 +126,23 @@ const TagsInput: React.FC<TagsInputProps> = ({
                 return;
               }
               const value = spanRef.current.innerText;
-              if (value.trim() === "") {
-                log('Blur: Adding "Add a tag..."');
-                spanRef.current.innerText = ADD_A_TAG_STRING;
-              } else {
-                log('Blur: Found Text not Adding "Add a tag..."');
+              if (value.trim()) {
+                onTagsChange?.([...tags, value.trim()]);
               }
+              spanRef.current.innerText = ADD_A_TAG_STRING;
+              console.log(spanRef.current.getBoundingClientRect());
+              log('Blur: Adding "Add a tag..."');
+              spanRef.current.style.width = "auto";
+              spanRef.current.style.flex = "1";
+              setDeleteState(false);
             }}
             onKeyUp={(e) => {
               const target = e.target as HTMLSpanElement;
-              const parent = target.parentElement;
-              const currentPosition =
-                target.getBoundingClientRect().left -
-                (parent?.getBoundingClientRect().left || 0);
-              target.style.display = currentPosition < 10 ? "normal" : "nowrap";
+              if (target.getBoundingClientRect().height > HEIGHT_TRIGGER) {
+                log(`Multiline detected. Switching to full line.`);
+                target.style.width = "100%";
+                target.style.flex = "auto";
+              }
             }}
             contentEditable={true}
           />
@@ -153,6 +159,7 @@ const TagsInput: React.FC<TagsInputProps> = ({
         .tag-input {
           flex: 1;
           word-break: normal;
+          min-width: 100px;
           max-width: 500px;
           padding: 5px;
           margin: 2px 2px;

@@ -7,7 +7,12 @@ export default {
 };
 
 export const EditableTags = () => {
-  const [tags, setTags] = React.useState(["tag1", "tag2"]);
+  const [tags, setTags] = React.useState([
+    "tag1",
+    "tag2",
+    "tag1234561789",
+    "tag1234561789x2",
+  ]);
   return (
     <div style={{ width: "500px", backgroundColor: "white" }}>
       <Tags tags={tags} onTagsChange={(tags) => setTags(tags)} editable />
