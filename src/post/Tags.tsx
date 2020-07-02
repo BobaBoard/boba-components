@@ -14,6 +14,7 @@ const TagsInput: React.FC<TagsInputProps> = ({
   tags,
   onTagsChange,
   editable,
+  onSubmit,
 }) => {
   const [deleteState, setDeleteState] = React.useState(false);
   const spanRef = React.useRef<HTMLSpanElement>(null);
@@ -54,7 +55,6 @@ const TagsInput: React.FC<TagsInputProps> = ({
             ref={spanRef}
             onKeyDown={(e) => {
               const inputValue = (e.target as HTMLSpanElement).innerText;
-
               if (inputValue.length == 0 && e.key == "Backspace") {
                 log(`Received backspace on empty tag`);
                 if (!deleteState) {
@@ -70,17 +70,18 @@ const TagsInput: React.FC<TagsInputProps> = ({
               setDeleteState(false);
 
               if (e.key === "Enter") {
-                if (inputValue.trim().length == 0) {
-                  log(`Received enter on empty tag`);
-                  e.preventDefault();
-                  return;
+                if (inputValue.trim().length != 0) {
+                  log(`Entering new tag ${inputValue}`);
+                  onTagsChange?.([...tags, inputValue.trim()]);
+                  if (spanRef.current) {
+                    spanRef.current.innerText = "";
+                    spanRef.current.style.width = "auto";
+                    spanRef.current.style.flex = "1";
+                  }
                 }
-                log(`Entering new tag ${inputValue}`);
-                onTagsChange?.([...tags, inputValue.trim()]);
-                if (spanRef.current) {
-                  spanRef.current.innerText = "";
-                  spanRef.current.style.width = "auto";
-                  spanRef.current.style.flex = "1";
+
+                if (e.metaKey || e.shiftKey) {
+                  onSubmit?.();
                 }
                 e.preventDefault();
               }
@@ -184,4 +185,5 @@ export interface TagsInputProps {
   tags: string[];
   onTagsChange?: (newTags: string[]) => void;
   editable?: boolean;
+  onSubmit?: () => void;
 }

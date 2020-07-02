@@ -15,7 +15,12 @@ export const EditableTags = () => {
   ]);
   return (
     <div style={{ width: "500px", backgroundColor: "white" }}>
-      <Tags tags={tags} onTagsChange={(tags) => setTags(tags)} editable />
+      <Tags
+        tags={tags}
+        onTagsChange={(tags) => setTags(tags)}
+        editable
+        onSubmit={() => console.log("submit!!")}
+      />
     </div>
   );
 };
