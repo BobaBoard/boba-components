@@ -137,7 +137,6 @@ const TagsInput: React.FC<TagsInputProps> = ({
                 onTagsChange?.([...tags, value.trim()]);
               }
               spanRef.current.innerText = ADD_A_TAG_STRING;
-              console.log(spanRef.current.getBoundingClientRect());
               log('Blur: Adding "Add a tag..."');
               spanRef.current.style.width = "auto";
               spanRef.current.style.flex = "1";

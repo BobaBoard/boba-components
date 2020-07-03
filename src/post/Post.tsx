@@ -37,7 +37,11 @@ export const getPostWidth = (size?: PostSizes) => {
 
 const COLLAPSED_HEIGHT = 150;
 
+const noop = () => {};
 const Post: React.FC<PostProps> = (props) => {
+  const MemoizedHeader = React.memo(Header);
+  const MemoizedFooter = React.memo(Footer);
+  const MemoizedEditor = React.memo(Editor);
   const hasUpdate =
     props.newComments || props.newContributions || props.newPost;
   return (
@@ -65,7 +69,7 @@ const Post: React.FC<PostProps> = (props) => {
                   </DropdownListMenu>
                 </div>
               )}
-              <Header
+              <MemoizedHeader
                 secretIdentity={props.secretIdentity}
                 userIdentity={props.userIdentity}
                 createdMessage={`${props.createdTime}`}
@@ -81,9 +85,9 @@ const Post: React.FC<PostProps> = (props) => {
             >
               <Tags tags={props.tags?.whisperTags || []} />
               <div className="notes">
-                <Footer
-                  onContribution={() => props.onNewContribution()}
-                  onComment={() => props.onNewComment()}
+                <MemoizedFooter
+                  onContribution={props.onNewContribution}
+                  onComment={props.onNewComment}
                   totalContributions={props.totalContributions}
                   directContributions={props.directContributions}
                   totalComments={props.totalComments}
@@ -109,20 +113,23 @@ const Post: React.FC<PostProps> = (props) => {
             </div>
           }
         >
-          <Editor
+          <MemoizedEditor
             initialText={JSON.parse(props.text)}
             editable={false}
             focus={props.focus || false}
-            onSubmit={() => {
-              /*no-op*/
-            }}
-            onTextChange={(text: any) => {
-              /*no-op*/
-            }}
+            onSubmit={noop}
+            onTextChange={noop}
           />
         </Card>
       </div>
       <style jsx>{`
+        /*dynamic styles*/
+        .post-container {
+          width: ${getPostWidth(props.size)}px;
+        }
+      `}</style>
+      <style jsx>{`
+        /*static styles*/
         .header {
           border-radius: ${Theme.BORDER_RADIUS_REGULAR}
             ${Theme.BORDER_RADIUS_REGULAR} 0px 0px;
@@ -130,7 +137,6 @@ const Post: React.FC<PostProps> = (props) => {
           padding: 10px;
         }
         .post-container {
-          width: ${getPostWidth(props.size)}px;
           max-width: 100%;
         }
         .post-container.centered {

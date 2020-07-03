@@ -7,9 +7,13 @@ import classnames from "classnames";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import useComponentSize from "@rehooks/component-size";
 import fitty from "fitty";
+import debug from "debug";
 
 import { faComment, faPlusSquare } from "@fortawesome/free-regular-svg-icons";
 import { faCertificate } from "@fortawesome/free-solid-svg-icons";
+
+//const log = debug("bobaui:header-log");
+const info = debug("bobaui:header-info");
 
 export enum HeaderStyle {
   REGULAR = "REGULAR",
@@ -133,6 +137,8 @@ const PostHeader: React.FC<PostHeaderProps> = (props) => {
   React.useEffect(() => {
     setTagsOnNewLine(width < 300);
   }, [width]);
+
+  info(`Rendering post header`);
   return (
     <>
       <div
