@@ -50,7 +50,9 @@ const Layout = React.forwardRef<{ closeSideMenu: () => void }, LayoutProps>(
         <LoadingBar loading={loading} accentColor={headerAccent} />
         <div className="layout">
           <div className={classnames("side-menu", { visible: showSideMenu })}>
-            <div className="side-menu-content">{sideMenuContent}</div>
+            {showSideMenu && (
+              <div className="side-menu-content">{sideMenuContent}</div>
+            )}
           </div>
           <div
             className={classnames("body", {
