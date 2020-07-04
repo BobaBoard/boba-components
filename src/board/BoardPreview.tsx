@@ -65,6 +65,7 @@ const Slug: React.FC<{
           border: 3px ${color} solid;
           background-color: ${hex2rgba(color, 0.2)};
           border-radius: 15px;
+          pointer-events: none;
         }
         .slug-container.hidden {
           display: none;
@@ -156,6 +157,7 @@ const Description: React.FC<{
           text-overflow: ellipsis;
           overflow: hidden;
           padding: 5px;
+          pointer-events: none;
         }
         .description-container.regular {
           font-size: 20px;
@@ -194,6 +196,7 @@ const BoardPreview: React.FC<BoardPreviewProps> = ({
   displayStyle,
   description,
   onClick,
+  href,
   children,
   color,
   updates,
@@ -223,26 +226,43 @@ const BoardPreview: React.FC<BoardPreviewProps> = ({
             regular: displayStyle == DisplayStyle.REGULAR,
             mini: displayStyle == DisplayStyle.MINI,
           })}
-          onClick={onClick}
         >
+          <a onClick={onClick} href={href} />
           {updates && <div className="updates">{updates}</div>}
         </div>
-        <Slug
-          name={slug}
-          visible={!showDescription || displayStyle == DisplayStyle.REGULAR}
-          displayStyle={displayStyle}
-          color={chosenColor}
-        />
-        <Description
-          description={description}
-          visible={showDescription || displayStyle == DisplayStyle.REGULAR}
-          displayStyle={displayStyle}
-          color={chosenColor}
-        />
+        {displayStyle != DisplayStyle.MINI && (
+          <Slug
+            name={slug}
+            visible={!showDescription || displayStyle == DisplayStyle.REGULAR}
+            displayStyle={displayStyle}
+            color={chosenColor}
+          />
+        )}
+        {displayStyle != DisplayStyle.MINI && (
+          <Description
+            description={description}
+            visible={showDescription || displayStyle == DisplayStyle.REGULAR}
+            displayStyle={displayStyle}
+            color={chosenColor}
+          />
+        )}
       </div>
       <div className={classnames("preview-footer", { hidden: !children })}>
         {children}
       </div>
+      <style jsx>{`
+        /* dynamic styles */
+        .board-image {
+          background: url("${avatar}");
+          border: 3px ${chosenColor} solid;
+          background-size: cover;
+          background-position: center;
+        }
+        .updates {
+          background-color: ${chosenColor};
+          border: 5px solid ${backgroundColor || "#2f2f30"};
+        }
+        `}</style>
       <style jsx>{`
         .container {
           display: inline-block;
@@ -255,23 +275,25 @@ const BoardPreview: React.FC<BoardPreviewProps> = ({
         }
         .container.compact {
           min-width: 200px;
+          height: 150px;
         }
         .container.mini {
           min-width: 0;
+          height: 65px;
         }
-        .board-header{
+        .board-header {
           position: relative;
         }
         .container.mini .board-header {
           height: 65px;
-          width: calc((16/9) * 65px);
+          width: calc((16 / 9) * 65px);
         }
         .board-header::before {
           display: block;
           content: "";
           width: 100%;
           padding-top: calc((9 / 16) * 100%);
-          position:absolute;
+          position: absolute;
         }
         .tooltip-content {
           padding: 15px;
@@ -279,28 +301,32 @@ const BoardPreview: React.FC<BoardPreviewProps> = ({
           z-index: 15;
         }
         .board-image {
-            position: relative;
-            background: url("${avatar}");
-            background-size: cover;
-            background-position: center;
-            height: 150px;
-            border-radius: 15px;
-            border: 3px ${chosenColor} solid;
-            box-sizing: border-box;
-            border-radius: 15px;
+          display: block;
+          position: relative;
+          height: 150px;
+          border-radius: 15px;
+          box-sizing: border-box;
+          border-radius: 15px;
         }
         .board-image.mini {
           height: 65px;
-          width: calc((16/9) * 65px);
+          width: calc((16 / 9) * 65px);
         }
         .board-image.regular {
-            margin-bottom: 15px;
+          margin-bottom: 15px;
+        }
+        .board-image > a {
+          position: absolute;
+          top: 0;
+          bottom: 0;
+          left: 0;
+          right: 0;
         }
         .preview-footer {
-            display: flex;
-            justify-content: space-evenly;
-            margin-top: 5px;
-            max-width: 350px;
+          display: flex;
+          justify-content: space-evenly;
+          margin-top: 5px;
+          max-width: 350px;
         }
         .preview-footer.hidden {
           display: none;
@@ -308,7 +334,6 @@ const BoardPreview: React.FC<BoardPreviewProps> = ({
         .updates {
           color: white;
           font-size: 15px;
-          background-color: ${chosenColor};
           z-index: 10;
           border-radius: 50%;
           /* display: inline-block; */
@@ -320,7 +345,6 @@ const BoardPreview: React.FC<BoardPreviewProps> = ({
           position: absolute;
           bottom: -10px;
           right: -10px;
-          border: 5px solid ${backgroundColor || "#2f2f30"};
         }
         .board-image.mini .updates {
           width: 25px;
@@ -342,6 +366,7 @@ export interface BoardPreviewProps {
   color?: string;
   backgroundColor?: string;
   onClick?: () => void;
+  href?: string;
   updates?: number | boolean;
 }
 

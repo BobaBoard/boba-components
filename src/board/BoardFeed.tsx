@@ -32,9 +32,9 @@ export interface BoardFeedProps {
   showSidebar?: boolean;
   boardInfo: {
     slug: string;
-    avatar: string;
-    description: string;
-    color: string;
+    avatarUrl: string;
+    tagline: string;
+    accentColor: string;
     boardWideTags: {
       name: string;
       color: string;

@@ -10,9 +10,9 @@ const BoardSidebar: React.FC<BoardSidebarProps> = ({ board }) => {
         <div className="board-preview">
           <BoardPreview
             slug={board.slug}
-            avatar={board.avatar}
-            description={board.description}
-            color={board.color}
+            avatar={board.avatarUrl}
+            description={board.tagline}
+            color={board.accentColor}
           ></BoardPreview>
         </div>
         <div className="tag-clouds">
@@ -102,9 +102,9 @@ export default BoardSidebar;
 export interface BoardSidebarProps {
   board: {
     slug: string;
-    avatar: string;
-    description: string;
-    color: string;
+    avatarUrl: string;
+    tagline: string;
+    accentColor: string;
     boardWideTags?: {
       name: string;
       color: string;

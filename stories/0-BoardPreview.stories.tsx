@@ -79,6 +79,7 @@ export const BoardPreviewWithUpdates = () => (
       updates={5}
       backgroundColor="#333"
       color="#ff0f4b"
+      href="#thisIsATest"
     />
     <BoardPreview
       slug="gore"
@@ -88,6 +89,7 @@ export const BoardPreviewWithUpdates = () => (
       displayStyle={DisplayStyle.COMPACT}
       updates={5}
       color="#ff0f4b"
+      href="#thisIsATest"
     />
     <BoardPreview
       slug="gore"
@@ -97,6 +99,7 @@ export const BoardPreviewWithUpdates = () => (
       displayStyle={DisplayStyle.MINI}
       updates={5}
       color="#ff0f4b"
+      href="#thisIsATest"
     />
   </div>
 );
