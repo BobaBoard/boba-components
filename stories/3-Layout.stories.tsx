@@ -30,97 +30,110 @@ import mamoru from "./images/mamoru.png";
 const PINNED_BOARDS = [
   {
     slug: "gore",
-    avatarUrl: "/" + goreBackground,
-    tagline: "Love me some bruised bois (and more).",
-    accentColor: "#f96680",
+    avatar: "/" + goreBackground,
+    description: "Love me some bruised bois (and more).",
+    color: "#f96680",
+    href: "#slug",
   },
   {
     slug: "anime",
-    avatarUrl: "/" + anime,
-    tagline: "We put the weeb in dweeb.",
-    accentColor: "#24d282",
+    avatar: "/" + anime,
+    description: "We put the weeb in dweeb.",
+    color: "#24d282",
     updates: 2,
     backgroundColor: "#131518",
+    href: "#slug",
   },
   {
     slug: "crack",
-    avatarUrl: "/" + crack,
-    tagline: "What's crackalackin",
-    accentColor: "#f9e066",
+    avatar: "/" + crack,
+    description: "What's crackalackin",
+    color: "#f9e066",
     updates: 3,
     backgroundColor: "#131518",
+    href: "#slug",
   },
   {
     slug: "fic-club",
-    avatarUrl: "/" + book,
-    tagline: "Come enjoy all the fics!",
-    accentColor: "#7724d2",
+    avatar: "/" + book,
+    description: "Come enjoy all the fics!",
+    color: "#7724d2",
     updates: 5,
     backgroundColor: "#131518",
+    href: "#slug",
   },
   {
     slug: "meta",
-    avatarUrl: "/" + meta,
-    tagline: "In My TiMeS wE CaLlEd It WaNk",
-    accentColor: "#f9e066",
+    avatar: "/" + meta,
+    description: "In My TiMeS wE CaLlEd It WaNk",
+    color: "#f9e066",
+    href: "#slug",
   },
   {
     slug: "villain-thirst",
-    avatarUrl: "/" + villains,
-    tagline: "Love to love 'em.",
-    accentColor: "#e22b4b",
+    avatar: "/" + villains,
+    description: "Love to love 'em.",
+    color: "#e22b4b",
+    href: "#slug",
   },
 ];
 const SEARCH_BOARDS = [
   {
     slug: "villain-thirst",
-    avatarUrl: "/" + villains,
-    tagline: "Love to love 'em.",
-    accentColor: "#e22b4b",
+    avatar: "/" + villains,
+    description: "Love to love 'em.",
+    color: "#e22b4b",
+    href: "#slug",
   },
   {
     slug: "art-crit",
-    avatarUrl: "/" + art,
-    tagline: "Let's learn together!",
-    accentColor: "#27caba",
+    avatar: "/" + art,
+    description: "Let's learn together!",
+    color: "#27caba",
+    href: "#slug",
   },
 ];
 const RECENT_BOARDS = [
   {
     slug: "gore",
-    avatarUrl: "/" + goreBackground,
-    tagline: "Love me some bruised bois (and more).",
-    accentColor: "#f96680",
+    avatar: "/" + goreBackground,
+    description: "Love me some bruised bois (and more).",
+    color: "#f96680",
+    href: "#slug",
   },
   {
     slug: "oncie-den",
-    avatarUrl: "/" + oncelerBoard,
-    tagline: "Party like it's 2012",
-    accentColor: "#27caba",
+    avatar: "/" + oncelerBoard,
+    description: "Party like it's 2012",
+    color: "#27caba",
     updates: 10,
     backgroundColor: "#131518",
+    href: "#slug",
   },
   {
     slug: "fic-club",
-    avatarUrl: "/" + book,
-    tagline: "Come enjoy all the fics!",
-    accentColor: "#7724d2",
+    avatar: "/" + book,
+    description: "Come enjoy all the fics!",
+    color: "#7724d2",
     updates: 5,
     backgroundColor: "#131518",
+    href: "#slug",
   },
   {
     slug: "kink-memes",
-    avatarUrl: "/" + kinkmeme,
-    tagline: "No limits. No shame.",
-    accentColor: "#000000",
+    avatar: "/" + kinkmeme,
+    description: "No limits. No shame.",
+    color: "#000000",
+    href: "#slug",
   },
   {
     slug: "crack",
-    avatarUrl: "/" + crack,
-    tagline: "What's crackalackin",
-    accentColor: "#f9e066",
+    avatar: "/" + crack,
+    description: "What's crackalackin",
+    color: "#f9e066",
     updates: 3,
     backgroundColor: "#131518",
+    href: "#slug",
   },
 ];
 
@@ -152,7 +165,7 @@ export const LoggedInLayout = () => {
       title="!gore"
       user={{
         username: "SexyDaddy69",
-        avatarUrl: mamoru,
+        avatar: mamoru,
       }}
       onUserBarClick={() => console.log("userbar click!")}
       loggedInMenuOptions={[
@@ -180,7 +193,7 @@ export const LoadingLayout = () => {
       title="!gore"
       user={{
         username: "SexyDaddy69",
-        avatarUrl: mamoru,
+        avatar: mamoru,
       }}
       loading={loading}
       updates={true}
@@ -199,8 +212,8 @@ export const BoardSidebarPreview = () => {
       <BoardSidebar
         board={{
           slug: "gore",
-          avatarUrl: `/${goreBackground}`,
-          tagline: "Love me some bruised bois (and more).",
+          avatar: `/${goreBackground}`,
+          description: "Love me some bruised bois (and more).",
           color,
           boardWideTags: [
             { name: "gore", color: "#f96680" },
@@ -460,8 +473,8 @@ export const Attempt1 = () => {
             onCloseSidebar={() => setShowSidebar(false)}
             boardInfo={{
               slug: "gore",
-              avatarUrl: `/${goreBackground}`,
-              tagline: "Love me some bruised bois (and more).",
+              avatar: `/${goreBackground}`,
+              description: "Love me some bruised bois (and more).",
               accentColor: "#f96680",
               boardWideTags: [
                 { name: "gore", color: "#f96680" },

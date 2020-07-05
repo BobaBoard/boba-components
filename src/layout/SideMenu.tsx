@@ -35,6 +35,7 @@ const SideMenu: React.FC<SideMenuProps> = ({
                   avatar={board.avatar}
                   description={board.description}
                   onClick={() => board.onClick?.(board.slug)}
+                  href={board.href}
                   displayStyle={DisplayStyle.MINI}
                   updates={board.updates}
                   color={board.color}
@@ -69,6 +70,7 @@ const SideMenu: React.FC<SideMenuProps> = ({
                         displayStyle={DisplayStyle.COMPACT}
                         updates={board.updates}
                         color={board.color}
+                        href={board.href}
                       />
                     ))}
                   </BoardsGroup>
@@ -90,6 +92,7 @@ const SideMenu: React.FC<SideMenuProps> = ({
                     displayStyle={DisplayStyle.COMPACT}
                     updates={board.updates}
                     color={board.color}
+                    href={board.href}
                   />
                 ))}
               </BoardsGroup>
@@ -146,6 +149,7 @@ export interface SideMenuProps {
     color: string;
     updates?: number;
     onClick?: (slug: string) => void;
+    href?: string;
   }[];
   recentBoards?: {
     slug: string;
@@ -154,6 +158,7 @@ export interface SideMenuProps {
     color: string;
     updates?: number;
     onClick?: (slug: string) => void;
+    href?: string;
   }[];
   searchBoards?: {
     slug: string;
@@ -162,6 +167,7 @@ export interface SideMenuProps {
     color: string;
     updates?: number;
     onClick?: (slug: string) => void;
+    href?: string;
   }[];
   showSearch?: boolean;
   showDismissNotifications?: boolean;

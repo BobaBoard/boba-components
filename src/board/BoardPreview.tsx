@@ -227,7 +227,16 @@ const BoardPreview: React.FC<BoardPreviewProps> = ({
             mini: displayStyle == DisplayStyle.MINI,
           })}
         >
-          <a onClick={onClick} href={href} />
+          <a
+            onClick={React.useCallback(
+              (e) => {
+                onClick?.();
+                e.preventDefault();
+              },
+              [onClick]
+            )}
+            href={href}
+          />
           {updates && <div className="updates">{updates}</div>}
         </div>
         {displayStyle != DisplayStyle.MINI && (

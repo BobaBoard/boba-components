@@ -18,6 +18,7 @@ const BoardsDisplay: React.FC<BoardsDisplayProps> = (props) => {
               color={board.color}
               updates={board.updates}
               displayStyle={DisplayStyle.COMPACT}
+              href={props.getBoardHref(board.slug)}
             ></BoardPreview>
           </div>
         ))}
@@ -51,4 +52,5 @@ export interface BoardsDisplayProps {
     updates?: number | boolean;
   }[];
   onBoardClick: (slug: string) => void;
+  getBoardHref: (slug: string) => string;
 }

@@ -283,6 +283,7 @@ export const BoardsDisplayStory = () => (
         },
       ]}
       onBoardClick={(slug) => console.log(slug)}
+      getBoardHref={(slug) => `#${slug}`}
     />
   </div>
 );
