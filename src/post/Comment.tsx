@@ -29,6 +29,7 @@ const Comment: React.FC<CommentProps> = (props) => {
         className={classNames("comment-container", {
           compact: size == SIZES.COMPACT,
           sized: sized,
+          muted: props.muted,
         })}
         ref={containerRef}
       >
@@ -54,6 +55,9 @@ const Comment: React.FC<CommentProps> = (props) => {
         </div>
       </div>
       <style jsx>{`
+        .comment-container.muted {
+          opacity: 0.8;
+        }
         .comment-container {
           padding-top: 15px;
           padding-left: 30px;
@@ -96,6 +100,7 @@ export interface CommentProps {
     avatar: string;
     name: string;
   };
+  muted?: boolean;
 }
 
 export default Comment;

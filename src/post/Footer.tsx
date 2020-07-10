@@ -1,6 +1,6 @@
 import React from "react";
 
-import Button from "../common/Button";
+import Button, { ButtonStyle } from "../common/Button";
 import classNames from "classnames";
 import useComponentSize from "@rehooks/component-size";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
@@ -91,6 +91,7 @@ const Footer: React.FC<FooterProps> = ({
               onClick={onContribution}
               icon={faPlusSquare}
               compact={compactFooter}
+              theme={ButtonStyle.TRANSPARENT}
             >
               Contribute
             </Button>
@@ -99,6 +100,7 @@ const Footer: React.FC<FooterProps> = ({
               onClick={onComment}
               icon={faComment}
               compact={compactFooter}
+              theme={ButtonStyle.TRANSPARENT}
             >
               Comment
             </Button>
@@ -126,7 +128,6 @@ const Footer: React.FC<FooterProps> = ({
           margin-right: 5px;
           padding: 5px 12px;
           color: rgb(28, 28, 28);
-          background-color: rgb(255, 255, 255);
           border-radius: 25px;
           border-width: 2px;
           border-style: solid;

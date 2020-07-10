@@ -58,8 +58,9 @@ const Post: React.FC<PostProps> = (props) => {
         )}
         <Card
           height={props.collapsed ? COLLAPSED_HEIGHT : undefined}
+          backgroundColor={props.muted ? "#dcdcdc" : undefined}
           header={
-            <div className="header">
+            <div className={classnames("header", { muted: props.muted })}>
               {props.menuOptions && (
                 <div className="post-options">
                   <DropdownListMenu options={props.menuOptions}>
@@ -81,6 +82,7 @@ const Post: React.FC<PostProps> = (props) => {
             <div
               className={classnames("footer", {
                 "with-reactions": !!props.reactions?.length,
+                muted: props.muted,
               })}
             >
               <Tags tags={props.tags?.whisperTags || []} />
@@ -113,13 +115,15 @@ const Post: React.FC<PostProps> = (props) => {
             </div>
           }
         >
-          <MemoizedEditor
-            initialText={JSON.parse(props.text)}
-            editable={false}
-            focus={props.focus || false}
-            onSubmit={noop}
-            onTextChange={noop}
-          />
+          <div className={classnames("content", { muted: props.muted })}>
+            <MemoizedEditor
+              initialText={JSON.parse(props.text)}
+              editable={false}
+              focus={props.focus || false}
+              onSubmit={noop}
+              onTextChange={noop}
+            />
+          </div>
         </Card>
       </div>
       <style jsx>{`
@@ -130,10 +134,12 @@ const Post: React.FC<PostProps> = (props) => {
       `}</style>
       <style jsx>{`
         /*static styles*/
+        .muted {
+          opacity: 0.9;
+        }
         .header {
           border-radius: ${Theme.BORDER_RADIUS_REGULAR}
             ${Theme.BORDER_RADIUS_REGULAR} 0px 0px;
-          background-color: ${Theme.POST_BACKGROUND_COLOR};
           padding: 10px;
         }
         .post-container {
@@ -234,6 +240,7 @@ export interface PostProps {
   onNewContribution: () => void;
   onNewComment: () => void;
   collapsed?: boolean;
+  muted?: boolean;
   onNotesClick: () => void;
   notesUrl: string;
   centered?: boolean;

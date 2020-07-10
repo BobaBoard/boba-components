@@ -12,7 +12,32 @@ import Tooltip from "./Tooltip";
 export enum ButtonStyle {
   LIGHT = "LIGHT",
   DARK = "DARK",
+  TRANSPARENT = "TRANSPARENT",
 }
+
+const getThemeColor = (style: ButtonStyle | undefined) => {
+  switch (style) {
+    case ButtonStyle.TRANSPARENT:
+      return "transparent";
+    case ButtonStyle.DARK:
+      return "#1c1c1c";
+    default:
+    case ButtonStyle.LIGHT:
+      return "#fff";
+  }
+};
+
+const getReverseThemeColor = (style: ButtonStyle | undefined) => {
+  switch (style) {
+    case ButtonStyle.TRANSPARENT:
+      return "#1c1c1c";
+    case ButtonStyle.DARK:
+      return "#fff";
+    default:
+    case ButtonStyle.LIGHT:
+      return "#1c1c1c";
+  }
+};
 
 const Button: React.FC<ButtonProps> = ({
   onClick,
@@ -27,8 +52,9 @@ const Button: React.FC<ButtonProps> = ({
   imageUrl,
 }) => {
   const [tooltipOpen, setTooltipOpen] = React.useState(false);
-  const THEME_COLOR = theme == ButtonStyle.DARK ? "#1c1c1c" : "#fff";
-  const REVERSE_THEME_COLOR = theme == ButtonStyle.DARK ? "#fff" : "#1c1c1c";
+  const THEME_COLOR = getThemeColor(theme);
+  const REVERSE_THEME_COLOR = getReverseThemeColor(theme);
+  const transparent = ButtonStyle.TRANSPARENT == theme;
   return (
     <>
       <Tooltip content={<div>{tooltip}</div>} isOpen={tooltipOpen} delay={1000}>
@@ -75,15 +101,15 @@ const Button: React.FC<ButtonProps> = ({
         .button:not(.disabled) > :global(button):hover {
           background-color: ${REVERSE_THEME_COLOR};
           border: 2px solid ${color || THEME_COLOR};
-          color: ${color || THEME_COLOR};
+          color: ${color || transparent ? "white" : THEME_COLOR};
         }
         .button:not(.disabled) > :global(button):active:focus {
           background-color: ${REVERSE_THEME_COLOR};
           border: 2px solid ${color || THEME_COLOR};
-          color: ${color || THEME_COLOR};
+          color: ${color || transparent ? "white" : THEME_COLOR};
         }
         .button:not(.disabled) > :global(button):hover .icon {
-          color: ${color || THEME_COLOR};
+          color: ${color || transparent ? "white" : THEME_COLOR};
         }
         .button.disabled > :global(button:hover) {
           background-image: none;
@@ -119,7 +145,7 @@ const Button: React.FC<ButtonProps> = ({
           right: -5px;
           top: -5px;
           text-align: center;
-          color: ${THEME_COLOR};
+          color: ${transparent ? "white" : THEME_COLOR};
           font-size: 14px;
           line-height: 20px;
           font-weight: bold;

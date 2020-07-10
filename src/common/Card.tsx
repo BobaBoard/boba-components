@@ -12,9 +12,16 @@ export interface CardProps {
   footer?: JSX.Element;
   header?: JSX.Element;
   height?: number;
+  backgroundColor?: string;
 }
 
-const Card: React.FC<CardProps> = ({ children, footer, header, height }) => {
+const Card: React.FC<CardProps> = ({
+  children,
+  footer,
+  header,
+  height,
+  backgroundColor,
+}) => {
   const [isExpanded, setExpanded] = React.useState(!height);
   return (
     <>
@@ -44,6 +51,12 @@ const Card: React.FC<CardProps> = ({ children, footer, header, height }) => {
 
         {<div className="footer">{footer}</div>}
       </div>
+      <style jsx>{`
+        /* Dynamic styles */
+        .card {
+          background-color: ${backgroundColor || "white"};
+        }
+      `}</style>
       <style jsx>{`
         .content {
           max-height: ${height + "px" || "unset"};
@@ -75,7 +88,6 @@ const Card: React.FC<CardProps> = ({ children, footer, header, height }) => {
         .card {
           padding: 15px 10px;
           border-radius: ${Theme.BORDER_RADIUS_REGULAR};
-          background-color: white;
           width: 100%;
         }
         .card.with-header {

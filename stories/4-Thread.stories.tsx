@@ -111,7 +111,7 @@ export const RegularThread = () => {
         </div>
       </ThreadIndent>
       <ThreadIndent level={2}>
-        <div style={{ paddingTop: "15px", maxWidth: "550px", opacity: 0.7 }}>
+        <div style={{ paddingTop: "15px", maxWidth: "550px" }}>
           <Post
             createdTime="2019/05/14 at 7:34pm"
             text={
@@ -123,7 +123,8 @@ export const RegularThread = () => {
             }}
             onNewContribution={() => console.log("click!")}
             onNewComment={() => console.log("click!")}
-            collapsed
+            muted
+            answerable
           />
         </div>
       </ThreadIndent>
