@@ -26,6 +26,9 @@ export const useCompact = (
     if (!ref?.current?.style) {
       return;
     }
+    if (ref.current.style.height == compactHeight + "px") {
+      return;
+    }
     setOldHeight(ref.current.style.height);
     ref.current.style.overflow = "hidden";
   }, []);

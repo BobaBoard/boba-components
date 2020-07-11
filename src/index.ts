@@ -19,6 +19,7 @@ import CommentEditor from "./post/CommentEditor";
 import ThreadIndent from "./post/ThreadIndent";
 import PostingActionButton from "./board/PostingActionButton";
 import Layout from "./layout/Layout";
+import { useCompact } from "./utils";
 
 import flush from "styled-jsx/server";
 
@@ -46,4 +47,5 @@ export {
   toast,
   setTumblrEmbedFetcher,
   flush,
+  useCompact,
 };
