@@ -6,7 +6,7 @@ import debug from "debug";
 
 const log = debug("bobaui:tagsinput-log");
 
-const TAG_LENGTH_LIMIT = 100;
+const TAG_LENGTH_LIMIT = 20;
 const ADD_A_TAG_STRING = "add a tag...";
 const HEIGHT_TRIGGER = 30;
 
@@ -106,14 +106,15 @@ const TagsInput: React.FC<TagsInputProps> = ({
               }
             }}
             onPaste={(e) => {
-              const target = e.target as HTMLSpanElement;
-              let value = target.innerHTML;
-              if (/<\/?[^>]+(>|$)|\n/g.test(value)) {
-                let text = value.replace(/<\/?[^>]+(>|$)/g, "");
-                text = text.replace(/\n/g, " ");
-                text = text.replace(/&nbsp;/g, " ");
-                log("Removing newLine and HTML tags");
-                target.textContent = text.substr(0, TAG_LENGTH_LIMIT);
+              log(`Pasting text!`);
+              e.preventDefault();
+              let text = e.clipboardData
+                .getData("text/plain")
+                .substr(0, TAG_LENGTH_LIMIT);
+              if (document.queryCommandSupported("insertText")) {
+                document.execCommand("insertText", false, text);
+              } else {
+                document.execCommand("paste", false, text);
               }
             }}
             onFocus={(e) => {
@@ -177,7 +178,7 @@ const TagsInput: React.FC<TagsInputProps> = ({
           margin-right: 3px;
           display: flex;
           align-items: center;
-          word-break: break-all;
+          word-break: break-word;
         }
       `}</style>
     </>

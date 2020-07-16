@@ -35,6 +35,7 @@ export const DisplayTags = () => {
     "tag2",
     "a long tag",
     "a very very very very very long tag with many words",
+    "a tag with many words that is actually more than one single line long used to check words splitting",
     "JugemuJugemuGokonoSurikireKaijarisuigyonoSuigyomatsuUnraimatsuFuraimatsuKuNeruTokoroniSumuTokoroYaburaKojinoBuraKojiPaipopaipoPaiponoShuringanShuringannoGurindaiGurindainoPonpokopinoPonpokonanoChokyumeinoChosuke",
   ]);
   return (
