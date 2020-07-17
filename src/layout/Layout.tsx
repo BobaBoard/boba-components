@@ -42,6 +42,7 @@ const Layout = React.forwardRef<{ closeSideMenu: () => void }, LayoutProps>(
     const [showSideMenu, setShowSideMenu] = React.useState(false);
     const headerRef = React.useRef<HTMLDivElement>(null);
     const contentRef = React.useRef<HTMLDivElement>(null);
+    const layoutRef = React.useRef<HTMLDivElement>(null);
     let { width } = useComponentSize(headerRef);
     React.useImperativeHandle(ref, () => ({
       closeSideMenu: () => {
@@ -55,12 +56,15 @@ const Layout = React.forwardRef<{ closeSideMenu: () => void }, LayoutProps>(
       log(`Current body top position: ${scrollY}`);
       log(`Current body scrollY: ${window.scrollY}`);
 
-      if (!contentRef.current) {
+      if (!contentRef.current || !layoutRef.current) {
         return;
       }
 
       log(`Changing overflow of content`);
+      // NOTE: body doesn't respect overflow hidden on mobile, so we
+      // move it to layout
       document.body.style.overflow = showSideMenu ? "hidden" : "";
+      layoutRef.current.style.overflow = showSideMenu ? "hidden" : "";
       contentRef.current.style.overflow = showSideMenu ? "hidden" : "";
       // document.body.style.top = showSideMenu ? `-${window.scrollY}px` : "";
       // if (!showSideMenu) {
@@ -69,7 +73,7 @@ const Layout = React.forwardRef<{ closeSideMenu: () => void }, LayoutProps>(
     }, [showSideMenu]);
 
     return (
-      <div>
+      <div ref={layoutRef}>
         <LoadingBar loading={loading} accentColor={headerAccent} />
         <div className="layout">
           <div className={classnames("side-menu", { visible: showSideMenu })}>
@@ -163,7 +167,7 @@ const Layout = React.forwardRef<{ closeSideMenu: () => void }, LayoutProps>(
               left: 0;
               right: 0;
               opacity: 0.5;
-              z-index: 3;
+              z-index: 100;
               display: none;
             }
             .backdrop.visible {
