@@ -5,6 +5,10 @@ import Scrollbar from "../common/Scrollbar";
 
 import Theme from "../theme/default";
 
+import debug from "debug";
+
+const log = debug("bobaui:feed-with-menu-log");
+
 export interface FeedWithMenuProps {
   sidebarContent: JSX.Element;
   feedContent: JSX.Element;
@@ -84,6 +88,25 @@ const FeedWithMenu: React.FC<FeedWithMenuProps> = ({
       );
     }
   }, [showSidebar, touchEventHandler]);
+
+  React.useEffect(() => {
+    log(`${showSidebar ? "Opening" : "Closing"} side`);
+    const scrollY = document.body.style.top;
+    log(`Current body top position: ${scrollY}`);
+    log(`Current body scrollY: ${window.scrollY}`);
+
+    if (!scrollableContentRef.current) {
+      return;
+    }
+
+    log(`Changing overflow of content`);
+    document.body.style.overflow = showSidebar ? "hidden" : "";
+    scrollableContentRef.current.style.overflow = showSidebar ? "hidden" : "";
+    // document.body.style.top = showSideMenu ? `-${window.scrollY}px` : "";
+    // if (!showSideMenu) {
+    //   window.scrollTo(0, parseInt(scrollY || "0") * -1);
+    // }
+  }, [showSidebar]);
   /**
    * End of horrible section.
    */
@@ -112,6 +135,7 @@ const FeedWithMenu: React.FC<FeedWithMenuProps> = ({
             {showSidebar ? (
               <Scrollbar ref={scrollableNodeRef}>
                 <div
+                  className="sidebar-content-wrapper"
                   onWheel={(e) => {
                     maybePreventScrollOverflow(
                       e,
@@ -119,7 +143,6 @@ const FeedWithMenu: React.FC<FeedWithMenuProps> = ({
                       scrollableNodeRef.current?.contentWrapperEl
                     );
                   }}
-                  style={{ overscrollBehavior: "contain" }}
                 >
                   {sidebarContent}
                 </div>
@@ -150,6 +173,9 @@ const FeedWithMenu: React.FC<FeedWithMenuProps> = ({
             background-color: ${Theme.LAYOUT_BOARD_SIDEBAR_BACKGROUND_COLOR};
             flex-shrink: 0;
             height: auto;
+          }
+          .sidebar-content-wrapper {
+            overscroll-behavior: contain;
           }
 
           .backdrop {
