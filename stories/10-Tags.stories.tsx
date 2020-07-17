@@ -8,8 +8,8 @@ export default {
 
 export const EditableTags = () => {
   const [tags, setTags] = React.useState([
-    { name: "this is an indexable tag", color: "#19a4e6" },
-    { name: "another one", color: "#ce769c" },
+    { name: "this is an indexable tag", color: "#19a4e6", indexable: true },
+    { name: "another one", color: "#ce769c", indexable: true },
     { name: "tag1" },
     { name: "tag2" },
     { name: "tag1234561789" },
@@ -19,7 +19,10 @@ export const EditableTags = () => {
     <div style={{ width: "500px", backgroundColor: "white" }}>
       <Tags
         tags={tags}
-        onTagsChange={(tags) => setTags(tags)}
+        onTagsAdd={(tag) => setTags([...tags, tag])}
+        onTagsDelete={(tag) => {
+          setTags(tags.filter((currentTag) => currentTag != tag));
+        }}
         editable
         onSubmit={() => console.log("submit!!")}
       />
@@ -33,8 +36,8 @@ EditableTags.story = {
 
 export const DisplayTags = () => {
   const [tags, setTags] = React.useState([
-    { name: "this is an indexable tag", color: "#19a4e6" },
-    { name: "another one", color: "#ce769c" },
+    { name: "this is an indexable tag", color: "#19a4e6", indexable: true },
+    { name: "another one", color: "#ce769c", indexable: true },
     { name: "tag1" },
     { name: "tag2" },
     { name: "a long tag" },
@@ -50,7 +53,7 @@ export const DisplayTags = () => {
   ]);
   return (
     <div style={{ width: "500px", backgroundColor: "white" }}>
-      <Tags tags={tags} onTagsChange={(tags) => setTags(tags)} />
+      <Tags tags={tags} />
     </div>
   );
 };

@@ -4,6 +4,7 @@ import Tag from "../common/Tag";
 import Theme from "../theme/default";
 import classnames from "classnames";
 import debug from "debug";
+import { TagsType } from "types";
 
 const log = debug("bobaui:tagsinput-log");
 
@@ -33,7 +34,8 @@ const resetInputState = (span: HTMLSpanElement) => {
 
 const TagsInput: React.FC<TagsInputProps> = ({
   tags,
-  onTagsChange,
+  onTagsAdd,
+  onTagsDelete,
   editable,
   onSubmit,
   accentColor,
@@ -64,9 +66,9 @@ const TagsInput: React.FC<TagsInputProps> = ({
               >
                 <Tag
                   name={tag.name}
-                  compact={!tag.color}
+                  compact
                   color={tag.color}
-                  symbol={!tag.color ? undefined : "!"}
+                  symbol={!tag.indexable ? undefined : "!"}
                   highlightColor={
                     deleteState && index == tags.length - 1
                       ? "red"
@@ -97,7 +99,7 @@ const TagsInput: React.FC<TagsInputProps> = ({
                 }
                 log(`Deleting previous tag`);
                 setDeleteState(false);
-                onTagsChange?.(tags.slice(0, -1));
+                onTagsDelete?.(tags[tags.length - 1]);
                 return;
               }
               setDeleteState(false);
@@ -105,9 +107,10 @@ const TagsInput: React.FC<TagsInputProps> = ({
               const isSubmittable = isTagValid(currentTag);
               if (isSubmitAttempt) {
                 log(`Submitting with current tag ${inputValue}`);
-                onSubmit?.(
-                  isSubmittable ? [...tags, { name: currentTag }] : [...tags]
-                );
+                if (isSubmittable) {
+                  onTagsAdd?.({ name: currentTag });
+                }
+                onSubmit?.();
                 e.preventDefault();
                 return;
               }
@@ -117,7 +120,7 @@ const TagsInput: React.FC<TagsInputProps> = ({
                 if (!isSubmittable) {
                   return;
                 }
-                onTagsChange?.([...tags, { name: currentTag }]);
+                onTagsAdd?.({ name: currentTag });
                 if (spanRef.current) {
                   // Remove inner text here so it doesn't trigger flickering.
                   spanRef.current.innerText = "";
@@ -165,7 +168,7 @@ const TagsInput: React.FC<TagsInputProps> = ({
               const currentTag = extractTag(spanRef.current.innerText);
               const isSubmittable = isTagValid(currentTag);
               if (isSubmittable) {
-                onTagsChange?.([...tags, { name: currentTag }]);
+                onTagsAdd?.({ name: currentTag });
               }
               resetInputState(spanRef.current);
               setIndexableState(false);
@@ -224,22 +227,10 @@ const TagsInput: React.FC<TagsInputProps> = ({
 export default TagsInput;
 
 export interface TagsInputProps {
-  tags: {
-    name: string;
-    color?: string;
-  }[];
-  onTagsChange?: (
-    newTags: {
-      name: string;
-      color?: string;
-    }[]
-  ) => void;
+  tags: TagsType[];
+  onTagsDelete?: (deletedTag: TagsType) => void;
+  onTagsAdd?: (newTag: TagsType) => void;
   editable?: boolean;
-  onSubmit?: (
-    newTags: {
-      name: string;
-      color?: string;
-    }[]
-  ) => void;
+  onSubmit?: () => void;
   accentColor?: string;
 }

@@ -17,6 +17,7 @@ import Theme from "../theme/default";
 import Button from "../common/Button";
 import { faPortrait, faImage } from "@fortawesome/free-solid-svg-icons";
 import classnames from "classnames";
+import { TagsType } from "types";
 
 export const setTumblrEmbedFetcher = libSetFetcher;
 
@@ -43,6 +44,30 @@ const prepareForSubmission = (
   );
 };
 
+const computeTags = (
+  tags: TagsType[],
+  newTag: TagsType,
+  accentColor: string
+): TagsType[] => {
+  const indexableTags = tags.filter((tag) => tag.indexable);
+  const whisperTags = tags.filter((tag) => !tag.indexable);
+
+  if (newTag.name.startsWith("!")) {
+    indexableTags.push({
+      name: newTag.name.substring(1),
+      color: accentColor,
+      indexable: true,
+    });
+  } else {
+    whisperTags.push({
+      name: newTag.name,
+      indexable: false,
+    });
+  }
+
+  return [...indexableTags, ...whisperTags];
+};
+
 const PostEditor: React.FC<PostEditorProps> = (props) => {
   const [size, setNewSize] = React.useState(
     props.defaultSize || PostSizes.REGULAR
@@ -51,7 +76,7 @@ const PostEditor: React.FC<PostEditorProps> = (props) => {
     props.initialText ? props.initialText : ""
   );
   const [isEmpty, setIsEmpty] = React.useState(true);
-  const [tags, setTags] = React.useState<string[]>([]);
+  const [tags, setTags] = React.useState<TagsType[]>([]);
 
   return (
     <>
@@ -86,9 +111,20 @@ const PostEditor: React.FC<PostEditorProps> = (props) => {
             <div className="footer">
               <Tags
                 tags={tags}
-                onTagsChange={(tags: string[]) => setTags(tags)}
+                onTagsAdd={(tag: TagsType) =>
+                  setTags(
+                    computeTags(
+                      tags,
+                      tag,
+                      props.accentColor || Theme.DEFAULT_ACCENT_COLOR
+                    )
+                  )
+                }
+                onTagsDelete={(tag: TagsType) => {
+                  setTags(tags.filter((currentTag) => currentTag != tag));
+                }}
                 editable
-                onSubmit={(newTags) => {
+                onSubmit={() => {
                   if (!isEmpty) {
                     props.onSubmit(
                       prepareForSubmission(
@@ -97,11 +133,12 @@ const PostEditor: React.FC<PostEditorProps> = (props) => {
                       ).then((uploadedText) => ({
                         text: uploadedText,
                         large: size == PostSizes.WIDE,
-                        tags: newTags,
+                        tags,
                       }))
                     );
                   }
                 }}
+                accentColor={props.accentColor}
               />
               <div className="footer-actions">
                 <EditorFooter
@@ -229,8 +266,9 @@ export interface PostEditorProps {
   defaultSize?: PostSizes;
   onImageUploadRequest: (imgUrl: string) => Promise<string>;
   onSubmit: (
-    postPromise: Promise<{ text: string; large: boolean; tags?: string[] }>
+    postPromise: Promise<{ text: string; large: boolean; tags?: TagsType[] }>
   ) => void;
   onCancel: () => void;
   centered?: boolean;
+  accentColor?: string;
 }
