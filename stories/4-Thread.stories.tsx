@@ -110,7 +110,7 @@ export const RegularThread = () => {
           />
         </div>
       </ThreadIndent>
-      <ThreadIndent level={2}>
+      <ThreadIndent level={2} ends={[1]}>
         <div style={{ paddingTop: "15px", maxWidth: "550px" }}>
           <Post
             createdTime="2019/05/14 at 7:34pm"
@@ -164,7 +164,7 @@ export const RegularThread = () => {
           />
         </div>
       </ThreadIndent>
-      <ThreadIndent level={3}>
+      <ThreadIndent level={3} ends={[1, 2, 3]}>
         <div style={{ paddingTop: "15px", maxWidth: "550px" }}>
           <Post
             createdTime="2019/05/14 at 7:34pm"
