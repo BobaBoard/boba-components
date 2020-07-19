@@ -546,7 +546,10 @@ export const ActionPost = () => (
         '[{"insert":"Open RP"},{"attributes":{"header":1},"insert":"\\n"},{"insert":{"block-image":"https://cdn.discordapp.com/attachments/443967088118333442/691486081895628830/unknown.png"}}, {"attributes":{"italic":true},"insert":"You have my sword..."}]'
       }
       secretIdentity={{ name: "Tuxedo Mask", avatar: `/${tuxedoAvatar}` }}
-      userIdentity={{ name: "SexyDaddy69", avatar: `/${mamoruAvatar}` }}
+      userIdentity={{
+        name: "SexyDaddy69SexyDaddy69SexyDaddy69Sexyddz!",
+        avatar: `/${mamoruAvatar}`,
+      }}
       onNewContribution={() => console.log("click!")}
       onNewComment={() => console.log("click!")}
       onNotesClick={() => console.log("click")}

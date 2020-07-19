@@ -27,6 +27,9 @@ import kinkmeme from "./images/kink-meme.png";
 import art from "./images/art-crit.png";
 import mamoru from "./images/mamoru.png";
 
+import debug from "debug";
+const log = debug("bobaui:stories:layout-log");
+
 const PINNED_BOARDS = [
   {
     slug: "gore",
@@ -327,6 +330,7 @@ const COLORS = ["blue", "green", "pink"];
 export const FeedWithMenuPreview = () => {
   const [showSidebar, setShowSidebar] = React.useState(false);
   const [loading, setLoading] = React.useState(false);
+  // https://dmitripavlutin.com/react-hooks-stale-closures/
   const [feedItemsNumber, setFeedItemsNumber] = React.useState(1);
 
   return (
@@ -361,13 +365,17 @@ export const FeedWithMenuPreview = () => {
           showSidebar={showSidebar}
           onCloseSidebar={() => setShowSidebar(false)}
           onReachEnd={() => {
+            log(`Reached end`);
             if (loading) {
+              log(`...already loading!`);
               return;
             }
             setTimeout(() => {
-              setFeedItemsNumber(feedItemsNumber + 1);
+              log(`...adding one more number!`);
+              setFeedItemsNumber((feedItemsNumber) => feedItemsNumber + 1);
               setLoading(false);
             }, 3000);
+            log(`...loading a new one!`);
             setLoading(true);
           }}
         />

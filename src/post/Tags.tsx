@@ -4,7 +4,7 @@ import Tag from "../common/Tag";
 import Theme from "../theme/default";
 import classnames from "classnames";
 import debug from "debug";
-import { TagsType } from "types";
+import { TagsType } from "../types";
 
 const log = debug("bobaui:tagsinput-log");
 

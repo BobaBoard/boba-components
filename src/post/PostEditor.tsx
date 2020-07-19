@@ -17,7 +17,7 @@ import Theme from "../theme/default";
 import Button from "../common/Button";
 import { faPortrait, faImage } from "@fortawesome/free-solid-svg-icons";
 import classnames from "classnames";
-import { TagsType } from "types";
+import { TagsType } from "../types";
 
 export const setTumblrEmbedFetcher = libSetFetcher;
 

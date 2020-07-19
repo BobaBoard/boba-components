@@ -85,7 +85,13 @@ const Post: React.FC<PostProps> = (props) => {
                 muted: props.muted,
               })}
             >
-              <Tags tags={props.tags?.whisperTags || []} />
+              <Tags
+                tags={
+                  props.tags?.whisperTags?.map((tag) => ({
+                    name: tag,
+                  })) || []
+                }
+              />
               <div className="notes">
                 <MemoizedFooter
                   onContribution={props.onNewContribution}
