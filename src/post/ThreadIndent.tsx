@@ -3,6 +3,9 @@ import React from "react";
 import Theme from "../theme/default";
 import classnames from "classnames";
 
+import { faAngleDoubleUp } from "@fortawesome/free-solid-svg-icons";
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+
 const indentationSizePx = 4;
 const barGap = 5;
 
@@ -10,15 +13,27 @@ const withNesting = (
   el: JSX.Element | JSX.Element[],
   level: number,
   maxLevel: number,
-  ends?: number[]
+  ends?: {
+    level: number;
+    onClick: () => void;
+  }[]
 ) => {
-  const hasAddNew = ends?.includes(level);
+  const hasAddNew = ends?.map((ends) => ends.level).includes(maxLevel - level);
   return (
     <>
       <div className={classnames(`nested`, { "has-new": hasAddNew })}>
         {" "}
         {el}
-        {hasAddNew && <div className="add-new">+</div>}
+        {hasAddNew && (
+          <div className="add-new">
+            <FontAwesomeIcon
+              icon={faAngleDoubleUp}
+              onClick={
+                ends?.find((end) => end.level == maxLevel - level)?.onClick
+              }
+            />
+          </div>
+        )}
       </div>
       <style jsx>{`
         .nested {
@@ -29,7 +44,7 @@ const withNesting = (
         }
         .nested.has-new {
           padding-bottom: 20px;
-          margin-bottom: 10px;
+          margin-bottom: 15px;
         }
         .nested::before {
           content: "";
@@ -45,6 +60,7 @@ const withNesting = (
           border-radius: 100px;
         }
         .add-new {
+          color: ${Theme.LAYOUT_BOARD_BACKGROUND_COLOR};
           position: absolute;
           bottom: -10px;
           left: -${indentationSizePx + 10 + Math.ceil(barGap / 2)}px;
@@ -109,5 +125,8 @@ export default ThreadIndent;
 export interface ThreadIndentProps {
   children: JSX.Element | JSX.Element[];
   level: number;
-  ends?: number[];
+  ends?: {
+    level: number;
+    onClick: () => void;
+  }[];
 }

@@ -36,6 +36,7 @@
     "@types/debug": "^4.1.5",
     "debug": "^4.1.1",
     "fitty": "^2.3.0",
+    "intersection-observer": "^0.11.0",
     "normalize.css": "^8.0.1",
     "patch-package": "^6.2.2",
     "pluralize": "^8.0.0",

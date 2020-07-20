@@ -108,9 +108,10 @@ const TagsInput: React.FC<TagsInputProps> = ({
               if (isSubmitAttempt) {
                 log(`Submitting with current tag ${inputValue}`);
                 if (isSubmittable) {
+                  log(`Adding tag before submission: ${currentTag}`);
                   onTagsAdd?.({ name: currentTag });
                 }
-                onSubmit?.();
+                onSubmit?.(isSubmittable ? { name: currentTag } : undefined);
                 e.preventDefault();
                 return;
               }
@@ -231,6 +232,6 @@ export interface TagsInputProps {
   onTagsDelete?: (deletedTag: TagsType) => void;
   onTagsAdd?: (newTag: TagsType) => void;
   editable?: boolean;
-  onSubmit?: () => void;
+  onSubmit?: (newTag?: TagsType) => void;
   accentColor?: string;
 }

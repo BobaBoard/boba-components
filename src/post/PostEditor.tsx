@@ -46,9 +46,13 @@ const prepareForSubmission = (
 
 const computeTags = (
   tags: TagsType[],
-  newTag: TagsType,
+  newTag: TagsType | undefined,
   accentColor: string
 ): TagsType[] => {
+  if (!newTag) {
+    return tags;
+  }
+
   const indexableTags = tags.filter((tag) => tag.indexable);
   const whisperTags = tags.filter((tag) => !tag.indexable);
 
@@ -124,7 +128,7 @@ const PostEditor: React.FC<PostEditorProps> = (props) => {
                   setTags(tags.filter((currentTag) => currentTag != tag));
                 }}
                 editable
-                onSubmit={() => {
+                onSubmit={(newTag) => {
                   if (!isEmpty) {
                     props.onSubmit(
                       prepareForSubmission(
@@ -133,7 +137,11 @@ const PostEditor: React.FC<PostEditorProps> = (props) => {
                       ).then((uploadedText) => ({
                         text: uploadedText,
                         large: size == PostSizes.WIDE,
-                        tags,
+                        tags: computeTags(
+                          tags,
+                          newTag,
+                          props.accentColor || Theme.DEFAULT_ACCENT_COLOR
+                        ),
                       }))
                     );
                   }
@@ -186,6 +194,7 @@ const PostEditor: React.FC<PostEditorProps> = (props) => {
                     ).then((uploadedText) => ({
                       text: uploadedText,
                       large: size == PostSizes.WIDE,
+                      tags,
                     }))
                   )
                 }
