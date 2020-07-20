@@ -16,6 +16,14 @@ const Scrollbar = React.forwardRef<SimpleBar, ScrollbarProps>((props, ref) => {
   const intersectionObserverRef = React.useRef<HTMLDivElement>(null);
 
   React.useEffect(() => {
+    if (scrollableNodeRef.current) {
+      scrollableNodeRef.current.style.transform = "translateZ(0)";
+      scrollableNodeRef.current.style.willChange = "transform";
+    }
+  }, [scrollableNodeRef.current]);
+
+  React.useEffect(() => {
+    log(scrollableNodeRef.current);
     if (intersectionObserverRef.current && props.onReachEnd) {
       const observer = new IntersectionObserver(
         (entry) => {

@@ -1,6 +1,7 @@
 import "resize-observer-polyfill";
 import "@fortawesome/fontawesome-svg-core/styles.css";
 import "react-loader-spinner/dist/loader/css/react-spinner-loader.css";
+require("intersection-observer");
 
 import BoardFeed from "./board/BoardFeed";
 import BoardSidebar from "./board/BoardSidebar";
