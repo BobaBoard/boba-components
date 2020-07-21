@@ -16,6 +16,7 @@ import oncieReaction from "./images/oncie-reaction.png";
 import sportacusReaction from "./images/sportacus-reaction.png";
 import luigiReaction from "./images/luigi-reaction.png";
 import junkoReaction from "./images/junko-reaction.png";
+import Button from "../src/common/Button";
 
 export default {
   title: "Post Preview",
@@ -587,4 +588,34 @@ export const ActionPost = () => (
 );
 ActionPost.story = {
   name: "post with actions",
+};
+
+export const HighlightPost = () => {
+  const postRef = React.createRef<any>();
+  return (
+    <div>
+      <Post
+        ref={postRef}
+        createdTime="2019/05/14 at 7:34pm"
+        text={
+          '[{"insert":"Open RP"},{"attributes":{"header":1},"insert":"\\n"},{"insert":{"block-image":"https://cdn.discordapp.com/attachments/443967088118333442/691486081895628830/unknown.png"}}, {"attributes":{"italic":true},"insert":"You have my sword..."}]'
+        }
+        secretIdentity={{ name: "Tuxedo Mask", avatar: `/${tuxedoAvatar}` }}
+        userIdentity={{ name: "SexyDaddy69", avatar: `/${mamoruAvatar}` }}
+        onNewContribution={() => console.log("click!")}
+        onNewComment={() => console.log("click!")}
+        onNotesClick={() => console.log("click")}
+        notesUrl={"#"}
+      />
+      <div style={{ marginTop: "20px" }}>
+        <Button onClick={() => postRef.current.highlight("red")}>
+          Highlight!
+        </Button>
+      </div>
+    </div>
+  );
+};
+
+HighlightPost.story = {
+  name: "highlight post",
 };

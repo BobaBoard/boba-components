@@ -14,7 +14,7 @@ import ToastContainer, { toast } from "./common/Toast";
 import Modal from "./common/Modal";
 import ModalWithButtons from "./common/ModalWithButtons";
 import PostEditor, { setTumblrEmbedFetcher } from "./post/PostEditor";
-import Post, { PostSizes } from "./post/Post";
+import Post, { PostSizes, PostHandle } from "./post/Post";
 import Comment from "./post/Comment";
 import CommentEditor from "./post/CommentEditor";
 import ThreadIndent from "./post/ThreadIndent";
@@ -36,6 +36,7 @@ export {
   ModalWithButtons,
   Post,
   PostSizes,
+  PostHandle,
   PostEditor,
   PostingActionButton,
   Comment,

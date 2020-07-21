@@ -14,6 +14,9 @@ import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faPlus, faAngleDown } from "@fortawesome/free-solid-svg-icons";
 
 import Theme from "../theme/default";
+import debug from "debug";
+
+const log = debug("bobaui:post-log");
 
 export const modes = {
   VIEW: "VIEW",
@@ -38,15 +41,34 @@ export const getPostWidth = (size?: PostSizes) => {
 const COLLAPSED_HEIGHT = 150;
 
 const noop = () => {};
-const Post: React.FC<PostProps> = (props) => {
+const Post = React.forwardRef<PostHandle, PostProps>((props, ref) => {
+  const containerRef = React.useRef<HTMLDivElement>(null);
   const MemoizedHeader = React.memo(Header);
   const MemoizedFooter = React.memo(Footer);
   const MemoizedEditor = React.memo(Editor);
   const hasUpdate =
     props.newComments || props.newContributions || props.newPost;
+
+  React.useImperativeHandle(ref, () => ({
+    highlight: (color: string) => {
+      log(`Highlighting post with ${color}!`);
+      if (!containerRef.current) {
+        return;
+      }
+      containerRef.current.ontransitionend = () => {
+        containerRef.current?.style.setProperty(
+          "--post-container-shadow",
+          null
+        );
+      };
+      containerRef.current.style.setProperty("--post-container-shadow", color);
+    },
+  }));
+
   return (
     <>
       <div
+        ref={containerRef}
         className={classnames("post-container", { centered: props.centered })}
       >
         {hasUpdate && (
@@ -152,10 +174,23 @@ const Post: React.FC<PostProps> = (props) => {
           display: flex;
         }
         .post-container {
+          position: relative;
           max-width: 100%;
         }
-        .post-container.centered {
-          margin: 0 auto;
+        .post-container::after {
+          content: "";
+          top: 0px;
+          bottom: 0px;
+          left: 0px;
+          right: 0px;
+          position: absolute;
+          z-index: -1;
+          width: 100%;
+          height: 100%;
+          opacity: 0.8;
+          border-radius: 15px;
+          transition: box-shadow 0.5s ease-out;
+          box-shadow: 0px 0px 5px 3px var(--post-container-shadow);
         }
         .footer {
           position: relative;
@@ -215,9 +250,13 @@ const Post: React.FC<PostProps> = (props) => {
       `}</style>
     </>
   );
-};
+});
 
 export default Post;
+
+export interface PostHandle {
+  highlight: (color: string) => void;
+}
 
 export interface PostProps {
   mode?: string;
