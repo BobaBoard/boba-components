@@ -61,6 +61,14 @@ const Post: React.FC<PostProps> = (props) => {
           backgroundColor={props.muted ? "#dcdcdc" : undefined}
           header={
             <div className={classnames("header", { muted: props.muted })}>
+              <div className="header-container">
+                <MemoizedHeader
+                  secretIdentity={props.secretIdentity}
+                  userIdentity={props.userIdentity}
+                  createdMessage={`${props.createdTime}`}
+                  size={HeaderStyle.REGULAR}
+                />
+              </div>
               {props.menuOptions && (
                 <div className="post-options">
                   <DropdownListMenu options={props.menuOptions}>
@@ -70,12 +78,6 @@ const Post: React.FC<PostProps> = (props) => {
                   </DropdownListMenu>
                 </div>
               )}
-              <MemoizedHeader
-                secretIdentity={props.secretIdentity}
-                userIdentity={props.userIdentity}
-                createdMessage={`${props.createdTime}`}
-                size={HeaderStyle.REGULAR}
-              />
             </div>
           }
           footer={
@@ -147,6 +149,7 @@ const Post: React.FC<PostProps> = (props) => {
           border-radius: ${Theme.BORDER_RADIUS_REGULAR}
             ${Theme.BORDER_RADIUS_REGULAR} 0px 0px;
           padding: 10px;
+          display: flex;
         }
         .post-container {
           max-width: 100%;
@@ -188,13 +191,15 @@ const Post: React.FC<PostProps> = (props) => {
         .reaction {
           margin-right: 5px;
         }
+        .header-container {
+          width: calc(100% - ${props.menuOptions ? 25 : 0}px);
+        }
         .post-options {
           width: 20px;
           height: 25px;
           text-align: center;
           line-height: 1em;
           margin: 2px 5px 0 0;
-          float: right;
         }
         .post-options-icon {
           display: block;
