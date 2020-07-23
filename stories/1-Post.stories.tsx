@@ -620,3 +620,30 @@ export const HighlightPost = () => {
 HighlightPost.story = {
   name: "highlight post",
 };
+export const PostReload = () => {
+  const [time, setTime] = React.useState(0);
+  return (
+    <div>
+      <Post
+        newPost={true}
+        createdTime={`2019/05/14 at 7:${time}pm`}
+        text={
+          '[{"insert":"Open RP"},{"attributes":{"header":1},"insert":"\\n"},{"insert":{"youtube-video":"https://www.youtube.com/embed/ROPpn-QcLZM"}},{"insert":"\\n"}]'
+        }
+        secretIdentity={{ name: "Tuxedo Mask", avatar: `/${tuxedoAvatar}` }}
+        userIdentity={{ name: "SexyDaddy69", avatar: `/${mamoruAvatar}` }}
+        onNewContribution={() => console.log("click!")}
+        onNewComment={() => console.log("click!")}
+        onNotesClick={() => console.log("click")}
+        notesUrl={"#"}
+      />
+      <div style={{ marginTop: "20px" }}>
+        <Button onClick={() => setTime((time) => time + 1)}>Highlight!</Button>
+      </div>
+    </div>
+  );
+};
+
+PostReload.story = {
+  name: "increase!",
+};

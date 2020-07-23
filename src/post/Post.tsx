@@ -41,11 +41,11 @@ export const getPostWidth = (size?: PostSizes) => {
 const COLLAPSED_HEIGHT = 150;
 
 const noop = () => {};
+const MemoizedHeader = React.memo(Header);
+const MemoizedFooter = React.memo(Footer);
+const MemoizedEditor = React.memo(Editor);
 const Post = React.forwardRef<PostHandler, PostProps>((props, ref) => {
   const containerRef = React.useRef<HTMLDivElement>(null);
-  const MemoizedHeader = React.memo(Header);
-  const MemoizedFooter = React.memo(Footer);
-  const MemoizedEditor = React.memo(Editor);
   const hasUpdate =
     props.newComments || props.newContributions || props.newPost;
 
