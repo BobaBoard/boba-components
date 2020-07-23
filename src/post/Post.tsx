@@ -14,6 +14,9 @@ import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faPlus, faAngleDown } from "@fortawesome/free-solid-svg-icons";
 
 import Theme from "../theme/default";
+import debug from "debug";
+
+const log = debug("bobaui:post-log");
 
 export const modes = {
   VIEW: "VIEW",
@@ -38,12 +41,30 @@ export const getPostWidth = (size?: PostSizes) => {
 const COLLAPSED_HEIGHT = 150;
 
 const noop = () => {};
-const Post: React.FC<PostProps> = (props) => {
-  const MemoizedHeader = React.memo(Header);
-  const MemoizedFooter = React.memo(Footer);
-  const MemoizedEditor = React.memo(Editor);
+const MemoizedHeader = React.memo(Header);
+const MemoizedFooter = React.memo(Footer);
+const MemoizedEditor = React.memo(Editor);
+const Post = React.forwardRef<PostHandler, PostProps>((props, ref) => {
+  const containerRef = React.useRef<HTMLDivElement>(null);
   const hasUpdate =
     props.newComments || props.newContributions || props.newPost;
+
+  React.useImperativeHandle(ref, () => ({
+    highlight: (color: string) => {
+      log(`Highlighting post with ${color}!`);
+      if (!containerRef.current) {
+        return;
+      }
+      containerRef.current.ontransitionend = () => {
+        containerRef.current?.style.setProperty(
+          "--card-container-shadow",
+          null
+        );
+      };
+      containerRef.current.style.setProperty("--card-container-shadow", color);
+    },
+  }));
+
   return (
     <>
       <div
@@ -56,75 +77,92 @@ const Post: React.FC<PostProps> = (props) => {
             newContributions={props.newContributions}
           />
         )}
-        <Card
-          height={props.collapsed ? COLLAPSED_HEIGHT : undefined}
-          backgroundColor={props.muted ? "#dcdcdc" : undefined}
-          header={
-            <div className={classnames("header", { muted: props.muted })}>
-              {props.menuOptions && (
-                <div className="post-options">
-                  <DropdownListMenu options={props.menuOptions}>
-                    <span className="post-options-icon">
-                      <FontAwesomeIcon icon={faAngleDown} />
-                    </span>
-                  </DropdownListMenu>
+        <div className="card-container" ref={containerRef}>
+          <Card
+            height={props.collapsed ? COLLAPSED_HEIGHT : undefined}
+            backgroundColor={props.muted ? "#dcdcdc" : undefined}
+            header={
+              <div className={classnames("header", { muted: props.muted })}>
+                <div className="header-container">
+                  <MemoizedHeader
+                    secretIdentity={props.secretIdentity}
+                    userIdentity={props.userIdentity}
+                    createdMessage={`${props.createdTime}`}
+                    size={HeaderStyle.REGULAR}
+                  />
                 </div>
-              )}
-              <MemoizedHeader
-                secretIdentity={props.secretIdentity}
-                userIdentity={props.userIdentity}
-                createdMessage={`${props.createdTime}`}
-                size={HeaderStyle.REGULAR}
+                {props.menuOptions && (
+                  <div className="post-options">
+                    <DropdownListMenu options={props.menuOptions}>
+                      <span className="post-options-icon">
+                        <FontAwesomeIcon icon={faAngleDown} />
+                      </span>
+                    </DropdownListMenu>
+                  </div>
+                )}
+              </div>
+            }
+            footer={
+              <div
+                className={classnames("footer", {
+                  "with-reactions": !!props.reactions?.length,
+                  muted: props.muted,
+                })}
+              >
+                <Tags
+                  tags={[
+                    ...(props.tags?.indexTags?.map((tag) => ({
+                      name: tag,
+                      indexable: true,
+                    })) || []),
+                    ...(props.tags?.whisperTags?.map((tag) => ({
+                      name: tag,
+                    })) || []),
+                  ]}
+                />
+                <div className="notes">
+                  <MemoizedFooter
+                    onContribution={props.onNewContribution}
+                    onComment={props.onNewComment}
+                    totalContributions={props.totalContributions}
+                    directContributions={props.directContributions}
+                    totalComments={props.totalComments}
+                    newContributions={props.newContributions}
+                    newComments={props.newComments}
+                    onOpenClick={props.onNotesClick}
+                    notesUrl={props.notesUrl}
+                    answerable={props.answerable}
+                  />
+                </div>
+                {!!props.reactable && (
+                  <div className="reactions">
+                    {props.reactions?.map((reaction) => (
+                      <div className="reaction">
+                        <Reaction
+                          image={reaction.image}
+                          count={reaction.count}
+                        />
+                      </div>
+                    ))}
+                    <div className="add-reaction">
+                      <FontAwesomeIcon icon={faPlus} />
+                    </div>
+                  </div>
+                )}
+              </div>
+            }
+          >
+            <div className={classnames("content", { muted: props.muted })}>
+              <MemoizedEditor
+                initialText={JSON.parse(props.text)}
+                editable={false}
+                focus={props.focus || false}
+                onSubmit={noop}
+                onTextChange={noop}
               />
             </div>
-          }
-          footer={
-            <div
-              className={classnames("footer", {
-                "with-reactions": !!props.reactions?.length,
-                muted: props.muted,
-              })}
-            >
-              <Tags tags={props.tags?.whisperTags || []} />
-              <div className="notes">
-                <MemoizedFooter
-                  onContribution={props.onNewContribution}
-                  onComment={props.onNewComment}
-                  totalContributions={props.totalContributions}
-                  directContributions={props.directContributions}
-                  totalComments={props.totalComments}
-                  newContributions={props.newContributions}
-                  newComments={props.newComments}
-                  onOpenClick={props.onNotesClick}
-                  notesUrl={props.notesUrl}
-                  answerable={props.answerable}
-                />
-              </div>
-              {!!props.reactable && (
-                <div className="reactions">
-                  {props.reactions?.map((reaction) => (
-                    <div className="reaction">
-                      <Reaction image={reaction.image} count={reaction.count} />
-                    </div>
-                  ))}
-                  <div className="add-reaction">
-                    <FontAwesomeIcon icon={faPlus} />
-                  </div>
-                </div>
-              )}
-            </div>
-          }
-        >
-          <div className={classnames("content", { muted: props.muted })}>
-            <MemoizedEditor
-              initialText={JSON.parse(props.text)}
-              editable={false}
-              focus={props.focus || false}
-              onSubmit={noop}
-              onTextChange={noop}
-            />
-          </div>
-        </Card>
+          </Card>
+        </div>
       </div>
       <style jsx>{`
         /*dynamic styles*/
@@ -141,12 +179,29 @@ const Post: React.FC<PostProps> = (props) => {
           border-radius: ${Theme.BORDER_RADIUS_REGULAR}
             ${Theme.BORDER_RADIUS_REGULAR} 0px 0px;
           padding: 10px;
+          display: flex;
         }
         .post-container {
+          position: relative;
           max-width: 100%;
         }
-        .post-container.centered {
-          margin: 0 auto;
+        .card-container {
+          position: relative;
+        }
+        .card-container::after {
+          content: "";
+          top: 0px;
+          bottom: 0px;
+          left: 0px;
+          right: 0px;
+          position: absolute;
+          z-index: -1;
+          width: 100%;
+          height: 100%;
+          opacity: 0.8;
+          border-radius: 15px;
+          transition: box-shadow 0.5s ease-out;
+          box-shadow: 0px 0px 5px 3px var(--card-container-shadow);
         }
         .footer {
           position: relative;
@@ -182,13 +237,15 @@ const Post: React.FC<PostProps> = (props) => {
         .reaction {
           margin-right: 5px;
         }
+        .header-container {
+          width: calc(100% - ${props.menuOptions ? 25 : 0}px);
+        }
         .post-options {
           width: 20px;
           height: 25px;
           text-align: center;
           line-height: 1em;
           margin: 2px 5px 0 0;
-          float: right;
         }
         .post-options-icon {
           display: block;
@@ -204,9 +261,13 @@ const Post: React.FC<PostProps> = (props) => {
       `}</style>
     </>
   );
-};
+});
 
 export default Post;
+
+export interface PostHandler {
+  highlight: (color: string) => void;
+}
 
 export interface PostProps {
   mode?: string;
@@ -225,6 +286,7 @@ export interface PostProps {
   };
   tags?: {
     whisperTags: string[];
+    indexTags: string[];
   };
   reactions?: {
     image: string;

@@ -13,3 +13,9 @@ export interface PostDetailsType {
   newComments?: number;
   newContributions?: number;
 }
+
+export interface TagsType {
+  name: string;
+  color?: string;
+  indexable?: boolean;
+}

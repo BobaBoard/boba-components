@@ -210,9 +210,11 @@ const FeedWithMenu: React.FC<FeedWithMenuProps> = ({
               transition-duration: 0.5s;
               transition-timing-function: easeInSine;
               z-index: 5;
+              opacity: 0;
             }
             .sidebar.visible {
               height: 85%;
+              opacity: 1;
             }
             .main {
               width: calc(100% - 40px);

@@ -110,7 +110,10 @@ export const RegularThread = () => {
           />
         </div>
       </ThreadIndent>
-      <ThreadIndent level={2}>
+      <ThreadIndent
+        level={2}
+        ends={[{ level: 1, onClick: () => console.log("click1") }]}
+      >
         <div style={{ paddingTop: "15px", maxWidth: "550px" }}>
           <Post
             createdTime="2019/05/14 at 7:34pm"
@@ -164,7 +167,14 @@ export const RegularThread = () => {
           />
         </div>
       </ThreadIndent>
-      <ThreadIndent level={3}>
+      <ThreadIndent
+        level={3}
+        ends={[
+          { level: 0, onClick: () => console.log("click0") },
+          { level: 1, onClick: () => console.log("click1") },
+          { level: 2, onClick: () => console.log("click2") },
+        ]}
+      >
         <div style={{ paddingTop: "15px", maxWidth: "550px" }}>
           <Post
             createdTime="2019/05/14 at 7:34pm"

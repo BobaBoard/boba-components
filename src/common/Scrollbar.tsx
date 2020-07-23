@@ -1,5 +1,8 @@
 import React from "react";
 import SimpleBar from "simplebar-react";
+import debug from "debug";
+
+const log = debug("bobaui:scrollbar-log");
 
 export interface ScrollbarProps {
   children: JSX.Element;
@@ -8,28 +11,43 @@ export interface ScrollbarProps {
   onReachEnd?: () => void;
 }
 
-const THRESHOLD = 250;
 const Scrollbar = React.forwardRef<SimpleBar, ScrollbarProps>((props, ref) => {
   const scrollableNodeRef = React.createRef<HTMLDivElement>();
-  const timeout = React.useRef<any>();
+  const intersectionObserverRef = React.useRef<HTMLDivElement>(null);
 
   React.useEffect(() => {
-    const checkIfEnd = () => {
-      if (scrollableNodeRef?.current && props.onReachEnd) {
-        const target = scrollableNodeRef.current;
-        const maxScroll = target.scrollHeight;
-        const currentScroll = target.scrollTop + target.clientHeight;
-        if (maxScroll - currentScroll < THRESHOLD) {
-          props?.onReachEnd?.();
+    if (scrollableNodeRef.current) {
+      scrollableNodeRef.current.style.transform = "translateZ(0)";
+      scrollableNodeRef.current.style.willChange = "transform";
+    }
+  }, [scrollableNodeRef.current]);
+
+  React.useEffect(() => {
+    if (intersectionObserverRef.current && props.onReachEnd) {
+      const observer = new IntersectionObserver(
+        (entry) => {
+          log(`Reaching end of scrollable area.`);
+          log(entry);
+          if (entry[0]?.isIntersecting) {
+            log(`Found intersecting entry.`);
+            props.onReachEnd?.();
+          } else {
+            log(`Intersecting entry not found.`);
+          }
+        },
+        {
+          root: scrollableNodeRef.current,
         }
-      }
-      timeout.current = setTimeout(checkIfEnd, 300);
-    };
-    checkIfEnd();
-    return () => {
-      clearTimeout(timeout.current);
-    };
-  }, [scrollableNodeRef]);
+      );
+      observer.observe(intersectionObserverRef.current);
+      return () => observer.disconnect();
+    }
+    return () => {};
+  }, [
+    intersectionObserverRef.current,
+    scrollableNodeRef.current,
+    props.onReachEnd,
+  ]);
 
   return (
     <SimpleBar
@@ -38,6 +56,15 @@ const Scrollbar = React.forwardRef<SimpleBar, ScrollbarProps>((props, ref) => {
       scrollableNodeProps={{ ref: scrollableNodeRef }}
     >
       {props.children}
+      <div
+        ref={intersectionObserverRef}
+        className="intersection-observer-ref"
+      />
+      <style jsx>{`
+        .intersection-observer-ref {
+          height: 1px;
+        }
+      `}</style>
     </SimpleBar>
   ) as JSX.Element;
 });
