@@ -67,7 +67,11 @@ const TagsInput: React.FC<TagsInputProps> = ({
                 <Tag
                   name={tag.name}
                   compact
-                  color={tag.color}
+                  color={
+                    tag.indexable
+                      ? tag.color || Theme.DEFAULT_ACCENT_COLOR
+                      : undefined
+                  }
                   symbol={!tag.indexable ? undefined : "!"}
                   highlightColor={
                     deleteState && index == tags.length - 1

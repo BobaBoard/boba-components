@@ -110,11 +110,15 @@ const Post = React.forwardRef<PostHandle, PostProps>((props, ref) => {
               })}
             >
               <Tags
-                tags={
-                  props.tags?.whisperTags?.map((tag) => ({
+                tags={[
+                  ...(props.tags?.indexTags?.map((tag) => ({
                     name: tag,
-                  })) || []
-                }
+                    indexable: true,
+                  })) || []),
+                  ...(props.tags?.whisperTags?.map((tag) => ({
+                    name: tag,
+                  })) || []),
+                ]}
               />
               <div className="notes">
                 <MemoizedFooter
@@ -275,6 +279,7 @@ export interface PostProps {
   };
   tags?: {
     whisperTags: string[];
+    indexTags: string[];
   };
   reactions?: {
     image: string;
