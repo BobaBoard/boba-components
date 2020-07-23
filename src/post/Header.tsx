@@ -26,7 +26,7 @@ const Metadata: React.FC<PostHeaderProps> = (props) => {
   let nicknameRef = React.useRef(null);
   // @ts-ignore
   let { width, height } = useComponentSize(ref);
-  React.useEffect(() => {
+  React.useLayoutEffect(() => {
     if (!nicknameRef.current) {
       return;
     }

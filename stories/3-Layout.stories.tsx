@@ -4,6 +4,7 @@ import SideMenu from "../src/layout/SideMenu";
 import FeedWithMenu from "../src/layout/FeedWithMenu";
 import BoardFeed from "../src/board/BoardFeed";
 import PostingActionButton from "../src/board/PostingActionButton";
+import CycleNewButton from "../src/board/CycleNewButton";
 import BoardSidebar from "../src/board/BoardSidebar";
 import Button from "../src/common/Button";
 import ModalWithButtons from "../src/common/ModalWithButtons";
@@ -26,6 +27,9 @@ import villains from "./images/villains.png";
 import kinkmeme from "./images/kink-meme.png";
 import art from "./images/art-crit.png";
 import mamoru from "./images/mamoru.png";
+
+import debug from "debug";
+const log = debug("bobaui:stories:layout-log");
 
 const PINNED_BOARDS = [
   {
@@ -327,6 +331,7 @@ const COLORS = ["blue", "green", "pink"];
 export const FeedWithMenuPreview = () => {
   const [showSidebar, setShowSidebar] = React.useState(false);
   const [loading, setLoading] = React.useState(false);
+  // https://dmitripavlutin.com/react-hooks-stale-closures/
   const [feedItemsNumber, setFeedItemsNumber] = React.useState(1);
 
   return (
@@ -361,13 +366,17 @@ export const FeedWithMenuPreview = () => {
           showSidebar={showSidebar}
           onCloseSidebar={() => setShowSidebar(false)}
           onReachEnd={() => {
+            log(`Reached end`);
             if (loading) {
+              log(`...already loading!`);
               return;
             }
             setTimeout(() => {
-              setFeedItemsNumber(feedItemsNumber + 1);
+              log(`...adding one more number!`);
+              setFeedItemsNumber((feedItemsNumber) => feedItemsNumber + 1);
               setLoading(false);
             }, 3000);
+            log(`...loading a new one!`);
             setLoading(true);
           }}
         />
@@ -376,6 +385,9 @@ export const FeedWithMenuPreview = () => {
       title="test!"
       headerAccent="purple"
       loading={loading}
+      actionButton={
+        <CycleNewButton text="Next New" onNext={() => console.log("hi!")} />
+      }
     />
   );
 };

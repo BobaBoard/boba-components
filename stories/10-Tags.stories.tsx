@@ -8,16 +8,21 @@ export default {
 
 export const EditableTags = () => {
   const [tags, setTags] = React.useState([
-    "tag1",
-    "tag2",
-    "tag1234561789",
-    "tag1234561789x2",
+    { name: "this is an indexable tag", color: "#19a4e6", indexable: true },
+    { name: "another one", color: "#ce769c", indexable: true },
+    { name: "tag1" },
+    { name: "tag2" },
+    { name: "tag1234561789" },
+    { name: "tag1234561789x2" },
   ]);
   return (
     <div style={{ width: "500px", backgroundColor: "white" }}>
       <Tags
         tags={tags}
-        onTagsChange={(tags) => setTags(tags)}
+        onTagsAdd={(tag) => setTags([...tags, tag])}
+        onTagsDelete={(tag) => {
+          setTags(tags.filter((currentTag) => currentTag != tag));
+        }}
         editable
         onSubmit={() => console.log("submit!!")}
       />
@@ -31,15 +36,24 @@ EditableTags.story = {
 
 export const DisplayTags = () => {
   const [tags, setTags] = React.useState([
-    "tag1",
-    "tag2",
-    "a long tag",
-    "a very very very very very long tag with many words",
-    "JugemuJugemuGokonoSurikireKaijarisuigyonoSuigyomatsuUnraimatsuFuraimatsuKuNeruTokoroniSumuTokoroYaburaKojinoBuraKojiPaipopaipoPaiponoShuringanShuringannoGurindaiGurindainoPonpokopinoPonpokonanoChokyumeinoChosuke",
+    { name: "this is an indexable tag", color: "#19a4e6", indexable: true },
+    { name: "another one", color: "#ce769c", indexable: true },
+    { name: "tag1" },
+    { name: "tag2" },
+    { name: "a long tag" },
+    { name: "a very very very very very long tag with many words" },
+    {
+      name:
+        "a tag with many words that is actually more than one single line long used to check words splitting",
+    },
+    {
+      name:
+        "JugemuJugemuGokonoSurikireKaijarisuigyonoSuigyomatsuUnraimatsuFuraimatsuKuNeruTokoroniSumuTokoroYaburaKojinoBuraKojiPaipopaipoPaiponoShuringanShuringannoGurindaiGurindainoPonpokopinoPonpokonanoChokyumeinoChosuke",
+    },
   ]);
   return (
     <div style={{ width: "500px", backgroundColor: "white" }}>
-      <Tags tags={tags} onTagsChange={(tags) => setTags(tags)} />
+      <Tags tags={tags} />
     </div>
   );
 };

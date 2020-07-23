@@ -1,7 +1,9 @@
 import React from "react";
-//@ts-ignore
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { IconDefinition } from "@fortawesome/free-solid-svg-icons";
+import { useWindowWidth } from "@react-hook/window-size";
+import { Fab } from "@rmwc/fab";
+import "@rmwc/fab/styles";
 
 import Theme from "../theme/default";
 
@@ -15,30 +17,37 @@ export interface FloatingActionButtonProps {
 }
 
 const FloatingActionButton: React.FC<FloatingActionButtonProps> = (props) => {
+  const windowWidth = useWindowWidth({ initialWidth: 0 });
+  const [mini, setMini] = React.useState(false);
   if (typeof window === "undefined") {
     return <div />;
   }
-  const Container = require("react-floating-action-button").Container;
-  const Button = require("react-floating-action-button").Button;
+
+  React.useEffect(() => {
+    setMini(windowWidth < 460);
+  }, [windowWidth]);
+
+  // TODO: re-enable multiple actions
+  // See: https://www.npmjs.com/package/rmwc-fabmenu
   return (
-    <Container styles={{ bottom: "4vh", right: "3vw" }}>
-      {props.actions.map((action) => {
-        return (
-          <Button
-            key={action.tooltip}
-            tooltip={action.tooltip}
-            onClick={action.action}
-            styles={{
-              backgroundColor: props.accentColor || Theme.DEFAULT_ACCENT_COLOR,
-              color: "white",
-              cursor: "pointer",
-            }}
-          >
-            <FontAwesomeIcon icon={action.icon} />
-          </Button>
-        );
-      })}
-    </Container>
+    <div className="fab-container">
+      <Fab
+        onClick={props.actions[0].action}
+        mini={mini}
+        style={{
+          backgroundColor: props.accentColor || Theme.DEFAULT_ACCENT_COLOR,
+        }}
+      >
+        <FontAwesomeIcon icon={props.actions[0].icon} />
+      </Fab>
+      <style jsx>{`
+        .fab-container {
+          position: absolute;
+          bottom: 2rem;
+          right: 2rem;
+        }
+      `}</style>
+    </div>
   );
 };
 

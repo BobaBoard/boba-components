@@ -1,28 +1,56 @@
 import React from "react";
 
 import Tag from "../common/Tag";
+import Theme from "../theme/default";
 import classnames from "classnames";
 import debug from "debug";
+import { TagsType } from "../types";
 
 const log = debug("bobaui:tagsinput-log");
 
-const TAG_LENGTH_LIMIT = 100;
+const TAG_LENGTH_LIMIT = 200;
 const ADD_A_TAG_STRING = "add a tag...";
 const HEIGHT_TRIGGER = 30;
+const INDEXABLE_CHARACTER = "!";
+const UNSUBMITTABLE_TAGS = [INDEXABLE_CHARACTER, "", "#"];
+
+const extractTag = (inputValue: string) => {
+  return inputValue.replace(/\n/g, " ").trim().substr(0, TAG_LENGTH_LIMIT);
+};
+
+const isTagValid = (tag: string) => {
+  log(UNSUBMITTABLE_TAGS.indexOf(tag));
+  return UNSUBMITTABLE_TAGS.indexOf(tag) === -1;
+};
+
+const resetInputState = (span: HTMLSpanElement) => {
+  const hasFocus = span == document.activeElement;
+  log(`Resetting input element.`);
+  log(`Input element focused: ${hasFocus}`);
+  span.innerText = hasFocus ? "" : ADD_A_TAG_STRING;
+  span.style.width = "auto";
+  span.style.flex = "1";
+};
 
 const TagsInput: React.FC<TagsInputProps> = ({
   tags,
-  onTagsChange,
+  onTagsAdd,
+  onTagsDelete,
   editable,
   onSubmit,
+  accentColor,
 }) => {
   const [deleteState, setDeleteState] = React.useState(false);
+  const [indexable, setIndexableState] = React.useState(false);
   const spanRef = React.useRef<HTMLSpanElement>(null);
+
   React.useEffect(() => {
     if (spanRef.current) {
-      spanRef.current.innerHTML = ADD_A_TAG_STRING;
+      resetInputState(spanRef.current);
+      setDeleteState(false);
+      setIndexableState(false);
     }
-  }, [spanRef]);
+  }, [tags]);
 
   return (
     <>
@@ -37,8 +65,14 @@ const TagsInput: React.FC<TagsInputProps> = ({
                 })}
               >
                 <Tag
-                  name={tag}
+                  name={tag.name}
                   compact
+                  color={
+                    tag.indexable
+                      ? tag.color || Theme.DEFAULT_ACCENT_COLOR
+                      : undefined
+                  }
+                  symbol={!tag.indexable ? undefined : "!"}
                   highlightColor={
                     deleteState && index == tags.length - 1
                       ? "red"
@@ -51,11 +85,16 @@ const TagsInput: React.FC<TagsInputProps> = ({
         )}
         {!!editable && (
           <span
-            className="tag-input"
+            className={classnames("tag-input", { indexable })}
             ref={spanRef}
             onKeyDown={(e) => {
               const inputValue = (e.target as HTMLSpanElement).innerText;
-              if (inputValue.length == 0 && e.key == "Backspace") {
+              const isDeletingPrevious =
+                inputValue.length == 0 && e.key == "Backspace";
+              const isSubmitAttempt =
+                e.key === "Enter" && (e.metaKey || e.ctrlKey);
+              const isTagEnterAttempt = e.key === "Enter" && !isSubmitAttempt;
+              if (isDeletingPrevious) {
                 log(`Received backspace on empty tag`);
                 if (!deleteState) {
                   log(`Entering delete state for previous tag`);
@@ -64,32 +103,33 @@ const TagsInput: React.FC<TagsInputProps> = ({
                 }
                 log(`Deleting previous tag`);
                 setDeleteState(false);
-                onTagsChange?.(tags.slice(0, -1));
+                onTagsDelete?.(tags[tags.length - 1]);
                 return;
               }
               setDeleteState(false);
-
-              if (e.key === "Enter") {
-                if (inputValue.trim().length == 0) {
-                  log(`Received enter on empty tag`);
-                  if (e.metaKey || e.shiftKey) {
-                    onSubmit?.([...tags]);
-                  }
-                  e.preventDefault();
+              const currentTag = extractTag(inputValue);
+              const isSubmittable = isTagValid(currentTag);
+              if (isSubmitAttempt) {
+                log(`Submitting with current tag ${inputValue}`);
+                if (isSubmittable) {
+                  log(`Adding tag before submission: ${currentTag}`);
+                  onTagsAdd?.({ name: currentTag });
+                }
+                onSubmit?.(isSubmittable ? { name: currentTag } : undefined);
+                e.preventDefault();
+                return;
+              }
+              if (isTagEnterAttempt) {
+                log(`Attempting to enter tag ${inputValue}`);
+                e.preventDefault();
+                if (!isSubmittable) {
                   return;
                 }
-                log(`Entering new tag ${inputValue}`);
-                onTagsChange?.([...tags, inputValue.trim()]);
+                onTagsAdd?.({ name: currentTag });
                 if (spanRef.current) {
+                  // Remove inner text here so it doesn't trigger flickering.
                   spanRef.current.innerText = "";
-                  spanRef.current.style.width = "auto";
-                  spanRef.current.style.flex = "1";
                 }
-
-                if (e.metaKey || e.shiftKey) {
-                  onSubmit?.([...tags, inputValue.trim()]);
-                }
-                e.preventDefault();
               }
             }}
             onBeforeInput={(e) => {
@@ -106,44 +146,43 @@ const TagsInput: React.FC<TagsInputProps> = ({
               }
             }}
             onPaste={(e) => {
-              const target = e.target as HTMLSpanElement;
-              let value = target.innerHTML;
-              if (/<\/?[^>]+(>|$)|\n/g.test(value)) {
-                let text = value.replace(/<\/?[^>]+(>|$)/g, "");
-                text = text.replace(/\n/g, " ");
-                text = text.replace(/&nbsp;/g, " ");
-                log("Removing newLine and HTML tags");
-                target.textContent = text.substr(0, TAG_LENGTH_LIMIT);
+              log(`Pasting text!`);
+              e.preventDefault();
+              let text = extractTag(e.clipboardData.getData("text/plain"));
+              if (document.queryCommandSupported("insertText")) {
+                document.execCommand("insertText", false, text);
+              } else {
+                document.execCommand("paste", false, text);
               }
             }}
             onFocus={(e) => {
-              const target = e.target as HTMLSpanElement;
-              const value = target.innerText;
+              const value = (e.target as HTMLSpanElement).innerText;
               if (value === ADD_A_TAG_STRING) {
                 log('Focused: Removing "add a tag..."');
                 if (spanRef.current) {
                   spanRef.current.innerText = "";
                 }
               } else {
-                log("Focused: Found text not Removing anything");
+                log("Focused: Found text not removing anything");
               }
             }}
             onBlur={(e) => {
               if (!spanRef.current) {
                 return;
               }
-              const value = spanRef.current.innerText;
-              if (value.trim()) {
-                onTagsChange?.([...tags, value.trim()]);
+              const currentTag = extractTag(spanRef.current.innerText);
+              const isSubmittable = isTagValid(currentTag);
+              if (isSubmittable) {
+                onTagsAdd?.({ name: currentTag });
               }
-              spanRef.current.innerText = ADD_A_TAG_STRING;
-              log('Blur: Adding "Add a tag..."');
-              spanRef.current.style.width = "auto";
-              spanRef.current.style.flex = "1";
+              resetInputState(spanRef.current);
+              setIndexableState(false);
               setDeleteState(false);
             }}
             onKeyUp={(e) => {
               const target = e.target as HTMLSpanElement;
+              const currentTag = extractTag(target.innerText);
+              setIndexableState(currentTag.startsWith(INDEXABLE_CHARACTER));
               if (target.getBoundingClientRect().height > HEIGHT_TRIGGER) {
                 log(`Multiline detected. Switching to full line.`);
                 target.style.width = "100%";
@@ -155,6 +194,10 @@ const TagsInput: React.FC<TagsInputProps> = ({
         )}
       </div>
       <style jsx>{`
+        .tag-input.indexable {
+          outline-color: ${accentColor || Theme.DEFAULT_ACCENT_COLOR};
+          border-color: ${accentColor || Theme.DEFAULT_ACCENT_COLOR};
+        }
         .container {
           padding: 5px;
           display: flex;
@@ -168,7 +211,9 @@ const TagsInput: React.FC<TagsInputProps> = ({
           min-width: 100px;
           max-width: 500px;
           padding: 5px;
+          padding-left: 2px;
           margin: 2px 2px;
+          border-left: 5px solid transparent;
         }
         .tag-container:hover {
           cursor: pointer;
@@ -177,7 +222,7 @@ const TagsInput: React.FC<TagsInputProps> = ({
           margin-right: 3px;
           display: flex;
           align-items: center;
-          word-break: break-all;
+          word-break: break-word;
         }
       `}</style>
     </>
@@ -187,8 +232,10 @@ const TagsInput: React.FC<TagsInputProps> = ({
 export default TagsInput;
 
 export interface TagsInputProps {
-  tags: string[];
-  onTagsChange?: (newTags: string[]) => void;
+  tags: TagsType[];
+  onTagsDelete?: (deletedTag: TagsType) => void;
+  onTagsAdd?: (newTag: TagsType) => void;
   editable?: boolean;
-  onSubmit?: (newTags: string[]) => void;
+  onSubmit?: (newTag?: TagsType) => void;
+  accentColor?: string;
 }
