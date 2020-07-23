@@ -101,3 +101,32 @@ export const LoadingState = () => {
 LoadingState.story = {
   name: "loading",
 };
+
+export const Highlight = () => {
+  const commentRef = React.createRef<any>();
+  return (
+    <>
+      <div style={{}}>
+        <Comment
+          ref={commentRef}
+          id="comment"
+          initialText={
+            '[{"insert":"This card has a really long word: JugemuJugemuGokonoSurikireKaijarisuigyonoSuigyomatsuUnraimatsuFuraimatsuKuNeruTokoroniSumuTokoroYaburaKojinoBuraKojiPaipopaipoPaiponoShuringanShuringannoGurindaiGurindainoPonpokopinoPonpokonanoChokyumeinoChosuke."}]'
+          }
+          secretIdentity={{ name: "Tuxedo Mask", avatar: `/${tuxedoAvatar}` }}
+          userIdentity={{ name: "SexyDaddy69", avatar: `/${mamoruAvatar}` }}
+        />
+      </div>
+
+      <div style={{ marginTop: "20px" }}>
+        <Button onClick={() => commentRef.current.highlight("red")}>
+          Highlight!
+        </Button>
+      </div>
+    </>
+  );
+};
+
+Highlight.story = {
+  name: "highlight",
+};

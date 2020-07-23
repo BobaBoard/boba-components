@@ -14,11 +14,12 @@ import ToastContainer, { toast } from "./common/Toast";
 import Modal from "./common/Modal";
 import ModalWithButtons from "./common/ModalWithButtons";
 import PostEditor, { setTumblrEmbedFetcher } from "./post/PostEditor";
-import Post, { PostSizes, PostHandle } from "./post/Post";
-import Comment from "./post/Comment";
+import Post, { PostSizes, PostHandler } from "./post/Post";
+import Comment, { CommentHandler } from "./post/Comment";
 import CommentEditor from "./post/CommentEditor";
 import ThreadIndent from "./post/ThreadIndent";
 import PostingActionButton from "./board/PostingActionButton";
+import CycleNewButton from "./board/CycleNewButton";
 import Layout from "./layout/Layout";
 import { useCompact } from "./utils";
 
@@ -36,11 +37,13 @@ export {
   ModalWithButtons,
   Post,
   PostSizes,
-  PostHandle,
+  PostHandler,
   PostEditor,
   PostingActionButton,
   Comment,
+  CommentHandler,
   CommentEditor,
+  CycleNewButton,
   ThreadIndent,
   FeedWithMenu,
   BoardSidebar,

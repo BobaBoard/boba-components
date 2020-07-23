@@ -596,6 +596,7 @@ export const HighlightPost = () => {
     <div>
       <Post
         ref={postRef}
+        newPost={true}
         createdTime="2019/05/14 at 7:34pm"
         text={
           '[{"insert":"Open RP"},{"attributes":{"header":1},"insert":"\\n"},{"insert":{"block-image":"https://cdn.discordapp.com/attachments/443967088118333442/691486081895628830/unknown.png"}}, {"attributes":{"italic":true},"insert":"You have my sword..."}]'
