@@ -471,7 +471,7 @@ export const Attempt1 = () => {
                     </Button>
                     <Button
                       theme={
-                        -displayType == DisplayType.ALL
+                        displayType == DisplayType.ALL
                           ? ButtonStyle.LIGHT
                           : ButtonStyle.DARK
                       }
