@@ -101,15 +101,15 @@ const Button: React.FC<ButtonProps> = ({
         .button:not(.disabled) > :global(button):hover {
           background-color: ${REVERSE_THEME_COLOR};
           border: 2px solid ${color || THEME_COLOR};
-          color: ${color || transparent ? "white" : THEME_COLOR};
+          color: ${color || (transparent ? "white" : THEME_COLOR)};
         }
         .button:not(.disabled) > :global(button):active:focus {
           background-color: ${REVERSE_THEME_COLOR};
           border: 2px solid ${color || THEME_COLOR};
-          color: ${color || transparent ? "white" : THEME_COLOR};
+          color: ${color || (transparent ? "white" : THEME_COLOR)};
         }
         .button:not(.disabled) > :global(button):hover .icon {
-          color: ${color || transparent ? "white" : THEME_COLOR};
+          color: ${color || (transparent ? "white" : THEME_COLOR)};
         }
         .button.disabled > :global(button:hover) {
           background-image: none;
