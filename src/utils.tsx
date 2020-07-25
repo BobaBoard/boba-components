@@ -4,6 +4,7 @@ import {
   faAngleDoubleUp,
 } from "@fortawesome/free-solid-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import Theme from "./theme/default";
 
 export const hex2rgba = (hex: string, alpha = 1) => {
   const [r, g, b] =
@@ -70,4 +71,44 @@ export const useCompact = (
       `}</style>
     </div>
   );
+};
+
+export const useBackdrop = ({ onClick }: { onClick: () => void }) => {
+  const [open, setOpen] = React.useState(false);
+
+  React.useEffect(() => {
+    if (document.querySelector(".backdrop-hook")) {
+      return;
+    }
+    const backdropNode = document.createElement("div");
+    backdropNode.classList.add("backdrop-hook");
+
+    backdropNode.style.position = "fixed";
+    backdropNode.style.backgroundColor = Theme.MODAL_BACKGROUND_COLOR;
+    backdropNode.style.top = "0";
+    backdropNode.style.bottom = "0";
+    backdropNode.style.left = "0";
+    backdropNode.style.right = "0";
+    backdropNode.style.zIndex = "50";
+    backdropNode.style.display = "none";
+    document.body.appendChild(backdropNode);
+
+    backdropNode.addEventListener("click", (e) => {
+      setOpen(false);
+      e.stopPropagation();
+      onClick();
+    });
+  }, []);
+
+  React.useEffect(() => {
+    const backdropNode = document.querySelector(
+      ".backdrop-hook"
+    ) as HTMLDivElement;
+    if (!backdropNode) {
+      return;
+    }
+    backdropNode.style.display = open ? "block" : "none";
+  }, [open]);
+
+  return { open, setOpen };
 };
