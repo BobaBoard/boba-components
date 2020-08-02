@@ -120,42 +120,36 @@ const FeedWithMenu: React.FC<FeedWithMenuProps> = ({
 
   return (
     <>
-      <Scrollbar
-        onReachEnd={() => {
-          !showSidebar && onReachEnd?.();
-        }}
-      >
-        <div className="content" ref={scrollableContentRef}>
-          <div
-            className={classnames("sidebar", { visible: showSidebar })}
-            onClick={(e) => {
-              console.log("clack!");
-              e.stopPropagation();
-            }}
-            ref={scrollableMenuRef}
-          >
-            {showSidebar ? (
-              <Scrollbar ref={scrollableNodeRef}>
-                <div
-                  className="sidebar-content-wrapper"
-                  onWheel={(e) => {
-                    maybePreventScrollOverflow(
-                      e,
-                      // @ts-ignore
-                      scrollableNodeRef.current?.contentWrapperEl
-                    );
-                  }}
-                >
-                  {sidebarContent}
-                </div>
-              </Scrollbar>
-            ) : (
-              sidebarContent
-            )}
-          </div>
-          <div className="main">{feedContent}</div>
+      <div className="content" ref={scrollableContentRef}>
+        <div
+          className={classnames("sidebar", { visible: showSidebar })}
+          onClick={(e) => {
+            console.log("clack!");
+            e.stopPropagation();
+          }}
+          ref={scrollableMenuRef}
+        >
+          {showSidebar ? (
+            <Scrollbar ref={scrollableNodeRef}>
+              <div
+                className="sidebar-content-wrapper"
+                // onWheel={(e) => {
+                //   maybePreventScrollOverflow(
+                //     e,
+                //     // @ts-ignore
+                //     scrollableNodeRef.current?.contentWrapperEl
+                //   );
+                // }}
+              >
+                {sidebarContent}
+              </div>
+            </Scrollbar>
+          ) : (
+            sidebarContent
+          )}
         </div>
-      </Scrollbar>
+        <div className="main">{feedContent}</div>
+      </div>
       <style jsx>
         {`
           .content {

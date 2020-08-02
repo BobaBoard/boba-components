@@ -7,6 +7,7 @@ import HighlightedText from "../common/HighlightedText";
 import Theme from "../theme/default";
 import LoadingBar from "../common/LoadingBar";
 import useComponentSize from "@rehooks/component-size";
+import Scrollbar from "../common/Scrollbar";
 
 import "@bobaboard/boba-editor/dist/main.css";
 
