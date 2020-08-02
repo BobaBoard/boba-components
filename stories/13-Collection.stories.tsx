@@ -403,7 +403,7 @@ export const Attempt1 = () => {
                 <div className="intro">
                   <Editor
                     initialText={JSON.parse(
-                      '[{"insert":"It\'s real arcana hours~"},{"attributes":{"header":2},"insert":"\\n"},{"insert":"\\n"},{"insert":{"image":"https://uploads.jovemnerd.com.br/wp-content/uploads/2020/06/the-arcana-30dias-30dicas.jpg"}},{"insert":"\\n\\ni\'ve already played partway through some of the routes but haven\'t finished any yet, so i\'ll liveblog all of them at least a little\\n\\ni\'m not finishing any route before muriel\'s (meaning that on other routes, i\'ll only go as far as his latest book)"},{"attributes":{"list":"ordered"},"insert":"\\n"},{"insert":"i don\'t mind spoilers at all, so feel free to reply with anything that might be one"},{"attributes":{"list":"ordered"},"insert":"\\n"}]'
+                      '[{"insert":"It\'s real arcana hours~"},{"attributes":{"header":1},"insert":"\\n"},{"insert":"\\n"},{"insert":{"image":"https://uploads.jovemnerd.com.br/wp-content/uploads/2020/06/the-arcana-30dias-30dicas.jpg"}},{"insert":"\\n\\ni\'ve already played partway through some of the routes but haven\'t finished any yet, so i\'ll liveblog all of them at least a little\\n\\ni\'m not finishing any route before muriel\'s (meaning that on other routes, i\'ll only go as far as his latest book)"},{"attributes":{"list":"ordered"},"insert":"\\n"},{"insert":"i don\'t mind spoilers at all, so feel free to reply with anything that might be one"},{"attributes":{"list":"ordered"},"insert":"\\n"}]'
                     )}
                     editable={false}
                     focus={false}
