@@ -32,7 +32,27 @@ const Modal: React.FC<LibraryModal.Props> = (props) => {
     <div>
       <LibraryModal
         isOpen={props.isOpen}
-        onAfterOpen={props.onAfterOpen}
+        onAfterOpen={() => {
+          document.body.style.overflow = "hidden";
+          // TODO: this is bad and horrible (we should not use query selctor)
+          const layoutNode = document.querySelector(
+            ".layout"
+          ) as HTMLDivElement;
+          if (layoutNode) {
+            layoutNode.style.overflow = "hidden";
+          }
+          props.onAfterOpen?.();
+        }}
+        onAfterClose={() => {
+          document.body.style.overflow = "";
+          // TODO: this is bad and horrible (we should not use query selctor)
+          const layoutNode = document.querySelector(
+            ".layout"
+          ) as HTMLDivElement;
+          if (layoutNode) {
+            layoutNode.style.overflow = "";
+          }
+        }}
         onRequestClose={props.onRequestClose}
         shouldCloseOnOverlayClick={props.shouldCloseOnOverlayClick}
         style={customStyles}
