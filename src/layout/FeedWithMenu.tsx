@@ -18,27 +18,27 @@ export interface FeedWithMenuProps {
   onReachEnd?: () => void;
 }
 
-const maybePreventScrollOverflow = (
-  event: React.WheelEvent,
-  wrapper: HTMLDivElement
-) => {
-  if (
-    event.deltaY > 0 &&
-    wrapper.scrollTop == wrapper.scrollHeight - wrapper.offsetHeight
-  ) {
-    event.preventDefault();
-  }
-};
+// const maybePreventScrollOverflow = (
+//   event: React.WheelEvent,
+//   wrapper: HTMLDivElement
+// ) => {
+//   if (
+//     event.deltaY > 0 &&
+//     wrapper.scrollTop == wrapper.scrollHeight - wrapper.offsetHeight
+//   ) {
+//     event.preventDefault();
+//   }
+// };
 
-const preventEvent = (ref: HTMLDivElement) => {
-  return (e: TouchEvent) => {
-    let found = e.composedPath().filter((tgt) => tgt == ref);
-    if (found.length == 0) {
-      e.preventDefault();
-      e.stopImmediatePropagation();
-    }
-  };
-};
+// const preventEvent = (ref: HTMLDivElement) => {
+//   return (e: TouchEvent) => {
+//     let found = e.composedPath().filter((tgt) => tgt == ref);
+//     if (found.length == 0) {
+//       e.preventDefault();
+//       e.stopImmediatePropagation();
+//     }
+//   };
+// };
 
 const FeedWithMenu: React.FC<FeedWithMenuProps> = ({
   sidebarContent,
@@ -49,6 +49,7 @@ const FeedWithMenu: React.FC<FeedWithMenuProps> = ({
 }) => {
   const scrollableNodeRef = React.createRef<any>();
   const scrollableContentRef = React.createRef<any>();
+  const intersectionObserverRef = React.useRef<HTMLDivElement>(null);
   // const { open: isBackdropOpen, setOpen: setBackdropOpen } = useBackdrop({
   //   onClick: () => {
   //     onCloseSidebar && onCloseSidebar();
@@ -65,37 +66,37 @@ const FeedWithMenu: React.FC<FeedWithMenuProps> = ({
    *
    * This is only applied while the sidebar is explicitly open.
    */
-  const scrollableMenuRef = React.useCallback<any>((node: HTMLDivElement) => {
-    if (node) {
-      setTouchEventHandler(() => preventEvent(node));
-    }
-  }, []);
-  const [touchEventHandler, setTouchEventHandler] = React.useState<any>(null);
+  // const scrollableMenuRef = React.useCallback<any>((node: HTMLDivElement) => {
+  //   if (node) {
+  //     setTouchEventHandler(() => preventEvent(node));
+  //   }
+  // }, []);
+  // const [touchEventHandler, setTouchEventHandler] = React.useState<any>(null);
+
+  // React.useEffect(() => {
+  //   if (showSidebar && touchEventHandler) {
+  //     scrollableContentRef.current.addEventListener(
+  //       "touchmove",
+  //       touchEventHandler,
+  //       {
+  //         capture: false,
+  //         passive: false,
+  //       }
+  //     );
+  //   } else if (touchEventHandler) {
+  //     scrollableContentRef.current.removeEventListener(
+  //       "touchmove",
+  //       touchEventHandler,
+  //       {
+  //         capture: false,
+  //         passive: false,
+  //       }
+  //     );
+  //   }
+  // }, [showSidebar, touchEventHandler]);
 
   React.useEffect(() => {
-    if (showSidebar && touchEventHandler) {
-      scrollableContentRef.current.addEventListener(
-        "touchmove",
-        touchEventHandler,
-        {
-          capture: false,
-          passive: false,
-        }
-      );
-    } else if (touchEventHandler) {
-      scrollableContentRef.current.removeEventListener(
-        "touchmove",
-        touchEventHandler,
-        {
-          capture: false,
-          passive: false,
-        }
-      );
-    }
-  }, [showSidebar, touchEventHandler]);
-
-  React.useEffect(() => {
-    log(`${showSidebar ? "Opening" : "Closing"} side`);
+    log(`${showSidebar ? "Opening" : "Closing"} sidebar`);
     const scrollY = document.body.style.top;
     log(`Current body top position: ${scrollY}`);
     log(`Current body scrollY: ${window.scrollY}`);
@@ -114,6 +115,29 @@ const FeedWithMenu: React.FC<FeedWithMenuProps> = ({
     // }
   }, [showSidebar]);
 
+  React.useEffect(() => {
+    if (intersectionObserverRef.current && onReachEnd) {
+      const observer = new IntersectionObserver(
+        (entry) => {
+          log(`Reaching end of scrollable area.`);
+          log(entry);
+          if (entry[0]?.isIntersecting) {
+            log(`Found intersecting entry.`);
+            onReachEnd?.();
+          } else {
+            log(`Intersecting entry not found.`);
+          }
+        }
+        // {
+        //   root: scrollableNodeRef.current,
+        // }
+      );
+      observer.observe(intersectionObserverRef.current);
+      return () => observer.disconnect();
+    }
+    return () => {};
+  }, [intersectionObserverRef.current, scrollableNodeRef.current, onReachEnd]);
+
   /**
    * End of horrible section.
    */
@@ -127,7 +151,7 @@ const FeedWithMenu: React.FC<FeedWithMenuProps> = ({
             console.log("clack!");
             e.stopPropagation();
           }}
-          ref={scrollableMenuRef}
+          // ref={scrollableMenuRef}
         >
           {showSidebar ? (
             <Scrollbar ref={scrollableNodeRef}>
@@ -148,7 +172,13 @@ const FeedWithMenu: React.FC<FeedWithMenuProps> = ({
             sidebarContent
           )}
         </div>
-        <div className="main">{feedContent}</div>
+        <div className="main">
+          {feedContent}
+          <div
+            ref={intersectionObserverRef}
+            className="intersection-observer-ref"
+          />
+        </div>
       </div>
       <style jsx>
         {`
@@ -172,6 +202,9 @@ const FeedWithMenu: React.FC<FeedWithMenuProps> = ({
           }
           .sidebar-content-wrapper {
             overscroll-behavior: contain;
+          }
+          .intersection-observer-ref {
+            height: 1px;
           }
 
           @media only screen and (max-width: 850px) {

@@ -7,7 +7,6 @@ import HighlightedText from "../common/HighlightedText";
 import Theme from "../theme/default";
 import LoadingBar from "../common/LoadingBar";
 import useComponentSize from "@rehooks/component-size";
-import Scrollbar from "../common/Scrollbar";
 
 import "@bobaboard/boba-editor/dist/main.css";
 
@@ -81,7 +80,7 @@ const Layout = React.forwardRef<{ closeSideMenu: () => void }, LayoutProps>(
             <div className="side-menu-content">{sideMenuContent}</div>
           </div>
           <div
-            className={classnames("body", {
+            className={classnames("layout-body", {
               "side-menu-open": showSideMenu,
             })}
           >
@@ -144,7 +143,7 @@ const Layout = React.forwardRef<{ closeSideMenu: () => void }, LayoutProps>(
               display: flex;
               font-family: "Inter", sans-serif;
             }
-            .body {
+            .layout-body {
               display: flex;
               flex-direction: column;
               flex-grow: 1;
@@ -192,7 +191,7 @@ const Layout = React.forwardRef<{ closeSideMenu: () => void }, LayoutProps>(
             .side-menu-open .header {
               left: 500px;
             }
-            .side-menu-open.body {
+            .side-menu-open.layout-body {
               margin-left: 500px;
             }
             .title-bar {
@@ -270,16 +269,16 @@ const Layout = React.forwardRef<{ closeSideMenu: () => void }, LayoutProps>(
             .title-text {
               outline: none;
             }
-            .body {
+            .layout-body {
               flex-shrink: 0;
               width: 100%;
             }
             @media only screen and (max-width: 850px) {
-              .body {
+              .layout-body {
                 flex-direction: column;
                 flex-shrink: 1;
               }
-              .body.side-menu-open {
+              .layout-body.side-menu-open {
                 margin-left: min(calc(100vw - 100px), 500px);
                 flex-shrink: 0;
               }
