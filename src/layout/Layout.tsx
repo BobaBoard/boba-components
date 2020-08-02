@@ -62,28 +62,36 @@ const Layout = React.forwardRef<{ closeSideMenu: () => void }, LayoutProps>(
       }
 
       log(`Changing overflow of content`);
+      log(showSideMenu);
       if (showSideMenu) {
         // NOTE: body doesn't respect overflow hidden on mobile, so we
         // move it to layout
-        document.body.style.overflow = showSideMenu ? "hidden" : "";
-        layoutRef.current.style.overflow = showSideMenu ? "hidden" : "";
-        contentRef.current.style.overflow = showSideMenu ? "hidden" : "";
-        // document.body.style.top = showSideMenu ? `-${window.scrollY}px` : "";
-        // if (!showSideMenu) {
-        //   window.scrollTo(0, parseInt(scrollY || "0") * -1);
-        // }
-      } else {
-        const listener = () => {
-          sideMenuRef.current?.removeEventListener("animationend", listener);
-          if (!contentRef.current || !layoutRef.current) {
+        document.body.style.overflow = "hidden";
+        layoutRef.current.style.overflow = "hidden";
+        contentRef.current.style.overflow = "hidden";
+        const closeMenuListener = () => {
+          log(`Animation finished...`);
+          if (
+            !contentRef.current ||
+            !layoutRef.current ||
+            sideMenuRef.current?.clientWidth
+          ) {
+            // The menu is open (or the refs are not available)
             return;
           }
-          document.body.style.overflow = showSideMenu ? "hidden" : "";
-          layoutRef.current.style.overflow = showSideMenu ? "hidden" : "";
-          contentRef.current.style.overflow = showSideMenu ? "hidden" : "";
+          log(`...Reactivating!`);
+          sideMenuRef.current?.removeEventListener(
+            "transitionend",
+            closeMenuListener
+          );
+          document.body.style.overflow = "";
+          layoutRef.current.style.overflow = "";
+          contentRef.current.style.overflow = "";
         };
-        // We wait until the end of the animation to do so
-        sideMenuRef.current?.addEventListener("animationend", listener);
+        sideMenuRef.current?.addEventListener(
+          "transitionend",
+          closeMenuListener
+        );
       }
     }, [showSideMenu]);
 
