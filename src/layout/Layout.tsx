@@ -5,7 +5,6 @@ import UserBar from "./UserBar";
 import classnames from "classnames";
 import HighlightedText from "../common/HighlightedText";
 import Theme from "../theme/default";
-import Div100vh from "react-div-100vh";
 import LoadingBar from "../common/LoadingBar";
 import useComponentSize from "@rehooks/component-size";
 
@@ -16,6 +15,10 @@ import "simplebar/dist/simplebar.min.css";
 
 import logo from "../images/logo.svg";
 import compactLogo from "../images/logo-compact.svg";
+
+import debug from "debug";
+
+const log = debug("bobaui:layout-log");
 
 const Layout = React.forwardRef<{ closeSideMenu: () => void }, LayoutProps>(
   (
@@ -38,6 +41,8 @@ const Layout = React.forwardRef<{ closeSideMenu: () => void }, LayoutProps>(
   ) => {
     const [showSideMenu, setShowSideMenu] = React.useState(false);
     const headerRef = React.useRef<HTMLDivElement>(null);
+    const contentRef = React.useRef<HTMLDivElement>(null);
+    const layoutRef = React.useRef<HTMLDivElement>(null);
     let { width } = useComponentSize(headerRef);
     React.useImperativeHandle(ref, () => ({
       closeSideMenu: () => {
@@ -45,8 +50,30 @@ const Layout = React.forwardRef<{ closeSideMenu: () => void }, LayoutProps>(
       },
     }));
 
+    React.useEffect(() => {
+      log(`${showSideMenu ? "Opening" : "Closing"} side`);
+      const scrollY = document.body.style.top;
+      log(`Current body top position: ${scrollY}`);
+      log(`Current body scrollY: ${window.scrollY}`);
+
+      if (!contentRef.current || !layoutRef.current) {
+        return;
+      }
+
+      log(`Changing overflow of content`);
+      // NOTE: body doesn't respect overflow hidden on mobile, so we
+      // move it to layout
+      document.body.style.overflow = showSideMenu ? "hidden" : "";
+      layoutRef.current.style.overflow = showSideMenu ? "hidden" : "";
+      contentRef.current.style.overflow = showSideMenu ? "hidden" : "";
+      // document.body.style.top = showSideMenu ? `-${window.scrollY}px` : "";
+      // if (!showSideMenu) {
+      //   window.scrollTo(0, parseInt(scrollY || "0") * -1);
+      // }
+    }, [showSideMenu]);
+
     return (
-      <Div100vh>
+      <div ref={layoutRef}>
         <LoadingBar loading={loading} accentColor={headerAccent} />
         <div className="layout">
           <div className={classnames("side-menu", { visible: showSideMenu })}>
@@ -105,7 +132,7 @@ const Layout = React.forwardRef<{ closeSideMenu: () => void }, LayoutProps>(
                 compact={width < 500}
               />
             </div>
-            <div className="content">
+            <div ref={contentRef} className="content">
               {mainContent}
               {actionButton}
             </div>
@@ -114,15 +141,14 @@ const Layout = React.forwardRef<{ closeSideMenu: () => void }, LayoutProps>(
             .layout {
               background-color: pink;
               display: flex;
-              height: 100%;
               font-family: "Inter", sans-serif;
-              overflow: hidden;
             }
             .body {
               display: flex;
               flex-direction: column;
               flex-grow: 1;
               position: relative;
+              transition: margin-left 0.3s ease-out;
             }
             .content {
               display: flex;
@@ -131,6 +157,7 @@ const Layout = React.forwardRef<{ closeSideMenu: () => void }, LayoutProps>(
               overflow-y: auto;
               background: ${Theme.LAYOUT_BOARD_BACKGROUND_COLOR};
               overflow-x: hidden;
+              padding-top: 70px;
             }
             .backdrop {
               position: absolute;
@@ -140,7 +167,7 @@ const Layout = React.forwardRef<{ closeSideMenu: () => void }, LayoutProps>(
               left: 0;
               right: 0;
               opacity: 0.5;
-              z-index: 3;
+              z-index: 100;
               display: none;
             }
             .backdrop.visible {
@@ -149,12 +176,23 @@ const Layout = React.forwardRef<{ closeSideMenu: () => void }, LayoutProps>(
             .header {
               background-color: ${Theme.LAYOUT_HEADER_BACKGROUND_COLOR};
               height: 40px;
+              position: fixed;
+              top: 0;
+              right: 0;
+              left: 0;
               flex-shrink: 0;
-              position: relative;
               padding: 15px;
               display: flex;
               justify-content: space-between;
               align-items: center;
+              z-index: 10;
+              transition: left 0.3s ease-out;
+            }
+            .side-menu-open .header {
+              left: 500px;
+            }
+            .side-menu-open.body {
+              margin-left: 500px;
             }
             .title-bar {
               display: flex;
@@ -199,16 +237,21 @@ const Layout = React.forwardRef<{ closeSideMenu: () => void }, LayoutProps>(
             .side-menu {
               background-color: ${Theme.LAYOUT_SIDEMENU_BACKGROUND_COLOR};
               overflow: hidden;
-              transition-property: width;
-              transition-duration: 0.3s;
-              transition-timing-function: easeInSine;
+              transition: width 0.3s ease-out;
               z-index: 1;
               width: 0;
               flex-shrink: 0;
+              position: fixed;
+              top: 0;
+              left: 0;
+              bottom: 0;
+              overscroll-behavior: contain;
             }
             .side-menu-content {
               width: 500px;
               position: relative;
+              height: 100%;
+              overflow: auto;
             }
             .side-menu.visible {
               width: 500px;
@@ -236,7 +279,11 @@ const Layout = React.forwardRef<{ closeSideMenu: () => void }, LayoutProps>(
                 flex-shrink: 1;
               }
               .body.side-menu-open {
+                margin-left: min(calc(100vw - 100px), 500px);
                 flex-shrink: 0;
+              }
+              .side-menu-open .header {
+                left: min(calc(100vw - 100px), 500px);
               }
               .sidebar-button {
                 display: inline-block;
@@ -245,9 +292,7 @@ const Layout = React.forwardRef<{ closeSideMenu: () => void }, LayoutProps>(
                 width: calc(100vw - 100px);
                 max-width: 500px;
               }
-              .side-menu {
-                transition-duration: 0.5s;
-              }
+
               .title {
                 display: block;
               }
@@ -258,6 +303,7 @@ const Layout = React.forwardRef<{ closeSideMenu: () => void }, LayoutProps>(
                 width: calc(100vw - 100px);
                 max-width: 500px;
               }
+
               .logo .regular {
                 display: none;
               }
@@ -270,7 +316,7 @@ const Layout = React.forwardRef<{ closeSideMenu: () => void }, LayoutProps>(
             }
           `}</style>
         </div>
-      </Div100vh>
+      </div>
     );
   }
 );

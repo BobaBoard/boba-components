@@ -7,7 +7,6 @@ import Button from "../common/Button";
 
 import classnames from "classnames";
 import Scrollbar from "../common/Scrollbar";
-import Div100vh from "react-div-100vh";
 import "simplebar/dist/simplebar.min.css";
 
 import { faCheck } from "@fortawesome/free-solid-svg-icons";
@@ -23,8 +22,8 @@ const SideMenu: React.FC<SideMenuProps> = ({
   const [searchVisible, setSearchVisible] = React.useState(false);
   const hasSearchBar = showSearch || typeof showSearch === "undefined";
   return (
-    <Div100vh>
-      <Scrollbar height="100%">
+    <div>
+      <Scrollbar>
         <div className="side-menu">
           {pinnedBoards && (
             <BoardsGroup title="Pinned Boards">
@@ -135,7 +134,7 @@ const SideMenu: React.FC<SideMenuProps> = ({
           }
         `}
       </style>
-    </Div100vh>
+    </div>
   );
 };
 

@@ -42,9 +42,14 @@ const FloatingActionButton: React.FC<FloatingActionButtonProps> = (props) => {
       </Fab>
       <style jsx>{`
         .fab-container {
-          position: absolute;
+          position: fixed;
           bottom: 2rem;
           right: 2rem;
+          transition: right 0.3s ease-out;
+        }
+
+        :global(.side-menu-open) .fab-container {
+          right: min(calc(-100vw + 100px - 2rem), calc(-500px + 2rem));
         }
       `}</style>
     </div>

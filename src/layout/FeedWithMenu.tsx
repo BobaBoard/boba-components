@@ -5,6 +5,10 @@ import Scrollbar from "../common/Scrollbar";
 
 import Theme from "../theme/default";
 
+import debug from "debug";
+
+const log = debug("bobaui:feed-with-menu-log");
+
 export interface FeedWithMenuProps {
   sidebarContent: JSX.Element;
   feedContent: JSX.Element;
@@ -45,6 +49,11 @@ const FeedWithMenu: React.FC<FeedWithMenuProps> = ({
 }) => {
   const scrollableNodeRef = React.createRef<any>();
   const scrollableContentRef = React.createRef<any>();
+  // const { open: isBackdropOpen, setOpen: setBackdropOpen } = useBackdrop({
+  //   onClick: () => {
+  //     onCloseSidebar && onCloseSidebar();
+  //   },
+  // });
 
   /**
    * This horrible, horrible section prevents scrolling of the background element
@@ -84,23 +93,39 @@ const FeedWithMenu: React.FC<FeedWithMenuProps> = ({
       );
     }
   }, [showSidebar, touchEventHandler]);
+
+  React.useEffect(() => {
+    log(`${showSidebar ? "Opening" : "Closing"} side`);
+    const scrollY = document.body.style.top;
+    log(`Current body top position: ${scrollY}`);
+    log(`Current body scrollY: ${window.scrollY}`);
+
+    if (!scrollableContentRef.current) {
+      return;
+    }
+
+    log(`Changing overflow of content`);
+    document.body.style.overflow = showSidebar ? "hidden" : "";
+    scrollableContentRef.current.style.overflow = showSidebar ? "hidden" : "";
+    //setBackdropOpen(!!showSidebar);
+    // document.body.style.top = showSideMenu ? `-${window.scrollY}px` : "";
+    // if (!showSideMenu) {
+    //   window.scrollTo(0, parseInt(scrollY || "0") * -1);
+    // }
+  }, [showSidebar]);
+
   /**
    * End of horrible section.
    */
 
   return (
     <>
-      <Scrollbar onReachEnd={onReachEnd}>
+      <Scrollbar
+        onReachEnd={() => {
+          // !showSidebar && onReachEnd?.();
+        }}
+      >
         <div className="content" ref={scrollableContentRef}>
-          <div
-            className={classnames("backdrop", {
-              visible: showSidebar,
-            })}
-            onClick={(e) => {
-              onCloseSidebar && onCloseSidebar();
-              e.stopPropagation();
-            }}
-          />
           <div
             className={classnames("sidebar", { visible: showSidebar })}
             onClick={(e) => {
@@ -112,6 +137,7 @@ const FeedWithMenu: React.FC<FeedWithMenuProps> = ({
             {showSidebar ? (
               <Scrollbar ref={scrollableNodeRef}>
                 <div
+                  className="sidebar-content-wrapper"
                   onWheel={(e) => {
                     maybePreventScrollOverflow(
                       e,
@@ -119,7 +145,6 @@ const FeedWithMenu: React.FC<FeedWithMenuProps> = ({
                       scrollableNodeRef.current?.contentWrapperEl
                     );
                   }}
-                  style={{ overscrollBehavior: "contain" }}
                 >
                   {sidebarContent}
                 </div>
@@ -151,16 +176,8 @@ const FeedWithMenu: React.FC<FeedWithMenuProps> = ({
             flex-shrink: 0;
             height: auto;
           }
-
-          .backdrop {
-            position: fixed;
-            background-color: ${Theme.MODAL_BACKGROUND_COLOR};
-            top: 0;
-            bottom: 0;
-            left: 0;
-            right: 0;
-            z-index: 3;
-            display: none;
+          .sidebar-content-wrapper {
+            overscroll-behavior: contain;
           }
 
           @media only screen and (max-width: 850px) {
@@ -176,19 +193,17 @@ const FeedWithMenu: React.FC<FeedWithMenuProps> = ({
               width: 95%;
               position: fixed;
               left: 50%;
-              transform: translateX(-50%);
-              bottom: 0;
-              height: 0;
+              transform: translate(-50%, 20%);
               overflow: hidden;
-              transition-property: height;
-              transition-duration: 0.5s;
-              transition-timing-function: easeInSine;
-              z-index: 5;
+              transition: all 0.2s ease-out;
+              z-index: 51;
               opacity: 0;
+              background: blue;
+              height: calc(100vh - 50px);
             }
             .sidebar.visible {
-              height: 85%;
               opacity: 1;
+              transform: translate(-50%, 0);
             }
             .main {
               width: calc(100% - 40px);

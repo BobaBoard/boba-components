@@ -304,7 +304,7 @@ export const FeedWithMenuShortPreview = () => {
         <FeedWithMenu
           sidebarContent={
             <div
-              style={{ height: "500px", width: "50%", backgroundColor: "red" }}
+              style={{ height: "1500px", width: "50%", backgroundColor: "red" }}
             >
               Sidebar Content!!
             </div>
@@ -340,7 +340,7 @@ export const FeedWithMenuPreview = () => {
         <FeedWithMenu
           sidebarContent={
             <div
-              style={{ height: "500px", width: "50%", backgroundColor: "red" }}
+              style={{ height: "5000px", width: "50%", backgroundColor: "red" }}
             >
               Sidebar!!
             </div>
@@ -383,6 +383,7 @@ export const FeedWithMenuPreview = () => {
       }
       sideMenuContent={<div>Side menu side menu!</div>}
       title="test!"
+      onTitleClick={() => setShowSidebar(true)}
       headerAccent="purple"
       loading={loading}
       actionButton={
