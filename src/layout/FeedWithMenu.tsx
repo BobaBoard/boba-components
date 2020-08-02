@@ -4,6 +4,7 @@ import classnames from "classnames";
 import Scrollbar from "../common/Scrollbar";
 
 import Theme from "../theme/default";
+import { useBackdrop } from "../utils";
 
 import debug from "debug";
 
@@ -50,11 +51,11 @@ const FeedWithMenu: React.FC<FeedWithMenuProps> = ({
   const scrollableNodeRef = React.createRef<any>();
   const scrollableContentRef = React.createRef<any>();
   const intersectionObserverRef = React.useRef<HTMLDivElement>(null);
-  // const { open: isBackdropOpen, setOpen: setBackdropOpen } = useBackdrop({
-  //   onClick: () => {
-  //     onCloseSidebar && onCloseSidebar();
-  //   },
-  // });
+  const { open: isBackdropOpen, setOpen: setBackdropOpen } = useBackdrop({
+    onClick: () => {
+      onCloseSidebar && onCloseSidebar();
+    },
+  });
 
   /**
    * This horrible, horrible section prevents scrolling of the background element
@@ -108,7 +109,7 @@ const FeedWithMenu: React.FC<FeedWithMenuProps> = ({
     log(`Changing overflow of content`);
     document.body.style.overflow = showSidebar ? "hidden" : "";
     scrollableContentRef.current.style.overflow = showSidebar ? "hidden" : "";
-    //setBackdropOpen(!!showSidebar);
+    setBackdropOpen(!!showSidebar);
     // document.body.style.top = showSideMenu ? `-${window.scrollY}px` : "";
     // if (!showSideMenu) {
     //   window.scrollTo(0, parseInt(scrollY || "0") * -1);
@@ -117,21 +118,16 @@ const FeedWithMenu: React.FC<FeedWithMenuProps> = ({
 
   React.useEffect(() => {
     if (intersectionObserverRef.current && onReachEnd) {
-      const observer = new IntersectionObserver(
-        (entry) => {
-          log(`Reaching end of scrollable area.`);
-          log(entry);
-          if (entry[0]?.isIntersecting) {
-            log(`Found intersecting entry.`);
-            onReachEnd?.();
-          } else {
-            log(`Intersecting entry not found.`);
-          }
+      const observer = new IntersectionObserver((entry) => {
+        log(`Reaching end of scrollable area.`);
+        log(entry);
+        if (entry[0]?.isIntersecting) {
+          log(`Found intersecting entry.`);
+          onReachEnd?.();
+        } else {
+          log(`Intersecting entry not found.`);
         }
-        // {
-        //   root: scrollableNodeRef.current,
-        // }
-      );
+      });
       observer.observe(intersectionObserverRef.current);
       return () => observer.disconnect();
     }
