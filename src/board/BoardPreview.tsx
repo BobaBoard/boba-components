@@ -304,11 +304,6 @@ const BoardPreview: React.FC<BoardPreviewProps> = ({
           padding-top: calc((9 / 16) * 100%);
           position: absolute;
         }
-        .tooltip-content {
-          padding: 15px;
-          position: relative;
-          z-index: 15;
-        }
         .board-image {
           display: block;
           position: relative;
@@ -343,7 +338,7 @@ const BoardPreview: React.FC<BoardPreviewProps> = ({
         .updates {
           color: white;
           font-size: 15px;
-          z-index: 10;
+          z-index: 5;
           border-radius: 50%;
           /* display: inline-block; */
           /* padding: 100%; */

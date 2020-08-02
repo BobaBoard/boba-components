@@ -46,6 +46,7 @@ const FloatingActionButton: React.FC<FloatingActionButtonProps> = (props) => {
           bottom: 2rem;
           right: 2rem;
           transition: right 0.3s ease-out;
+          z-index: 6;
         }
 
         :global(.side-menu-open) .fab-container {
