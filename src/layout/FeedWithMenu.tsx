@@ -122,7 +122,7 @@ const FeedWithMenu: React.FC<FeedWithMenuProps> = ({
     <>
       <Scrollbar
         onReachEnd={() => {
-          // !showSidebar && onReachEnd?.();
+          !showSidebar && onReachEnd?.();
         }}
       >
         <div className="content" ref={scrollableContentRef}>

@@ -340,7 +340,7 @@ export const FeedWithMenuPreview = () => {
         <FeedWithMenu
           sidebarContent={
             <div
-              style={{ height: "5000px", width: "50%", backgroundColor: "red" }}
+              style={{ height: "100px", width: "50%", backgroundColor: "red" }}
             >
               Sidebar!!
             </div>
