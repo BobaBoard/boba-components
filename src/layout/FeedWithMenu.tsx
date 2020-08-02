@@ -52,7 +52,8 @@ const FeedWithMenu: React.FC<FeedWithMenuProps> = ({
   const scrollableContentRef = React.createRef<any>();
   const intersectionObserverRef = React.useRef<HTMLDivElement>(null);
   const [canOpenSidebar, setCanOpenSidebar] = React.useState(
-    matchMedia("only screen and (max-width: 850px)").matches
+    typeof window != "undefined" &&
+      matchMedia("only screen and (max-width: 850px)").matches
   );
   const { setOpen: setBackdropOpen } = useBackdrop({
     onClick: () => {
@@ -127,6 +128,8 @@ const FeedWithMenu: React.FC<FeedWithMenuProps> = ({
     setBackdropOpen(shouldShowSidebar);
   }, [showSidebar, canOpenSidebar]);
 
+  // Make sure sidebar is only actually opened when the media query
+  // for deatched sidebar triggers correctly
   React.useEffect(() => {
     const resizeObserver = new ResizeObserver(() => {
       // Note: in functional components this isn't rerendered if it

@@ -37,7 +37,7 @@ const Modal: React.FC<LibraryModal.Props> = (props) => {
         shouldCloseOnOverlayClick={props.shouldCloseOnOverlayClick}
         style={customStyles}
       >
-        <Div100vh style={{ overflow: "scroll", height: "100rvh" }}>
+        <Div100vh style={{ overflowY: "scroll", height: "100rvh" }}>
           <div className="content">{props.children}</div>
         </Div100vh>
       </LibraryModal>
