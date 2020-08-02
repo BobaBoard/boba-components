@@ -43,6 +43,7 @@ const Layout = React.forwardRef<{ closeSideMenu: () => void }, LayoutProps>(
     const headerRef = React.useRef<HTMLDivElement>(null);
     const contentRef = React.useRef<HTMLDivElement>(null);
     const layoutRef = React.useRef<HTMLDivElement>(null);
+    const sideMenuRef = React.useRef<HTMLDivElement>(null);
     let { width } = useComponentSize(headerRef);
     React.useImperativeHandle(ref, () => ({
       closeSideMenu: () => {
@@ -61,22 +62,39 @@ const Layout = React.forwardRef<{ closeSideMenu: () => void }, LayoutProps>(
       }
 
       log(`Changing overflow of content`);
-      // NOTE: body doesn't respect overflow hidden on mobile, so we
-      // move it to layout
-      document.body.style.overflow = showSideMenu ? "hidden" : "";
-      layoutRef.current.style.overflow = showSideMenu ? "hidden" : "";
-      contentRef.current.style.overflow = showSideMenu ? "hidden" : "";
-      // document.body.style.top = showSideMenu ? `-${window.scrollY}px` : "";
-      // if (!showSideMenu) {
-      //   window.scrollTo(0, parseInt(scrollY || "0") * -1);
-      // }
+      if (showSideMenu) {
+        // NOTE: body doesn't respect overflow hidden on mobile, so we
+        // move it to layout
+        document.body.style.overflow = showSideMenu ? "hidden" : "";
+        layoutRef.current.style.overflow = showSideMenu ? "hidden" : "";
+        contentRef.current.style.overflow = showSideMenu ? "hidden" : "";
+        // document.body.style.top = showSideMenu ? `-${window.scrollY}px` : "";
+        // if (!showSideMenu) {
+        //   window.scrollTo(0, parseInt(scrollY || "0") * -1);
+        // }
+      } else {
+        const listener = () => {
+          sideMenuRef.current?.removeEventListener("animationend", listener);
+          if (!contentRef.current || !layoutRef.current) {
+            return;
+          }
+          document.body.style.overflow = showSideMenu ? "hidden" : "";
+          layoutRef.current.style.overflow = showSideMenu ? "hidden" : "";
+          contentRef.current.style.overflow = showSideMenu ? "hidden" : "";
+        };
+        // We wait until the end of the animation to do so
+        sideMenuRef.current?.addEventListener("animationend", listener);
+      }
     }, [showSideMenu]);
 
     return (
       <div ref={layoutRef}>
         <LoadingBar loading={loading} accentColor={headerAccent} />
         <div className="layout">
-          <div className={classnames("side-menu", { visible: showSideMenu })}>
+          <div
+            className={classnames("side-menu", { visible: showSideMenu })}
+            ref={sideMenuRef}
+          >
             <div className="side-menu-content">{sideMenuContent}</div>
           </div>
           <div
