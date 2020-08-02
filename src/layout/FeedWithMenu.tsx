@@ -192,7 +192,7 @@ const FeedWithMenu: React.FC<FeedWithMenuProps> = ({
               transition: all 0.2s ease-out;
               z-index: 51;
               opacity: 0;
-              background: blue;
+              background: ${Theme.LAYOUT_BOARD_SIDEBAR_BACKGROUND_COLOR};
               height: calc(100vh - 50px);
             }
             .sidebar.visible {
