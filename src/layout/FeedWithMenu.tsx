@@ -51,9 +51,12 @@ const FeedWithMenu: React.FC<FeedWithMenuProps> = ({
   const scrollableNodeRef = React.createRef<any>();
   const scrollableContentRef = React.createRef<any>();
   const intersectionObserverRef = React.useRef<HTMLDivElement>(null);
-  const { open: isBackdropOpen, setOpen: setBackdropOpen } = useBackdrop({
+  const [canOpenSidebar, setCanOpenSidebar] = React.useState(
+    matchMedia("only screen and (max-width: 850px)").matches
+  );
+  const { setOpen: setBackdropOpen } = useBackdrop({
     onClick: () => {
-      onCloseSidebar && onCloseSidebar();
+      onCloseSidebar?.();
     },
   });
 
@@ -96,26 +99,52 @@ const FeedWithMenu: React.FC<FeedWithMenuProps> = ({
   //   }
   // }, [showSidebar, touchEventHandler]);
 
+  /**
+   * End of horrible section.
+   */
+
+  // Change overflow of content when sidebar is open
   React.useEffect(() => {
-    log(`${showSidebar ? "Opening" : "Closing"} sidebar`);
-    const scrollY = document.body.style.top;
-    log(`Current body top position: ${scrollY}`);
-    log(`Current body scrollY: ${window.scrollY}`);
+    const shouldShowSidebar = !!(canOpenSidebar && showSidebar);
+    log(`${shouldShowSidebar ? "Opening" : "Closing"} sidebar`);
+    log(`Can open: ${canOpenSidebar}`);
+
+    if (showSidebar && !shouldShowSidebar) {
+      // Parent is asking the sidebar to be displayed, but the sidebar
+      // cannot be. Tell it to close it.
+      onCloseSidebar?.();
+    }
 
     if (!scrollableContentRef.current) {
       return;
     }
 
     log(`Changing overflow of content`);
-    document.body.style.overflow = showSidebar ? "hidden" : "";
-    scrollableContentRef.current.style.overflow = showSidebar ? "hidden" : "";
-    setBackdropOpen(!!showSidebar);
-    // document.body.style.top = showSideMenu ? `-${window.scrollY}px` : "";
-    // if (!showSideMenu) {
-    //   window.scrollTo(0, parseInt(scrollY || "0") * -1);
-    // }
-  }, [showSidebar]);
+    document.body.style.overflow = shouldShowSidebar ? "hidden" : "";
+    scrollableContentRef.current.style.overflow = shouldShowSidebar
+      ? "hidden"
+      : "";
+    setBackdropOpen(shouldShowSidebar);
+  }, [showSidebar, canOpenSidebar]);
 
+  React.useEffect(() => {
+    const resizeObserver = new ResizeObserver(() => {
+      // Note: in functional components this isn't rerendered if it
+      // matches the previous value
+      // See: https://stackoverflow.com/questions/52624612/does-react-re-render-the-component-if-it-receives-the-same-value-in-state
+      setCanOpenSidebar(
+        matchMedia("only screen and (max-width: 850px)").matches
+      );
+    });
+
+    resizeObserver.observe(document.body);
+
+    return () => {
+      resizeObserver.disconnect();
+    };
+  }, []);
+
+  // Call reach end method when bottom of content is reached
   React.useEffect(() => {
     if (intersectionObserverRef.current && onReachEnd) {
       const observer = new IntersectionObserver((entry) => {
@@ -134,19 +163,14 @@ const FeedWithMenu: React.FC<FeedWithMenuProps> = ({
     return () => {};
   }, [intersectionObserverRef.current, scrollableNodeRef.current, onReachEnd]);
 
-  /**
-   * End of horrible section.
-   */
-
   return (
     <>
       <div className="content" ref={scrollableContentRef}>
         <div
           className={classnames("sidebar", { visible: showSidebar })}
-          onClick={(e) => {
-            console.log("clack!");
-            e.stopPropagation();
-          }}
+          // onClick={(e) => {
+          //   e.stopPropagation();
+          // }}
           // ref={scrollableMenuRef}
         >
           {showSidebar ? (
@@ -207,9 +231,6 @@ const FeedWithMenu: React.FC<FeedWithMenuProps> = ({
             .content {
               background-image: none;
             }
-            .backdrop.visible {
-              display: block;
-            }
             .sidebar {
               border-radius: ${Theme.BORDER_RADIUS_LARGE}
                 ${Theme.BORDER_RADIUS_LARGE} 0px 0px;
@@ -218,13 +239,15 @@ const FeedWithMenu: React.FC<FeedWithMenuProps> = ({
               left: 50%;
               transform: translate(-50%, 20%);
               overflow: hidden;
-              transition: all 0.2s ease-out;
+              display: none;
+              transition: opacity 0.2s ease-out;
               z-index: 51;
               opacity: 0;
               background: ${Theme.LAYOUT_BOARD_SIDEBAR_BACKGROUND_COLOR};
               height: calc(100vh - 50px);
             }
             .sidebar.visible {
+              display: block;
               opacity: 1;
               transform: translate(-50%, 0);
             }

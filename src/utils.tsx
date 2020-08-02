@@ -92,12 +92,6 @@ export const useBackdrop = ({ onClick }: { onClick: () => void }) => {
     backdropNode.style.zIndex = "50";
     backdropNode.style.display = "none";
     document.body.appendChild(backdropNode);
-
-    backdropNode.addEventListener("click", (e) => {
-      setOpen(false);
-      e.stopPropagation();
-      onClick();
-    });
   }, []);
 
   React.useEffect(() => {
@@ -107,6 +101,11 @@ export const useBackdrop = ({ onClick }: { onClick: () => void }) => {
     if (!backdropNode) {
       return;
     }
+    backdropNode.addEventListener("click", (e) => {
+      setOpen(false);
+      onClick();
+      e.stopPropagation();
+    });
     backdropNode.style.display = open ? "block" : "none";
   }, [open]);
 
