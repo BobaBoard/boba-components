@@ -5,6 +5,8 @@ import Scrollbar from "../common/Scrollbar";
 
 import Theme from "../theme/default";
 import { useBackdrop } from "../utils";
+import { ResizeObserver as Polyfill } from "@juggle/resize-observer";
+require("intersection-observer");
 
 import debug from "debug";
 
@@ -131,6 +133,7 @@ const FeedWithMenu: React.FC<FeedWithMenuProps> = ({
   // Make sure sidebar is only actually opened when the media query
   // for deatched sidebar triggers correctly
   React.useEffect(() => {
+    const ResizeObserver = window.ResizeObserver || Polyfill;
     const resizeObserver = new ResizeObserver(() => {
       // Note: in functional components this isn't rerendered if it
       // matches the previous value

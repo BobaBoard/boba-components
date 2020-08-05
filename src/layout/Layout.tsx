@@ -305,11 +305,11 @@ const Layout = React.forwardRef<{ closeSideMenu: () => void }, LayoutProps>(
                 flex-shrink: 1;
               }
               .layout-body.side-menu-open {
-                margin-left: min(calc(100vw - 100px), 500px);
+                margin-left: 500px;
                 flex-shrink: 0;
               }
               .side-menu-open .header {
-                left: min(calc(100vw - 100px), 500px);
+                left: 500px;
               }
               .sidebar-button {
                 display: inline-block;
@@ -338,6 +338,14 @@ const Layout = React.forwardRef<{ closeSideMenu: () => void }, LayoutProps>(
               }
               .logo::after {
                 mask: url(${compactLogo}) no-repeat;
+              }
+            }
+            @media only screen and (max-width: 600px) {
+              .layout-body.side-menu-open {
+                margin-left: calc(100vw - 100px);
+              }
+              .side-menu-open .header {
+                left: calc(100vw - 100px);
               }
             }
           `}</style>
