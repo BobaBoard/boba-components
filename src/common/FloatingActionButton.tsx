@@ -38,13 +38,27 @@ const FloatingActionButton: React.FC<FloatingActionButtonProps> = (props) => {
           backgroundColor: props.accentColor || Theme.DEFAULT_ACCENT_COLOR,
         }}
       >
-        <FontAwesomeIcon icon={props.actions[0].icon} />
+        <div className="icon">
+          <FontAwesomeIcon icon={props.actions[0].icon} />
+        </div>
       </Fab>
       <style jsx>{`
         .fab-container {
-          position: absolute;
+          position: fixed;
           bottom: 2rem;
           right: 2rem;
+          transition: right 0.3s ease-out;
+          z-index: 6;
+        }
+        .icon {
+          position: absolute;
+          top: 50%;
+          left: 50%;
+          transform: translate(-50%, -50%);
+        }
+
+        :global(.side-menu-open) .fab-container {
+          right: min(calc(-100vw + 100px - 2rem), calc(-500px + 2rem));
         }
       `}</style>
     </div>

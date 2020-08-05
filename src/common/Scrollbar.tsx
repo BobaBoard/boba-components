@@ -15,12 +15,16 @@ const Scrollbar = React.forwardRef<SimpleBar, ScrollbarProps>((props, ref) => {
   const scrollableNodeRef = React.createRef<HTMLDivElement>();
   const intersectionObserverRef = React.useRef<HTMLDivElement>(null);
 
-  React.useEffect(() => {
-    if (scrollableNodeRef.current) {
-      scrollableNodeRef.current.style.transform = "translateZ(0)";
-      scrollableNodeRef.current.style.willChange = "transform";
-    }
-  }, [scrollableNodeRef.current]);
+  // TODO: this is a useful performance improvement to avoid repainting of the
+  // scrollable area over and over again. However, it also causes issues with
+  // position fixed elements not being redrawn (and thus not being "fixed").
+  // Investigate and reactivate.
+  // React.useEffect(() => {
+  //   if (scrollableNodeRef.current) {
+  //     scrollableNodeRef.current.style.transform = "translateZ(0)";
+  //     scrollableNodeRef.current.style.willChange = "transform";
+  //   }
+  // }, [scrollableNodeRef.current]);
 
   React.useEffect(() => {
     if (intersectionObserverRef.current && props.onReachEnd) {

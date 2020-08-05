@@ -3,7 +3,6 @@ import "@fortawesome/fontawesome-svg-core/styles.css";
 import "react-loader-spinner/dist/loader/css/react-spinner-loader.css";
 require("intersection-observer");
 
-import BoardFeed from "./board/BoardFeed";
 import BoardSidebar from "./board/BoardSidebar";
 import BoardsDisplay from "./board/BoardsDisplay";
 import SideMenu from "./layout/SideMenu";
@@ -27,7 +26,6 @@ import flush from "styled-jsx/server";
 
 export {
   Layout,
-  BoardFeed,
   Button,
   ButtonStyle,
   SideMenu,
