@@ -86,7 +86,7 @@ const CommentFooter = (props: {
     </>
   );
 };
-const MAX_CHARACTERS = 200;
+const MAX_CHARACTERS = 300;
 const Comment: React.FC<CommentProps> = (props) => {
   const containerRef = React.useRef<HTMLDivElement>(null);
   // @ts-ignore

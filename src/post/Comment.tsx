@@ -5,6 +5,7 @@ import Editor from "@bobaboard/boba-editor";
 import Header, { HeaderStyle } from "./Header";
 import useComponentSize from "@rehooks/component-size";
 import debug from "debug";
+import Theme from "../theme/default";
 const log = debug("bobaui:comment-log");
 
 const SIZES = {
@@ -82,7 +83,7 @@ const Comment = React.forwardRef<CommentHandler, CommentProps>((props, ref) => {
         }
         .comment-container {
           padding-top: 15px;
-          padding-left: 30px;
+          padding-left: 10px;
           align-items: start;
           display: flex;
           max-width: 550px;
@@ -93,17 +94,15 @@ const Comment = React.forwardRef<CommentHandler, CommentProps>((props, ref) => {
         }
         .comment {
           position: relative;
-          padding: 15px 20px;
+          padding: 10px 15px;
           color: black;
           flex-grow: 1;
           min-width: 0;
-        }
-        .comment {
           align-self: flex-end;
           color: white;
           border: 1px solid rgba(255, 255, 255, 0.3);
           background: rgba(255, 255, 255, 0.2);
-          border-radius: 20px;
+          border-radius: ${Theme.BORDER_RADIUS_REGULAR};
         }
         .comment::after {
           content: "";
