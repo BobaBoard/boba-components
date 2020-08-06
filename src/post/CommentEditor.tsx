@@ -238,7 +238,7 @@ const Comment: React.FC<CommentProps> = (props) => {
 
 export interface CommentProps {
   focus?: boolean;
-  secretIdentity: {
+  secretIdentity?: {
     avatar: string;
     name: string;
   };

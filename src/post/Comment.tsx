@@ -61,6 +61,7 @@ const Comment = React.forwardRef<CommentHandler, CommentProps>((props, ref) => {
             size={HeaderStyle.COMPACT}
             secretIdentity={props.secretIdentity}
             userIdentity={props.userIdentity}
+            backgroundColor={Theme.LAYOUT_BOARD_BACKGROUND_COLOR}
           />
         </div>
         <div className={classNames("comment")}>
