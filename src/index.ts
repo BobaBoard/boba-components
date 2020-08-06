@@ -21,6 +21,7 @@ import PostingActionButton from "./board/PostingActionButton";
 import CycleNewButton from "./board/CycleNewButton";
 import Layout from "./layout/Layout";
 import { useCompact } from "./utils";
+import DefaultTheme from "./theme/default";
 
 import flush from "styled-jsx/server";
 
@@ -51,4 +52,5 @@ export {
   setTumblrEmbedFetcher,
   flush,
   useCompact,
+  DefaultTheme,
 };

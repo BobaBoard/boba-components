@@ -15,7 +15,7 @@ const DefaultTheme: ThemeProperties = {
   MODAL_BACKGROUND_COLOR: "rgba(0, 0, 0, 0.8)",
   DROPDOWN_BACKGROUND_COLOR_LIGHT: "#ffffff",
   DROPDOWN_BACKGROUND_COLOR_DARK: "#1c1c1c",
-
+  HEADER_HEIGHT_PX: 70,
   //INDENT_COLORS: ["#f96680", "#24d282", "#27caba", "#f9e066"],
   //INDENT_COLORS: ["#535353", "#808080", "#27caba", "#f9e066"],
   INDENT_COLORS: ["#a8d5c0", "#f0b3b2", "#27caba", "#f9e066"],
@@ -39,6 +39,8 @@ export interface ThemeProperties {
   DEFAULT_ACCENT_COLOR: string;
   MODAL_BACKGROUND_COLOR: string;
   INDENT_COLORS: string[];
+  // TODO: add this to CSS once the CSS reset is working
+  HEADER_HEIGHT_PX: number;
   DROPDOWN_BACKGROUND_COLOR_LIGHT: string;
   DROPDOWN_BACKGROUND_COLOR_DARK: string;
 }
