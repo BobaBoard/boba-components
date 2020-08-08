@@ -98,6 +98,7 @@ const CommentChainEditor: React.FC<CommentChainEditorProps> = (props) => {
             userIdentity={props.userIdentity}
             secretIdentity={props.secretIdentity}
             focus={focusedChainIndex == index}
+            muted={focusedChainIndex != index}
             onSubmit={(text) =>
               props.onSubmit?.(chainComments.map((comment) => comment.text))
             }
@@ -126,6 +127,7 @@ const CommentChainEditor: React.FC<CommentChainEditorProps> = (props) => {
               }
             }}
             canSubmit={isValidSubmitState(chainComments)}
+            loading={props.loading}
           />
         </div>
       ))}
@@ -170,9 +172,11 @@ const CommentChainEditor: React.FC<CommentChainEditorProps> = (props) => {
       <style jsx>{`
         .comment-chain-editor {
           position: relative;
+          width: 100%;
+          max-width: 550px;
         }
         .comment-container {
-          opacity: 0.7;
+          opacity: 1;
         }
         .comment-container.focused {
           opacity: 1;
@@ -233,7 +237,8 @@ export interface CommentChainEditorProps {
     avatar: string;
     name: string;
   };
-  userIdentity: {
+  loading?: boolean;
+  userIdentity?: {
     avatar: string;
     name: string;
   };

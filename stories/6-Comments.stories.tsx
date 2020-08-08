@@ -155,9 +155,11 @@ CommentChainEditorStory.story = {
 };
 
 export const CommentChainStory = () => {
+  const commentRef = React.createRef<any>();
   return (
     <>
       <CommentChain
+        ref={commentRef}
         comments={[
           {
             id: "1",
@@ -179,6 +181,11 @@ export const CommentChainStory = () => {
         }}
         userIdentity={{ name: "SexyDaddy69", avatar: `/${mamoruAvatar}` }}
       />
+      <div style={{ marginTop: "20px" }}>
+        <Button onClick={() => commentRef.current.highlight("red")}>
+          Highlight!
+        </Button>
+      </div>
     </>
   );
 };

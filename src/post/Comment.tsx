@@ -118,9 +118,20 @@ const Comment = React.forwardRef<CommentHandler, CommentProps>((props, ref) => {
           width: 100%;
           height: 100%;
           opacity: 0.8;
-          border-radius: 15px;
+          border-radius: var(
+            --comment-container-stacked-radius,
+            ${Theme.BORDER_RADIUS_REGULAR}
+          );
           transition: box-shadow 0.5s ease-out;
           box-shadow: 0px 0px 5px 3px var(--comment-container-shadow);
+        }
+        .comment-container:first-child .comment::after {
+          border-top-left-radius: ${Theme.BORDER_RADIUS_REGULAR};
+          border-top-right-radius: ${Theme.BORDER_RADIUS_REGULAR};
+        }
+        .comment-container:last-child .comment::after {
+          border-bottom-left-radius: ${Theme.BORDER_RADIUS_REGULAR};
+          border-bottom-right-radius: ${Theme.BORDER_RADIUS_REGULAR};
         }
       `}</style>
     </>
@@ -129,7 +140,7 @@ const Comment = React.forwardRef<CommentHandler, CommentProps>((props, ref) => {
 
 export interface CommentHandler {
   highlight: (color: string) => void;
-  editorRef: React.RefObject<HTMLDivElement>;
+  editorRef?: React.RefObject<HTMLDivElement>;
 }
 
 export interface CommentProps {
