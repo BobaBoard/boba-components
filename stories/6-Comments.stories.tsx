@@ -2,6 +2,7 @@ import React from "react";
 //import { linkTo } from "@storybook/addon-links";
 import Comment from "../src/post/Comment";
 import CommentEditor from "../src/post/CommentEditor";
+import CommentChain from "../src/post/CommentChain";
 import CommentChainEditor from "../src/post/CommentChainEditor";
 import Button from "../src/common/Button";
 
@@ -132,7 +133,7 @@ Highlight.story = {
   name: "highlight",
 };
 
-export const CommentChainEditor = () => {
+export const CommentChainEditorStory = () => {
   return (
     <>
       <CommentChainEditor
@@ -149,6 +150,38 @@ export const CommentChainEditor = () => {
   );
 };
 
-CommentChainEditor.story = {
+CommentChainEditorStory.story = {
+  name: "chained (editable)",
+};
+
+export const CommentChainStory = () => {
+  return (
+    <>
+      <CommentChain
+        comments={[
+          {
+            id: "1",
+            text:
+              '[{"insert": "I mean, sure, but you know what also is great?"}]',
+          },
+          {
+            id: "1",
+            text: '[{"insert": "Deze nuts."}]',
+          },
+          {
+            id: "1",
+            text: '[{"insert": "Wait is that how you type it?"}]',
+          },
+        ]}
+        secretIdentity={{
+          name: "Tuxedo Mask",
+          avatar: `/${tuxedoAvatar}`,
+        }}
+        userIdentity={{ name: "SexyDaddy69", avatar: `/${mamoruAvatar}` }}
+      />
+    </>
+  );
+};
+CommentChainStory.story = {
   name: "chained",
 };

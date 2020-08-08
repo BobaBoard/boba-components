@@ -1,10 +1,30 @@
 import React from "react";
-import Comment, { EditorRef } from "./Comment";
+import Comment, { CommentHandler } from "./Comment";
 import classnames from "classnames";
 import DefaultTheme from "../theme/default";
 
 const CommentChain: React.FC<CommentChainProps> = (props) => {
-  const editorRefs = React.useRef(new Map<number, EditorRef>());
+  const handlerRefs = React.useRef(new Map<number, CommentHandler>());
+
+  React.useEffect(() => {
+    props.comments.forEach((comment, index) => {
+      const commentRef = handlerRefs.current.get(index);
+      if (!commentRef?.editorRef.current) {
+        return;
+      }
+      if (index != 0) {
+        commentRef.editorRef.current.style.borderTopLeftRadius = "0px";
+        commentRef.editorRef.current.style.borderTopRightRadius = "0px";
+        commentRef.editorRef.current.style.borderTop = "1px dotted white";
+      }
+      if (index < handlerRefs.current.size - 1) {
+        commentRef.editorRef.current.style.borderBottomLeftRadius = "0px";
+        commentRef.editorRef.current.style.borderBottomRightRadius = "0px";
+        commentRef.editorRef.current.style.borderBottom = "none";
+      }
+    });
+  }, [props.comments]);
+
   return (
     <div className="comment-chain">
       {props.comments.map((comment, index) => (
@@ -12,10 +32,11 @@ const CommentChain: React.FC<CommentChainProps> = (props) => {
           <Comment
             id={comment.id}
             key={`comment_${comment.id}`}
-            ref={(ref: EditorRef) => editorRefs.current.set(index, ref)}
+            ref={(ref: CommentHandler) => handlerRefs.current.set(index, ref)}
             initialText={comment.text}
             userIdentity={props.userIdentity}
             secretIdentity={props.secretIdentity}
+            paddingTop={"0"}
           />
         </div>
       ))}

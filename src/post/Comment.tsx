@@ -16,6 +16,7 @@ const SIZE_TRIGGER = 315;
 
 const Comment = React.forwardRef<CommentHandler, CommentProps>((props, ref) => {
   const containerRef = React.useRef<HTMLDivElement>(null);
+  const editorRef = React.useRef<HTMLDivElement>(null);
   // @ts-ignore
   const [showCancelModal, setShowCancelModal] = React.useState(false);
   const [size, setSize] = React.useState(SIZES.COMPACT);
@@ -28,6 +29,7 @@ const Comment = React.forwardRef<CommentHandler, CommentProps>((props, ref) => {
   }, [width]);
 
   React.useImperativeHandle(ref, () => ({
+    editorRef: editorRef,
     highlight: (color: string) => {
       log(`Highlighting post with ${color}!`);
       if (!containerRef.current) {
@@ -64,7 +66,7 @@ const Comment = React.forwardRef<CommentHandler, CommentProps>((props, ref) => {
             backgroundColor={Theme.LAYOUT_BOARD_BACKGROUND_COLOR}
           />
         </div>
-        <div className={classNames("comment")}>
+        <div className={classNames("comment")} ref={editorRef}>
           <Editor
             key={props.id + "_editor"}
             editable={false}
@@ -83,7 +85,7 @@ const Comment = React.forwardRef<CommentHandler, CommentProps>((props, ref) => {
           opacity: 0.8;
         }
         .comment-container {
-          padding-top: 15px;
+          padding-top: ${props.paddingTop || "15px"};
           padding-left: 10px;
           align-items: start;
           display: flex;
@@ -127,6 +129,7 @@ const Comment = React.forwardRef<CommentHandler, CommentProps>((props, ref) => {
 
 export interface CommentHandler {
   highlight: (color: string) => void;
+  editorRef: React.RefObject<HTMLDivElement>;
 }
 
 export interface CommentProps {
@@ -142,6 +145,7 @@ export interface CommentProps {
     name: string;
   };
   muted?: boolean;
+  paddingTop?: string;
 }
 
 export default Comment;
