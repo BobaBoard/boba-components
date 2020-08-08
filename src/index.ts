@@ -15,6 +15,8 @@ import ModalWithButtons from "./common/ModalWithButtons";
 import PostEditor, { setTumblrEmbedFetcher } from "./post/PostEditor";
 import Post, { PostSizes, PostHandler } from "./post/Post";
 import Comment, { CommentHandler } from "./post/Comment";
+import CommentChain from "./post/CommentChain";
+import CommentChainEditor from "./post/CommentChainEditor";
 import CommentEditor from "./post/CommentEditor";
 import ThreadIndent from "./post/ThreadIndent";
 import PostingActionButton from "./board/PostingActionButton";
@@ -40,6 +42,8 @@ export {
   PostEditor,
   PostingActionButton,
   Comment,
+  CommentChain,
+  CommentChainEditor,
   CommentHandler,
   CommentEditor,
   CycleNewButton,

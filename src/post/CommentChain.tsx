@@ -1,7 +1,6 @@
 import React from "react";
 import Comment, { CommentHandler } from "./Comment";
 import classnames from "classnames";
-import DefaultTheme from "../theme/default";
 
 const CommentChain: React.FC<CommentChainProps> = (props) => {
   const handlerRefs = React.useRef(new Map<number, CommentHandler>());
@@ -60,7 +59,7 @@ const CommentChain: React.FC<CommentChainProps> = (props) => {
 
 export interface CommentChainProps {
   comments: { id: string; text: string }[];
-  secretIdentity?: {
+  secretIdentity: {
     avatar: string;
     name: string;
   };
