@@ -3,6 +3,7 @@ import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { IconDefinition } from "@fortawesome/fontawesome-common-types";
 import { faCertificate } from "@fortawesome/free-solid-svg-icons";
 import classnames from "classnames";
+import DefaultTheme from "../theme/default";
 
 import React from "react";
 // @ts-ignore
@@ -20,10 +21,10 @@ const getThemeColor = (style: ButtonStyle | undefined) => {
     case ButtonStyle.TRANSPARENT:
       return "transparent";
     case ButtonStyle.DARK:
-      return "#1c1c1c";
+      return DefaultTheme.BUTTON_BACKGROUND_COLOR_DARK;
     default:
     case ButtonStyle.LIGHT:
-      return "#fff";
+      return DefaultTheme.BUTTON_BACKGROUND_COLOR_LIGHT;
   }
 };
 
@@ -32,10 +33,10 @@ const getReverseThemeColor = (style: ButtonStyle | undefined) => {
     case ButtonStyle.TRANSPARENT:
       return "#1c1c1c";
     case ButtonStyle.DARK:
-      return "#fff";
+      return DefaultTheme.BUTTON_ACCENT_COLOR_DARK;
     default:
     case ButtonStyle.LIGHT:
-      return "#1c1c1c";
+      return DefaultTheme.BUTTON_ACCENT_COLOR_LIGHT;
   }
 };
 

@@ -2,6 +2,7 @@ import React from "react";
 //import { linkTo } from "@storybook/addon-links";
 import Comment from "../src/post/Comment";
 import CommentEditor from "../src/post/CommentEditor";
+import CommentChainEditor from "../src/post/CommentChainEditor";
 import Button from "../src/common/Button";
 
 import tuxedoAvatar from "./images/tuxedo-mask.jpg";
@@ -129,4 +130,25 @@ export const Highlight = () => {
 
 Highlight.story = {
   name: "highlight",
+};
+
+export const CommentChainEditor = () => {
+  return (
+    <>
+      <CommentChainEditor
+        onSubmit={(text) => {
+          console.log(text);
+        }}
+        secretIdentity={{
+          name: "Tuxedo Mask",
+          avatar: `/${tuxedoAvatar}`,
+        }}
+        userIdentity={{ name: "SexyDaddy69", avatar: `/${mamoruAvatar}` }}
+      />
+    </>
+  );
+};
+
+CommentChainEditor.story = {
+  name: "chained",
 };
