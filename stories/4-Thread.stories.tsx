@@ -170,9 +170,21 @@ export const RegularThread = () => {
       <ThreadIndent
         level={3}
         ends={[
-          { level: 0, onClick: () => console.log("click0") },
-          { level: 1, onClick: () => console.log("click1") },
-          { level: 2, onClick: () => console.log("click2") },
+          {
+            level: 0,
+            onBeamUpClick: () => console.log("click0"),
+            onAddContributionClick: () => console.log("click0"),
+          },
+          {
+            level: 1,
+            onBeamUpClick: () => console.log("click1"),
+            onAddContributionClick: () => console.log("click1"),
+          },
+          {
+            level: 2,
+            onBeamUpClick: () => console.log("click2"),
+            onAddContributionClick: () => console.log("click2"),
+          },
         ]}
       >
         <div style={{ paddingTop: "15px", maxWidth: "550px" }}>
