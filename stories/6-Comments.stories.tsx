@@ -137,7 +137,7 @@ export const CommentChainEditorStory = () => {
   return (
     <>
       <CommentChainEditor
-        onSubmit={(text) => {
+        onSubmit={(text: string[]) => {
           console.log(text);
         }}
         secretIdentity={{
@@ -145,6 +145,7 @@ export const CommentChainEditorStory = () => {
           avatar: `/${tuxedoAvatar}`,
         }}
         userIdentity={{ name: "SexyDaddy69", avatar: `/${mamoruAvatar}` }}
+        onCancel={() => {}}
       />
     </>
   );

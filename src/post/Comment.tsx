@@ -17,6 +17,7 @@ const SIZE_TRIGGER = 315;
 const Comment = React.forwardRef<CommentHandler, CommentProps>((props, ref) => {
   const containerRef = React.useRef<HTMLDivElement>(null);
   const editorRef = React.useRef<HTMLDivElement>(null);
+  const headerRef = React.useRef<HTMLDivElement>(null);
   // @ts-ignore
   const [showCancelModal, setShowCancelModal] = React.useState(false);
   const [size, setSize] = React.useState(SIZES.COMPACT);
@@ -30,6 +31,7 @@ const Comment = React.forwardRef<CommentHandler, CommentProps>((props, ref) => {
 
   React.useImperativeHandle(ref, () => ({
     editorRef: editorRef,
+    headerRef: headerRef,
     highlight: (color: string) => {
       log(`Highlighting post with ${color}!`);
       if (!containerRef.current) {
@@ -58,7 +60,7 @@ const Comment = React.forwardRef<CommentHandler, CommentProps>((props, ref) => {
         })}
         ref={containerRef}
       >
-        <div className="header">
+        <div className="header" ref={headerRef}>
           <Header
             size={HeaderStyle.COMPACT}
             secretIdentity={props.secretIdentity}
@@ -141,6 +143,7 @@ const Comment = React.forwardRef<CommentHandler, CommentProps>((props, ref) => {
 export interface CommentHandler {
   highlight: (color: string) => void;
   editorRef?: React.RefObject<HTMLDivElement>;
+  headerRef?: React.RefObject<HTMLDivElement>;
 }
 
 export interface CommentProps {

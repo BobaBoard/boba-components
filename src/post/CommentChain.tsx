@@ -10,7 +10,10 @@ const CommentChain = React.forwardRef<CommentHandler, CommentChainProps>(
       highlight: (color: string) => {
         handlerRefs.current.forEach((ref) => ref.highlight(color));
       },
+      headerRef: handlerRefs.current.get(0)?.headerRef,
+      editorRef: containerRef,
     }));
+
     React.useEffect(() => {
       props.comments.forEach((comment, index) => {
         const commentRef = handlerRefs.current.get(index);
@@ -31,16 +34,9 @@ const CommentChain = React.forwardRef<CommentHandler, CommentChainProps>(
     }, [props.comments]);
 
     React.useEffect(() => {
-      console.log("parent");
       if (!containerRef.current) {
         return;
       }
-      console.log("parent");
-      console.log(
-        getComputedStyle(containerRef.current).getPropertyValue(
-          "--comment-container-stacked-radius"
-        )
-      );
       containerRef.current?.style.setProperty(
         "--comment-container-stacked-radius",
         "0"
@@ -53,7 +49,9 @@ const CommentChain = React.forwardRef<CommentHandler, CommentChainProps>(
           <Comment
             id={comment.id}
             key={`comment_${comment.id}`}
-            ref={(ref: CommentHandler) => handlerRefs.current.set(index, ref)}
+            ref={(ref: CommentHandler) => {
+              handlerRefs.current.set(index, ref);
+            }}
             initialText={comment.text}
             userIdentity={props.userIdentity}
             secretIdentity={props.secretIdentity}
