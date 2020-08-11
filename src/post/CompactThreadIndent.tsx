@@ -1,7 +1,7 @@
 import React from "react";
 
 import Theme from "../theme/default";
-import { CommentHandler } from "index";
+import { CommentHandler } from "./Comment";
 
 const CompactThreadIndent: React.FC<CompactThreadIndentProps> = (props) => {
   const containerRef = React.useRef<HTMLDivElement>(null);

@@ -57,6 +57,11 @@ const CommentChain = React.forwardRef<CommentHandler, CommentChainProps>(
             secretIdentity={props.secretIdentity}
             paddingTop={"0"}
             muted={props.muted}
+            onExtraAction={
+              props.onExtraAction && index == props.comments.length - 1
+                ? props.onExtraAction
+                : undefined
+            }
           />
         ))}
         <style jsx>{`
@@ -84,6 +89,7 @@ export interface CommentChainProps {
     name: string;
   };
   muted?: boolean;
+  onExtraAction?: () => void;
 }
 
 export default CommentChain;

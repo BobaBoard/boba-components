@@ -6,6 +6,8 @@ import Header, { HeaderStyle } from "./Header";
 import useComponentSize from "@rehooks/component-size";
 import debug from "debug";
 import Theme from "../theme/default";
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import { faComment } from "@fortawesome/free-solid-svg-icons";
 const log = debug("bobaui:comment-log");
 
 const SIZES = {
@@ -50,6 +52,9 @@ const Comment = React.forwardRef<CommentHandler, CommentProps>((props, ref) => {
     },
   }));
 
+  log(`Extra action ${props.onExtraAction}`);
+  log(`Extra action ${!!props.onExtraAction}`);
+
   return (
     <>
       <div
@@ -81,10 +86,44 @@ const Comment = React.forwardRef<CommentHandler, CommentProps>((props, ref) => {
             showTooltip={false}
           />
         </div>
+        <div
+          className={classNames("extra-action", {
+            visible: !!props.onExtraAction,
+          })}
+          onClick={props.onExtraAction}
+        >
+          <FontAwesomeIcon icon={faComment} />
+        </div>
       </div>
       <style jsx>{`
         .comment-container.muted {
           opacity: 0.8;
+        }
+        .extra-action {
+          position: absolute;
+          bottom: 0;
+          right: 0;
+          transform: translate(50%, 50%);
+          border-radius: 50%;
+          background-color: white;
+          width: 25px;
+          height: 25px;
+          color: #5e5e5f;
+          display: none;
+        }
+        .extra-action.visible {
+          display: block;
+        }
+        .extra-action :global(svg) {
+          position: absolute;
+          top: 50%;
+          left: 50%;
+          transform: translate(-50%, -50%);
+        }
+        .extra-action:hover {
+          cursor: pointer;
+          color: white;
+          background-color: #5e5e5f;
         }
         .comment-container {
           padding-top: ${props.paddingTop || "15px"};
@@ -92,6 +131,7 @@ const Comment = React.forwardRef<CommentHandler, CommentProps>((props, ref) => {
           align-items: start;
           display: flex;
           max-width: 550px;
+          position: relative;
         }
         .header {
           margin-right: 10px;
@@ -106,7 +146,7 @@ const Comment = React.forwardRef<CommentHandler, CommentProps>((props, ref) => {
           align-self: flex-end;
           color: white;
           border: 1px solid rgba(255, 255, 255, 0.3);
-          background: rgba(255, 255, 255, 0.2);
+          background: #5e5e5f;
           border-radius: ${Theme.BORDER_RADIUS_REGULAR};
         }
         .comment::after {
@@ -160,6 +200,7 @@ export interface CommentProps {
   };
   muted?: boolean;
   paddingTop?: string;
+  onExtraAction?: () => void;
 }
 
 export default Comment;
