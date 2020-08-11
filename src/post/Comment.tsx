@@ -105,11 +105,13 @@ const Comment = React.forwardRef<CommentHandler, CommentProps>((props, ref) => {
           right: 0;
           transform: translate(50%, 50%);
           border-radius: 50%;
-          background-color: white;
-          width: 25px;
-          height: 25px;
-          color: #5e5e5f;
+          background-color: #5e5e5f;
+          border: 1px solid rgba(255, 255, 255, 0.3);
+          width: 24px;
+          height: 24px;
+          color: rgba(255, 255, 255, 0.6);
           display: none;
+          transition: all 0.2s ease-out;
         }
         .extra-action.visible {
           display: block;
@@ -118,16 +120,19 @@ const Comment = React.forwardRef<CommentHandler, CommentProps>((props, ref) => {
           position: absolute;
           top: 50%;
           left: 50%;
-          transform: translate(-50%, -50%);
+          transform: translate(-50%, -50%) scale(0.8);
         }
         .extra-action:hover {
           cursor: pointer;
           color: white;
-          background-color: #5e5e5f;
+          background-color: #757575;
+        }
+
+        .extra-action:hover {
         }
         .comment-container {
-          padding-top: ${props.paddingTop || "15px"};
-          padding-left: 10px;
+          margin-top: ${props.paddingTop || "15px"};
+          margin-left: 10px;
           align-items: start;
           display: flex;
           max-width: 550px;

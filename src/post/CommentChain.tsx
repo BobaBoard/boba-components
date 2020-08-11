@@ -24,7 +24,7 @@ const CommentChain = React.forwardRef<CommentHandler, CommentChainProps>(
           commentRef.editorRef.current.style.borderTopLeftRadius = "0px";
           commentRef.editorRef.current.style.borderTopRightRadius = "0px";
           commentRef.editorRef.current.style.borderTop =
-            "1px solid rgba(255, 255, 255, .3)";
+            "1px dashed rgba(255, 255, 255, .3)";
         }
         if (index < handlerRefs.current.size - 1) {
           commentRef.editorRef.current.style.borderBottomLeftRadius = "0px";
