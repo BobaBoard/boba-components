@@ -23,7 +23,7 @@ const SideMenu: React.FC<SideMenuProps> = ({
   const hasSearchBar = showSearch || typeof showSearch === "undefined";
   return (
     <div>
-      <Scrollbar height="100%">
+      <Scrollbar>
         <div className="side-menu">
           {pinnedBoards && (
             <BoardsGroup title="Pinned Boards">

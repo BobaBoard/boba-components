@@ -36,7 +36,7 @@ const Metadata: React.FC<PostHeaderProps> = (props) => {
     });
   }, [width]);
   const hasUserIdentity =
-    props.userIdentity && props.userIdentity.name && props.userIdentity.avatar;
+    props.userIdentity?.name && props.userIdentity?.avatar;
   let metadata = (
     <>
       <div
@@ -50,11 +50,11 @@ const Metadata: React.FC<PostHeaderProps> = (props) => {
             <div className="nickname" ref={nicknameRef}>
               {hasUserIdentity && !props.forceHide
                 ? props.userIdentity?.name
-                : props.secretIdentity.name}
+                : props.secretIdentity?.name || "???"}
             </div>
             {hasUserIdentity && !props.forceHide && (
               <div className="secret-identity">
-                ({props.secretIdentity.name})
+                ({props.secretIdentity?.name || "???"})
               </div>
             )}
           </div>
@@ -147,7 +147,16 @@ const PostHeader: React.FC<PostHeaderProps> = (props) => {
       >
         <div className="identity">
           <Metadata {...props}>
-            <div className="avatar" />
+            <div className="avatar">
+              <div
+                className={classnames("secret-avatar", {
+                  visible:
+                    !props.forceHide &&
+                    props.userIdentity?.avatar &&
+                    props.secretIdentity?.avatar,
+                })}
+              />
+            </div>
           </Metadata>
         </div>
         {props.children}
@@ -189,7 +198,6 @@ const PostHeader: React.FC<PostHeaderProps> = (props) => {
           display: block;
           align-self: center;
         }
-
         .post-header.squeezed .avatar {
             width: 35px;
             height: 35px;
@@ -211,9 +219,34 @@ const PostHeader: React.FC<PostHeaderProps> = (props) => {
         .avatar::before {
           background: url("${
             props.forceHide
-              ? props.secretIdentity.avatar
-              : props.userIdentity?.avatar || props.secretIdentity.avatar
+              ? (props.secretIdentity || {}).avatar
+              : (props.userIdentity || {}).avatar ||
+                (props.secretIdentity || {}).avatar
           }");
+          background-size: cover;
+          display: block;
+          content: "";
+          width: 100%;
+          padding-top: 100%;
+          position: absolute;
+          border-radius: 50%;
+          top: 50%;
+          transform: translateY(-50%);
+        }
+        .secret-avatar {
+          position: absolute;
+          bottom: 0;
+          right: 0;
+          width: 40%;
+          height: 40%;
+          display: none;
+        }
+        .secret-avatar.visible {
+          display: block;
+        }
+        .secret-avatar::before {
+          border: 3px solid ${props.backgroundColor || "white"};
+          background: url("${(props.secretIdentity || {}).avatar}");
           background-size: cover;
           display: block;
           content: "";
@@ -252,7 +285,7 @@ export default PostHeader;
 
 export interface PostHeaderProps {
   size?: string;
-  secretIdentity: {
+  secretIdentity?: {
     avatar: string;
     name: string;
   };
@@ -265,4 +298,5 @@ export interface PostHeaderProps {
   newPost?: boolean;
   newComments?: boolean;
   newContributions?: boolean;
+  backgroundColor?: string;
 }

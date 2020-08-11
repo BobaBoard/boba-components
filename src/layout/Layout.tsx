@@ -42,6 +42,8 @@ const Layout = React.forwardRef<{ closeSideMenu: () => void }, LayoutProps>(
     const [showSideMenu, setShowSideMenu] = React.useState(false);
     const headerRef = React.useRef<HTMLDivElement>(null);
     const contentRef = React.useRef<HTMLDivElement>(null);
+    const layoutRef = React.useRef<HTMLDivElement>(null);
+    const sideMenuRef = React.useRef<HTMLDivElement>(null);
     let { width } = useComponentSize(headerRef);
     React.useImperativeHandle(ref, () => ({
       closeSideMenu: () => {
@@ -55,28 +57,56 @@ const Layout = React.forwardRef<{ closeSideMenu: () => void }, LayoutProps>(
       log(`Current body top position: ${scrollY}`);
       log(`Current body scrollY: ${window.scrollY}`);
 
-      if (!contentRef.current) {
+      if (!contentRef.current || !layoutRef.current) {
         return;
       }
 
       log(`Changing overflow of content`);
-      document.body.style.overflow = showSideMenu ? "hidden" : "";
-      contentRef.current.style.overflow = showSideMenu ? "hidden" : "";
-      // document.body.style.top = showSideMenu ? `-${window.scrollY}px` : "";
-      // if (!showSideMenu) {
-      //   window.scrollTo(0, parseInt(scrollY || "0") * -1);
-      // }
+      log(showSideMenu);
+      if (showSideMenu) {
+        // NOTE: body doesn't respect overflow hidden on mobile, so we
+        // move it to layout
+        document.body.style.overflow = "hidden";
+        layoutRef.current.style.overflow = "hidden";
+        contentRef.current.style.overflow = "hidden";
+        const closeMenuListener = () => {
+          log(`Animation finished...`);
+          if (
+            !contentRef.current ||
+            !layoutRef.current ||
+            sideMenuRef.current?.clientWidth
+          ) {
+            // The menu is open (or the refs are not available)
+            return;
+          }
+          log(`...Reactivating!`);
+          sideMenuRef.current?.removeEventListener(
+            "transitionend",
+            closeMenuListener
+          );
+          document.body.style.overflow = "";
+          layoutRef.current.style.overflow = "";
+          contentRef.current.style.overflow = "";
+        };
+        sideMenuRef.current?.addEventListener(
+          "transitionend",
+          closeMenuListener
+        );
+      }
     }, [showSideMenu]);
 
     return (
-      <div>
+      <div ref={layoutRef}>
         <LoadingBar loading={loading} accentColor={headerAccent} />
         <div className="layout">
-          <div className={classnames("side-menu", { visible: showSideMenu })}>
+          <div
+            className={classnames("side-menu", { visible: showSideMenu })}
+            ref={sideMenuRef}
+          >
             <div className="side-menu-content">{sideMenuContent}</div>
           </div>
           <div
-            className={classnames("body", {
+            className={classnames("layout-body", {
               "side-menu-open": showSideMenu,
             })}
           >
@@ -139,7 +169,7 @@ const Layout = React.forwardRef<{ closeSideMenu: () => void }, LayoutProps>(
               display: flex;
               font-family: "Inter", sans-serif;
             }
-            .body {
+            .layout-body {
               display: flex;
               flex-direction: column;
               flex-grow: 1;
@@ -163,7 +193,7 @@ const Layout = React.forwardRef<{ closeSideMenu: () => void }, LayoutProps>(
               left: 0;
               right: 0;
               opacity: 0.5;
-              z-index: 3;
+              z-index: 100;
               display: none;
             }
             .backdrop.visible {
@@ -187,7 +217,7 @@ const Layout = React.forwardRef<{ closeSideMenu: () => void }, LayoutProps>(
             .side-menu-open .header {
               left: 500px;
             }
-            .side-menu-open.body {
+            .side-menu-open.layout-body {
               margin-left: 500px;
             }
             .title-bar {
@@ -265,21 +295,21 @@ const Layout = React.forwardRef<{ closeSideMenu: () => void }, LayoutProps>(
             .title-text {
               outline: none;
             }
-            .body {
+            .layout-body {
               flex-shrink: 0;
               width: 100%;
             }
             @media only screen and (max-width: 850px) {
-              .body {
+              .layout-body {
                 flex-direction: column;
                 flex-shrink: 1;
               }
-              .body.side-menu-open {
-                margin-left: min(calc(100vw - 100px), 500px);
+              .layout-body.side-menu-open {
+                margin-left: 500px;
                 flex-shrink: 0;
               }
               .side-menu-open .header {
-                left: min(calc(100vw - 100px), 500px);
+                left: 500px;
               }
               .sidebar-button {
                 display: inline-block;
@@ -308,6 +338,14 @@ const Layout = React.forwardRef<{ closeSideMenu: () => void }, LayoutProps>(
               }
               .logo::after {
                 mask: url(${compactLogo}) no-repeat;
+              }
+            }
+            @media only screen and (max-width: 600px) {
+              .layout-body.side-menu-open {
+                margin-left: calc(100vw - 100px);
+              }
+              .side-menu-open .header {
+                left: calc(100vw - 100px);
               }
             }
           `}</style>

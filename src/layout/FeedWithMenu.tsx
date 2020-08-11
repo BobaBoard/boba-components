@@ -4,6 +4,9 @@ import classnames from "classnames";
 import Scrollbar from "../common/Scrollbar";
 
 import Theme from "../theme/default";
+import { useBackdrop } from "../utils";
+import { ResizeObserver as Polyfill } from "@juggle/resize-observer";
+require("intersection-observer");
 
 import debug from "debug";
 
@@ -18,27 +21,27 @@ export interface FeedWithMenuProps {
   onReachEnd?: () => void;
 }
 
-const maybePreventScrollOverflow = (
-  event: React.WheelEvent,
-  wrapper: HTMLDivElement
-) => {
-  if (
-    event.deltaY > 0 &&
-    wrapper.scrollTop == wrapper.scrollHeight - wrapper.offsetHeight
-  ) {
-    event.preventDefault();
-  }
-};
+// const maybePreventScrollOverflow = (
+//   event: React.WheelEvent,
+//   wrapper: HTMLDivElement
+// ) => {
+//   if (
+//     event.deltaY > 0 &&
+//     wrapper.scrollTop == wrapper.scrollHeight - wrapper.offsetHeight
+//   ) {
+//     event.preventDefault();
+//   }
+// };
 
-const preventEvent = (ref: HTMLDivElement) => {
-  return (e: TouchEvent) => {
-    let found = e.composedPath().filter((tgt) => tgt == ref);
-    if (found.length == 0) {
-      e.preventDefault();
-      e.stopImmediatePropagation();
-    }
-  };
-};
+// const preventEvent = (ref: HTMLDivElement) => {
+//   return (e: TouchEvent) => {
+//     let found = e.composedPath().filter((tgt) => tgt == ref);
+//     if (found.length == 0) {
+//       e.preventDefault();
+//       e.stopImmediatePropagation();
+//     }
+//   };
+// };
 
 const FeedWithMenu: React.FC<FeedWithMenuProps> = ({
   sidebarContent,
@@ -49,6 +52,16 @@ const FeedWithMenu: React.FC<FeedWithMenuProps> = ({
 }) => {
   const scrollableNodeRef = React.createRef<any>();
   const scrollableContentRef = React.createRef<any>();
+  const intersectionObserverRef = React.useRef<HTMLDivElement>(null);
+  const [canOpenSidebar, setCanOpenSidebar] = React.useState(
+    typeof window != "undefined" &&
+      matchMedia("only screen and (max-width: 850px)").matches
+  );
+  const { setOpen: setBackdropOpen } = useBackdrop({
+    onClick: () => {
+      onCloseSidebar?.();
+    },
+  });
 
   /**
    * This horrible, horrible section prevents scrolling of the background element
@@ -60,100 +73,139 @@ const FeedWithMenu: React.FC<FeedWithMenuProps> = ({
    *
    * This is only applied while the sidebar is explicitly open.
    */
-  const scrollableMenuRef = React.useCallback<any>((node: HTMLDivElement) => {
-    if (node) {
-      setTouchEventHandler(() => preventEvent(node));
-    }
-  }, []);
-  const [touchEventHandler, setTouchEventHandler] = React.useState<any>(null);
+  // const scrollableMenuRef = React.useCallback<any>((node: HTMLDivElement) => {
+  //   if (node) {
+  //     setTouchEventHandler(() => preventEvent(node));
+  //   }
+  // }, []);
+  // const [touchEventHandler, setTouchEventHandler] = React.useState<any>(null);
 
-  React.useEffect(() => {
-    if (showSidebar && touchEventHandler) {
-      scrollableContentRef.current.addEventListener(
-        "touchmove",
-        touchEventHandler,
-        {
-          capture: false,
-          passive: false,
-        }
-      );
-    } else if (touchEventHandler) {
-      scrollableContentRef.current.removeEventListener(
-        "touchmove",
-        touchEventHandler,
-        {
-          capture: false,
-          passive: false,
-        }
-      );
-    }
-  }, [showSidebar, touchEventHandler]);
+  // React.useEffect(() => {
+  //   if (showSidebar && touchEventHandler) {
+  //     scrollableContentRef.current.addEventListener(
+  //       "touchmove",
+  //       touchEventHandler,
+  //       {
+  //         capture: false,
+  //         passive: false,
+  //       }
+  //     );
+  //   } else if (touchEventHandler) {
+  //     scrollableContentRef.current.removeEventListener(
+  //       "touchmove",
+  //       touchEventHandler,
+  //       {
+  //         capture: false,
+  //         passive: false,
+  //       }
+  //     );
+  //   }
+  // }, [showSidebar, touchEventHandler]);
 
+  /**
+   * End of horrible section.
+   */
+
+  // Change overflow of content when sidebar is open
   React.useEffect(() => {
-    log(`${showSidebar ? "Opening" : "Closing"} side`);
-    const scrollY = document.body.style.top;
-    log(`Current body top position: ${scrollY}`);
-    log(`Current body scrollY: ${window.scrollY}`);
+    const shouldShowSidebar = !!(canOpenSidebar && showSidebar);
+    log(`${shouldShowSidebar ? "Opening" : "Closing"} sidebar`);
+    log(`Can open: ${canOpenSidebar}`);
+
+    if (showSidebar && !shouldShowSidebar) {
+      // Parent is asking the sidebar to be displayed, but the sidebar
+      // cannot be. Tell it to close it.
+      onCloseSidebar?.();
+    }
 
     if (!scrollableContentRef.current) {
       return;
     }
 
     log(`Changing overflow of content`);
-    document.body.style.overflow = showSidebar ? "hidden" : "";
-    scrollableContentRef.current.style.overflow = showSidebar ? "hidden" : "";
-    // document.body.style.top = showSideMenu ? `-${window.scrollY}px` : "";
-    // if (!showSideMenu) {
-    //   window.scrollTo(0, parseInt(scrollY || "0") * -1);
-    // }
-  }, [showSidebar]);
-  /**
-   * End of horrible section.
-   */
+    document.body.style.overflow = shouldShowSidebar ? "hidden" : "";
+    scrollableContentRef.current.style.overflow = shouldShowSidebar
+      ? "hidden"
+      : "";
+    setBackdropOpen(shouldShowSidebar);
+  }, [showSidebar, canOpenSidebar]);
+
+  // Make sure sidebar is only actually opened when the media query
+  // for deatched sidebar triggers correctly
+  React.useEffect(() => {
+    const ResizeObserver = window.ResizeObserver || Polyfill;
+    const resizeObserver = new ResizeObserver(() => {
+      // Note: in functional components this isn't rerendered if it
+      // matches the previous value
+      // See: https://stackoverflow.com/questions/52624612/does-react-re-render-the-component-if-it-receives-the-same-value-in-state
+      setCanOpenSidebar(
+        matchMedia("only screen and (max-width: 850px)").matches
+      );
+    });
+
+    resizeObserver.observe(document.body);
+
+    return () => {
+      resizeObserver.disconnect();
+    };
+  }, []);
+
+  // Call reach end method when bottom of content is reached
+  React.useEffect(() => {
+    if (intersectionObserverRef.current && onReachEnd) {
+      const observer = new IntersectionObserver((entry) => {
+        log(`Reaching end of scrollable area.`);
+        log(entry);
+        if (entry[0]?.isIntersecting) {
+          log(`Found intersecting entry.`);
+          onReachEnd?.();
+        } else {
+          log(`Intersecting entry not found.`);
+        }
+      });
+      observer.observe(intersectionObserverRef.current);
+      return () => observer.disconnect();
+    }
+    return () => {};
+  }, [intersectionObserverRef.current, scrollableNodeRef.current, onReachEnd]);
 
   return (
     <>
-      <Scrollbar onReachEnd={onReachEnd}>
-        <div className="content" ref={scrollableContentRef}>
-          <div
-            className={classnames("backdrop", {
-              visible: showSidebar,
-            })}
-            onClick={(e) => {
-              onCloseSidebar && onCloseSidebar();
-              e.stopPropagation();
-            }}
-          />
-          <div
-            className={classnames("sidebar", { visible: showSidebar })}
-            onClick={(e) => {
-              console.log("clack!");
-              e.stopPropagation();
-            }}
-            ref={scrollableMenuRef}
-          >
-            {showSidebar ? (
-              <Scrollbar ref={scrollableNodeRef}>
-                <div
-                  className="sidebar-content-wrapper"
-                  onWheel={(e) => {
-                    maybePreventScrollOverflow(
-                      e,
-                      // @ts-ignore
-                      scrollableNodeRef.current?.contentWrapperEl
-                    );
-                  }}
-                >
-                  {sidebarContent}
-                </div>
-              </Scrollbar>
-            ) : (
-              sidebarContent
-            )}
-          </div>
-          <div className="main">{feedContent}</div>
+      <div className="content" ref={scrollableContentRef}>
+        <div
+          className={classnames("sidebar", { visible: showSidebar })}
+          // onClick={(e) => {
+          //   e.stopPropagation();
+          // }}
+          // ref={scrollableMenuRef}
+        >
+          {showSidebar ? (
+            <Scrollbar ref={scrollableNodeRef}>
+              <div
+                className="sidebar-content-wrapper"
+                // onWheel={(e) => {
+                //   maybePreventScrollOverflow(
+                //     e,
+                //     // @ts-ignore
+                //     scrollableNodeRef.current?.contentWrapperEl
+                //   );
+                // }}
+              >
+                {sidebarContent}
+              </div>
+            </Scrollbar>
+          ) : (
+            sidebarContent
+          )}
         </div>
-      </Scrollbar>
+        <div className="main">
+          {feedContent}
+          <div
+            ref={intersectionObserverRef}
+            className="intersection-observer-ref"
+          />
+        </div>
+      </div>
       <style jsx>
         {`
           .content {
@@ -177,24 +229,13 @@ const FeedWithMenu: React.FC<FeedWithMenuProps> = ({
           .sidebar-content-wrapper {
             overscroll-behavior: contain;
           }
-
-          .backdrop {
-            position: fixed;
-            background-color: ${Theme.MODAL_BACKGROUND_COLOR};
-            top: 0;
-            bottom: 0;
-            left: 0;
-            right: 0;
-            z-index: 3;
-            display: none;
+          .intersection-observer-ref {
+            height: 1px;
           }
 
           @media only screen and (max-width: 850px) {
             .content {
               background-image: none;
-            }
-            .backdrop.visible {
-              display: block;
             }
             .sidebar {
               border-radius: ${Theme.BORDER_RADIUS_LARGE}
@@ -202,19 +243,19 @@ const FeedWithMenu: React.FC<FeedWithMenuProps> = ({
               width: 95%;
               position: fixed;
               left: 50%;
-              transform: translateX(-50%);
-              bottom: 0;
-              height: 0;
+              transform: translate(-50%, 20%);
               overflow: hidden;
-              transition-property: height;
-              transition-duration: 0.5s;
-              transition-timing-function: easeInSine;
-              z-index: 5;
+              display: none;
+              transition: opacity 0.2s ease-out;
+              z-index: 51;
               opacity: 0;
+              background: ${Theme.LAYOUT_BOARD_SIDEBAR_BACKGROUND_COLOR};
+              height: calc(100vh - 50px);
             }
             .sidebar.visible {
-              height: 85%;
+              display: block;
               opacity: 1;
+              transform: translate(-50%, 0);
             }
             .main {
               width: calc(100% - 40px);

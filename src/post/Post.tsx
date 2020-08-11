@@ -89,6 +89,7 @@ const Post = React.forwardRef<PostHandler, PostProps>((props, ref) => {
                     userIdentity={props.userIdentity}
                     createdMessage={`${props.createdTime}`}
                     size={HeaderStyle.REGULAR}
+                    backgroundColor={props.muted ? "#dcdcdc" : undefined}
                   />
                 </div>
                 {props.menuOptions && (

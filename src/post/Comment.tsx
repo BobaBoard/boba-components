@@ -1,9 +1,13 @@
 import React from "react";
 import classNames from "classnames";
+// @ts-ignore
 import Editor from "@bobaboard/boba-editor";
 import Header, { HeaderStyle } from "./Header";
 import useComponentSize from "@rehooks/component-size";
 import debug from "debug";
+import Theme from "../theme/default";
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import { faComment } from "@fortawesome/free-solid-svg-icons";
 const log = debug("bobaui:comment-log");
 
 const SIZES = {
@@ -14,6 +18,8 @@ const SIZE_TRIGGER = 315;
 
 const Comment = React.forwardRef<CommentHandler, CommentProps>((props, ref) => {
   const containerRef = React.useRef<HTMLDivElement>(null);
+  const editorRef = React.useRef<HTMLDivElement>(null);
+  const headerRef = React.useRef<HTMLDivElement>(null);
   // @ts-ignore
   const [showCancelModal, setShowCancelModal] = React.useState(false);
   const [size, setSize] = React.useState(SIZES.COMPACT);
@@ -26,6 +32,8 @@ const Comment = React.forwardRef<CommentHandler, CommentProps>((props, ref) => {
   }, [width]);
 
   React.useImperativeHandle(ref, () => ({
+    editorRef: editorRef,
+    headerRef: headerRef,
     highlight: (color: string) => {
       log(`Highlighting post with ${color}!`);
       if (!containerRef.current) {
@@ -44,6 +52,9 @@ const Comment = React.forwardRef<CommentHandler, CommentProps>((props, ref) => {
     },
   }));
 
+  log(`Extra action ${props.onExtraAction}`);
+  log(`Extra action ${!!props.onExtraAction}`);
+
   return (
     <>
       <div
@@ -54,14 +65,15 @@ const Comment = React.forwardRef<CommentHandler, CommentProps>((props, ref) => {
         })}
         ref={containerRef}
       >
-        <div className="header">
+        <div className="header" ref={headerRef}>
           <Header
             size={HeaderStyle.COMPACT}
             secretIdentity={props.secretIdentity}
             userIdentity={props.userIdentity}
+            backgroundColor={Theme.LAYOUT_BOARD_BACKGROUND_COLOR}
           />
         </div>
-        <div className={classNames("comment")}>
+        <div className={classNames("comment")} ref={editorRef}>
           <Editor
             key={props.id + "_editor"}
             editable={false}
@@ -74,17 +86,52 @@ const Comment = React.forwardRef<CommentHandler, CommentProps>((props, ref) => {
             showTooltip={false}
           />
         </div>
+        <div
+          className={classNames("extra-action", {
+            visible: !!props.onExtraAction,
+          })}
+          onClick={props.onExtraAction}
+        >
+          <FontAwesomeIcon icon={faComment} />
+        </div>
       </div>
       <style jsx>{`
         .comment-container.muted {
           opacity: 0.8;
         }
+        .extra-action {
+          position: absolute;
+          bottom: 0;
+          right: 0;
+          transform: translate(50%, 50%);
+          border-radius: 50%;
+          background-color: white;
+          width: 25px;
+          height: 25px;
+          color: #5e5e5f;
+          display: none;
+        }
+        .extra-action.visible {
+          display: block;
+        }
+        .extra-action :global(svg) {
+          position: absolute;
+          top: 50%;
+          left: 50%;
+          transform: translate(-50%, -50%);
+        }
+        .extra-action:hover {
+          cursor: pointer;
+          color: white;
+          background-color: #5e5e5f;
+        }
         .comment-container {
-          padding-top: 15px;
-          padding-left: 30px;
+          padding-top: ${props.paddingTop || "15px"};
+          padding-left: 10px;
           align-items: start;
           display: flex;
           max-width: 550px;
+          position: relative;
         }
         .header {
           margin-right: 10px;
@@ -92,17 +139,15 @@ const Comment = React.forwardRef<CommentHandler, CommentProps>((props, ref) => {
         }
         .comment {
           position: relative;
-          padding: 15px 20px;
+          padding: 10px 15px;
           color: black;
           flex-grow: 1;
           min-width: 0;
-        }
-        .comment {
           align-self: flex-end;
           color: white;
           border: 1px solid rgba(255, 255, 255, 0.3);
-          background: rgba(255, 255, 255, 0.2);
-          border-radius: 20px;
+          background: #5e5e5f;
+          border-radius: ${Theme.BORDER_RADIUS_REGULAR};
         }
         .comment::after {
           content: "";
@@ -115,9 +160,20 @@ const Comment = React.forwardRef<CommentHandler, CommentProps>((props, ref) => {
           width: 100%;
           height: 100%;
           opacity: 0.8;
-          border-radius: 15px;
+          border-radius: var(
+            --comment-container-stacked-radius,
+            ${Theme.BORDER_RADIUS_REGULAR}
+          );
           transition: box-shadow 0.5s ease-out;
           box-shadow: 0px 0px 5px 3px var(--comment-container-shadow);
+        }
+        .comment-container:first-child .comment::after {
+          border-top-left-radius: ${Theme.BORDER_RADIUS_REGULAR};
+          border-top-right-radius: ${Theme.BORDER_RADIUS_REGULAR};
+        }
+        .comment-container:last-child .comment::after {
+          border-bottom-left-radius: ${Theme.BORDER_RADIUS_REGULAR};
+          border-bottom-right-radius: ${Theme.BORDER_RADIUS_REGULAR};
         }
       `}</style>
     </>
@@ -126,6 +182,8 @@ const Comment = React.forwardRef<CommentHandler, CommentProps>((props, ref) => {
 
 export interface CommentHandler {
   highlight: (color: string) => void;
+  editorRef?: React.RefObject<HTMLDivElement>;
+  headerRef?: React.RefObject<HTMLDivElement>;
 }
 
 export interface CommentProps {
@@ -141,6 +199,8 @@ export interface CommentProps {
     name: string;
   };
   muted?: boolean;
+  paddingTop?: string;
+  onExtraAction?: () => void;
 }
 
 export default Comment;
