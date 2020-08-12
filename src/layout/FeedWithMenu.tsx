@@ -245,17 +245,17 @@ const FeedWithMenu: React.FC<FeedWithMenuProps> = ({
               left: 50%;
               transform: translate(-50%, 20%);
               overflow: hidden;
-              display: none;
-              transition: opacity 0.2s ease-out;
+              transition: opacity 0.2s ease-out, transform 0.2s ease-out;
               z-index: 51;
               opacity: 0;
               background: ${Theme.LAYOUT_BOARD_SIDEBAR_BACKGROUND_COLOR};
-              height: calc(100vh - 50px);
+              height: 0;
             }
             .sidebar.visible {
+              height: calc(100vh - 70px);
               display: block;
               opacity: 1;
-              transform: translate(-50%, 0);
+              transform: translate(-50%, 0%);
             }
             .main {
               width: calc(100% - 40px);
