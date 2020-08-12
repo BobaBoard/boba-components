@@ -274,28 +274,19 @@ const BoardPreview: React.FC<BoardPreviewProps> = ({
         `}</style>
       <style jsx>{`
         .container {
-          display: inline-block;
-          min-width: 250px;
-          max-width: 350px;
         }
         .container.compact,
         .container.mini {
           cursor: pointer;
         }
         .container.compact {
-          min-width: 200px;
-          height: 150px;
         }
         .container.mini {
-          min-width: 0;
-          height: 65px;
         }
         .board-header {
           position: relative;
         }
         .container.mini .board-header {
-          height: 65px;
-          width: calc((16 / 9) * 65px);
         }
         .board-header::before {
           display: block;
@@ -307,14 +298,12 @@ const BoardPreview: React.FC<BoardPreviewProps> = ({
         .board-image {
           display: block;
           position: relative;
-          height: 150px;
           border-radius: 15px;
           box-sizing: border-box;
           border-radius: 15px;
         }
         .board-image.mini {
           height: 65px;
-          width: calc((16 / 9) * 65px);
         }
         .board-image.regular {
           margin-bottom: 15px;
