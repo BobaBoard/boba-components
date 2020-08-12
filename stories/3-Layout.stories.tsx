@@ -478,7 +478,7 @@ const POSTS = [
 
 const BOARD_INFO = {
   slug: "gore",
-  avatar: `/${goreBackground}`,
+  avatarUrl: `/${goreBackground}`,
   description: "Love me some bruised bois (and more).",
   accentColor: "#f96680",
   boardWideTags: [

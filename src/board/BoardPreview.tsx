@@ -53,7 +53,6 @@ const Slug: React.FC<{
           color: white;
           font-size: 50px;
           box-sizing: border-box;
-          max-width: 350px;
           text-align: center;
           cursor: pointer;
         }
@@ -109,7 +108,7 @@ const Description: React.FC<{
   const ref = React.useRef<HTMLDivElement>(null);
 
   React.useEffect(() => {
-    if (!ref.current) {
+    if (!ref.current || displayStyle == DisplayStyle.REGULAR) {
       return;
     }
     // @ts-ignore
@@ -136,7 +135,6 @@ const Description: React.FC<{
           position: relative;
           display: block;
           box-sizing: border-box;
-          max-width: 350px;
           text-align: left;
         }
         .description-container.hidden {
@@ -279,6 +277,8 @@ const BoardPreview: React.FC<BoardPreviewProps> = ({
         .container.mini {
           cursor: pointer;
         }
+        .container.regular {
+        }
         .container.compact {
         }
         .container.mini {
@@ -288,22 +288,16 @@ const BoardPreview: React.FC<BoardPreviewProps> = ({
         }
         .container.mini .board-header {
         }
-        .board-header::before {
-          display: block;
-          content: "";
-          width: 100%;
-          padding-top: calc((9 / 16) * 100%);
-          position: absolute;
-        }
+
         .board-image {
           display: block;
           position: relative;
           border-radius: 15px;
           box-sizing: border-box;
           border-radius: 15px;
+          padding-bottom: calc((9 / 16) * 100%);
         }
-        .board-image.mini {
-          height: 65px;
+        .board-image.compact {
         }
         .board-image.regular {
           margin-bottom: 15px;
@@ -319,7 +313,6 @@ const BoardPreview: React.FC<BoardPreviewProps> = ({
           display: flex;
           justify-content: space-evenly;
           margin-top: 5px;
-          max-width: 350px;
         }
         .preview-footer.hidden {
           display: none;

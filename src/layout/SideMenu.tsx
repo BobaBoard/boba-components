@@ -1,7 +1,7 @@
 import React from "react";
 
 import BoardPreview, { DisplayStyle } from "../board/BoardPreview";
-import BoardsGroup from "../board/BoardsGroup";
+import BoardsDisplay from "../board/BoardsDisplay";
 import SearchBar from "../common/SearchBar";
 import Button from "../common/Button";
 
@@ -26,21 +26,11 @@ const SideMenu: React.FC<SideMenuProps> = ({
       <Scrollbar>
         <div className="side-menu">
           {pinnedBoards && (
-            <BoardsGroup title="Pinned Boards">
-              {pinnedBoards.map((board) => (
-                <BoardPreview
-                  key={board.slug}
-                  slug={board.slug}
-                  avatar={board.avatar}
-                  description={board.description}
-                  onClick={() => board.onClick?.(board.slug)}
-                  href={board.href}
-                  displayStyle={DisplayStyle.MINI}
-                  updates={board.updates}
-                  color={board.color}
-                />
-              ))}
-            </BoardsGroup>
+            <BoardsDisplay
+              title="Pinned Boards"
+              boards={pinnedBoards}
+              getBoardHref={(name: string) => name}
+            />
           )}
 
           {hasSearchBar && (
@@ -59,20 +49,11 @@ const SideMenu: React.FC<SideMenuProps> = ({
                 })}
               >
                 {searchBoards && (
-                  <BoardsGroup title="Search Results">
-                    {searchBoards.map((board) => (
-                      <BoardPreview
-                        slug={board.slug}
-                        avatar={board.avatar}
-                        description={board.description}
-                        onClick={() => board.onClick?.(board.slug)}
-                        displayStyle={DisplayStyle.COMPACT}
-                        updates={board.updates}
-                        color={board.color}
-                        href={board.href}
-                      />
-                    ))}
-                  </BoardsGroup>
+                  <BoardsDisplay
+                    title="Search Results"
+                    boards={searchBoards}
+                    getBoardHref={(name: string) => name}
+                  />
                 )}
               </div>
             </>
@@ -81,20 +62,11 @@ const SideMenu: React.FC<SideMenuProps> = ({
             className={classnames("recent-boards", { visible: !searchVisible })}
           >
             {recentBoards && (
-              <BoardsGroup title="Recent Boards">
-                {recentBoards.map((board) => (
-                  <BoardPreview
-                    slug={board.slug}
-                    avatar={board.avatar}
-                    description={board.description}
-                    onClick={() => board.onClick?.(board.slug)}
-                    displayStyle={DisplayStyle.COMPACT}
-                    updates={board.updates}
-                    color={board.color}
-                    href={board.href}
-                  />
-                ))}
-              </BoardsGroup>
+              <BoardsDisplay
+                title="Recent Boards"
+                boards={recentBoards}
+                getBoardHref={(name: string) => name}
+              ></BoardsDisplay>
             )}
           </div>
           {showDismissNotifications && (

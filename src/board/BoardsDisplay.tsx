@@ -4,6 +4,7 @@ import BoardPreview, { DisplayStyle } from "./BoardPreview";
 const BoardsDisplay: React.FC<BoardsDisplayProps> = (props) => {
   return (
     <div className="boards-display">
+      {props.title && <div className="title">{props.title}</div>}
       <div className="boards">
         {props.boards.map((board, i) => (
           <div
@@ -17,13 +18,19 @@ const BoardsDisplay: React.FC<BoardsDisplayProps> = (props) => {
               description={board.description}
               color={board.color}
               updates={board.updates}
-              displayStyle={DisplayStyle.COMPACT}
+              displayStyle={props.boardsDisplayStyle || DisplayStyle.COMPACT}
               href={props.getBoardHref(board.slug)}
             ></BoardPreview>
           </div>
         ))}
       </div>
       <style jsx>{`
+        .title {
+          color: white;
+          margin-bottom: 10px;
+          font-weight: bold;
+          font-size: 20px;
+        }
         .boards {
           display: grid;
           grid-template-columns: repeat(auto-fit, minmax(100px, 1fr));
@@ -47,6 +54,8 @@ export interface BoardsDisplayProps {
     color: string;
     updates?: number | boolean;
   }[];
+  title: string;
   onBoardClick: (slug: string) => void;
   getBoardHref: (slug: string) => string;
+  boardsDisplayStyle?: DisplayStyle;
 }
