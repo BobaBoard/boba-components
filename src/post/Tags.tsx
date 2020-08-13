@@ -14,7 +14,10 @@ const HEIGHT_TRIGGER = 30;
 const INDEXABLE_CHARACTER = "!";
 const UNSUBMITTABLE_TAGS = [INDEXABLE_CHARACTER, "", "#"];
 
-const extractTag = (inputValue: string) => {
+const extractTag = (inputValue: string | null) => {
+  if (!inputValue) {
+    return "";
+  }
   return inputValue.replace(/\n/g, " ").trim().substr(0, TAG_LENGTH_LIMIT);
 };
 
@@ -27,7 +30,7 @@ const resetInputState = (span: HTMLSpanElement) => {
   const hasFocus = span == document.activeElement;
   log(`Resetting input element.`);
   log(`Input element focused: ${hasFocus}`);
-  span.innerText = hasFocus ? "" : ADD_A_TAG_STRING;
+  span.textContent = hasFocus ? "" : ADD_A_TAG_STRING;
   span.style.width = "auto";
   span.style.flex = "1";
 };
@@ -88,9 +91,8 @@ const TagsInput: React.FC<TagsInputProps> = ({
             className={classnames("tag-input", { indexable })}
             ref={spanRef}
             onKeyDown={(e) => {
-              const inputValue = (e.target as HTMLSpanElement).innerText;
-              const isDeletingPrevious =
-                inputValue.length == 0 && e.key == "Backspace";
+              const inputValue = (e.target as HTMLSpanElement).textContent;
+              const isDeletingPrevious = !inputValue && e.key == "Backspace";
               const isSubmitAttempt =
                 e.key === "Enter" && (e.metaKey || e.ctrlKey);
               const isTagEnterAttempt = e.key === "Enter" && !isSubmitAttempt;
@@ -128,18 +130,18 @@ const TagsInput: React.FC<TagsInputProps> = ({
                 onTagsAdd?.({ name: currentTag });
                 if (spanRef.current) {
                   // Remove inner text here so it doesn't trigger flickering.
-                  spanRef.current.innerText = "";
+                  spanRef.current.textContent = "";
                 }
               }
             }}
             onBeforeInput={(e) => {
               const target = e.target as HTMLSpanElement;
-              let inputValue = target.innerText;
+              let inputValue = target.textContent || "";
               if (inputValue.length >= TAG_LENGTH_LIMIT) {
                 log("Tag Limit Reached Cannot Insert new Value");
                 e.preventDefault();
               }
-
+              log(inputValue == "\n");
               if (/[\n]/g.test(inputValue)) {
                 log("Found New Line Blocking");
                 e.preventDefault();
@@ -156,11 +158,11 @@ const TagsInput: React.FC<TagsInputProps> = ({
               }
             }}
             onFocus={(e) => {
-              const value = (e.target as HTMLSpanElement).innerText;
+              const value = (e.target as HTMLSpanElement).textContent;
               if (value === ADD_A_TAG_STRING) {
                 log('Focused: Removing "add a tag..."');
                 if (spanRef.current) {
-                  spanRef.current.innerText = "";
+                  spanRef.current.textContent = "";
                 }
               } else {
                 log("Focused: Found text not removing anything");
@@ -170,7 +172,7 @@ const TagsInput: React.FC<TagsInputProps> = ({
               if (!spanRef.current) {
                 return;
               }
-              const currentTag = extractTag(spanRef.current.innerText);
+              const currentTag = extractTag(spanRef.current.textContent);
               const isSubmittable = isTagValid(currentTag);
               if (isSubmittable) {
                 onTagsAdd?.({ name: currentTag });
@@ -181,7 +183,7 @@ const TagsInput: React.FC<TagsInputProps> = ({
             }}
             onKeyUp={(e) => {
               const target = e.target as HTMLSpanElement;
-              const currentTag = extractTag(target.innerText);
+              const currentTag = extractTag(target.textContent);
               setIndexableState(currentTag.startsWith(INDEXABLE_CHARACTER));
               if (target.getBoundingClientRect().height > HEIGHT_TRIGGER) {
                 log(`Multiline detected. Switching to full line.`);
