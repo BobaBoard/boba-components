@@ -16,12 +16,13 @@ const withNesting = (
   ends?: {
     level: number;
     onBeamUpClick: () => void;
+    showAddContribution: boolean;
     onAddContributionClick: () => void;
   }[]
 ) => {
-  const hasBeamUp = ends?.map((ends) => ends.level).includes(maxLevel - level);
+  const end = ends?.find((ends) => ends.level == maxLevel - level);
   let isOutermost = false;
-  if (hasBeamUp) {
+  if (!!end) {
     // Check if this was the outermost beam up
     isOutermost = !ends?.some((end) => end.level < maxLevel - level);
   }
@@ -29,32 +30,24 @@ const withNesting = (
     <>
       <div
         className={classnames(`nested`, {
-          "has-beam-up": hasBeamUp,
+          "has-beam-up": !!end,
           outermost: isOutermost,
         })}
       >
-        {" "}
         {el}
-        {hasBeamUp && (
+        {!!end && (
           <div>
             <div className="beam-up">
               <FontAwesomeIcon
                 icon={faAngleDoubleUp}
-                onClick={
-                  ends?.find((end) => end.level == maxLevel - level)
-                    ?.onBeamUpClick
-                }
+                onClick={end?.onBeamUpClick}
               />
             </div>
-            <div
-              className="add-new"
-              onClick={
-                ends?.find((end) => end.level == maxLevel - level)
-                  ?.onAddContributionClick
-              }
-            >
-              Add Contribution
-            </div>
+            {end.showAddContribution && (
+              <div className="add-new" onClick={end?.onAddContributionClick}>
+                Add Contribution
+              </div>
+            )}
           </div>
         )}
       </div>
@@ -177,6 +170,7 @@ export interface ThreadIndentProps {
   ends?: {
     level: number;
     onBeamUpClick: () => void;
+    showAddContribution: boolean;
     onAddContributionClick: () => void;
   }[];
 }
