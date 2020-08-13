@@ -53,7 +53,7 @@ const withNesting = (
                   ?.onAddContributionClick
               }
             >
-              Append Contribution
+              Add Contribution
             </div>
           </div>
         )}
@@ -70,7 +70,7 @@ const withNesting = (
           margin-bottom: 15px;
         }
         .outermost.has-beam-up {
-          margin-bottom: 22px;
+          margin-bottom: px;
         }
         .nested::before {
           content: "";
@@ -150,6 +150,7 @@ const ThreadIndent: React.FC<ThreadIndentProps> = (props) => {
       <style jsx>{`
         .thread-level {
           position: relative;
+          max-width: 550px;
         }
         .thread-level::before {
           border-radius: ${Theme.BORDER_RADIUS_REGULAR} 0 0

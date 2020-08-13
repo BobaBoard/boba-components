@@ -32,6 +32,7 @@ const CompactThreadIndent: React.FC<CompactThreadIndentProps> = (props) => {
           style={{
             top: startPointCoordinates.top,
             left: startPointCoordinates.left,
+            display: props.hideLine ? "none" : "block",
           }}
         />
       )}
@@ -58,6 +59,7 @@ export interface CompactThreadIndentProps {
     top: number;
     left: number;
   };
+  hideLine: boolean;
   children: JSX.Element | (string | JSX.Element)[];
 }
 

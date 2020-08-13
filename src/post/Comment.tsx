@@ -96,9 +96,6 @@ const Comment = React.forwardRef<CommentHandler, CommentProps>((props, ref) => {
         </div>
       </div>
       <style jsx>{`
-        .comment-container.muted {
-          opacity: 0.8;
-        }
         .extra-action {
           position: absolute;
           bottom: 0;
@@ -153,6 +150,9 @@ const Comment = React.forwardRef<CommentHandler, CommentProps>((props, ref) => {
           border: 1px solid rgba(255, 255, 255, 0.3);
           background: #5e5e5f;
           border-radius: ${Theme.BORDER_RADIUS_REGULAR};
+        }
+        .comment-container.muted .comment {
+          color: rgba(255, 255, 255, 0.8);
         }
         .comment::after {
           content: "";
