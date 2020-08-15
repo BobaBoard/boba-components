@@ -1,17 +1,15 @@
 import React from "react";
-import SimpleBar from "simplebar-react";
 import debug from "debug";
 
 const log = debug("bobaui:scrollbar-log");
 
 export interface ScrollbarProps {
   children: JSX.Element;
-  ref?: React.RefObject<any>;
   height?: string;
   onReachEnd?: () => void;
 }
 
-const Scrollbar = React.forwardRef<SimpleBar, ScrollbarProps>((props, ref) => {
+const Scrollbar: React.FC<ScrollbarProps> = (props) => {
   const scrollableNodeRef = React.createRef<HTMLDivElement>();
   const intersectionObserverRef = React.useRef<HTMLDivElement>(null);
 
@@ -54,10 +52,13 @@ const Scrollbar = React.forwardRef<SimpleBar, ScrollbarProps>((props, ref) => {
   ]);
 
   return (
-    <SimpleBar
-      style={{ maxHeight: props.height || "100%", width: "100%" }}
-      ref={ref}
-      scrollableNodeProps={{ ref: scrollableNodeRef }}
+    <div
+      style={{
+        maxHeight: props.height || "100%",
+        width: "100%",
+        overflowX: "hidden",
+      }}
+      ref={scrollableNodeRef}
     >
       {props.children}
       <div
@@ -69,8 +70,8 @@ const Scrollbar = React.forwardRef<SimpleBar, ScrollbarProps>((props, ref) => {
           height: 1px;
         }
       `}</style>
-    </SimpleBar>
+    </div>
   ) as JSX.Element;
-});
+};
 
 export default Scrollbar;

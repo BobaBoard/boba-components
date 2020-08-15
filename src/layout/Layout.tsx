@@ -11,7 +11,6 @@ import useComponentSize from "@rehooks/component-size";
 import "@bobaboard/boba-editor/dist/main.css";
 
 import "normalize.css";
-import "simplebar/dist/simplebar.min.css";
 
 import logo from "../images/logo.svg";
 import compactLogo from "../images/logo-compact.svg";

@@ -50,7 +50,6 @@ const FeedWithMenu: React.FC<FeedWithMenuProps> = ({
   onCloseSidebar,
   onReachEnd,
 }) => {
-  const scrollableNodeRef = React.createRef<any>();
   const scrollableContentRef = React.createRef<any>();
   const intersectionObserverRef = React.useRef<HTMLDivElement>(null);
   const [canOpenSidebar, setCanOpenSidebar] = React.useState(
@@ -167,7 +166,7 @@ const FeedWithMenu: React.FC<FeedWithMenuProps> = ({
       return () => observer.disconnect();
     }
     return () => {};
-  }, [intersectionObserverRef.current, scrollableNodeRef.current, onReachEnd]);
+  }, [intersectionObserverRef.current, onReachEnd]);
 
   return (
     <>
@@ -180,7 +179,7 @@ const FeedWithMenu: React.FC<FeedWithMenuProps> = ({
           // ref={scrollableMenuRef}
         >
           {showSidebar ? (
-            <Scrollbar ref={scrollableNodeRef}>
+            <Scrollbar>
               <div
                 className="sidebar-content-wrapper"
                 // onWheel={(e) => {

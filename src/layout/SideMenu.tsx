@@ -7,7 +7,6 @@ import Button from "../common/Button";
 
 import classnames from "classnames";
 import Scrollbar from "../common/Scrollbar";
-import "simplebar/dist/simplebar.min.css";
 
 import { faCheck } from "@fortawesome/free-solid-svg-icons";
 

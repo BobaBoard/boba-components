@@ -1,8 +1,6 @@
 import React from "react";
 import LibraryModal from "react-modal";
 import Theme from "../theme/default";
-// @ts-ignore
-import Scrollbar from "../common/Scrollbar";
 import Div100vh from "react-div-100vh";
 
 const customStyles = {
