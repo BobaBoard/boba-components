@@ -18,6 +18,7 @@ import Button from "../common/Button";
 import { faPortrait, faImage } from "@fortawesome/free-solid-svg-icons";
 import classnames from "classnames";
 import { TagsType } from "../types";
+import { TagsFactory } from "../common/Tag";
 
 export const setTumblrEmbedFetcher = libSetFetcher;
 
@@ -53,23 +54,9 @@ const computeTags = (
     return tags;
   }
 
-  const indexableTags = tags.filter((tag) => tag.indexable);
-  const whisperTags = tags.filter((tag) => !tag.indexable);
+  tags.push(newTag);
 
-  if (newTag.name.startsWith("!")) {
-    indexableTags.push({
-      name: newTag.name.substring(1),
-      color: accentColor,
-      indexable: true,
-    });
-  } else {
-    whisperTags.push({
-      name: newTag.name,
-      indexable: false,
-    });
-  }
-
-  return [...indexableTags, ...whisperTags];
+  return TagsFactory.orderTags(tags);
 };
 
 const PostEditor: React.FC<PostEditorProps> = (props) => {

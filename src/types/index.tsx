@@ -18,4 +18,6 @@ export interface TagsType {
   name: string;
   color?: string;
   indexable?: boolean;
+  category?: boolean;
+  contentWarning?: boolean;
 }

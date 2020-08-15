@@ -476,6 +476,9 @@ export const TaggedPost = () => (
       onNotesClick={() => console.log("click")}
       notesUrl={"#"}
       tags={{
+        indexTags: ["indexable"],
+        categoryTags: ["category"],
+        contentWarnings: ["bad content"],
         whisperTags: [
           "tag1",
           "tag2",

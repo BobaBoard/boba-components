@@ -1,7 +1,14 @@
 import React from "react";
 
-import Tag from "../common/Tag";
-import Theme from "../theme/default";
+import {
+  TagsFactory,
+  INDEXABLE_PREFIX,
+  CATEGORY_PREFIX,
+  CONTENT_WARNING_PREFIX,
+  INDEXABLE_TAG_COLOR,
+  CATEGORY_TAG_COLOR,
+  CW_TAG_COLOR,
+} from "../common/Tag";
 import classnames from "classnames";
 import debug from "debug";
 import { TagsType } from "../types";
@@ -11,8 +18,13 @@ const log = debug("bobaui:tagsinput-log");
 const TAG_LENGTH_LIMIT = 200;
 const ADD_A_TAG_STRING = "add a tag...";
 const HEIGHT_TRIGGER = 30;
-const INDEXABLE_CHARACTER = "!";
-const UNSUBMITTABLE_TAGS = [INDEXABLE_CHARACTER, "", "#"];
+const UNSUBMITTABLE_TAGS = [
+  INDEXABLE_PREFIX,
+  CATEGORY_PREFIX,
+  CONTENT_WARNING_PREFIX,
+  "",
+  "#",
+];
 
 const extractTag = (inputValue: string | null) => {
   if (!inputValue) {
@@ -45,6 +57,8 @@ const TagsInput: React.FC<TagsInputProps> = ({
 }) => {
   const [deleteState, setDeleteState] = React.useState(false);
   const [indexable, setIndexableState] = React.useState(false);
+  const [category, setCategoryState] = React.useState(false);
+  const [contentWarning, setCwState] = React.useState(false);
   const spanRef = React.useRef<HTMLSpanElement>(null);
 
   React.useEffect(() => {
@@ -52,6 +66,8 @@ const TagsInput: React.FC<TagsInputProps> = ({
       resetInputState(spanRef.current);
       setDeleteState(false);
       setIndexableState(false);
+      setCategoryState(false);
+      setCwState(false);
     }
   }, [tags]);
 
@@ -67,28 +83,18 @@ const TagsInput: React.FC<TagsInputProps> = ({
                   deleting: deleteState && index == tags.length - 1,
                 })}
               >
-                <Tag
-                  name={tag.name}
-                  compact
-                  color={
-                    tag.indexable
-                      ? tag.color || Theme.DEFAULT_ACCENT_COLOR
-                      : undefined
-                  }
-                  symbol={!tag.indexable ? undefined : "!"}
-                  highlightColor={
-                    deleteState && index == tags.length - 1
-                      ? "red"
-                      : "rgba(0, 0, 0, 0.8)"
-                  }
-                />
+                {TagsFactory.create(tag)}
               </div>
             ))}
           </>
         )}
         {!!editable && (
           <span
-            className={classnames("tag-input", { indexable })}
+            className={classnames("tag-input", {
+              indexable,
+              category,
+              "content-warning": contentWarning,
+            })}
             ref={spanRef}
             onKeyDown={(e) => {
               const inputValue = (e.target as HTMLSpanElement).textContent;
@@ -115,9 +121,13 @@ const TagsInput: React.FC<TagsInputProps> = ({
                 log(`Submitting with current tag ${inputValue}`);
                 if (isSubmittable) {
                   log(`Adding tag before submission: ${currentTag}`);
-                  onTagsAdd?.({ name: currentTag });
+                  onTagsAdd?.(TagsFactory.getTypeFromString(currentTag));
                 }
-                onSubmit?.(isSubmittable ? { name: currentTag } : undefined);
+                onSubmit?.(
+                  isSubmittable
+                    ? TagsFactory.getTypeFromString(currentTag)
+                    : undefined
+                );
                 e.preventDefault();
                 return;
               }
@@ -127,7 +137,7 @@ const TagsInput: React.FC<TagsInputProps> = ({
                 if (!isSubmittable) {
                   return;
                 }
-                onTagsAdd?.({ name: currentTag });
+                onTagsAdd?.(TagsFactory.getTypeFromString(currentTag));
                 if (spanRef.current) {
                   // Remove inner text here so it doesn't trigger flickering.
                   spanRef.current.textContent = "";
@@ -175,16 +185,20 @@ const TagsInput: React.FC<TagsInputProps> = ({
               const currentTag = extractTag(spanRef.current.textContent);
               const isSubmittable = isTagValid(currentTag);
               if (isSubmittable) {
-                onTagsAdd?.({ name: currentTag });
+                onTagsAdd?.(TagsFactory.getTypeFromString(currentTag));
               }
               resetInputState(spanRef.current);
               setIndexableState(false);
+              setCategoryState(false);
+              setCwState(false);
               setDeleteState(false);
             }}
             onKeyUp={(e) => {
               const target = e.target as HTMLSpanElement;
               const currentTag = extractTag(target.textContent);
-              setIndexableState(currentTag.startsWith(INDEXABLE_CHARACTER));
+              setIndexableState(currentTag.startsWith(INDEXABLE_PREFIX));
+              setCategoryState(currentTag.startsWith(CATEGORY_PREFIX));
+              setCwState(currentTag.startsWith(CONTENT_WARNING_PREFIX));
               if (target.getBoundingClientRect().height > HEIGHT_TRIGGER) {
                 log(`Multiline detected. Switching to full line.`);
                 target.style.width = "100%";
@@ -196,9 +210,20 @@ const TagsInput: React.FC<TagsInputProps> = ({
         )}
       </div>
       <style jsx>{`
-        .tag-input.indexable {
-          outline-color: ${accentColor || Theme.DEFAULT_ACCENT_COLOR};
-          border-color: ${accentColor || Theme.DEFAULT_ACCENT_COLOR};
+        .tag-input.indexable:focus {
+          outline: ${accentColor || INDEXABLE_TAG_COLOR} solid 2px;
+          border-color: ${accentColor || INDEXABLE_TAG_COLOR};
+        }
+        .tag-input.content-warning:focus {
+          outline: ${CW_TAG_COLOR} solid 2px;
+          border-color: ${CW_TAG_COLOR};
+        }
+        .tag-input.category:focus {
+          outline: ${CATEGORY_TAG_COLOR} solid 2px;
+          border-color: ${CATEGORY_TAG_COLOR};
+        }
+        .deleting :global(*) {
+          color: red !important;
         }
         .container {
           padding: 5px;

@@ -12,6 +12,7 @@ import Editor from "@bobaboard/boba-editor";
 import classnames from "classnames";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faPlus, faAngleDown } from "@fortawesome/free-solid-svg-icons";
+import { TagsFactory } from "../common/Tag";
 
 import Theme from "../theme/default";
 import debug from "debug";
@@ -110,17 +111,9 @@ const Post = React.forwardRef<PostHandler, PostProps>((props, ref) => {
                   muted: props.muted,
                 })}
               >
-                <Tags
-                  tags={[
-                    ...(props.tags?.indexTags?.map((tag) => ({
-                      name: tag,
-                      indexable: true,
-                    })) || []),
-                    ...(props.tags?.whisperTags?.map((tag) => ({
-                      name: tag,
-                    })) || []),
-                  ]}
-                />
+                {props.tags && (
+                  <Tags tags={TagsFactory.getTagsFromTagObject(props.tags)} />
+                )}
                 <div className="notes">
                   <MemoizedFooter
                     onContribution={props.onNewContribution}
@@ -286,6 +279,8 @@ export interface PostProps {
     name: string;
   };
   tags?: {
+    contentWarnings: string[];
+    categoryTags: string[];
     whisperTags: string[];
     indexTags: string[];
   };
