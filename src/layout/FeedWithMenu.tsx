@@ -232,7 +232,7 @@ const FeedWithMenu: React.FC<FeedWithMenuProps> = ({
             height: 1px;
           }
 
-          @media only screen and (max-width: 850px) {
+          @media only screen and (max-width: 950px) {
             .content {
               background-image: none;
             }

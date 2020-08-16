@@ -33,8 +33,13 @@ const BoardsDisplay: React.FC<BoardsDisplayProps> = (props) => {
         }
         .boards {
           display: grid;
-          grid-template-columns: repeat(auto-fit, minmax(100px, 1fr));
+          grid-template-columns: repeat(
+            auto-fit,
+            minmax(${props.minSizePx || 100}px, 1fr)
+          );
           gap: 10px;
+          row-gap: 10px;
+          grid-row-gap: 10px;
         }
         .boards-display {
           margin-bottom: 15px;
@@ -54,8 +59,9 @@ export interface BoardsDisplayProps {
     color: string;
     updates?: number | boolean;
   }[];
-  title: string;
+  title?: string;
   onBoardClick: (slug: string) => void;
   getBoardHref: (slug: string) => string;
   boardsDisplayStyle?: DisplayStyle;
+  minSizePx?: number;
 }
