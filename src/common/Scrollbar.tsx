@@ -61,10 +61,12 @@ const Scrollbar: React.FC<ScrollbarProps> = (props) => {
       ref={scrollableNodeRef}
     >
       {props.children}
-      <div
-        ref={intersectionObserverRef}
-        className="intersection-observer-ref"
-      />
+      {props.onReachEnd && (
+        <div
+          ref={intersectionObserverRef}
+          className="intersection-observer-ref"
+        />
+      )}
       <style jsx>{`
         .intersection-observer-ref {
           height: 1px;
