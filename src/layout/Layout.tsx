@@ -35,6 +35,7 @@ const Layout = React.forwardRef<{ closeSideMenu: () => void }, LayoutProps>(
       updates,
       forceHideTitle,
       loggedInMenuOptions,
+      onSideMenuButtonClick,
     },
     ref
   ) => {
@@ -123,7 +124,12 @@ const Layout = React.forwardRef<{ closeSideMenu: () => void }, LayoutProps>(
                   <Button
                     icon={faBars}
                     compact
-                    onClick={() => setShowSideMenu(!showSideMenu)}
+                    onClick={() => {
+                      if (!showSideMenu) {
+                        onSideMenuButtonClick?.();
+                      }
+                      setShowSideMenu(!showSideMenu);
+                    }}
                     color={headerAccent}
                     theme={ButtonStyle.DARK}
                     updates={updates}
@@ -373,6 +379,7 @@ export interface LayoutProps {
     name: string;
     onClick: () => void;
   }[];
+  onSideMenuButtonClick?: () => void;
 }
 
 export default Layout;

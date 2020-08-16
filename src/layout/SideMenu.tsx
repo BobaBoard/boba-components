@@ -4,6 +4,7 @@ import { DisplayStyle } from "../board/BoardPreview";
 import BoardsDisplay from "../board/BoardsDisplay";
 import SearchBar from "../common/SearchBar";
 import Button from "../common/Button";
+import LoadingBar from "../common/LoadingBar";
 
 import classnames from "classnames";
 import Scrollbar from "../common/Scrollbar";
@@ -11,6 +12,7 @@ import Scrollbar from "../common/Scrollbar";
 import { faCheck } from "@fortawesome/free-solid-svg-icons";
 
 const SideMenu: React.FC<SideMenuProps> = ({
+  loading,
   pinnedBoards,
   recentBoards,
   searchBoards,
@@ -22,6 +24,7 @@ const SideMenu: React.FC<SideMenuProps> = ({
   const hasSearchBar = showSearch || typeof showSearch === "undefined";
   return (
     <div>
+      <LoadingBar loading={loading} />
       <Scrollbar>
         <div className="side-menu">
           {pinnedBoards && (
@@ -163,4 +166,5 @@ export interface SideMenuProps {
   showSearch?: boolean;
   showDismissNotifications?: boolean;
   onNotificationsDismissRequest?: () => void;
+  loading?: boolean;
 }
