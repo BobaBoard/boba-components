@@ -29,7 +29,7 @@ BoardPreviewSimple.story = {
 };
 
 export const BoardPreviewCompact = () => (
-  <div>
+  <div style={{ width: "500px" }}>
     <div>
       <BoardPreview
         slug="gore"
@@ -70,7 +70,7 @@ BoardPreviewMini.story = {
 };
 
 export const BoardPreviewWithUpdates = () => (
-  <div style={{ display: "flex", justifyContent: "space-evenly" }}>
+  <div style={{ width: "500px" }}>
     <BoardPreview
       slug="gore"
       avatar={`/${goreBackground}`}
@@ -241,6 +241,7 @@ BoardPreviewWithColors.story = {
 export const BoardsDisplayStory = () => (
   <div style={{ width: "500px" }}>
     <BoardsDisplay
+      title="Boards"
       boards={[
         {
           slug: "gore",
@@ -282,6 +283,7 @@ export const BoardsDisplayStory = () => (
           color: "#e22b4b",
         },
       ]}
+      boardsDisplayStyle={DisplayStyle.MINI}
       onBoardClick={(slug) => console.log(slug)}
       getBoardHref={(slug) => `#${slug}`}
     />

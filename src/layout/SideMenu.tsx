@@ -1,7 +1,7 @@
 import React from "react";
 
-import BoardPreview, { DisplayStyle } from "../board/BoardPreview";
-import BoardsGroup from "../board/BoardsGroup";
+import { DisplayStyle } from "../board/BoardPreview";
+import BoardsDisplay from "../board/BoardsDisplay";
 import SearchBar from "../common/SearchBar";
 import Button from "../common/Button";
 
@@ -25,21 +25,19 @@ const SideMenu: React.FC<SideMenuProps> = ({
       <Scrollbar>
         <div className="side-menu">
           {pinnedBoards && (
-            <BoardsGroup title="Pinned Boards">
-              {pinnedBoards.map((board) => (
-                <BoardPreview
-                  key={board.slug}
-                  slug={board.slug}
-                  avatar={board.avatar}
-                  description={board.description}
-                  onClick={() => board.onClick?.(board.slug)}
-                  href={board.href}
-                  displayStyle={DisplayStyle.MINI}
-                  updates={board.updates}
-                  color={board.color}
-                />
-              ))}
-            </BoardsGroup>
+            <div className="pinned-boards">
+              <BoardsDisplay
+                title="Pinned Boards"
+                boards={pinnedBoards}
+                getBoardHref={(name: string) => name}
+                onBoardClick={(name: string) =>
+                  pinnedBoards
+                    .find((board) => board.slug == name)
+                    ?.onClick?.(name)
+                }
+                boardsDisplayStyle={DisplayStyle.MINI}
+              />
+            </div>
           )}
 
           {hasSearchBar && (
@@ -58,20 +56,16 @@ const SideMenu: React.FC<SideMenuProps> = ({
                 })}
               >
                 {searchBoards && (
-                  <BoardsGroup title="Search Results">
-                    {searchBoards.map((board) => (
-                      <BoardPreview
-                        slug={board.slug}
-                        avatar={board.avatar}
-                        description={board.description}
-                        onClick={() => board.onClick?.(board.slug)}
-                        displayStyle={DisplayStyle.COMPACT}
-                        updates={board.updates}
-                        color={board.color}
-                        href={board.href}
-                      />
-                    ))}
-                  </BoardsGroup>
+                  <BoardsDisplay
+                    title="Search Results"
+                    boards={searchBoards}
+                    getBoardHref={(name: string) => name}
+                    onBoardClick={(name: string) =>
+                      searchBoards
+                        .find((board) => board.slug == name)
+                        ?.onClick?.(name)
+                    }
+                  />
                 )}
               </div>
             </>
@@ -80,20 +74,16 @@ const SideMenu: React.FC<SideMenuProps> = ({
             className={classnames("recent-boards", { visible: !searchVisible })}
           >
             {recentBoards && (
-              <BoardsGroup title="Recent Boards">
-                {recentBoards.map((board) => (
-                  <BoardPreview
-                    slug={board.slug}
-                    avatar={board.avatar}
-                    description={board.description}
-                    onClick={() => board.onClick?.(board.slug)}
-                    displayStyle={DisplayStyle.COMPACT}
-                    updates={board.updates}
-                    color={board.color}
-                    href={board.href}
-                  />
-                ))}
-              </BoardsGroup>
+              <BoardsDisplay
+                title="Recent Boards"
+                boards={recentBoards}
+                getBoardHref={(name: string) => name}
+                onBoardClick={(name: string) =>
+                  recentBoards
+                    .find((board) => board.slug == name)
+                    ?.onClick?.(name)
+                }
+              ></BoardsDisplay>
             )}
           </div>
           {showDismissNotifications && (
@@ -117,6 +107,9 @@ const SideMenu: React.FC<SideMenuProps> = ({
           }
           .recent-boards {
             display: none;
+          }
+          .pinned-boards {
+            max-width: 400px;
           }
           .recent-boards.visible {
             display: block;
