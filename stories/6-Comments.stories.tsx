@@ -2,6 +2,8 @@ import React from "react";
 //import { linkTo } from "@storybook/addon-links";
 import Comment from "../src/post/Comment";
 import CommentEditor from "../src/post/CommentEditor";
+import CommentChain from "../src/post/CommentChain";
+import CommentChainEditor from "../src/post/CommentChainEditor";
 import Button from "../src/common/Button";
 
 import tuxedoAvatar from "./images/tuxedo-mask.jpg";
@@ -129,4 +131,107 @@ export const Highlight = () => {
 
 Highlight.story = {
   name: "highlight",
+};
+
+export const CommentChainEditorStory = () => {
+  return (
+    <>
+      <CommentChainEditor
+        onSubmit={(text: string[]) => {
+          console.log(text);
+        }}
+        secretIdentity={{
+          name: "Tuxedo Mask",
+          avatar: `/${tuxedoAvatar}`,
+        }}
+        userIdentity={{ name: "SexyDaddy69", avatar: `/${mamoruAvatar}` }}
+        onCancel={() => {}}
+      />
+    </>
+  );
+};
+
+CommentChainEditorStory.story = {
+  name: "chained (editable)",
+};
+
+export const CommentChainStory = () => {
+  const commentRef = React.createRef<any>();
+  return (
+    <>
+      <CommentChain
+        ref={commentRef}
+        comments={[
+          {
+            id: "1",
+            text:
+              '[{"insert": "I mean, sure, but you know what also is great?"}]',
+          },
+          {
+            id: "1",
+            text: '[{"insert": "Deze nuts."}]',
+          },
+          {
+            id: "1",
+            text: '[{"insert": "Wait is that how you type it?"}]',
+          },
+        ]}
+        secretIdentity={{
+          name: "Tuxedo Mask",
+          avatar: `/${tuxedoAvatar}`,
+        }}
+        userIdentity={{ name: "SexyDaddy69", avatar: `/${mamoruAvatar}` }}
+      />
+      <div style={{ marginTop: "20px" }}>
+        <Button onClick={() => commentRef.current.highlight("red")}>
+          Highlight!
+        </Button>
+      </div>
+    </>
+  );
+};
+CommentChainStory.story = {
+  name: "chained",
+};
+
+export const ExtraActionStory = () => {
+  return (
+    <>
+      <CommentChain
+        comments={[
+          {
+            id: "1",
+            text:
+              '[{"insert": "I mean, sure, but you know what also is great?"}]',
+          },
+          {
+            id: "1",
+            text: '[{"insert": "Deze nuts."}]',
+          },
+          {
+            id: "1",
+            text: '[{"insert": "Wait is that how you type it?"}]',
+          },
+        ]}
+        secretIdentity={{
+          name: "Tuxedo Mask",
+          avatar: `/${tuxedoAvatar}`,
+        }}
+        userIdentity={{ name: "SexyDaddy69", avatar: `/${mamoruAvatar}` }}
+        onExtraAction={() => {}}
+      />
+      <Comment
+        id="comment"
+        initialText={
+          '[{"insert":"This card has a really long word: JugemuJugemuGokonoSurikireKaijarisuigyonoSuigyomatsuUnraimatsuFuraimatsuKuNeruTokoroniSumuTokoroYaburaKojinoBuraKojiPaipopaipoPaiponoShuringanShuringannoGurindaiGurindainoPonpokopinoPonpokonanoChokyumeinoChosuke."}]'
+        }
+        secretIdentity={{ name: "Tuxedo Mask", avatar: `/${tuxedoAvatar}` }}
+        userIdentity={{ name: "SexyDaddy69", avatar: `/${mamoruAvatar}` }}
+        onExtraAction={() => {}}
+      />
+    </>
+  );
+};
+ExtraActionStory.story = {
+  name: "extra action",
 };

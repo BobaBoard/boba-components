@@ -263,7 +263,7 @@ export default PostEditor;
 
 export interface PostEditorProps {
   initialText?: string;
-  secretIdentity: {
+  secretIdentity?: {
     avatar: string;
     name: string;
   };

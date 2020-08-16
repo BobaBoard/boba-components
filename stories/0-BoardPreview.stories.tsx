@@ -29,7 +29,7 @@ BoardPreviewSimple.story = {
 };
 
 export const BoardPreviewCompact = () => (
-  <div>
+  <div style={{ width: "500px" }}>
     <div>
       <BoardPreview
         slug="gore"

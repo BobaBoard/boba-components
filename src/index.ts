@@ -15,12 +15,16 @@ import ModalWithButtons from "./common/ModalWithButtons";
 import PostEditor, { setTumblrEmbedFetcher } from "./post/PostEditor";
 import Post, { PostSizes, PostHandler } from "./post/Post";
 import Comment, { CommentHandler } from "./post/Comment";
+import CompactThreadIndent, { useIndent } from "./post/CompactThreadIndent";
+import CommentChain from "./post/CommentChain";
+import CommentChainEditor from "./post/CommentChainEditor";
 import CommentEditor from "./post/CommentEditor";
 import ThreadIndent from "./post/ThreadIndent";
 import PostingActionButton from "./board/PostingActionButton";
 import CycleNewButton from "./board/CycleNewButton";
 import Layout from "./layout/Layout";
 import { useCompact } from "./utils";
+import DefaultTheme from "./theme/default";
 
 import flush from "styled-jsx/server";
 
@@ -39,7 +43,11 @@ export {
   PostEditor,
   PostingActionButton,
   Comment,
+  CommentChain,
+  CommentChainEditor,
   CommentHandler,
+  CompactThreadIndent,
+  useIndent,
   CommentEditor,
   CycleNewButton,
   ThreadIndent,
@@ -51,4 +59,5 @@ export {
   setTumblrEmbedFetcher,
   flush,
   useCompact,
+  DefaultTheme,
 };

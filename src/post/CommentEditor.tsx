@@ -22,37 +22,43 @@ const CommentFooter = (props: {
   charactersLeft: number;
   isEmpty: boolean;
   onCancel: () => void;
-  size: string;
   onSubmit: () => void;
   loading: boolean;
+  withActions?: boolean;
+  canSubmit: boolean;
 }) => {
+  const containerRef = React.useRef<HTMLDivElement>(null);
+  let { width } = useComponentSize(containerRef);
+  const size = width > SIZE_TRIGGER ? SIZES.REGULAR : SIZES.COMPACT;
   return (
     <>
-      <div className="footer">
+      <div className="footer" ref={containerRef}>
         <span
           className={classNames("characters-remaining", {
             error: props.charactersLeft < 0,
-            compact: props.size === SIZES.COMPACT,
+            compact: size === SIZES.COMPACT,
           })}
         >
           {props.charactersLeft} <span>characters left</span>
         </span>
-        <div className="actions">
+        <div
+          className={classNames("actions", {
+            hidden: props.withActions === false,
+          })}
+        >
           <Button
             onClick={props.onCancel}
             icon={faCross}
-            compact={props.size === SIZES.COMPACT}
+            compact={size === SIZES.COMPACT}
             disabled={props.loading}
           >
             Cancel
           </Button>
           <Button
             onClick={props.onSubmit}
-            disabled={
-              props.isEmpty || props.charactersLeft < 0 || props.loading
-            }
+            disabled={!props.canSubmit}
             icon={faCheck}
-            compact={props.size === SIZES.COMPACT}
+            compact={size === SIZES.COMPACT}
           >
             Submit
           </Button>
@@ -64,6 +70,9 @@ const CommentFooter = (props: {
           justify-content: space-between;
           align-items: center;
           margin-top: 10px;
+        }
+        .actions.hidden {
+          visibility: hidden;
         }
         .actions > :global(div:not(:first-child)) {
           margin-left: 5px;
@@ -86,29 +95,41 @@ const CommentFooter = (props: {
     </>
   );
 };
-const MAX_CHARACTERS = 200;
-const Comment: React.FC<CommentProps> = (props) => {
-  const containerRef = React.useRef<HTMLDivElement>(null);
+
+const MAX_CHARACTERS = 300;
+const Comment = React.forwardRef<EditorRef, CommentProps>((props, ref) => {
+  const headerRef = React.useRef<HTMLDivElement>(null);
+  const editorRef = React.useRef<HTMLDivElement>(null);
   // @ts-ignore
   const [showCancelModal, setShowCancelModal] = React.useState(false);
-  const [size, setSize] = React.useState(SIZES.COMPACT);
   const [charactersTyped, setCharactersTyped] = React.useState(1);
   const [text, setText] = React.useState(props.initialText || "[]");
-  // @ts-ignore
-  let { width, height } = useComponentSize(containerRef);
-  React.useLayoutEffect(() => {
-    setSize(width > SIZE_TRIGGER ? SIZES.REGULAR : SIZES.COMPACT);
-  }, [width]);
+
+  // TODO: do something that's less of a crime
+  React.useImperativeHandle(
+    ref,
+    () => ({
+      headerRef,
+      editorRef,
+      text,
+    }),
+    [text]
+  );
+
+  const canSubmit = (charactersTyped: number) =>
+    !(
+      charactersTyped == 1 ||
+      MAX_CHARACTERS - charactersTyped < 0 ||
+      props.loading
+    );
 
   return (
     <>
       <div
         className={classNames("comment-container", {
-          compact: size == SIZES.COMPACT,
           loading: props.loading,
           centered: props.centered,
         })}
-        ref={containerRef}
       >
         <div className="header">
           <Header
@@ -117,42 +138,61 @@ const Comment: React.FC<CommentProps> = (props) => {
             userIdentity={props.userIdentity}
           />
         </div>
-        <div className={classNames("comment")}>
-          <div className="editor">
-            <div className={"spinner"}>
-              <Spinner size={50} />
+        <div className={classNames("editor")}>
+          <div
+            className={classNames("comment", { muted: props.muted })}
+            ref={editorRef}
+          >
+            <div className="editor">
+              <div className={"spinner"}>
+                <Spinner size={50} />
+              </div>
+              <div>
+                <Editor
+                  key={"comment_editor"}
+                  editable={!props.loading}
+                  initialText={JSON.parse(text)}
+                  onTextChange={(text: any) => {
+                    const jsonText = JSON.stringify(text);
+                    props.onTextChange?.(jsonText);
+                    setText(jsonText);
+                  }}
+                  focus={!!props.focus}
+                  onCharactersChange={(characters: number) => {
+                    setCharactersTyped(characters);
+                    if (
+                      (charactersTyped > 1 && characters == 1) ||
+                      (charactersTyped == 1 && characters > 1)
+                    ) {
+                      props.onIsEmptyChange?.(characters == 1);
+                    }
+                    props.onCanSubmitChange?.(canSubmit(characters));
+                  }}
+                  onSubmit={() => {
+                    // This is for cmd + enter
+                    props.onSubmit(text);
+                  }}
+                  singleLine={true}
+                  showTooltip={false}
+                />
+              </div>
             </div>
-            <div>
-              <Editor
-                key={"comment_editor"}
-                editable={!props.loading}
-                initialText={JSON.parse(text)}
-                onTextChange={(text: any) => setText(JSON.stringify(text))}
-                focus={!!props.focus}
-                onCharactersChange={(characters: number) =>
-                  setCharactersTyped(characters)
-                }
-                onSubmit={() => {
-                  // This is for cmd + enter
-                  props.onSubmit(text);
-                }}
-                singleLine={true}
-                showTooltip={false}
-              />
-            </div>
+            <CommentFooter
+              charactersLeft={MAX_CHARACTERS - charactersTyped}
+              isEmpty={charactersTyped == 1}
+              onSubmit={() => {
+                props.onSubmit(text);
+              }}
+              onCancel={() => {
+                props.onCancel();
+              }}
+              loading={!!props.loading}
+              withActions={props.withActions}
+              canSubmit={
+                canSubmit(charactersTyped) && props.canSubmit !== false
+              }
+            />
           </div>
-          <CommentFooter
-            size={size}
-            charactersLeft={MAX_CHARACTERS - charactersTyped}
-            isEmpty={charactersTyped == 1}
-            onSubmit={() => {
-              props.onSubmit(text);
-            }}
-            onCancel={() => {
-              props.onCancel();
-            }}
-            loading={!!props.loading}
-          />
         </div>
         {/* 
           <ModalTransition>
@@ -199,6 +239,10 @@ const Comment: React.FC<CommentProps> = (props) => {
           margin-right: 10px;
           cursor: pointer;
         }
+        .editor {
+          position: relative;
+          width: 100%;
+        }
         .comment {
           position: relative;
           padding: 15px 20px;
@@ -207,6 +251,9 @@ const Comment: React.FC<CommentProps> = (props) => {
           min-width: 0;
           background: white;
           border-radius: 15px;
+        }
+        .comment.muted {
+          background: #dcdcdc;
         }
         .error {
           color: red;
@@ -234,23 +281,33 @@ const Comment: React.FC<CommentProps> = (props) => {
       `}</style>
     </>
   );
-};
+});
+
+export interface EditorRef {
+  editorRef: React.RefObject<HTMLDivElement>;
+}
 
 export interface CommentProps {
   focus?: boolean;
-  secretIdentity: {
+  secretIdentity?: {
     avatar: string;
     name: string;
   };
-  userIdentity: {
+  userIdentity?: {
     avatar: string;
     name: string;
   };
   initialText?: string;
   onCancel: () => void;
   onSubmit: (text: string) => void;
+  onTextChange?: (text: string) => void;
+  onCanSubmitChange?: (canSubmit: boolean) => void;
+  onIsEmptyChange?: (empty: boolean) => void;
   loading?: boolean;
   centered?: boolean;
+  withActions?: boolean;
+  canSubmit?: boolean;
+  muted?: boolean;
 }
 
 export default Comment;

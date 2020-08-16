@@ -15,23 +15,46 @@ const withNesting = (
   maxLevel: number,
   ends?: {
     level: number;
-    onClick: () => void;
+    onBeamUpClick: () => void;
+    onAddContributionClick: () => void;
   }[]
 ) => {
-  const hasAddNew = ends?.map((ends) => ends.level).includes(maxLevel - level);
+  const hasBeamUp = ends?.map((ends) => ends.level).includes(maxLevel - level);
+  let isOutermost = false;
+  if (hasBeamUp) {
+    // Check if this was the outermost beam up
+    isOutermost = !ends?.some((end) => end.level < maxLevel - level);
+  }
   return (
     <>
-      <div className={classnames(`nested`, { "has-new": hasAddNew })}>
+      <div
+        className={classnames(`nested`, {
+          "has-beam-up": hasBeamUp,
+          outermost: isOutermost,
+        })}
+      >
         {" "}
         {el}
-        {hasAddNew && (
-          <div className="add-new">
-            <FontAwesomeIcon
-              icon={faAngleDoubleUp}
+        {hasBeamUp && (
+          <div>
+            <div className="beam-up">
+              <FontAwesomeIcon
+                icon={faAngleDoubleUp}
+                onClick={
+                  ends?.find((end) => end.level == maxLevel - level)
+                    ?.onBeamUpClick
+                }
+              />
+            </div>
+            <div
+              className="add-new"
               onClick={
-                ends?.find((end) => end.level == maxLevel - level)?.onClick
+                ends?.find((end) => end.level == maxLevel - level)
+                  ?.onAddContributionClick
               }
-            />
+            >
+              Append Contribution
+            </div>
           </div>
         )}
       </div>
@@ -42,9 +65,12 @@ const withNesting = (
         .nested {
           margin-left: ${indentationSizePx + barGap}px;
         }
-        .nested.has-new {
+        .nested.has-beam-up {
           padding-bottom: 20px;
           margin-bottom: 15px;
+        }
+        .outermost.has-beam-up {
+          margin-bottom: 22px;
         }
         .nested::before {
           content: "";
@@ -60,6 +86,28 @@ const withNesting = (
           border-radius: 100px;
         }
         .add-new {
+          position: absolute;
+          left: 10px;
+          bottom: -10px;
+          border: 1px dashed
+            ${Theme.INDENT_COLORS[
+              (maxLevel - level) % Theme.INDENT_COLORS.length
+            ]};
+          padding: 3px 8px;
+          border-radius: 15px;
+          color: ${Theme.INDENT_COLORS[
+            (maxLevel - level) % Theme.INDENT_COLORS.length
+          ]};
+          bottom: -15px;
+        }
+        .add-new:hover {
+          cursor: pointer;
+          background-color: ${Theme.INDENT_COLORS[
+            (maxLevel - level) % Theme.INDENT_COLORS.length
+          ]};
+          color: ${Theme.LAYOUT_BOARD_BACKGROUND_COLOR};
+        }
+        .beam-up {
           color: ${Theme.LAYOUT_BOARD_BACKGROUND_COLOR};
           position: absolute;
           bottom: -10px;
@@ -73,7 +121,7 @@ const withNesting = (
           border-radius: 50%;
           z-index: 5;
         }
-        .add-new:hover {
+        .beam-up:hover {
           cursor: pointer;
         }
       `}</style>
@@ -127,6 +175,7 @@ export interface ThreadIndentProps {
   level: number;
   ends?: {
     level: number;
-    onClick: () => void;
+    onBeamUpClick: () => void;
+    onAddContributionClick: () => void;
   }[];
 }

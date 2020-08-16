@@ -1,6 +1,9 @@
 import React from "react";
 import CompactThread from "../src/post/CompactThread";
 import ThreadIndent from "../src/post/ThreadIndent";
+import CompactThreadIndent, {
+  useIndent,
+} from "../src/post/CompactThreadIndent";
 import Post, { PostSizes } from "../src/post/Post";
 
 import Theme from "../src/theme/default";
@@ -10,6 +13,8 @@ import greedlerAvatar from "./images/greedler.jpg";
 import tuxedoAvatar from "./images/tuxedo-mask.jpg";
 import mamoruAvatar from "./images/mamoru.png";
 import hannibalAvatar from "./images/hannibal.png";
+import CommentChain from "../src/post/CommentChain";
+import { CommentHandler } from "index";
 
 export default {
   title: "Thread Preview",
@@ -170,9 +175,21 @@ export const RegularThread = () => {
       <ThreadIndent
         level={3}
         ends={[
-          { level: 0, onClick: () => console.log("click0") },
-          { level: 1, onClick: () => console.log("click1") },
-          { level: 2, onClick: () => console.log("click2") },
+          {
+            level: 0,
+            onBeamUpClick: () => console.log("click0"),
+            onAddContributionClick: () => console.log("click0"),
+          },
+          {
+            level: 1,
+            onBeamUpClick: () => console.log("click1"),
+            onAddContributionClick: () => console.log("click1"),
+          },
+          {
+            level: 2,
+            onBeamUpClick: () => console.log("click2"),
+            onAddContributionClick: () => console.log("click2"),
+          },
         ]}
       >
         <div style={{ paddingTop: "15px", maxWidth: "550px" }}>
@@ -248,4 +265,191 @@ export const ShortContent = () => {
 
 ShortContent.story = {
   name: "short content (flex)",
+};
+
+export const ThreadedComments = () => {
+  const lvl0Indent = useIndent();
+  const lvl1Indent = useIndent();
+  const lvl2Indent = useIndent();
+  const lvl3Indent = useIndent();
+  const lvl4Indent = useIndent();
+
+  return (
+    <div
+      style={{
+        marginLeft: "100px",
+        backgroundColor: "Theme.LAYOUT_BOARD_BACKGROUND_COLOR",
+      }}
+    >
+      <CompactThreadIndent level={0} startsFromViewport={lvl0Indent.bounds}>
+        <div style={{ paddingTop: "15px", maxWidth: "550px" }}>
+          <CommentChain
+            ref={lvl0Indent.handler}
+            comments={[
+              {
+                id: "1",
+                text:
+                  '[{"insert": "[LVL 0] I mean, sure, but you know what also is great?"}]',
+              },
+              {
+                id: "2",
+                text: '[{"insert": "Deze nuts."}]',
+              },
+              {
+                id: "3",
+                text: '[{"insert": "Wait is that how you type it?"}]',
+              },
+            ]}
+            secretIdentity={{
+              name: "Tuxedo Mask",
+              avatar: `/${tuxedoAvatar}`,
+            }}
+            userIdentity={{ name: "SexyDaddy69", avatar: `/${mamoruAvatar}` }}
+          />
+        </div>
+        <CompactThreadIndent level={1} startsFromViewport={lvl1Indent.bounds}>
+          <div style={{ paddingTop: "15px", opacity: 1 }}>
+            <CommentChain
+              ref={lvl1Indent.handler}
+              comments={[
+                {
+                  id: "1",
+                  text:
+                    '[{"insert": "[LVL 1]I mean, sure, but you know what also is great?"}]',
+                },
+                {
+                  id: "2",
+                  text: '[{"insert": "Deze nuts."}]',
+                },
+                {
+                  id: "3",
+                  text: '[{"insert": "Wait is that how you type it?"}]',
+                },
+              ]}
+              secretIdentity={{
+                name: "Tuxedo Mask",
+                avatar: `/${tuxedoAvatar}`,
+              }}
+              userIdentity={{ name: "SexyDaddy69", avatar: `/${mamoruAvatar}` }}
+            />
+            <CommentChain
+              comments={[
+                {
+                  id: "1",
+                  text:
+                    '[{"insert": "[LVL 1]I mean, sure, but you know what also is great?"}]',
+                },
+                {
+                  id: "2",
+                  text: '[{"insert": "Deze nuts."}]',
+                },
+                {
+                  id: "3",
+                  text: '[{"insert": "Wait is that how you type it?"}]',
+                },
+              ]}
+              secretIdentity={{
+                name: "Tuxedo Mask",
+                avatar: `/${tuxedoAvatar}`,
+              }}
+              userIdentity={{ name: "SexyDaddy69", avatar: `/${mamoruAvatar}` }}
+            />
+          </div>{" "}
+          <CompactThreadIndent level={2} startsFromViewport={lvl2Indent.bounds}>
+            <div style={{ paddingTop: "15px", opacity: 1 }}>
+              <CommentChain
+                ref={lvl2Indent.handler}
+                comments={[
+                  {
+                    id: "1",
+                    text:
+                      '[{"insert": "[LVL2] I mean, sure, but you know what also is great?"}]',
+                  },
+                  {
+                    id: "2",
+                    text: '[{"insert": "Deze nuts."}]',
+                  },
+                  {
+                    id: "3",
+                    text: '[{"insert": "Wait is that how you type it?"}]',
+                  },
+                ]}
+                secretIdentity={{
+                  name: "Tuxedo Mask",
+                  avatar: `/${tuxedoAvatar}`,
+                }}
+                userIdentity={{
+                  name: "SexyDaddy69",
+                  avatar: `/${mamoruAvatar}`,
+                }}
+              />
+            </div>
+            <CompactThreadIndent
+              level={3}
+              startsFromViewport={lvl3Indent.bounds}
+            >
+              <CommentChain
+                ref={lvl3Indent.handler}
+                comments={[
+                  {
+                    id: "1",
+                    text:
+                      '[{"insert": "[LVL3] I mean, sure, but you know what also is great?"}]',
+                  },
+                  {
+                    id: "2",
+                    text: '[{"insert": "Deze nuts."}]',
+                  },
+                  {
+                    id: "3",
+                    text: '[{"insert": "Wait is that how you type it?"}]',
+                  },
+                ]}
+                secretIdentity={{
+                  name: "Tuxedo Mask",
+                  avatar: `/${tuxedoAvatar}`,
+                }}
+                userIdentity={{
+                  name: "SexyDaddy69",
+                  avatar: `/${mamoruAvatar}`,
+                }}
+              />
+            </CompactThreadIndent>
+          </CompactThreadIndent>
+        </CompactThreadIndent>
+
+        <CompactThreadIndent level={1} startsFromViewport={lvl4Indent.bounds}>
+          <div style={{ paddingTop: "15px", opacity: 1 }}>
+            <CommentChain
+              ref={lvl4Indent.handler}
+              comments={[
+                {
+                  id: "1",
+                  text:
+                    '[{"insert": "[LVL1] I mean, sure, but you know what also is great?"}]',
+                },
+                {
+                  id: "2",
+                  text: '[{"insert": "Deze nuts."}]',
+                },
+                {
+                  id: "3",
+                  text: '[{"insert": "Wait is that how you type it?"}]',
+                },
+              ]}
+              secretIdentity={{
+                name: "Tuxedo Mask",
+                avatar: `/${tuxedoAvatar}`,
+              }}
+              userIdentity={{ name: "SexyDaddy69", avatar: `/${mamoruAvatar}` }}
+            />
+          </div>
+        </CompactThreadIndent>
+      </CompactThreadIndent>
+    </div>
+  );
+};
+
+ThreadedComments.story = {
+  name: "comments",
 };
