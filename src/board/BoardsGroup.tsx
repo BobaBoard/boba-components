@@ -19,15 +19,14 @@ const BoardsGroup: React.FC<BoardsGroupProps> = (props) => {
           font-size: 20px;
         }
         .boards {
-          margin-left: 10px;
+          display: grid;
+          grid-template-columns: repeat(auto-fit, minmax(100px, 1fr));
+          gap: 10px;
         }
         .boards-group {
           margin-bottom: 15px;
         }
         .single-board {
-          margin-bottom: 5px;
-          margin-right: 15px;
-          display: inline-block;
         }
       `}</style>
     </div>
