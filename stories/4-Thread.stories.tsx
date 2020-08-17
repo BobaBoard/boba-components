@@ -270,9 +270,10 @@ ShortContent.story = {
 export const ThreadedComments = () => {
   const lvl0Indent = useIndent();
   const lvl1Indent = useIndent();
+  const lvl1p2Indent = useIndent();
   const lvl2Indent = useIndent();
   const lvl3Indent = useIndent();
-  const lvl4Indent = useIndent();
+  const lvl1p3Indent = useIndent();
 
   return (
     <div
@@ -281,7 +282,15 @@ export const ThreadedComments = () => {
         backgroundColor: "Theme.LAYOUT_BOARD_BACKGROUND_COLOR",
       }}
     >
-      <CompactThreadIndent level={0} startsFromViewport={lvl0Indent.bounds}>
+      <CompactThreadIndent
+        level={0}
+        startsFromViewport={lvl0Indent.bounds}
+        nestedHandlers={[
+          lvl1Indent.bounds,
+          lvl1p2Indent.bounds,
+          lvl1p3Indent.bounds,
+        ]}
+      >
         <div style={{ paddingTop: "15px", maxWidth: "550px" }}>
           <CommentChain
             ref={lvl0Indent.handler}
@@ -333,6 +342,7 @@ export const ThreadedComments = () => {
               userIdentity={{ name: "SexyDaddy69", avatar: `/${mamoruAvatar}` }}
             />
             <CommentChain
+              ref={lvl1p2Indent.handler}
               comments={[
                 {
                   id: "1",
@@ -418,10 +428,10 @@ export const ThreadedComments = () => {
           </CompactThreadIndent>
         </CompactThreadIndent>
 
-        <CompactThreadIndent level={1} startsFromViewport={lvl4Indent.bounds}>
+        <CompactThreadIndent level={1} startsFromViewport={lvl1p3Indent.bounds}>
           <div style={{ paddingTop: "15px", opacity: 1 }}>
             <CommentChain
-              ref={lvl4Indent.handler}
+              ref={lvl1p3Indent.handler}
               comments={[
                 {
                   id: "1",
