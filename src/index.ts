@@ -12,7 +12,10 @@ import Input, { InputStyle } from "./common/Input";
 import ToastContainer, { toast } from "./common/Toast";
 import Modal from "./common/Modal";
 import ModalWithButtons from "./common/ModalWithButtons";
-import PostEditor, { setTumblrEmbedFetcher } from "./post/PostEditor";
+import PostEditor, {
+  setTumblrEmbedFetcher,
+  setOEmbedFetcher,
+} from "./post/PostEditor";
 import Post, { PostSizes, PostHandler } from "./post/Post";
 import Comment, { CommentHandler } from "./post/Comment";
 import CompactThreadIndent, { useIndent } from "./post/CompactThreadIndent";
@@ -57,6 +60,7 @@ export {
   ToastContainer,
   toast,
   setTumblrEmbedFetcher,
+  setOEmbedFetcher,
   flush,
   useCompact,
   DefaultTheme,

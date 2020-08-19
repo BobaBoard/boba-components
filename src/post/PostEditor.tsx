@@ -10,6 +10,8 @@ import Editor, {
   getAllImages,
   replaceImages,
   setTumblrEmbedFetcher as libSetFetcher,
+  setOEmbedFetcher as libSetEmbedFetcher,
+  removeTrailingWhitespace,
   // @ts-ignore
 } from "@bobaboard/boba-editor";
 
@@ -21,12 +23,13 @@ import { TagsType } from "../types";
 import { TagsFactory } from "../common/Tag";
 
 export const setTumblrEmbedFetcher = libSetFetcher;
+export const setOEmbedFetcher = libSetEmbedFetcher;
 
 const prepareForSubmission = (
   text: string,
   uploadFunction: (src: string) => Promise<string>
 ) => {
-  const delta = JSON.parse(text);
+  const delta = removeTrailingWhitespace(JSON.parse(text));
   const images = getAllImages(delta);
   return Promise.all(images.map((src: string) => uploadFunction(src))).then(
     (uploadedImages) => {
