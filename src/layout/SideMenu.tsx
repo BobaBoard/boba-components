@@ -32,7 +32,9 @@ const SideMenu: React.FC<SideMenuProps> = ({
               <BoardsDisplay
                 title="Pinned Boards"
                 boards={pinnedBoards}
-                getBoardHref={(name: string) => name}
+                getBoardHref={(name: string) =>
+                  pinnedBoards.find((board) => board.slug == name)?.href || "/"
+                }
                 onBoardClick={(name: string) =>
                   pinnedBoards
                     .find((board) => board.slug == name)
@@ -62,7 +64,10 @@ const SideMenu: React.FC<SideMenuProps> = ({
                   <BoardsDisplay
                     title="Search Results"
                     boards={searchBoards}
-                    getBoardHref={(name: string) => name}
+                    getBoardHref={(name: string) =>
+                      searchBoards.find((board) => board.slug == name)?.href ||
+                      "/"
+                    }
                     onBoardClick={(name: string) =>
                       searchBoards
                         .find((board) => board.slug == name)
@@ -80,7 +85,9 @@ const SideMenu: React.FC<SideMenuProps> = ({
               <BoardsDisplay
                 title="Recent Boards"
                 boards={recentBoards}
-                getBoardHref={(name: string) => name}
+                getBoardHref={(name: string) =>
+                  recentBoards.find((board) => board.slug == name)?.href || "/"
+                }
                 onBoardClick={(name: string) =>
                   recentBoards
                     .find((board) => board.slug == name)
