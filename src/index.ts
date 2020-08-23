@@ -28,6 +28,7 @@ import CycleNewButton from "./board/CycleNewButton";
 import Layout from "./layout/Layout";
 import { useCompact } from "./utils";
 import DefaultTheme from "./theme/default";
+import CategoryFilter from "./common/CategoryFilter";
 
 import flush from "styled-jsx/server";
 
@@ -64,4 +65,5 @@ export {
   flush,
   useCompact,
   DefaultTheme,
+  CategoryFilter,
 };
