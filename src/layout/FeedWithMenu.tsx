@@ -16,6 +16,7 @@ export interface FeedWithMenuProps {
   sidebarContent: JSX.Element;
   feedContent: JSX.Element;
   showSidebar?: boolean;
+  forceHideSidebar?: boolean;
   onCloseSidebar?: () => void;
   accentColor?: string;
   onReachEnd?: () => void;
@@ -49,6 +50,7 @@ const FeedWithMenu: React.FC<FeedWithMenuProps> = ({
   showSidebar,
   onCloseSidebar,
   onReachEnd,
+  forceHideSidebar,
 }) => {
   const scrollableContentRef = React.createRef<any>();
   const intersectionObserverRef = React.useRef<HTMLDivElement>(null);
@@ -172,7 +174,10 @@ const FeedWithMenu: React.FC<FeedWithMenuProps> = ({
     <>
       <div className="content" ref={scrollableContentRef}>
         <div
-          className={classnames("sidebar", { visible: showSidebar })}
+          className={classnames("sidebar", {
+            visible: showSidebar,
+            "force-hide": forceHideSidebar,
+          })}
           // onClick={(e) => {
           //   e.stopPropagation();
           // }}
@@ -218,6 +223,10 @@ const FeedWithMenu: React.FC<FeedWithMenuProps> = ({
             align-items: center;
             flex-grow: 1;
             padding: 0 20px;
+            position: relative;
+          }
+          .sidebar.force-hide {
+            display: none;
           }
           .sidebar {
             width: 350px;

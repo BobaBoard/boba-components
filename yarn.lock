@@ -7940,6 +7940,11 @@ lru-cache@^5.1.1:
   dependencies:
     yallist "^3.0.2"
 
+magic-grid@^3.2.4:
+  version "3.2.4"
+  resolved "https://registry.yarnpkg.com/magic-grid/-/magic-grid-3.2.4.tgz#3770740fa46b6c6da25b551ac77fca4754068d23"
+  integrity sha512-zdV8b4q3YpmWZKLcbbfKisxAWlYF9S2dguCi3LR9pq59yq2pl140td4ViwDqYkZGZ6TP+B7YaExaVE3YNqN7/g==
+
 make-dir@^1.0.0:
   version "1.3.0"
   resolved "https://registry.yarnpkg.com/make-dir/-/make-dir-1.3.0.tgz#79c1033b80515bd6d24ec9933e860ca75ee27f0c"
@@ -9789,6 +9794,11 @@ react-loader-spinner@^3.1.14:
   dependencies:
     babel-runtime "^6.26.0"
     prop-types "^15.7.2"
+
+react-magic-grid@^1.1.0:
+  version "1.1.0"
+  resolved "https://registry.yarnpkg.com/react-magic-grid/-/react-magic-grid-1.1.0.tgz#c25b415ac9de7083ff296f8914a887417226686b"
+  integrity sha512-kmeFe2fNlZjZqayAL3aaPX0mDwStu3tbpos7H5leWtnRa1AJgdRA5EJtUFb1FvStQgj0eQNSDm5x5fel3Qp+QA==
 
 react-modal@^3.11.2:
   version "3.11.2"

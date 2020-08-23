@@ -9,6 +9,7 @@ import Button from "../src/common/Button";
 import ModalWithButtons from "../src/common/ModalWithButtons";
 import Input from "../src/common/Input";
 import Post from "../src/post/Post";
+import MasonryView from "../src/layout/MasonryView";
 
 import oncelerAvatar from "./images/oncie.jpg";
 import greedlerAvatar from "./images/greedler.jpg";
@@ -631,4 +632,84 @@ export const ModalWithButtonsStory = () => {
 
 ModalWithButtonsStory.story = {
   name: "modal with buttons",
+};
+
+export const MasonryLayout = () => {
+  const [showSidebar, setShowSidebar] = React.useState(false);
+  return (
+    <>
+      <Layout
+        mainContent={
+          <FeedWithMenu
+            sidebarContent={<div />}
+            feedContent={
+              <MasonryView>
+                {POSTS.map((post) => (
+                  <div
+                    style={{
+                      marginTop: "20px",
+                      marginBottom: "20px",
+                      maxWidth: "500px",
+                    }}
+                  >
+                    <Post
+                      newPost={post.newPost}
+                      createdTime={post.createdTime}
+                      text={post.text}
+                      secretIdentity={post.secretIdentity}
+                      userIdentity={post.userIdentity}
+                      newComments={post.newComments}
+                      totalComments={post.totalComments}
+                      totalContributions={post.totalContributions}
+                      directContributions={post.directContributions}
+                      onNewContribution={() => console.log("click!")}
+                      onNewComment={() => console.log("click!")}
+                      onNotesClick={() => console.log("click")}
+                      notesUrl={"#"}
+                    />
+                  </div>
+                ))}
+              </MasonryView>
+            }
+            showSidebar={showSidebar}
+            onCloseSidebar={() => setShowSidebar(false)}
+            forceHideSidebar={true}
+            onReachEnd={() => {
+              log(`Reached end`);
+            }}
+          />
+        }
+        sideMenuContent={
+          <SideMenu
+            pinnedBoards={PINNED_BOARDS}
+            searchBoards={SEARCH_BOARDS}
+            recentBoards={RECENT_BOARDS}
+            showDismissNotifications
+            onNotificationsDismissRequest={() => {}}
+          />
+        }
+        actionButton={
+          <PostingActionButton
+            accentColor="#f96680"
+            onNewPost={() => console.log("hi!")}
+          />
+        }
+        headerAccent="#f96680"
+        title="!gore"
+        onLogoClick={() => console.log("clack")}
+        onTitleClick={() => {
+          setShowSidebar(!showSidebar);
+        }}
+        onUserBarClick={() => console.log("userbar click!")}
+        loggedInMenuOptions={[
+          { name: "opt1", onClick: () => console.log("opt1 click!") },
+          { name: "opt2", onClick: () => console.log("opt2 click!") },
+        ]}
+      />
+    </>
+  );
+};
+
+MasonryLayout.story = {
+  name: "masonry layout",
 };

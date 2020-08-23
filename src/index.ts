@@ -29,6 +29,7 @@ import Layout from "./layout/Layout";
 import { useCompact } from "./utils";
 import DefaultTheme from "./theme/default";
 import CategoryFilter from "./common/CategoryFilter";
+import MasonryView from "./layout/MasonryView";
 
 import flush from "styled-jsx/server";
 
@@ -59,6 +60,7 @@ export {
   BoardSidebar,
   BoardsDisplay,
   ToastContainer,
+  MasonryView,
   toast,
   setTumblrEmbedFetcher,
   setOEmbedFetcher,
