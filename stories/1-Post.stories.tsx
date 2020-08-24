@@ -5,6 +5,7 @@ import Header, { HeaderStyle } from "../src/post/Header";
 import Footer from "../src/post/Footer";
 import EditorFooter from "../src/post/EditorFooter";
 import Post from "../src/post/Post";
+import PostQuote from "../src/post/PostQuote";
 import Editor from "@bobaboard/boba-editor";
 
 import oncelerAvatar from "./images/oncie.jpg";
@@ -649,4 +650,22 @@ export const PostReload = () => {
 
 PostReload.story = {
   name: "increase!",
+};
+
+export const PostQuoteStory = () => {
+  return (
+    <div style={{ width: "300px" }}>
+      <PostQuote
+        createdTime="yesterday"
+        text={
+          '[{"insert":"Open RP"},{"attributes":{"header":1},"insert":"\\n"},{"insert":{"block-image":"https://cdn.discordapp.com/attachments/443967088118333442/691486081895628830/unknown.png"}}, {"attributes":{"italic":true},"insert":"You have my sword..."}]'
+        }
+        secretIdentity={{ name: "Tuxedo Mask", avatar: `/${tuxedoAvatar}` }}
+        userIdentity={{ name: "SexyDaddy69", avatar: `/${mamoruAvatar}` }}
+      />
+    </div>
+  );
+};
+PostQuoteStory.story = {
+  name: "quote",
 };

@@ -30,6 +30,7 @@ import { useCompact } from "./utils";
 import DefaultTheme from "./theme/default";
 import CategoryFilter from "./common/CategoryFilter";
 import MasonryView from "./layout/MasonryView";
+import PostQuote from "./post/PostQuote";
 
 import flush from "styled-jsx/server";
 
@@ -68,4 +69,5 @@ export {
   useCompact,
   DefaultTheme,
   CategoryFilter,
+  PostQuote,
 };
