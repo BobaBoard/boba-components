@@ -59,7 +59,13 @@ const Metadata: React.FC<PostHeaderProps> = (props) => {
             )}
           </div>
           {props.createdMessage && (
-            <div className="timestamp">{props.createdMessage}</div>
+            <div className="timestamp">
+              {props.createdMessageHref ? (
+                <a href={props.createdMessageHref}>{props.createdMessage}</a>
+              ) : (
+                props.createdMessage
+              )}
+            </div>
           )}
         </div>
       </div>
@@ -80,6 +86,13 @@ const Metadata: React.FC<PostHeaderProps> = (props) => {
             white-space: nowrap;
             text-overflow: ellipsis;
             overflow: hidden;
+          }
+          .timestamp a {
+            color: ${DefaultTheme.POST_HEADER_DATE_COLOR};
+            text-decoration: none;
+          }
+          .timestamp a:hover {
+            text-decoration: underline;
           }
           .container {
             min-width: 0;
@@ -294,6 +307,7 @@ export interface PostHeaderProps {
     name: string;
   };
   createdMessage?: string;
+  createdMessageHref?: string;
   forceHide?: boolean;
   newPost?: boolean;
   newComments?: boolean;

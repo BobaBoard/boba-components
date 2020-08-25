@@ -88,7 +88,8 @@ const Post = React.forwardRef<PostHandler, PostProps>((props, ref) => {
                   <MemoizedHeader
                     secretIdentity={props.secretIdentity}
                     userIdentity={props.userIdentity}
-                    createdMessage={`${props.createdTime}`}
+                    createdMessage={props.createdTime}
+                    createdMessageHref={props.createdTimeHref}
                     size={HeaderStyle.REGULAR}
                     backgroundColor={props.muted ? "#dcdcdc" : undefined}
                   />
@@ -270,6 +271,7 @@ export interface PostProps {
   answerable?: boolean;
   text: string;
   createdTime: string;
+  createdTimeHref: string;
   secretIdentity: {
     avatar: string;
     name: string;

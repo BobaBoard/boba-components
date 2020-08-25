@@ -285,17 +285,20 @@ export const HeaderStory = () => (
         avatar: `/${oncelerAvatar}`,
       }}
       createdMessage="Posted on: 2019/05/14 at 7:34pm"
+      createdMessageHref="#helloImWorking"
       size={HeaderStyle.REGULAR}
     />
     <Header
       secretIdentity={{ name: "Bad Onceler", avatar: `/${greedlerAvatar}` }}
       createdMessage="Posted on: 2019/06/14 at 4:20pm"
+      createdMessageHref="#helloImWorking"
       size={HeaderStyle.COMPACT}
     />
     <Header
       secretIdentity={{ name: "Tuxedo Mask", avatar: `/${tuxedoAvatar}` }}
       userIdentity={{ name: "SexyDaddy69", avatar: `/${mamoruAvatar}` }}
       createdMessage="Posted on: 2019/06/14 at 4:20pm"
+      createdMessageHref="#helloImWorking"
       size={HeaderStyle.REGULAR}
     />
     <Header
@@ -323,6 +326,7 @@ export const HeaderStory = () => (
       secretIdentity={{ name: "Tuxedo Mask", avatar: `/${tuxedoAvatar}` }}
       userIdentity={{ name: "SexyDaddy69", avatar: `/${mamoruAvatar}` }}
       createdMessage="Posted on: 2019/06/14 at 4:20pm"
+      createdMessageHref="#helloImWorking"
       newPost
     />
 
