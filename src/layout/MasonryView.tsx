@@ -3,7 +3,17 @@ import React from "react";
 import MagicGrid from "react-magic-grid";
 
 const GUTTER_SIZE = 15;
-const MasonryView: React.FC<MasonryViewProps> = (props) => {
+const MasonryView: React.RefForwardingComponent<
+  { reposition: () => void },
+  MasonryViewProps
+> = (props, ref) => {
+  const gridRef = React.useRef<any>(null);
+
+  React.useImperativeHandle(ref, () => ({
+    reposition: () => {
+      gridRef.current?.positionItems?.();
+    },
+  }));
   return (
     <div className="the-pics">
       <MagicGrid
@@ -15,6 +25,7 @@ const MasonryView: React.FC<MasonryViewProps> = (props) => {
         // className="my-masonry-grid"
         // columnClassName="my-masonry-grid_column"
         items={props.children.length}
+        ref={gridRef}
       >
         {props.children}
       </MagicGrid>
@@ -40,4 +51,4 @@ export interface MasonryViewProps {
   children: JSX.Element[];
 }
 
-export default MasonryView;
+export default React.forwardRef(MasonryView);

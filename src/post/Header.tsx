@@ -60,8 +60,16 @@ const Metadata: React.FC<PostHeaderProps> = (props) => {
           </div>
           {props.createdMessage && (
             <div className="timestamp">
-              {props.createdMessageHref ? (
-                <a href={props.createdMessageHref}>{props.createdMessage}</a>
+              {props.createdMessageLink ? (
+                <a
+                  onClick={(e) => {
+                    props.createdMessageLink?.onClick();
+                    e.preventDefault();
+                  }}
+                  href={props.createdMessageLink.href}
+                >
+                  {props.createdMessage}
+                </a>
               ) : (
                 props.createdMessage
               )}
@@ -307,7 +315,10 @@ export interface PostHeaderProps {
     name: string;
   };
   createdMessage?: string;
-  createdMessageHref?: string;
+  createdMessageLink?: {
+    href: string;
+    onClick: () => void;
+  };
   forceHide?: boolean;
   newPost?: boolean;
   newComments?: boolean;

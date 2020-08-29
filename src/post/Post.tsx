@@ -89,7 +89,7 @@ const Post = React.forwardRef<PostHandler, PostProps>((props, ref) => {
                     secretIdentity={props.secretIdentity}
                     userIdentity={props.userIdentity}
                     createdMessage={props.createdTime}
-                    createdMessageHref={props.createdTimeHref}
+                    createdMessageLink={props.createdTimeLink}
                     size={HeaderStyle.REGULAR}
                     backgroundColor={props.muted ? "#dcdcdc" : undefined}
                   />
@@ -154,6 +154,7 @@ const Post = React.forwardRef<PostHandler, PostProps>((props, ref) => {
                 focus={props.focus || false}
                 onSubmit={noop}
                 onTextChange={noop}
+                onEmbedLoaded={props.onEmbedLoaded}
               />
             </div>
           </Card>
@@ -271,7 +272,10 @@ export interface PostProps {
   answerable?: boolean;
   text: string;
   createdTime: string;
-  createdTimeHref: string;
+  createdTimeLink: {
+    href: string;
+    onClick: () => void;
+  };
   secretIdentity: {
     avatar: string;
     name: string;
@@ -309,4 +313,5 @@ export interface PostProps {
     name: string;
     onClick: () => void;
   }[];
+  onEmbedLoaded?: () => void;
 }

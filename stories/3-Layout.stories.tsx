@@ -636,6 +636,7 @@ ModalWithButtonsStory.story = {
 
 export const MasonryLayout = () => {
   const [showSidebar, setShowSidebar] = React.useState(false);
+  const masonryRef = React.useRef<{ reposition: () => void }>(null);
   return (
     <>
       <Layout
@@ -643,33 +644,38 @@ export const MasonryLayout = () => {
           <FeedWithMenu
             sidebarContent={<div />}
             feedContent={
-              <MasonryView>
-                {POSTS.map((post) => (
-                  <div
-                    style={{
-                      marginTop: "20px",
-                      marginBottom: "20px",
-                      maxWidth: "500px",
-                    }}
-                  >
-                    <Post
-                      newPost={post.newPost}
-                      createdTime={post.createdTime}
-                      text={post.text}
-                      secretIdentity={post.secretIdentity}
-                      userIdentity={post.userIdentity}
-                      newComments={post.newComments}
-                      totalComments={post.totalComments}
-                      totalContributions={post.totalContributions}
-                      directContributions={post.directContributions}
-                      onNewContribution={() => console.log("click!")}
-                      onNewComment={() => console.log("click!")}
-                      onNotesClick={() => console.log("click")}
-                      notesUrl={"#"}
-                    />
-                  </div>
-                ))}
-              </MasonryView>
+              <>
+                <Button onClick={() => masonryRef.current?.reposition()}>
+                  Reposition Masonry View
+                </Button>
+                <MasonryView ref={masonryRef}>
+                  {POSTS.map((post) => (
+                    <div
+                      style={{
+                        marginTop: "20px",
+                        marginBottom: "20px",
+                        maxWidth: "500px",
+                      }}
+                    >
+                      <Post
+                        newPost={post.newPost}
+                        createdTime={post.createdTime}
+                        text={post.text}
+                        secretIdentity={post.secretIdentity}
+                        userIdentity={post.userIdentity}
+                        newComments={post.newComments}
+                        totalComments={post.totalComments}
+                        totalContributions={post.totalContributions}
+                        directContributions={post.directContributions}
+                        onNewContribution={() => console.log("click!")}
+                        onNewComment={() => console.log("click!")}
+                        onNotesClick={() => console.log("click")}
+                        notesUrl={"#"}
+                      />
+                    </div>
+                  ))}
+                </MasonryView>
+              </>
             }
             showSidebar={showSidebar}
             onCloseSidebar={() => setShowSidebar(false)}
