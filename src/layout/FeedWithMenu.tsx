@@ -229,6 +229,7 @@ const FeedWithMenu: React.FC<FeedWithMenuProps> = ({
             display: none;
           }
           .sidebar {
+            margin-top: -1px;
             width: 350px;
             background-color: ${Theme.LAYOUT_BOARD_SIDEBAR_BACKGROUND_COLOR};
             flex-shrink: 0;

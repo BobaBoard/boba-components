@@ -3,11 +3,13 @@ import React from "react";
 import MagicGrid from "react-magic-grid";
 
 const GUTTER_SIZE = 15;
-const MasonryView: React.RefForwardingComponent<
+const MasonryView: React.ForwardRefRenderFunction<
   { reposition: () => void },
   MasonryViewProps
 > = (props, ref) => {
-  const gridRef = React.useRef<any>(null);
+  const gridRef = React.createRef<{
+    positionItems?: () => void;
+  }>();
 
   React.useImperativeHandle(ref, () => ({
     reposition: () => {
@@ -48,7 +50,7 @@ const MasonryView: React.RefForwardingComponent<
 };
 
 export interface MasonryViewProps {
-  children: JSX.Element[];
+  children: JSX.Element[] | Element[];
 }
 
 export default React.forwardRef(MasonryView);
