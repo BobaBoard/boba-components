@@ -31,6 +31,9 @@ const PostQuote: React.FC<PostQuoteProps> = (props) => {
           font-size: 25px !important;
           color: white !important;
         }
+        .quote :global(*) {
+          color: white;
+        }
         .quote :global(p) {
           padding: 0 5px;
           font-size: 15px !important;
