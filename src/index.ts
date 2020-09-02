@@ -31,6 +31,7 @@ import DefaultTheme from "./theme/default";
 import CategoryFilter from "./common/CategoryFilter";
 import MasonryView from "./layout/MasonryView";
 import PostQuote from "./post/PostQuote";
+import UserDetails from "./user/UserDetails";
 
 import flush from "styled-jsx/server";
 
@@ -42,6 +43,7 @@ export {
   Input,
   InputStyle,
   Modal,
+  UserDetails,
   ModalWithButtons,
   Post,
   PostSizes,
