@@ -1,3 +1,4 @@
+// @ts-nocheck
 import React from "react";
 
 import Theme from "../theme/default";
@@ -33,7 +34,7 @@ const pica = new Pica();
 const UserDetails: React.FC<UserDetailsProps> = (props) => {
   const [crop, setCrop] = React.useState({ x: 0, y: 0 });
   const [zoom, setZoom] = React.useState(1);
-  const [username, setUsername] = React.useState("Gore Lover 90");
+  const [username, setUsername] = React.useState("");
   const [mediaSize, setMediaSize] = React.useState(null);
   const uploadRef = React.createRef<HTMLInputElement>();
   const [newImage, setNewImage] = React.useState(null);
@@ -99,7 +100,9 @@ const UserDetails: React.FC<UserDetailsProps> = (props) => {
                 }}
                 onMediaLoaded={(mediaSize) => {
                   setMediaSize(mediaSize);
-                  setZoom(getMinZoomLevel(mediaSize));
+                  if (zoom == 1) {
+                    setZoom(getMinZoomLevel(mediaSize));
+                  }
                 }}
               />
             </div>
@@ -143,12 +146,13 @@ const UserDetails: React.FC<UserDetailsProps> = (props) => {
         <div className={classnames("username")}>
           <Input
             id={"username"}
-            value={username}
+            value={username || props.username}
             label={"Username"}
             onTextChange={(text: string) => setUsername(text)}
             color={props.accentColor || Theme.DEFAULT_ACCENT_COLOR}
             theme={InputStyle.DARK}
             disabled={!props.editing || props.loading}
+            onTextChange={setUsername}
           />
         </div>
         <div
@@ -184,7 +188,7 @@ const UserDetails: React.FC<UserDetailsProps> = (props) => {
                   ).then((result) => {
                     resolve({
                       editedImg: result,
-                      username: username,
+                      username: username || props.username,
                     });
                   });
                 })
@@ -199,7 +203,8 @@ const UserDetails: React.FC<UserDetailsProps> = (props) => {
         .user-details {
           display: flex;
           position: relative;
-          max-width: 500px;
+          width: 100%;
+          margin-bottom: 25px;
         }
         .avatar.loading {
           opacity: 0.8;
@@ -230,6 +235,7 @@ const UserDetails: React.FC<UserDetailsProps> = (props) => {
         .username {
           margin-left: 10px;
           margin-top: 10px;
+          flex-grow: 1;
         }
         .upload {
           position: absolute;
@@ -294,6 +300,7 @@ const UserDetails: React.FC<UserDetailsProps> = (props) => {
 
 export interface UserDetailsProps {
   imageUrl: string;
+  username: string;
   editable?: boolean;
   editing?: boolean;
   accentColor?: string;

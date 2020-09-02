@@ -24,6 +24,7 @@ export const UserDetailsEdit = () => {
   return (
     <div style={{ marginTop: "50px" }}>
       <UserDetails
+        username={"Gore Lover 90"}
         imageUrl={goreBackground}
         editing
         onSubmit={(result) => {
@@ -44,7 +45,13 @@ UserDetailsEdit.story = {
 
 export const UserDetailsLoadingStory = () => (
   <div style={{ marginTop: "50px" }}>
-    <UserDetails imageUrl={goreBackground} editable loading editing />
+    <UserDetails
+      username={"Gore Lover 90"}
+      imageUrl={goreBackground}
+      editable
+      loading
+      editing
+    />
   </div>
 );
 
