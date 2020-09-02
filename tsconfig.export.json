@@ -9,7 +9,7 @@
     "jsx": "preserve",
     "moduleResolution": "node",
     "rootDirs": ["src"],
-    "baseUrl": "",
+    "baseUrl": "src",
     "forceConsistentCasingInFileNames": true,
     "noImplicitReturns": true,
     "noImplicitThis": true,
