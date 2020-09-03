@@ -32,6 +32,7 @@ const getMinZoomLevel = (mediaSize: any) => {
 };
 const pica = new Pica();
 const UserDetails: React.FC<UserDetailsProps> = (props) => {
+  const [avatarEdited, setAvatarEdited] = React.useState(false);
   const [crop, setCrop] = React.useState({ x: 0, y: 0 });
   const [zoom, setZoom] = React.useState(1);
   const [username, setUsername] = React.useState("");
@@ -104,6 +105,9 @@ const UserDetails: React.FC<UserDetailsProps> = (props) => {
                     setZoom(getMinZoomLevel(mediaSize));
                   }
                 }}
+                onInteractionStart={() => {
+                  setAvatarEdited(true);
+                }}
               />
             </div>
             <a
@@ -133,6 +137,7 @@ const UserDetails: React.FC<UserDetailsProps> = (props) => {
                       return;
                     }
                     setNewImage(e.target.result);
+                    setAvatarEdited(true);
                     fileInput.value = "";
                   };
                   reader.readAsDataURL(fileInput.files[0]);
@@ -164,6 +169,7 @@ const UserDetails: React.FC<UserDetailsProps> = (props) => {
           <div
             className={classnames("button edit-trigger")}
             onClick={() => {
+              setAvatarEdited(false);
               props.onEdit();
             }}
           >
@@ -180,17 +186,25 @@ const UserDetails: React.FC<UserDetailsProps> = (props) => {
           <div
             className={classnames("button save")}
             onClick={() => {
+              log(avatarEdited);
               props.onSubmit(
                 new Promise((resolve) => {
-                  getCroppedImg(
-                    newImage || props.imageUrl,
-                    croppedAreaPixels
-                  ).then((result) => {
+                  if (avatarEdited) {
+                    getCroppedImg(
+                      newImage || props.imageUrl,
+                      croppedAreaPixels
+                    ).then((result) => {
+                      resolve({
+                        editedImg: result,
+                        username: username || props.username,
+                      });
+                    });
+                  } else {
                     resolve({
-                      editedImg: result,
+                      editedImg: props.imageUrl,
                       username: username || props.username,
                     });
-                  });
+                  }
                 })
               );
             }}
