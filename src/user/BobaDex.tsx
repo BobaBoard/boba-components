@@ -72,7 +72,6 @@ const BobaDex: React.FC<BobaDexProps> = (props) => {
           content: "";
           flex: auto;
         }
-        }
       `}</style>
     </div>
   );

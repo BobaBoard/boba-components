@@ -32,6 +32,7 @@ import CategoryFilter from "./common/CategoryFilter";
 import MasonryView from "./layout/MasonryView";
 import PostQuote from "./post/PostQuote";
 import UserDetails from "./user/UserDetails";
+import BobaDex from "./user/BobaDex";
 
 import flush from "styled-jsx/server";
 
@@ -72,4 +73,5 @@ export {
   DefaultTheme,
   CategoryFilter,
   PostQuote,
+  BobaDex,
 };
