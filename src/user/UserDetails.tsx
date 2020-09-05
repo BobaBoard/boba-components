@@ -128,77 +128,75 @@ const UserDetails: React.FC<UserDetailsProps> = (props) => {
       </section>
       <section>
         <h3>Avatar</h3>
-        <div className="avatar-wrapper">
-          <div
-            className={classnames("avatar", {
-              display: !props.editing,
-              editable: !props.editable,
-              loading: props.loading,
-            })}
-          >
-            {props.editing && (
-              <>
-                <div className={"spinner"}>
-                  <Spinner />
-                </div>
-                <div
-                  className={classnames("avatar-editor", {
-                    loading: props.loading,
-                  })}
-                >
-                  <Cropper
-                    image={newImage || props.imageUrl}
-                    crop={crop}
-                    zoom={zoom}
-                    cropSize={{ width: AREA_SIZE_PX, height: AREA_SIZE_PX }}
-                    aspect={1}
-                    maxZoom={100}
-                    cropShape="round"
-                    onCropChange={(crop) => {
-                      if (props.loading) {
-                        return;
-                      }
-                      setCrop(crop);
-                    }}
-                    onZoomChange={(zoom) => {
-                      if (props.loading) {
-                        return;
-                      }
-                      const currentWidth = mediaSize.width * zoom;
-                      const currentHeight = mediaSize.height * zoom;
-                      if (
-                        currentWidth < AREA_SIZE_PX ||
-                        currentHeight < AREA_SIZE_PX
-                      ) {
-                        // reset zoom to minimum
-                        log(crop);
-                        const isPortrait = mediaSize.width < mediaSize.height;
-                        setZoom(getMinZoomLevel(mediaSize));
-                        setCrop({
-                          x: isPortrait ? 0 : crop.x,
-                          y: isPortrait ? crop.y : 0,
-                        });
-                        return;
-                      }
-                      setZoom(zoom);
-                    }}
-                    onCropComplete={(croppedArea, croppedAreaPixels) => {
-                      setCroppedAreaPixels(croppedAreaPixels);
-                    }}
-                    onMediaLoaded={(mediaSize) => {
-                      setMediaSize(mediaSize);
-                      if (zoom == 1) {
-                        setZoom(getMinZoomLevel(mediaSize));
-                      }
-                    }}
-                    onInteractionStart={() => {
-                      setAvatarEdited(true);
-                    }}
-                  />
-                </div>
-                <a
-                  className={classnames("upload")}
-                  href="#"
+        <div
+          className={classnames("avatar-wrapper", {
+            display: !props.editing,
+            editable: !props.editable,
+            loading: props.loading,
+          })}
+        >
+          {props.editing && (
+            <>
+              <div className={"spinner"}>
+                <Spinner />
+              </div>
+              <div
+                className={classnames("avatar-editor", {
+                  loading: props.loading,
+                })}
+              >
+                <Cropper
+                  image={newImage || props.imageUrl}
+                  crop={crop}
+                  zoom={zoom}
+                  cropSize={{ width: AREA_SIZE_PX, height: AREA_SIZE_PX }}
+                  aspect={1}
+                  maxZoom={100}
+                  cropShape="round"
+                  onCropChange={(crop) => {
+                    if (props.loading) {
+                      return;
+                    }
+                    setCrop(crop);
+                  }}
+                  onZoomChange={(zoom) => {
+                    if (props.loading) {
+                      return;
+                    }
+                    const currentWidth = mediaSize.width * zoom;
+                    const currentHeight = mediaSize.height * zoom;
+                    if (
+                      currentWidth < AREA_SIZE_PX ||
+                      currentHeight < AREA_SIZE_PX
+                    ) {
+                      // reset zoom to minimum
+                      log(crop);
+                      const isPortrait = mediaSize.width < mediaSize.height;
+                      setZoom(getMinZoomLevel(mediaSize));
+                      setCrop({
+                        x: isPortrait ? 0 : crop.x,
+                        y: isPortrait ? crop.y : 0,
+                      });
+                      return;
+                    }
+                    setZoom(zoom);
+                  }}
+                  onCropComplete={(croppedArea, croppedAreaPixels) => {
+                    setCroppedAreaPixels(croppedAreaPixels);
+                  }}
+                  onMediaLoaded={(mediaSize) => {
+                    setMediaSize(mediaSize);
+                    if (zoom == 1) {
+                      setZoom(getMinZoomLevel(mediaSize));
+                    }
+                  }}
+                  onInteractionStart={() => {
+                    setAvatarEdited(true);
+                  }}
+                />
+              </div>
+              <div className="upload">
+                <Button
                   onClick={(e) => {
                     e.preventDefault();
                     if (props.loading) {
@@ -207,32 +205,32 @@ const UserDetails: React.FC<UserDetailsProps> = (props) => {
                     uploadRef.current.click();
                   }}
                 >
-                  Upload New
-                </a>
-                <input
-                  type="file"
-                  style={{ display: "none" }}
-                  ref={uploadRef}
-                  accept="image/png, image/gif, image/jpeg, image/bmp, image/x-icon"
-                  onChange={(e) => {
-                    const fileInput = e.target;
-                    if (fileInput.files != null && fileInput.files[0] != null) {
-                      const reader = new FileReader();
-                      reader.onload = (e) => {
-                        if (!e.target?.result) {
-                          return;
-                        }
-                        setNewImage(e.target.result);
-                        setAvatarEdited(true);
-                        fileInput.value = "";
-                      };
-                      reader.readAsDataURL(fileInput.files[0]);
-                    }
-                  }}
-                />
-              </>
-            )}
-          </div>
+                  Upload new
+                </Button>
+              </div>
+              <input
+                type="file"
+                style={{ display: "none" }}
+                ref={uploadRef}
+                accept="image/png, image/gif, image/jpeg, image/bmp, image/x-icon"
+                onChange={(e) => {
+                  const fileInput = e.target;
+                  if (fileInput.files != null && fileInput.files[0] != null) {
+                    const reader = new FileReader();
+                    reader.onload = (e) => {
+                      if (!e.target?.result) {
+                        return;
+                      }
+                      setNewImage(e.target.result);
+                      setAvatarEdited(true);
+                      fileInput.value = "";
+                    };
+                    reader.readAsDataURL(fileInput.files[0]);
+                  }
+                }}
+              />
+            </>
+          )}
         </div>
       </section>
       <style jsx>{`
@@ -242,14 +240,16 @@ const UserDetails: React.FC<UserDetailsProps> = (props) => {
           margin-bottom: 25px;
           color: white;
         }
+
+        .user-details * {
+          box-sizing: border-box;
+        }
+
         .user-details > section {
-          display: flex;
           width: 100%;
-          flex-wrap: wrap;
           border-radius: 10px;
           background-color: #3a3a3c;
           padding: 20px;
-          padding-top: 10px;
         }
 
         .user-details > section + section {
@@ -257,50 +257,42 @@ const UserDetails: React.FC<UserDetailsProps> = (props) => {
         }
 
         .user-details > section > h3 {
-          flex-shrink: 0;
-          min-width: 200px;
-          margin: 0 0 10px;
-          font-weight: normal;
           line-height: 36px;
           font-size: 16px;
+          margin: 0;
         }
-        .avatar-wrapper,
-        .username {
-          flex: 1;
-          min-width: 300px;
-        }
-        .avatar.loading {
-          opacity: 0.8;
+
+        .avatar-editor.loading {
+          opacity: 0.5;
         }
         .spinner {
           display: none;
         }
-        .avatar.loading .spinner {
+        .avatar-wrapper.loading .spinner {
           z-index: 5;
-          position: relative;
+          position: absolute;
           display: block;
+          transform: scale(0.6);
         }
-        .avatar {
-          position: relative;
+
+        .avatar-editor {
           width: ${AREA_SIZE_PX}px;
           height: ${AREA_SIZE_PX}px;
+          position: relative;
         }
-        .avatar.display {
+
+        .avatar-wrapper.display {
           background-image: url(${props.imageUrl});
           background-position: center;
           background-size: cover;
+          width: ${AREA_SIZE_PX}px;
+          height: ${AREA_SIZE_PX}px;
           border-radius: 50%;
         }
-        .user-data {
-          flex-grow: 1;
-        }
+
         .upload {
-          position: absolute;
-          bottom: -20px;
-          color: ${props.accentColor || Theme.DEFAULT_ACCENT_COLOR};
-          font-size: smaller;
           width: 100%;
-          text-align: center;
+          margin-top: 10px;
         }
         .buttons {
           display: flex;
@@ -329,6 +321,22 @@ const UserDetails: React.FC<UserDetailsProps> = (props) => {
           line-height: 36px;
           font-size: 20px;
           font-weight: bold;
+        }
+
+        @media screen and (min-width: 600px) {
+          .user-details > section {
+            display: flex;
+            flex-wrap: wrap;
+          }
+
+          .user-details > section > h3 {
+            flex-shrink: 0;
+            min-width: 200px;
+          }
+
+          .username {
+            flex: 1;
+          }
         }
       `}</style>
     </div>
