@@ -108,6 +108,24 @@ const UserDetails: React.FC<UserDetailsProps> = (props) => {
           </Button>
         </div>
       </div>
+
+      <section className={classnames("user-data")}>
+        <h3>Username</h3>
+        <div className={classnames("username")}>
+          {props.editing ? (
+            <Input
+              id={"username"}
+              value={username || props.username}
+              onTextChange={(text: string) => setUsername(text)}
+              theme={InputStyle.DARK}
+              disabled={!props.editing || props.loading}
+              onTextChange={setUsername}
+            />
+          ) : (
+            <div className="username-text">{props.username}</div>
+          )}
+        </div>
+      </section>
       <section>
         <h3>Avatar</h3>
         <div className="avatar-wrapper">
@@ -217,23 +235,6 @@ const UserDetails: React.FC<UserDetailsProps> = (props) => {
           </div>
         </div>
       </section>
-      <section className={classnames("user-data")}>
-        <h3>Username</h3>
-        <div className={classnames("username")}>
-          {props.editing ? (
-            <Input
-              id={"username"}
-              value={username || props.username}
-              onTextChange={(text: string) => setUsername(text)}
-              theme={InputStyle.DARK}
-              disabled={!props.editing || props.loading}
-              onTextChange={setUsername}
-            />
-          ) : (
-            <div className="username-text">{props.username}</div>
-          )}
-        </div>
-      </section>
       <style jsx>{`
         .user-details {
           position: relative;
@@ -245,12 +246,14 @@ const UserDetails: React.FC<UserDetailsProps> = (props) => {
           display: flex;
           width: 100%;
           flex-wrap: wrap;
-          border-top: 1px solid rgba(255, 255, 255, 0.3);
+          border-radius: 10px;
+          background-color: #3a3a3c;
+          padding: 20px;
           padding-top: 10px;
         }
 
         .user-details > section + section {
-          margin-top: 30px;
+          margin-top: 20px;
         }
 
         .user-details > section > h3 {
