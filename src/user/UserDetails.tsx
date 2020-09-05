@@ -2,6 +2,7 @@
 import React from "react";
 
 import Theme from "../theme/default";
+import Button, { ButtonStyle } from "../common/Button";
 import Input, { InputStyle } from "../common/Input";
 import Cropper from "react-easy-crop";
 import Pica from "pica";
@@ -44,147 +45,41 @@ const UserDetails: React.FC<UserDetailsProps> = (props) => {
   return (
     <div className={classnames("user-details", { editing: props.editing })}>
       <div
-        className={classnames("avatar", {
-          display: !props.editing,
-          editable: !props.editable,
+        className={classnames("buttons", {
+          editing: props.editing,
           loading: props.loading,
         })}
       >
-        {props.editing && (
-          <>
-            <div className={"spinner"}>
-              <Spinner />
-            </div>
-            <div
-              className={classnames("avatar-editor", {
-                loading: props.loading,
-              })}
-            >
-              <Cropper
-                image={newImage || props.imageUrl}
-                crop={crop}
-                zoom={zoom}
-                cropSize={{ width: AREA_SIZE_PX, height: AREA_SIZE_PX }}
-                aspect={1}
-                maxZoom={100}
-                cropShape="round"
-                onCropChange={(crop) => {
-                  if (props.loading) {
-                    return;
-                  }
-                  setCrop(crop);
-                }}
-                onZoomChange={(zoom) => {
-                  if (props.loading) {
-                    return;
-                  }
-                  const currentWidth = mediaSize.width * zoom;
-                  const currentHeight = mediaSize.height * zoom;
-                  if (
-                    currentWidth < AREA_SIZE_PX ||
-                    currentHeight < AREA_SIZE_PX
-                  ) {
-                    // reset zoom to minimum
-                    log(crop);
-                    const isPortrait = mediaSize.width < mediaSize.height;
-                    setZoom(getMinZoomLevel(mediaSize));
-                    setCrop({
-                      x: isPortrait ? 0 : crop.x,
-                      y: isPortrait ? crop.y : 0,
-                    });
-                    return;
-                  }
-                  setZoom(zoom);
-                }}
-                onCropComplete={(croppedArea, croppedAreaPixels) => {
-                  setCroppedAreaPixels(croppedAreaPixels);
-                }}
-                onMediaLoaded={(mediaSize) => {
-                  setMediaSize(mediaSize);
-                  if (zoom == 1) {
-                    setZoom(getMinZoomLevel(mediaSize));
-                  }
-                }}
-                onInteractionStart={() => {
-                  setAvatarEdited(true);
-                }}
-              />
-            </div>
-            <a
-              className={classnames("upload")}
-              href="#"
-              onClick={(e) => {
-                e.preventDefault();
-                if (props.loading) {
-                  return;
-                }
-                uploadRef.current.click();
-              }}
-            >
-              Upload New
-            </a>
-            <input
-              type="file"
-              style={{ display: "none" }}
-              ref={uploadRef}
-              accept="image/png, image/gif, image/jpeg, image/bmp, image/x-icon"
-              onChange={(e) => {
-                const fileInput = e.target;
-                if (fileInput.files != null && fileInput.files[0] != null) {
-                  const reader = new FileReader();
-                  reader.onload = (e) => {
-                    if (!e.target?.result) {
-                      return;
-                    }
-                    setNewImage(e.target.result);
-                    setAvatarEdited(true);
-                    fileInput.value = "";
-                  };
-                  reader.readAsDataURL(fileInput.files[0]);
-                }
-              }}
-            />
-          </>
-        )}
-      </div>
-      <div className={classnames("user-data")}>
-        <div className={classnames("username")}>
-          <Input
-            id={"username"}
-            value={username || props.username}
-            label={"Username"}
-            onTextChange={(text: string) => setUsername(text)}
-            color={props.accentColor || Theme.DEFAULT_ACCENT_COLOR}
-            theme={InputStyle.DARK}
-            disabled={!props.editing || props.loading}
-            onTextChange={setUsername}
-          />
-        </div>
-        <div
-          className={classnames("buttons", {
-            editing: props.editing,
-            loading: props.loading,
-          })}
-        >
-          <div
-            className={classnames("button edit-trigger")}
+        <div className="edit-trigger">
+          <Button
+            theme={ButtonStyle.DARK}
+            color="#f96680"
+            icon={faPencilAlt}
             onClick={() => {
               setAvatarEdited(false);
               props.onEdit();
             }}
           >
-            <FontAwesomeIcon icon={faPencilAlt} />
-          </div>
-          <div
-            className={classnames("button cancel")}
+            Edit information
+          </Button>
+        </div>
+
+        <div className="cancel">
+          <Button
+            theme={ButtonStyle.DARK}
+            icon={faCross}
             onClick={() => {
               props.onCancel();
             }}
           >
-            <FontAwesomeIcon icon={props.editing ? faCross : faPencilAlt} />
-          </div>
-          <div
-            className={classnames("button save")}
+            Cancel
+          </Button>
+        </div>
+
+        <div className="save">
+          <Button
+            theme={ButtonStyle.DARK}
+            icon={faCheck}
             onClick={() => {
               log(avatarEdited);
               props.onSubmit(
@@ -209,66 +104,205 @@ const UserDetails: React.FC<UserDetailsProps> = (props) => {
               );
             }}
           >
-            <FontAwesomeIcon icon={faCheck} />
-          </div>
+            Save
+          </Button>
         </div>
       </div>
+
+      <section className={classnames("user-data")}>
+        <h3>Username</h3>
+        <div className={classnames("username")}>
+          {props.editing ? (
+            <Input
+              id={"username"}
+              value={username || props.username}
+              onTextChange={(text: string) => setUsername(text)}
+              theme={InputStyle.DARK}
+              disabled={!props.editing || props.loading}
+              onTextChange={setUsername}
+            />
+          ) : (
+            <div className="username-text">{props.username}</div>
+          )}
+        </div>
+      </section>
+      <section>
+        <h3>Avatar</h3>
+        <div
+          className={classnames("avatar-wrapper", {
+            display: !props.editing,
+            editable: !props.editable,
+            loading: props.loading,
+          })}
+        >
+          {props.editing && (
+            <>
+              <div className={"spinner"}>
+                <Spinner />
+              </div>
+              <div
+                className={classnames("avatar-editor", {
+                  loading: props.loading,
+                })}
+              >
+                <Cropper
+                  image={newImage || props.imageUrl}
+                  crop={crop}
+                  zoom={zoom}
+                  cropSize={{ width: AREA_SIZE_PX, height: AREA_SIZE_PX }}
+                  aspect={1}
+                  maxZoom={100}
+                  cropShape="round"
+                  onCropChange={(crop) => {
+                    if (props.loading) {
+                      return;
+                    }
+                    setCrop(crop);
+                  }}
+                  onZoomChange={(zoom) => {
+                    if (props.loading) {
+                      return;
+                    }
+                    const currentWidth = mediaSize.width * zoom;
+                    const currentHeight = mediaSize.height * zoom;
+                    if (
+                      currentWidth < AREA_SIZE_PX ||
+                      currentHeight < AREA_SIZE_PX
+                    ) {
+                      // reset zoom to minimum
+                      log(crop);
+                      const isPortrait = mediaSize.width < mediaSize.height;
+                      setZoom(getMinZoomLevel(mediaSize));
+                      setCrop({
+                        x: isPortrait ? 0 : crop.x,
+                        y: isPortrait ? crop.y : 0,
+                      });
+                      return;
+                    }
+                    setZoom(zoom);
+                  }}
+                  onCropComplete={(croppedArea, croppedAreaPixels) => {
+                    setCroppedAreaPixels(croppedAreaPixels);
+                  }}
+                  onMediaLoaded={(mediaSize) => {
+                    setMediaSize(mediaSize);
+                    if (zoom == 1) {
+                      setZoom(getMinZoomLevel(mediaSize));
+                    }
+                  }}
+                  onInteractionStart={() => {
+                    setAvatarEdited(true);
+                  }}
+                />
+              </div>
+              <div className="upload">
+                <Button
+                  onClick={(e) => {
+                    e.preventDefault();
+                    if (props.loading) {
+                      return;
+                    }
+                    uploadRef.current.click();
+                  }}
+                >
+                  Upload new
+                </Button>
+              </div>
+              <input
+                type="file"
+                style={{ display: "none" }}
+                ref={uploadRef}
+                accept="image/png, image/gif, image/jpeg, image/bmp, image/x-icon"
+                onChange={(e) => {
+                  const fileInput = e.target;
+                  if (fileInput.files != null && fileInput.files[0] != null) {
+                    const reader = new FileReader();
+                    reader.onload = (e) => {
+                      if (!e.target?.result) {
+                        return;
+                      }
+                      setNewImage(e.target.result);
+                      setAvatarEdited(true);
+                      fileInput.value = "";
+                    };
+                    reader.readAsDataURL(fileInput.files[0]);
+                  }
+                }}
+              />
+            </>
+          )}
+        </div>
+      </section>
       <style jsx>{`
         .user-details {
-          display: flex;
           position: relative;
           width: 100%;
           margin-bottom: 25px;
+          color: white;
         }
-        .avatar.loading {
-          opacity: 0.8;
+
+        .user-details * {
+          box-sizing: border-box;
+        }
+
+        .user-details > section {
+          width: 100%;
+          border-radius: 10px;
+          background-color: #3a3a3c;
+          padding: 20px;
+        }
+
+        .user-details > section + section {
+          margin-top: 20px;
+        }
+
+        .user-details > section > h3 {
+          line-height: 36px;
+          font-size: 16px;
+          margin: 0;
+        }
+
+        .avatar-editor.loading {
+          opacity: 0.5;
         }
         .spinner {
           display: none;
         }
-        .avatar.loading .spinner {
+        .avatar-wrapper.loading .spinner {
           z-index: 5;
-          position: relative;
+          position: absolute;
           display: block;
+          transform: scale(0.6);
         }
-        .avatar {
-          position: relative;
+
+        .avatar-editor {
           width: ${AREA_SIZE_PX}px;
           height: ${AREA_SIZE_PX}px;
+          position: relative;
         }
-        .avatar.display {
+
+        .avatar-wrapper.display {
           background-image: url(${props.imageUrl});
           background-position: center;
           background-size: cover;
+          width: ${AREA_SIZE_PX}px;
+          height: ${AREA_SIZE_PX}px;
           border-radius: 50%;
         }
-        .user-data {
-          flex-grow: 1;
-          display: flex;
-        }
-        .username {
-          margin-left: 10px;
-          margin-top: 10px;
-          flex-grow: 1;
-        }
+
         .upload {
-          position: absolute;
-          bottom: -20px;
-          color: ${props.accentColor || Theme.DEFAULT_ACCENT_COLOR};
-          font-size: smaller;
           width: 100%;
-          text-align: center;
+          margin-top: 10px;
         }
         .buttons {
-          margin-top: 33px;
-          margin-left: 10px;
+          display: flex;
+          justify-content: flex-end;
+          margin-bottom: 20px;
         }
+
         .buttons.loading .button {
           opacity: 0.8;
           pointer-events: none;
-        }
-        .buttons.editing {
-          transform: translateY(-25%);
         }
         .buttons.editing .edit-trigger {
           display: none;
@@ -276,36 +310,33 @@ const UserDetails: React.FC<UserDetailsProps> = (props) => {
         .buttons .save,
         .buttons .cancel {
           display: none;
+          margin-left: 10px;
         }
         .buttons.editing .save,
         .buttons.editing .cancel {
           display: block;
         }
-        .button.cancel {
-          margin-bottom: 5px;
+
+        .username-text {
+          line-height: 36px;
+          font-size: 20px;
+          font-weight: bold;
         }
-        .button {
-          text-align: right;
-          width: 25px;
-          height: 25px;
-          background-color: ${Theme.LAYOUT_BOARD_BACKGROUND_COLOR};
-          border: 1px solid ${props.accentColor || Theme.DEFAULT_ACCENT_COLOR};
-          /*transform: translate(50%, -50%);*/
-          position: relative;
-          border-radius: 50%;
-          color: ${props.accentColor || Theme.DEFAULT_ACCENT_COLOR};
-        }
-        .button :global(svg) {
-          position: absolute;
-          top: 50%;
-          left: 50%;
-          transform: translate(-50%, -50%);
-        }
-        .button:hover {
-          cursor: pointer;
-          background-color: ${props.accentColor || Theme.DEFAULT_ACCENT_COLOR};
-          border: 1px solid ${Theme.LAYOUT_BOARD_BACKGROUND_COLOR};
-          color: ${Theme.LAYOUT_BOARD_BACKGROUND_COLOR};
+
+        @media screen and (min-width: 600px) {
+          .user-details > section {
+            display: flex;
+            flex-wrap: wrap;
+          }
+
+          .user-details > section > h3 {
+            flex-shrink: 0;
+            min-width: 200px;
+          }
+
+          .username {
+            flex: 1;
+          }
         }
       `}</style>
     </div>
