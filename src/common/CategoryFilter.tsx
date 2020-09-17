@@ -11,7 +11,14 @@ const CateogyFilter: React.FC<CateogyFilterProps> = (props) => {
             disabled: !category.active,
           })}
           onClick={() => {
-            props.onCategoryStateChange(category.name, !category.active);
+            const allSelected = !props.categories.some(
+              (category) => !category.active
+            );
+            // TODO: horrible hack for sexy thomas gallery. Hoist state instead.
+            props.onCategoryStateChange(
+              category.name,
+              allSelected || !category.active
+            );
           }}
         >
           {TagsFactory.create({
@@ -24,12 +31,14 @@ const CateogyFilter: React.FC<CateogyFilterProps> = (props) => {
         .filter-container {
           display: flex;
           flex-wrap: wrap;
-          justify-content: space-between;
         }
         .category {
           flex-shrink: none;
           margin-bottom: 5px;
           max-width: 500px;
+        }
+        .category + .category {
+          margin-left: 5px;
         }
         .category.disabled {
           opacity: 0.7;

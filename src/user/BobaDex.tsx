@@ -6,7 +6,7 @@ const BobaDex: React.FC<BobaDexProps> = (props) => {
   // This is the function body
   const identityCircles = [];
 
-  for (var i = 0; i <= props.totalIdentities; i++) {
+  for (var i = 0; i < props.totalIdentities; i++) {
     const matchingID = props.revealedIdentities.find((el) => el.index == i);
 
     identityCircles.push(
