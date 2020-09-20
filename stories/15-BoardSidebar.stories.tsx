@@ -6,7 +6,7 @@ import Button from "../src/common/Button";
 
 import goreBackground from "./images/gore.png";
 
-const log = (...args) => console.log(args);
+import { action } from "@storybook/addon-actions";
 
 export const BoardSidebarPreview = () => {
   const [color, setColor] = React.useState("#f96680");
@@ -79,17 +79,20 @@ BoardSidebarPreview.story = {
 };
 
 const SidebarSectionTemplate = (args) => <SidebarSection {...args} />;
-
 export const DescriptionSection = SidebarSectionTemplate.bind({});
-DescriptionSection.args = { title: "Rules", description: "", editable: false };
+DescriptionSection.args = {
+  title: "Rules",
+  description: '[{"insert":"A description\\n"}]',
+  editable: false,
+};
 
 export const EditableDescription = SidebarSectionTemplate.bind({});
 EditableDescription.args = {
   title: "Rules",
-  description: "",
+  description: '[{"insert":"Initial description\\n"}]',
   editable: true,
-  onTitleChange: log,
-  onDescriptionChange: log,
+  onTitleChange: action("title"),
+  onDescriptionChange: action("description"),
 };
 
 export default {

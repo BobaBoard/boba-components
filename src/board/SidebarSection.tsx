@@ -42,7 +42,7 @@ const SidebarSection: React.FC<SidebarSection> = (props) => {
             onSubmit={() => {}}
             onIsEmptyChange={(empty: boolean) => {}}
             onTextChange={(text: any) =>
-              props.onDescriptionChange(JSON.stringify(text.ops))
+              props.onDescriptionChange?.(JSON.stringify(text.ops))
             }
           />
         </div>
