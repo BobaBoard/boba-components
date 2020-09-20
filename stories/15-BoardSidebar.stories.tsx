@@ -6,6 +6,8 @@ import Button from "../src/common/Button";
 
 import goreBackground from "./images/gore.png";
 
+const log = (...args) => console.log(args);
+
 export const BoardSidebarPreview = () => {
   const [color, setColor] = React.useState("#f96680");
   return (
@@ -14,7 +16,7 @@ export const BoardSidebarPreview = () => {
         board={{
           slug: "gore",
           avatarUrl: `/${goreBackground}`,
-          description: "Love me some bruised bois (and more).",
+          tagline: "Love me some bruised bois (and more).",
           accentColor: color,
           boardWideTags: [
             { name: "gore", color: "#f96680" },
@@ -79,7 +81,16 @@ BoardSidebarPreview.story = {
 const SidebarSectionTemplate = (args) => <SidebarSection {...args} />;
 
 export const DescriptionSection = SidebarSectionTemplate.bind({});
-DescriptionSection.args = { sampleProp: "Button", editable: false };
+DescriptionSection.args = { title: "Rules", description: "", editable: false };
+
+export const EditableDescription = SidebarSectionTemplate.bind({});
+EditableDescription.args = {
+  title: "Rules",
+  description: "",
+  editable: true,
+  onTitleChange: log,
+  onDescriptionChange: log,
+};
 
 export default {
   title: "Board Sidebar Preview",
