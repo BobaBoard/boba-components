@@ -1,7 +1,8 @@
 import React from "react";
 
 import BoardSidebar from "../src/board/BoardSidebar";
-import SidebarSection from "../src/board/SidebarSection";
+import TextSection from "../src/board/TextSection";
+import CategoryFilterSection from "../src/board/CategoryFilterSection";
 import Button from "../src/common/Button";
 
 import goreBackground from "./images/gore.png";
@@ -78,24 +79,48 @@ BoardSidebarPreview.story = {
   name: "sidebar",
 };
 
-const SidebarSectionTemplate = (args) => <SidebarSection {...args} />;
-export const DescriptionSection = SidebarSectionTemplate.bind({});
+const TextSectionTemplate = (args) => <TextSection {...args} />;
+export const DescriptionSection = TextSectionTemplate.bind({});
 DescriptionSection.args = {
   title: "Rules",
   description: '[{"insert":"A description\\n"}]',
   editable: false,
 };
 
-export const EditableDescription = SidebarSectionTemplate.bind({});
+export const EditableDescription = TextSectionTemplate.bind({});
 EditableDescription.args = {
   title: "Rules",
-  description: '[{"insert":"Initial description\\n"}]',
+  description: '[{"insert":"A description\\n"}]',
   editable: true,
   onTitleChange: action("title"),
   onDescriptionChange: action("description"),
 };
 
+const CategoryFilterSectionTemplate = (args) => (
+  <CategoryFilterSection {...args} />
+);
+export const FiltersSection = CategoryFilterSectionTemplate.bind({});
+FiltersSection.args = {
+  title: "Rules",
+  categories: [
+    { name: "cat1", active: true },
+    { name: "cat2", active: true },
+  ],
+  editable: false,
+  onCategoryStateChange: action("categories"),
+};
+export const EditableFiltersSection = CategoryFilterSectionTemplate.bind({});
+EditableFiltersSection.args = {
+  title: "Rules",
+  categories: [
+    { name: "cat1", active: true },
+    { name: "cat2", active: true },
+  ],
+  editable: true,
+  onCategoryStateChange: action("categories"),
+};
+
 export default {
   title: "Board Sidebar Preview",
-  component: SidebarSection,
+  component: TextSection,
 };

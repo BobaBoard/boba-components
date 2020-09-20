@@ -12,12 +12,7 @@ import Editor, {
 import debug from "debug";
 const log = debug("bobaui:boards:sidebarSection");
 
-export enum SidebarTypes {
-  TEXT,
-  CATEGORIES,
-}
-
-const SidebarSection: React.FC<SidebarSection> = (props) => {
+const TextSection: React.FC<TextSectionProps> = (props) => {
   return (
     <div
       className={classnames("sidebar-section", { editable: props.editable })}
@@ -66,7 +61,7 @@ const SidebarSection: React.FC<SidebarSection> = (props) => {
   );
 };
 
-export interface SidebarSection {
+export interface TextSectionProps {
   title: string;
   description: string;
   editable: boolean;
@@ -74,4 +69,4 @@ export interface SidebarSection {
   onDescriptionChange?: (description: string) => void;
 }
 
-export default SidebarSection;
+export default TextSection;

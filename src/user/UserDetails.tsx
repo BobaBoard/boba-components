@@ -322,8 +322,7 @@ const UserDetails: React.FC<UserDetailsProps> = (props) => {
           font-size: 20px;
           font-weight: bold;
         }
-
-        @media screen and (min-width: 600px) {
+        
           .user-details > section {
             display: flex;
             flex-wrap: wrap;
