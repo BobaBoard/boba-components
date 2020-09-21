@@ -6,6 +6,7 @@ module.exports = {
   // Jest transformations -- this adds support for TypeScript
   // using ts-jest
   transform: {
+   "^.+\\.jsx?$": "babel-jest",
     "^.+\\.tsx?$": "ts-jest"
   },
 
@@ -23,7 +24,8 @@ module.exports = {
   // Matches parent folder `__tests__` and filename
   // should contain `test` or `spec`.
 //  testRegex: "(/stories/.*)\\.test.tsx?$",
-  testRegex: "(/stories/.*)\\.test.tsx?$",
+  //testRegex: "(/stories/.*)\\.test.tsx?$",
+  testRegex: "(/stories/.*)\\.test.jsx?$",
 
   // Module file extensions for importing
   moduleFileExtensions: ["ts", "tsx", "js", "jsx", "json", "node"]
