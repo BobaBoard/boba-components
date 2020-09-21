@@ -6,7 +6,7 @@
     "lib": ["es5", "es6", "es7", "es2017", "dom"],
     "sourceMap": true,
     "allowJs": false,
-    "jsx": "preserve",
+    "jsx": "react",
     "moduleResolution": "node",
     "rootDirs": ["src", "stories"],
     "baseUrl": "src",
@@ -27,7 +27,8 @@
       "react-dom",
       "styled-jsx",
       "node",
-      "resize-observer-browser"
+      "resize-observer-browser",
+      "jest"
     ]
   },
   "include": ["/**/*"],
