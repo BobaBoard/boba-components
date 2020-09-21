@@ -6,6 +6,7 @@ import CategoryFilterSection from "./CategoryFilterSection";
 import classnames from "classnames";
 
 import debug from "debug";
+// @ts-ignore
 const log = debug("bobaui:boards:boardsDescription");
 
 const BoardDescription: React.FC<BoardDescriptionProps> = (props) => {

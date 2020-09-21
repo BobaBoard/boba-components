@@ -9,12 +9,12 @@ import classnames from "classnames";
 import debug from "debug";
 import {
   faArrowLeft,
-  faCross,
   faFont,
   faPlus,
   faTags,
 } from "@fortawesome/free-solid-svg-icons";
 import { DescriptionType } from "types";
+// @ts-ignore
 const log = debug("bobaui:boards:boardsDescription");
 
 const EditableBoardDescription: React.FC<EditableBoardDescriptionProps> = (
