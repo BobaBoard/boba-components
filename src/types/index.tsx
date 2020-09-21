@@ -21,3 +21,11 @@ export interface TagsType {
   category?: boolean;
   contentWarning?: boolean;
 }
+
+export interface DescriptionType {
+  index: number;
+  title: string;
+  type: "text" | "category_filter";
+  description?: string;
+  categories?: string[];
+}

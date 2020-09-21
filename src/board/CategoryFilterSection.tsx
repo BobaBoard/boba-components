@@ -4,15 +4,11 @@ import classnames from "classnames";
 import Input, { InputStyle } from "../common/Input";
 import CategoryFilter from "../common/CategoryFilter";
 import Button from "../common/Button";
-import Editor, {
-  getAllImages,
-  replaceImages,
-  removeTrailingWhitespace,
-  // @ts-ignore
-} from "@bobaboard/boba-editor";
+import noop from "noop-ts";
 
 import debug from "debug";
-const log = debug("bobaui:boards:sidebarSection");
+// @ts-ignore
+const log = debug("bobaui:boards:CategoryFilterSection");
 
 const CategoryFilterSection: React.FC<CategoryFilterSectionProps> = (props) => {
   const [newCategory, setNewCategory] = React.useState("");
@@ -21,17 +17,21 @@ const CategoryFilterSection: React.FC<CategoryFilterSectionProps> = (props) => {
       className={classnames("sidebar-section", { editable: props.editable })}
     >
       <div className="title">
-        <Input
-          id="title"
-          label="title"
-          value={props.title}
-          onTextChange={props.onTitleChange}
-          theme={InputStyle.DARK}
-          disabled={!props.editable}
-        />
+        {props.editable ? (
+          <Input
+            id="title"
+            label="title"
+            value={props.title}
+            onTextChange={props.onTitleChange || noop}
+            theme={InputStyle.DARK}
+            disabled={!props.editable}
+          />
+        ) : (
+          <div className="title">{props.title}</div>
+        )}
       </div>
       <div className="description">
-        <div className="content-title">Categories</div>
+        {props.editable && <div className="content-title">Categories</div>}
         <div className="content-categories">
           <CategoryFilter
             categories={props.categories}
@@ -49,7 +49,7 @@ const CategoryFilterSection: React.FC<CategoryFilterSectionProps> = (props) => {
             />
             <Button
               onClick={() => {
-                props.onCategoriesChange([
+                props.onCategoriesChange?.([
                   ...props.categories.map((c) => c.name),
                   newCategory,
                 ]);

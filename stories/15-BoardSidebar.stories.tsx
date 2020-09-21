@@ -3,6 +3,8 @@ import React from "react";
 import BoardSidebar from "../src/board/BoardSidebar";
 import TextSection from "../src/board/TextSection";
 import CategoryFilterSection from "../src/board/CategoryFilterSection";
+import BoardDescription from "../src/board/BoardDescription";
+import EditableBoardDescription from "../src/board/EditableBoardDescription";
 import Button from "../src/common/Button";
 
 import goreBackground from "./images/gore.png";
@@ -79,7 +81,7 @@ BoardSidebarPreview.story = {
   name: "sidebar",
 };
 
-const TextSectionTemplate = (args) => <TextSection {...args} />;
+const TextSectionTemplate = (args: any) => <TextSection {...args} />;
 export const DescriptionSection = TextSectionTemplate.bind({});
 DescriptionSection.args = {
   title: "Rules",
@@ -96,7 +98,7 @@ EditableDescription.args = {
   onDescriptionChange: action("description"),
 };
 
-const CategoryFilterSectionTemplate = (args) => (
+const CategoryFilterSectionTemplate = (args: any) => (
   <CategoryFilterSection {...args} />
 );
 export const FiltersSection = CategoryFilterSectionTemplate.bind({});
@@ -118,6 +120,53 @@ EditableFiltersSection.args = {
   ],
   editable: true,
   onCategoryStateChange: action("categories"),
+};
+
+const BoardDescriptionTemplate = BoardDescription.bind({});
+export const BoardDescriptionStory = BoardDescriptionTemplate.bind({});
+BoardDescriptionStory.args = {
+  descriptions: [
+    {
+      index: 2,
+      title: "Gore Categories",
+      description: null,
+      type: "category_filter",
+      categories: ["blood", "bruises"],
+    },
+    {
+      index: 1,
+      title: "Gore description",
+      description: '[{"insert": "pls b nice"}]',
+      type: "text",
+      categories: [null],
+    },
+  ],
+  onCategoryStateChange: action("categories"),
+};
+
+const EditableBoardDescriptionTemplate = EditableBoardDescription.bind({});
+export const EditableBoardDescriptionStory = EditableBoardDescriptionTemplate.bind(
+  {}
+);
+EditableBoardDescriptionStory.args = {
+  descriptions: [
+    {
+      index: 2,
+      title: "Gore Categories",
+      description: null,
+      type: "category_filter",
+      categories: ["blood", "bruises"],
+    },
+    {
+      index: 1,
+      title: "Gore description",
+      description: '[{"insert": "pls b nice"}]',
+      type: "text",
+      categories: [null],
+    },
+  ],
+  onCancel: action("cancel"),
+  onSave: action("save"),
 };
 
 export default {

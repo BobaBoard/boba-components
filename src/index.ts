@@ -25,6 +25,8 @@ import CommentEditor from "./post/CommentEditor";
 import ThreadIndent from "./post/ThreadIndent";
 import PostingActionButton from "./board/PostingActionButton";
 import CycleNewButton from "./board/CycleNewButton";
+import CategoryFilterSection from "./board/CategoryFilterSection";
+import TextSection from "./board/TextSection";
 import Layout from "./layout/Layout";
 import { useCompact } from "./utils";
 import DefaultTheme from "./theme/default";
@@ -65,6 +67,8 @@ export {
   BoardsDisplay,
   ToastContainer,
   MasonryView,
+  CategoryFilterSection,
+  TextSection,
   toast,
   setTumblrEmbedFetcher,
   setOEmbedFetcher,

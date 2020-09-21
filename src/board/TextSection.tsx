@@ -2,14 +2,11 @@ import React from "react";
 
 import classnames from "classnames";
 import Input, { InputStyle } from "../common/Input";
-import Editor, {
-  getAllImages,
-  replaceImages,
-  removeTrailingWhitespace,
-  // @ts-ignore
-} from "@bobaboard/boba-editor";
+import noop from "noop-ts";
+import Editor from "@bobaboard/boba-editor"; // @ts-ignore
 
 import debug from "debug";
+// @ts-ignore
 const log = debug("bobaui:boards:sidebarSection");
 
 const TextSection: React.FC<TextSectionProps> = (props) => {
@@ -18,17 +15,21 @@ const TextSection: React.FC<TextSectionProps> = (props) => {
       className={classnames("sidebar-section", { editable: props.editable })}
     >
       <div className="title">
-        <Input
-          id="title"
-          label="title"
-          value={props.title}
-          onTextChange={props.onTitleChange}
-          theme={InputStyle.DARK}
-          disabled={!props.editable}
-        />
+        {props.editable ? (
+          <Input
+            id="title"
+            label="title"
+            value={props.title}
+            onTextChange={props.onTitleChange || noop}
+            theme={InputStyle.DARK}
+            disabled={!props.editable}
+          />
+        ) : (
+          <div className="title">{props.title}</div>
+        )}
       </div>
       <div className="description">
-        <div className="content-title">Content</div>
+        {props.editable && <div className="content-title">Content</div>}
         <div className="content-editor">
           <Editor
             initialText={props.description ? JSON.parse(props.description) : ""}
