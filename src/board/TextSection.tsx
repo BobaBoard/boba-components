@@ -3,7 +3,8 @@ import React from "react";
 import classnames from "classnames";
 import Input, { InputStyle } from "../common/Input";
 import noop from "noop-ts";
-import Editor from "@bobaboard/boba-editor"; // @ts-ignore
+// @ts-ignore
+import Editor from "@bobaboard/boba-editor";
 
 import debug from "debug";
 // @ts-ignore

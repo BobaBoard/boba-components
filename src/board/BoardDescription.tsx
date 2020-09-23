@@ -16,66 +16,67 @@ const BoardDescription: React.FC<BoardDescriptionProps> = (props) => {
 
   return (
     <div className={classnames("board-description")}>
-      {props.descriptions.map((description) => {
-        console.log(description);
-        switch (description.type) {
-          case "text":
-            return (
-              <TextSection
-                title={description.title}
-                description={description.description || ""}
-                editable={false}
-              />
-            );
-          case "category_filter":
-            return (
-              <>
-                <CategoryFilterSection
+      {props.descriptions
+        .sort((c1, c2) => c1.index - c2.index)
+        .map((description) => {
+          switch (description.type) {
+            case "text":
+              return (
+                <TextSection
                   title={description.title}
-                  categories={
-                    description.categories?.map((c) => ({
-                      name: c,
-                      active:
-                        filteredCategory === null || filteredCategory === c,
-                    })) || []
-                  }
+                  description={description.description || ""}
                   editable={false}
-                  onCategoryStateChange={(category, state) => {
-                    setFilteredCategory(category);
-                    props.onCategoriesStateChange(
-                      description.categories?.map((category) => {
-                        return {
-                          category,
-                          active: false,
-                        };
-                      }) || []
-                    );
-                  }}
                 />
-                <a
-                  className={classnames("clear-filters", {
-                    visible: filteredCategory != null,
-                  })}
-                  href="#"
-                  onClick={(e) => {
-                    e.preventDefault();
-                    setFilteredCategory(null);
-                    props.onCategoriesStateChange(
-                      description.categories?.map((category) => {
-                        return {
-                          category,
-                          active: true,
-                        };
-                      }) || []
-                    );
-                  }}
-                >
-                  Clear filters
-                </a>
-              </>
-            );
-        }
-      })}
+              );
+            case "category_filter":
+              return (
+                <>
+                  <CategoryFilterSection
+                    title={description.title}
+                    categories={
+                      description.categories?.map((c) => ({
+                        name: c,
+                        active:
+                          filteredCategory === null || filteredCategory === c,
+                      })) || []
+                    }
+                    editable={false}
+                    onCategoryStateChange={(category, state) => {
+                      setFilteredCategory(category);
+                      props.onCategoriesStateChange(
+                        description.categories?.map((category) => {
+                          return {
+                            category,
+                            active: false,
+                          };
+                        }) || []
+                      );
+                    }}
+                  />
+                  <a
+                    className={classnames("clear-filters", {
+                      visible: filteredCategory != null,
+                    })}
+                    href="#"
+                    onClick={(e) => {
+                      e.preventDefault();
+                      setFilteredCategory(null);
+                      props.onCategoriesStateChange(
+                        description.categories?.map((category) => {
+                          return {
+                            category,
+                            active: true,
+                          };
+                        }) || []
+                      );
+                    }}
+                  >
+                    Clear filters
+                  </a>
+                </>
+              );
+          }
+        })}
       <style jsx>{`
         .clear-filters {
           color: white;

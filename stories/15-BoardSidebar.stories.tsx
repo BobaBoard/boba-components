@@ -127,16 +127,26 @@ export const BoardDescriptionStory = BoardDescriptionTemplate.bind({});
 BoardDescriptionStory.args = {
   descriptions: [
     {
-      index: 2,
+      id: 1,
+      index: 1,
       title: "Gore Categories",
       description: null,
       type: "category_filter",
-      categories: ["blood", "bruises"],
+      categories: ["sangue!!!!", "acido muriatico!!!!"],
     },
     {
-      index: 1,
-      title: "Gore description",
-      description: '[{"insert": "pls b nice"}]',
+      id: 5,
+      index: 2,
+      title: "Gore Categories2",
+      description: null,
+      type: "category_filter",
+      categories: ["set1", "set2"],
+    },
+    {
+      id: 2,
+      index: 3,
+      title: "a test",
+      description: '[{"insert": "pls help"}]',
       type: "text",
       categories: [null],
     },
@@ -151,16 +161,26 @@ export const EditableBoardDescriptionStory = EditableBoardDescriptionTemplate.bi
 EditableBoardDescriptionStory.args = {
   descriptions: [
     {
-      index: 2,
+      id: 1,
+      index: 1,
       title: "Gore Categories",
       description: null,
       type: "category_filter",
-      categories: ["blood", "bruises"],
+      categories: ["sangue!!!!", "acido muriatico!!!!"],
     },
     {
-      index: 1,
-      title: "Gore description",
-      description: '[{"insert": "pls b nice"}]',
+      id: 5,
+      index: 2,
+      title: "Gore Categories2",
+      description: null,
+      type: "category_filter",
+      categories: ["set1", "set2"],
+    },
+    {
+      id: 2,
+      index: 3,
+      title: "a test",
+      description: '[{"insert": "pls help"}]',
       type: "text",
       categories: [null],
     },
