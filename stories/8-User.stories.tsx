@@ -3,101 +3,70 @@ import React from "react";
 import UserBar from "../src/layout/UserBar";
 import mamoru from "./images/mamoru.png";
 
+import { action } from "@storybook/addon-actions";
+
 export default {
   title: "UserBar",
   component: UserBar,
+  argTypes: {
+    color: { control: "color" },
+  },
 };
 
-export const LoggedOut = () => {
-  return (
-    <>
-      <div style={{ margin: "25px" }}>
-        <UserBar onClick={() => console.log("click!")} />
-      </div>
-      <div style={{ margin: "25px" }}>
-        <UserBar onClick={() => console.log("click!")} color="orange" />
-      </div>
-    </>
-  );
+const UserBarTemplate = (args: any) => (
+  <div style={{ margin: "25px" }}>
+    <UserBar {...args} />
+  </div>
+);
+
+export const LoggedOut = UserBarTemplate.bind({});
+LoggedOut.args = {
+  onClick: action("onClick"),
+  color: "orange",
 };
 
-LoggedOut.story = {
-  name: "logged out",
+export const LoggedIn = UserBarTemplate.bind({});
+LoggedIn.args = {
+  onClick: action("onClick"),
+  color: "orange",
+  user: {
+    username: "SexyDaddy69",
+    avatarUrl: mamoru,
+  },
 };
 
-export const LoggedIn = () => {
-  return (
-    <>
-      <div style={{ margin: "25px" }}>
-        <UserBar
-          user={{
-            username: "SexyDaddy69",
-          }}
-          onClick={() => console.log("click!")}
-        />
-      </div>
-      <div style={{ margin: "25px" }}>
-        <UserBar
-          user={{
-            username: "SexyDaddy69",
-          }}
-          onClick={() => console.log("click!")}
-          color="orange"
-        />
-      </div>
-      <div style={{ margin: "25px" }}>
-        <UserBar
-          user={{
-            username: "SexyDaddy69",
-            avatarUrl: mamoru,
-          }}
-          onClick={() => console.log("click!")}
-        />
-      </div>
-      <div style={{ margin: "25px" }}>
-        <UserBar
-          user={{
-            username: "SexyDaddy69",
-            avatarUrl: mamoru,
-          }}
-          onClick={() => console.log("click!")}
-          color="orange"
-        />
-      </div>
-    </>
-  );
+export const Loading = UserBarTemplate.bind({});
+Loading.args = {
+  onClick: action("onClick"),
+  color: "orange",
+  user: {
+    username: "SexyDaddy69",
+    avatarUrl: mamoru,
+  },
+  loading: true,
 };
 
-LoggedIn.story = {
-  name: "logged in",
-};
-
-export const Loading = () => {
-  return (
-    <>
-      <div style={{ margin: "25px" }}>
-        <UserBar
-          user={{
-            username: "SexyDaddy69",
-          }}
-          onClick={() => console.log("click!")}
-          loading={true}
-        />
-      </div>
-      <div style={{ margin: "25px" }}>
-        <UserBar
-          user={{
-            username: "SexyDaddy69",
-          }}
-          onClick={() => console.log("click!")}
-          color="orange"
-          loading={true}
-        />
-      </div>
-    </>
-  );
-};
-
-Loading.story = {
-  name: "loading",
+export const MenuOptions = UserBarTemplate.bind({});
+MenuOptions.args = {
+  onClick: action("onClick"),
+  color: "orange",
+  user: {
+    username: "SexyDaddy69",
+    avatarUrl: mamoru,
+  },
+  menuOptions: [
+    {
+      name: "no href",
+      link: {
+        onClick: action("noHrefClick"),
+      },
+    },
+    {
+      name: "with href",
+      link: {
+        onClick: action("withHref"),
+        href: "https://www.youtube.com/watch?v=dQw4w9WgXcQ",
+      },
+    },
+  ],
 };

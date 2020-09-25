@@ -8,6 +8,7 @@ import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faComment, faPlusSquare } from "@fortawesome/free-regular-svg-icons";
 
 import { faCodeBranch } from "@fortawesome/free-solid-svg-icons";
+import { LinkWithAction } from "types";
 
 const COMPACT_FOOTER_TRIGGER_SIZE = 450;
 
@@ -15,14 +16,13 @@ const Footer: React.FC<FooterProps> = ({
   compact,
   onContribution,
   onComment,
-  onOpenClick,
   totalContributions,
   directContributions,
   newContributions,
   totalComments,
   newComments,
   answerable,
-  notesUrl,
+  notesLink,
 }) => {
   let [compactFooter, setCompactFooter] = React.useState(false);
   let ref = React.useRef<HTMLDivElement>(null);
@@ -52,13 +52,13 @@ const Footer: React.FC<FooterProps> = ({
         )}
         <div className="notes-button">
           <a
-            href={notesUrl || "#"}
+            href={notesLink?.href}
             onClick={(e) => {
-              if (!onOpenClick) {
+              if (!notesLink?.onClick) {
                 return;
               }
               e.preventDefault();
-              onOpenClick();
+              notesLink.onClick();
             }}
           >
             <span className="note-count contributions">
@@ -160,6 +160,9 @@ const Footer: React.FC<FooterProps> = ({
           color: black;
           text-decoration: none;
         }
+        .notes-button:hover {
+          cursor: pointer;
+        }
         .notes-button span :global(svg) {
           height: 15px;
           padding: 1px 0px;
@@ -206,6 +209,5 @@ interface FooterProps {
   newContributions?: number;
   totalComments?: number;
   newComments?: number;
-  onOpenClick?: () => void;
-  notesUrl?: string;
+  notesLink?: LinkWithAction;
 }

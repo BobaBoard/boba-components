@@ -9,7 +9,6 @@ import PostQuote from "../src/post/PostQuote";
 import Editor from "@bobaboard/boba-editor";
 
 import oncelerAvatar from "./images/oncie.jpg";
-import greedlerAvatar from "./images/greedler.jpg";
 import tuxedoAvatar from "./images/tuxedo-mask.jpg";
 import mamoruAvatar from "./images/mamoru.png";
 
@@ -18,6 +17,7 @@ import sportacusReaction from "./images/sportacus-reaction.png";
 import luigiReaction from "./images/luigi-reaction.png";
 import junkoReaction from "./images/junko-reaction.png";
 import Button from "../src/common/Button";
+import { action } from "@storybook/addon-actions";
 
 export default {
   title: "Post Preview",
@@ -155,93 +155,88 @@ CardSimple.story = {
   name: "content card",
 };
 
-export const FooterStory = () => (
+const FooterTemplate = (args: any) => (
+  <>
+    <div style={{ maxWidth: "500px" }}>
+      <Footer {...args} />
+    </div>
+    <div style={{ maxWidth: "250px" }}>
+      <Footer {...args} />
+    </div>
+  </>
+);
+
+// To show this story by itself, add export in front of const
+const AnswerableFooter = FooterTemplate.bind({});
+AnswerableFooter.args = {
+  answerable: true,
+};
+
+const FooterWithNotes = FooterTemplate.bind({});
+FooterWithNotes.args = {
+  answerable: true,
+  totalContributions: 5,
+  directContributions: 2,
+  totalComments: 4,
+};
+
+const FooterWithUpdates = FooterTemplate.bind({});
+FooterWithUpdates.args = {
+  ...FooterWithNotes.args,
+  newContributions: 1,
+  newComments: 3,
+};
+
+const FooterWithHighCount = FooterTemplate.bind({});
+FooterWithHighCount.args = {
+  answerable: true,
+  totalContributions: 305,
+  directContributions: 200,
+  totalComments: 690,
+  newContributions: 122,
+  newComments: 300,
+};
+
+const NonAnswerableFooter = FooterTemplate.bind({});
+NonAnswerableFooter.args = {
+  ...FooterWithUpdates.args,
+  answerable: false,
+};
+
+const FooterWithoutHref = FooterTemplate.bind({});
+FooterWithoutHref.args = {
+  ...FooterWithUpdates.args,
+  notesLink: {
+    onClick: action("withoutHref"),
+  },
+};
+
+const FooterWithHref = FooterTemplate.bind({});
+FooterWithHref.args = {
+  ...FooterWithUpdates.args,
+  answerable: false,
+  notesLink: {
+    onClick: action("withHref"),
+    href: "https://www.youtube.com/watch?v=dQw4w9WgXcQ",
+  },
+};
+
+export const FooterStory = (args: any) => (
   <div>
     <h2>Empty</h2>
-    <div style={{ maxWidth: "500px" }}>
-      <Footer answerable />
-    </div>
-    <div style={{ maxWidth: "250px" }}>
-      <Footer answerable />
-    </div>
+    <AnswerableFooter {...AnswerableFooter.args} />
     <h2>No Updates</h2>
-    <div style={{ maxWidth: "500px" }}>
-      <Footer
-        answerable
-        totalContributions={5}
-        directContributions={2}
-        totalComments={5}
-      />
-    </div>
-    <div style={{ maxWidth: "250px" }}>
-      <Footer
-        answerable
-        totalContributions={5}
-        directContributions={2}
-        totalComments={5}
-      />
-    </div>
+    <FooterWithNotes {...FooterWithNotes.args} />
     <h2>With Updates</h2>
-    <div style={{ maxWidth: "500px" }}>
-      <Footer
-        answerable
-        totalContributions={5}
-        directContributions={2}
-        newContributions={1}
-        newComments={3}
-        totalComments={5}
-      />
-    </div>
-    <div style={{ maxWidth: "250px" }}>
-      <Footer
-        answerable
-        totalContributions={5}
-        directContributions={2}
-        newContributions={1}
-        newComments={3}
-        totalComments={5}
-      />
-    </div>
+    <FooterWithUpdates {...FooterWithUpdates.args} />
     <h2>With High Counts</h2>
-    <div style={{ maxWidth: "500px" }}>
-      <Footer
-        answerable
-        totalContributions={305}
-        directContributions={200}
-        newContributions={122}
-        newComments={300}
-        totalComments={690}
-      />
-    </div>
-    <div style={{ maxWidth: "250px" }}>
-      <Footer
-        answerable
-        totalContributions={305}
-        directContributions={200}
-        newContributions={122}
-        newComments={300}
-        totalComments={690}
-      />
-    </div>
+    <FooterWithHighCount {...FooterWithHighCount.args} />
     <h2>Non Answerable</h2>
-    <div style={{ maxWidth: "500px" }}>
-      <Footer
-        totalContributions={35}
-        directContributions={20}
-        newContributions={12}
-        newComments={30}
-        totalComments={69}
-      />
-    </div>
-    <div style={{ maxWidth: "250px" }}>
-      <Footer
-        totalContributions={35}
-        directContributions={20}
-        newContributions={12}
-        newComments={30}
-        totalComments={69}
-      />
-    </div>
+    <NonAnswerableFooter {...NonAnswerableFooter.args} />
+    <h2>Click With Href</h2>
+    <FooterWithHref {...FooterWithHref.args} />
+    <h2>Click Without Href</h2>
+    <FooterWithoutHref {...FooterWithoutHref.args} />
     <style jsx>
       {`
         h2 {
@@ -277,87 +272,74 @@ EditorFooterStory.story = {
   name: "editor footer",
 };
 
+const HeaderTemplate = (args: any) => <Header {...args} />;
+
+// To show this story by itself, add export in front of const
+const RegularHeader = HeaderTemplate.bind({});
+RegularHeader.args = {
+  secretIdentity: {
+    name: "Good Onceler",
+    avatar: `/${oncelerAvatar}`,
+  },
+  createdMessage: "posted on: 2019/06/19 at 4:20pm",
+  createdMessageLink: {
+    onClick: action("withHref"),
+    href: "https://www.youtube.com/watch?v=dQw4w9WgXcQ",
+  },
+  size: HeaderStyle.REGULAR,
+};
+
+const CompactHeader = HeaderTemplate.bind({});
+CompactHeader.args = {
+  ...RegularHeader.args,
+  size: HeaderStyle.COMPACT,
+};
+
+const WithUserIdentity = HeaderTemplate.bind({});
+WithUserIdentity.args = {
+  ...RegularHeader.args,
+  secretIdentity: { name: "Tuxedo Mask", avatar: `/${tuxedoAvatar}` },
+  userIdentity: { name: "SexyDaddy69", avatar: `/${mamoruAvatar}` },
+};
+
+const WithUserIdentityCompact = HeaderTemplate.bind({});
+WithUserIdentityCompact.args = {
+  ...WithUserIdentity.args,
+  size: HeaderStyle.COMPACT,
+};
+
+const WithUserIdentityForceHide = HeaderTemplate.bind({});
+WithUserIdentityForceHide.args = {
+  ...WithUserIdentity.args,
+  forceHide: true,
+};
+const WithUserIdentityForceHideCompact = HeaderTemplate.bind({});
+WithUserIdentityForceHideCompact.args = {
+  ...WithUserIdentityCompact.args,
+  forceHide: true,
+};
+
 export const HeaderStory = () => (
   <div>
-    <Header
-      secretIdentity={{
-        name: "Good Onceler",
-        avatar: `/${oncelerAvatar}`,
-      }}
-      createdMessage="Posted on: 2019/05/14 at 7:34pm"
-      createdMessageHref="#helloImWorking"
-      size={HeaderStyle.REGULAR}
+    <RegularHeader {...RegularHeader.args} />
+    <CompactHeader {...CompactHeader.args} />
+    <WithUserIdentity {...WithUserIdentity.args} />
+    <WithUserIdentityCompact {...WithUserIdentityCompact.args} />
+    <WithUserIdentityForceHide {...WithUserIdentityForceHide.args} />
+    <WithUserIdentityForceHideCompact
+      {...WithUserIdentityForceHideCompact.args}
     />
-    <Header
-      secretIdentity={{ name: "Bad Onceler", avatar: `/${greedlerAvatar}` }}
-      createdMessage="Posted on: 2019/06/14 at 4:20pm"
-      createdMessageHref="#helloImWorking"
-      size={HeaderStyle.COMPACT}
-    />
-    <Header
-      secretIdentity={{ name: "Tuxedo Mask", avatar: `/${tuxedoAvatar}` }}
-      userIdentity={{ name: "SexyDaddy69", avatar: `/${mamoruAvatar}` }}
-      createdMessage="Posted on: 2019/06/14 at 4:20pm"
-      createdMessageHref="#helloImWorking"
-      size={HeaderStyle.REGULAR}
-    />
-    <Header
-      secretIdentity={{ name: "Tuxedo Mask", avatar: `/${tuxedoAvatar}` }}
-      userIdentity={{ name: "SexyDaddy69", avatar: `/${mamoruAvatar}` }}
-      createdMessage="Posted on: 2019/06/14 at 4:20pm"
-      size={HeaderStyle.REGULAR}
-      forceHide
-    />
-    <Header
-      secretIdentity={{ name: "Tuxedo Mask", avatar: `/${tuxedoAvatar}` }}
-      userIdentity={{ name: "SexyDaddy69", avatar: `/${mamoruAvatar}` }}
-      createdMessage="Posted on: 2019/06/14 at 4:20pm"
-      size={HeaderStyle.COMPACT}
-    />
-    <Header
-      secretIdentity={{ name: "Tuxedo Mask", avatar: `/${tuxedoAvatar}` }}
-      userIdentity={{ name: "SexyDaddy69", avatar: `/${mamoruAvatar}` }}
-      createdMessage="Posted on: 2019/06/14 at 4:20pm"
-      size={HeaderStyle.COMPACT}
-      forceHide
-    />
+    {/*These will probably need to be deleted at some point*/}
+    <RegularHeader {...RegularHeader.args} newPost />
+    <RegularHeader {...RegularHeader.args} newComments />
+    <RegularHeader {...RegularHeader.args} newComments newContributions />
 
-    <Header
-      secretIdentity={{ name: "Tuxedo Mask", avatar: `/${tuxedoAvatar}` }}
-      userIdentity={{ name: "SexyDaddy69", avatar: `/${mamoruAvatar}` }}
-      createdMessage="Posted on: 2019/06/14 at 4:20pm"
-      createdMessageHref="#helloImWorking"
-      newPost
-    />
-
-    <Header
-      secretIdentity={{ name: "Tuxedo Mask", avatar: `/${tuxedoAvatar}` }}
-      userIdentity={{ name: "SexyDaddy69", avatar: `/${mamoruAvatar}` }}
-      createdMessage="Posted on: 2019/06/14 at 4:20pm"
-      newComments
-    />
-
-    <Header
-      secretIdentity={{ name: "Tuxedo Mask", avatar: `/${tuxedoAvatar}` }}
-      userIdentity={{ name: "SexyDaddy69", avatar: `/${mamoruAvatar}` }}
-      createdMessage="Posted on: 2019/06/14 at 4:20pm"
-      newComments
-      newContributions
-    />
     <div style={{ width: "200px", backgroundColor: "green" }}>
-      <Header
-        secretIdentity={{ name: "Tuxedo Mask", avatar: `/${tuxedoAvatar}` }}
-        userIdentity={{ name: "SuperSexyDaddy69", avatar: `/${mamoruAvatar}` }}
-        createdMessage="Posted on: 2019/06/14 at 4:20pm"
-        size={HeaderStyle.REGULAR}
-      />
+      <WithUserIdentity {...WithUserIdentity.args} />
     </div>
     <div style={{ width: "200px", backgroundColor: "yellow" }}>
-      <Header
-        secretIdentity={{ name: "Tuxedo Mask", avatar: `/${tuxedoAvatar}` }}
-        userIdentity={{ name: "SuperSexyDaddy69", avatar: `/${mamoruAvatar}` }}
-        createdMessage="Posted on: 2019/06/14 at 4:20pm"
-        size={HeaderStyle.REGULAR}
+      <WithUserIdentity
+        {...WithUserIdentity.args}
         newComments
         newContributions
       />
@@ -380,244 +362,119 @@ export const HeaderStory = () => (
 HeaderStory.story = {
   name: "header",
 };
-export const NonEditable = () => (
-  <Post
-    createdTime="2019/05/14 at 7:34pm"
-    text={
-      '[{"insert":"Open RP"},{"attributes":{"header":1},"insert":"\\n"},{"insert":{"block-image":"https://cdn.discordapp.com/attachments/443967088118333442/691486081895628830/unknown.png"}}, {"attributes":{"italic":true},"insert":"You have my sword..."}]'
-    }
-    secretIdentity={{ name: "Tuxedo Mask", avatar: `/${tuxedoAvatar}` }}
-    userIdentity={{ name: "SexyDaddy69", avatar: `/${mamoruAvatar}` }}
-    onNewContribution={() => console.log("click!")}
-    onNewComment={() => console.log("click!")}
-    onNotesClick={() => console.log("click")}
-    notesUrl={"#"}
-  />
-);
 
-export const UpdatedPost = () => (
-  <>
-    <Post
-      createdTime="2019/05/14 at 7:34pm"
-      text={
-        '[{"insert":"Open RP"},{"attributes":{"header":1},"insert":"\\n"},{"insert":{"block-image":"https://cdn.discordapp.com/attachments/443967088118333442/691486081895628830/unknown.png"}}, {"attributes":{"italic":true},"insert":"You have my sword..."}]'
-      }
-      secretIdentity={{ name: "Tuxedo Mask", avatar: `/${tuxedoAvatar}` }}
-      userIdentity={{ name: "SexyDaddy69", avatar: `/${mamoruAvatar}` }}
-      onNewContribution={() => console.log("click!")}
-      onNewComment={() => console.log("click!")}
-      onNotesClick={() => console.log("click")}
-      notesUrl={"#"}
-      totalContributions={15}
-      directContributions={3}
-      totalComments={5}
-      newComments={3}
-      newContributions={5}
-    />
-    <Post
-      createdTime="2019/05/14 at 7:34pm"
-      text={
-        '[{"insert":"Open RP"},{"attributes":{"header":1},"insert":"\\n"},{"insert":{"block-image":"https://cdn.discordapp.com/attachments/443967088118333442/691486081895628830/unknown.png"}}, {"attributes":{"italic":true},"insert":"You have my sword..."}]'
-      }
-      secretIdentity={{ name: "Tuxedo Mask", avatar: `/${tuxedoAvatar}` }}
-      userIdentity={{ name: "SexyDaddy69", avatar: `/${mamoruAvatar}` }}
-      onNewContribution={() => console.log("click!")}
-      onNewComment={() => console.log("click!")}
-      onNotesClick={() => console.log("click")}
-      notesUrl={"#"}
-      totalContributions={0}
-      directContributions={0}
-      totalComments={0}
-      newComments={1}
-      newContributions={0}
-    />
-  </>
-);
-export const AnswerablePost = () => (
-  <>
-    <Post
-      createdTime="2019/05/14 at 7:34pm"
-      text={
-        '[{"insert":"Open RP"},{"attributes":{"header":1},"insert":"\\n"},{"insert":{"block-image":"https://cdn.discordapp.com/attachments/443967088118333442/691486081895628830/unknown.png"}}, {"attributes":{"italic":true},"insert":"You have my sword..."}]'
-      }
-      secretIdentity={{ name: "Tuxedo Mask", avatar: `/${tuxedoAvatar}` }}
-      userIdentity={{ name: "SexyDaddy69", avatar: `/${mamoruAvatar}` }}
-      onNewContribution={() => console.log("click!")}
-      onNewComment={() => console.log("click!")}
-      onNotesClick={() => console.log("click")}
-      notesUrl={"#"}
-      totalContributions={15}
-      directContributions={3}
-      totalComments={5}
-      newComments={3}
-      newContributions={5}
-      answerable={true}
-    />
-  </>
-);
-
+const PostTemplate = (args: any) => <Post {...args} />;
+export const NonEditable = PostTemplate.bind({});
 NonEditable.story = {
   name: "non-editable post",
 };
 
+NonEditable.args = {
+  createdTime: "2019/05/14 at 7:34pm",
+  text:
+    '[{"insert":"Open RP"},{"attributes":{"header":1},"insert":"\\n"},{"insert":{"block-image":"https://cdn.discordapp.com/attachments/443967088118333442/691486081895628830/unknown.png"}}, {"attributes":{"italic":true},"insert":"You have my sword..."}]',
+  secretIdentity: { name: "Tuxedo Mask", avatar: `/${tuxedoAvatar}` },
+  userIdentity: { name: "SexyDaddy69", avatar: `/${mamoruAvatar}` },
+  onNewContribution: () => action("newContribution"),
+  onNewComment: () => action("newComment"),
+  onNotesClick: () => console.log("click"),
+  createdTimeLink: {
+    onClick: action("createdTime"),
+    href: "https://www.youtube.com/watch?v=dQw4w9WgXcQ",
+  },
+  notesLink: {
+    onClick: action("notesLink"),
+    href: "https://www.youtube.com/watch?v=dQw4w9WgXcQ",
+  },
+};
+
+export const UpdatedPost = PostTemplate.bind({});
 UpdatedPost.story = {
   name: "updated post",
 };
-AnswerablePost.story = {
-  name: "answerable",
+UpdatedPost.args = {
+  ...NonEditable.args,
+  totalContributions: 15,
+  directContributions: 3,
+  totalComments: 5,
+  newComments: 3,
+  newContributions: 5,
 };
 
-export const TaggedPost = () => (
-  <>
-    <Post
-      createdTime="2019/05/14 at 7:34pm"
-      text={
-        '[{"insert":"Open RP"},{"attributes":{"header":1},"insert":"\\n"},{"insert":{"block-image":"https://cdn.discordapp.com/attachments/443967088118333442/691486081895628830/unknown.png"}}, {"attributes":{"italic":true},"insert":"You have my sword..."}]'
-      }
-      secretIdentity={{ name: "Tuxedo Mask", avatar: `/${tuxedoAvatar}` }}
-      userIdentity={{ name: "SexyDaddy69", avatar: `/${mamoruAvatar}` }}
-      onNewContribution={() => console.log("click!")}
-      onNewComment={() => console.log("click!")}
-      onNotesClick={() => console.log("click")}
-      notesUrl={"#"}
-      tags={{
-        indexTags: ["indexable"],
-        categoryTags: ["category"],
-        contentWarnings: ["bad content"],
-        whisperTags: [
-          "tag1",
-          "tag2",
-          "a long tag",
-          "a very very very very very long tag with many words",
-          "JugemuJugemuGokonoSurikireKaijarisuigyonoSuigyomatsuUnraimatsuFuraimatsuKuNeruTokoroniSumuTokoroYaburaKojinoBuraKojiPaipopaipoPaiponoShuringanShuringannoGurindaiGurindainoPonpokopinoPonpokonanoChokyumeinoChosuke",
-        ],
-      }}
-      totalContributions={15}
-      directContributions={3}
-      totalComments={5}
-      newComments={3}
-      newContributions={5}
-      answerable={true}
-    />
-  </>
-);
+export const AnswerablePost = PostTemplate.bind({});
+AnswerablePost.story = {
+  name: "answerable post",
+};
+AnswerablePost.args = {
+  ...UpdatedPost.args,
+  answerable: true,
+};
+
+export const TaggedPost = PostTemplate.bind({});
 TaggedPost.story = {
   name: "tagged post",
 };
-
-export const ReactionsPost = () => (
-  <>
-    <Post
-      createdTime="2019/05/14 at 7:34pm"
-      text={
-        '[{"insert":"Open RP"},{"attributes":{"header":1},"insert":"\\n"},{"insert":{"block-image":"https://cdn.discordapp.com/attachments/443967088118333442/691486081895628830/unknown.png"}}, {"attributes":{"italic":true},"insert":"You have my sword..."}]'
-      }
-      secretIdentity={{ name: "Tuxedo Mask", avatar: `/${tuxedoAvatar}` }}
-      userIdentity={{ name: "SexyDaddy69", avatar: `/${mamoruAvatar}` }}
-      onNewContribution={() => console.log("click!")}
-      onNewComment={() => console.log("click!")}
-      onNotesClick={() => console.log("click")}
-      notesUrl={"#"}
-      tags={{
-        whisperTags: [
-          "tag1",
-          "tag2",
-          "a long tag",
-          "a very very very very very long tag with many words",
-          "JugemuJugemuGokonoSurikireKaijarisuigyonoSuigyomatsuUnraimatsuFuraimatsuKuNeruTokoroniSumuTokoroYaburaKojinoBuraKojiPaipopaipoPaiponoShuringanShuringannoGurindaiGurindainoPonpokopinoPonpokonanoChokyumeinoChosuke",
-        ],
-      }}
-      totalContributions={15}
-      directContributions={3}
-      totalComments={5}
-      newComments={3}
-      newContributions={5}
-      answerable={true}
-      reactions={[
-        { image: oncieReaction, count: 3 },
-        { image: sportacusReaction, count: 6 },
-        { image: luigiReaction, count: 11 },
-        { image: junkoReaction, count: 20 },
-      ]}
-      reactable
-    />
-  </>
-);
-ReactionsPost.story = {
-  name: "post with reactions",
+TaggedPost.args = {
+  ...AnswerablePost.args,
+  tags: {
+    indexTags: ["indexable"],
+    categoryTags: ["category"],
+    contentWarnings: ["bad content"],
+    whisperTags: [
+      "tag1",
+      "tag2",
+      "a long tag",
+      "a very very very very very long tag with many words",
+      "JugemuJugemuGokonoSurikireKaijarisuigyonoSuigyomatsuUnraimatsuFuraimatsuKuNeruTokoroniSumuTokoroYaburaKojinoBuraKojiPaipopaipoPaiponoShuringanShuringannoGurindaiGurindainoPonpokopinoPonpokonanoChokyumeinoChosuke",
+    ],
+  },
+  answerable: true,
 };
 
-export const ActionPost = () => (
-  <>
-    <Post
-      createdTime="2019/05/14 at 7:34pm one fine day with many moons and many suns"
-      text={
-        '[{"insert":"Open RP"},{"attributes":{"header":1},"insert":"\\n"},{"insert":{"block-image":"https://cdn.discordapp.com/attachments/443967088118333442/691486081895628830/unknown.png"}}, {"attributes":{"italic":true},"insert":"You have my sword..."}]'
-      }
-      secretIdentity={{ name: "Tuxedo Mask", avatar: `/${tuxedoAvatar}` }}
-      userIdentity={{
-        name: "SexyDaddy69SexyDaddy69SexyDaddy69Sexyddz!",
-        avatar: `/${mamoruAvatar}`,
-      }}
-      onNewContribution={() => console.log("click!")}
-      onNewComment={() => console.log("click!")}
-      onNotesClick={() => console.log("click")}
-      notesUrl={"#"}
-      tags={{
-        whisperTags: [
-          "tag1",
-          "tag2",
-          "a long tag",
-          "a very very very very very long tag with many words",
-          "JugemuJugemuGokonoSurikireKaijarisuigyonoSuigyomatsuUnraimatsuFuraimatsuKuNeruTokoroniSumuTokoroYaburaKojinoBuraKojiPaipopaipoPaiponoShuringanShuringannoGurindaiGurindainoPonpokopinoPonpokonanoChokyumeinoChosuke",
-        ],
-      }}
-      totalContributions={15}
-      directContributions={3}
-      totalComments={5}
-      newComments={3}
-      newContributions={5}
-      answerable={true}
-      reactions={[
-        { image: oncieReaction, count: 3 },
-        { image: sportacusReaction, count: 6 },
-        { image: luigiReaction, count: 11 },
-        { image: junkoReaction, count: 20 },
-      ]}
-      reactable
-      menuOptions={[
-        {
-          name: "Copy Link",
-          onClick: () => {},
-        },
-      ]}
-    />
-  </>
-);
+export const ReactablePost = PostTemplate.bind({});
+ReactablePost.story = {
+  name: "reactable post",
+};
+ReactablePost.args = {
+  ...TaggedPost.args,
+  reactable: true,
+  reactions: [
+    { image: oncieReaction, count: 3 },
+    { image: sportacusReaction, count: 6 },
+    { image: luigiReaction, count: 11 },
+    { image: junkoReaction, count: 20 },
+  ],
+};
+
+export const ActionPost = PostTemplate.bind({});
 ActionPost.story = {
-  name: "post with actions",
+  name: "actionable post",
+};
+ActionPost.args = {
+  ...TaggedPost.args,
+  menuOptions: [
+    {
+      name: "Copy Link",
+      link: {
+        onClick: action("copy!"),
+        href: "https://www.youtube.com/watch?v=dQw4w9WgXcQ",
+      },
+    },
+  ],
 };
 
 export const HighlightPost = () => {
   const postRef = React.createRef<any>();
   return (
     <div>
-      <Post
-        ref={postRef}
-        newPost={true}
-        createdTime="2019/05/14 at 7:34pm"
-        text={
-          '[{"insert":"Open RP"},{"attributes":{"header":1},"insert":"\\n"},{"insert":{"block-image":"https://cdn.discordapp.com/attachments/443967088118333442/691486081895628830/unknown.png"}}, {"attributes":{"italic":true},"insert":"You have my sword..."}]'
-        }
-        secretIdentity={{ name: "Tuxedo Mask", avatar: `/${tuxedoAvatar}` }}
-        userIdentity={{ name: "SexyDaddy69", avatar: `/${mamoruAvatar}` }}
-        onNewContribution={() => console.log("click!")}
-        onNewComment={() => console.log("click!")}
-        onNotesClick={() => console.log("click")}
-        notesUrl={"#"}
-      />
+      <Post {...TaggedPost.args} ref={postRef} />
       <div style={{ marginTop: "20px" }}>
-        <Button onClick={() => postRef.current.highlight("red")}>
+        <Button
+          onClick={() => {
+            action("highlight")(postRef.current);
+            postRef.current.highlight("red");
+          }}
+        >
           Highlight!
         </Button>
       </div>
@@ -627,33 +484,6 @@ export const HighlightPost = () => {
 
 HighlightPost.story = {
   name: "highlight post",
-};
-export const PostReload = () => {
-  const [time, setTime] = React.useState(0);
-  return (
-    <div>
-      <Post
-        newPost={true}
-        createdTime={`2019/05/14 at 7:${time}pm`}
-        text={
-          '[{"insert":"Open RP"},{"attributes":{"header":1},"insert":"\\n"},{"insert":{"youtube-video":"https://www.youtube.com/embed/ROPpn-QcLZM"}},{"insert":"\\n"}]'
-        }
-        secretIdentity={{ name: "Tuxedo Mask", avatar: `/${tuxedoAvatar}` }}
-        userIdentity={{ name: "SexyDaddy69", avatar: `/${mamoruAvatar}` }}
-        onNewContribution={() => console.log("click!")}
-        onNewComment={() => console.log("click!")}
-        onNotesClick={() => console.log("click")}
-        notesUrl={"#"}
-      />
-      <div style={{ marginTop: "20px" }}>
-        <Button onClick={() => setTime((time) => time + 1)}>Highlight!</Button>
-      </div>
-    </div>
-  );
-};
-
-PostReload.story = {
-  name: "increase!",
 };
 
 export const PostQuoteStory = () => {

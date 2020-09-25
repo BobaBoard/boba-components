@@ -2,6 +2,7 @@ import React from "react";
 import classnames from "classnames";
 import Tooltip from "./Tooltip";
 import Theme from "../theme/default";
+import { LinkWithAction } from "types";
 
 export enum DropdownStyle {
   LIGHT = "LIGHT",
@@ -12,7 +13,7 @@ export interface DropdownProps {
   children: JSX.Element;
   options?: {
     name: string;
-    onClick: () => void;
+    link: LinkWithAction;
   }[];
   style?: DropdownStyle;
   accentColor?: string;
@@ -46,17 +47,19 @@ const DropdownMenu: React.FC<DropdownProps> = (props) => {
         position="bottom"
         content={
           <div className={"menu"}>
-            {props.options.map((option, index) => (
-              <div
+            {props.options.map((option) => (
+              <a
                 key={option.name}
                 className={classnames("option")}
-                onClick={() => {
-                  option.onClick();
+                onClick={(e) => {
+                  option.link.onClick();
+                  e.preventDefault();
                   setOpen(false);
                 }}
+                href={option.link.href}
               >
                 {option.name}
-              </div>
+              </a>
             ))}
           </div>
         }
@@ -75,6 +78,9 @@ const DropdownMenu: React.FC<DropdownProps> = (props) => {
         .option {
           padding: 15px 20px;
           border-bottom: 2px solid ${accentColor};
+          display: block;
+          color: ${reverseThemeColor};
+          text-decoration: none;
         }
         .option:first-child {
           border-top-left-radius: 10px;
@@ -89,8 +95,6 @@ const DropdownMenu: React.FC<DropdownProps> = (props) => {
           color: ${hoverColor};
           background-color: ${hoverBackgroundColor};
           cursor: pointer;
-        }
-        .option:first-child:hover {
         }
       `}</style>
     </>

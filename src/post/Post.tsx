@@ -16,6 +16,7 @@ import { TagsFactory } from "../common/Tag";
 
 import Theme from "../theme/default";
 import debug from "debug";
+import { LinkWithAction } from "types";
 
 const log = debug("bobaui:post-log");
 
@@ -124,8 +125,7 @@ const Post = React.forwardRef<PostHandler, PostProps>((props, ref) => {
                     totalComments={props.totalComments}
                     newContributions={props.newContributions}
                     newComments={props.newComments}
-                    onOpenClick={props.onNotesClick}
-                    notesUrl={props.notesUrl}
+                    notesLink={props.notesLink}
                     answerable={props.answerable}
                   />
                 </div>
@@ -272,10 +272,7 @@ export interface PostProps {
   answerable?: boolean;
   text: string;
   createdTime: string;
-  createdTimeLink: {
-    href: string;
-    onClick: () => void;
-  };
+  createdTimeLink: LinkWithAction;
   secretIdentity: {
     avatar: string;
     name: string;
@@ -305,13 +302,12 @@ export interface PostProps {
   onNewComment: () => void;
   collapsed?: boolean;
   muted?: boolean;
-  onNotesClick: () => void;
-  notesUrl: string;
+  notesLink: LinkWithAction;
   centered?: boolean;
   reactable?: boolean;
   menuOptions?: {
     name: string;
-    onClick: () => void;
+    link: LinkWithAction;
   }[];
   onEmbedLoaded?: () => void;
 }

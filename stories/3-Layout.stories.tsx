@@ -11,7 +11,7 @@ import Input from "../src/common/Input";
 import Post from "../src/post/Post";
 import MasonryView from "../src/layout/MasonryView";
 
-import { actions } from "@storybook/addon-actions";
+import { action } from "@storybook/addon-actions";
 
 import oncelerAvatar from "./images/oncie.jpg";
 import greedlerAvatar from "./images/greedler.jpg";
@@ -157,12 +157,12 @@ SimpleLayout.args = {
   sideMenuContent: <div>Get a load of this menu content!</div>,
   title: "!gore",
   logoLink: {
-    href: "http://www.google.com",
-    onClick: actions("logoClick").logoClick,
+    href: "https://www.youtube.com/watch?v=dQw4w9WgXcQ",
+    onClick: action("logoClick"),
   },
   titleLink: {
-    href: "http://www.google.com",
-    onClick: actions("titleClick").titleClick,
+    href: "https://www.youtube.com/watch?v=dQw4w9WgXcQ",
+    onClick: action("titleClick"),
   },
 };
 
@@ -176,20 +176,20 @@ LoggedInLayout.args = {
     avatarUrl: mamoru,
   },
   logoLink: {
-    href: "http://www.google.com",
-    onClick: actions("logoClick").logoClick,
+    href: "https://www.youtube.com/watch?v=dQw4w9WgXcQ",
+    onClick: action("logoClick"),
   },
   titleLink: {
-    href: "http://www.google.com",
-    onClick: actions("titleClick").titleClick,
+    href: "https://www.youtube.com/watch?v=dQw4w9WgXcQ",
+    onClick: action("titleClick"),
   },
   onUserbarClick: {
-    href: "http://www.google.com",
-    onClick: actions("userbarClick").userbarClick,
+    href: "https://www.youtube.com/watch?v=dQw4w9WgXcQ",
+    onClick: action("userbarClick"),
   },
   loggedInMenuOptions: [
-    { name: "opt1", onClick: actions("optionOne").optionOne },
-    { name: "opt2", onClick: actions("option2").option2 },
+    { name: "opt1", onClick: action("optionOne") },
+    { name: "opt2", onClick: action("option2") },
   ],
 };
 
@@ -203,20 +203,20 @@ LoadingLayout.args = {
     avatarUrl: mamoru,
   },
   logoLink: {
-    href: "http://www.google.com",
-    onClick: actions("logoClick").logoClick,
+    href: "https://www.youtube.com/watch?v=dQw4w9WgXcQ",
+    onClick: action("logoClick"),
   },
   titleLink: {
-    href: "http://www.google.com",
-    onClick: actions("titleClick").titleClick,
+    href: "https://www.youtube.com/watch?v=dQw4w9WgXcQ",
+    onClick: action("titleClick"),
   },
   onUserbarClick: {
-    href: "http://www.google.com",
-    onClick: actions("userbarClick").userbarClick,
+    href: "https://www.youtube.com/watch?v=dQw4w9WgXcQ",
+    onClick: action("userbarClick"),
   },
   loggedInMenuOptions: [
-    { name: "opt1", onClick: actions("optionOne").optionOne },
-    { name: "opt2", onClick: actions("option2").option2 },
+    { name: "opt1", onClick: action("optionOne") },
+    { name: "opt2", onClick: action("option2") },
   ],
   loading: true,
   updates: true,

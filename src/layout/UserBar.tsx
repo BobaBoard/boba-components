@@ -2,6 +2,7 @@ import React from "react";
 import Button, { ButtonStyle } from "../common/Button";
 import DropdownListMenu, { DropdownStyle } from "../common/DropdownListMenu";
 import { faUser } from "@fortawesome/free-solid-svg-icons";
+import { LinkWithAction } from "types";
 
 const UserBar: React.FC<UserBarProps> = ({
   user,
@@ -11,24 +12,32 @@ const UserBar: React.FC<UserBarProps> = ({
   menuOptions,
   compact,
 }) => {
+  const indicator = (
+    <Button
+      icon={user?.avatarUrl ? undefined : faUser}
+      imageUrl={user?.avatarUrl}
+      onClick={onClick}
+      color={color}
+      theme={ButtonStyle.DARK}
+      compact={compact}
+    >
+      {loading ? "loading..." : user?.username || "Login"}
+    </Button>
+  );
+
   return (
     <div className="container">
-      <DropdownListMenu
-        options={menuOptions}
-        style={DropdownStyle.DARK}
-        accentColor={color}
-      >
-        <Button
-          icon={user?.avatarUrl ? undefined : faUser}
-          imageUrl={user?.avatarUrl}
-          onClick={onClick}
-          color={color}
-          theme={ButtonStyle.DARK}
-          compact={compact}
+      {menuOptions ? (
+        <DropdownListMenu
+          options={menuOptions}
+          style={DropdownStyle.DARK}
+          accentColor={color}
         >
-          {loading ? "loading..." : user?.username || "Login"}
-        </Button>
-      </DropdownListMenu>
+          {indicator}
+        </DropdownListMenu>
+      ) : (
+        indicator
+      )}
       <style jsx>{`
         .sidebar {
           padding: 20px;
@@ -50,7 +59,7 @@ export interface UserBarProps {
   onClick?: () => void;
   menuOptions?: {
     name: string;
-    onClick: () => void;
+    link: LinkWithAction;
   }[];
   compact?: boolean;
 }

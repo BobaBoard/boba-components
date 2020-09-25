@@ -12,6 +12,8 @@ import debug from "debug";
 import { faComment, faPlusSquare } from "@fortawesome/free-regular-svg-icons";
 import { faCertificate } from "@fortawesome/free-solid-svg-icons";
 
+import { LinkWithAction } from "types";
+
 //const log = debug("bobaui:header-log");
 const info = debug("bobaui:header-info");
 
@@ -215,13 +217,13 @@ const PostHeader: React.FC<PostHeaderProps> = (props) => {
           margin-right: 5%;
           height: 60px;
           min-width: 30px;
-          min-height:  30px;
+          min-height: 30px;
           display: block;
           align-self: center;
         }
         .post-header.squeezed .avatar {
-            width: 35px;
-            height: 35px;
+          width: 35px;
+          height: 35px;
         }
 
         .identity {
@@ -231,19 +233,17 @@ const PostHeader: React.FC<PostHeaderProps> = (props) => {
           min-width: 0;
         }
         .new-tags {
-            display: flex;
-            flex-direction: column;
-            align-self: stretch;
-            justify-content: space-evenly;
-            margin-right: 15px;
+          display: flex;
+          flex-direction: column;
+          align-self: stretch;
+          justify-content: space-evenly;
+          margin-right: 15px;
         }
         .avatar::before {
-          background: url("${
-            props.forceHide
-              ? (props.secretIdentity || {}).avatar
-              : (props.userIdentity || {}).avatar ||
-                (props.secretIdentity || {}).avatar
-          }");
+          background: url("${props.forceHide
+            ? (props.secretIdentity || {}).avatar
+            : (props.userIdentity || {}).avatar ||
+              (props.secretIdentity || {}).avatar}");
           background-size: cover;
           display: block;
           content: "";
@@ -290,12 +290,12 @@ const PostHeader: React.FC<PostHeaderProps> = (props) => {
           width: 100%;
         }
         .post-header.squeezed .new-tags {
-            margin-top: 5px;
-            flex-direction: row;
-            justify-content: flex-start;
+          margin-top: 5px;
+          flex-direction: row;
+          justify-content: flex-start;
         }
         .post-header.squeezed .new-tags > :global(div) {
-            margin-right: 3px;
+          margin-right: 3px;
         }
       `}</style>
     </>
@@ -315,10 +315,7 @@ export interface PostHeaderProps {
     name: string;
   };
   createdMessage?: string;
-  createdMessageLink?: {
-    href: string;
-    onClick: () => void;
-  };
+  createdMessageLink?: LinkWithAction;
   forceHide?: boolean;
   newPost?: boolean;
   newComments?: boolean;
