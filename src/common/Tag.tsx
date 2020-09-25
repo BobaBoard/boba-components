@@ -33,7 +33,7 @@ const Tag: React.FC<TagProps> = (props) => {
           font-weight: bold;
           color: ${props.highlightColor || "black"};
           overflow-wrap: break-word;
-          word-break: break-all;
+          word-break: break-word;
         }
         .tag.compact {
           border: 0px;
