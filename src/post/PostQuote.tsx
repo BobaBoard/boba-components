@@ -26,18 +26,16 @@ const PostQuote: React.FC<PostQuoteProps> = (props) => {
         <div className="creation-time">published: {props.createdTime}</div>
       </div>
       <style jsx>{`
+        .quote {
+          --text-color: white;
+        }
         .quote :global(h1) {
           padding: 0 5px;
           font-size: 25px !important;
-          color: white !important;
-        }
-        .quote :global(*) {
-          color: white;
         }
         .quote :global(p) {
           padding: 0 5px;
           font-size: 15px !important;
-          color: white !important;
         }
         .quote :global(.block-image-class) {
           margin: 5px 0;

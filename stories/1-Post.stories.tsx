@@ -6,6 +6,7 @@ import Footer from "../src/post/Footer";
 import EditorFooter from "../src/post/EditorFooter";
 import Post from "../src/post/Post";
 import PostQuote from "../src/post/PostQuote";
+// @ts-ignore
 import Editor from "@bobaboard/boba-editor";
 
 import oncelerAvatar from "./images/oncie.jpg";
