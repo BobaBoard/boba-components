@@ -29,3 +29,8 @@ export interface DescriptionType {
   description?: string;
   categories?: string[];
 }
+
+export interface LinkWithAction {
+  href?: string;
+  onClick: () => void;
+}

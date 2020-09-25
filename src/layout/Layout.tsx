@@ -16,6 +16,7 @@ import logo from "../images/logo.svg";
 import compactLogo from "../images/logo-compact.svg";
 
 import debug from "debug";
+import { LinkWithAction } from "types";
 
 const log = debug("bobaui:layout-log");
 
@@ -26,9 +27,9 @@ const Layout = React.forwardRef<{ closeSideMenu: () => void }, LayoutProps>(
       mainContent,
       headerAccent,
       title,
-      onTitleClick,
+      logoLink,
       onUserBarClick,
-      onLogoClick,
+      titleLink,
       actionButton,
       user,
       loading,
@@ -137,21 +138,36 @@ const Layout = React.forwardRef<{ closeSideMenu: () => void }, LayoutProps>(
                     Menu
                   </Button>{" "}
                 </div>
-                <a className="logo" onClick={onLogoClick}>
+                <a
+                  className="logo"
+                  onClick={(e) => {
+                    logoLink?.onClick();
+                    if (logoLink?.onClick) {
+                      e.preventDefault();
+                    }
+                  }}
+                  href={logoLink?.href}
+                >
                   <img src={logo} className="regular" />
                   <img src={compactLogo} className="compact" />
                 </a>
                 {title && (
-                  <div
+                  <a
                     className={classnames("title", {
                       "desktop-hidden": forceHideTitle,
                     })}
-                    onClick={onTitleClick}
+                    onClick={(e) => {
+                      titleLink?.onClick();
+                      if (titleLink?.onClick) {
+                        e.preventDefault();
+                      }
+                    }}
+                    href={titleLink?.href}
                   >
                     <HighlightedText highlightColor={headerAccent || "#fffff"}>
                       <span className="title-text">{title}</span>
                     </HighlightedText>
-                  </div>
+                  </a>
                 )}
               </div>
               <UserBar
@@ -293,6 +309,7 @@ const Layout = React.forwardRef<{ closeSideMenu: () => void }, LayoutProps>(
               font-size: 30px;
               font-weight: bold;
               cursor: pointer;
+              text-decoration: none;
             }
             .title.desktop-hidden {
               display: none;
@@ -370,8 +387,8 @@ export interface LayoutProps {
   forceHideTitle?: boolean;
   actionButton?: JSX.Element;
   user?: { username: string; avatarUrl?: string };
-  onLogoClick?: () => void;
-  onTitleClick?: () => void;
+  logoLink?: LinkWithAction;
+  titleLink?: LinkWithAction;
   onUserBarClick?: () => void;
   loading?: boolean;
   updates?: number | boolean;

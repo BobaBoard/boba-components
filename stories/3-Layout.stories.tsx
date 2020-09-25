@@ -11,6 +11,8 @@ import Input from "../src/common/Input";
 import Post from "../src/post/Post";
 import MasonryView from "../src/layout/MasonryView";
 
+import { actions } from "@storybook/addon-actions";
+
 import oncelerAvatar from "./images/oncie.jpg";
 import greedlerAvatar from "./images/greedler.jpg";
 import tuxedoAvatar from "./images/tuxedo-mask.jpg";
@@ -147,67 +149,77 @@ export default {
   component: Layout,
 };
 
-export const SimpleLayout = () => {
-  return (
-    <Layout
-      mainContent={<div>This is the main content!</div>}
-      sideMenuContent={<div>Get a load of this menu content!</div>}
-      title="!gore"
-      onLogoClick={() => console.log("clack")}
-    />
-  );
+const LayoutTemplate = (args: any) => <Layout {...args} />;
+
+export const SimpleLayout = LayoutTemplate.bind({});
+SimpleLayout.args = {
+  mainContent: <div>This is the main content!</div>,
+  sideMenuContent: <div>Get a load of this menu content!</div>,
+  title: "!gore",
+  logoLink: {
+    href: "http://www.google.com",
+    onClick: actions("logoClick").logoClick,
+  },
+  titleLink: {
+    href: "http://www.google.com",
+    onClick: actions("titleClick").titleClick,
+  },
 };
 
-SimpleLayout.story = {
-  name: "simple",
+export const LoggedInLayout = LayoutTemplate.bind({});
+LoggedInLayout.args = {
+  mainContent: <div>This is the main content!</div>,
+  sideMenuContent: <div>Get a load of this menu content!</div>,
+  title: "!gore",
+  user: {
+    username: "SexyDaddy69",
+    avatarUrl: mamoru,
+  },
+  logoLink: {
+    href: "http://www.google.com",
+    onClick: actions("logoClick").logoClick,
+  },
+  titleLink: {
+    href: "http://www.google.com",
+    onClick: actions("titleClick").titleClick,
+  },
+  onUserbarClick: {
+    href: "http://www.google.com",
+    onClick: actions("userbarClick").userbarClick,
+  },
+  loggedInMenuOptions: [
+    { name: "opt1", onClick: actions("optionOne").optionOne },
+    { name: "opt2", onClick: actions("option2").option2 },
+  ],
 };
 
-export const LoggedInLayout = () => {
-  return (
-    <Layout
-      mainContent={<div>This is the main content!</div>}
-      sideMenuContent={<div>Get a load of this menu content!</div>}
-      title="!gore"
-      user={{
-        username: "SexyDaddy69",
-        avatar: mamoru,
-      }}
-      onUserBarClick={() => console.log("userbar click!")}
-      loggedInMenuOptions={[
-        { name: "opt1", onClick: () => console.log("opt1 click!") },
-        { name: "opt2", onClick: () => console.log("opt2 click!") },
-      ]}
-    />
-  );
-};
-
-LoggedInLayout.story = {
-  name: "logged in",
-};
-
-export const LoadingLayout = () => {
-  const [loading, setLoading] = React.useState(true);
-  return (
-    <Layout
-      mainContent={
-        <div>
-          <Button onClick={() => setLoading(!loading)}>toggle</Button>
-        </div>
-      }
-      sideMenuContent={<div>Get a load of this menu content!</div>}
-      title="!gore"
-      user={{
-        username: "SexyDaddy69",
-        avatar: mamoru,
-      }}
-      loading={loading}
-      updates={true}
-    />
-  );
-};
-
-LoadingLayout.story = {
-  name: "loading",
+export const LoadingLayout = LayoutTemplate.bind({});
+LoadingLayout.args = {
+  mainContent: <div>This is the main content!</div>,
+  sideMenuContent: <div>Get a load of this menu content!</div>,
+  title: "!gore",
+  user: {
+    username: "SexyDaddy69",
+    avatarUrl: mamoru,
+  },
+  logoLink: {
+    href: "http://www.google.com",
+    onClick: actions("logoClick").logoClick,
+  },
+  titleLink: {
+    href: "http://www.google.com",
+    onClick: actions("titleClick").titleClick,
+  },
+  onUserbarClick: {
+    href: "http://www.google.com",
+    onClick: actions("userbarClick").userbarClick,
+  },
+  loggedInMenuOptions: [
+    { name: "opt1", onClick: actions("optionOne").optionOne },
+    { name: "opt2", onClick: actions("option2").option2 },
+  ],
+  loading: true,
+  updates: true,
 };
 
 export const SideMenuPreview = () => {
