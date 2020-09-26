@@ -30,7 +30,12 @@ const INITIAL_COMMENT_VALUE = () => ({
   id: new Date().getTime(),
   canSubmit: false,
 });
-const CommentChainEditor: React.FC<CommentChainEditorProps> = (props) => {
+const CommentChainEditor = React.forwardRef<
+  {
+    focus: () => void;
+  },
+  CommentChainEditorProps
+>((props, ref) => {
   const [chainComments, setChainComments] = React.useState([
     INITIAL_COMMENT_VALUE(),
   ]);
@@ -38,6 +43,15 @@ const CommentChainEditor: React.FC<CommentChainEditorProps> = (props) => {
   const editorRefs = React.useRef(new Map<number, EditorRef>());
   const deleteRef = React.useRef<HTMLDivElement>(null);
   const chainEditorRef = React.useRef<HTMLDivElement>(null);
+  React.useImperativeHandle(
+    ref,
+    () => ({
+      focus: () => {
+        editorRefs.current.get(focusedChainIndex)?.editorRef.current?.focus();
+      },
+    }),
+    []
+  );
 
   React.useEffect(() => {
     // Change this on chainComments change cause that's when the refs change
@@ -79,6 +93,11 @@ const CommentChainEditor: React.FC<CommentChainEditorProps> = (props) => {
       deleteRef.current.style.display = "none";
     }
   }, [chainComments, focusedChainIndex, deleteRef.current]);
+
+  React.useEffect(() => {
+    console.log(editorRefs.current.get(focusedChainIndex));
+    editorRefs.current.get(focusedChainIndex)?.focus();
+  }, [focusedChainIndex]);
 
   return (
     <div className="comment-chain-editor" ref={chainEditorRef}>
@@ -227,7 +246,7 @@ const CommentChainEditor: React.FC<CommentChainEditorProps> = (props) => {
       `}</style>
     </div>
   );
-};
+});
 
 export interface CommentChainEditorProps {
   onCancel: () => void;

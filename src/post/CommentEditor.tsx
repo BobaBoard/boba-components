@@ -101,6 +101,7 @@ const MAX_CHARACTERS = 300;
 const Comment = React.forwardRef<EditorRef, CommentProps>((props, ref) => {
   const headerRef = React.useRef<HTMLDivElement>(null);
   const editorRef = React.useRef<HTMLDivElement>(null);
+  const focusRef = React.useRef<any>(null);
   // @ts-ignore
   const [showCancelModal, setShowCancelModal] = React.useState(false);
   const [charactersTyped, setCharactersTyped] = React.useState(1);
@@ -113,6 +114,11 @@ const Comment = React.forwardRef<EditorRef, CommentProps>((props, ref) => {
       headerRef,
       editorRef,
       text,
+      focus: () => {
+        console.log("focus");
+        console.log(editorRef);
+        focusRef.current?.focus();
+      },
     }),
     [text]
   );
@@ -174,6 +180,7 @@ const Comment = React.forwardRef<EditorRef, CommentProps>((props, ref) => {
                   }}
                   singleLine={true}
                   showTooltip={false}
+                  ref={focusRef}
                 />
               </div>
             </div>
@@ -285,6 +292,7 @@ const Comment = React.forwardRef<EditorRef, CommentProps>((props, ref) => {
 
 export interface EditorRef {
   editorRef: React.RefObject<HTMLDivElement>;
+  focus: () => void;
 }
 
 export interface CommentProps {
