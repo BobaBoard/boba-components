@@ -70,20 +70,28 @@ const Layout = React.forwardRef<{ closeSideMenu: () => void }, LayoutProps>(
         document.body.style.overflow = "hidden";
         layoutRef.current.style.overflow = "hidden";
         contentRef.current.style.overflow = "hidden";
-        const closeMenuListener = () => {
+        // This will be triggered when the animation for either
+        // closing the sidemenu ends.
+        // We attach it when we get the first request for showing
+        // the sidemenu, and then reattach it only once that
+        // transition is finished.
+        const transitionEndListener = () => {
           log(`Animation finished...`);
           if (
             !contentRef.current ||
             !layoutRef.current ||
             sideMenuRef.current?.clientWidth
           ) {
-            // The menu is open (or the refs are not available)
+            // The menu is open (or the refs are not available).
+            // This means that we're still waiting for the menu to
+            // close so we can remove all styles from the body.
             return;
           }
+
           log(`...Reactivating!`);
           sideMenuRef.current?.removeEventListener(
             "transitionend",
-            closeMenuListener
+            transitionEndListener
           );
           document.body.style.overflow = "";
           layoutRef.current.style.overflow = "";
@@ -91,7 +99,7 @@ const Layout = React.forwardRef<{ closeSideMenu: () => void }, LayoutProps>(
         };
         sideMenuRef.current?.addEventListener(
           "transitionend",
-          closeMenuListener
+          transitionEndListener
         );
       }
     }, [showSideMenu]);
@@ -284,21 +292,20 @@ const Layout = React.forwardRef<{ closeSideMenu: () => void }, LayoutProps>(
             .side-menu {
               background-color: ${Theme.LAYOUT_SIDEMENU_BACKGROUND_COLOR};
               overflow: hidden;
-              transition: width 0.3s ease-out;
               z-index: 1;
               width: 0;
               flex-shrink: 0;
+              overscroll-behavior: contain;
               position: fixed;
               top: 0;
               left: 0;
               bottom: 0;
-              overscroll-behavior: contain;
+              transition: width 0.3s ease-out;
             }
             .side-menu-content {
               width: 500px;
               position: relative;
               height: 100%;
-              overflow: auto;
             }
             .side-menu.visible {
               width: 500px;
@@ -394,7 +401,7 @@ export interface LayoutProps {
   updates?: number | boolean;
   loggedInMenuOptions?: {
     name: string;
-    onClick: () => void;
+    link: LinkWithAction;
   }[];
   onSideMenuButtonClick?: () => void;
 }

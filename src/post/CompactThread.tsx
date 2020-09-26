@@ -36,7 +36,6 @@ const PostContent: React.FC<
       <Editor
         initialText={JSON.parse(props.text)}
         editable={false}
-        focus={false}
         onSubmit={() => {}}
         onTextChange={() => {}}
       />

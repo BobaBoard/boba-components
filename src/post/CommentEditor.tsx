@@ -1,5 +1,6 @@
 import React from "react";
 import classNames from "classnames";
+// @ts-ignore
 import Editor from "@bobaboard/boba-editor";
 import Header, { HeaderStyle } from "./Header";
 import Button from "../common/Button";
@@ -157,7 +158,6 @@ const Comment = React.forwardRef<EditorRef, CommentProps>((props, ref) => {
                     props.onTextChange?.(jsonText);
                     setText(jsonText);
                   }}
-                  focus={!!props.focus}
                   onCharactersChange={(characters: number) => {
                     setCharactersTyped(characters);
                     if (
@@ -288,7 +288,6 @@ export interface EditorRef {
 }
 
 export interface CommentProps {
-  focus?: boolean;
   secretIdentity?: {
     avatar: string;
     name: string;

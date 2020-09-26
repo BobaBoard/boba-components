@@ -151,7 +151,6 @@ const Post = React.forwardRef<PostHandler, PostProps>((props, ref) => {
               <MemoizedEditor
                 initialText={JSON.parse(props.text)}
                 editable={false}
-                focus={props.focus || false}
                 onSubmit={noop}
                 onTextChange={noop}
                 onEmbedLoaded={props.onEmbedLoaded}
@@ -267,7 +266,6 @@ export interface PostHandler {
 
 export interface PostProps {
   mode?: string;
-  focus?: boolean;
   editable?: boolean;
   answerable?: boolean;
   text: string;

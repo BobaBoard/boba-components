@@ -79,7 +79,6 @@ const Comment = React.forwardRef<CommentHandler, CommentProps>((props, ref) => {
             editable={false}
             initialText={JSON.parse(props.initialText)}
             onTextChange={(text: any) => {}}
-            focus={!!props.focus}
             onCharactersChange={(characters: number) => {}}
             onSubmit={() => {}}
             singleLine={true}

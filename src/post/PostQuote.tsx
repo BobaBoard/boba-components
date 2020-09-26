@@ -12,7 +12,6 @@ const PostQuote: React.FC<PostQuoteProps> = (props) => {
         <Editor
           initialText={JSON.parse(props.text)}
           editable={false}
-          focus={false}
           onSubmit={noop}
           onTextChange={noop}
         />

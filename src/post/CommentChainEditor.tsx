@@ -97,7 +97,6 @@ const CommentChainEditor: React.FC<CommentChainEditorProps> = (props) => {
             initialText={comment.text}
             userIdentity={props.userIdentity}
             secretIdentity={props.secretIdentity}
-            focus={focusedChainIndex == index}
             muted={focusedChainIndex != index}
             onSubmit={(text) =>
               props.onSubmit?.(chainComments.map((comment) => comment.text))

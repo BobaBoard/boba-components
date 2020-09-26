@@ -188,8 +188,18 @@ LoggedInLayout.args = {
     onClick: action("userbarClick"),
   },
   loggedInMenuOptions: [
-    { name: "opt1", onClick: action("optionOne") },
-    { name: "opt2", onClick: action("option2") },
+    {
+      name: "opt1",
+      link: {
+        onClick: action("opt1"),
+      },
+    },
+    {
+      name: "opt2",
+      link: {
+        onClick: action("opt2"),
+      },
+    },
   ],
 };
 
@@ -215,8 +225,18 @@ LoadingLayout.args = {
     onClick: action("userbarClick"),
   },
   loggedInMenuOptions: [
-    { name: "opt1", onClick: action("optionOne") },
-    { name: "opt2", onClick: action("option2") },
+    {
+      name: "opt1",
+      link: {
+        onClick: action("opt1"),
+      },
+    },
+    {
+      name: "opt2",
+      link: {
+        onClick: action("opt2"),
+      },
+    },
   ],
   loading: true,
   updates: true,
@@ -496,8 +516,14 @@ export const Attempt1 = () => {
                       directContributions={post.directContributions}
                       onNewContribution={() => console.log("click!")}
                       onNewComment={() => console.log("click!")}
-                      onNotesClick={() => console.log("click")}
-                      notesUrl={"#"}
+                      createdTimeLink={{
+                        onClick: action("createdTime"),
+                        href: "https://www.youtube.com/watch?v=dQw4w9WgXcQ",
+                      }}
+                      notesLink={{
+                        onClick: action("notesLink"),
+                        href: "https://www.youtube.com/watch?v=dQw4w9WgXcQ",
+                      }}
                     />
                   </div>
                 ))}
@@ -533,10 +559,28 @@ export const Attempt1 = () => {
         }}
         onUserBarClick={() => console.log("userbar click!")}
         loggedInMenuOptions={[
-          { name: "opt1", onClick: () => console.log("opt1 click!") },
-          { name: "opt2", onClick: () => console.log("opt2 click!") },
+          {
+            name: "no href",
+            link: {
+              onClick: action("noHrefClick"),
+            },
+          },
+          {
+            name: "with href",
+            link: {
+              onClick: action("withHref"),
+              href: "https://www.youtube.com/watch?v=dQw4w9WgXcQ",
+            },
+          },
         ]}
       />
+      <style jsx>
+        {`
+          :global(body) {
+            padding: 0 !important;
+          }
+        `}
+      </style>
     </>
   );
 };
@@ -650,8 +694,8 @@ export const MasonryLayout = () => {
         }}
         onUserBarClick={() => console.log("userbar click!")}
         loggedInMenuOptions={[
-          { name: "opt1", onClick: () => console.log("opt1 click!") },
-          { name: "opt2", onClick: () => console.log("opt2 click!") },
+          { name: "opt1", link: action("optionOne") },
+          { name: "opt2", link: action("option2") },
         ]}
       />
     </>

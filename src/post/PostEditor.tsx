@@ -175,7 +175,6 @@ const PostEditor: React.FC<PostEditorProps> = (props) => {
                   props.initialText ? JSON.parse(props.initialText) : ""
                 }
                 editable={!props.loading}
-                focus={true}
                 onSubmit={() =>
                   props.onSubmit(
                     prepareForSubmission(
