@@ -1,4 +1,5 @@
 import React from "react";
+import { LinkWithAction } from "types";
 import BoardPreview, { DisplayStyle } from "./BoardPreview";
 
 const BoardsDisplay: React.FC<BoardsDisplayProps> = (props) => {
@@ -9,8 +10,8 @@ const BoardsDisplay: React.FC<BoardsDisplayProps> = (props) => {
         {props.boards.map((board, i) => (
           <div
             className="single-board"
-            key={i}
-            onClick={() => props.onBoardClick(board.slug)}
+            key={board.slug}
+            onClick={board.link.onClick}
           >
             <BoardPreview
               slug={board.slug}
@@ -19,7 +20,7 @@ const BoardsDisplay: React.FC<BoardsDisplayProps> = (props) => {
               color={board.color}
               updates={board.updates}
               displayStyle={props.boardsDisplayStyle || DisplayStyle.COMPACT}
-              href={props.getBoardHref(board.slug)}
+              href={board.link.href}
             ></BoardPreview>
           </div>
         ))}
@@ -58,10 +59,9 @@ export interface BoardsDisplayProps {
     description: string;
     color: string;
     updates?: number | boolean;
+    link: LinkWithAction;
   }[];
   title?: string;
-  onBoardClick: (slug: string) => void;
-  getBoardHref: (slug: string) => string;
   boardsDisplayStyle?: DisplayStyle;
   minSizePx?: number;
 }

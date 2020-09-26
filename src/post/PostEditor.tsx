@@ -62,84 +62,128 @@ const computeTags = (
   return TagsFactory.orderTags(tags);
 };
 
-const PostEditor: React.FC<PostEditorProps> = (props) => {
-  const [size, setNewSize] = React.useState(
-    props.defaultSize || PostSizes.REGULAR
-  );
-  const [newText, setNewText] = React.useState(
-    props.initialText ? props.initialText : ""
-  );
-  const [isEmpty, setIsEmpty] = React.useState(true);
-  const [tags, setTags] = React.useState<TagsType[]>([]);
+const PostEditor = React.forwardRef<{ focus: () => void }, PostEditorProps>(
+  (props, ref) => {
+    const editorRef = React.useRef<any>(null);
+    const [size, setNewSize] = React.useState(
+      props.defaultSize || PostSizes.REGULAR
+    );
+    const [newText, setNewText] = React.useState(
+      props.initialText ? props.initialText : ""
+    );
+    const [isEmpty, setIsEmpty] = React.useState(true);
+    const [tags, setTags] = React.useState<TagsType[]>([]);
 
-  return (
-    <>
-      <div
-        className={classnames("post-container", { centered: props.centered })}
-      >
-        <Card
-          header={
-            <div className="header">
-              <Header
-                secretIdentity={props.secretIdentity}
-                userIdentity={props.userIdentity}
-                size={HeaderStyle.REGULAR}
-              >
-                <Button
-                  icon={size == PostSizes.REGULAR ? faImage : faPortrait}
-                  onClick={() =>
-                    setNewSize(
-                      size == PostSizes.REGULAR
-                        ? PostSizes.WIDE
-                        : PostSizes.REGULAR
-                    )
-                  }
-                  disabled={props.loading}
+    React.useImperativeHandle(ref, () => ({
+      focus: () => {
+        editorRef.current?.focus();
+      },
+    }));
+
+    return (
+      <>
+        <div
+          className={classnames("post-container", { centered: props.centered })}
+        >
+          <Card
+            header={
+              <div className="header">
+                <Header
+                  secretIdentity={props.secretIdentity}
+                  userIdentity={props.userIdentity}
+                  size={HeaderStyle.REGULAR}
                 >
-                  {size == PostSizes.REGULAR ? "Enlarge" : "Shrink"}
-                </Button>
-              </Header>
-            </div>
-          }
-          footer={
-            <div className="footer">
-              <Tags
-                tags={tags}
-                onTagsAdd={(tag: TagsType) =>
-                  setTags(
-                    computeTags(
-                      tags,
-                      tag,
-                      props.accentColor || Theme.DEFAULT_ACCENT_COLOR
+                  <Button
+                    icon={size == PostSizes.REGULAR ? faImage : faPortrait}
+                    onClick={() =>
+                      setNewSize(
+                        size == PostSizes.REGULAR
+                          ? PostSizes.WIDE
+                          : PostSizes.REGULAR
+                      )
+                    }
+                    disabled={props.loading}
+                  >
+                    {size == PostSizes.REGULAR ? "Enlarge" : "Shrink"}
+                  </Button>
+                </Header>
+              </div>
+            }
+            footer={
+              <div className="footer">
+                <Tags
+                  tags={tags}
+                  onTagsAdd={(tag: TagsType) =>
+                    setTags(
+                      computeTags(
+                        tags,
+                        tag,
+                        props.accentColor || Theme.DEFAULT_ACCENT_COLOR
+                      )
                     )
-                  )
-                }
-                onTagsDelete={(tag: TagsType) => {
-                  setTags(tags.filter((currentTag) => currentTag != tag));
-                }}
-                editable
-                onSubmit={(newTag) => {
-                  if (!isEmpty) {
-                    props.onSubmit(
-                      prepareForSubmission(
-                        newText,
-                        props.onImageUploadRequest
-                      ).then((uploadedText) => ({
-                        text: uploadedText,
-                        large: size == PostSizes.WIDE,
-                        tags: computeTags(
-                          tags,
-                          newTag,
-                          props.accentColor || Theme.DEFAULT_ACCENT_COLOR
-                        ),
-                      }))
-                    );
                   }
-                }}
-                accentColor={props.accentColor}
-              />
-              <div className="footer-actions">
-                <EditorFooter
+                  onTagsDelete={(tag: TagsType) => {
+                    setTags(tags.filter((currentTag) => currentTag != tag));
+                  }}
+                  editable
+                  onSubmit={(newTag) => {
+                    if (!isEmpty) {
+                      props.onSubmit(
+                        prepareForSubmission(
+                          newText,
+                          props.onImageUploadRequest
+                        ).then((uploadedText) => ({
+                          text: uploadedText,
+                          large: size == PostSizes.WIDE,
+                          tags: computeTags(
+                            tags,
+                            newTag,
+                            props.accentColor || Theme.DEFAULT_ACCENT_COLOR
+                          ),
+                        }))
+                      );
+                    }
+                  }}
+                  accentColor={props.accentColor}
+                />
+                <div className="footer-actions">
+                  <EditorFooter
+                    onSubmit={() =>
+                      props.onSubmit(
+                        prepareForSubmission(
+                          newText,
+                          props.onImageUploadRequest
+                        ).then((uploadedText) => ({
+                          text: uploadedText,
+                          large: size == PostSizes.WIDE,
+                          tags,
+                        }))
+                      )
+                    }
+                    onCancel={props.onCancel}
+                    submittable={!props.loading && !isEmpty}
+                    cancellable={!props.loading}
+                  />
+                </div>
+              </div>
+            }
+          >
+            <div
+              className={classnames("editor-container", {
+                loading: props.loading,
+              })}
+            >
+              <div className={"spinner"}>
+                <Spinner />
+              </div>
+              <div className="editor">
+                <Editor
+                  ref={editorRef}
+                  key="editor"
+                  initialText={
+                    props.initialText ? JSON.parse(props.initialText) : ""
+                  }
+                  editable={!props.loading}
                   onSubmit={() =>
                     props.onSubmit(
                       prepareForSubmission(
@@ -152,101 +196,67 @@ const PostEditor: React.FC<PostEditorProps> = (props) => {
                       }))
                     )
                   }
-                  onCancel={props.onCancel}
-                  submittable={!props.loading && !isEmpty}
-                  cancellable={!props.loading}
+                  onIsEmptyChange={(empty: boolean) => {
+                    setIsEmpty(empty);
+                  }}
+                  onTextChange={(text: any) =>
+                    setNewText(JSON.stringify(text.ops))
+                  }
                 />
               </div>
             </div>
+          </Card>
+        </div>
+        <style jsx>{`
+          .post-container {
+            max-width: ${getPostWidth(size)}px;
           }
-        >
-          <div
-            className={classnames("editor-container", {
-              loading: props.loading,
-            })}
-          >
-            <div className={"spinner"}>
-              <Spinner />
-            </div>
-            <div className="editor">
-              <Editor
-                key="editor"
-                initialText={
-                  props.initialText ? JSON.parse(props.initialText) : ""
-                }
-                editable={!props.loading}
-                onSubmit={() =>
-                  props.onSubmit(
-                    prepareForSubmission(
-                      newText,
-                      props.onImageUploadRequest
-                    ).then((uploadedText) => ({
-                      text: uploadedText,
-                      large: size == PostSizes.WIDE,
-                      tags,
-                    }))
-                  )
-                }
-                onIsEmptyChange={(empty: boolean) => {
-                  setIsEmpty(empty);
-                }}
-                onTextChange={(text: any) =>
-                  setNewText(JSON.stringify(text.ops))
-                }
-              />
-            </div>
-          </div>
-        </Card>
-      </div>
-      <style jsx>{`
-        .post-container {
-          max-width: ${getPostWidth(size)}px;
-        }
-        .post-container.centered {
-          margin: 0 auto;
-        }
-        .header {
-          border-radius: 15px 15px 0px 0px;
-          background-color: ${Theme.POST_BACKGROUND_COLOR};
-          padding: 10px;
-        }
-        .footer {
-          border-top: 1px dotted rgb(47, 47, 48);
-          background-color: ${Theme.POST_BACKGROUND_COLOR};
-          border-radius: 0px 0px 15px 15px;
-          padding: 5px;
-        }
-        .footer-actions {
-          padding: 5px;
-        }
-        .editor-container {
-          padding-top: 5px;
-        }
-        .editor {
-          min-height: 300px;
-        }
-        .editor-container.loading .editor {
-          opacity: 0.5;
-        }
-        .spinner {
-          position: absolute;
-          top: 0;
-          bottom: 0;
-          left: 0;
-          right: 0;
-          justify-content: center;
-          align-items: center;
-          z-index: 100;
-          display: none;
-        }
+          .post-container.centered {
+            margin: 0 auto;
+          }
+          .header {
+            border-radius: 15px 15px 0px 0px;
+            background-color: ${Theme.POST_BACKGROUND_COLOR};
+            padding: 10px;
+          }
+          .footer {
+            border-top: 1px dotted rgb(47, 47, 48);
+            background-color: ${Theme.POST_BACKGROUND_COLOR};
+            border-radius: 0px 0px 15px 15px;
+            padding: 5px;
+          }
+          .footer-actions {
+            padding: 5px;
+          }
+          .editor-container {
+            padding-top: 5px;
+          }
+          .editor {
+            min-height: 300px;
+          }
+          .editor-container.loading .editor {
+            opacity: 0.5;
+          }
+          .spinner {
+            position: absolute;
+            top: 0;
+            bottom: 0;
+            left: 0;
+            right: 0;
+            justify-content: center;
+            align-items: center;
+            z-index: 100;
+            display: none;
+          }
 
-        .editor-container.loading .spinner {
-          display: flex;
-        }
-      `}</style>
-    </>
-  );
-};
+          .editor-container.loading .spinner {
+            display: flex;
+          }
+        `}</style>
+      </>
+    );
+  }
+);
 
 export default PostEditor;
 

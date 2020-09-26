@@ -6,6 +6,7 @@ import Button from "../src/common/Button";
 
 import tuxedoAvatar from "./images/tuxedo-mask.jpg";
 import mamoruAvatar from "./images/mamoru.png";
+import { action } from "@storybook/addon-actions";
 
 export default {
   title: "Post Editor",
@@ -27,8 +28,12 @@ export const EditableWithFooter = () => (
   <PostEditor
     secretIdentity={{ name: "Tuxedo Mask", avatar: `/${tuxedoAvatar}` }}
     userIdentity={{ name: "SexyDaddy69", avatar: `/${mamoruAvatar}` }}
-    onSubmit={(text) => console.log(text)}
-    onCancel={() => console.log("click!")}
+    onSubmit={action("submit")}
+    onCancel={action("cancel")}
+    onImageUploadRequest={async () => {
+      action("imageUpload")();
+      return "";
+    }}
     centered
   />
 );
@@ -42,8 +47,12 @@ export const EditableInModal = () => (
     <PostEditor
       secretIdentity={{ name: "Tuxedo Mask", avatar: `/${tuxedoAvatar}` }}
       userIdentity={{ name: "SexyDaddy69", avatar: `/${mamoruAvatar}` }}
-      onSubmit={(text) => console.log(text)}
-      onCancel={() => console.log("click!")}
+      onSubmit={action("submit")}
+      onCancel={action("cancel")}
+      onImageUploadRequest={async () => {
+        action("imageUpload")();
+        return "";
+      }}
       centered
     />
   </Modal>
@@ -61,8 +70,12 @@ export const LongEditableInModal = () => (
       }
       secretIdentity={{ name: "Tuxedo Mask", avatar: `/${tuxedoAvatar}` }}
       userIdentity={{ name: "SexyDaddy69", avatar: `/${mamoruAvatar}` }}
-      onSubmit={(text) => console.log(text)}
-      onCancel={() => console.log("click!")}
+      onSubmit={action("submit")}
+      onCancel={action("cancel")}
+      onImageUploadRequest={async () => {
+        action("imageUpload")();
+        return "";
+      }}
       centered
     />
   </Modal>
@@ -82,8 +95,12 @@ export const Loading = () => {
         }
         secretIdentity={{ name: "Tuxedo Mask", avatar: `/${tuxedoAvatar}` }}
         userIdentity={{ name: "SexyDaddy69", avatar: `/${mamoruAvatar}` }}
-        onSubmit={(text) => console.log(text)}
-        onCancel={() => console.log("click!")}
+        onSubmit={action("submit")}
+        onCancel={action("cancel")}
+        onImageUploadRequest={async () => {
+          action("imageUpload")();
+          return "";
+        }}
         loading={loading}
         centered
       />
@@ -94,4 +111,32 @@ export const Loading = () => {
 
 Loading.story = {
   name: "loading state",
+};
+
+export const Focus = () => {
+  const postRef = React.createRef<any>();
+  return (
+    <div>
+      <PostEditor
+        initialText={
+          '[{"insert":"Open RP"},{"attributes":{"header":1},"insert":"\\n"},{"insert":{"block-image":"https://cdn.discordapp.com/attachments/443967088118333442/691486081895628830/unknown.png"}}, {"attributes":{"italic":true},"insert":"You have my sword..."}]'
+        }
+        secretIdentity={{ name: "Tuxedo Mask", avatar: `/${tuxedoAvatar}` }}
+        userIdentity={{ name: "SexyDaddy69", avatar: `/${mamoruAvatar}` }}
+        onSubmit={action("submit")}
+        onCancel={action("cancel")}
+        onImageUploadRequest={async () => {
+          action("imageUpload")();
+          return "";
+        }}
+        ref={postRef}
+        centered
+      />
+      <Button onClick={() => postRef.current.focus()}>Focus!</Button>
+    </div>
+  );
+};
+
+Focus.story = {
+  name: "focus state",
 };

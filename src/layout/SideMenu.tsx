@@ -10,6 +10,7 @@ import classnames from "classnames";
 import Scrollbar from "../common/Scrollbar";
 
 import { faCheck } from "@fortawesome/free-solid-svg-icons";
+import { LinkWithAction } from "types";
 
 const SideMenu: React.FC<SideMenuProps> = ({
   loading,
@@ -32,14 +33,6 @@ const SideMenu: React.FC<SideMenuProps> = ({
               <BoardsDisplay
                 title="Pinned Boards"
                 boards={pinnedBoards}
-                getBoardHref={(name: string) =>
-                  pinnedBoards.find((board) => board.slug == name)?.href || "/"
-                }
-                onBoardClick={(name: string) =>
-                  pinnedBoards
-                    .find((board) => board.slug == name)
-                    ?.onClick?.(name)
-                }
                 boardsDisplayStyle={DisplayStyle.MINI}
               />
             </div>
@@ -61,19 +54,7 @@ const SideMenu: React.FC<SideMenuProps> = ({
                 })}
               >
                 {searchBoards && (
-                  <BoardsDisplay
-                    title="Search Results"
-                    boards={searchBoards}
-                    getBoardHref={(name: string) =>
-                      searchBoards.find((board) => board.slug == name)?.href ||
-                      "/"
-                    }
-                    onBoardClick={(name: string) =>
-                      searchBoards
-                        .find((board) => board.slug == name)
-                        ?.onClick?.(name)
-                    }
-                  />
+                  <BoardsDisplay title="Search Results" boards={searchBoards} />
                 )}
               </div>
             </>
@@ -85,14 +66,6 @@ const SideMenu: React.FC<SideMenuProps> = ({
               <BoardsDisplay
                 title="Recent Boards"
                 boards={recentBoards}
-                getBoardHref={(name: string) =>
-                  recentBoards.find((board) => board.slug == name)?.href || "/"
-                }
-                onBoardClick={(name: string) =>
-                  recentBoards
-                    .find((board) => board.slug == name)
-                    ?.onClick?.(name)
-                }
               ></BoardsDisplay>
             )}
           </div>
@@ -149,8 +122,7 @@ export interface SideMenuProps {
     description: string;
     color: string;
     updates?: number;
-    onClick?: (slug: string) => void;
-    href?: string;
+    link: LinkWithAction;
   }[];
   recentBoards?: {
     slug: string;
@@ -158,8 +130,7 @@ export interface SideMenuProps {
     description: string;
     color: string;
     updates?: number;
-    onClick?: (slug: string) => void;
-    href?: string;
+    link: LinkWithAction;
   }[];
   searchBoards?: {
     slug: string;
@@ -167,8 +138,7 @@ export interface SideMenuProps {
     description: string;
     color: string;
     updates?: number;
-    onClick?: (slug: string) => void;
-    href?: string;
+    link: LinkWithAction;
   }[];
   showSearch?: boolean;
   showDismissNotifications?: boolean;
