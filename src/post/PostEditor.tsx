@@ -97,9 +97,12 @@ const PostEditor = React.forwardRef<{ focus: () => void }, PostEditorProps>(
             header={
               <div className="header">
                 <Header
-                  secretIdentity={props.additionalIdentities?.find(
-                    (identity) => identity.id == selectedIdentity
-                  )}
+                  secretIdentity={
+                    props.secretIdentity ||
+                    props.additionalIdentities?.find(
+                      (identity) => identity.id == selectedIdentity
+                    )
+                  }
                   userIdentity={props.userIdentity}
                   additionalIdentities={props.additionalIdentities}
                   onSelectIdentity={(identity) => {
