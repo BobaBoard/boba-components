@@ -17,6 +17,7 @@ export interface DropdownProps {
   }[];
   style?: DropdownStyle;
   accentColor?: string;
+  zIndex?: number;
 }
 const DropdownMenu: React.FC<DropdownProps> = (props) => {
   const [isOpen, setOpen] = React.useState(false);
@@ -63,6 +64,7 @@ const DropdownMenu: React.FC<DropdownProps> = (props) => {
             ))}
           </div>
         }
+        zIndex={props.zIndex}
         onClickOutside={() => setOpen(false)}
         background={themeColor}
         padding={0}

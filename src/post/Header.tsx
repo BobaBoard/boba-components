@@ -53,24 +53,33 @@ const Metadata: React.FC<PostHeaderProps> = (props) => {
             <div className="nickname" ref={nicknameRef}>
               {hasUserIdentity && !props.forceHide
                 ? props.userIdentity?.name
-                : props.secretIdentity?.name || "???"}
+                : props.secretIdentity?.name || "Random Identity"}
             </div>
             {hasUserIdentity && !props.forceHide && (
               <>
-                {props.availableIdentities &&
-                props.availableIdentities.length > 1 ? (
+                {props.additionalIdentities &&
+                props.additionalIdentities.length > 0 ? (
                   <DropdownListMenu
-                    options={props.availableIdentities.map((identity) => ({
-                      name: identity.name,
-                      link: {
-                        onClick: () => props.onSelectIdentity?.(identity),
+                    zIndex={200}
+                    options={[
+                      {
+                        name: "Random Identity",
+                        link: {
+                          onClick: () => props.onSelectIdentity?.(undefined),
+                        },
                       },
-                    }))}
+                      ...props.additionalIdentities.map((identity) => ({
+                        name: identity.name,
+                        link: {
+                          onClick: () => props.onSelectIdentity?.(identity),
+                        },
+                      })),
+                    ]}
                   >
                     <div>
                       <div className="identities-dropdown">
                         <div className="secret-identity">
-                          as: {props.secretIdentity?.name || "???"}
+                          as: {props.secretIdentity?.name || "Random Identity"}
                         </div>
                         <FontAwesomeIcon icon={faCaretDown} />
                       </div>
@@ -78,7 +87,7 @@ const Metadata: React.FC<PostHeaderProps> = (props) => {
                   </DropdownListMenu>
                 ) : (
                   <div className="secret-identity">
-                    as: {props.secretIdentity?.name || "???"}
+                    as: {props.secretIdentity?.name || "Random Identity"}
                   </div>
                 )}
               </>
@@ -354,11 +363,20 @@ export interface PostHeaderProps {
     avatar: string;
     name: string;
   };
-  availableIdentities?: {
+  additionalIdentities?: {
+    id: string;
     avatar: string;
     name: string;
   }[];
-  onSelectIdentity?: (identity: { avatar: string; name: string }) => void;
+  onSelectIdentity?: (
+    identity:
+      | {
+          avatar: string;
+          name: string;
+          id: string;
+        }
+      | undefined
+  ) => void;
   userIdentity?: {
     avatar: string;
     name: string;

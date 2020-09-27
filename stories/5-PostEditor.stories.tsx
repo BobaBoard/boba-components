@@ -47,15 +47,18 @@ export const EditableWithMultipleIdentities = () => (
   <PostEditor
     secretIdentity={{ name: "Tuxedo Mask", avatar: `/${tuxedoAvatar}` }}
     userIdentity={{ name: "SexyDaddy69", avatar: `/${mamoruAvatar}` }}
-    availableIdentities={[
-      { name: "Tuxedo Mask", avatar: `/${tuxedoAvatar}` },
-      { name: "Mega Mod", avatar: `/${tuxedoAvatar}` },
+    additionalIdentities={[
+      { id: "id1", name: "Tuxedo Mask", avatar: `/${tuxedoAvatar}` },
+      { id: "id2", name: "Mega Mod", avatar: `/${tuxedoAvatar}` },
     ]}
-    onSubmit={action("submit")}
+    onSubmit={async (p) => {
+      const args = await p;
+      action("submit")(args);
+    }}
     onCancel={action("cancel")}
     onImageUploadRequest={async () => {
       action("imageUpload")();
-      return "";
+      return Promise.resolve("");
     }}
     centered
   />
@@ -69,15 +72,18 @@ export const EditableWithViewSelect = () => (
   <PostEditor
     secretIdentity={{ name: "Tuxedo Mask", avatar: `/${tuxedoAvatar}` }}
     userIdentity={{ name: "SexyDaddy69", avatar: `/${mamoruAvatar}` }}
-    availableIdentities={[
-      { name: "Tuxedo Mask", avatar: `/${tuxedoAvatar}` },
-      { name: "Mega Mod", avatar: `/${tuxedoAvatar}` },
+    additionalIdentities={[
+      { id: "id1", name: "Tuxedo Mask", avatar: `/${tuxedoAvatar}` },
+      { id: "id2", name: "Mega Mod", avatar: `/${tuxedoAvatar}` },
     ]}
-    onSubmit={action("submit")}
+    onSubmit={async (p) => {
+      const args = await p;
+      action("submit")(args);
+    }}
     onCancel={action("cancel")}
     onImageUploadRequest={async () => {
       action("imageUpload")();
-      return "";
+      return Promise.resolve("");
     }}
     viewOptions={[
       { name: "Thread" },
@@ -100,15 +106,18 @@ export const SmallestViewport = () => (
         avatar: `/${tuxedoAvatar}`,
       }}
       userIdentity={{ name: "SexyDaddy69", avatar: `/${mamoruAvatar}` }}
-      availableIdentities={[
-        { name: "Tuxedo Mask", avatar: `/${tuxedoAvatar}` },
-        { name: "Mega Mod", avatar: `/${tuxedoAvatar}` },
+      additionalIdentities={[
+        { id: "id1", name: "Tuxedo Mask", avatar: `/${tuxedoAvatar}` },
+        { id: "id2", name: "Mega Mod", avatar: `/${tuxedoAvatar}` },
       ]}
-      onSubmit={action("submit")}
+      onSubmit={async (p) => {
+        const args = await p;
+        action("submit")(args);
+      }}
       onCancel={action("cancel")}
       onImageUploadRequest={async () => {
         action("imageUpload")();
-        return "";
+        return Promise.resolve("");
       }}
       viewOptions={[
         { name: "Thread" },
@@ -129,6 +138,10 @@ export const EditableInModal = () => (
     <PostEditor
       secretIdentity={{ name: "Tuxedo Mask", avatar: `/${tuxedoAvatar}` }}
       userIdentity={{ name: "SexyDaddy69", avatar: `/${mamoruAvatar}` }}
+      additionalIdentities={[
+        { id: "id1", name: "Tuxedo Mask", avatar: `/${tuxedoAvatar}` },
+        { id: "id2", name: "Mega Mod", avatar: `/${tuxedoAvatar}` },
+      ]}
       onSubmit={action("submit")}
       onCancel={action("cancel")}
       onImageUploadRequest={async () => {

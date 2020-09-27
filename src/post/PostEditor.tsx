@@ -78,6 +78,9 @@ const PostEditor = React.forwardRef<{ focus: () => void }, PostEditorProps>(
     const [selectedView, setSelectedView] = React.useState<string | undefined>(
       props.viewOptions?.[0]?.name
     );
+    const [selectedIdentity, setSelectedIdentity] = React.useState<
+      string | undefined
+    >();
 
     React.useImperativeHandle(ref, () => ({
       focus: () => {
@@ -94,10 +97,14 @@ const PostEditor = React.forwardRef<{ focus: () => void }, PostEditorProps>(
             header={
               <div className="header">
                 <Header
-                  secretIdentity={props.secretIdentity}
+                  secretIdentity={props.additionalIdentities?.find(
+                    (identity) => identity.id == selectedIdentity
+                  )}
                   userIdentity={props.userIdentity}
-                  availableIdentities={props.availableIdentities}
-                  onSelectIdentity={props.onSelectIdentity}
+                  additionalIdentities={props.additionalIdentities}
+                  onSelectIdentity={(identity) => {
+                    setSelectedIdentity(identity?.id);
+                  }}
                   size={HeaderStyle.REGULAR}
                 >
                   {props.minimizable && (
@@ -161,6 +168,7 @@ const PostEditor = React.forwardRef<{ focus: () => void }, PostEditorProps>(
                           onClick: () => setSelectedView(option.name),
                         },
                       }))}
+                      zIndex={200}
                     >
                       <div>
                         <div className="views-dropdown">
@@ -173,6 +181,7 @@ const PostEditor = React.forwardRef<{ focus: () => void }, PostEditorProps>(
                     </DropdownListMenu>
                   )}
                   <EditorFooter
+                    // If you change this, also change onSubmit in the editor.
                     onSubmit={() =>
                       props.onSubmit(
                         prepareForSubmission(
@@ -181,6 +190,8 @@ const PostEditor = React.forwardRef<{ focus: () => void }, PostEditorProps>(
                         ).then((uploadedText) => ({
                           text: uploadedText,
                           tags,
+                          viewOptionName: selectedView,
+                          identityId: selectedIdentity,
                         }))
                       )
                     }
@@ -208,6 +219,7 @@ const PostEditor = React.forwardRef<{ focus: () => void }, PostEditorProps>(
                     props.initialText ? JSON.parse(props.initialText) : ""
                   }
                   editable={!props.loading}
+                  // If you change this, also change onSubmit in the editor footer.
                   onSubmit={() =>
                     props.onSubmit(
                       prepareForSubmission(
@@ -217,6 +229,7 @@ const PostEditor = React.forwardRef<{ focus: () => void }, PostEditorProps>(
                         text: uploadedText,
                         tags,
                         viewOptionName: selectedView,
+                        identityId: selectedIdentity,
                       }))
                     )
                   }
@@ -315,7 +328,8 @@ export interface PostEditorProps {
     avatar: string;
     name: string;
   };
-  availableIdentities?: {
+  additionalIdentities?: {
+    id: string;
     avatar: string;
     name: string;
   }[];
@@ -327,11 +341,11 @@ export interface PostEditorProps {
       text: string;
       tags?: TagsType[];
       viewOptionName?: string;
+      identityId?: string;
     }>
   ) => void;
   onCancel: () => void;
   onMinimize?: () => void;
-  onSelectIdentity?: (identity: { avatar: string; name: string }) => void;
   minimizable?: boolean;
   viewOptions?: {
     name: string;
