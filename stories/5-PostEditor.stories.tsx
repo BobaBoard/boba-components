@@ -35,11 +35,93 @@ export const EditableWithFooter = () => (
       return "";
     }}
     centered
+    minimizable
   />
 );
 
 EditableWithFooter.story = {
   name: "editable",
+};
+
+export const EditableWithMultipleIdentities = () => (
+  <PostEditor
+    secretIdentity={{ name: "Tuxedo Mask", avatar: `/${tuxedoAvatar}` }}
+    userIdentity={{ name: "SexyDaddy69", avatar: `/${mamoruAvatar}` }}
+    availableIdentities={[
+      { name: "Tuxedo Mask", avatar: `/${tuxedoAvatar}` },
+      { name: "Mega Mod", avatar: `/${tuxedoAvatar}` },
+    ]}
+    onSubmit={action("submit")}
+    onCancel={action("cancel")}
+    onImageUploadRequest={async () => {
+      action("imageUpload")();
+      return "";
+    }}
+    centered
+  />
+);
+
+EditableWithMultipleIdentities.story = {
+  name: "multiple identities",
+};
+
+export const EditableWithViewSelect = () => (
+  <PostEditor
+    secretIdentity={{ name: "Tuxedo Mask", avatar: `/${tuxedoAvatar}` }}
+    userIdentity={{ name: "SexyDaddy69", avatar: `/${mamoruAvatar}` }}
+    availableIdentities={[
+      { name: "Tuxedo Mask", avatar: `/${tuxedoAvatar}` },
+      { name: "Mega Mod", avatar: `/${tuxedoAvatar}` },
+    ]}
+    onSubmit={action("submit")}
+    onCancel={action("cancel")}
+    onImageUploadRequest={async () => {
+      action("imageUpload")();
+      return "";
+    }}
+    viewOptions={[
+      { name: "Thread" },
+      { name: "Gallery" },
+      { name: "Timeline" },
+    ]}
+    centered
+  />
+);
+
+EditableWithViewSelect.story = {
+  name: "view select",
+};
+
+export const SmallestViewport = () => (
+  <div style={{ maxWidth: "345px" }}>
+    <PostEditor
+      secretIdentity={{
+        name: "Tuxedo Mask, the one, the only, the legend.",
+        avatar: `/${tuxedoAvatar}`,
+      }}
+      userIdentity={{ name: "SexyDaddy69", avatar: `/${mamoruAvatar}` }}
+      availableIdentities={[
+        { name: "Tuxedo Mask", avatar: `/${tuxedoAvatar}` },
+        { name: "Mega Mod", avatar: `/${tuxedoAvatar}` },
+      ]}
+      onSubmit={action("submit")}
+      onCancel={action("cancel")}
+      onImageUploadRequest={async () => {
+        action("imageUpload")();
+        return "";
+      }}
+      viewOptions={[
+        { name: "Thread" },
+        { name: "Gallery" },
+        { name: "Timeline" },
+      ]}
+      centered
+    />
+  </div>
+);
+
+SmallestViewport.story = {
+  name: "small viewport",
 };
 
 export const EditableInModal = () => (

@@ -310,6 +310,9 @@ const Layout = React.forwardRef<{ closeSideMenu: () => void }, LayoutProps>(
             .side-menu.visible {
               width: 500px;
             }
+            .side-menu.visible .side-menu-content {
+              overflow: auto;
+            }
             .title {
               margin: 0px 35px;
               color: white;

@@ -12,11 +12,12 @@ import {
 import classnames from "classnames";
 import debug from "debug";
 import { TagsType } from "../types";
+import DefaultTheme from "../theme/default";
 
 const log = debug("bobaui:tagsinput-log");
 
 const TAG_LENGTH_LIMIT = 200;
-const ADD_A_TAG_STRING = "add a tag...";
+const ADD_A_TAG_STRING = "Add a tag...";
 const HEIGHT_TRIGGER = 30;
 const UNSUBMITTABLE_TAGS = [
   INDEXABLE_PREFIX,
@@ -226,7 +227,7 @@ const TagsInput: React.FC<TagsInputProps> = ({
           color: red !important;
         }
         .container {
-          padding: 5px;
+          padding: 5px 0;
           display: flex;
           flex-wrap: wrap;
           position: relative;
@@ -236,11 +237,11 @@ const TagsInput: React.FC<TagsInputProps> = ({
           flex: 1;
           word-break: normal;
           min-width: 100px;
-          max-width: 500px;
           padding: 5px;
           padding-left: 2px;
           margin: 2px 2px;
           border-left: 5px solid transparent;
+          color: ${DefaultTheme.LAYOUT_BOARD_BACKGROUND_COLOR};
         }
         .tag-container:hover {
           cursor: pointer;

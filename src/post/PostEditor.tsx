@@ -6,6 +6,7 @@ import Card from "../common/Card";
 import Tags from "./Tags";
 import { PostSizes, getPostWidth } from "./Post";
 import Spinner from "../common/Spinner";
+import DropdownListMenu from "../common/DropdownListMenu";
 import Editor, {
   getAllImages,
   replaceImages,
@@ -17,7 +18,11 @@ import Editor, {
 
 import Theme from "../theme/default";
 import Button from "../common/Button";
-import { faPortrait, faImage } from "@fortawesome/free-solid-svg-icons";
+import {
+  faCompressArrowsAlt,
+  faCaretDown,
+} from "@fortawesome/free-solid-svg-icons";
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import classnames from "classnames";
 import { TagsType } from "../types";
 import { TagsFactory } from "../common/Tag";
@@ -65,14 +70,14 @@ const computeTags = (
 const PostEditor = React.forwardRef<{ focus: () => void }, PostEditorProps>(
   (props, ref) => {
     const editorRef = React.useRef<any>(null);
-    const [size, setNewSize] = React.useState(
-      props.defaultSize || PostSizes.REGULAR
-    );
     const [newText, setNewText] = React.useState(
       props.initialText ? props.initialText : ""
     );
     const [isEmpty, setIsEmpty] = React.useState(true);
     const [tags, setTags] = React.useState<TagsType[]>([]);
+    const [selectedView, setSelectedView] = React.useState<string | undefined>(
+      props.viewOptions?.[0]?.name
+    );
 
     React.useImperativeHandle(ref, () => ({
       focus: () => {
@@ -91,21 +96,19 @@ const PostEditor = React.forwardRef<{ focus: () => void }, PostEditorProps>(
                 <Header
                   secretIdentity={props.secretIdentity}
                   userIdentity={props.userIdentity}
+                  availableIdentities={props.availableIdentities}
+                  onSelectIdentity={props.onSelectIdentity}
                   size={HeaderStyle.REGULAR}
                 >
-                  <Button
-                    icon={size == PostSizes.REGULAR ? faImage : faPortrait}
-                    onClick={() =>
-                      setNewSize(
-                        size == PostSizes.REGULAR
-                          ? PostSizes.WIDE
-                          : PostSizes.REGULAR
-                      )
-                    }
-                    disabled={props.loading}
-                  >
-                    {size == PostSizes.REGULAR ? "Enlarge" : "Shrink"}
-                  </Button>
+                  {props.minimizable && (
+                    <Button
+                      icon={faCompressArrowsAlt}
+                      onClick={props.onMinimize}
+                      disabled={props.loading}
+                    >
+                      Minimize
+                    </Button>
+                  )}
                 </Header>
               </div>
             }
@@ -134,7 +137,6 @@ const PostEditor = React.forwardRef<{ focus: () => void }, PostEditorProps>(
                           props.onImageUploadRequest
                         ).then((uploadedText) => ({
                           text: uploadedText,
-                          large: size == PostSizes.WIDE,
                           tags: computeTags(
                             tags,
                             newTag,
@@ -146,7 +148,30 @@ const PostEditor = React.forwardRef<{ focus: () => void }, PostEditorProps>(
                   }}
                   accentColor={props.accentColor}
                 />
-                <div className="footer-actions">
+                <div
+                  className={classnames("footer-actions", {
+                    "with-options": !!props.viewOptions,
+                  })}
+                >
+                  {props.viewOptions && (
+                    <DropdownListMenu
+                      options={props.viewOptions?.map((option) => ({
+                        name: option.name,
+                        link: {
+                          onClick: () => setSelectedView(option.name),
+                        },
+                      }))}
+                    >
+                      <div>
+                        <div className="views-dropdown">
+                          <div className="default-view">
+                            Default View: {selectedView}
+                          </div>
+                          <FontAwesomeIcon icon={faCaretDown} />
+                        </div>
+                      </div>
+                    </DropdownListMenu>
+                  )}
                   <EditorFooter
                     onSubmit={() =>
                       props.onSubmit(
@@ -155,7 +180,6 @@ const PostEditor = React.forwardRef<{ focus: () => void }, PostEditorProps>(
                           props.onImageUploadRequest
                         ).then((uploadedText) => ({
                           text: uploadedText,
-                          large: size == PostSizes.WIDE,
                           tags,
                         }))
                       )
@@ -191,8 +215,8 @@ const PostEditor = React.forwardRef<{ focus: () => void }, PostEditorProps>(
                         props.onImageUploadRequest
                       ).then((uploadedText) => ({
                         text: uploadedText,
-                        large: size == PostSizes.WIDE,
                         tags,
+                        viewOptionName: selectedView,
                       }))
                     )
                   }
@@ -209,24 +233,45 @@ const PostEditor = React.forwardRef<{ focus: () => void }, PostEditorProps>(
         </div>
         <style jsx>{`
           .post-container {
-            max-width: ${getPostWidth(size)}px;
+            max-width: ${getPostWidth(
+              props.defaultSize || PostSizes.REGULAR
+            )}px;
           }
           .post-container.centered {
             margin: 0 auto;
           }
           .header {
-            border-radius: 15px 15px 0px 0px;
-            background-color: ${Theme.POST_BACKGROUND_COLOR};
-            padding: 10px;
+            padding: 10px 0;
+            margin: 0 10px 5px 10px;
+            border-bottom: 1px solid #d2d2d2;
           }
           .footer {
-            border-top: 1px dotted rgb(47, 47, 48);
-            background-color: ${Theme.POST_BACKGROUND_COLOR};
-            border-radius: 0px 0px 15px 15px;
-            padding: 5px;
+            border-top: 1px solid #d2d2d2;
+            padding: 0 0 10px 0;
+            margin: 0 10px;
           }
           .footer-actions {
-            padding: 5px;
+            border-top: 1px solid #d2d2d2;
+            padding-top: 10px;
+          }
+          .footer-actions.with-options {
+            display: flex;
+            justify-content: space-between;
+            align-items: baseline;
+          }
+          .views-dropdown {
+            display: inline-flex;
+            color: #1c1c1c;
+            border-radius: 10px;
+            padding: 3px 6px;
+            align-items: center;
+          }
+          .views-dropdown :global(svg) {
+            margin-left: 4px;
+          }
+          .views-dropdown:hover {
+            cursor: pointer;
+            background-color: #ececec;
           }
           .editor-container {
             padding-top: 5px;
@@ -270,13 +315,28 @@ export interface PostEditorProps {
     avatar: string;
     name: string;
   };
+  availableIdentities?: {
+    avatar: string;
+    name: string;
+  }[];
   loading?: boolean;
   defaultSize?: PostSizes;
   onImageUploadRequest: (imgUrl: string) => Promise<string>;
   onSubmit: (
-    postPromise: Promise<{ text: string; large: boolean; tags?: TagsType[] }>
+    postPromise: Promise<{
+      text: string;
+      tags?: TagsType[];
+      viewOptionName?: string;
+    }>
   ) => void;
   onCancel: () => void;
+  onMinimize?: () => void;
+  onSelectIdentity?: (identity: { avatar: string; name: string }) => void;
+  minimizable?: boolean;
+  viewOptions?: {
+    name: string;
+    iconUrl?: string;
+  }[];
   centered?: boolean;
   accentColor?: string;
 }

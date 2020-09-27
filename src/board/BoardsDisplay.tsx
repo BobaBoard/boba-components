@@ -11,7 +11,7 @@ const BoardsDisplay: React.FC<BoardsDisplayProps> = (props) => {
           <div
             className="single-board"
             key={board.slug}
-            onClick={board.link.onClick}
+            onClick={board.link?.onClick}
           >
             <BoardPreview
               slug={board.slug}
@@ -20,7 +20,7 @@ const BoardsDisplay: React.FC<BoardsDisplayProps> = (props) => {
               color={board.color}
               updates={board.updates}
               displayStyle={props.boardsDisplayStyle || DisplayStyle.COMPACT}
-              href={board.link.href}
+              href={board.link?.href}
             ></BoardPreview>
           </div>
         ))}

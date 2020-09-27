@@ -346,7 +346,7 @@ export const FeedWithMenuPreview = () => {
       }
       sideMenuContent={<div>Side menu side menu!</div>}
       title="test!"
-      onTitleClick={() => setShowSidebar(true)}
+      titleLink={{ onClick: () => setShowSidebar(true) }}
       headerAccent="purple"
       loading={loading}
       actionButton={

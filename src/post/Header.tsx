@@ -2,6 +2,7 @@ import React from "react";
 
 import DefaultTheme from "../theme/default";
 import Tooltip from "../common/Tooltip";
+import DropdownListMenu from "../common/DropdownListMenu";
 import Tag from "../common/Tag";
 import classnames from "classnames";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
@@ -10,7 +11,7 @@ import fitty from "fitty";
 import debug from "debug";
 
 import { faComment, faPlusSquare } from "@fortawesome/free-regular-svg-icons";
-import { faCertificate } from "@fortawesome/free-solid-svg-icons";
+import { faCaretDown, faCertificate } from "@fortawesome/free-solid-svg-icons";
 
 import { LinkWithAction } from "types";
 
@@ -55,9 +56,32 @@ const Metadata: React.FC<PostHeaderProps> = (props) => {
                 : props.secretIdentity?.name || "???"}
             </div>
             {hasUserIdentity && !props.forceHide && (
-              <div className="secret-identity">
-                ({props.secretIdentity?.name || "???"})
-              </div>
+              <>
+                {props.availableIdentities &&
+                props.availableIdentities.length > 1 ? (
+                  <DropdownListMenu
+                    options={props.availableIdentities.map((identity) => ({
+                      name: identity.name,
+                      link: {
+                        onClick: () => props.onSelectIdentity?.(identity),
+                      },
+                    }))}
+                  >
+                    <div>
+                      <div className="identities-dropdown">
+                        <div className="secret-identity">
+                          as: {props.secretIdentity?.name || "???"}
+                        </div>
+                        <FontAwesomeIcon icon={faCaretDown} />
+                      </div>
+                    </div>
+                  </DropdownListMenu>
+                ) : (
+                  <div className="secret-identity">
+                    as: {props.secretIdentity?.name || "???"}
+                  </div>
+                )}
+              </>
             )}
           </div>
           {props.createdMessage && (
@@ -120,7 +144,26 @@ const Metadata: React.FC<PostHeaderProps> = (props) => {
           }
           .secret-identity {
             font-size: 15px;
-            opacity: 0.7;
+            color: #575757;
+            white-space: nowrap;
+            overflow: hidden;
+            text-overflow: ellipsis;
+          }
+          .identities-dropdown {
+            display: inline-flex;
+            color: #575757;
+            border-radius: 10px;
+            padding: 3px 6px;
+            margin-left: -6px;
+            margin-top: -3px;
+            max-width: 100%;
+          }
+          .identities-dropdown .secret-identity {
+            margin-right: 5px;
+          }
+          .identities-dropdown:hover {
+            cursor: pointer;
+            background-color: #ececec;
           }
           .metadata-identity {
             margin-bottom: 5px;
@@ -283,6 +326,7 @@ const PostHeader: React.FC<PostHeaderProps> = (props) => {
           align-items: center;
           position: relative;
           justify-content: space-between;
+          overflow: hidden;
         }
         .post-header.squeezed {
           flex-direction: column;
@@ -310,6 +354,11 @@ export interface PostHeaderProps {
     avatar: string;
     name: string;
   };
+  availableIdentities?: {
+    avatar: string;
+    name: string;
+  }[];
+  onSelectIdentity?: (identity: { avatar: string; name: string }) => void;
   userIdentity?: {
     avatar: string;
     name: string;
