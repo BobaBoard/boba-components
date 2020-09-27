@@ -63,7 +63,11 @@ const Popover: React.FC<PopoverProps> = (props) => {
                 zIndex: props.zIndex || DEFAULT_ZINDEX,
               }}
             >
-              <div className="popover-content">{props.content}</div>
+              {innerIsOpen ? (
+                <div className="popover-content">{props.content}</div>
+              ) : (
+                <div />
+              )}
             </ArrowContainer>
           );
         }}
