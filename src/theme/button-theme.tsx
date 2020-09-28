@@ -1,0 +1,45 @@
+export const THEME_BUTTON = {
+    BTN_BORDER: "",
+    BTN_FONT_SIZE:"",
+    BTN_BORDER_RADIUS:"",
+
+    BTN_NEUTRAL_BORDER: '',
+    BTN_NEUTRAL_COLOR: '',
+    BTN_NEUTRAL_BG_COLOR: '',
+    
+    BTN_NEUTRAL_HOVER_BG_COLOR: '',
+    BTN_NEUTRAL_HOVER_COLOR: '',
+    BTN_NEUTRAL_HOVER_BORDER_COLOR: '',
+
+    
+    BTN_PRIMARY_BORDER: 'white',
+    BTN_PRIMARYL_COLOR: 'black',
+    BTN_NPRIMARY_BG_COLOR: 'white',
+    
+    BTN_PRIMARY_HOVER_BG_COLOR: 'lightgray',
+    BTN_PRIMARY_HOVER_COLOR: 'black',
+    BTN_PRIMARY_HOVER_BORDER_COLOR: 'white',
+    
+    BTN_DARK_BORDER: 'white',
+    BTN_DARK_COLOR: 'white',
+    BTN_DARK_BG_COLOR: 'black',
+    
+    BTN_DARK_HOVER_BG_COLOR: 'gray',
+    BTN_DARK_HOVER_COLOR: 'white',
+    BTN_DARK_HOVER_BORDER_COLOR: 'white',
+   
+    BTN_DISABLE_BORDER: '',
+    BTN_DISABLE_COLOR: '',
+    BTN_DISABLE_BG_COLOR: '',
+    
+    BTN_DISABLE_HOVER_BG_COLOR: '',
+    BTN_DISABLE_HOVER_COLOR: '',
+    BTN_DISABLE_HOVER_BORDER_COLOR: '',
+
+    BTN_ANCENT_COLOR: 'black',
+    BTN_ANCENT_BG_COLOR: '#ffc700',
+    BTN_ANCENT_COLOR_HOVER:'black',
+    BTN_ANCENT_BG_COLOR_HOVER:'#665000',
+  }
+
+  export default THEME_BUTTON;
