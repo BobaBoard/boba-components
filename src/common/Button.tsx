@@ -259,6 +259,7 @@ export interface ButtonProps {
   color?: string;
   theme?: string;
   updates?: number | boolean;
+  badge?: number
 }
 
 
