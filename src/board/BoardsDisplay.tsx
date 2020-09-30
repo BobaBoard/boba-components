@@ -21,6 +21,7 @@ const BoardsDisplay: React.FC<BoardsDisplayProps> = (props) => {
               updates={board.updates}
               displayStyle={props.boardsDisplayStyle || DisplayStyle.COMPACT}
               href={board.link?.href}
+              muted={board.muted}
             ></BoardPreview>
           </div>
         ))}
@@ -59,6 +60,7 @@ export interface BoardsDisplayProps {
     description: string;
     color: string;
     updates?: number | boolean;
+    muted?: boolean;
     link: LinkWithAction;
   }[];
   title?: string;

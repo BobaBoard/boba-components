@@ -2,45 +2,71 @@ import React from "react";
 
 import BoardPreview from "./BoardPreview";
 import Tag from "../common/Tag";
+import { LinkWithAction } from "types";
+import Button, { ButtonStyle } from "../common/Button";
+import DropdownMenu, { DropdownStyle } from "../common/DropdownListMenu";
+import { faCaretDown } from "@fortawesome/free-solid-svg-icons";
+import classnames from "classnames";
 
-const BoardSidebar: React.FC<BoardSidebarProps> = ({ board }) => {
+const BoardSidebar: React.FC<BoardSidebarProps> = (props) => {
   return (
     <div className="sidebar">
       <div className="board-details">
         <div className="board-preview">
           <BoardPreview
-            slug={board.slug}
-            avatar={board.avatarUrl}
-            description={board.tagline}
-            color={board.accentColor}
-          ></BoardPreview>
+            slug={props.slug}
+            avatar={props.avatarUrl}
+            description={props.tagline}
+            color={props.accentColor}
+            muted={props.muted}
+          />
+          <div
+            className={classnames("preview-options", {
+              visible: !!props.previewOptions,
+            })}
+          >
+            <DropdownMenu
+              options={props.previewOptions || []}
+              style={DropdownStyle.DARK}
+              accentColor={props.accentColor}
+            >
+              <Button
+                icon={faCaretDown}
+                compact
+                color={props.accentColor}
+                theme={ButtonStyle.DARK}
+              >
+                Options
+              </Button>
+            </DropdownMenu>
+          </div>
         </div>
         <div className="tag-clouds">
-          {board.boardWideTags && (
+          {props.boardWideTags && (
             <>
               <h2>Board-wide Tags</h2>
               <div className="tag-group">
-                {board.boardWideTags.map((tag) => (
+                {props.boardWideTags.map((tag) => (
                   <Tag name={tag.name} color={tag.color} />
                 ))}
               </div>
             </>
           )}
-          {board.canonicalTags && (
+          {props.canonicalTags && (
             <>
               <h2>Canonical Board Tags</h2>
               <div className="tag-group">
-                {board.canonicalTags.map((tag) => (
+                {props.canonicalTags.map((tag) => (
                   <Tag name={tag.name} color={tag.color} />
                 ))}
               </div>
             </>
           )}
-          {board.contentRulesTags && (
+          {props.contentRulesTags && (
             <>
               <h2>Content Rules</h2>
               <div className="tag-group">
-                {board.contentRulesTags.map((tag) => (
+                {props.contentRulesTags.map((tag) => (
                   <Tag
                     symbol={tag.allowed ? "✓" : "✘"}
                     name={tag.name}
@@ -50,10 +76,10 @@ const BoardSidebar: React.FC<BoardSidebarProps> = ({ board }) => {
               </div>
             </>
           )}
-          {board.otherRules && (
+          {props.otherRules && (
             <>
               <h2>Other Rules</h2>
-              <div className="other">{board.otherRules}</div>
+              <div className="other">{props.otherRules}</div>
             </>
           )}
         </div>
@@ -83,6 +109,7 @@ const BoardSidebar: React.FC<BoardSidebarProps> = ({ board }) => {
         }
         .board-preview {
           text-align: center;
+          position: relative;
         }
         .other :global(ul) {
           padding-left: 30px;
@@ -92,6 +119,15 @@ const BoardSidebar: React.FC<BoardSidebarProps> = ({ board }) => {
           font-size: 15px;
           margin-bottom: 10px;
         }
+        .preview-options {
+          display: none;
+          position: absolute;
+          top: 8px;
+          right: 8px;
+        }
+        .preview-options.visible {
+          display: block;
+        }
       `}</style>
     </div>
   );
@@ -100,23 +136,23 @@ const BoardSidebar: React.FC<BoardSidebarProps> = ({ board }) => {
 export default BoardSidebar;
 
 export interface BoardSidebarProps {
-  board: {
-    slug: string;
-    avatarUrl: string;
-    tagline: string;
-    accentColor: string;
-    boardWideTags?: {
-      name: string;
-      color: string;
-    }[];
-    canonicalTags?: {
-      name: string;
-      color: string;
-    }[];
-    contentRulesTags?: {
-      allowed: boolean;
-      name: string;
-    }[];
-    otherRules?: JSX.Element;
-  };
+  slug: string;
+  avatarUrl: string;
+  tagline: string;
+  accentColor: string;
+  boardWideTags?: {
+    name: string;
+    color: string;
+  }[];
+  canonicalTags?: {
+    name: string;
+    color: string;
+  }[];
+  contentRulesTags?: {
+    allowed: boolean;
+    name: string;
+  }[];
+  otherRules?: JSX.Element;
+  previewOptions?: { name: string; link: LinkWithAction }[];
+  muted?: boolean;
 }

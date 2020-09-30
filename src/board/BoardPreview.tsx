@@ -199,6 +199,7 @@ const BoardPreview: React.FC<BoardPreviewProps> = ({
   color,
   updates,
   backgroundColor,
+  muted,
 }) => {
   const [showDescription, setShowDescription] = React.useState(false);
   const chosenColor = color || DEFAULT_COLOR;
@@ -220,6 +221,7 @@ const BoardPreview: React.FC<BoardPreviewProps> = ({
       <div className="board-header">
         <div
           className={classnames("board-image", {
+            muted,
             compact: displayStyle == DisplayStyle.COMPACT,
             regular: displayStyle == DisplayStyle.REGULAR,
             mini: displayStyle == DisplayStyle.MINI,
@@ -269,7 +271,7 @@ const BoardPreview: React.FC<BoardPreviewProps> = ({
           background-color: ${chosenColor};
           border: 5px solid ${backgroundColor || "#2f2f30"};
         }
-        `}</style>
+      `}</style>
       <style jsx>{`
         .container {
         }
@@ -297,7 +299,9 @@ const BoardPreview: React.FC<BoardPreviewProps> = ({
           border-radius: 15px;
           padding-bottom: calc((9 / 16) * 100%);
         }
-        .board-image.compact {
+        .board-image.muted {
+          opacity: 0.8;
+          filter: grayscale(50%);
         }
         .board-image.regular {
           margin-bottom: 15px;
@@ -354,6 +358,7 @@ export interface BoardPreviewProps {
   onClick?: () => void;
   href?: string;
   updates?: number | boolean;
+  muted?: boolean;
 }
 
 export default BoardPreview;

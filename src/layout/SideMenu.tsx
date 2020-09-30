@@ -122,6 +122,7 @@ export interface SideMenuProps {
     description: string;
     color: string;
     updates?: number;
+    muted?: boolean;
     link: LinkWithAction;
   }[];
   recentBoards?: {
@@ -130,6 +131,7 @@ export interface SideMenuProps {
     description: string;
     color: string;
     updates?: number;
+    muted?: boolean;
     link: LinkWithAction;
   }[];
   searchBoards?: {
@@ -138,6 +140,7 @@ export interface SideMenuProps {
     description: string;
     color: string;
     updates?: number;
+    muted?: boolean;
     link: LinkWithAction;
   }[];
   showSearch?: boolean;

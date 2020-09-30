@@ -40,7 +40,7 @@ const PINNED_BOARDS = [
     avatar: "/" + goreBackground,
     description: "Love me some bruised bois (and more).",
     color: "#f96680",
-    href: "#slug",
+    link: { href: "#slug", onClick: action("#slug") },
   },
   {
     slug: "anime",
@@ -49,7 +49,7 @@ const PINNED_BOARDS = [
     color: "#24d282",
     updates: 2,
     backgroundColor: "#131518",
-    href: "#slug",
+    link: { href: "#slug", onClick: action("#slug") },
   },
   {
     slug: "crack",
@@ -58,7 +58,7 @@ const PINNED_BOARDS = [
     color: "#f9e066",
     updates: 3,
     backgroundColor: "#131518",
-    href: "#slug",
+    link: { href: "#slug", onClick: action("#slug") },
   },
   {
     slug: "fic-club",
@@ -67,21 +67,21 @@ const PINNED_BOARDS = [
     color: "#7724d2",
     updates: 5,
     backgroundColor: "#131518",
-    href: "#slug",
+    link: { href: "#slug", onClick: action("#slug") },
   },
   {
     slug: "meta",
     avatar: "/" + meta,
     description: "In My TiMeS wE CaLlEd It WaNk",
     color: "#f9e066",
-    href: "#slug",
+    link: { href: "#slug", onClick: action("#slug") },
   },
   {
     slug: "villain-thirst",
     avatar: "/" + villains,
     description: "Love to love 'em.",
     color: "#e22b4b",
-    href: "#slug",
+    link: { href: "#slug", onClick: action("#slug") },
   },
 ];
 const SEARCH_BOARDS = [
@@ -90,14 +90,14 @@ const SEARCH_BOARDS = [
     avatar: "/" + villains,
     description: "Love to love 'em.",
     color: "#e22b4b",
-    href: "#slug",
+    link: { href: "#slug", onClick: action("#slug") },
   },
   {
     slug: "art-crit",
     avatar: "/" + art,
     description: "Let's learn together!",
     color: "#27caba",
-    href: "#slug",
+    link: { href: "#slug", onClick: action("#slug") },
   },
 ];
 const RECENT_BOARDS = [
@@ -106,7 +106,7 @@ const RECENT_BOARDS = [
     avatar: "/" + goreBackground,
     description: "Love me some bruised bois (and more).",
     color: "#f96680",
-    href: "#slug",
+    link: { href: "#slug", onClick: action("#slug") },
   },
   {
     slug: "oncie-den",
@@ -115,7 +115,7 @@ const RECENT_BOARDS = [
     color: "#27caba",
     updates: 10,
     backgroundColor: "#131518",
-    href: "#slug",
+    link: { href: "#slug", onClick: action("#slug") },
   },
   {
     slug: "fic-club",
@@ -124,14 +124,14 @@ const RECENT_BOARDS = [
     color: "#7724d2",
     updates: 5,
     backgroundColor: "#131518",
-    href: "#slug",
+    link: { href: "#slug", onClick: action("#slug") },
   },
   {
     slug: "kink-memes",
     avatar: "/" + kinkmeme,
     description: "No limits. No shame.",
     color: "#000000",
-    href: "#slug",
+    link: { href: "#slug", onClick: action("#slug") },
   },
   {
     slug: "crack",
@@ -140,7 +140,7 @@ const RECENT_BOARDS = [
     color: "#f9e066",
     updates: 3,
     backgroundColor: "#131518",
-    href: "#slug",
+    link: { href: "#slug", onClick: action("#slug") },
   },
 ];
 
@@ -442,7 +442,7 @@ const POSTS = [
 const BOARD_INFO = {
   slug: "gore",
   avatarUrl: `/${goreBackground}`,
-  description: "Love me some bruised bois (and more).",
+  tagline: "Love me some bruised bois (and more).",
   accentColor: "#f96680",
   boardWideTags: [
     { name: "gore", color: "#f96680" },
@@ -490,6 +490,10 @@ const BOARD_INFO = {
       </ul>
     </div>
   ),
+  previewOptions: [
+    { name: "opt1", link: { onClick: action("optionOne") } },
+    { name: "opt2", link: { onClick: action("option2") } },
+  ],
 };
 
 export const Attempt1 = () => {
@@ -499,7 +503,7 @@ export const Attempt1 = () => {
       <Layout
         mainContent={
           <FeedWithMenu
-            sidebarContent={<BoardSidebar board={BOARD_INFO} />}
+            sidebarContent={<BoardSidebar {...BOARD_INFO} />}
             feedContent={
               <div>
                 {POSTS.map((post) => (
@@ -553,10 +557,7 @@ export const Attempt1 = () => {
         }
         headerAccent="#f96680"
         title="!gore"
-        onLogoClick={() => console.log("clack")}
-        onTitleClick={() => {
-          setShowSidebar(!showSidebar);
-        }}
+        titleLink={{ onClick: () => setShowSidebar(!showSidebar) }}
         onUserBarClick={() => console.log("userbar click!")}
         loggedInMenuOptions={[
           {
@@ -655,8 +656,10 @@ export const MasonryLayout = () => {
                         directContributions={post.directContributions}
                         onNewContribution={() => console.log("click!")}
                         onNewComment={() => console.log("click!")}
-                        onNotesClick={() => console.log("click")}
-                        notesUrl={"#"}
+                        notesLink={{ onClick: () => console.log("click") }}
+                        createdTimeLink={{
+                          onClick: () => console.log("click"),
+                        }}
                       />
                     </div>
                   ))}
@@ -688,14 +691,16 @@ export const MasonryLayout = () => {
         }
         headerAccent="#f96680"
         title="!gore"
-        onLogoClick={() => console.log("clack")}
-        onTitleClick={() => {
-          setShowSidebar(!showSidebar);
+        logoLink={{
+          onClick: action("logo!"),
+        }}
+        titleLink={{
+          onClick: () => setShowSidebar(!showSidebar),
         }}
         onUserBarClick={() => console.log("userbar click!")}
         loggedInMenuOptions={[
-          { name: "opt1", link: action("optionOne") },
-          { name: "opt2", link: action("option2") },
+          { name: "opt1", link: { onClick: action("optionOne") } },
+          { name: "opt2", link: { onClick: action("option2") } },
         ]}
       />
     </>
