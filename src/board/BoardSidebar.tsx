@@ -29,6 +29,7 @@ const BoardSidebar: React.FC<BoardSidebarProps> = (props) => {
               options={props.previewOptions || []}
               style={DropdownStyle.DARK}
               accentColor={props.accentColor}
+              zIndex={200}
             >
               <Button
                 icon={faCaretDown}

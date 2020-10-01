@@ -113,9 +113,9 @@ const Post = React.forwardRef<PostHandler, PostProps>((props, ref) => {
                   muted: props.muted,
                 })}
               >
-                {props.tags && (
+                <div className={classnames("tags", { visible: !props.tags })}>
                   <Tags tags={TagsFactory.getTagsFromTagObject(props.tags)} />
-                )}
+                </div>
                 <div className="notes">
                   <MemoizedFooter
                     onContribution={props.onNewContribution}
@@ -203,6 +203,9 @@ const Post = React.forwardRef<PostHandler, PostProps>((props, ref) => {
         }
         .footer.with-reactions {
           padding-bottom: 10px;
+        }
+        .tags {
+          padding: 0 10px;
         }
         .add-reaction {
           background-color: rgb(28, 28, 28);

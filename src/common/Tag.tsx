@@ -94,12 +94,15 @@ export class TagsFactory {
     );
   }
 
-  static getTagsFromTagObject(tagsObject: {
+  static getTagsFromTagObject(tagsObject?: {
     contentWarnings: string[];
     categoryTags: string[];
     whisperTags: string[];
     indexTags: string[];
   }) {
+    if (!tagsObject) {
+      return [];
+    }
     const indexableTags =
       tagsObject.indexTags?.map((tag) =>
         TagsFactory.getTypeFromString(INDEXABLE_PREFIX + tag)
