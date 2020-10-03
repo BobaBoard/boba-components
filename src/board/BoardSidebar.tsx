@@ -3,6 +3,7 @@ import React from "react";
 import BoardPreview from "./BoardPreview";
 import { BoardMetadataType, DescriptionType, LinkWithAction } from "types";
 import Button, { ButtonStyle } from "../common/Button";
+import ColorInput from "../common/ColorInput";
 import DropdownMenu, { DropdownStyle } from "../common/DropdownListMenu";
 import {
   faCaretDown,
@@ -13,6 +14,7 @@ import classnames from "classnames";
 import { v4 as uuidv4 } from "uuid";
 
 import BoardDescription from "./BoardDescription";
+import Input, { InputStyle } from "../common/Input";
 
 const BoardSidebar: React.FC<BoardSidebarProps> = (props) => {
   const [editingSection, setEditingSection] = React.useState<{
@@ -23,6 +25,8 @@ const BoardSidebar: React.FC<BoardSidebarProps> = (props) => {
   const [currentDescriptions, setCurrentDescriptions] = React.useState(
     props.descriptions.sort((c1, c2) => c1.index - c2.index)
   );
+  const [currentAccent, setCurrentAccent] = React.useState(props.accentColor);
+  const [currentTagline, setCurrentTagline] = React.useState(props.tagline);
 
   React.useEffect(() => {
     setCurrentDescriptions(
@@ -85,8 +89,8 @@ const BoardSidebar: React.FC<BoardSidebarProps> = (props) => {
             props.onUpdateMetadata({
               slug: props.slug,
               avatarUrl: props.avatarUrl,
-              tagline: props.tagline,
-              accentColor: props.accentColor,
+              tagline: currentTagline,
+              accentColor: currentAccent,
               descriptions: currentDescriptions,
             });
           }}
@@ -104,8 +108,8 @@ const BoardSidebar: React.FC<BoardSidebarProps> = (props) => {
           <BoardPreview
             slug={props.slug}
             avatar={props.avatarUrl}
-            description={props.tagline}
-            color={props.accentColor}
+            description={currentTagline}
+            color={currentAccent}
             muted={props.muted}
           />
           <div
@@ -117,7 +121,7 @@ const BoardSidebar: React.FC<BoardSidebarProps> = (props) => {
               <DropdownMenu
                 options={props.previewOptions || []}
                 style={DropdownStyle.DARK}
-                accentColor={props.accentColor}
+                accentColor={currentAccent}
                 zIndex={200}
               >
                 <Button
@@ -132,6 +136,33 @@ const BoardSidebar: React.FC<BoardSidebarProps> = (props) => {
             )}
           </div>
         </div>
+        <div
+          className={classnames("preview-editor", {
+            vanquished: !props.editing || editingSection,
+          })}
+        >
+          <h2>Preview</h2>
+          <Input
+            id="tagline"
+            label="tagline"
+            value={currentTagline}
+            onTextChange={setCurrentTagline}
+            theme={InputStyle.DARK}
+          />
+          <div className={classnames("color-picker")}>
+            <ColorInput
+              currentColor={currentAccent}
+              onColorChange={setCurrentAccent}
+            />
+          </div>
+        </div>
+        <h2
+          className={classnames("descriptions-title", {
+            vanquished: !props.editing || editingSection,
+          })}
+        >
+          Description Sections
+        </h2>
         <BoardDescription
           descriptions={currentDescriptions || []}
           onCategoriesStateChange={(categories) => {
@@ -204,6 +235,12 @@ const BoardSidebar: React.FC<BoardSidebarProps> = (props) => {
           text-align: center;
           position: relative;
         }
+        .preview-editor {
+          margin: 30px 0;
+        }
+        .color-picker {
+          margin-top: 15px;
+        }
         .board-preview.editing-section {
           display: none;
         }
@@ -218,6 +255,9 @@ const BoardSidebar: React.FC<BoardSidebarProps> = (props) => {
         }
         .hidden {
           visibility: hidden;
+        }
+        .vanquished {
+          display: none;
         }
       `}</style>
     </div>

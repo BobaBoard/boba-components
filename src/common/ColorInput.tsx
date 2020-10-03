@@ -1,6 +1,5 @@
 import React from "react";
 import { ChromePicker } from "react-color";
-import Button, { ButtonStyle } from "./Button";
 import Tooltip from "./Tooltip";
 
 const ColorInput: React.FC<ColorInputProps> = (props) => {
