@@ -48,6 +48,7 @@
     "pica": "^6.1.1",
     "pluralize": "^8.0.0",
     "postinstall-postinstall": "^2.1.0",
+    "react-color": "^2.18.1",
     "react-div-100vh": "^0.3.8",
     "react-easy-crop": "^3.1.1",
     "react-loader-spinner": "^3.1.14",

@@ -1,6 +1,7 @@
 import React from "react";
 
 import Input, { InputStyle } from "../src/common/Input";
+import ColorInput from "../src/common/ColorInput";
 
 export default {
   title: "Input",
@@ -160,4 +161,17 @@ export const Disabled = () => {
 
 Disabled.story = {
   name: "disabled",
+};
+
+export const ColorInputStory = () => {
+  const [color, setColor] = React.useState("red");
+  return (
+    <>
+      <ColorInput currentColor={color} onColorChange={setColor} />
+    </>
+  );
+};
+
+ColorInputStory.story = {
+  name: "color",
 };
