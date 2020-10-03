@@ -1,21 +1,21 @@
 import React from "react";
 
 import BoardSidebar from "../src/board/BoardSidebar";
+import LegacyBoardSidebar from "../src/board/LegacyBoardSidebar";
 import TextSection from "../src/board/TextSection";
 import CategoryFilterSection from "../src/board/CategoryFilterSection";
 import BoardDescription from "../src/board/BoardDescription";
-import EditableBoardDescription from "../src/board/EditableBoardDescription";
 import Button from "../src/common/Button";
 
 import goreBackground from "./images/gore.png";
 
 import { action } from "@storybook/addon-actions";
 
-const BoardSidebarPreviewTemplate = (args: any) => {
+const LegacyBoardSidebarPreviewTemplate = (args: any) => {
   const [color, setColor] = React.useState("#f96680");
   return (
     <div style={{ maxWidth: "500px", backgroundColor: "black" }}>
-      <BoardSidebar {...args} accentColor={color} />
+      <LegacyBoardSidebar {...args} accentColor={color} />
       <Button onClick={() => setColor("#f96680")}>Pink</Button>
       <Button onClick={() => setColor("#24d282")}>Green</Button>
       <Button onClick={() => setColor("#27caba")}>Blue</Button>
@@ -23,8 +23,10 @@ const BoardSidebarPreviewTemplate = (args: any) => {
   );
 };
 
-export const BoardSidebarPreview = BoardSidebarPreviewTemplate.bind({});
-BoardSidebarPreview.args = {
+export const LegacyBoardSidebarPreview = LegacyBoardSidebarPreviewTemplate.bind(
+  {}
+);
+LegacyBoardSidebarPreview.args = {
   slug: "gore",
   avatarUrl: `/${goreBackground}`,
   tagline: "Love me some bruised bois (and more).",
@@ -81,8 +83,74 @@ BoardSidebarPreview.args = {
   muted: true,
 };
 
+LegacyBoardSidebarPreview.story = {
+  name: "legacy sidebar",
+};
+
+const BoardSidebarPreviewTemplate = (args: any) => {
+  const [color, setColor] = React.useState("#f96680");
+  return (
+    <div style={{ maxWidth: "500px", backgroundColor: "black" }}>
+      <BoardSidebar {...args} accentColor={color} />
+      <Button onClick={() => setColor("#f96680")}>Pink</Button>
+      <Button onClick={() => setColor("#24d282")}>Green</Button>
+      <Button onClick={() => setColor("#27caba")}>Blue</Button>
+    </div>
+  );
+};
+
+export const BoardSidebarPreview = BoardSidebarPreviewTemplate.bind({});
+BoardSidebarPreview.args = {
+  slug: "gore",
+  avatarUrl: `/${goreBackground}`,
+  tagline: "Love me some bruised bois (and more).",
+  previewOptions: [
+    { name: "opt1", link: { onClick: action("optionOne") } },
+    { name: "opt2", link: { onClick: action("option2") } },
+  ],
+  descriptions: [
+    {
+      id: 1,
+      index: 1,
+      title: "Gore Categories",
+      description: null,
+      type: "category_filter",
+      categories: ["sangue!!!!", "acido muriatico!!!!"],
+    },
+    {
+      id: 5,
+      index: 2,
+      title: "Gore Categories2",
+      description: null,
+      type: "category_filter",
+      categories: ["set1", "set2"],
+    },
+    {
+      id: 2,
+      index: 3,
+      title: "A test",
+      description: '[{"insert": "pls help"}]',
+      type: "text",
+    },
+  ],
+  muted: false,
+  onCategoriesStateChange: action("categoryChange"),
+};
+
 BoardSidebarPreview.story = {
-  name: "sidebar",
+  name: "Sidebar",
+};
+
+export const EditableBoardSidebarPreview = BoardSidebarPreviewTemplate.bind({});
+EditableBoardSidebarPreview.args = {
+  ...BoardSidebarPreview.args,
+  editing: true,
+  onCancelEditing: action("cancel"),
+  onUpdateMetadata: action("metadata"),
+};
+
+EditableBoardSidebarPreview.story = {
+  name: "Editable sidebar",
 };
 
 const TextSectionTemplate = (args: any) => <TextSection {...args} />;
@@ -108,22 +176,16 @@ const CategoryFilterSectionTemplate = (args: any) => (
 export const FiltersSection = CategoryFilterSectionTemplate.bind({});
 FiltersSection.args = {
   title: "Rules",
-  categories: [
-    { name: "cat1", active: true },
-    { name: "cat2", active: true },
-  ],
+  categories: ["cat1", "cat2"],
   editable: false,
-  onCategoryStateChange: action("categories"),
+  onCategoriesStateChange: action("categories"),
 };
 export const EditableFiltersSection = CategoryFilterSectionTemplate.bind({});
 EditableFiltersSection.args = {
   title: "Rules",
-  categories: [
-    { name: "cat1", active: true },
-    { name: "cat2", active: true },
-  ],
+  categories: ["cat1", "cat2"],
   editable: true,
-  onCategoryStateChange: action("categories"),
+  onCategoriesStateChange: action("categories"),
 };
 
 const BoardDescriptionTemplate = BoardDescription.bind({});
@@ -158,7 +220,7 @@ BoardDescriptionStory.args = {
   onCategoryStateChange: action("categories"),
 };
 
-const EditableBoardDescriptionTemplate = EditableBoardDescription.bind({});
+const EditableBoardDescriptionTemplate = BoardDescription.bind({});
 export const EditableBoardDescriptionStory = EditableBoardDescriptionTemplate.bind(
   {}
 );
@@ -189,6 +251,7 @@ EditableBoardDescriptionStory.args = {
       categories: [null],
     },
   ],
+  editing: true,
   onCancel: action("cancel"),
   onSave: action("save"),
 };

@@ -1,18 +1,106 @@
 import React from "react";
 
 import BoardPreview from "./BoardPreview";
-import Tag from "../common/Tag";
-import { LinkWithAction } from "types";
+import { BoardMetadataType, DescriptionType, LinkWithAction } from "types";
 import Button, { ButtonStyle } from "../common/Button";
 import DropdownMenu, { DropdownStyle } from "../common/DropdownListMenu";
-import { faCaretDown } from "@fortawesome/free-solid-svg-icons";
+import {
+  faCaretDown,
+  faArrowLeft,
+  faCheck,
+} from "@fortawesome/free-solid-svg-icons";
 import classnames from "classnames";
+import { v4 as uuidv4 } from "uuid";
+
+import BoardDescription from "./BoardDescription";
 
 const BoardSidebar: React.FC<BoardSidebarProps> = (props) => {
+  const [editingSection, setEditingSection] = React.useState<{
+    id: string;
+    current: DescriptionType;
+    new: boolean;
+  }>();
+  const [currentDescriptions, setCurrentDescriptions] = React.useState(
+    props.descriptions.sort((c1, c2) => c1.index - c2.index)
+  );
+
+  React.useEffect(() => {
+    setCurrentDescriptions(
+      props.descriptions
+        .sort((c1, c2) => c1.index - c2.index)
+        .map((description, index) => ({
+          ...description,
+          index: index + 1,
+        }))
+    );
+  }, [props.descriptions, props.editing]);
+
   return (
     <div className="sidebar">
+      <div
+        className={classnames("buttons", {
+          hidden: !props.editing,
+        })}
+      >
+        <Button
+          icon={faArrowLeft}
+          onClick={() => {
+            if (!props.editing) {
+              return;
+            }
+            if (editingSection) {
+              // If the section was new, filter it out. Else, leave it be.
+              setCurrentDescriptions(
+                editingSection.new
+                  ? currentDescriptions.filter(
+                      (description) => description.id !== editingSection.id
+                    )
+                  : currentDescriptions
+              );
+              setEditingSection(undefined);
+            }
+            props.onCancelEditing();
+          }}
+          theme={ButtonStyle.DARK}
+        >
+          Back
+        </Button>
+        <Button
+          icon={faCheck}
+          onClick={() => {
+            if (!props.editing) {
+              return;
+            }
+            if (editingSection) {
+              setCurrentDescriptions(
+                currentDescriptions.map((description) =>
+                  description.id == editingSection.id
+                    ? editingSection.current
+                    : description
+                )
+              );
+              setEditingSection(undefined);
+              return;
+            }
+            props.onUpdateMetadata({
+              slug: props.slug,
+              avatarUrl: props.avatarUrl,
+              tagline: props.tagline,
+              accentColor: props.accentColor,
+              descriptions: currentDescriptions,
+            });
+          }}
+          theme={ButtonStyle.DARK}
+        >
+          Save
+        </Button>
+      </div>
       <div className="board-details">
-        <div className="board-preview">
+        <div
+          className={classnames("board-preview", {
+            "editing-section": !!editingSection,
+          })}
+        >
           <BoardPreview
             slug={props.slug}
             avatar={props.avatarUrl}
@@ -22,68 +110,79 @@ const BoardSidebar: React.FC<BoardSidebarProps> = (props) => {
           />
           <div
             className={classnames("preview-options", {
-              visible: !!props.previewOptions,
+              visible: !props.editing && !!props.previewOptions,
             })}
           >
-            <DropdownMenu
-              options={props.previewOptions || []}
-              style={DropdownStyle.DARK}
-              accentColor={props.accentColor}
-              zIndex={200}
-            >
-              <Button
-                icon={faCaretDown}
-                compact
-                color={props.accentColor}
-                theme={ButtonStyle.DARK}
+            {!props.editing && (
+              <DropdownMenu
+                options={props.previewOptions || []}
+                style={DropdownStyle.DARK}
+                accentColor={props.accentColor}
+                zIndex={200}
               >
-                Options
-              </Button>
-            </DropdownMenu>
+                <Button
+                  icon={faCaretDown}
+                  compact
+                  color={props.accentColor}
+                  theme={ButtonStyle.DARK}
+                >
+                  Options
+                </Button>
+              </DropdownMenu>
+            )}
           </div>
         </div>
-        <div className="tag-clouds">
-          {props.boardWideTags && (
-            <>
-              <h2>Board-wide Tags</h2>
-              <div className="tag-group">
-                {props.boardWideTags.map((tag) => (
-                  <Tag name={tag.name} color={tag.color} />
-                ))}
-              </div>
-            </>
-          )}
-          {props.canonicalTags && (
-            <>
-              <h2>Canonical Board Tags</h2>
-              <div className="tag-group">
-                {props.canonicalTags.map((tag) => (
-                  <Tag name={tag.name} color={tag.color} />
-                ))}
-              </div>
-            </>
-          )}
-          {props.contentRulesTags && (
-            <>
-              <h2>Content Rules</h2>
-              <div className="tag-group">
-                {props.contentRulesTags.map((tag) => (
-                  <Tag
-                    symbol={tag.allowed ? "✓" : "✘"}
-                    name={tag.name}
-                    color={tag.allowed ? "#66f98c" : "#ff0124"}
-                  />
-                ))}
-              </div>
-            </>
-          )}
-          {props.otherRules && (
-            <>
-              <h2>Other Rules</h2>
-              <div className="other">{props.otherRules}</div>
-            </>
-          )}
-        </div>
+        <BoardDescription
+          descriptions={currentDescriptions || []}
+          onCategoriesStateChange={(categories) => {
+            !props.editing && props.onCategoriesStateChange(categories);
+          }}
+          onDescriptionChange={(description) => {
+            if (!editingSection) {
+              return;
+            }
+            setEditingSection({
+              ...editingSection,
+              current: description,
+            });
+          }}
+          editing={props.editing}
+          editingCategory={editingSection?.current}
+          onEditDescriptionRequest={(id) =>
+            setEditingSection({
+              id,
+              current: {
+                ...currentDescriptions.find((d) => d.id == id),
+              } as DescriptionType,
+              new: false,
+            })
+          }
+          onAddDescription={(type) => {
+            const newId = uuidv4();
+            const newDescription: DescriptionType = {
+              id: newId,
+              index: props.descriptions.length + 1,
+              title: "",
+              type,
+              description: "",
+              categories: [] as string[],
+            };
+            setCurrentDescriptions([...currentDescriptions, newDescription]);
+            setEditingSection({
+              id: newId,
+              current: newDescription,
+              new: true,
+            });
+          }}
+          onDeleteDescription={() => {
+            setCurrentDescriptions(
+              currentDescriptions.filter(
+                (description) => description.id != editingSection?.id
+              )
+            );
+            setEditingSection(undefined);
+          }}
+        />
       </div>
       <style jsx>{`
         h2 {
@@ -91,34 +190,22 @@ const BoardSidebar: React.FC<BoardSidebarProps> = (props) => {
           font-size: 16px;
           font-weight: bold;
         }
-        .tag-clouds {
-          margin-top: 30px;
-        }
-        .tag-group {
-          display: flex;
-          flex-wrap: wrap;
-        }
-        .tag-group > :global(div) {
-          margin-bottom: 3px;
-          margin-right: 3px;
-        }
         .sidebar {
           padding: 20px;
         }
+        .buttons {
+          display: flex;
+          justify-content: space-between;
+        }
         .board-details {
-          margin-top: 30px;
+          margin-top: 10px;
         }
         .board-preview {
           text-align: center;
           position: relative;
         }
-        .other :global(ul) {
-          padding-left: 30px;
-        }
-        .other :global(li) {
-          color: white;
-          font-size: 15px;
-          margin-bottom: 10px;
+        .board-preview.editing-section {
+          display: none;
         }
         .preview-options {
           display: none;
@@ -129,6 +216,9 @@ const BoardSidebar: React.FC<BoardSidebarProps> = (props) => {
         .preview-options.visible {
           display: block;
         }
+        .hidden {
+          visibility: hidden;
+        }
       `}</style>
     </div>
   );
@@ -136,24 +226,20 @@ const BoardSidebar: React.FC<BoardSidebarProps> = (props) => {
 
 export default BoardSidebar;
 
-export interface BoardSidebarProps {
-  slug: string;
-  avatarUrl: string;
-  tagline: string;
-  accentColor: string;
-  boardWideTags?: {
-    name: string;
-    color: string;
-  }[];
-  canonicalTags?: {
-    name: string;
-    color: string;
-  }[];
-  contentRulesTags?: {
-    allowed: boolean;
-    name: string;
-  }[];
-  otherRules?: JSX.Element;
-  previewOptions?: { name: string; link: LinkWithAction }[];
-  muted?: boolean;
+interface EditableBoardSidebarProps extends BoardMetadataType {
+  editing: true;
+  onCancelEditing: () => void;
+  onUpdateMetadata: (metadata: BoardMetadataType) => void;
 }
+
+interface DisplayBoardSidebarProps extends BoardMetadataType {
+  editing?: false;
+  previewOptions?: { name: string; link: LinkWithAction }[];
+  onCategoriesStateChange: (
+    categories: { category: string; active: boolean }[]
+  ) => void;
+}
+
+export type BoardSidebarProps =
+  | DisplayBoardSidebarProps
+  | EditableBoardSidebarProps;

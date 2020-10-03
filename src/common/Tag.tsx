@@ -8,7 +8,7 @@ export interface TagProps {
   symbol?: string | JSX.Element;
   avatar?: string;
   color?: string;
-  highlightColor?: string;
+  accentColor?: string;
   compact?: boolean;
 }
 
@@ -27,18 +27,19 @@ const Tag: React.FC<TagProps> = (props) => {
         .tag {
           display: inline-block;
           padding: 5px 10px;
-          border: 3px ${props.highlightColor || "black"} solid;
+          border: 3px ${props.accentColor || "black"} solid;
           border-radius: 10px;
           background-color: ${props.color};
           font-weight: bold;
-          color: ${props.highlightColor || "black"};
+          color: ${props.accentColor || "black"};
           overflow-wrap: break-word;
           word-break: break-word;
         }
         .tag.compact {
           border: 0px;
           font-size: smaller;
-          padding: 3px 6px;
+          padding: 5px 10px;
+          border-radius: 15px;
           font-weight: normal;
         }
       `}</style>
@@ -89,6 +90,7 @@ export class TagsFactory {
         name={tag.name}
         compact
         color={tag.color || tagData.color}
+        accentColor={tag.accentColor}
         symbol={tagData.symbol}
       />
     );

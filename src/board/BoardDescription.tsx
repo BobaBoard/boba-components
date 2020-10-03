@@ -2,117 +2,185 @@ import React from "react";
 
 import TextSection from "./TextSection";
 import CategoryFilterSection from "./CategoryFilterSection";
+import Button, { ButtonStyle } from "../common/Button";
+import { faFont, faPlus, faTags } from "@fortawesome/free-solid-svg-icons";
 
 import classnames from "classnames";
 
 import debug from "debug";
+import { DescriptionType } from "types";
 // @ts-ignore
 const log = debug("bobaui:boards:boardsDescription");
 
-const BoardDescription: React.FC<BoardDescriptionProps> = (props) => {
-  const [filteredCategory, setFilteredCategory] = React.useState<string | null>(
-    null
-  );
-
-  return (
-    <div className={classnames("board-description")}>
-      {props.descriptions
-        .sort((c1, c2) => c1.index - c2.index)
-        .map((description) => {
-          switch (description.type) {
-            case "text":
-              return (
-                <TextSection
-                  title={description.title}
-                  description={description.description || ""}
-                  editable={false}
-                />
-              );
-            case "category_filter":
-              return (
-                <>
-                  <CategoryFilterSection
-                    title={description.title}
-                    categories={
-                      description.categories?.map((c) => ({
-                        name: c,
-                        active:
-                          filteredCategory === null || filteredCategory === c,
-                      })) || []
-                    }
-                    editable={false}
-                    onCategoryStateChange={(category, state) => {
-                      setFilteredCategory(category);
-                      props.onCategoriesStateChange(
-                        description.categories?.map((category) => {
-                          return {
-                            category,
-                            active: false,
-                          };
-                        }) || []
-                      );
-                    }}
-                  />
-                  <a
-                    className={classnames("clear-filters", {
-                      visible: filteredCategory != null,
-                    })}
-                    href="#"
-                    onClick={(e) => {
-                      e.preventDefault();
-                      setFilteredCategory(null);
-                      props.onCategoriesStateChange(
-                        description.categories?.map((category) => {
-                          return {
-                            category,
-                            active: true,
-                          };
-                        }) || []
-                      );
-                    }}
-                  >
-                    Clear filters
-                  </a>
-                </>
-              );
+const getSection = (
+  props: BoardDescriptionProps,
+  description?: BoardDescriptionProps["descriptions"][0]
+) => {
+  if (!description) {
+    return <></>;
+  }
+  switch (description.type) {
+    case "text":
+      return props.editing ? (
+        <TextSection
+          key={description.id}
+          title={description.title}
+          description={description.description}
+          editable={true}
+          onTitleChange={(title) => {
+            props.onDescriptionChange({ ...description, title });
+          }}
+          onDescriptionChange={(newDescription) => {
+            props.onDescriptionChange({
+              ...description,
+              description: newDescription,
+            });
+          }}
+        />
+      ) : (
+        <TextSection
+          key={description.id}
+          title={description.title}
+          description={description.description}
+          editable={false}
+        />
+      );
+    case "category_filter":
+      return props.editing ? (
+        <CategoryFilterSection
+          key={description.id}
+          title={description.title}
+          categories={description.categories}
+          editable={true}
+          onTitleChange={(title) => {
+            props.onDescriptionChange({ ...description, title });
+          }}
+          onCategoriesChange={(categories) =>
+            props.onDescriptionChange({ ...description, categories })
           }
-        })}
+        />
+      ) : (
+        <CategoryFilterSection
+          key={description.id}
+          title={description.title}
+          categories={description.categories}
+          editable={false}
+          onCategoriesStateChange={props.onCategoriesStateChange}
+        />
+      );
+  }
+};
+
+const EditableBoardDescriptions: React.FC<EditableBoardDescriptionProps> = (
+  props
+) => {
+  return (
+    <div
+      className={classnames("edit-container", {
+        "single-description": !!props.editingCategory,
+      })}
+    >
+      {!props.editingCategory ? (
+        props.descriptions.map((description) => (
+          <div className={classnames("section")}>
+            <Button
+              icon={description.type == "text" ? faFont : faTags}
+              onClick={() => props.onEditDescriptionRequest(description.id)}
+              theme={ButtonStyle.DARK}
+            >
+              {description.title}
+            </Button>
+          </div>
+        ))
+      ) : (
+        <div>{getSection(props, props.editingCategory)}</div>
+      )}
+      <div className="options-add">
+        <Button
+          icon={faPlus}
+          onClick={() => props.onAddDescription("text")}
+          theme={ButtonStyle.DARK}
+        >
+          Add Text Section
+        </Button>
+        <Button
+          icon={faPlus}
+          onClick={() => props.onAddDescription("category_filter")}
+          theme={ButtonStyle.DARK}
+        >
+          Add Tags Section
+        </Button>
+      </div>
+      <div className="options-delete">
+        <Button
+          onClick={() => props.onDeleteDescription(props.editingCategory?.id)}
+          theme={ButtonStyle.DARK}
+        >
+          Delete
+        </Button>
+      </div>
       <style jsx>{`
-        .clear-filters {
-          color: white;
-          font-size: smaller;
-          display: block;
-          margin-top: 5px;
-          visibility: hidden;
+        .options-delete,
+        .options-add {
+          margin-top: 10px;
+          text-align: center;
         }
-        .clear-filters.visible {
-          visibility: visible;
+        .edit-container.single-description .options-add {
+          display: none;
         }
-        .sidebar-section {
-          font-size: large;
-          color: red;
+        .edit-container:not(.single-description) .options-delete {
+          display: none;
         }
-        .sidebar-section.editable {
-          color: blue;
+        .section {
+          margin-top: 10px;
         }
       `}</style>
     </div>
   );
 };
 
-// Types for props
-export interface BoardDescriptionProps {
-  descriptions: {
-    index: number;
-    title: string;
-    type: "text" | "category_filter";
-    description?: string;
-    categories?: string[];
-  }[];
+const BoardDescription: React.FC<BoardDescriptionProps> = (props) => {
+  return (
+    <div className={classnames("sections-container")}>
+      {!props.editing ? (
+        props.descriptions.map((description) => (
+          <div className={classnames("section")}>
+            {getSection(props, description)}
+          </div>
+        ))
+      ) : (
+        <EditableBoardDescriptions {...props} />
+      )}
+      <style jsx>{`
+        .section {
+          margin-top: 10px;
+        }
+      `}</style>
+    </div>
+  );
+};
+
+interface EditableBoardDescriptionProps {
+  editing: true;
+  editingCategory?: DescriptionType;
+  descriptions: DescriptionType[];
+  onEditDescriptionRequest: (id: string) => void;
+  onAddDescription: (type: "text" | "category_filter") => void;
+  onDeleteDescription: (id?: string) => void;
+  onDescriptionChange: (description: DescriptionType) => void;
+}
+
+interface DisplayBoardDescriptionProps {
+  editing?: false;
+  descriptions: DescriptionType[];
   // TODO: this should potentially be a promise as the board updates
   onCategoriesStateChange: (
     categories: { category: string; active: boolean }[]
   ) => void;
 }
+
+export type BoardDescriptionProps =
+  | EditableBoardDescriptionProps
+  | DisplayBoardDescriptionProps;
 
 export default BoardDescription;

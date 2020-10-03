@@ -31,13 +31,18 @@ const TextSection: React.FC<TextSectionProps> = (props) => {
       </div>
       <div className="description">
         {props.editable && <div className="content-title">Content</div>}
-        <div className="content-editor">
+        <div
+          className={classnames("content-editor", {
+            editing: props.editable,
+          })}
+        >
           <Editor
             initialText={props.description ? JSON.parse(props.description) : ""}
-            editable={props.editable}
+            editable={props.editable || false}
             onSubmit={() => {}}
             onIsEmptyChange={(empty: boolean) => {}}
             onTextChange={(text: any) =>
+              // @ts-ignore remove this ignore once editor has correct typing
               props.onDescriptionChange?.(JSON.stringify(text.ops))
             }
           />
@@ -46,28 +51,46 @@ const TextSection: React.FC<TextSectionProps> = (props) => {
       <style jsx>{`
         .content-title {
           font-size: large;
-          color: white;
+        }
+        .title {
+          font-weight: bold;
+          font-size: 16px;
+          margin: 5px 0;
         }
         .sidebar-section {
           color: white;
         }
-        .content-editor {
-          background-color: #2f2f30;
+        .content-editor.editing {
           border: 1px solid rgba(255, 255, 255, 0.3);
           min-height: 300px;
+        }
+        .content-editor {
+          background-color: #2f2f30;
           border-radius: 8px;
+          padding: 10px;
+          --text-color: white;
         }
       `}</style>
     </div>
   );
 };
 
-export interface TextSectionProps {
+export interface DisplayTextSectionProps {
   title: string;
   description: string;
-  editable: boolean;
+  editable?: false;
+}
+
+export interface EditableTextSectionProps {
+  title: string;
+  description: string;
+  editable: true;
   onTitleChange?: (title: string) => void;
   onDescriptionChange?: (description: string) => void;
 }
+
+export type TextSectionProps =
+  | DisplayTextSectionProps
+  | EditableTextSectionProps;
 
 export default TextSection;

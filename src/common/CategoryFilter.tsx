@@ -24,6 +24,7 @@ const CateogyFilter: React.FC<CateogyFilterProps> = (props) => {
           {TagsFactory.create({
             name: category.name,
             category: true,
+            accentColor: "white",
           })}
         </div>
       ))}

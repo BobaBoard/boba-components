@@ -4,7 +4,7 @@ import SideMenu from "../src/layout/SideMenu";
 import FeedWithMenu from "../src/layout/FeedWithMenu";
 import PostingActionButton from "../src/board/PostingActionButton";
 import CycleNewButton from "../src/board/CycleNewButton";
-import BoardSidebar from "../src/board/BoardSidebar";
+import BoardSidebar from "../src/board/LegacyBoardSidebar";
 import Button from "../src/common/Button";
 import ModalWithButtons from "../src/common/ModalWithButtons";
 import Input from "../src/common/Input";
