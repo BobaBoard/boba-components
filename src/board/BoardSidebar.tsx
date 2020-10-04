@@ -29,6 +29,14 @@ const BoardSidebar: React.FC<BoardSidebarProps> = (props) => {
   const [currentTagline, setCurrentTagline] = React.useState(props.tagline);
 
   React.useEffect(() => {
+    setCurrentAccent(props.accentColor);
+  }, [props.accentColor, props.editing]);
+
+  React.useEffect(() => {
+    setCurrentTagline(props.tagline);
+  }, [props.tagline, props.editing]);
+
+  React.useEffect(() => {
     setCurrentDescriptions(
       props.descriptions
         .sort((c1, c2) => c1.index - c2.index)
