@@ -58,51 +58,65 @@ const Layout = React.forwardRef<{ closeSideMenu: () => void }, LayoutProps>(
       log(`Current body top position: ${scrollY}`);
       log(`Current body scrollY: ${window.scrollY}`);
 
-      if (!contentRef.current || !layoutRef.current) {
+      if (!contentRef.current || !layoutRef.current || !sideMenuRef.current) {
         return;
       }
+      log(`Current sideMenu scrollY: ${sideMenuRef.current.offsetWidth}`);
+      log(`Current sideMenu scrollY: ${sideMenuRef.current.clientWidth}`);
 
-      log(`Changing overflow of content`);
-      log(showSideMenu);
-      if (showSideMenu) {
-        // NOTE: body doesn't respect overflow hidden on mobile, so we
-        // move it to layout
-        document.body.style.overflow = "hidden";
-        layoutRef.current.style.overflow = "hidden";
-        contentRef.current.style.overflow = "hidden";
-        // This will be triggered when the animation for either
-        // closing the sidemenu ends.
-        // We attach it when we get the first request for showing
-        // the sidemenu, and then reattach it only once that
-        // transition is finished.
-        const transitionEndListener = () => {
-          log(`Animation finished...`);
-          if (
-            !contentRef.current ||
-            !layoutRef.current ||
-            sideMenuRef.current?.clientWidth
-          ) {
-            // The menu is open (or the refs are not available).
-            // This means that we're still waiting for the menu to
-            // close so we can remove all styles from the body.
-            return;
-          }
+      if (!showSideMenu) {
+        if (sideMenuRef.current.clientWidth) {
+          sideMenuRef.current.classList.add("closing");
+          sideMenuRef.current.classList.remove("opened");
+        } else {
+          sideMenuRef.current.classList.add("closed");
+        }
+        return;
+      }
+      sideMenuRef.current.classList.add("opening");
+      sideMenuRef.current.classList.remove("closed");
+      // NOTE: body doesn't respect overflow hidden on mobile, so we
+      // move it to layout
+      document.body.style.overflow = "hidden";
+      layoutRef.current.style.overflow = "hidden";
+      contentRef.current.style.overflow = "hidden";
+      // This will be triggered when the animation for either
+      // closing the sidemenu ends.
+      // We attach it when we get the first request for showing
+      // the sidemenu, and then reattach it only once that
+      // transition is finished.
+      const transitionEndListener = () => {
+        log(`Animation finished...`);
+        if (
+          !contentRef.current ||
+          !layoutRef.current ||
+          !sideMenuRef.current ||
+          sideMenuRef.current.clientWidth
+        ) {
+          // The menu is open (or the refs are not available).
+          // This means that we're still waiting for the menu to
+          // close so we can remove all styles from the body.
+          sideMenuRef.current?.classList.remove("opening");
+          sideMenuRef.current?.classList.add("opened");
+          return;
+        }
+        sideMenuRef.current.classList.remove("closing");
+        sideMenuRef.current.classList.add("closed");
 
-          log(`...Reactivating!`);
-          sideMenuRef.current?.removeEventListener(
-            "transitionend",
-            transitionEndListener
-          );
-          document.body.style.overflow = "";
-          layoutRef.current.style.overflow = "";
-          contentRef.current.style.overflow = "";
-        };
-        sideMenuRef.current?.addEventListener(
+        log(`...Reactivating!`);
+        sideMenuRef.current?.removeEventListener(
           "transitionend",
           transitionEndListener
         );
-      }
-    }, [showSideMenu]);
+        document.body.style.overflow = "";
+        layoutRef.current.style.overflow = "";
+        contentRef.current.style.overflow = "";
+      };
+      sideMenuRef.current.addEventListener(
+        "transitionend",
+        transitionEndListener
+      );
+    }, [showSideMenu, sideMenuRef.current]);
 
     return (
       <div ref={layoutRef}>
@@ -310,8 +324,17 @@ const Layout = React.forwardRef<{ closeSideMenu: () => void }, LayoutProps>(
             .side-menu.visible {
               width: 500px;
             }
-            .side-menu.visible .side-menu-content {
+            /**
+             * Having overflow: auto as the iOS page loads will cause a weird bug
+             * where the sidemenu flickers before disappearing. We cannot use display:none
+             * to fix it, because it then messes with the width transition. Keeping
+             * overflow: auto only when the side-menu is open fixes the problem.
+             */
+            .side-menu.opened .side-menu-content {
               overflow: auto;
+            }
+            .side-menu:not(.opened) .side-menu-content {
+              overflow: hidden;
             }
             .title {
               margin: 0px 35px;
@@ -350,7 +373,17 @@ const Layout = React.forwardRef<{ closeSideMenu: () => void }, LayoutProps>(
                 width: calc(100vw - 100px);
                 max-width: 500px;
               }
-
+              /* On Android browsers, there's a sidebar when overflow:auto and no sidebar
+               * when overflow:hidden. Therefore, we account for the sidebar width (which
+               * is specified in the body) when the menu is not opened.
+               * This causes a small resize on iOS, which doesn't respect the sidebar width.
+               * The best way to do this would be to somehow calculate the sidebar width at
+               * load time and add the correct value here.
+               * TODO: do this, maybe, one day.
+               */
+              .side-menu:not(.opened) .side-menu-content {
+                width: calc(100vw - 110px);
+              }
               .title {
                 display: block;
               }
