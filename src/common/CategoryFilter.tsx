@@ -11,14 +11,7 @@ const CateogyFilter: React.FC<CateogyFilterProps> = (props) => {
             disabled: !category.active,
           })}
           onClick={() => {
-            const allSelected = !props.categories.some(
-              (category) => !category.active
-            );
-            // TODO: horrible hack for sexy thomas gallery. Hoist state instead.
-            props.onCategoryStateChange(
-              category.name,
-              allSelected || !category.active
-            );
+            props.onCategoryStateChangeRequest(category.name);
           }}
         >
           {TagsFactory.create({
@@ -59,5 +52,5 @@ export interface CateogyFilterProps {
     name: string;
     active: boolean;
   }[];
-  onCategoryStateChange: (name: string, active: boolean) => void;
+  onCategoryStateChangeRequest: (name: string) => void;
 }

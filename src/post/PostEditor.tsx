@@ -342,7 +342,7 @@ export interface PostEditorProps {
   onSubmit: (
     postPromise: Promise<{
       text: string;
-      tags?: TagsType[];
+      tags: TagsType[];
       viewOptionName?: string;
       identityId?: string;
     }>

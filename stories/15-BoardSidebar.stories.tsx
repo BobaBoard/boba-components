@@ -176,9 +176,13 @@ const CategoryFilterSectionTemplate = (args: any) => (
 export const FiltersSection = CategoryFilterSectionTemplate.bind({});
 FiltersSection.args = {
   title: "Rules",
-  categories: ["cat1", "cat2"],
+  categories: [
+    { name: "cat1", active: true },
+    { name: "cat2", active: false },
+  ],
   editable: false,
-  onCategoriesStateChange: action("categories"),
+  onCategoryStateChangeRequest: action("categories"),
+  onClearFilterRequests: action("clearFilters"),
 };
 export const EditableFiltersSection = CategoryFilterSectionTemplate.bind({});
 EditableFiltersSection.args = {
@@ -191,6 +195,9 @@ EditableFiltersSection.args = {
 const BoardDescriptionTemplate = BoardDescription.bind({});
 export const BoardDescriptionStory = BoardDescriptionTemplate.bind({});
 BoardDescriptionStory.args = {
+  activeCategories: ["sangue!!!!", "acido muriatico!!!!"],
+  onCategoryStateChangeRequest: action("categories"),
+  onClearFilterRequests: action("clearFilters"),
   descriptions: [
     {
       id: 1,
@@ -214,7 +221,6 @@ BoardDescriptionStory.args = {
       title: "a test",
       description: '[{"insert": "pls help"}]',
       type: "text",
-      categories: [null],
     },
   ],
   onCategoryStateChange: action("categories"),

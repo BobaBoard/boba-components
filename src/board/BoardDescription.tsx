@@ -63,9 +63,15 @@ const getSection = (
         <CategoryFilterSection
           key={description.id}
           title={description.title}
-          categories={description.categories}
+          categories={description.categories.map((category) => ({
+            name: category,
+            active: props.activeCategories.some(
+              (activeCategory) => category === activeCategory
+            ),
+          }))}
           editable={false}
-          onCategoriesStateChange={props.onCategoriesStateChange}
+          onCategoryStateChangeRequest={props.onCategoryStateChangeRequest}
+          onClearFilterRequests={props.onClearFilterRequests}
         />
       );
   }
@@ -173,10 +179,9 @@ interface EditableBoardDescriptionProps {
 interface DisplayBoardDescriptionProps {
   editing?: false;
   descriptions: DescriptionType[];
-  // TODO: this should potentially be a promise as the board updates
-  onCategoriesStateChange: (
-    categories: { category: string; active: boolean }[]
-  ) => void;
+  activeCategories: string[];
+  onCategoryStateChangeRequest: (name: string) => void;
+  onClearFilterRequests: () => void;
 }
 
 export type BoardDescriptionProps =

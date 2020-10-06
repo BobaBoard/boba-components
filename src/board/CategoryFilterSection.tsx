@@ -4,7 +4,6 @@ import classnames from "classnames";
 import Input, { InputStyle } from "../common/Input";
 import CategoryFilter from "../common/CategoryFilter";
 import Button from "../common/Button";
-import noop from "noop-ts";
 
 import debug from "debug";
 // @ts-ignore
@@ -12,9 +11,9 @@ const log = debug("bobaui:boards:CategoryFilterSection");
 
 const CategoryFilterSection: React.FC<CategoryFilterSectionProps> = (props) => {
   const [newCategory, setNewCategory] = React.useState("");
-  const [filteredCategory, setFilteredCategory] = React.useState<string | null>(
-    null
-  );
+
+  const allCategoriesActive =
+    props.editable || !props.categories.some((category) => !category.active);
   return (
     <div
       className={classnames("sidebar-section", { editable: props.editable })}
@@ -36,20 +35,12 @@ const CategoryFilterSection: React.FC<CategoryFilterSectionProps> = (props) => {
             <div className="title">{props.title}</div>
             <a
               className={classnames("clear-filters", {
-                visible: filteredCategory != null,
+                visible: !allCategoriesActive,
               })}
               href="#"
               onClick={(e) => {
                 e.preventDefault();
-                setFilteredCategory(null);
-                props.onCategoriesStateChange(
-                  props.categories.map((category) => {
-                    return {
-                      category,
-                      active: true,
-                    };
-                  }) || []
-                );
+                props.onClearFilterRequests();
               }}
             >
               Clear filters
@@ -66,12 +57,16 @@ const CategoryFilterSection: React.FC<CategoryFilterSectionProps> = (props) => {
         >
           <CategoryFilter
             categories={
-              props.categories?.map((c) => ({
-                name: c,
-                active: filteredCategory === null || filteredCategory === c,
-              })) || []
+              !props.editable
+                ? props.categories
+                : props.categories?.map((c) => ({ name: c, active: true }))
             }
-            onCategoryStateChange={noop}
+            onCategoryStateChangeRequest={(updatedCategory) => {
+              if (props.editable) {
+                return;
+              }
+              props.onCategoryStateChangeRequest(updatedCategory);
+            }}
           />
         </div>
         {props.editable && (
@@ -133,11 +128,10 @@ const CategoryFilterSection: React.FC<CategoryFilterSectionProps> = (props) => {
 
 export interface DisplayCategoryFilterSectionProps {
   title: string;
-  categories: string[];
+  categories: { name: string; active: boolean }[];
   editable?: false;
-  onCategoriesStateChange: (
-    categories: { category: string; active: boolean }[]
-  ) => void;
+  onCategoryStateChangeRequest: (name: string) => void;
+  onClearFilterRequests: () => void;
 }
 
 export interface EditableCategoryFilterSectionProps {

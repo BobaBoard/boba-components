@@ -27,6 +27,9 @@ const BoardSidebar: React.FC<BoardSidebarProps> = (props) => {
   );
   const [currentAccent, setCurrentAccent] = React.useState(props.accentColor);
   const [currentTagline, setCurrentTagline] = React.useState(props.tagline);
+  const [filteredCategory, setFilteredCategory] = React.useState<string | null>(
+    null
+  );
 
   React.useEffect(() => {
     setCurrentAccent(props.accentColor);
@@ -173,9 +176,47 @@ const BoardSidebar: React.FC<BoardSidebarProps> = (props) => {
         </h2>
         <BoardDescription
           descriptions={currentDescriptions || []}
-          onCategoriesStateChange={(categories) => {
-            !props.editing && props.onCategoriesStateChange(categories);
+          onClearFilterRequests={() => {
+            if (props.editing) {
+              return;
+            }
+            setFilteredCategory(null);
+
+            props.onCategoriesStateChange(
+              currentDescriptions.flatMap((description) =>
+                description.type == "category_filter"
+                  ? description.categories.map((category) => ({
+                      name: category,
+                      active: true,
+                    }))
+                  : []
+              )
+            );
           }}
+          onCategoryStateChangeRequest={(changingCategory) => {
+            if (props.editing) {
+              return;
+            }
+            setFilteredCategory(changingCategory);
+            props.onCategoriesStateChange(
+              currentDescriptions.flatMap((description) =>
+                description.type == "category_filter"
+                  ? description.categories.map((category) => ({
+                      name: category,
+                      active: category == changingCategory,
+                    }))
+                  : []
+              )
+            );
+          }}
+          activeCategories={currentDescriptions.flatMap((description) =>
+            description.type == "category_filter"
+              ? description.categories.filter(
+                  (category) =>
+                    filteredCategory == null || category == filteredCategory
+                )
+              : []
+          )}
           onDescriptionChange={(description) => {
             if (!editingSection) {
               return;
@@ -284,7 +325,7 @@ interface DisplayBoardSidebarProps extends BoardMetadataType {
   editing?: false;
   previewOptions?: { name: string; link: LinkWithAction }[];
   onCategoriesStateChange: (
-    categories: { category: string; active: boolean }[]
+    categories: { name: string; active: boolean }[]
   ) => void;
 }
 
