@@ -8,7 +8,6 @@ import Theme from "../theme/default";
 
 interface PopoverProps extends LibraryPopoverProps {
   background?: string;
-  zoom?: number;
   zIndex?: number;
   delay?: number;
   padding?: number;
@@ -83,7 +82,6 @@ const Popover: React.FC<PopoverProps> = (props) => {
             ? 10
             : props.padding}px;
           border-radius: ${Theme.BORDER_RADIUS_REGULAR};
-          zoom: ${props.zoom || 1};
           z-index: ${props.zIndex || DEFAULT_ZINDEX};
           position: relative;
           color: white;
