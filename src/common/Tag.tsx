@@ -13,9 +13,16 @@ export interface TagProps {
 }
 
 const Tag: React.FC<TagProps> = (props) => {
+  console.log(props.color);
+  console.log(!!props.color);
   return (
     <>
-      <div className={classnames("tag", { compact: !!props.compact })}>
+      <div
+        className={classnames("tag", {
+          compact: !!props.compact,
+          text: !props.color,
+        })}
+      >
         <span className="hashtag">{props.symbol || "#"}</span>
         {props.name}
       </div>
@@ -36,11 +43,18 @@ const Tag: React.FC<TagProps> = (props) => {
           word-break: break-word;
         }
         .tag.compact {
-          border: 0px;
+          border: 2px ${props.color} solid;
           font-size: smaller;
-          padding: 5px 10px;
+          padding: 2px 8px;
           border-radius: 15px;
           font-weight: normal;
+        }
+        .tag.compact {
+          margin-bottom: 1px;
+        }
+        .tag.text {
+          border: 0px;
+          padding: 3px 0px;
         }
       `}</style>
     </>

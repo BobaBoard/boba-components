@@ -43,10 +43,12 @@ export const DisplayTags = () => {
     { name: "tag2" },
     { name: "a long tag" },
     { name: "a very very very very very long tag with many words" },
+    { name: "short again!" },
     {
       name:
         "a tag with many words that is actually more than one single line long used to check words splitting",
     },
+    { name: "short again x 2!" },
     {
       name:
         "JugemuJugemuGokonoSurikireKaijarisuigyonoSuigyomatsuUnraimatsuFuraimatsuKuNeruTokoroniSumuTokoroYaburaKojinoBuraKojiPaipopaipoPaiponoShuringanShuringannoGurindaiGurindainoPonpokopinoPonpokonanoChokyumeinoChosuke",

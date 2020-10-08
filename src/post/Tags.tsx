@@ -82,6 +82,12 @@ const TagsInput: React.FC<TagsInputProps> = ({
                 key={index}
                 className={classnames("tag-container", {
                   deleting: deleteState && index == tags.length - 1,
+                  // TODO: listing all things this isn't for condition, bad.
+                  whisper: !(
+                    tag.category ||
+                    tag.contentWarning ||
+                    tag.indexable
+                  ),
                 })}
               >
                 {TagsFactory.create(tag)}
@@ -247,10 +253,10 @@ const TagsInput: React.FC<TagsInputProps> = ({
           cursor: pointer;
         }
         .tag-container {
-          margin-right: 3px;
-          display: flex;
+          margin-right: 5px;
           align-items: center;
           word-break: break-word;
+          display: inline-flex;
         }
       `}</style>
     </>

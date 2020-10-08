@@ -29,10 +29,8 @@ const CateogyFilter: React.FC<CateogyFilterProps> = (props) => {
         .category {
           flex-shrink: none;
           margin-bottom: 5px;
+          margin-right: 5px;
           max-width: 500px;
-        }
-        .category + .category {
-          margin-left: 5px;
         }
         .category.disabled {
           opacity: 0.7;
