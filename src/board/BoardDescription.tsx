@@ -147,7 +147,11 @@ const EditableBoardDescriptions: React.FC<EditableBoardDescriptionProps> = (
 
 const BoardDescription: React.FC<BoardDescriptionProps> = (props) => {
   return (
-    <div className={classnames("sections-container")}>
+    <div
+      className={classnames("sections-container", {
+        editing: !!props.editing,
+      })}
+    >
       {!props.editing ? (
         props.descriptions.map((description) => (
           <div className={classnames("section")}>
@@ -158,6 +162,9 @@ const BoardDescription: React.FC<BoardDescriptionProps> = (props) => {
         <EditableBoardDescriptions {...props} />
       )}
       <style jsx>{`
+        .sections-container:not(.editing) {
+          margin-top: 30px;
+        }
         .section {
           margin-top: 10px;
         }
