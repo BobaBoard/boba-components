@@ -36,6 +36,12 @@ export const EditableWithFooter = () => (
     }}
     centered
     minimizable
+    suggestedCategories={[
+      "dank memes",
+      "hot yaois",
+      "pls.... help....",
+      "off topic",
+    ]}
   />
 );
 

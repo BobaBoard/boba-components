@@ -55,11 +55,14 @@ const TagsInput: React.FC<TagsInputProps> = ({
   editable,
   onSubmit,
   accentColor,
+  suggestedCategories,
 }) => {
   const [deleteState, setDeleteState] = React.useState(false);
   const [indexable, setIndexableState] = React.useState(false);
   const [category, setCategoryState] = React.useState(false);
   const [contentWarning, setCwState] = React.useState(false);
+  const [isTypingTag, setIsTypingTag] = React.useState(false);
+  const [isFocused, setFocused] = React.useState(false);
   const spanRef = React.useRef<HTMLSpanElement>(null);
 
   React.useEffect(() => {
@@ -75,6 +78,48 @@ const TagsInput: React.FC<TagsInputProps> = ({
   return (
     <>
       <div className="container">
+        <div
+          className={classnames("suggestions-container how-to", {
+            visible: isFocused && tags.length == 0 && !isTypingTag,
+          })}
+        >
+          Start a tag with <strong>!</strong> to make it searchable,{" "}
+          <strong>+</strong> for a filterable category, or <strong>cw</strong>{" "}
+          for content warnings. Tags are separated by new lines.
+        </div>
+        <div
+          className={classnames(
+            "suggestions-container categories-suggestions",
+            {
+              visible:
+                isFocused &&
+                suggestedCategories &&
+                suggestedCategories.length > 0 &&
+                category,
+            }
+          )}
+        >
+          {suggestedCategories?.map((category, index) => (
+            <div
+              key={index}
+              className={classnames("tag-container")}
+              // We use mouse down rather than on click because this runs
+              // before the blur event.
+              onMouseDown={(e) => {
+                onTagsAdd?.({
+                  name: category,
+                  category: true,
+                });
+                e.preventDefault();
+              }}
+            >
+              {TagsFactory.create({
+                name: category,
+                category: true,
+              })}
+            </div>
+          ))}
+        </div>
         {!!tags.length && (
           <>
             {tags.map((tag, index) => (
@@ -175,6 +220,7 @@ const TagsInput: React.FC<TagsInputProps> = ({
               }
             }}
             onFocus={(e) => {
+              setFocused(true);
               const value = (e.target as HTMLSpanElement).textContent;
               if (value === ADD_A_TAG_STRING) {
                 log('Focused: Removing "add a tag..."');
@@ -186,6 +232,7 @@ const TagsInput: React.FC<TagsInputProps> = ({
               }
             }}
             onBlur={(e) => {
+              setFocused(false);
               if (!spanRef.current) {
                 return;
               }
@@ -199,6 +246,7 @@ const TagsInput: React.FC<TagsInputProps> = ({
               setCategoryState(false);
               setCwState(false);
               setDeleteState(false);
+              setIsTypingTag(false);
             }}
             onKeyUp={(e) => {
               const target = e.target as HTMLSpanElement;
@@ -211,6 +259,9 @@ const TagsInput: React.FC<TagsInputProps> = ({
                 target.style.width = "100%";
                 target.style.flex = "auto";
               }
+              const value = (e.target as HTMLSpanElement).textContent || "";
+              setIsTypingTag(value.length > 0);
+              log(`input value: ${value}`);
             }}
             contentEditable={true}
           />
@@ -258,6 +309,27 @@ const TagsInput: React.FC<TagsInputProps> = ({
           word-break: break-word;
           display: inline-flex;
         }
+        .suggestions-container {
+          position: absolute;
+          top: 0;
+          right: 0;
+          left: 0;
+          transform: translateY(-100%);
+          padding: 10px 15px;
+          border: 1px solid #d2d2d2;
+          border-radius: 10px 10px 0 0;
+          background-color: white;
+          font-size: 14px;
+          display: none;
+        }
+        .suggestions-container.visible {
+          display: block;
+        }
+        .categories-suggestions .tag-container {
+          margin-top: 3px;
+          margin-bottom: 3px;
+          margin-right: 10px;
+        }
       `}</style>
     </>
   );
@@ -272,4 +344,5 @@ export interface TagsInputProps {
   editable?: boolean;
   onSubmit?: (newTag?: TagsType) => void;
   accentColor?: string;
+  suggestedCategories?: string[];
 }

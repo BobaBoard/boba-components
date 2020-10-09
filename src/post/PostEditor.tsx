@@ -157,6 +157,7 @@ const PostEditor = React.forwardRef<{ focus: () => void }, PostEditorProps>(
                     }
                   }}
                   accentColor={props.accentColor}
+                  suggestedCategories={props.suggestedCategories}
                 />
                 <div
                   className={classnames("footer-actions", {
@@ -356,4 +357,5 @@ export interface PostEditorProps {
   }[];
   centered?: boolean;
   accentColor?: string;
+  suggestedCategories?: string[];
 }

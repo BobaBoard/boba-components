@@ -17,13 +17,22 @@ export const EditableTags = () => {
     { name: "tag1234561789x2" },
   ]);
   return (
-    <div style={{ width: "500px", backgroundColor: "white" }}>
+    <div
+      style={{ width: "500px", backgroundColor: "white", marginTop: "300px" }}
+    >
       <Tags
         tags={tags}
         onTagsAdd={(tag) => setTags([...tags, tag])}
         onTagsDelete={(tag) => {
           setTags(tags.filter((currentTag) => currentTag != tag));
         }}
+        suggestedCategories={[
+          "sexy trains",
+          "dank memes",
+          "hot yaoiz",
+          "off topic",
+          "best fanfictions",
+        ]}
         editable
         onSubmit={() => console.log("submit!!")}
       />
