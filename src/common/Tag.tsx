@@ -33,28 +33,19 @@ const Tag: React.FC<TagProps> = (props) => {
         }
         .tag {
           display: inline-block;
-          padding: 5px 10px;
-          border: 3px ${props.accentColor || "black"} solid;
-          border-radius: 10px;
+          padding: 5px 8px;
+          border-radius: 100px;
           background-color: ${props.color};
-          font-weight: bold;
           color: ${props.accentColor || "black"};
           overflow-wrap: break-word;
           word-break: break-word;
         }
         .tag.compact {
-          border: 2px ${props.color} solid;
           font-size: smaller;
-          padding: 2px 8px;
-          border-radius: 15px;
-          font-weight: normal;
-        }
-        .tag.compact {
-          margin-bottom: 1px;
         }
         .tag.text {
-          border: 0px;
-          padding: 3px 0px;
+          padding-left: 2px;
+          padding-right: 2px;
         }
       `}</style>
     </>
@@ -67,9 +58,9 @@ export const INDEXABLE_PREFIX = "!";
 export const CATEGORY_PREFIX = "+";
 export const CONTENT_WARNING_PREFIX = "cw:";
 
-export const INDEXABLE_TAG_COLOR = Theme.DEFAULT_ACCENT_COLOR;
-export const CATEGORY_TAG_COLOR = "#2ea5ff";
-export const CW_TAG_COLOR = "#fbdd18";
+export const INDEXABLE_TAG_COLOR = "#FF5A13";
+export const CATEGORY_TAG_COLOR = "#138EFF";
+export const CW_TAG_COLOR = "#FFC700";
 
 const getDataForTagType = (tag: TagsType) => {
   if (tag.indexable) {
@@ -165,11 +156,13 @@ export class TagsFactory {
       return {
         name: tag.substring(INDEXABLE_PREFIX.length),
         color: accentColor || INDEXABLE_TAG_COLOR,
+        accentColor: "white",
         indexable: true,
       };
     } else if (tag.startsWith(CATEGORY_PREFIX)) {
       return {
         name: tag.substring(CATEGORY_PREFIX.length),
+        accentColor: "white",
         category: true,
       };
     } else if (tag.startsWith(CONTENT_WARNING_PREFIX)) {
