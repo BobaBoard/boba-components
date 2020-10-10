@@ -43,6 +43,10 @@ const isTagValid = (tag: string) => {
   return UNSUBMITTABLE_TAGS.indexOf(tag) === -1;
 };
 
+const isWhisperTag = (tag: TagsType) => {
+  return !(tag.category || tag.contentWarning || tag.indexable);
+};
+
 const resetInputState = (span: HTMLSpanElement, forceAdd: boolean = false) => {
   const hasFocus = span == document.activeElement;
   log(`Resetting input element.`);
@@ -50,6 +54,73 @@ const resetInputState = (span: HTMLSpanElement, forceAdd: boolean = false) => {
   span.textContent = !forceAdd && hasFocus ? "" : ADD_A_TAG_STRING;
   span.style.width = "auto";
   span.style.flex = "1";
+};
+
+const TagsDisplay: React.FC<TagsInputProps & { deleting: boolean }> = ({
+  tags,
+  editable,
+  deleting,
+}) => {
+  const whisperTags: TagsType[] = [];
+  const specialTags: TagsType[] = [];
+  tags.forEach((tag) => {
+    isWhisperTag(tag) ? whisperTags.push(tag) : specialTags.push(tag);
+  });
+
+  const maybeWrapInDiv = (component: JSX.Element[], wrapClassName: string) => {
+    return editable ? (
+      component
+    ) : (
+      <div className={wrapClassName}>{component}</div>
+    );
+  };
+
+  return (
+    <>
+      {!!specialTags.length &&
+        maybeWrapInDiv(
+          specialTags.map((tag, index) => (
+            <div
+              key={index}
+              className={classnames("tag-container", {
+                deleting: deleting && index == tags.length - 1,
+                // TODO: listing all things this isn't for condition, bad.
+                whisper: !(tag.category || tag.contentWarning || tag.indexable),
+              })}
+            >
+              {TagsFactory.create(tag)}
+            </div>
+          )),
+          "special-tags"
+        )}
+      {!!whisperTags.length &&
+        maybeWrapInDiv(
+          whisperTags.map((tag, index) => (
+            <div
+              key={index}
+              className={classnames("tag-container", {
+                deleting:
+                  deleting && specialTags.length + index == tags.length - 1,
+                // TODO: listing all things this isn't for condition, bad.
+                whisper: isWhisperTag(tag),
+              })}
+            >
+              {TagsFactory.create(tag)}
+            </div>
+          )),
+          "whisper-tags"
+        )}
+      <style jsx>{`
+        .tag-container {
+          margin: 5px 5px 0 0;
+          align-items: center;
+          word-break: break-word;
+          display: inline-flex;
+          position: relative;
+        }
+      `}</style>
+    </>
+  );
 };
 
 const TagsInput: React.FC<TagsInputProps> = ({
@@ -126,26 +197,7 @@ const TagsInput: React.FC<TagsInputProps> = ({
             </div>
           ))}
         </div>
-        {!!tags.length && (
-          <>
-            {tags.map((tag, index) => (
-              <div
-                key={index}
-                className={classnames("tag-container", {
-                  deleting: deleteState && index == tags.length - 1,
-                  // TODO: listing all things this isn't for condition, bad.
-                  whisper: !(
-                    tag.category ||
-                    tag.contentWarning ||
-                    tag.indexable
-                  ),
-                })}
-              >
-                {TagsFactory.create(tag)}
-              </div>
-            ))}
-          </>
-        )}
+        <TagsDisplay editable={editable} tags={tags} deleting={deleteState} />
         {!!editable && (
           <span
             className={classnames("tag-input", {
