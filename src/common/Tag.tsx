@@ -1,6 +1,5 @@
 import React from "react";
 import classnames from "classnames";
-import Theme from "../theme/default";
 import { TagsType } from "../types";
 
 export interface TagProps {
@@ -67,11 +66,13 @@ const getDataForTagType = (tag: TagsType) => {
     return {
       symbol: INDEXABLE_PREFIX,
       color: INDEXABLE_TAG_COLOR,
+      accentColor: "white",
     };
   } else if (tag.category) {
     return {
       symbol: CATEGORY_PREFIX,
       color: CATEGORY_TAG_COLOR,
+      accentColor: "white",
     };
   } else if (tag.contentWarning) {
     return {
@@ -151,6 +152,7 @@ export class TagsFactory {
     ];
   }
 
+  // Turn tag type into a enum and refactor everything, honestly.
   static getTypeFromString(tag: string, accentColor?: string): TagsType {
     if (tag.startsWith(INDEXABLE_PREFIX)) {
       return {

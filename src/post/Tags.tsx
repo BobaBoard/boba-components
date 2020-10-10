@@ -43,11 +43,11 @@ const isTagValid = (tag: string) => {
   return UNSUBMITTABLE_TAGS.indexOf(tag) === -1;
 };
 
-const resetInputState = (span: HTMLSpanElement) => {
+const resetInputState = (span: HTMLSpanElement, forceAdd: boolean = false) => {
   const hasFocus = span == document.activeElement;
   log(`Resetting input element.`);
   log(`Input element focused: ${hasFocus}`);
-  span.textContent = hasFocus ? "" : ADD_A_TAG_STRING;
+  span.textContent = !forceAdd && hasFocus ? "" : ADD_A_TAG_STRING;
   span.style.width = "auto";
   span.style.flex = "1";
 };
@@ -112,6 +112,7 @@ const TagsInput: React.FC<TagsInputProps> = ({
               onMouseDown={(e) => {
                 onTagsAdd?.({
                   name: category,
+                  accentColor: "white",
                   category: true,
                 });
                 e.preventDefault();
@@ -119,6 +120,7 @@ const TagsInput: React.FC<TagsInputProps> = ({
             >
               {TagsFactory.create({
                 name: category,
+                accentColor: "white",
                 category: true,
               })}
             </div>
@@ -245,7 +247,7 @@ const TagsInput: React.FC<TagsInputProps> = ({
               if (isSubmittable) {
                 onTagsAdd?.(TagsFactory.getTypeFromString(currentTag));
               }
-              resetInputState(spanRef.current);
+              resetInputState(spanRef.current, true);
               setIndexableState(false);
               setCategoryState(false);
               setCwState(false);
@@ -345,6 +347,9 @@ const TagsInput: React.FC<TagsInputProps> = ({
           margin-top: 3px;
           margin-bottom: 3px;
           margin-right: 10px;
+        }
+        .categories-suggestions .tag-container:hover {
+          cursor: pointer;
         }
       `}</style>
     </>
