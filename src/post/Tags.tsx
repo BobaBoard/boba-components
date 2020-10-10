@@ -67,6 +67,10 @@ const TagsDisplay: React.FC<TagsInputProps & { deleting: boolean }> = ({
     isWhisperTag(tag) ? whisperTags.push(tag) : specialTags.push(tag);
   });
 
+  // We cannot just wrap in a div/span because making things in different divs
+  // flow inline with a with a container that is display:flex seems to be impossible.
+  // Removing the display:flex from the container makes it impossible to keep the tag
+  // input following the text on its line while expanding to fill.
   const maybeWrapInDiv = (component: JSX.Element[], wrapClassName: string) => {
     return editable ? (
       component
