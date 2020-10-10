@@ -81,6 +81,21 @@ const PostEditor = React.forwardRef<{ focus: () => void }, PostEditorProps>(
     const [selectedIdentity, setSelectedIdentity] = React.useState<
       string | undefined
     >();
+    const [suggestedCategories, setSuggestedCategories] = React.useState(
+      props.suggestedCategories
+    );
+
+    React.useEffect(() => {
+      const currentCategories = tags.filter((tag) => tag.category);
+      setSuggestedCategories(
+        props.suggestedCategories?.filter(
+          (suggestedCategory) =>
+            !currentCategories.some(
+              (category) => category.name == suggestedCategory
+            )
+        )
+      );
+    }, [props.suggestedCategories, tags]);
 
     React.useImperativeHandle(ref, () => ({
       focus: () => {
@@ -157,7 +172,7 @@ const PostEditor = React.forwardRef<{ focus: () => void }, PostEditorProps>(
                     }
                   }}
                   accentColor={props.accentColor}
-                  suggestedCategories={props.suggestedCategories}
+                  suggestedCategories={suggestedCategories}
                 />
                 <div
                   className={classnames("footer-actions", {
