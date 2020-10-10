@@ -13,12 +13,16 @@ import classnames from "classnames";
 import debug from "debug";
 import { TagsType } from "../types";
 import DefaultTheme from "../theme/default";
+import color from "color";
 
 const log = debug("bobaui:tagsinput-log");
 
 const TAG_LENGTH_LIMIT = 200;
 const ADD_A_TAG_STRING = "Add a tag...";
-const HEIGHT_TRIGGER = 30;
+// This is a horrible hack. If the higher of the input span grows
+// beyond this number of pixel, we "detect" a two-line input and
+// bring the tag input to a new line.
+const HEIGHT_TRIGGER = 40;
 const UNSUBMITTABLE_TAGS = [
   INDEXABLE_PREFIX,
   CATEGORY_PREFIX,
@@ -268,46 +272,57 @@ const TagsInput: React.FC<TagsInputProps> = ({
         )}
       </div>
       <style jsx>{`
+        .tag-input {
+          margin: 5px 0 0 0;
+          flex: 1;
+          word-break: normal;
+          min-width: 100px;
+          padding: 5px 8px;
+          font-size: smaller;
+          border-radius: 8px;
+          color: ${color(DefaultTheme.LAYOUT_BOARD_BACKGROUND_COLOR).fade(0.5)};
+        }
+        .tag-input:focus {
+          outline: none;
+          color: ${DefaultTheme.LAYOUT_BOARD_BACKGROUND_COLOR};
+          box-shadow: 0 0 0 1px rgba(0, 0, 0, 0.3), 0 0 0 4px rgba(0, 0, 0, 0.1);
+        }
         .tag-input.indexable:focus {
-          outline: ${accentColor || INDEXABLE_TAG_COLOR} solid 2px;
-          border-color: ${accentColor || INDEXABLE_TAG_COLOR};
+          box-shadow: 0 0 0 1px
+              ${color(accentColor || INDEXABLE_TAG_COLOR).fade(0)},
+            0 0 0 4px ${color(accentColor || INDEXABLE_TAG_COLOR).fade(0.7)};
         }
         .tag-input.content-warning:focus {
-          outline: ${CW_TAG_COLOR} solid 2px;
-          border-color: ${CW_TAG_COLOR};
+          box-shadow: 0 0 0 1px ${color(accentColor || CW_TAG_COLOR).fade(0)},
+            0 0 0 4px ${color(accentColor || CW_TAG_COLOR).fade(0.7)};
         }
         .tag-input.category:focus {
-          outline: ${CATEGORY_TAG_COLOR} solid 2px;
-          border-color: ${CATEGORY_TAG_COLOR};
+          box-shadow: 0 0 0 1px
+              ${color(accentColor || CATEGORY_TAG_COLOR).fade(0)},
+            0 0 0 4px ${color(accentColor || CATEGORY_TAG_COLOR).fade(0.7)};
         }
-        .deleting :global(*) {
-          color: red !important;
+        .deleting > :global(*)::after {
+          position: absolute;
+          right: 0;
+          bottom: -5px;
+          left: 0;
+          content: "";
+          height: 3px;
+          background: red;
         }
         .container {
-          padding: 5px 0;
+          padding-bottom: 5px;
           display: flex;
           flex-wrap: wrap;
           position: relative;
           box-sizing: border-box;
         }
-        .tag-input {
-          flex: 1;
-          word-break: normal;
-          min-width: 100px;
-          padding: 5px;
-          padding-left: 2px;
-          margin: 2px 2px;
-          border-left: 5px solid transparent;
-          color: ${DefaultTheme.LAYOUT_BOARD_BACKGROUND_COLOR};
-        }
-        .tag-container:hover {
-          cursor: pointer;
-        }
         .tag-container {
-          margin-right: 5px;
+          margin: 5px 5px 0 0;
           align-items: center;
           word-break: break-word;
           display: inline-flex;
+          position: relative;
         }
         .suggestions-container {
           position: absolute;
@@ -316,11 +331,12 @@ const TagsInput: React.FC<TagsInputProps> = ({
           left: 0;
           transform: translateY(-100%);
           padding: 10px 15px;
-          border: 1px solid #d2d2d2;
+          box-shadow: 0 0 0 1px #d2d2d2;
           border-radius: 10px 10px 0 0;
           background-color: white;
           font-size: 14px;
           display: none;
+          color: rgb(87, 87, 87);
         }
         .suggestions-container.visible {
           display: block;
