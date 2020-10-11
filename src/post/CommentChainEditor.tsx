@@ -131,9 +131,9 @@ const CommentChainEditor = React.forwardRef<
             onTextChange={(text) => {
               comment.text = text;
             }}
-            onCancel={() => {
-              props.onCancel();
-            }}
+            onCancel={() =>
+              props.onCancel(chainComments.every((comment) => comment.empty))
+            }
             onCanSubmitChange={(canSubmit) => {
               console.log(canSubmit);
               if (comment.canSubmit != canSubmit) {
@@ -249,7 +249,7 @@ const CommentChainEditor = React.forwardRef<
 });
 
 export interface CommentChainEditorProps {
-  onCancel: () => void;
+  onCancel: (empty: boolean) => void;
   onSubmit: (text: string[]) => void;
   secretIdentity?: {
     avatar: string;

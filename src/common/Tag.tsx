@@ -12,8 +12,6 @@ export interface TagProps {
 }
 
 const Tag: React.FC<TagProps> = (props) => {
-  console.log(props.color);
-  console.log(!!props.color);
   return (
     <>
       <div

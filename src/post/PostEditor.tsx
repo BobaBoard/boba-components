@@ -214,7 +214,7 @@ const PostEditor = React.forwardRef<{ focus: () => void }, PostEditorProps>(
                         }))
                       )
                     }
-                    onCancel={props.onCancel}
+                    onCancel={() => props.onCancel(isEmpty)}
                     submittable={!props.loading && !isEmpty}
                     cancellable={!props.loading}
                   />
@@ -363,7 +363,7 @@ export interface PostEditorProps {
       identityId?: string;
     }>
   ) => void;
-  onCancel: () => void;
+  onCancel: (empty: boolean) => void;
   onMinimize?: () => void;
   minimizable?: boolean;
   viewOptions?: {
