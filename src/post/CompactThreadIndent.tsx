@@ -96,6 +96,7 @@ const CompactThreadIndent: React.FC<CompactThreadIndentProps> = (props) => {
             innerLevelBounds.map((bound) => {
               return (
                 <div
+                  key={`${bound.top}_${bound.left}`}
                   className="thread-line-inner"
                   style={{
                     top: bound.top - 6,
