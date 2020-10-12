@@ -25,7 +25,7 @@ function getBackgroundDivs(
           position: "absolute",
           top: textRects[textRect].top - containerRect.top + 7,
           left: textRects[textRect].left - containerRect.left - 15,
-          width: textRects[textRect].width + 30,
+          right: -15,
           height: textRects[textRect].height - 10,
           transform: `rotate(${rotation + adjustement}deg)`,
         }}
@@ -84,7 +84,6 @@ const HighlightedText: React.FC<HighlightedTextProps> = (props) => {
         {React.cloneElement(props.children, {
           style: {
             ...props.children.props.style,
-            display: "inline",
             zIndex: 2,
             position: "relative",
           },

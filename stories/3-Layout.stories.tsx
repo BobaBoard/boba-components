@@ -155,7 +155,8 @@ export const SimpleLayout = LayoutTemplate.bind({});
 SimpleLayout.args = {
   mainContent: <div>This is the main content!</div>,
   sideMenuContent: <div>Get a load of this menu content!</div>,
-  title: "!gore",
+  title: "!aReallyLongOne",
+  headerAccent: "purple",
   logoLink: {
     href: "https://www.youtube.com/watch?v=dQw4w9WgXcQ",
     onClick: action("logoClick"),

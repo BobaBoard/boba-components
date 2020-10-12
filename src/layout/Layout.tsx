@@ -343,12 +343,19 @@ const Layout = React.forwardRef<{ closeSideMenu: () => void }, LayoutProps>(
               font-weight: bold;
               cursor: pointer;
               text-decoration: none;
+              min-width: 0;
             }
             .title.desktop-hidden {
               display: none;
             }
             .title-text {
               outline: none;
+              display: block;
+              z-index: 2;
+              position: relative;
+              white-space: nowrap;
+              overflow: hidden;
+              text-overflow: ellipsis;
             }
             .layout-body {
               flex-shrink: 0;
