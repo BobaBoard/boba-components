@@ -25,7 +25,7 @@ function getBackgroundDivs(
           position: "absolute",
           top: textRects[textRect].top - containerRect.top + 7,
           left: textRects[textRect].left - containerRect.left - 15,
-          right: -15,
+          width: textRects[textRect].width + 30,
           height: textRects[textRect].height - 10,
           transform: `rotate(${rotation + adjustement}deg)`,
         }}
