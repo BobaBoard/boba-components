@@ -7,6 +7,7 @@ const CateogyFilter: React.FC<CateogyFilterProps> = (props) => {
     <div className="filter-container">
       {props.categories.map((category) => (
         <div
+          key={category.name}
           className={classnames("category", {
             disabled: !category.active,
           })}
