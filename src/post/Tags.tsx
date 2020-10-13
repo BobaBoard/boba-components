@@ -156,7 +156,7 @@ const TagsInput: React.FC<TagsInputProps> = ({
 
   return (
     <>
-      <div className="container">
+      <div className={classnames("container", {editable})}>
         <div
           className={classnames("suggestions-container how-to", {
             visible: isFocused && tags.length == 0 && !isTypingTag,
@@ -358,6 +358,9 @@ const TagsInput: React.FC<TagsInputProps> = ({
           box-shadow: 0 0 0 1px
               ${color(accentColor || CATEGORY_TAG_COLOR).fade(0)},
             0 0 0 4px ${color(accentColor || CATEGORY_TAG_COLOR).fade(0.7)};
+        }
+        .editable :global(.tag.text) {
+          padding: 5px 0;
         }
         .deleting > :global(*)::after {
           position: absolute;

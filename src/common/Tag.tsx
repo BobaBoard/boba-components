@@ -41,8 +41,7 @@ const Tag: React.FC<TagProps> = (props) => {
           font-size: smaller;
         }
         .tag.text {
-          padding-left: 2px;
-          padding-right: 2px;
+          padding: 0;
         }
       `}</style>
     </>
