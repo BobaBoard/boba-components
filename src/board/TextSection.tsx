@@ -55,20 +55,34 @@ const TextSection: React.FC<TextSectionProps> = (props) => {
         .title {
           font-weight: bold;
           font-size: 16px;
-          margin: 5px 0;
+          margin-bottom: 10px;
         }
         .sidebar-section {
           color: white;
+          -webkit-font-smoothing: antialiased;
+          -moz-osx-font-smoothing: grayscale;
         }
         .content-editor.editing {
           border: 1px solid rgba(255, 255, 255, 0.3);
           min-height: 300px;
         }
         .content-editor {
-          background-color: #2f2f30;
+          background-color: #2F2F30;
           border-radius: 8px;
-          padding: 10px;
+          padding: 10px 15px 15px;
           --text-color: white;
+        }
+
+        :global(.ql-editor > * + *) {
+          margin: 10px 0 0 0!important;
+        }
+
+        :global(.ql-editor > ul, .ql-editor > ol) {
+          padding: 0;
+        }
+
+        :global(.ql-editor > ul > li, .ql-editor > ol > li) {
+          padding-left: 1em;
         }
       `}</style>
     </div>

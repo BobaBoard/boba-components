@@ -14,7 +14,7 @@ import { action } from "@storybook/addon-actions";
 const LegacyBoardSidebarPreviewTemplate = (args: any) => {
   const [color, setColor] = React.useState("#f96680");
   return (
-    <div style={{ maxWidth: "500px", backgroundColor: "black" }}>
+    <div style={{ maxWidth: "500px", backgroundColor: "#1C1C1C" }}>
       <LegacyBoardSidebar {...args} accentColor={color} />
       <Button onClick={() => setColor("#f96680")}>Pink</Button>
       <Button onClick={() => setColor("#24d282")}>Green</Button>
@@ -119,7 +119,7 @@ BoardSidebarPreview.args = {
     },
     {
       id: 5,
-      index: 2,
+      index: 3,
       title: "Gore Categories2",
       description: null,
       type: "category_filter",
@@ -127,9 +127,9 @@ BoardSidebarPreview.args = {
     },
     {
       id: 2,
-      index: 3,
+      index: 2,
       title: "A test",
-      description: '[{"insert": "pls help"}]',
+      description: '[{"insert":"Hello!\\nThis is a board description. In this description we have:\\nRule 1."},{"attributes":{"list":"bullet"},"insert":"\\n"},{"insert":"Rule 2, which is very "},{"attributes":{"bold":true},"insert":"important"},{"insert":"."},{"attributes":{"list":"bullet"},"insert":"\\n"},{"insert":"Rule 3, which has "},{"attributes":{"link":"https://www.youtube.com/watch?v=oHg5SJYRHA0"},"insert":"a link"},{"insert":"!"},{"attributes":{"list":"bullet"},"insert":"\\n"},{"insert":"Have fun and love each other.\\n"},{"insert":{"block-image":{"src":"https://media.tenor.com/images/fad319336910209546dc6ee1fe6cab5a/tenor.gif","spoilers":false,"width":300,"height":224}}},{"insert":"\\n"}]',
       type: "text",
     },
   ],

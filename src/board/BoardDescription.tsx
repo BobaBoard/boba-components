@@ -137,9 +137,6 @@ const EditableBoardDescriptions: React.FC<EditableBoardDescriptionProps> = (
         .edit-container:not(.single-description) .options-delete {
           display: none;
         }
-        .section {
-          margin-top: 10px;
-        }
       `}</style>
     </div>
   );
@@ -162,11 +159,8 @@ const BoardDescription: React.FC<BoardDescriptionProps> = (props) => {
         <EditableBoardDescriptions {...props} />
       )}
       <style jsx>{`
-        .sections-container:not(.editing) {
-          margin-top: 30px;
-        }
-        .section {
-          margin-top: 10px;
+        .sections-container:not(.editing), .section {
+          margin-top: 20px;
         }
       `}</style>
     </div>

@@ -98,7 +98,7 @@ const CategoryFilterSection: React.FC<CategoryFilterSectionProps> = (props) => {
         .title {
           font-weight: bold;
           font-size: 16px;
-          margin: 5px 0;
+          margin-bottom: 10px;
         }
         .title-container {
           display: flex;
