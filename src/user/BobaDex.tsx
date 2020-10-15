@@ -3,10 +3,9 @@ import React from "react";
 import classnames from "classnames";
 
 const BobaDex: React.FC<BobaDexProps> = (props) => {
-  // This is the function body
   const identityCircles = [];
 
-  for (var i = 0; i < props.totalIdentities; i++) {
+  for (let i = 1; i <= props.totalIdentities; i++) {
     const matchingID = props.revealedIdentities.find((el) => el.index == i);
 
     identityCircles.push(
@@ -20,7 +19,7 @@ const BobaDex: React.FC<BobaDexProps> = (props) => {
           </>
         ) : (
           <figure className="portrait">
-            <div className="number">{i + 1}</div>
+            <div className="number">{i}</div>
           </figure>
         )}
         <style jsx>{`
