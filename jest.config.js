@@ -1,4 +1,4 @@
-module.exports = {
+export default {
   // The root of your source code, typically /src
   // `<rootDir>` is a token Jest substitutes
   roots: ["<rootDir>"],
