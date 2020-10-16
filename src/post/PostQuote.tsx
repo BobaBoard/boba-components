@@ -1,7 +1,5 @@
 import React from "react";
-// @ts-ignore
 import Editor from "@bobaboard/boba-editor";
-import noop from "noop-ts";
 import Theme from "../theme/default";
 import Avatar from "./Avatar";
 
@@ -9,12 +7,7 @@ const PostQuote: React.FC<PostQuoteProps> = (props) => {
   return (
     <div className="quote">
       <div className="quote-editor">
-        <Editor
-          initialText={JSON.parse(props.text)}
-          editable={false}
-          onSubmit={noop}
-          onTextChange={noop}
-        />
+        <Editor initialText={JSON.parse(props.text)} editable={false} />
         <div className="avatar-container">
           <Avatar
             secretIdentity={props.secretIdentity}

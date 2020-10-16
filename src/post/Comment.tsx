@@ -78,9 +78,6 @@ const Comment = React.forwardRef<CommentHandler, CommentProps>((props, ref) => {
             key={props.id + "_editor"}
             editable={false}
             initialText={JSON.parse(props.initialText)}
-            onTextChange={(text: any) => {}}
-            onCharactersChange={(characters: number) => {}}
-            onSubmit={() => {}}
             singleLine={true}
             showTooltip={false}
           />

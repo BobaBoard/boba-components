@@ -7,7 +7,6 @@ import Tags from "./Tags";
 import DropdownListMenu from "../common/DropdownListMenu";
 import Card from "../common/Card";
 import Reaction from "../common/Reaction";
-// @ts-ignore
 import Editor from "@bobaboard/boba-editor";
 import classnames from "classnames";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
@@ -42,7 +41,6 @@ export const getPostWidth = (size?: PostSizes) => {
 
 const COLLAPSED_HEIGHT = 150;
 
-const noop = () => {};
 const MemoizedHeader = React.memo(Header);
 const MemoizedFooter = React.memo(Footer);
 const MemoizedEditor = React.memo(Editor);
@@ -151,8 +149,6 @@ const Post = React.forwardRef<PostHandler, PostProps>((props, ref) => {
               <MemoizedEditor
                 initialText={JSON.parse(props.text)}
                 editable={false}
-                onSubmit={noop}
-                onTextChange={noop}
                 onEmbedLoaded={props.onEmbedLoaded}
               />
             </div>

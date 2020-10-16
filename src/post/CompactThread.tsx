@@ -33,12 +33,7 @@ const PostContent: React.FC<
           />
         </div>
       )}
-      <Editor
-        initialText={JSON.parse(props.text)}
-        editable={false}
-        onSubmit={() => {}}
-        onTextChange={() => {}}
-      />
+      <Editor initialText={JSON.parse(props.text)} editable={false} />
       {props.showFooter !== false && (
         <div className="footer">
           {/* <Footer
