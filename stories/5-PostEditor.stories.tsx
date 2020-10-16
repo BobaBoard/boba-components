@@ -28,11 +28,13 @@ export const EditableWithFooter = () => (
   <PostEditor
     secretIdentity={{ name: "Tuxedo Mask", avatar: `/${tuxedoAvatar}` }}
     userIdentity={{ name: "SexyDaddy69", avatar: `/${mamoruAvatar}` }}
-    onSubmit={action("submit")}
     onCancel={action("cancel")}
-    onImageUploadRequest={async () => {
-      action("imageUpload")();
-      return "";
+    onSubmit={(promise) => {
+      promise.then(action("submit"));
+    }}
+    onImageUploadRequest={async (url) => {
+      action("imageUpload")(url);
+      return Promise.resolve(url);
     }}
     centered
     minimizable
@@ -51,20 +53,18 @@ EditableWithFooter.story = {
 
 export const EditableWithMultipleIdentities = () => (
   <PostEditor
-    secretIdentity={{ name: "Tuxedo Mask", avatar: `/${tuxedoAvatar}` }}
     userIdentity={{ name: "SexyDaddy69", avatar: `/${mamoruAvatar}` }}
     additionalIdentities={[
       { id: "id1", name: "Tuxedo Mask", avatar: `/${tuxedoAvatar}` },
       { id: "id2", name: "Mega Mod", avatar: `/${tuxedoAvatar}` },
     ]}
-    onSubmit={async (p) => {
-      const args = await p;
-      action("submit")(args);
-    }}
     onCancel={action("cancel")}
-    onImageUploadRequest={async () => {
-      action("imageUpload")();
-      return Promise.resolve("");
+    onSubmit={(promise) => {
+      promise.then(action("submit"));
+    }}
+    onImageUploadRequest={async (url) => {
+      action("imageUpload")(url);
+      return Promise.resolve(url);
     }}
     centered
   />
@@ -76,20 +76,18 @@ EditableWithMultipleIdentities.story = {
 
 export const EditableWithViewSelect = () => (
   <PostEditor
-    secretIdentity={{ name: "Tuxedo Mask", avatar: `/${tuxedoAvatar}` }}
     userIdentity={{ name: "SexyDaddy69", avatar: `/${mamoruAvatar}` }}
     additionalIdentities={[
       { id: "id1", name: "Tuxedo Mask", avatar: `/${tuxedoAvatar}` },
       { id: "id2", name: "Mega Mod", avatar: `/${tuxedoAvatar}` },
     ]}
-    onSubmit={async (p) => {
-      const args = await p;
-      action("submit")(args);
-    }}
     onCancel={action("cancel")}
-    onImageUploadRequest={async () => {
-      action("imageUpload")();
-      return Promise.resolve("");
+    onSubmit={(promise) => {
+      promise.then(action("submit"));
+    }}
+    onImageUploadRequest={async (url) => {
+      action("imageUpload")(url);
+      return Promise.resolve(url);
     }}
     viewOptions={[
       { name: "Thread" },
@@ -116,14 +114,13 @@ export const SmallestViewport = () => (
         { id: "id1", name: "Tuxedo Mask", avatar: `/${tuxedoAvatar}` },
         { id: "id2", name: "Mega Mod", avatar: `/${tuxedoAvatar}` },
       ]}
-      onSubmit={async (p) => {
-        const args = await p;
-        action("submit")(args);
-      }}
       onCancel={action("cancel")}
-      onImageUploadRequest={async () => {
-        action("imageUpload")();
-        return Promise.resolve("");
+      onSubmit={(promise) => {
+        promise.then(action("submit"));
+      }}
+      onImageUploadRequest={async (url) => {
+        action("imageUpload")(url);
+        return Promise.resolve(url);
       }}
       viewOptions={[
         { name: "Thread" },
@@ -148,11 +145,13 @@ export const EditableInModal = () => (
         { id: "id1", name: "Tuxedo Mask", avatar: `/${tuxedoAvatar}` },
         { id: "id2", name: "Mega Mod", avatar: `/${tuxedoAvatar}` },
       ]}
-      onSubmit={action("submit")}
       onCancel={action("cancel")}
-      onImageUploadRequest={async () => {
-        action("imageUpload")();
-        return "";
+      onSubmit={(promise) => {
+        promise.then(action("submit"));
+      }}
+      onImageUploadRequest={async (url) => {
+        action("imageUpload")(url);
+        return Promise.resolve(url);
       }}
       centered
     />
@@ -171,11 +170,13 @@ export const LongEditableInModal = () => (
       }
       secretIdentity={{ name: "Tuxedo Mask", avatar: `/${tuxedoAvatar}` }}
       userIdentity={{ name: "SexyDaddy69", avatar: `/${mamoruAvatar}` }}
-      onSubmit={action("submit")}
       onCancel={action("cancel")}
-      onImageUploadRequest={async () => {
-        action("imageUpload")();
-        return "";
+      onSubmit={(promise) => {
+        promise.then(action("submit"));
+      }}
+      onImageUploadRequest={async (url) => {
+        action("imageUpload")(url);
+        return Promise.resolve(url);
       }}
       centered
     />
@@ -196,11 +197,13 @@ export const Loading = () => {
         }
         secretIdentity={{ name: "Tuxedo Mask", avatar: `/${tuxedoAvatar}` }}
         userIdentity={{ name: "SexyDaddy69", avatar: `/${mamoruAvatar}` }}
-        onSubmit={action("submit")}
         onCancel={action("cancel")}
-        onImageUploadRequest={async () => {
-          action("imageUpload")();
-          return "";
+        onSubmit={(promise) => {
+          promise.then(action("submit"));
+        }}
+        onImageUploadRequest={async (url) => {
+          action("imageUpload")(url);
+          return Promise.resolve(url);
         }}
         loading={loading}
         centered
@@ -224,11 +227,13 @@ export const Focus = () => {
         }
         secretIdentity={{ name: "Tuxedo Mask", avatar: `/${tuxedoAvatar}` }}
         userIdentity={{ name: "SexyDaddy69", avatar: `/${mamoruAvatar}` }}
-        onSubmit={action("submit")}
         onCancel={action("cancel")}
-        onImageUploadRequest={async () => {
-          action("imageUpload")();
-          return "";
+        onSubmit={(promise) => {
+          promise.then(action("submit"));
+        }}
+        onImageUploadRequest={async (url) => {
+          action("imageUpload")(url);
+          return Promise.resolve(url);
         }}
         ref={postRef}
         centered

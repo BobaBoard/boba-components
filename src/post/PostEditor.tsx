@@ -103,6 +103,22 @@ const PostEditor = React.forwardRef<{ focus: () => void }, PostEditorProps>(
       },
     }));
 
+    const onSubmitHandler = () => {
+      if (isEmpty) {
+        return;
+      }
+      props.onSubmit(
+        prepareForSubmission(newText, props.onImageUploadRequest).then(
+          (uploadedText) => ({
+            text: uploadedText,
+            tags,
+            viewOptionName: selectedView,
+            identityId: selectedIdentity,
+          })
+        )
+      );
+    };
+
     return (
       <>
         <div
@@ -154,23 +170,7 @@ const PostEditor = React.forwardRef<{ focus: () => void }, PostEditorProps>(
                     setTags(tags.filter((currentTag) => currentTag != tag));
                   }}
                   editable
-                  onSubmit={(newTag) => {
-                    if (!isEmpty) {
-                      props.onSubmit(
-                        prepareForSubmission(
-                          newText,
-                          props.onImageUploadRequest
-                        ).then((uploadedText) => ({
-                          text: uploadedText,
-                          tags: computeTags(
-                            tags,
-                            newTag,
-                            props.accentColor || Theme.DEFAULT_ACCENT_COLOR
-                          ),
-                        }))
-                      );
-                    }
-                  }}
+                  onSubmit={onSubmitHandler}
                   accentColor={props.accentColor}
                   suggestedCategories={suggestedCategories}
                 />
@@ -201,19 +201,7 @@ const PostEditor = React.forwardRef<{ focus: () => void }, PostEditorProps>(
                   )}
                   <EditorFooter
                     // If you change this, also change onSubmit in the editor.
-                    onSubmit={() =>
-                      props.onSubmit(
-                        prepareForSubmission(
-                          newText,
-                          props.onImageUploadRequest
-                        ).then((uploadedText) => ({
-                          text: uploadedText,
-                          tags,
-                          viewOptionName: selectedView,
-                          identityId: selectedIdentity,
-                        }))
-                      )
-                    }
+                    onSubmit={onSubmitHandler}
                     onCancel={() => props.onCancel(isEmpty)}
                     submittable={!props.loading && !isEmpty}
                     cancellable={!props.loading}
@@ -239,19 +227,7 @@ const PostEditor = React.forwardRef<{ focus: () => void }, PostEditorProps>(
                   }
                   editable={!props.loading}
                   // If you change this, also change onSubmit in the editor footer.
-                  onSubmit={() =>
-                    props.onSubmit(
-                      prepareForSubmission(
-                        newText,
-                        props.onImageUploadRequest
-                      ).then((uploadedText) => ({
-                        text: uploadedText,
-                        tags,
-                        viewOptionName: selectedView,
-                        identityId: selectedIdentity,
-                      }))
-                    )
-                  }
+                  onSubmit={onSubmitHandler}
                   onIsEmptyChange={(empty: boolean) => {
                     setIsEmpty(empty);
                   }}
