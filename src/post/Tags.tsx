@@ -22,7 +22,7 @@ const ADD_A_TAG_STRING = "Add a tag...";
 // This is a horrible hack. If the higher of the input span grows
 // beyond this number of pixel, we "detect" a two-line input and
 // bring the tag input to a new line.
-const HEIGHT_TRIGGER = 40;
+const HEIGHT_TRIGGER = 30;
 const UNSUBMITTABLE_TAGS = [
   INDEXABLE_PREFIX,
   CATEGORY_PREFIX,
@@ -115,12 +115,18 @@ const TagsDisplay: React.FC<TagsInputProps & { deleting: boolean }> = ({
           "whisper-tags"
         )}
       <style jsx>{`
-        .tag-container {
+        :global(.tag-container) {
           margin: 5px 5px 0 0;
           align-items: center;
           word-break: break-word;
           display: inline-flex;
           position: relative;
+        }
+        :global(.whisper-tags) {
+          text-align: left;
+          flex-shrink: 0;
+          flex-wrap: wrap;
+          max-width: 100%;
         }
       `}</style>
     </>
@@ -384,9 +390,6 @@ const TagsInput: React.FC<TagsInputProps> = ({
           word-break: break-word;
           display: inline-flex;
           position: relative;
-        }
-        .whisper-tags {
-          text-align: center;
         }
         .suggestions-container {
           position: absolute;
