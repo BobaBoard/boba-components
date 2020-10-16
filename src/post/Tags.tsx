@@ -156,7 +156,7 @@ const TagsInput: React.FC<TagsInputProps> = ({
 
   return (
     <>
-      <div className={classnames("container", {editable})}>
+      <div className={classnames("container", { editable })}>
         <div
           className={classnames("suggestions-container how-to", {
             visible: isFocused && tags.length == 0 && !isTypingTag,
@@ -384,6 +384,9 @@ const TagsInput: React.FC<TagsInputProps> = ({
           word-break: break-word;
           display: inline-flex;
           position: relative;
+        }
+        .whisper-tags {
+          text-align: center;
         }
         .suggestions-container {
           position: absolute;
