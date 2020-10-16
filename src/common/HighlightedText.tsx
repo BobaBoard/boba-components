@@ -1,3 +1,4 @@
+import useComponentSize from "@rehooks/component-size";
 import React from "react";
 
 function getBackgroundDivs(
@@ -38,6 +39,7 @@ const HighlightedText: React.FC<HighlightedTextProps> = (props) => {
   const header = React.useRef<HTMLDivElement>();
   const background = React.useRef<HTMLDivElement>(null);
   const [backgroundDivs, setBackgroundDivs] = React.useState<JSX.Element[]>([]);
+  const { width } = useComponentSize(header);
 
   React.useEffect(() => {
     let throttled = false;
@@ -66,14 +68,11 @@ const HighlightedText: React.FC<HighlightedTextProps> = (props) => {
         }
       }, 50);
     };
-    window.addEventListener("resize", addBackground);
     // Chrome has some problems with rendering. Add delay.
     setTimeout(addBackground, 50);
     setTimeout(addBackground, 100);
     setTimeout(addBackground, 150);
-
-    return () => window.removeEventListener("resize", addBackground);
-  }, [props.highlightColor]);
+  }, [props.highlightColor, width]);
 
   return (
     <div>
