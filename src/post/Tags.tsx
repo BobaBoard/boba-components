@@ -123,6 +123,7 @@ const TagsDisplay: React.FC<TagsInputProps & { deleting: boolean }> = ({
           position: relative;
         }
         :global(.whisper-tags) {
+          display: flex;
           text-align: left;
           flex-shrink: 0;
           flex-wrap: wrap;
