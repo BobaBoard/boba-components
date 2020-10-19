@@ -1,5 +1,10 @@
 import React from "react";
-import { faBars } from "@fortawesome/free-solid-svg-icons";
+import {
+  faBars,
+  faInbox,
+  faSearch,
+  faTh,
+} from "@fortawesome/free-solid-svg-icons";
 import Button, { ButtonStyle } from "../common/Button";
 import UserBar from "./UserBar";
 import classnames from "classnames";
@@ -191,6 +196,33 @@ const Layout = React.forwardRef<{ closeSideMenu: () => void }, LayoutProps>(
                     </HighlightedText>
                   </a>
                 )}
+              </div>
+              <div>
+                {/*TODO: this should be a link-icon, not a button.*/}
+                <Button
+                  icon={faTh}
+                  onClick={() => {}}
+                  theme={ButtonStyle.DARK}
+                  compact={true}
+                >
+                  All Boards
+                </Button>
+                <Button
+                  icon={faInbox}
+                  onClick={() => {}}
+                  theme={ButtonStyle.DARK}
+                  compact={true}
+                >
+                  My feed
+                </Button>
+                <Button
+                  icon={faSearch}
+                  onClick={() => {}}
+                  theme={ButtonStyle.DARK}
+                  compact={true}
+                >
+                  Search
+                </Button>
               </div>
               <UserBar
                 color={headerAccent}
