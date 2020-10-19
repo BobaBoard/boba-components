@@ -70,12 +70,22 @@ const DropdownMenu: React.FC<DropdownProps> = (props) => {
         padding={0}
         accentColor={accentColor}
       >
-        <span onClick={() => setOpen(!isOpen)}>{props.children}</span>
+        <button
+          className="wrapper"
+          tabIndex={0}
+          onClick={() => setOpen(!isOpen)}
+        >
+          {props.children}
+        </button>
       </Tooltip>
       <style jsx>{`
         .menu {
           min-width: 200px;
           color: ${reverseThemeColor};
+        }
+        .wrapper {
+          background: none;
+          border: none;
         }
         .option {
           padding: 15px 20px;
