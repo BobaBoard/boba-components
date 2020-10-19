@@ -2,7 +2,13 @@ import React from "react";
 import DropdownListMenu from "../src/common/DropdownListMenu";
 import Button from "../src/common/Button";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import { faCaretDown } from "@fortawesome/free-solid-svg-icons";
+import {
+  faCaretDown,
+  faMapPin,
+  faVolumeMute,
+  faBellSlash,
+  faPaintBrush,
+} from "@fortawesome/free-solid-svg-icons";
 import { action } from "@storybook/addon-actions";
 
 export default {
@@ -16,16 +22,27 @@ export const ClassicDropdownStory = () => {
       <DropdownListMenu
         options={[
           {
-            name: "no href",
+            name: "Pin board",
             link: {
               onClick: action("noHrefClick"),
             },
           },
           {
-            name: "with href",
+            name: "Mute board",
             link: {
-              onClick: action("withHref"),
-              href: "https://www.youtube.com/watch?v=dQw4w9WgXcQ",
+              onClick: action("noHrefClick"),
+            },
+          },
+          {
+            name: "Dismiss notifications",
+            link: {
+              onClick: action("noHrefClick"),
+            },
+          },
+          {
+            name: "Customize Summary",
+            link: {
+              onClick: action("noHrefClick"),
             },
           },
         ]}
@@ -46,16 +63,31 @@ export const IconDropwdownStory = () => {
       <DropdownListMenu
         options={[
           {
-            name: "no href",
+            name: "Pin board",
+            icon: faMapPin,
             link: {
               onClick: action("noHrefClick"),
             },
           },
           {
-            name: "with href",
+            name: "Mute board",
+            icon: faVolumeMute,
             link: {
-              onClick: action("withHref"),
-              href: "https://www.youtube.com/watch?v=dQw4w9WgXcQ",
+              onClick: action("noHrefClick"),
+            },
+          },
+          {
+            name: "Dismiss notifications",
+            icon: faBellSlash,
+            link: {
+              onClick: action("noHrefClick"),
+            },
+          },
+          {
+            name: "Customize Summary",
+            icon: faPaintBrush,
+            link: {
+              onClick: action("noHrefClick"),
             },
           },
         ]}

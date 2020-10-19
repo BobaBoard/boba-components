@@ -12,6 +12,10 @@ interface PopoverProps extends LibraryPopoverProps {
   delay?: number;
   padding?: number;
   accentColor?: string;
+  border?: {
+    radius: string;
+    width: string;
+  };
 }
 
 const DEFAULT_ZINDEX = 15;
@@ -56,7 +60,6 @@ const Popover: React.FC<PopoverProps> = (props) => {
               targetRect={targetRect}
               popoverRect={popoverRect}
               arrowColor={props.accentColor || Theme.POPOVER_DEFAULT_BACKGROUND}
-              arrowSize={10}
               style={{
                 position: "relative",
                 zIndex: props.zIndex || DEFAULT_ZINDEX,
@@ -81,12 +84,21 @@ const Popover: React.FC<PopoverProps> = (props) => {
           padding: ${typeof props.padding === "undefined"
             ? 10
             : props.padding}px;
-          border-radius: ${Theme.BORDER_RADIUS_REGULAR};
+          border-radius: ${props.border && props.border.radius
+            ? props.border.radius
+            : Theme.BORDER_RADIUS_REGULAR};
           z-index: ${props.zIndex || DEFAULT_ZINDEX};
           position: relative;
           color: white;
-          border: 2px solid
-            ${props.accentColor || Theme.POPOVER_DEFAULT_BACKGROUND};
+          border: ${props.border && props.border.width
+              ? props.border.width
+              : "2px"}
+            solid ${props.accentColor || Theme.POPOVER_DEFAULT_BACKGROUND};
+        }
+        @media only screen and (max-width: 575px) {
+          .popover-content {
+            min-width: calc(100vw - 24px);
+          }
         }
       `}</style>
     </>
