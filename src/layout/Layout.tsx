@@ -1,17 +1,11 @@
 import React from "react";
-import {
-  faBars,
-  faInbox,
-  faSearch,
-  faTh,
-} from "@fortawesome/free-solid-svg-icons";
+import { faBars, IconDefinition } from "@fortawesome/free-solid-svg-icons";
 import Button, { ButtonStyle } from "../common/Button";
-import UserBar from "./UserBar";
 import classnames from "classnames";
 import HighlightedText from "../common/HighlightedText";
 import Theme from "../theme/default";
 import LoadingBar from "../common/LoadingBar";
-import useComponentSize from "@rehooks/component-size";
+import noop from "noop-ts";
 
 import "@bobaboard/boba-editor/dist/main.css";
 
@@ -22,6 +16,7 @@ import compactLogo from "../images/logo-compact.svg";
 
 import debug from "debug";
 import { LinkWithAction } from "types";
+import MenuBar from "./MenuBar";
 
 const log = debug("bobaui:layout-log");
 
@@ -33,6 +28,8 @@ const Layout = React.forwardRef<{ closeSideMenu: () => void }, LayoutProps>(
       headerAccent,
       title,
       logoLink,
+      menuOptions,
+      selectedMenuOption,
       onUserBarClick,
       titleLink,
       actionButton,
@@ -50,7 +47,6 @@ const Layout = React.forwardRef<{ closeSideMenu: () => void }, LayoutProps>(
     const contentRef = React.useRef<HTMLDivElement>(null);
     const layoutRef = React.useRef<HTMLDivElement>(null);
     const sideMenuRef = React.useRef<HTMLDivElement>(null);
-    let { width } = useComponentSize(headerRef);
     React.useImperativeHandle(ref, () => ({
       closeSideMenu: () => {
         setShowSideMenu(false);
@@ -123,6 +119,17 @@ const Layout = React.forwardRef<{ closeSideMenu: () => void }, LayoutProps>(
       );
     }, [showSideMenu, sideMenuRef.current]);
 
+    const menuBar = (
+      <MenuBar
+        menuOptions={menuOptions}
+        selectedOption={selectedMenuOption}
+        userMenuOptions={loggedInMenuOptions}
+        onLoggedOutUserClick={{ onClick: onUserBarClick || noop }}
+        user={user}
+        accentColor={headerAccent}
+        loading={loading}
+      />
+    );
     return (
       <div ref={layoutRef}>
         <LoadingBar loading={loading} accentColor={headerAccent} />
@@ -132,6 +139,7 @@ const Layout = React.forwardRef<{ closeSideMenu: () => void }, LayoutProps>(
             ref={sideMenuRef}
           >
             <div className="side-menu-content">{sideMenuContent}</div>
+            <div className="side-bottom-menu">{menuBar}</div>
           </div>
           <div
             className={classnames("layout-body", {
@@ -197,41 +205,7 @@ const Layout = React.forwardRef<{ closeSideMenu: () => void }, LayoutProps>(
                   </a>
                 )}
               </div>
-              <div>
-                {/*TODO: this should be a link-icon, not a button.*/}
-                <Button
-                  icon={faTh}
-                  onClick={() => {}}
-                  theme={ButtonStyle.DARK}
-                  compact={true}
-                >
-                  All Boards
-                </Button>
-                <Button
-                  icon={faInbox}
-                  onClick={() => {}}
-                  theme={ButtonStyle.DARK}
-                  compact={true}
-                >
-                  My feed
-                </Button>
-                <Button
-                  icon={faSearch}
-                  onClick={() => {}}
-                  theme={ButtonStyle.DARK}
-                  compact={true}
-                >
-                  Search
-                </Button>
-              </div>
-              <UserBar
-                color={headerAccent}
-                onClick={onUserBarClick}
-                user={user}
-                loading={loading}
-                menuOptions={loggedInMenuOptions}
-                compact={width < 500}
-              />
+              <div className="header-menu-bar">{menuBar}</div>
             </div>
             <div ref={contentRef} className="content">
               {mainContent}
@@ -276,13 +250,13 @@ const Layout = React.forwardRef<{ closeSideMenu: () => void }, LayoutProps>(
             }
             .header {
               background-color: ${Theme.LAYOUT_HEADER_BACKGROUND_COLOR};
-              height: 40px;
+              height: 70px;
               position: fixed;
               top: 0;
               right: 0;
               left: 0;
               flex-shrink: 0;
-              padding: 15px;
+              padding: 0 15px;
               display: flex;
               justify-content: space-between;
               align-items: center;
@@ -304,7 +278,7 @@ const Layout = React.forwardRef<{ closeSideMenu: () => void }, LayoutProps>(
             }
             .logo {
               position: relative;
-              height: 100%;
+              height: calc(100% - 30px);
               cursor: pointer;
             }
             .logo > img {
@@ -356,6 +330,9 @@ const Layout = React.forwardRef<{ closeSideMenu: () => void }, LayoutProps>(
             .side-menu.visible {
               width: 500px;
             }
+            .side-bottom-menu {
+              display: none;
+            }
             /**
              * Having overflow: auto as the iOS page loads will cause a weird bug
              * where the sidemenu flickers before disappearing. We cannot use display:none
@@ -392,6 +369,9 @@ const Layout = React.forwardRef<{ closeSideMenu: () => void }, LayoutProps>(
             .layout-body {
               flex-shrink: 0;
               width: 100%;
+            }
+            .header-menu-bar {
+              height: 100%;
             }
             @media only screen and (max-width: 850px) {
               .layout-body {
@@ -451,6 +431,26 @@ const Layout = React.forwardRef<{ closeSideMenu: () => void }, LayoutProps>(
               .side-menu-open .header {
                 left: calc(100vw - 100px);
               }
+              .side-bottom-menu {
+                position: absolute;
+                bottom: 0;
+                left: 0;
+                right: 0;
+                height: 0px;
+                background-color: #131518;
+                display: block;
+                width: calc(100vw - 100px);
+                max-width: 500px;
+                transition: height 0.3s ease-out;
+                overflow: hidden;
+                z-index: 10;
+              }
+              .header-menu-bar {
+                display: none;
+              }
+              .side-menu.visible .side-bottom-menu {
+                height: 60px;
+              }
             }
           `}</style>
         </div>
@@ -474,6 +474,12 @@ export interface LayoutProps {
   onUserBarClick?: () => void;
   loading?: boolean;
   updates?: number | boolean;
+  menuOptions?: {
+    id: string;
+    icon: IconDefinition;
+    link: LinkWithAction;
+  }[];
+  selectedMenuOption?: string;
   loggedInMenuOptions?: {
     name: string;
     link: LinkWithAction;

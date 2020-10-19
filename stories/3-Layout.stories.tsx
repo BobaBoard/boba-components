@@ -10,6 +10,7 @@ import ModalWithButtons from "../src/common/ModalWithButtons";
 import Input from "../src/common/Input";
 import Post from "../src/post/Post";
 import MasonryView from "../src/layout/MasonryView";
+import { faInbox, faSearch, faTh } from "@fortawesome/free-solid-svg-icons";
 
 import { action } from "@storybook/addon-actions";
 
@@ -149,6 +150,36 @@ export default {
   component: Layout,
 };
 
+const menuOptions = {
+  menuOptions: [
+    {
+      id: "boards",
+      icon: faTh,
+      link: {
+        href: "https://www.youtube.com/watch?v=dQw4w9WgXcQ",
+        onClick: action("boards"),
+      },
+    },
+    {
+      id: "inbox",
+      icon: faInbox,
+      link: {
+        href: "https://www.youtube.com/watch?v=dQw4w9WgXcQ",
+        onClick: action("inbox"),
+      },
+    },
+    {
+      id: "search",
+      icon: faSearch,
+      link: {
+        href: "https://www.youtube.com/watch?v=dQw4w9WgXcQ",
+        onClick: action("search"),
+      },
+    },
+  ],
+  selectedMenuOption: "inbox",
+};
+
 const LayoutTemplate = (args: any) => <Layout {...args} />;
 
 export const SimpleLayout = LayoutTemplate.bind({});
@@ -165,6 +196,7 @@ SimpleLayout.args = {
     href: "https://www.youtube.com/watch?v=dQw4w9WgXcQ",
     onClick: action("titleClick"),
   },
+  ...menuOptions,
 };
 
 export const LoggedInLayout = LayoutTemplate.bind({});
@@ -202,6 +234,7 @@ LoggedInLayout.args = {
       },
     },
   ],
+  ...menuOptions,
 };
 
 export const LoadingLayout = LayoutTemplate.bind({});
@@ -241,6 +274,7 @@ LoadingLayout.args = {
   ],
   loading: true,
   updates: true,
+  ...menuOptions,
 };
 
 export const SideMenuPreview = () => {
@@ -575,6 +609,7 @@ export const Attempt1 = () => {
             },
           },
         ]}
+        {...menuOptions}
       />
       <style jsx>
         {`

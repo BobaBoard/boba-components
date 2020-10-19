@@ -86,6 +86,10 @@ const DropdownMenu: React.FC<DropdownProps> = (props) => {
         .wrapper {
           background: none;
           border: none;
+          padding: 0;
+        }
+        .wrapper:focus {
+          outline: none;
         }
         .option {
           padding: 15px 20px;

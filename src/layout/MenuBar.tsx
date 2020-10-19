@@ -1,9 +1,7 @@
 import React from "react";
-import Button, { ButtonStyle } from "../common/Button";
 import DropdownListMenu, { DropdownStyle } from "../common/DropdownListMenu";
 import {
-  faInbox,
-  faTh,
+  faSpinner,
   faUser,
   IconDefinition,
 } from "@fortawesome/free-solid-svg-icons";
@@ -12,16 +10,44 @@ import classnames from "classnames";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 
 const MenuItem: React.FC<{
+  id: string;
+  loading?: boolean;
   icon: IconDefinition | string;
   selected?: boolean;
-  link: LinkWithAction;
+  link?: LinkWithAction;
   accentColor?: string;
   defaultBorderColor?: string;
-}> = ({ icon, selected, link, accentColor, defaultBorderColor }) => {
+}> = ({
+  id,
+  loading,
+  icon,
+  selected,
+  link,
+  accentColor,
+  defaultBorderColor,
+}) => {
+  // TODO: links should be done using buttons if there's no href
+  const isButton = !link?.href && !!link?.onClick;
+  const isAnchor = !!link?.href;
   return (
-    <div className={classnames("menu-item", { selected })}>
-      <a href={link?.href} className="icon">
-        {typeof icon == "string" ? (
+    <div
+      key={id}
+      className={classnames("menu-item", { selected, loading: !!loading })}
+    >
+      <a
+        href={link?.href || isButton ? "#0" : undefined}
+        role={isButton ? "button" : isAnchor ? "link" : undefined}
+        onClick={(e) => {
+          link?.onClick();
+          if (link?.href || isButton) {
+            e.preventDefault();
+          }
+        }}
+        className="icon"
+      >
+        {loading ? (
+          <FontAwesomeIcon icon={faSpinner} />
+        ) : typeof icon == "string" ? (
           <img src={icon} />
         ) : (
           <FontAwesomeIcon icon={icon} />
@@ -58,6 +84,18 @@ const MenuItem: React.FC<{
           align-items: center;
           justify-content: center;
         }
+        .loading .icon :global(svg) {
+          animation: spin 2s linear infinite;
+        }
+
+        @keyframes spin {
+          0% {
+            transform: rotateZ(0);
+          }
+          100% {
+            transform: rotateZ(360deg);
+          }
+        }
         .icon img {
           width: 100%;
           height: 100%;
@@ -81,30 +119,18 @@ const MenuItem: React.FC<{
 const MenuBar: React.FC<MenuBarProps> = ({
   user,
   accentColor,
-  onClick,
+  onLoggedOutUserClick,
   loading,
   menuOptions,
   userMenuOptions,
   selectedOption,
-  compact,
 }) => {
-  const indicator = (
-    <Button
-      icon={user?.avatarUrl ? undefined : faUser}
-      imageUrl={user?.avatarUrl}
-      onClick={onClick}
-      color={accentColor}
-      theme={ButtonStyle.DARK}
-      compact={compact}
-    >
-      {loading ? "loading..." : user?.username || "Login"}
-    </Button>
-  );
-
+  const isLoggedIn = !loading && user?.avatarUrl;
   return (
     <div className="container">
       {menuOptions?.map((option) => (
         <MenuItem
+          id={option.id}
           icon={option.icon}
           link={option.link}
           selected={selectedOption == option.id}
@@ -112,15 +138,17 @@ const MenuBar: React.FC<MenuBarProps> = ({
         />
       ))}
       <DropdownListMenu
-        options={userMenuOptions}
+        options={isLoggedIn ? userMenuOptions : undefined}
         style={DropdownStyle.DARK}
         accentColor={accentColor}
       >
         <MenuItem
+          id={"login"}
           icon={user?.avatarUrl ? user?.avatarUrl : faUser}
-          link={{}}
+          link={!loading && !isLoggedIn ? onLoggedOutUserClick : undefined}
           accentColor={accentColor}
-          defaultBorderColor="green"
+          defaultBorderColor={isLoggedIn ? "green" : undefined}
+          loading={loading}
         />
       </DropdownListMenu>
       <style jsx>{`
@@ -139,7 +167,7 @@ export default MenuBar;
 export interface MenuBarProps {
   loading?: boolean;
   accentColor?: string;
-  onClick?: () => void;
+  onLoggedOutUserClick: LinkWithAction;
   menuOptions?: {
     id: string;
     icon: IconDefinition;
@@ -149,7 +177,6 @@ export interface MenuBarProps {
     name: string;
     link: LinkWithAction;
   }[];
-  compact?: boolean;
   selectedOption?: string;
   user?: { username: string; avatarUrl?: string };
 }

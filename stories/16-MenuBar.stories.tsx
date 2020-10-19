@@ -29,20 +29,20 @@ MenuBarSimple.args = {
       icon: faTh,
       link: {
         href: "https://www.google.com",
-        onClick: () => action("boards!"),
+        onClick: action("boards!"),
       },
     },
     {
       id: "inbox",
       icon: faInbox,
-      link: { href: "https://www.google.com", onClick: () => action("inbox!") },
+      link: { href: "https://www.google.com", onClick: action("inbox!") },
     },
     {
       id: "search",
       icon: faSearch,
       link: {
         href: "https://www.google.com",
-        onClick: () => action("search!"),
+        onClick: action("search!"),
       },
     },
   ],
@@ -67,4 +67,98 @@ MenuBarSimple.args = {
       },
     },
   ],
+  onLoggedOutUserClick: action("userClick!"),
+};
+
+export const MenuBarLoading = MenuBarTemplate.bind({});
+MenuBarLoading.args = {
+  menuOptions: [
+    {
+      id: "boards",
+      icon: faTh,
+      link: {
+        href: "https://www.google.com",
+        onClick: action("boards!"),
+      },
+    },
+    {
+      id: "inbox",
+      icon: faInbox,
+      link: { href: "https://www.google.com", onClick: action("inbox!") },
+    },
+    {
+      id: "search",
+      icon: faSearch,
+      link: {
+        href: "https://www.google.com",
+        onClick: action("search!"),
+      },
+    },
+  ],
+  accentColor: "orange",
+  selectedOption: "inbox",
+  loading: true,
+  userMenuOptions: [
+    {
+      name: "no href",
+      link: {
+        onClick: action("noHrefClick"),
+      },
+    },
+    {
+      name: "with href",
+      link: {
+        onClick: action("withHref"),
+        href: "https://www.youtube.com/watch?v=dQw4w9WgXcQ",
+      },
+    },
+  ],
+  onLoggedOutUserClick: action("userClick!"),
+};
+
+export const MenuBarLoggedOut = MenuBarTemplate.bind({});
+MenuBarLoggedOut.args = {
+  menuOptions: [
+    {
+      id: "boards",
+      icon: faTh,
+      link: {
+        href: "https://www.google.com",
+        onClick: action("boards!"),
+      },
+    },
+    {
+      id: "inbox",
+      icon: faInbox,
+      link: { href: "https://www.google.com", onClick: action("inbox!") },
+    },
+    {
+      id: "search",
+      icon: faSearch,
+      link: {
+        href: "https://www.google.com",
+        onClick: action("search!"),
+      },
+    },
+  ],
+  accentColor: "orange",
+  selectedOption: "inbox",
+  userMenuOptions: [
+    {
+      name: "no href",
+      link: {
+        onClick: action("noHrefClick"),
+      },
+    },
+    {
+      name: "with href",
+      link: {
+        onClick: action("withHref"),
+        href: "https://www.youtube.com/watch?v=dQw4w9WgXcQ",
+      },
+    },
+  ],
+  onLoggedOutUserClick: {
+    onClick: action("userClick!"),
+  },
 };
