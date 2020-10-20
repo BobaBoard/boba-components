@@ -34,17 +34,6 @@ export const CardSimple = () => (
           initialText={JSON.parse(
             '[{"insert":"Open RP"},{"attributes":{"header":1},"insert":"\\n"},{"insert":{"block-image":"https://cdn.discordapp.com/attachments/443967088118333442/691486081895628830/unknown.png"}}, {"attributes":{"italic":true},"insert":"You have my sword..."}]'
           )}
-          onTextChange={() => {
-            console.log("changed!");
-          }}
-          focus={true}
-          onIsEmptyChange={() => {
-            console.log("empty!");
-          }}
-          onSubmit={() => {
-            // This is for cmd + enter pressed while in the editor
-            console.log("submit!");
-          }}
         />
       </Card>
     </div>
@@ -55,17 +44,6 @@ export const CardSimple = () => (
           initialText={JSON.parse(
             '[{"insert":"Open RP"},{"attributes":{"header":1},"insert":"\\n"},{"insert":{"block-image":"https://cdn.discordapp.com/attachments/443967088118333442/691486081895628830/unknown.png"}}, {"attributes":{"italic":true},"insert":"You have my sword..."}]'
           )}
-          onTextChange={() => {
-            console.log("changed!");
-          }}
-          focus={true}
-          onIsEmptyChange={() => {
-            console.log("empty!");
-          }}
-          onSubmit={() => {
-            // This is for cmd + enter pressed while in the editor
-            console.log("submit!");
-          }}
         />
       </Card>
     </div>
@@ -76,17 +54,6 @@ export const CardSimple = () => (
           initialText={JSON.parse(
             '[{"insert":"This card has little content."}]'
           )}
-          onTextChange={() => {
-            console.log("changed!");
-          }}
-          focus={true}
-          onIsEmptyChange={() => {
-            console.log("empty!");
-          }}
-          onSubmit={() => {
-            // This is for cmd + enter pressed while in the editor
-            console.log("submit!");
-          }}
         />
       </Card>
     </div>
@@ -97,17 +64,6 @@ export const CardSimple = () => (
           initialText={JSON.parse(
             '[{"insert":"This card has a really long word: JugemuJugemuGokonoSurikireKaijarisuigyonoSuigyomatsuUnraimatsuFuraimatsuKuNeruTokoroniSumuTokoroYaburaKojinoBuraKojiPaipopaipoPaiponoShuringanShuringannoGurindaiGurindainoPonpokopinoPonpokonanoChokyumeinoChosuke."}]'
           )}
-          onTextChange={() => {
-            console.log("changed!");
-          }}
-          focus={true}
-          onIsEmptyChange={() => {
-            console.log("empty!");
-          }}
-          onSubmit={() => {
-            // This is for cmd + enter pressed while in the editor
-            console.log("submit!");
-          }}
         />
       </Card>
     </div>
@@ -118,17 +74,6 @@ export const CardSimple = () => (
           initialText={JSON.parse(
             '[{"insert":"Open RP"},{"attributes":{"header":1},"insert":"\\n"},{"insert":{"block-image":"https://cdn.discordapp.com/attachments/443967088118333442/691486081895628830/unknown.png"}}, {"attributes":{"italic":true},"insert":"You have my sword..."}]'
           )}
-          onTextChange={() => {
-            console.log("changed!");
-          }}
-          focus={true}
-          onIsEmptyChange={() => {
-            console.log("empty!");
-          }}
-          onSubmit={() => {
-            // This is for cmd + enter pressed while in the editor
-            console.log("submit!");
-          }}
         />
       </Card>
     </div>
@@ -420,7 +365,13 @@ TaggedPost.args = {
   tags: {
     indexTags: ["indexable"],
     categoryTags: ["category"],
-    contentWarnings: ["bad content"],
+    contentWarnings: [
+      "bad content",
+      "terrible content",
+      "super awful content",
+      "just don't look at this content",
+      "for real!! it's bad content",
+    ],
     whisperTags: [
       "tag1",
       "tag2",
@@ -445,6 +396,10 @@ ReactablePost.args = {
     { image: luigiReaction, count: 11 },
     { image: junkoReaction, count: 20 },
   ],
+  tags: {
+    ...TaggedPost.args.tags,
+    contentWarnings: ["this has just one warning!"],
+  },
 };
 
 export const ActionPost = PostTemplate.bind({});

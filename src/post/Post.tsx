@@ -10,7 +10,11 @@ import Reaction from "../common/Reaction";
 import Editor from "@bobaboard/boba-editor";
 import classnames from "classnames";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import { faPlus, faAngleDown } from "@fortawesome/free-solid-svg-icons";
+import {
+  faPlus,
+  faAngleDown,
+  faAngleDoubleDown,
+} from "@fortawesome/free-solid-svg-icons";
 import { TagsFactory } from "../common/Tag";
 
 import Theme from "../theme/default";
@@ -77,6 +81,20 @@ const Post = React.forwardRef<PostHandler, PostProps>((props, ref) => {
             newContributions={props.newContributions}
           />
         )}
+        <div
+          className={classnames("tags content-warnings", {
+            hidden: !props.tags?.contentWarnings?.length,
+          })}
+        >
+          <Tags
+            tags={TagsFactory.getTagsFromTagObject({
+              indexTags: [],
+              categoryTags: [],
+              whisperTags: [],
+              contentWarnings: props.tags?.contentWarnings || [],
+            })}
+          />
+        </div>
         <div className="card-container" ref={containerRef}>
           <Card
             height={props.collapsed ? COLLAPSED_HEIGHT : undefined}
@@ -112,7 +130,16 @@ const Post = React.forwardRef<PostHandler, PostProps>((props, ref) => {
                 })}
               >
                 <div className={classnames("tags", { visible: !props.tags })}>
-                  <Tags tags={TagsFactory.getTagsFromTagObject(props.tags)} />
+                  <Tags
+                    tags={
+                      props.tags
+                        ? TagsFactory.getTagsFromTagObject({
+                            ...props.tags,
+                            contentWarnings: [],
+                          })
+                        : []
+                    }
+                  />
                 </div>
                 <div className="notes">
                   <MemoizedFooter
@@ -202,6 +229,14 @@ const Post = React.forwardRef<PostHandler, PostProps>((props, ref) => {
         }
         .tags {
           padding: 0 10px;
+        }
+        .content-warnings {
+          display: flex;
+          align-items: flex-end;
+          position: relative;
+        }
+        .content-warnings.hidden {
+          display: none;
         }
         .add-reaction {
           background-color: rgb(28, 28, 28);
