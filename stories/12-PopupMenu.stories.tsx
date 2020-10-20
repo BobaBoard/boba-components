@@ -46,6 +46,7 @@ export const ClassicDropdownStory = () => {
             },
           },
         ]}
+        zIndex={51}
       >
         <Button>Click me!</Button>
       </DropdownListMenu>
@@ -91,6 +92,7 @@ export const IconDropwdownStory = () => {
             },
           },
         ]}
+        zIndex={51}
       >
         <FontAwesomeIcon icon={faCaretDown} />
       </DropdownListMenu>

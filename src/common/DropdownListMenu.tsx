@@ -101,11 +101,15 @@ const DropdownMenu: React.FC<DropdownProps> = (props) => {
           cursor: pointer;
         }
         .popover-icon {
-          margin-right: 10px
+          margin-right: 12px;
+          width: 16px;
+          height: 22px;
+          display: inline-block;
+          text-align: center;
         }
         @media only screen and (max-width: 575px) {
           .popover-icon {
-            margin-right: 12px
+            margin-right: 12px;
           }
           .option {
             padding: 12px;
