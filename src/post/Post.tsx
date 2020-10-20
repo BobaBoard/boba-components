@@ -100,27 +100,37 @@ const Post = React.forwardRef<PostHandler, PostProps>((props, ref) => {
             height={props.collapsed ? COLLAPSED_HEIGHT : undefined}
             backgroundColor={props.muted ? "#dcdcdc" : undefined}
             header={
-              <div className={classnames("header", { muted: props.muted })}>
-                <div className="header-container">
-                  <MemoizedHeader
-                    secretIdentity={props.secretIdentity}
-                    userIdentity={props.userIdentity}
-                    createdMessage={props.createdTime}
-                    createdMessageLink={props.createdTimeLink}
-                    size={HeaderStyle.REGULAR}
-                    backgroundColor={props.muted ? "#dcdcdc" : undefined}
-                  />
+              <>
+                <div className={classnames("header", { muted: props.muted })}>
+                  <div className="header-container">
+                    <MemoizedHeader
+                      secretIdentity={props.secretIdentity}
+                      userIdentity={props.userIdentity}
+                      createdMessage={props.createdTime}
+                      createdMessageLink={props.createdTimeLink}
+                      size={HeaderStyle.REGULAR}
+                      backgroundColor={props.muted ? "#dcdcdc" : undefined}
+                    />
+                  </div>
+                  {props.menuOptions && (
+                    <div className="post-options">
+                      <DropdownListMenu options={props.menuOptions}>
+                        <span className="post-options-icon">
+                          <FontAwesomeIcon icon={faAngleDown} />
+                        </span>
+                      </DropdownListMenu>
+                    </div>
+                  )}
                 </div>
-                {props.menuOptions && (
-                  <div className="post-options">
-                    <DropdownListMenu options={props.menuOptions}>
-                      <span className="post-options-icon">
-                        <FontAwesomeIcon icon={faAngleDown} />
-                      </span>
-                    </DropdownListMenu>
+                {props.board && (
+                  <div
+                    className="board-info"
+                    style={{ backgroundColor: props.board.accentColor }}
+                  >
+                    {props.board.slug}
                   </div>
                 )}
-              </div>
+              </>
             }
             footer={
               <div
@@ -287,6 +297,13 @@ const Post = React.forwardRef<PostHandler, PostProps>((props, ref) => {
           color: rgb(28, 28, 28, 0.8);
           cursor: pointer;
         }
+        .board-info {
+          background-color: ${props.board?.accentColor || "none"};
+          text-align: center;
+          padding: 3px;
+          color: white;
+          font-weight: bold;
+        }
       `}</style>
     </>
   );
@@ -342,4 +359,8 @@ export interface PostProps {
     link: LinkWithAction;
   }[];
   onEmbedLoaded?: () => void;
+  board?: {
+    slug: string;
+    accentColor: string;
+  };
 }

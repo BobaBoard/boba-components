@@ -442,6 +442,18 @@ HighlightPost.story = {
   name: "highlight post",
 };
 
+export const BoardPost = PostTemplate.bind({});
+BoardPost.story = {
+  name: "board post",
+};
+BoardPost.args = {
+  ...TaggedPost.args,
+  board: {
+    slug: "!gore",
+    accentColor: "purple",
+  },
+};
+
 export const PostQuoteStory = () => {
   return (
     <div style={{ width: "300px" }}>
