@@ -77,18 +77,7 @@ const Popover: React.FC<PopoverProps> = (props) => {
       >
         {props.children}
       </LibraryPopover>
-      <div className="backdrop" />
       <style jsx>{`
-        .backdrop {
-          position: fixed;
-          background-color: ${Theme.MODAL_BACKGROUND_COLOR};
-          top: 0;
-          bottom: 0;
-          left: 0;
-          right: 0;
-          z-index: 50;
-          display: none;
-        }
         .popover-content {
           background-color: ${props.background ||
           Theme.POPOVER_DEFAULT_BACKGROUND};
@@ -108,14 +97,7 @@ const Popover: React.FC<PopoverProps> = (props) => {
         }
         @media only screen and (max-width: 575px) {
           .popover-content {
-            width: 95%;
-            position: fixed;
-            left: 50%;
-            bottom: 0%;
-            transform: translate(-50%, 0%);
-          }
-          .backdrop {
-            display: ${innerIsOpen ? 'block' : 'none'}
+            padding: 0;
           }
         }
       `}</style>

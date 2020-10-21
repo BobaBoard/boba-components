@@ -44,7 +44,7 @@ const DropdownMenu: React.FC<DropdownProps> = (props) => {
         isOpen={isOpen}
         position="bottom"
         content={
-          <div className={"menu"}>
+          <div className={classnames("menu", { visible: isOpen })}>
             {props.options.map((option) => (
               <a
                 key={option.name}
@@ -107,7 +107,29 @@ const DropdownMenu: React.FC<DropdownProps> = (props) => {
           display: inline-block;
           text-align: center;
         }
+        @keyframes slideUp {
+          from {
+            opacity: 0;
+            transform: translate(-50%, 100%);
+          }
+          to {
+            opacity: 1;
+            transform: translate(-50%, 0%);
+          }
+        }
         @media only screen and (max-width: 575px) {
+          .menu {
+            background-color: ${themeColor};
+            border-radius: 5px;
+            padding: 5px;
+            width: 95%;
+            position: fixed;
+            left: 50%;
+            bottom: 0;
+            transform: translate(-50%, 0%);
+            animation-name: slideUp;
+            animation-duration: 0.2s;
+          }
           .popover-icon {
             margin-right: 12px;
           }
