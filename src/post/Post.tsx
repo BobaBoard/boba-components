@@ -10,11 +10,7 @@ import Reaction from "../common/Reaction";
 import Editor from "@bobaboard/boba-editor";
 import classnames from "classnames";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import {
-  faPlus,
-  faAngleDown,
-  faAngleDoubleDown,
-} from "@fortawesome/free-solid-svg-icons";
+import { faPlus, faAngleDown } from "@fortawesome/free-solid-svg-icons";
 import { TagsFactory } from "../common/Tag";
 
 import Theme from "../theme/default";
