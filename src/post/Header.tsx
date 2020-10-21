@@ -59,32 +59,35 @@ const Metadata: React.FC<PostHeaderProps> = (props) => {
               <>
                 {props.additionalIdentities &&
                 props.additionalIdentities.length > 0 ? (
-                  <DropdownListMenu
-                    zIndex={200}
-                    options={[
-                      {
-                        name: "Random Identity",
-                        link: {
-                          onClick: () => props.onSelectIdentity?.(undefined),
+                  <div>
+                    <DropdownListMenu
+                      zIndex={200}
+                      options={[
+                        {
+                          name: "Random Identity",
+                          link: {
+                            onClick: () => props.onSelectIdentity?.(undefined),
+                          },
                         },
-                      },
-                      ...props.additionalIdentities.map((identity) => ({
-                        name: identity.name,
-                        link: {
-                          onClick: () => props.onSelectIdentity?.(identity),
-                        },
-                      })),
-                    ]}
-                  >
-                    <div>
-                      <div className="identities-dropdown">
-                        <div className="secret-identity">
-                          as: {props.secretIdentity?.name || "Random Identity"}
+                        ...props.additionalIdentities.map((identity) => ({
+                          name: identity.name,
+                          link: {
+                            onClick: () => props.onSelectIdentity?.(identity),
+                          },
+                        })),
+                      ]}
+                    >
+                      <div>
+                        <div className="identities-dropdown">
+                          <div className="secret-identity">
+                            as:{" "}
+                            {props.secretIdentity?.name || "Random Identity"}
+                          </div>
+                          <FontAwesomeIcon icon={faCaretDown} />
                         </div>
-                        <FontAwesomeIcon icon={faCaretDown} />
                       </div>
-                    </div>
-                  </DropdownListMenu>
+                    </DropdownListMenu>
+                  </div>
                 ) : (
                   <div className="secret-identity">
                     as: {props.secretIdentity?.name || "Random Identity"}

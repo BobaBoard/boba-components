@@ -87,6 +87,7 @@ const DropdownMenu: React.FC<DropdownProps> = (props) => {
           background: none;
           border: none;
           padding: 0;
+          text-align: left;
         }
         .wrapper:focus {
           outline: none;
