@@ -7,6 +7,8 @@ import { useBackdrop } from "../utils";
 
 import Tooltip from "./Tooltip";
 import Theme from "../theme/default";
+import ReactDOM from "react-dom";
+import Color from "color";
 
 export enum DropdownStyle {
   LIGHT = "LIGHT",
@@ -43,8 +45,10 @@ const DropdownContent: React.FC<
     DropdownStyle.DARK == props.style
       ? Theme.DROPDOWN_BACKGROUND_COLOR_LIGHT
       : Theme.DROPDOWN_BACKGROUND_COLOR_DARK;
-  const hoverBackgroundColor = Theme.DROPDOWN_HOVER_BACKGROUND_COLOR;
-
+  const hoverBackgroundColor =
+    DropdownStyle.DARK == props.style
+      ? Color(themeColor).lighten(0.85).hex()
+      : Color(themeColor).darken(0.15).hex();
   return (
     <div className={classnames("menu", { visible: props.isOpen })}>
       {props.options?.map((option) => (
@@ -183,7 +187,7 @@ const DropdownMenu: React.FC<DropdownProps> = (props) => {
           {props.children}
         </button>
       </Tooltip>
-      {isSmallScreen() && content}
+      {isSmallScreen() && ReactDOM.createPortal(content, document.body)}
       <style jsx>{`
         .wrapper {
           background: none;
