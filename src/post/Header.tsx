@@ -15,7 +15,6 @@ import Tooltip from "../common/Tooltip";
 import DropdownListMenu from "../common/DropdownListMenu";
 import Tag from "../common/Tag";
 import AvatarMask from "../../stories/images/avatar_mask.svg";
-import AvatarCut from "../../stories/images/avatar-cutout.svg";
 
 //const log = debug("bobaui:header-log");
 const info = debug("bobaui:header-info");
@@ -318,7 +317,7 @@ const PostHeader: React.FC<PostHeaderProps> = (props) => {
           margin-right: 10%;
         }
         .avatar.mask::before {
-          mask-image: url(${AvatarCut});
+          mask-image: url(${AvatarMask});
           mask-position: center;
           mask-repeat: no-repeat;
         }
