@@ -11,7 +11,7 @@ import {
 } from "../common/Tag";
 import classnames from "classnames";
 import debug from "debug";
-import { TagsType } from "../types";
+import { TagsType, TagType } from "../types";
 import DefaultTheme from "../theme/default";
 import color from "color";
 
@@ -196,6 +196,7 @@ const TagsInput: React.FC<TagsInputProps> = ({
                   name: category,
                   accentColor: "white",
                   category: true,
+                  type: TagType.CATEGORY
                 });
                 e.preventDefault();
               }}
@@ -204,6 +205,7 @@ const TagsInput: React.FC<TagsInputProps> = ({
                 name: category,
                 accentColor: "white",
                 category: true,
+                type: TagType.CATEGORY
               })}
             </div>
           ))}

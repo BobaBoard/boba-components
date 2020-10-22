@@ -14,10 +14,19 @@ export interface PostDetailsType {
   newContributions?: number;
 }
 
+export enum TagType {
+  INDEXABLE,
+  CONTENT_WARNING,
+  CATEGORY,
+  WHISPER,
+}
+
 export interface TagsType {
   name: string;
+  type: TagType;
   color?: string;
   accentColor?: string;
+  // TODO: remove these booleans and use type up there
   indexable?: boolean;
   category?: boolean;
   contentWarning?: boolean;

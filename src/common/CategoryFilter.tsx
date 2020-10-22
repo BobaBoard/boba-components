@@ -1,6 +1,7 @@
 import React from "react";
 import classnames from "classnames";
 import { TagsFactory } from "../common/Tag";
+import { TagType } from "../types";
 
 const CateogyFilter: React.FC<CateogyFilterProps> = (props) => {
   return (
@@ -17,6 +18,7 @@ const CateogyFilter: React.FC<CateogyFilterProps> = (props) => {
         >
           {TagsFactory.create({
             name: category.name,
+            type: TagType.CATEGORY,
             category: true,
             accentColor: "white",
           })}

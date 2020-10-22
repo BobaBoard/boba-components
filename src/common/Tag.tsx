@@ -1,6 +1,6 @@
 import React from "react";
 import classnames from "classnames";
-import { TagsType } from "../types";
+import { TagsType, TagType } from "../types";
 
 export interface TagProps {
   name: string;
@@ -63,23 +63,27 @@ const getDataForTagType = (tag: TagsType) => {
     return {
       symbol: INDEXABLE_PREFIX,
       color: INDEXABLE_TAG_COLOR,
+      type: TagType.INDEXABLE,
       accentColor: "white",
     };
   } else if (tag.category) {
     return {
       symbol: CATEGORY_PREFIX,
       color: CATEGORY_TAG_COLOR,
+      type: TagType.CATEGORY,
       accentColor: "white",
     };
   } else if (tag.contentWarning) {
     return {
       symbol: CONTENT_WARNING_PREFIX,
       color: CW_TAG_COLOR,
+      type: TagType.CONTENT_WARNING,
     };
   } else {
     return {
       symbol: undefined,
       color: undefined,
+      type: TagType.WHISPER,
     };
   }
 };
@@ -157,21 +161,25 @@ export class TagsFactory {
         color: accentColor || INDEXABLE_TAG_COLOR,
         accentColor: "white",
         indexable: true,
+        type: TagType.INDEXABLE,
       };
     } else if (tag.startsWith(CATEGORY_PREFIX)) {
       return {
         name: tag.substring(CATEGORY_PREFIX.length),
         accentColor: "white",
         category: true,
+        type: TagType.CATEGORY,
       };
     } else if (tag.startsWith(CONTENT_WARNING_PREFIX)) {
       return {
         name: tag.substring(CONTENT_WARNING_PREFIX.length).trim(),
         contentWarning: true,
+        type: TagType.CONTENT_WARNING,
       };
     } else {
       return {
         name: tag,
+        type: TagType.WHISPER,
       };
     }
   }
