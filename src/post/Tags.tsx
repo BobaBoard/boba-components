@@ -10,6 +10,10 @@ import Tag, {
   CW_TAG_COLOR,
   getDataForTagType,
 } from "../common/Tag";
+import DropdownListMenu, {
+  DropdownProps,
+  DropdownStyle,
+} from "../common/DropdownListMenu";
 import classnames from "classnames";
 import debug from "debug";
 import { TagsType, TagType } from "../types";
@@ -62,6 +66,7 @@ const TagsDisplay: React.FC<TagsInputProps & { deleting: boolean }> = ({
   editable,
   deleting,
   onTagsDelete,
+  getOptionsForTag,
 }) => {
   const whisperTags: TagsType[] = [];
   const specialTags: TagsType[] = [];
@@ -94,15 +99,17 @@ const TagsDisplay: React.FC<TagsInputProps & { deleting: boolean }> = ({
                 whisper: !(tag.category || tag.contentWarning || tag.indexable),
               })}
             >
-              <Tag
-                name={tag.name}
-                {...getDataForTagType(tag)}
-                compact
-                deletable
-                onDeleteTag={() => {
-                  onTagsDelete?.(tag);
-                }}
-              />
+              <DropdownListMenu options={getOptionsForTag?.(tag)}>
+                <Tag
+                  name={tag.name}
+                  {...getDataForTagType(tag)}
+                  compact
+                  deletable
+                  onDeleteTag={() => {
+                    onTagsDelete?.(tag);
+                  }}
+                />
+              </DropdownListMenu>
             </div>
           )),
           "special-tags"
@@ -119,15 +126,17 @@ const TagsDisplay: React.FC<TagsInputProps & { deleting: boolean }> = ({
                 whisper: isWhisperTag(tag),
               })}
             >
-              <Tag
-                name={tag.name}
-                {...getDataForTagType(tag)}
-                compact
-                deletable
-                onDeleteTag={() => {
-                  onTagsDelete?.(tag);
-                }}
-              />
+              <DropdownListMenu options={getOptionsForTag?.(tag)}>
+                <Tag
+                  name={tag.name}
+                  {...getDataForTagType(tag)}
+                  compact
+                  deletable
+                  onDeleteTag={() => {
+                    onTagsDelete?.(tag);
+                  }}
+                />
+              </DropdownListMenu>
             </div>
           )),
           "whisper-tags"
@@ -160,6 +169,7 @@ const TagsInput: React.FC<TagsInputProps> = ({
   onSubmit,
   accentColor,
   suggestedCategories,
+  getOptionsForTag,
 }) => {
   const [deleteState, setDeleteState] = React.useState(false);
   const [indexable, setIndexableState] = React.useState(false);
@@ -228,7 +238,12 @@ const TagsInput: React.FC<TagsInputProps> = ({
             </div>
           ))}
         </div>
-        <TagsDisplay editable={editable} tags={tags} deleting={deleteState} />
+        <TagsDisplay
+          editable={editable}
+          tags={tags}
+          deleting={deleteState}
+          getOptionsForTag={getOptionsForTag}
+        />
         {!!editable && (
           <span
             className={classnames("tag-input", {
@@ -453,4 +468,5 @@ export interface TagsInputProps {
   onSubmit?: (newTag?: TagsType) => void;
   accentColor?: string;
   suggestedCategories?: string[];
+  getOptionsForTag?: (tag: TagsType) => DropdownProps["options"];
 }

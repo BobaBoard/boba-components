@@ -1,6 +1,5 @@
 import React from "react";
 import classNames from "classnames";
-// @ts-ignore
 import Editor from "@bobaboard/boba-editor";
 import Header, { HeaderStyle } from "./Header";
 import Button from "../common/Button";

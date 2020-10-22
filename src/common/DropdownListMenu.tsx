@@ -17,6 +17,7 @@ export enum DropdownStyle {
 
 export interface DropdownProps {
   children: JSX.Element;
+  // If Options are empty, children is simply returned.
   options?: {
     name: string;
     icon?: IconDefinition;
@@ -138,9 +139,6 @@ const DropdownMenu: React.FC<DropdownProps> = (props) => {
       setOpen(false);
     },
   });
-  if (!props.options) {
-    return props.children;
-  }
 
   React.useEffect(() => {
     if (isOpen && isSmallScreen()) {
@@ -150,25 +148,27 @@ const DropdownMenu: React.FC<DropdownProps> = (props) => {
     }
   }, [isOpen]);
 
+  if (!props.options) {
+    return props.children;
+  }
+
   const themeColor =
     DropdownStyle.DARK == props.style
       ? Theme.DROPDOWN_BACKGROUND_COLOR_DARK
       : Theme.DROPDOWN_BACKGROUND_COLOR_LIGHT;
-
-  const content = (
-    <DropdownContent
-      {...props}
-      isOpen={isOpen}
-      onCloseRequest={() => setOpen(false)}
-    />
-  );
 
   return (
     <>
       <Tooltip
         isOpen={isOpen && !isSmallScreen()}
         position="bottom"
-        content={<div>{content}</div>}
+        content={
+          <DropdownContent
+            {...props}
+            isOpen={isOpen}
+            onCloseRequest={() => setOpen(false)}
+          />
+        }
         zIndex={props.zIndex}
         onClickOutside={() => setOpen(false)}
         background={themeColor}
@@ -186,7 +186,11 @@ const DropdownMenu: React.FC<DropdownProps> = (props) => {
       {isSmallScreen() &&
         ReactDOM.createPortal(
           <div className={classnames("portal-content", { visible: isOpen })}>
-            {content}
+            <DropdownContent
+              {...props}
+              isOpen={isOpen}
+              onCloseRequest={() => setOpen(false)}
+            />
           </div>,
           document.body
         )}
@@ -201,6 +205,7 @@ const DropdownMenu: React.FC<DropdownProps> = (props) => {
           background: none;
           border: none;
           padding: 0;
+          text-align: inherit;
         }
         .wrapper:focus {
           outline: none;
