@@ -50,7 +50,7 @@ const DropdownContent: React.FC<
       ? Color(themeColor).lighten(0.85).hex()
       : Color(themeColor).darken(0.15).hex();
   return (
-    <div className={classnames("menu", { visible: props.isOpen })}>
+    <div className={classnames("menu")}>
       {props.options?.map((option) => (
         <a
           key={option.name}
@@ -74,11 +74,7 @@ const DropdownContent: React.FC<
         .menu {
           min-width: 250px;
           color: ${reverseThemeColor};
-          display: none;
           text-align: left;
-        }
-        .menu.visible {
-          display: block;
         }
         .option {
           border-radius: 5px;
@@ -172,7 +168,7 @@ const DropdownMenu: React.FC<DropdownProps> = (props) => {
       <Tooltip
         isOpen={isOpen && !isSmallScreen()}
         position="bottom"
-        content={content}
+        content={<div>{content}</div>}
         zIndex={props.zIndex}
         onClickOutside={() => setOpen(false)}
         background={themeColor}
@@ -187,8 +183,20 @@ const DropdownMenu: React.FC<DropdownProps> = (props) => {
           {props.children}
         </button>
       </Tooltip>
-      {isSmallScreen() && ReactDOM.createPortal(content, document.body)}
+      {isSmallScreen() &&
+        ReactDOM.createPortal(
+          <div className={classnames("portal-content", { visible: isOpen })}>
+            {content}
+          </div>,
+          document.body
+        )}
       <style jsx>{`
+        .portal-content {
+          display: none;
+        }
+        .portal-content.visible {
+          display: block;
+        }
         .wrapper {
           background: none;
           border: none;
