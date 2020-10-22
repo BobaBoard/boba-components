@@ -1,19 +1,21 @@
 import React from "react";
+import useComponentSize from "@rehooks/component-size";
+
+import classnames from "classnames";
+import fitty from "fitty";
+import debug from "debug";
+import { LinkWithAction } from "types";
+
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import { faComment, faPlusSquare } from "@fortawesome/free-regular-svg-icons";
+import { faCaretDown, faCertificate } from "@fortawesome/free-solid-svg-icons";
 
 import DefaultTheme from "../theme/default";
 import Tooltip from "../common/Tooltip";
 import DropdownListMenu from "../common/DropdownListMenu";
 import Tag from "../common/Tag";
-import classnames from "classnames";
-import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import useComponentSize from "@rehooks/component-size";
-import fitty from "fitty";
-import debug from "debug";
-
-import { faComment, faPlusSquare } from "@fortawesome/free-regular-svg-icons";
-import { faCaretDown, faCertificate } from "@fortawesome/free-solid-svg-icons";
-
-import { LinkWithAction } from "types";
+import AvatarMask from "../../stories/images/avatar_mask.svg";
+import AvatarCut from "../../stories/images/avatar-cutout.svg";
 
 //const log = debug("bobaui:header-log");
 const info = debug("bobaui:header-info");
@@ -209,6 +211,10 @@ const Metadata: React.FC<PostHeaderProps> = (props) => {
 
 const PostHeader: React.FC<PostHeaderProps> = (props) => {
   const [tagsOnNewLine, setTagsOnNewLine] = React.useState(false);
+  const visibleSecretAvatar =
+    !props.forceHide &&
+    props.userIdentity?.avatar &&
+    props.secretIdentity?.avatar;
   let ref = React.useRef<HTMLDivElement>(null);
   // @ts-ignore
   let { width, height } = useComponentSize(ref);
@@ -225,13 +231,12 @@ const PostHeader: React.FC<PostHeaderProps> = (props) => {
       >
         <div className="identity">
           <Metadata {...props}>
-            <div className="avatar">
+            <div
+              className={classnames("avatar", { mask: visibleSecretAvatar })}
+            >
               <div
                 className={classnames("secret-avatar", {
-                  visible:
-                    !props.forceHide &&
-                    props.userIdentity?.avatar &&
-                    props.secretIdentity?.avatar,
+                  visible: visibleSecretAvatar,
                 })}
               />
             </div>
@@ -309,19 +314,26 @@ const PostHeader: React.FC<PostHeaderProps> = (props) => {
           top: 50%;
           transform: translateY(-50%);
         }
+        .avatar.mask {
+          margin-right: 10%;
+        }
+        .avatar.mask::before {
+          mask-image: url(${AvatarCut});
+          mask-position: center;
+          mask-repeat: no-repeat;
+        }
         .secret-avatar {
           position: absolute;
           bottom: 0;
-          right: 0;
-          width: 40%;
-          height: 40%;
+          right: -42%;
+          width: 64%;
+          height: 64%;
           display: none;
         }
         .secret-avatar.visible {
           display: block;
         }
         .secret-avatar::before {
-          border: 3px solid ${props.backgroundColor || "white"};
           background: url("${(props.secretIdentity || {}).avatar}");
           background-size: cover;
           display: block;

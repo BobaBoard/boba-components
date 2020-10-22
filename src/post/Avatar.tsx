@@ -37,7 +37,6 @@ const Avatar: React.FC<AvatarProps> = (props) => {
           display: block;
         }
         .secret-avatar::before {
-          border: 3px solid ${props.backgroundColor || "white"};
           background: url("${(props.secretIdentity || {}).avatar}");
           background-size: cover;
           display: block;
@@ -45,8 +44,6 @@ const Avatar: React.FC<AvatarProps> = (props) => {
           width: 100%;
           padding-top: 100%;
           position: absolute;
-          border-radius: 50%;
-          top: 50%;
           transform: translateY(-50%);
         }
           `}</style>
