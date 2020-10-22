@@ -1,9 +1,12 @@
 import React from "react";
 import classnames from "classnames";
 import { TagsType, TagType } from "../types";
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import { faCross } from "@fortawesome/free-solid-svg-icons";
 
 export interface TagProps {
   name: string;
+  deletable?: false;
   symbol?: string | JSX.Element;
   avatar?: string;
   color?: string;
@@ -11,17 +14,37 @@ export interface TagProps {
   compact?: boolean;
 }
 
-const Tag: React.FC<TagProps> = (props) => {
+export interface DeleatableTagProps {
+  name: string;
+  deletable: true;
+  onDeleteTag: (name: string) => void;
+  symbol?: string | JSX.Element;
+  avatar?: string;
+  color?: string;
+  accentColor?: string;
+  compact?: boolean;
+}
+
+const Tag: React.FC<TagProps | DeleatableTagProps> = (props) => {
   return (
     <>
       <div
         className={classnames("tag", {
           compact: !!props.compact,
           text: !props.color,
+          deletable: !!props.deletable,
         })}
       >
         <span className="hashtag">{props.symbol || "#"}</span>
         {props.name}
+        {props.deletable && (
+          <button
+            onClick={() => props.onDeleteTag?.(props.name)}
+            className={classnames("delete")}
+          >
+            <FontAwesomeIcon icon={faCross} />
+          </button>
+        )}
       </div>
       <style jsx>{`
         .hashtag {
@@ -36,6 +59,21 @@ const Tag: React.FC<TagProps> = (props) => {
           color: ${props.accentColor || "black"};
           overflow-wrap: break-word;
           word-break: break-word;
+        }
+        .delete {
+          display: none;
+        }
+
+        .deletable .delete {
+          /*display: inline-block;*/
+        }
+        button {
+          border-width: 0;
+          background-color: transparent;
+          padding: 0;
+        }
+        button:hover {
+          cursor: pointer;
         }
         .tag.compact {
           font-size: smaller;
@@ -58,7 +96,7 @@ export const INDEXABLE_TAG_COLOR = "#FF5A13";
 export const CATEGORY_TAG_COLOR = "#138EFF";
 export const CW_TAG_COLOR = "#FFC700";
 
-const getDataForTagType = (tag: TagsType) => {
+export const getDataForTagType = (tag: TagsType) => {
   if (tag.indexable) {
     return {
       symbol: INDEXABLE_PREFIX,

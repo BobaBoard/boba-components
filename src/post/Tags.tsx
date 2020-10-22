@@ -1,6 +1,6 @@
 import React from "react";
 
-import {
+import Tag, {
   TagsFactory,
   INDEXABLE_PREFIX,
   CATEGORY_PREFIX,
@@ -8,6 +8,7 @@ import {
   INDEXABLE_TAG_COLOR,
   CATEGORY_TAG_COLOR,
   CW_TAG_COLOR,
+  getDataForTagType,
 } from "../common/Tag";
 import classnames from "classnames";
 import debug from "debug";
@@ -60,6 +61,7 @@ const TagsDisplay: React.FC<TagsInputProps & { deleting: boolean }> = ({
   tags,
   editable,
   deleting,
+  onTagsDelete,
 }) => {
   const whisperTags: TagsType[] = [];
   const specialTags: TagsType[] = [];
@@ -92,7 +94,15 @@ const TagsDisplay: React.FC<TagsInputProps & { deleting: boolean }> = ({
                 whisper: !(tag.category || tag.contentWarning || tag.indexable),
               })}
             >
-              {TagsFactory.create(tag)}
+              <Tag
+                name={tag.name}
+                {...getDataForTagType(tag)}
+                compact
+                deletable
+                onDeleteTag={() => {
+                  onTagsDelete?.(tag);
+                }}
+              />
             </div>
           )),
           "special-tags"
@@ -109,7 +119,15 @@ const TagsDisplay: React.FC<TagsInputProps & { deleting: boolean }> = ({
                 whisper: isWhisperTag(tag),
               })}
             >
-              {TagsFactory.create(tag)}
+              <Tag
+                name={tag.name}
+                {...getDataForTagType(tag)}
+                compact
+                deletable
+                onDeleteTag={() => {
+                  onTagsDelete?.(tag);
+                }}
+              />
             </div>
           )),
           "whisper-tags"
@@ -196,7 +214,7 @@ const TagsInput: React.FC<TagsInputProps> = ({
                   name: category,
                   accentColor: "white",
                   category: true,
-                  type: TagType.CATEGORY
+                  type: TagType.CATEGORY,
                 });
                 e.preventDefault();
               }}
@@ -205,7 +223,7 @@ const TagsInput: React.FC<TagsInputProps> = ({
                 name: category,
                 accentColor: "white",
                 category: true,
-                type: TagType.CATEGORY
+                type: TagType.CATEGORY,
               })}
             </div>
           ))}
@@ -430,6 +448,7 @@ export interface TagsInputProps {
   tags: TagsType[];
   onTagsDelete?: (deletedTag: TagsType) => void;
   onTagsAdd?: (newTag: TagsType) => void;
+  onTagClick?: (clickedTag: TagsType) => void;
   editable?: boolean;
   onSubmit?: (newTag?: TagsType) => void;
   accentColor?: string;
