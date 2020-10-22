@@ -117,6 +117,7 @@ export const TagsWithOptions = () => {
     },
     { name: "tag1", category: true, type: TagType.CATEGORY },
     { name: "tag2", category: true, type: TagType.CATEGORY },
+    { name: "no options!", category: true, type: TagType.CATEGORY },
     { name: "a long tag", contentWarning: true, type: TagType.CONTENT_WARNING },
     {
       name: "a very very very very very long tag with many words",
@@ -141,6 +142,9 @@ export const TagsWithOptions = () => {
       <Tags
         tags={tags}
         getOptionsForTag={(tag: TagsType) => {
+          if (tag.name == "no options!") {
+            return;
+          }
           let options = [
             { name: "Option 1", link: { onClick: action("option!") } },
           ];

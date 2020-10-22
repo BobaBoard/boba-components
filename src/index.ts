@@ -33,6 +33,7 @@ import MasonryView from "./layout/MasonryView";
 import PostQuote from "./post/PostQuote";
 import UserDetails from "./user/UserDetails";
 import BobaDex from "./user/BobaDex";
+import { TagType } from "./types";
 
 import flush from "styled-jsx/server";
 
@@ -74,4 +75,8 @@ export {
   CategoryFilter,
   PostQuote,
   BobaDex,
+  TagType,
 };
+
+import type { TagsType } from "./types";
+export type { TagsType };

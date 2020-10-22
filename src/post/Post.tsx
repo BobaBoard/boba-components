@@ -4,7 +4,7 @@ import UpdatesHeader from "./UpdatesHeader";
 import Header, { HeaderStyle } from "./Header";
 import Footer from "./Footer";
 import Tags from "./Tags";
-import DropdownListMenu from "../common/DropdownListMenu";
+import DropdownListMenu, { DropdownProps } from "../common/DropdownListMenu";
 import Card from "../common/Card";
 import Reaction from "../common/Reaction";
 import Editor from "@bobaboard/boba-editor";
@@ -15,7 +15,7 @@ import { TagsFactory } from "../common/Tag";
 
 import Theme from "../theme/default";
 import debug from "debug";
-import { LinkWithAction } from "types";
+import { LinkWithAction, TagsType } from "types";
 
 const log = debug("bobaui:post-log");
 
@@ -89,6 +89,7 @@ const Post = React.forwardRef<PostHandler, PostProps>((props, ref) => {
               whisperTags: [],
               contentWarnings: props.tags?.contentWarnings || [],
             })}
+            getOptionsForTag={props.getOptionsForTag}
           />
         </div>
         <div className="card-container" ref={containerRef}>
@@ -145,6 +146,7 @@ const Post = React.forwardRef<PostHandler, PostProps>((props, ref) => {
                           })
                         : []
                     }
+                    getOptionsForTag={props.getOptionsForTag}
                   />
                 </div>
                 <div className="notes">
@@ -359,4 +361,5 @@ export interface PostProps {
     slug: string;
     accentColor: string;
   };
+  getOptionsForTag?: (tag: TagsType) => DropdownProps["options"];
 }

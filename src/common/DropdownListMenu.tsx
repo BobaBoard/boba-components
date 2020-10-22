@@ -29,7 +29,9 @@ export interface DropdownProps {
 }
 
 const isSmallScreen = () => {
-  return matchMedia("only screen and (max-width: 575px)").matches;
+  return typeof matchMedia === "undefined"
+    ? false
+    : matchMedia("only screen and (max-width: 575px)").matches;
 };
 
 const DropdownContent: React.FC<
@@ -176,7 +178,7 @@ const DropdownMenu: React.FC<DropdownProps> = (props) => {
         border={{ width: "2px", radius: "5px" }}
       >
         <button
-          className="wrapper"
+          className={classnames("wrapper", { "with-options": props.options })}
           tabIndex={0}
           onClick={() => setOpen(!isOpen)}
         >
@@ -209,6 +211,9 @@ const DropdownMenu: React.FC<DropdownProps> = (props) => {
         }
         .wrapper:focus {
           outline: none;
+        }
+        .wrapper.with-options:hover {
+          cursor: pointer;
         }
       `}</style>
     </>

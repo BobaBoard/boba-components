@@ -10,10 +10,7 @@ import Tag, {
   CW_TAG_COLOR,
   getDataForTagType,
 } from "../common/Tag";
-import DropdownListMenu, {
-  DropdownProps,
-  DropdownStyle,
-} from "../common/DropdownListMenu";
+import DropdownListMenu, { DropdownProps } from "../common/DropdownListMenu";
 import classnames from "classnames";
 import debug from "debug";
 import { TagsType, TagType } from "../types";
