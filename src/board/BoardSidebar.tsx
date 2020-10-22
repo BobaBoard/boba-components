@@ -27,9 +27,6 @@ const BoardSidebar: React.FC<BoardSidebarProps> = (props) => {
   );
   const [currentAccent, setCurrentAccent] = React.useState(props.accentColor);
   const [currentTagline, setCurrentTagline] = React.useState(props.tagline);
-  const [filteredCategory, setFilteredCategory] = React.useState<string | null>(
-    null
-  );
 
   React.useEffect(() => {
     setCurrentAccent(props.accentColor);
@@ -180,7 +177,6 @@ const BoardSidebar: React.FC<BoardSidebarProps> = (props) => {
             if (props.editing) {
               return;
             }
-            setFilteredCategory(null);
 
             props.onCategoriesStateChange(
               currentDescriptions.flatMap((description) =>
@@ -197,7 +193,6 @@ const BoardSidebar: React.FC<BoardSidebarProps> = (props) => {
             if (props.editing) {
               return;
             }
-            setFilteredCategory(changingCategory);
             props.onCategoriesStateChange(
               currentDescriptions.flatMap((description) =>
                 description.type == "category_filter"
@@ -211,10 +206,9 @@ const BoardSidebar: React.FC<BoardSidebarProps> = (props) => {
           }}
           activeCategories={currentDescriptions.flatMap((description) =>
             description.type == "category_filter"
-              ? description.categories.filter(
-                  (category) =>
-                    filteredCategory == null || category == filteredCategory
-                )
+              ? !props.editing && props.activeCategory
+                ? [props.activeCategory]
+                : description.categories
               : []
           )}
           onDescriptionChange={(description) => {
@@ -324,6 +318,7 @@ interface EditableBoardSidebarProps extends BoardMetadataType {
 interface DisplayBoardSidebarProps extends BoardMetadataType {
   editing?: false;
   previewOptions?: { name: string; link: LinkWithAction }[];
+  activeCategory: string | null;
   onCategoriesStateChange: (
     categories: { name: string; active: boolean }[]
   ) => void;
