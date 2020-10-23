@@ -214,7 +214,7 @@ const Layout = React.forwardRef<{ closeSideMenu: () => void }, LayoutProps>(
           </div>
           <style jsx>{`
             .layout {
-              background-color: pink;
+              background-color: #131518;
               display: flex;
               font-family: "Inter", sans-serif;
             }
@@ -425,6 +425,9 @@ const Layout = React.forwardRef<{ closeSideMenu: () => void }, LayoutProps>(
               }
             }
             @media only screen and (max-width: 600px) {
+              .side-menu-content {
+                height: calc(100% - 60px);
+              }
               .layout-body.side-menu-open {
                 margin-left: calc(100vw - 100px);
               }

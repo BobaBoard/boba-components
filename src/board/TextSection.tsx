@@ -67,21 +67,21 @@ const TextSection: React.FC<TextSectionProps> = (props) => {
           min-height: 300px;
         }
         .content-editor {
-          background-color: #2F2F30;
+          background-color: #2f2f30;
           border-radius: 8px;
           padding: 10px 15px 15px;
           --text-color: white;
         }
 
-        :global(.ql-editor > * + *) {
-          margin: 10px 0 0 0!important;
+        .content-editor :global(.ql-editor > * + *) {
+          margin: 10px 0 0 0 !important;
         }
 
-        :global(.ql-editor > ul, .ql-editor > ol) {
+        .content-editor :global(.ql-editor > ul, .ql-editor > ol) {
           padding: 0;
         }
 
-        :global(.ql-editor > ul > li, .ql-editor > ol > li) {
+        .content-editor :global(.ql-editor > ul > li, .ql-editor > ol > li) {
           padding-left: 1em;
         }
       `}</style>
