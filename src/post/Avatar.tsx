@@ -44,7 +44,7 @@ const Avatar: React.FC<AvatarProps> = (props) => {
           transform: translateY(-50%);
         }
         .avatar.mask {
-          margin-right: 10%;
+          margin-right: 40px;
         }
         .avatar.mask::before {
           mask-image: url(${AvatarMask});
