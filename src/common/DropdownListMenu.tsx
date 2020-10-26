@@ -85,6 +85,7 @@ const DropdownContent: React.FC<
           display: block;
           color: ${reverseThemeColor};
           text-decoration: none;
+          white-space: nowrap;
         }
         .option:hover {
           background-color: ${hoverBackgroundColor};
@@ -120,7 +121,7 @@ const DropdownContent: React.FC<
             animation-name: slideUp;
             animation-duration: 0.2s;
             border: 1px solid black;
-            z-index: 52;
+            z-index: 102;
           }
           .popover-icon {
             margin-right: 12px;
@@ -137,6 +138,7 @@ const DropdownContent: React.FC<
 const DropdownMenu: React.FC<DropdownProps> = (props) => {
   const [isOpen, setOpen] = React.useState(false);
   const { setOpen: setBackdropOpen } = useBackdrop({
+    zIndex: 101,
     onClick: () => {
       setOpen(false);
     },

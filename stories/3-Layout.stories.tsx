@@ -180,7 +180,18 @@ const menuOptions = {
   selectedMenuOption: "inbox",
 };
 
-const LayoutTemplate = (args: any) => <Layout {...args} />;
+const LayoutTemplate = (args: any) => (
+  <>
+    <Layout {...args} />
+    <style jsx>
+      {`
+        :global(body) {
+          padding: 0 !important;
+        }
+      `}
+    </style>
+  </>
+);
 
 export const SimpleLayout = LayoutTemplate.bind({});
 SimpleLayout.args = {
@@ -201,7 +212,13 @@ SimpleLayout.args = {
 
 export const LoggedInLayout = LayoutTemplate.bind({});
 LoggedInLayout.args = {
-  mainContent: <div>This is the main content!</div>,
+  mainContent: (
+    <div
+      style={{ backgroundColor: "darkgray", height: "2000px", width: "100%" }}
+    >
+      This is the main content!
+    </div>
+  ),
   sideMenuContent: <div>Get a load of this menu content!</div>,
   title: "!gore",
   user: {
@@ -228,7 +245,9 @@ LoggedInLayout.args = {
       },
     },
     {
-      name: "opt2",
+      icon: faInbox,
+      name:
+        "opt2askldjaskdjaskdjaskldjaskldjaskldjaskldjaskldjaskldjaskldjaskldjaklsj",
       link: {
         onClick: action("opt2"),
       },

@@ -73,7 +73,13 @@ export const useCompact = (
   );
 };
 
-export const useBackdrop = ({ onClick }: { onClick: () => void }) => {
+export const useBackdrop = ({
+  onClick,
+  zIndex,
+}: {
+  onClick: () => void;
+  zIndex?: number;
+}) => {
   const [open, setOpen] = React.useState(false);
 
   React.useEffect(() => {
@@ -89,7 +95,7 @@ export const useBackdrop = ({ onClick }: { onClick: () => void }) => {
     backdropNode.style.bottom = "0";
     backdropNode.style.left = "0";
     backdropNode.style.right = "0";
-    backdropNode.style.zIndex = "50";
+    backdropNode.style.zIndex = "" + (zIndex || 50);
     backdropNode.style.display = "none";
     document.body.appendChild(backdropNode);
   }, []);

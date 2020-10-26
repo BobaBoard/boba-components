@@ -484,6 +484,7 @@ export interface LayoutProps {
   }[];
   selectedMenuOption?: string;
   loggedInMenuOptions?: {
+    icon: IconDefinition;
     name: string;
     link: LinkWithAction;
   }[];

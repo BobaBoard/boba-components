@@ -47,6 +47,7 @@ const Popover: React.FC<PopoverProps> = (props) => {
         isOpen={innerIsOpen}
         position={props.position}
         padding={props.padding || 10}
+        windowBorderPadding={10}
         onClickOutside={(e) => {
           props.onClickOutside?.(e);
         }}

@@ -352,10 +352,7 @@ export interface PostProps {
   notesLink: LinkWithAction;
   centered?: boolean;
   reactable?: boolean;
-  menuOptions?: {
-    name: string;
-    link: LinkWithAction;
-  }[];
+  menuOptions?: DropdownProps["options"];
   onEmbedLoaded?: () => void;
   board?: {
     slug: string;
