@@ -11,6 +11,9 @@ export interface InputProps {
   id: string;
   value: string;
   label: string;
+  helper?: string;
+  placeholder?: string;
+  maxLength?: number;
   disabled?: boolean;
   errorMessage?: string;
   onTextChange: (text: string) => void;
@@ -21,45 +24,44 @@ export interface InputProps {
 
 const Input: React.FC<InputProps> = (props) => {
   const [focused, setFocused] = React.useState(false);
+  const { errorMessage, helper, maxLength, value } = props;
 
-  const THEME_COLOR = props.theme == InputStyle.DARK ? "#1c1c1c" : "#fff";
-  const REVERSE_THEME_COLOR =
-    props.theme == InputStyle.DARK ? "#fff" : "#1c1c1c";
   return (
     <div
       className={classnames("input", {
-        error: !!props.errorMessage,
+        error: !!errorMessage,
+        helper: !errorMessage && !!helper,
         focused,
-        empty: props.value.length == 0,
         disabled: props.disabled,
       })}
     >
       <div className="label">{props.label}</div>
-      <label
-        htmlFor={props.id}
-        className={classnames("label-field", {
-          error: !!props.errorMessage,
+      <input
+        className={classnames("input-field", {
           focused,
         })}
-      >
-        <input
-          className={classnames("input-field", {
-            error: !!props.errorMessage,
-            focused,
-          })}
-          name={props.label}
-          id={props.id}
-          type={props.password ? "password" : "text"}
-          value={props.value}
-          placeholder={props.label}
-          onChange={(e) =>
-            !props.disabled && props.onTextChange(e.target.value)
-          }
-          onFocus={(e) => !props.disabled && setFocused(true)}
-          onBlur={() => !props.disabled && setFocused(false)}
-          disabled={props.disabled}
-        />
-      </label>
+        name={props.label}
+        id={props.id}
+        type={props.password ? "password" : "text"}
+        value={value}
+        placeholder={props.placeholder}
+        onChange={(e) => !props.disabled && props.onTextChange(e.target.value)}
+        onFocus={(e) => !props.disabled && setFocused(true)}
+        onBlur={() => !props.disabled && setFocused(false)}
+        disabled={props.disabled}
+      />
+      {}
+      <div></div>
+      {(!!helper || !!errorMessage || !!maxLength) && (
+        <div className="input__bottom">
+          <span className="input__bottom-text">
+            {!!errorMessage ? errorMessage : helper || ""}
+          </span>
+          <span className="input__bottom-limit">
+            {!!maxLength ? `${value.length}/${maxLength}` : ""}
+          </span>
+        </div>
+      )}
       <style jsx>{`
         .input {
           display: inline-block;
@@ -70,30 +72,41 @@ const Input: React.FC<InputProps> = (props) => {
           opacity: 0.8;
         }
         .input .label {
-          opacity: 1;
-          color: ${props.color || REVERSE_THEME_COLOR};
-          padding-left: 18px;
-          font-size: small;
-          padding-bottom: 2px;
+          color: #fff;
+          font-size: 16px;
+          padding-bottom: 10px;
         }
-        .input.empty .label {
-          visibility: hidden;
-          opacity: 0;
-          transition-property: opacity;
-          transition-duration: 0.8s;
-          transition-timing-function: easeInSine;
+        .error .input-field {
+          border: 1px solid rgba(214, 19, 19, 0.4);
         }
         .input-field {
-          border-radius: 25px;
-          padding: 10px 15px;
-          border: 2px solid ${props.color || REVERSE_THEME_COLOR};
-          color: ${props.color || REVERSE_THEME_COLOR};
-          background-color: ${THEME_COLOR};
+          border-radius: 8px;
+          border: 1px solid rgba(255, 255, 255, 0.3);
+          color: #fff;
+          font-size: 16px;
+          padding: 12px;
+          background-color: #2f2f30;
           width: 100%;
           box-sizing: border-box;
         }
         .input-field:focus {
           outline: none;
+          border: 1px solid rgba(255, 255, 255, 0.5);
+          box-sizing: border-box;
+          box-shadow: 0px 0px 0px 3px rgba(255, 255, 255, 0.1);
+        }
+        .error .input-field:focus {
+          box-shadow: 0px 0px 0px 3px rgba(214, 19, 19, 0.2);
+        }
+        .input__bottom {
+          color: #bfbfbf;
+          display: flex;
+          font-size: 14px;
+          justify-content: space-between;
+          padding-top: 10px;
+        }
+        .input.error .input__bottom-text {
+          color: #d61313;
         }
       `}</style>
     </div>

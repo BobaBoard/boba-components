@@ -10,37 +10,47 @@ export default {
 
 export const Editable = () => {
   const [text, setText] = React.useState("");
+
   return (
     <>
       <div style={{ margin: "25px" }}>
         <Input
           id="test1"
           value={text}
-          label="A text input"
+          label="Simple text input"
+          placeholder="Placeholder"
           onTextChange={(text) => setText(text)}
         />
+      </div>
+      <div style={{ margin: "25px" }}>
         <Input
-          id="test1"
+          id="test2"
           value={text}
-          label="A text input"
+          label="Text input with helper text"
+          placeholder="Placeholder"
+          helper="helper text"
           onTextChange={(text) => setText(text)}
-          theme={InputStyle.DARK}
         />
+      </div>
+      <div style={{ margin: "25px" }}>
         <Input
-          id="test1"
+          id="test3"
           value={text}
-          label="A text input"
+          label="Text input with error message"
+          placeholder="Placeholder"
+          errorMessage="Error text"
           onTextChange={(text) => setText(text)}
-          theme={InputStyle.LIGHT}
-          color="#f96680"
         />
+      </div>
+      <div style={{ margin: "25px" }}>
         <Input
-          id="test1"
+          id="test4"
           value={text}
-          label="A text input"
+          label="Text input with max length"
+          placeholder="Placeholder"
+          helper="helper text"
+          maxLength={30}
           onTextChange={(text) => setText(text)}
-          theme={InputStyle.DARK}
-          color="#f96680"
         />
       </div>
     </>
@@ -59,43 +69,8 @@ export const Password = () => {
         <Input
           id="test1"
           value={text}
-          label="A text input"
+          label="Password"
           onTextChange={(text) => setText(text)}
-          password
-        />
-        <Input
-          id="test1"
-          value={text}
-          label="A text input"
-          onTextChange={(text) => setText(text)}
-          theme={InputStyle.DARK}
-          password
-        />
-        <Input
-          id="test1"
-          value={text}
-          label="A text input"
-          onTextChange={(text) => setText(text)}
-          theme={InputStyle.LIGHT}
-          color="#f96680"
-          password
-        />
-        <Input
-          id="test1"
-          value={text}
-          label="A text input"
-          onTextChange={(text) => setText(text)}
-          theme={InputStyle.DARK}
-          color="#f96680"
-          password
-        />
-        <Input
-          id="test1"
-          value={text}
-          label="A text input"
-          onTextChange={(text) => setText(text)}
-          theme={InputStyle.DARK}
-          color="#f96680"
           password
         />
       </div>
@@ -117,41 +92,6 @@ export const Disabled = () => {
           value={text}
           label="A text input"
           onTextChange={(text) => setText(text)}
-          disabled
-        />
-        <Input
-          id="test1"
-          value={text}
-          label="A text input"
-          onTextChange={(text) => setText(text)}
-          theme={InputStyle.DARK}
-          disabled
-        />
-        <Input
-          id="test1"
-          value={text}
-          label="A text input"
-          onTextChange={(text) => setText(text)}
-          theme={InputStyle.LIGHT}
-          color="#f96680"
-          disabled
-        />
-        <Input
-          id="test1"
-          value={text}
-          label="A text input"
-          onTextChange={(text) => setText(text)}
-          theme={InputStyle.DARK}
-          color="#f96680"
-          disabled
-        />
-        <Input
-          id="test1"
-          value={text}
-          label="A text input"
-          onTextChange={(text) => setText(text)}
-          theme={InputStyle.DARK}
-          color="#f96680"
           disabled
         />
       </div>
