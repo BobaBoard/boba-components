@@ -1,20 +1,20 @@
 import React from "react";
+import useComponentSize from "@rehooks/component-size";
 
+import classnames from "classnames";
+import fitty from "fitty";
+import debug from "debug";
+import { LinkWithAction } from "types";
+
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import { faComment, faPlusSquare } from "@fortawesome/free-regular-svg-icons";
+import { faCaretDown, faCertificate } from "@fortawesome/free-solid-svg-icons";
+
+import Avatar from "./Avatar";
 import DefaultTheme from "../theme/default";
 import Tooltip from "../common/Tooltip";
 import DropdownListMenu from "../common/DropdownListMenu";
 import Tag from "../common/Tag";
-import classnames from "classnames";
-import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import useComponentSize from "@rehooks/component-size";
-import fitty from "fitty";
-import debug from "debug";
-
-import { faComment, faPlusSquare } from "@fortawesome/free-regular-svg-icons";
-import { faCaretDown, faCertificate } from "@fortawesome/free-solid-svg-icons";
-
-import { LinkWithAction } from "types";
-
 //const log = debug("bobaui:header-log");
 const info = debug("bobaui:header-info");
 
@@ -225,16 +225,11 @@ const PostHeader: React.FC<PostHeaderProps> = (props) => {
       >
         <div className="identity">
           <Metadata {...props}>
-            <div className="avatar">
-              <div
-                className={classnames("secret-avatar", {
-                  visible:
-                    !props.forceHide &&
-                    props.userIdentity?.avatar &&
-                    props.secretIdentity?.avatar,
-                })}
-              />
-            </div>
+            <Avatar
+              forceHide={props.forceHide}
+              userIdentity={props.userIdentity}
+              secretIdentity={props.secretIdentity}
+            />
           </Metadata>
         </div>
         {props.children}
@@ -266,21 +261,6 @@ const PostHeader: React.FC<PostHeaderProps> = (props) => {
         </div>
       </div>
       <style jsx>{`
-        .avatar {
-          position: relative;
-          width: 60px;
-          margin-right: 5%;
-          height: 60px;
-          min-width: 30px;
-          min-height: 30px;
-          display: block;
-          align-self: center;
-        }
-        .post-header.squeezed .avatar {
-          width: 35px;
-          height: 35px;
-        }
-
         .identity {
           display: flex;
           max-width: 100%;
@@ -293,45 +273,6 @@ const PostHeader: React.FC<PostHeaderProps> = (props) => {
           align-self: stretch;
           justify-content: space-evenly;
           margin-right: 15px;
-        }
-        .avatar::before {
-          background: url("${props.forceHide
-            ? (props.secretIdentity || {}).avatar
-            : (props.userIdentity || {}).avatar ||
-              (props.secretIdentity || {}).avatar}");
-          background-size: cover;
-          display: block;
-          content: "";
-          width: 100%;
-          padding-top: 100%;
-          position: absolute;
-          border-radius: 50%;
-          top: 50%;
-          transform: translateY(-50%);
-        }
-        .secret-avatar {
-          position: absolute;
-          bottom: 0;
-          right: 0;
-          width: 40%;
-          height: 40%;
-          display: none;
-        }
-        .secret-avatar.visible {
-          display: block;
-        }
-        .secret-avatar::before {
-          border: 3px solid ${props.backgroundColor || "white"};
-          background: url("${(props.secretIdentity || {}).avatar}");
-          background-size: cover;
-          display: block;
-          content: "";
-          width: 100%;
-          padding-top: 100%;
-          position: absolute;
-          border-radius: 50%;
-          top: 50%;
-          transform: translateY(-50%);
         }
         .post-header {
           display: flex;
