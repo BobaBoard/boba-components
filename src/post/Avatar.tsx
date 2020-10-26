@@ -1,7 +1,7 @@
 import React from "react";
 import classnames from "classnames";
 
-import AvatarMask from "../../stories/images/avatar_mask.svg";
+import AvatarMask from "../images/avatar_mask.svg";
 
 const Avatar: React.FC<AvatarProps> = (props) => {
   const visibleSecretAvatar =
