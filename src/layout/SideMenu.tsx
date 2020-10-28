@@ -1,87 +1,51 @@
 import React from "react";
-
-import { DisplayStyle } from "../board/BoardPreview";
-import BoardsDisplay from "../board/BoardsDisplay";
-import SearchBar from "../common/SearchBar";
-import Button from "../common/Button";
-import LoadingBar from "../common/LoadingBar";
-
-import classnames from "classnames";
-import Scrollbar from "../common/Scrollbar";
-
-import { faCheck } from "@fortawesome/free-solid-svg-icons";
 import { LinkWithAction } from "types";
 
+import PinnedBoardsMenu from "../common/PinnedBoardsMenu";
+import BoardsMenuSection from "../common/BoardsMenuSection";
+
+import StarIcon from "../images/star.svg";
+import ClockIcon from "../images/clock.svg";
+
+import Scrollbar from "../common/Scrollbar";
+
 const SideMenu: React.FC<SideMenuProps> = ({
-  loading,
   pinnedBoards,
   recentBoards,
-  searchBoards,
-  showSearch,
-  showDismissNotifications,
-  onNotificationsDismissRequest,
+  allBoards,
 }) => {
-  const [searchVisible, setSearchVisible] = React.useState(false);
-  const hasSearchBar = showSearch || typeof showSearch === "undefined";
   return (
     <div>
-      <LoadingBar loading={loading} />
       <Scrollbar>
         <div className="side-menu">
-          {pinnedBoards && (
-            <div className="pinned-boards">
-              <BoardsDisplay
-                title="Pinned Boards"
-                boards={pinnedBoards}
-                boardsDisplayStyle={DisplayStyle.MINI}
-              />
-            </div>
-          )}
-
-          {hasSearchBar && (
-            <>
-              <div className="search-bar">
-                <SearchBar
-                  initialText={"Search Boards"}
-                  onChange={(text) => {
-                    setSearchVisible(text != "");
-                  }}
-                />
-              </div>
-              <div
-                className={classnames("search-result", {
-                  visible: searchVisible,
-                })}
-              >
-                {searchBoards && (
-                  <BoardsDisplay title="Search Results" boards={searchBoards} />
-                )}
-              </div>
-            </>
-          )}
-          <div
-            className={classnames("recent-boards", { visible: !searchVisible })}
-          >
-            {recentBoards && (
-              <BoardsDisplay
-                title="Recent Boards"
-                boards={recentBoards}
-              ></BoardsDisplay>
-            )}
+          <PinnedBoardsMenu boards={pinnedBoards} />
+          <div className="board-menus">
+            <BoardsMenuSection
+              title="favorites"
+              icon={StarIcon}
+              emptyTitle="Title for empty state"
+              emptyDescription="Text for an empty states' description"
+            />
+            <BoardsMenuSection
+              title="recent updates"
+              icon={ClockIcon}
+              boards={recentBoards}
+            />
           </div>
-          {showDismissNotifications && (
-            <div className="notifications-dismiss-container">
-              <Button icon={faCheck} onClick={onNotificationsDismissRequest}>
-                Dismiss Notifications
-              </Button>
-            </div>
-          )}
         </div>
       </Scrollbar>
       <style jsx>
         {`
           .side-menu {
-            padding: 20px 15px;
+            background-color: #1c1c1c;
+            height: 100vh;
+            width: 311px;
+            position: relative;
+          }
+          .board-menus {
+            position: absolute;
+            top: 0;
+            left: 65px;
           }
           .search-bar {
             margin-top: 20px;
@@ -134,7 +98,7 @@ export interface SideMenuProps {
     muted?: boolean;
     link: LinkWithAction;
   }[];
-  searchBoards?: {
+  allBoards?: {
     slug: string;
     avatar: string;
     description: string;
@@ -143,8 +107,8 @@ export interface SideMenuProps {
     muted?: boolean;
     link: LinkWithAction;
   }[];
-  showSearch?: boolean;
-  showDismissNotifications?: boolean;
-  onNotificationsDismissRequest?: () => void;
-  loading?: boolean;
+  menuOptions?: {
+    name: string;
+    link: LinkWithAction;
+  }[];
 }
