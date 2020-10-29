@@ -95,7 +95,6 @@ export const useBackdrop = ({
     backdropNode.style.bottom = "0";
     backdropNode.style.left = "0";
     backdropNode.style.right = "0";
-    backdropNode.style.zIndex = "" + (zIndex || 50);
     backdropNode.style.display = "none";
     document.body.appendChild(backdropNode);
   }, []);
@@ -113,6 +112,7 @@ export const useBackdrop = ({
       e.stopPropagation();
     });
     backdropNode.style.display = open ? "block" : "none";
+    backdropNode.style.zIndex = "" + (zIndex || 50);
   }, [open]);
 
   return { open, setOpen };

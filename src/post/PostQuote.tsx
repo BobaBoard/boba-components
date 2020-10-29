@@ -12,7 +12,6 @@ const PostQuote: React.FC<PostQuoteProps> = (props) => {
           <Avatar
             secretIdentity={props.secretIdentity}
             userIdentity={props.userIdentity}
-            backgroundColor={props.backgroundColor}
           />
         </div>
         <div className="creation-time">published: {props.createdTime}</div>
@@ -73,7 +72,6 @@ export interface PostQuoteProps {
     avatar: string;
     name: string;
   };
-  backgroundColor?: string;
 }
 
 export default PostQuote;
