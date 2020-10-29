@@ -1,18 +1,20 @@
 import React from "react";
 import { LinkWithAction } from "types";
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import { faEllipsisH } from "@fortawesome/free-solid-svg-icons";
 
 import PinnedBoardsMenu from "../common/PinnedBoardsMenu";
 import BoardsMenuSection from "../common/BoardsMenuSection";
+import DropdownMenu from "../common/DropdownListMenu";
+import Scrollbar from "../common/Scrollbar";
 
 import StarIcon from "../images/star.svg";
 import ClockIcon from "../images/clock.svg";
 
-import Scrollbar from "../common/Scrollbar";
-
 const SideMenu: React.FC<SideMenuProps> = ({
   pinnedBoards,
   recentBoards,
-  allBoards,
+  menuOptions,
 }) => {
   return (
     <div>
@@ -20,6 +22,14 @@ const SideMenu: React.FC<SideMenuProps> = ({
         <div className="side-menu">
           <PinnedBoardsMenu boards={pinnedBoards} />
           <div className="board-menus">
+            <div className="board-filter">
+              <input placeholder="Filter boards" />
+              <DropdownMenu options={menuOptions}>
+                <div className="board-filter-options">
+                  <FontAwesomeIcon icon={faEllipsisH} />
+                </div>
+              </DropdownMenu>
+            </div>
             <BoardsMenuSection
               title="favorites"
               icon={StarIcon}
@@ -46,30 +56,47 @@ const SideMenu: React.FC<SideMenuProps> = ({
             position: absolute;
             top: 0;
             left: 65px;
+            height: 100%;
           }
-          .search-bar {
-            margin-top: 20px;
-            text-align: center;
-            margin-bottom: 15px;
+          .board-filter {
+            padding: 10px;
+            position: relative;
+            border-bottom: 2px solid #131518;
           }
-          .recent-boards {
-            display: none;
+          .board-filter input {
+            background: #2e2e30;
+            color: #fff;
+            font-size: 16px;
+            line-height: 20px;
+            padding: 2px 10px;
+            border: none;
+            border-radius: 15px;
+            width: 160px;
           }
-          .pinned-boards {
-            max-width: 400px;
+          .board-filter input:focus {
+            outline: none;
           }
-          .recent-boards.visible {
-            display: block;
+          .board-filter-options {
+            height: 25px;
+            width: 25px;
+            background: #2e2e30;
+            border-radius: 15px;
+            position: absolute;
+            top: 10px;
+            right: 12px;
+            color: #bfbfbf;
+            display: flex;
+            justify-content: center;
+            align-items: center;
           }
-          .search-result {
-            display: none;
-          }
-          .search-result.visible {
-            display: block;
-          }
-          .notifications-dismiss-container {
-            margin-top: 30px;
-            text-align: center;
+          @media only screen and (max-width: 575px) {
+            .board-filter {
+              border-bottom: 0;
+              border-top: 2px solid #131518;
+              position: absolute;
+              bottom: 0;
+              width: 92%;
+            }
           }
         `}
       </style>

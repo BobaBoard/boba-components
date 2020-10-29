@@ -154,6 +154,7 @@ const menuOptions = {
   menuOptions: [
     {
       id: "boards",
+      name: "boards",
       icon: faTh,
       link: {
         href: "https://www.youtube.com/watch?v=dQw4w9WgXcQ",
@@ -162,6 +163,7 @@ const menuOptions = {
     },
     {
       id: "inbox",
+      name: "inbox",
       icon: faInbox,
       link: {
         href: "https://www.youtube.com/watch?v=dQw4w9WgXcQ",
@@ -170,6 +172,7 @@ const menuOptions = {
     },
     {
       id: "search",
+      name: "search",
       icon: faSearch,
       link: {
         href: "https://www.youtube.com/watch?v=dQw4w9WgXcQ",
@@ -301,10 +304,8 @@ export const SideMenuPreview = () => {
     <div style={{ maxWidth: "500px", backgroundColor: "#131518" }}>
       <SideMenu
         pinnedBoards={PINNED_BOARDS}
-        searchBoards={SEARCH_BOARDS}
         recentBoards={RECENT_BOARDS}
-        showDismissNotifications
-        onNotificationsDismissRequest={() => {}}
+        {...menuOptions}
       />
     </div>
   );
