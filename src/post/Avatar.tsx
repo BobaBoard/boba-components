@@ -9,8 +9,17 @@ const Avatar: React.FC<AvatarProps> = (props) => {
     props.userIdentity?.avatar &&
     props.secretIdentity?.avatar;
   return (
-    <>
-      <div className={classnames("avatar", { mask: visibleSecretAvatar })}>
+    <div
+      className={classnames("avatar-container", {
+        compact: props.compact,
+      })}
+    >
+      <div className={classnames("avatar-wrapper")}>
+        <div
+          className={classnames("avatar", {
+            mask: visibleSecretAvatar,
+          })}
+        />
         <div
           className={classnames("secret-avatar", {
             visible: visibleSecretAvatar,
@@ -18,70 +27,58 @@ const Avatar: React.FC<AvatarProps> = (props) => {
         />
       </div>
       <style jsx>{`
+        .avatar-container {
+          width: 80px;
+        }
+        .avatar-container.compact {
+          width: 55px;
+        }
+        .avatar-wrapper {
+          position: relative;
+        }
         .avatar {
           position: relative;
-          width: 60px;
-          margin-right: 5%;
-          height: 60px;
-          min-width: 30px;
-          min-height: 30px;
+          width: 50px;
+          height: 50px;
           display: block;
           align-self: center;
-        }
-        .avatar::before {
           background: url("${props.forceHide
-            ? (props.secretIdentity || {}).avatar
-            : (props.userIdentity || {}).avatar ||
-              (props.secretIdentity || {}).avatar}");
+            ? props.secretIdentity?.avatar
+            : props.userIdentity?.avatar || props.secretIdentity?.avatar}");
           background-size: cover;
-          display: block;
-          content: "";
-          width: 100%;
-          padding-top: 100%;
-          position: absolute;
           border-radius: 50%;
-          top: 50%;
-          transform: translateY(-50%);
         }
         .avatar.mask {
-          margin-right: 40px;
-        }
-        .avatar.mask::before {
           mask-image: url(${AvatarMask});
           mask-position: center;
           mask-repeat: no-repeat;
         }
+        .avatar-container.compact .avatar {
+          width: 35px;
+          height: 35px;
+        }
         .secret-avatar {
           position: absolute;
-          bottom: 0;
-          right: -42%;
-          width: 64%;
-          height: 64%;
+          top: 18px;
+          left: 39px;
+          width: 33px;
+          height: 33px;
           display: none;
+          background: url("${props.secretIdentity?.avatar}");
+          background-size: cover;
+          border-radius: 50%;
+        }
+        .avatar-container.compact .secret-avatar {
+          width: 20px;
+          height: 20px;
+          top: 14px;
+          left: 29px;
         }
         .secret-avatar.visible {
           display: block;
         }
-        .secret-avatar::before {
-          background: url("${(props.secretIdentity || {}).avatar}");
-          background-size: cover;
-          display: block;
-          content: "";
-          width: 100%;
-          padding-top: 100%;
-          position: absolute;
-          border-radius: 50%;
-          top: 50%;
-          transform: translateY(-50%);
-        }
-        @media only screen and (max-width: 300px) {
-          .avatar {
-            width: 35px;
-            height: 35px;
-          }
-        }
       `}</style>
-    </>
+    </div>
   );
 };
 export interface AvatarProps {
@@ -94,6 +91,7 @@ export interface AvatarProps {
     name: string;
   };
   forceHide?: boolean;
+  compact?: boolean;
 }
 
 export default Avatar;

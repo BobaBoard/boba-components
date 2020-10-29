@@ -209,11 +209,13 @@ const Metadata: React.FC<PostHeaderProps> = (props) => {
 
 const PostHeader: React.FC<PostHeaderProps> = (props) => {
   const [tagsOnNewLine, setTagsOnNewLine] = React.useState(false);
+  const [forceCompact, setForceCompact] = React.useState(false);
   let ref = React.useRef<HTMLDivElement>(null);
   // @ts-ignore
   let { width, height } = useComponentSize(ref);
   React.useEffect(() => {
     setTagsOnNewLine(width < 300);
+    setForceCompact(width < 300);
   }, [width]);
 
   info(`Rendering post header`);
@@ -225,11 +227,14 @@ const PostHeader: React.FC<PostHeaderProps> = (props) => {
       >
         <div className="identity">
           <Metadata {...props}>
-            <Avatar
-              forceHide={props.forceHide}
-              userIdentity={props.userIdentity}
-              secretIdentity={props.secretIdentity}
-            />
+            <div className="avatar">
+              <Avatar
+                forceHide={props.forceHide}
+                userIdentity={props.userIdentity}
+                secretIdentity={props.secretIdentity}
+                compact={props.size == HeaderStyle.COMPACT || forceCompact}
+              />
+            </div>
           </Metadata>
         </div>
         {props.children}
@@ -266,6 +271,10 @@ const PostHeader: React.FC<PostHeaderProps> = (props) => {
           max-width: 100%;
           flex-grow: 1;
           min-width: 0;
+        }
+        .avatar {
+          flex-shrink: 0;
+          align-self: center;
         }
         .new-tags {
           display: flex;

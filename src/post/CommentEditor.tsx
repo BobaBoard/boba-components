@@ -200,36 +200,6 @@ const Comment = React.forwardRef<EditorRef, CommentProps>((props, ref) => {
             />
           </div>
         </div>
-        {/* 
-          <ModalTransition>
-            {showCancelModal && (
-              <ModalDialog
-                heading="Cancel comment"
-                appearance="warning"
-                width={400}
-                onClose={() => {
-                  setState({ showCancelModal: false });
-                }}
-                actions={[
-                  {
-                    text: "Cancel",
-                    onClick: () => {
-                      props.onCancel(props.id);
-                      setState({ showCancelModal: false });
-                    },
-                  },
-                  {
-                    text: "Nevermind",
-                    onClick: () => {
-                      setState({ showCancelModal: false });
-                    },
-                  },
-                ]}
-              >
-                <div>Please, no! Please, it has a family to feed...!</div>
-              </ModalDialog>
-            )}
-          </ModalTransition> */}
       </div>
       <style jsx>{`
         .comment-container {
