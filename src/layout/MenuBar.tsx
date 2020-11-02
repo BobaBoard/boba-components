@@ -130,6 +130,7 @@ const MenuBar: React.FC<MenuBarProps> = ({
     <div className="container">
       {menuOptions?.map((option) => (
         <MenuItem
+          key={option.id}
           id={option.id}
           icon={option.icon}
           link={option.link}

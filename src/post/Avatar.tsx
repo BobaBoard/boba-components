@@ -8,6 +8,11 @@ const Avatar: React.FC<AvatarProps> = (props) => {
     !props.forceHide &&
     props.userIdentity?.avatar &&
     props.secretIdentity?.avatar;
+  const currentAvatar = props.forceHide
+    ? props.secretIdentity?.avatar
+    : props.userIdentity?.avatar || props.secretIdentity?.avatar;
+  const secretAvatar = props.secretIdentity?.avatar || "";
+
   return (
     <div
       className={classnames("avatar-container", {
@@ -17,7 +22,7 @@ const Avatar: React.FC<AvatarProps> = (props) => {
       <div className={classnames("avatar-wrapper")}>
         <div
           className={classnames("avatar", {
-            mask: visibleSecretAvatar,
+            "with-secret": visibleSecretAvatar,
           })}
         />
         <div
@@ -28,10 +33,10 @@ const Avatar: React.FC<AvatarProps> = (props) => {
       </div>
       <style jsx>{`
         .avatar-container {
-          width: 80px;
+          width: 75px;
         }
         .avatar-container.compact {
-          width: 55px;
+          width: 50px;
         }
         .avatar-wrapper {
           position: relative;
@@ -42,13 +47,14 @@ const Avatar: React.FC<AvatarProps> = (props) => {
           height: 50px;
           display: block;
           align-self: center;
-          background: url("${props.forceHide
-            ? props.secretIdentity?.avatar
-            : props.userIdentity?.avatar || props.secretIdentity?.avatar}");
+          background: url("${currentAvatar}");
           background-size: cover;
           border-radius: 50%;
         }
-        .avatar.mask {
+        .avatar:not(.with-secret) {
+          margin: 0 auto;
+        }
+        .avatar.with-secret {
           mask-image: url(${AvatarMask});
           mask-position: center;
           mask-repeat: no-repeat;
@@ -64,7 +70,7 @@ const Avatar: React.FC<AvatarProps> = (props) => {
           width: 33px;
           height: 33px;
           display: none;
-          background: url("${props.secretIdentity?.avatar}");
+          background: url("${secretAvatar}");
           background-size: cover;
           border-radius: 50%;
         }
