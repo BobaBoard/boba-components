@@ -42,7 +42,7 @@ const Layout = React.forwardRef<{ closeSideMenu: () => void }, LayoutProps>(
     },
     ref
   ) => {
-    const [showSideMenu, setShowSideMenu] = React.useState(false);
+    const [showSideMenu, setShowSideMenu] = React.useState(true);
     const headerRef = React.useRef<HTMLDivElement>(null);
     const contentRef = React.useRef<HTMLDivElement>(null);
     const layoutRef = React.useRef<HTMLDivElement>(null);
@@ -176,7 +176,7 @@ const Layout = React.forwardRef<{ closeSideMenu: () => void }, LayoutProps>(
                 <a
                   className="logo"
                   onClick={(e) => {
-                    logoLink?.onClick();
+                    logoLink?.onClick?.();
                     if (logoLink?.onClick) {
                       e.preventDefault();
                     }
@@ -192,7 +192,7 @@ const Layout = React.forwardRef<{ closeSideMenu: () => void }, LayoutProps>(
                       "desktop-hidden": forceHideTitle,
                     })}
                     onClick={(e) => {
-                      titleLink?.onClick();
+                      titleLink?.onClick?.();
                       if (titleLink?.onClick) {
                         e.preventDefault();
                       }
@@ -217,6 +217,7 @@ const Layout = React.forwardRef<{ closeSideMenu: () => void }, LayoutProps>(
               background-color: #131518;
               display: flex;
               font-family: "Inter", sans-serif;
+              --side-menu-width: 400px;
             }
             .layout-body {
               display: flex;
@@ -264,10 +265,10 @@ const Layout = React.forwardRef<{ closeSideMenu: () => void }, LayoutProps>(
               transition: left 0.3s ease-out;
             }
             .side-menu-open .header {
-              left: 500px;
+              left: var(--side-menu-width);
             }
             .side-menu-open.layout-body {
-              margin-left: 500px;
+              margin-left: var(--side-menu-width);
             }
             .title-bar {
               display: flex;
@@ -323,12 +324,12 @@ const Layout = React.forwardRef<{ closeSideMenu: () => void }, LayoutProps>(
               transition: width 0.3s ease-out;
             }
             .side-menu-content {
-              width: 500px;
+              width: var(--side-menu-width);
               position: relative;
               height: 100%;
             }
             .side-menu.visible {
-              width: 500px;
+              width: var(--side-menu-width);
             }
             .side-bottom-menu {
               display: none;
@@ -379,18 +380,18 @@ const Layout = React.forwardRef<{ closeSideMenu: () => void }, LayoutProps>(
                 flex-shrink: 1;
               }
               .layout-body.side-menu-open {
-                margin-left: 500px;
+                margin-left: var(--side-menu-width);
                 flex-shrink: 0;
               }
               .side-menu-open .header {
-                left: 500px;
+                left: var(--side-menu-width);
               }
               .sidebar-button {
                 display: inline-block;
               }
               .side-menu-content {
                 width: calc(100vw - 100px);
-                max-width: 500px;
+                max-width: var(--side-menu-width);
               }
               /* On Android browsers, there's a sidebar when overflow:auto and no sidebar
                * when overflow:hidden. Therefore, we account for the sidebar width (which
@@ -401,7 +402,7 @@ const Layout = React.forwardRef<{ closeSideMenu: () => void }, LayoutProps>(
                * TODO: do this, maybe, one day.
                */
               .side-menu:not(.opened) .side-menu-content {
-                width: calc(100vw - 110px);
+                width: calc(100vw - 100px);
               }
               .title {
                 display: block;
@@ -411,7 +412,7 @@ const Layout = React.forwardRef<{ closeSideMenu: () => void }, LayoutProps>(
               }
               .side-menu.visible {
                 width: calc(100vw - 100px);
-                max-width: 500px;
+                max-width: var(--side-menu-width);
               }
 
               .logo .regular {
@@ -427,6 +428,7 @@ const Layout = React.forwardRef<{ closeSideMenu: () => void }, LayoutProps>(
             @media only screen and (max-width: 600px) {
               .side-menu-content {
                 height: calc(100% - 60px);
+                transition: height 0.3s ease-out;
               }
               .layout-body.side-menu-open {
                 margin-left: calc(100vw - 100px);
@@ -443,13 +445,16 @@ const Layout = React.forwardRef<{ closeSideMenu: () => void }, LayoutProps>(
                 background-color: #131518;
                 display: block;
                 width: calc(100vw - 100px);
-                max-width: 500px;
+                max-width: var(--side-menu-width);
                 transition: height 0.3s ease-out;
                 overflow: hidden;
                 z-index: 10;
               }
               .header-menu-bar {
                 display: none;
+              }
+              .side-menu:not(.visible) .side-menu-content {
+                height: 100%;
               }
               .side-menu.visible .side-bottom-menu {
                 height: 60px;

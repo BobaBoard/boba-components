@@ -1,3 +1,5 @@
+import { IconDefinition } from "@fortawesome/free-solid-svg-icons";
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import React from "react";
 import { LinkWithAction } from "types";
 
@@ -14,7 +16,13 @@ const BoardsMenuSection: React.FC<BoardsMenuSectionProps> = ({
     <>
       <div className="boardSection">
         <div className="boardSection-title">
-          <img src={icon} alt="favorite" />
+          <div className="icon">
+            {typeof icon == "string" ? (
+              <img src={icon} alt={`${emptyTitle} icon`} />
+            ) : (
+              <FontAwesomeIcon icon={icon} />
+            )}
+          </div>
           {title}
         </div>
         {boards && boards.length ? (
@@ -25,6 +33,7 @@ const BoardsMenuSection: React.FC<BoardsMenuSectionProps> = ({
                 color={board.color}
                 slug={board.slug}
                 updates={board.updates}
+                link={board.link}
               />
             </div>
           ))
@@ -44,8 +53,9 @@ const BoardsMenuSection: React.FC<BoardsMenuSectionProps> = ({
           letter-spacing: 1.5px;
           margin-bottom: 15px;
           text-transform: uppercase;
+          display: flex;
         }
-        .boardSection-title img {
+        .boardSection-title .icon {
           margin-right: 8px;
         }
         .boardSection {
@@ -87,7 +97,7 @@ export interface BoardsMenuSectionProps {
     link: LinkWithAction;
   }[];
   title: string;
-  icon: string;
+  icon: string | IconDefinition;
   emptyTitle?: string;
   emptyDescription?: string;
 }

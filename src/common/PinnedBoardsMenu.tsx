@@ -1,14 +1,17 @@
 import React from "react";
 import { LinkWithAction } from "types";
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import { faThumbtack } from "@fortawesome/free-solid-svg-icons";
 
 import BoardIcon from "../board/BoardIcon";
-import PinIcon from "../images/pin.svg";
 
 const PinnedBoardsMenu: React.FC<PinnedBoardsMenuProps> = ({ boards }) => {
   return (
     <>
       <div className="board-pinned">
-        <img className="pin-icon" src={PinIcon} alt="pin" />
+        <div className="pin-icon">
+          <FontAwesomeIcon icon={faThumbtack} />
+        </div>
         {boards?.map((board, index) => (
           <div
             className="single-board"
@@ -18,7 +21,7 @@ const PinnedBoardsMenu: React.FC<PinnedBoardsMenuProps> = ({ boards }) => {
             <BoardIcon
               avatar={board.avatar}
               color={board.color}
-              href={board.link?.href}
+              link={board.link}
               updates={board.updates}
               large
             />
@@ -30,13 +33,21 @@ const PinnedBoardsMenu: React.FC<PinnedBoardsMenuProps> = ({ boards }) => {
           background: #131518;
           width: 65px;
           height: 100%;
-          position: absolute;
-          top: 0;
+          overflow-y: scroll;
+          overflow-x: hidden;
+          scrollbar-width: none;
+        }
+        .board-pinned::-webkit-scrollbar {
+          display: none;
         }
         .pin-icon {
           display: block;
-          margin: auto;
-          padding-top: 12px;
+          margin-top: 12px;
+          color: white;
+          text-align: center;
+        }
+        .pin-icon :global(svg) {
+          height: 15px;
         }
         .single-board {
           padding: 15px 7px 0;

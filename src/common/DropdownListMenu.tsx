@@ -59,7 +59,7 @@ const DropdownContent: React.FC<
           key={option.name}
           className={classnames("option")}
           onClick={(e) => {
-            option.link.onClick();
+            option.link.onClick?.();
             e.preventDefault();
             props.onCloseRequest();
           }}

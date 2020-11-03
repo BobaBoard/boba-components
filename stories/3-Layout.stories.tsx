@@ -108,6 +108,7 @@ const RECENT_BOARDS = [
     description: "Love me some bruised bois (and more).",
     color: "#f96680",
     link: { href: "#slug", onClick: action("#slug") },
+    updates: 10,
   },
   {
     slug: "oncie-den",
@@ -133,6 +134,7 @@ const RECENT_BOARDS = [
     description: "No limits. No shame.",
     color: "#000000",
     link: { href: "#slug", onClick: action("#slug") },
+    updates: 10,
   },
   {
     slug: "crack",
@@ -301,7 +303,7 @@ LoadingLayout.args = {
 
 export const SideMenuPreview = () => {
   return (
-    <div style={{ maxWidth: "500px", backgroundColor: "#131518" }}>
+    <div style={{ maxWidth: "500px", backgroundColor: "red" }}>
       <SideMenu
         pinnedBoards={PINNED_BOARDS}
         recentBoards={RECENT_BOARDS}
@@ -597,11 +599,24 @@ export const Attempt1 = () => {
         }
         sideMenuContent={
           <SideMenu
-            pinnedBoards={PINNED_BOARDS}
-            searchBoards={SEARCH_BOARDS}
+            pinnedBoards={[...PINNED_BOARDS, ...PINNED_BOARDS]}
+            allBoards={[...PINNED_BOARDS, ...RECENT_BOARDS, ...SEARCH_BOARDS]}
             recentBoards={RECENT_BOARDS}
-            showDismissNotifications
-            onNotificationsDismissRequest={() => {}}
+            menuOptions={[
+              {
+                name: "no href",
+                link: {
+                  onClick: action("noHrefClick"),
+                },
+              },
+              {
+                name: "with href",
+                link: {
+                  onClick: action("withHref"),
+                  href: "https://www.youtube.com/watch?v=dQw4w9WgXcQ",
+                },
+              },
+            ]}
           />
         }
         actionButton={
@@ -634,7 +649,7 @@ export const Attempt1 = () => {
       <style jsx>
         {`
           :global(body) {
-            padding: 0 !important;
+            paddi ng: 0 !important;
           }
         `}
       </style>

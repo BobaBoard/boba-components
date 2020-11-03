@@ -101,7 +101,7 @@ const Metadata: React.FC<PostHeaderProps> = (props) => {
               {props.createdMessageLink ? (
                 <a
                   onClick={(e) => {
-                    props.createdMessageLink?.onClick();
+                    props.createdMessageLink?.onClick?.();
                     e.preventDefault();
                   }}
                   href={props.createdMessageLink.href}

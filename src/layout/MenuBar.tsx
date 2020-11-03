@@ -38,7 +38,7 @@ const MenuItem: React.FC<{
         href={link?.href || isButton ? "#0" : undefined}
         role={isButton ? "button" : isAnchor ? "link" : undefined}
         onClick={(e) => {
-          link?.onClick();
+          link?.onClick?.();
           if (link?.href || isButton) {
             e.preventDefault();
           }

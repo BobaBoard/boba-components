@@ -61,5 +61,5 @@ export type DescriptionType = TextDescriptionType | FilterDescriptionType;
 
 export interface LinkWithAction {
   href?: string;
-  onClick: () => void;
+  onClick?: () => void;
 }
