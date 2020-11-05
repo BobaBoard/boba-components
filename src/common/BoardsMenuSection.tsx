@@ -2,6 +2,7 @@ import { IconDefinition } from "@fortawesome/free-solid-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import React from "react";
 import { LinkWithAction } from "types";
+import classnames from "classnames";
 
 import BoardMenuItem from "../board/BoardMenuItem";
 
@@ -13,36 +14,43 @@ const BoardsMenuSection: React.FC<BoardsMenuSectionProps> = ({
   emptyDescription,
 }) => {
   return (
-    <>
-      <div className="boardSection">
-        <div className="boardSection-title">
-          <div className="icon">
-            {typeof icon == "string" ? (
-              <img src={icon} alt={`${emptyTitle} icon`} />
-            ) : (
-              <FontAwesomeIcon icon={icon} />
-            )}
-          </div>
-          {title}
+    <div className="boardSection">
+      <div className="boardSection-title">
+        <div className="icon">
+          {typeof icon == "string" ? (
+            <img src={icon} alt={`${emptyTitle} icon`} />
+          ) : (
+            <FontAwesomeIcon icon={icon} />
+          )}
         </div>
-        {boards && boards.length ? (
-          boards.map((board, index) => (
-            <div className="boardItem" key={`board-item-${index}`}>
-              <BoardMenuItem
-                avatar={board.avatar}
-                color={board.color}
-                slug={board.slug}
-                updates={board.updates}
-                link={board.link}
-              />
-            </div>
-          ))
-        ) : (
-          <div className="boardSection-empty">
-            <p className="emtpy-title">{emptyTitle}</p>
-            <p className="empty-desc">{emptyDescription}</p>
+        {title}
+      </div>
+      <div
+        className={classnames("boardSection-board-items", {
+          visible: boards && boards?.length > 0,
+        })}
+        key="items-section"
+      >
+        {boards?.map((board, index) => (
+          <div className="boardItem" key={`board-item-${index}`}>
+            <BoardMenuItem
+              avatar={board.avatar}
+              color={board.color}
+              slug={board.slug}
+              updates={board.updates}
+              link={board.link}
+            />
           </div>
-        )}
+        ))}
+      </div>
+      <div
+        className={classnames("boardSection-empty", {
+          visible: !boards || boards.length == 0,
+        })}
+        key="empty-section"
+      >
+        <p className="emtpy-title">{emptyTitle}</p>
+        <p className="empty-desc">{emptyDescription}</p>
       </div>
       <style jsx>{`
         .boardSection-title {
@@ -69,6 +77,10 @@ const BoardsMenuSection: React.FC<BoardsMenuSectionProps> = ({
           font-size: 14px;
           opacity: 0.5;
           text-align: center;
+          display: none;
+        }
+        .boardSection-empty.visible {
+          display: block;
         }
         .boardSection-empty p {
           margin: 0;
@@ -79,8 +91,14 @@ const BoardsMenuSection: React.FC<BoardsMenuSectionProps> = ({
           font-weight: bold;
           margin-bottom: 5px;
         }
+        .boardSection-board-items {
+          display: none;
+        }
+        .boardSection-board-items.visible {
+          display: block;
+        }
       `}</style>
-    </>
+    </div>
   );
 };
 

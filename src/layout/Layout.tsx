@@ -42,7 +42,7 @@ const Layout = React.forwardRef<{ closeSideMenu: () => void }, LayoutProps>(
     },
     ref
   ) => {
-    const [showSideMenu, setShowSideMenu] = React.useState(true);
+    const [showSideMenu, setShowSideMenu] = React.useState(false);
     const headerRef = React.useRef<HTMLDivElement>(null);
     const contentRef = React.useRef<HTMLDivElement>(null);
     const layoutRef = React.useRef<HTMLDivElement>(null);

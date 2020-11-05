@@ -5,18 +5,28 @@ import { faEllipsisV, faClock, faTh } from "@fortawesome/free-solid-svg-icons";
 
 import PinnedBoardsMenu from "../common/PinnedBoardsMenu";
 import BoardsMenuSection from "../common/BoardsMenuSection";
-import DropdownMenu from "../common/DropdownListMenu";
+import DropdownMenu, {
+  DropdownProps,
+  DropdownStyle,
+} from "../common/DropdownListMenu";
+import classnames from "classnames";
 
 const SideMenu: React.FC<SideMenuProps> = ({
   pinnedBoards,
   allBoards,
   recentBoards,
   menuOptions,
+  showRecent,
+  showPinned,
   onFilterChange,
 }) => {
   return (
     <div className="side-menu">
-      <div className="pinned-boards-container">
+      <div
+        className={classnames("pinned-boards-container", {
+          visible: !!showPinned,
+        })}
+      >
         <PinnedBoardsMenu boards={pinnedBoards} />
       </div>
       <div className="board-menus">
@@ -25,22 +35,42 @@ const SideMenu: React.FC<SideMenuProps> = ({
             placeholder="Filter boards"
             onChange={(e) => onFilterChange?.(e.target.value)}
           />
-          <DropdownMenu options={menuOptions}>
-            <div className="board-filter-options">
+          <DropdownMenu
+            options={menuOptions}
+            style={DropdownStyle.DARK}
+            zIndex={101}
+          >
+            <div
+              className={classnames("board-filter-options", {
+                visible: menuOptions && menuOptions.length > 0,
+              })}
+            >
               <FontAwesomeIcon icon={faEllipsisV} />
             </div>
           </DropdownMenu>
         </div>
         <div className="board-sections">
+          <div
+            className={classnames("recent-section", {
+              visible: showRecent,
+            })}
+          >
+            <BoardsMenuSection
+              key="recent-unreads"
+              title="recent unreads"
+              icon={faClock}
+              boards={recentBoards}
+              emptyTitle="Congratulations!"
+              emptyDescription="You read 'em all."
+            />
+          </div>
           <BoardsMenuSection
-            title="recent unreads"
-            icon={faClock}
-            boards={recentBoards}
-          />
-          <BoardsMenuSection
+            key="all-boards"
             title="all boards"
             icon={faTh}
             boards={allBoards}
+            emptyTitle="There's no board here."
+            emptyDescription="Somehow, that feels wrong."
           />
         </div>
       </div>
@@ -60,6 +90,18 @@ const SideMenu: React.FC<SideMenuProps> = ({
             width: 100%;
             display: flex;
             flex-direction: column;
+          }
+          .pinned-boards-container {
+            display: none;
+          }
+          .pinned-boards-container.visible {
+            display: block;
+          }
+          .recent-section {
+            display: none;
+          }
+          .recent-section.visible {
+            display: block;
           }
           .board-sections {
             height: 100%;
@@ -95,9 +137,12 @@ const SideMenu: React.FC<SideMenuProps> = ({
             background: #2e2e30;
             border-radius: 15px;
             color: #bfbfbf;
-            display: flex;
+            display: none;
             justify-content: center;
             align-items: center;
+          }
+          .board-filter-options.visible {
+            display: flex;
           }
           @media only screen and (max-width: 575px) {
             .board-filter {
@@ -143,9 +188,10 @@ export interface SideMenuProps {
     muted?: boolean;
     link: LinkWithAction;
   }[];
-  menuOptions?: {
-    name: string;
-    link: LinkWithAction;
-  }[];
+  menuOptions?: DropdownProps["options"];
+  showRecent?: boolean;
+  showPinned?: boolean;
+  // TODO: actually implement loading
+  loading?: boolean;
   onFilterChange?: (text: string) => void;
 }

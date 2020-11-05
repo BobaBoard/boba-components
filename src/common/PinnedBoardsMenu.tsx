@@ -13,18 +13,24 @@ const PinnedBoardsMenu: React.FC<PinnedBoardsMenuProps> = ({ boards }) => {
           <FontAwesomeIcon icon={faThumbtack} />
         </div>
         {boards?.map((board, index) => (
-          <div
-            className="single-board"
-            key={`single-board-${index}`}
-            onClick={board.link?.onClick}
-          >
-            <BoardIcon
-              avatar={board.avatar}
-              color={board.color}
-              link={board.link}
-              updates={board.updates}
-              large
-            />
+          <div className="single-board" key={`single-board-${index}`}>
+            <a
+              onClick={(e) => {
+                board.link?.onClick?.();
+                if (board.link?.onClick) {
+                  e.preventDefault();
+                }
+              }}
+              href={board.link?.href}
+            >
+              <BoardIcon
+                avatar={board.avatar}
+                color={board.color}
+                link={board.link}
+                updates={board.updates}
+                large
+              />
+            </a>
           </div>
         ))}
       </div>

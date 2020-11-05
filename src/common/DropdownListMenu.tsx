@@ -120,7 +120,7 @@ const DropdownContent: React.FC<
             transform: translate(-50%, 0%);
             animation-name: slideUp;
             animation-duration: 0.2s;
-            border: 1px solid black;
+            border: 1px solid ${reverseThemeColor};
             z-index: 102;
           }
           .popover-icon {

@@ -14,17 +14,7 @@ const BoardIcon: React.FC<BoardIconProps> = ({
 }) => {
   return (
     <>
-      <a
-        onClick={React.useCallback(
-          (e) => {
-            link?.onClick?.();
-            if (link?.onClick) {
-              e.preventDefault();
-            }
-          },
-          [link?.onClick]
-        )}
-        href={link?.href}
+      <div
         className={cx("board-icon", {
           large: !!large,
           small: !!small,
@@ -33,7 +23,7 @@ const BoardIcon: React.FC<BoardIconProps> = ({
       >
         <div className="board-image" />
         {!!updates && <div className="board-icon__update" />}
-      </a>
+      </div>
       <style jsx>{`
         .board-icon {
           cursor: pointer;

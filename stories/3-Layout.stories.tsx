@@ -602,6 +602,8 @@ export const Attempt1 = () => {
             pinnedBoards={[...PINNED_BOARDS, ...PINNED_BOARDS]}
             allBoards={[...PINNED_BOARDS, ...RECENT_BOARDS, ...SEARCH_BOARDS]}
             recentBoards={RECENT_BOARDS}
+            showPinned={true}
+            showRecent={true}
             menuOptions={[
               {
                 name: "no href",
@@ -750,7 +752,7 @@ export const MasonryLayout = () => {
             pinnedBoards={PINNED_BOARDS}
             searchBoards={SEARCH_BOARDS}
             recentBoards={RECENT_BOARDS}
-            showDismissNotifications
+            showDismissNotifications56
             onNotificationsDismissRequest={() => {}}
           />
         }
