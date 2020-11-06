@@ -74,20 +74,23 @@ export const useCompact = (
 };
 
 export const useBackdrop = ({
+  id,
   onClick,
   zIndex,
 }: {
+  id: string;
   onClick: () => void;
   zIndex?: number;
 }) => {
   const [open, setOpen] = React.useState(false);
 
   React.useEffect(() => {
-    if (document.querySelector(".backdrop-hook")) {
+    if (document.querySelector(`.backdrop-hook[data-backdrop-id="${id}"]`)) {
       return;
     }
     const backdropNode = document.createElement("div");
     backdropNode.classList.add("backdrop-hook");
+    backdropNode.dataset.backdropId = id;
 
     backdropNode.style.position = "fixed";
     backdropNode.style.backgroundColor = Theme.MODAL_BACKGROUND_COLOR;
@@ -101,7 +104,7 @@ export const useBackdrop = ({
 
   React.useEffect(() => {
     const backdropNode = document.querySelector(
-      ".backdrop-hook"
+      `.backdrop-hook[data-backdrop-id="${id}"]`
     ) as HTMLDivElement;
     if (!backdropNode) {
       return;

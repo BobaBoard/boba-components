@@ -138,6 +138,7 @@ const DropdownContent: React.FC<
 const DropdownMenu: React.FC<DropdownProps> = (props) => {
   const [isOpen, setOpen] = React.useState(false);
   const { setOpen: setBackdropOpen } = useBackdrop({
+    id: "dropdown",
     zIndex: 101,
     onClick: () => {
       setOpen(false);

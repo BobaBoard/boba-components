@@ -12,7 +12,7 @@ import {
 import { action } from "@storybook/addon-actions";
 
 export default {
-  title: "Popup Preview",
+  title: "Dopdown Preview",
   component: DropdownListMenu,
 };
 
@@ -102,4 +102,50 @@ export const IconDropwdownStory = () => {
 
 IconDropwdownStory.story = {
   name: "icon",
+};
+
+export const MultipleDropdowns = () => {
+  return (
+    <div style={{ width: "500px", backgroundColor: "white", padding: "15px" }}>
+      <DropdownListMenu
+        options={[
+          {
+            name: "Pin board",
+            icon: faMapPin,
+            link: {
+              onClick: action("noHrefClick"),
+            },
+          },
+          {
+            name: "Mute board",
+            icon: faVolumeMute,
+            link: {
+              onClick: action("noHrefClick"),
+            },
+          },
+          {
+            name: "Dismiss notifications",
+            icon: faBellSlash,
+            link: {
+              onClick: action("noHrefClick"),
+            },
+          },
+          {
+            name: "Customize Summary",
+            icon: faPaintBrush,
+            link: {
+              onClick: action("noHrefClick"),
+            },
+          },
+        ]}
+        zIndex={51}
+      >
+        <FontAwesomeIcon icon={faCaretDown} />
+      </DropdownListMenu>
+    </div>
+  );
+};
+
+IconDropwdownStory.story = {
+  name: "multiple",
 };

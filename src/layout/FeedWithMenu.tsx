@@ -59,6 +59,7 @@ const FeedWithMenu: React.FC<FeedWithMenuProps> = ({
       matchMedia("only screen and (max-width: 850px)").matches
   );
   const { setOpen: setBackdropOpen } = useBackdrop({
+    id: "feed-with-menu",
     zIndex: 50,
     onClick: () => {
       onCloseSidebar?.();
