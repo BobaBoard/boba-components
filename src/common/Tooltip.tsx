@@ -20,31 +20,10 @@ interface PopoverProps extends LibraryPopoverProps {
 
 const DEFAULT_ZINDEX = 15;
 const Popover: React.FC<PopoverProps> = (props) => {
-  const [innerIsOpen, setInnerIsOpen] = React.useState(props.isOpen);
-  const [openTimeout, setOpenTimeout] = React.useState<
-    NodeJS.Timeout | undefined
-  >(undefined);
-  React.useEffect(() => {
-    if (openTimeout) {
-      clearTimeout(openTimeout);
-      setOpenTimeout(undefined);
-    }
-    if (props.isOpen) {
-      const timeout = setTimeout(() => setInnerIsOpen(true), props.delay || 0);
-      setOpenTimeout(timeout);
-    } else {
-      setInnerIsOpen(false);
-    }
-    return () => {
-      if (openTimeout) {
-        clearTimeout(openTimeout);
-      }
-    };
-  }, [props.isOpen]);
   return (
     <>
       <LibraryPopover
-        isOpen={innerIsOpen}
+        isOpen={props.isOpen}
         position={props.position}
         padding={props.padding || 10}
         windowBorderPadding={10}
@@ -56,7 +35,7 @@ const Popover: React.FC<PopoverProps> = (props) => {
         }}
         content={({ position, targetRect, popoverRect }) => {
           return (
-            <ArrowContainer // if you'd like an arrow, you can import the ArrowContainer!
+            <ArrowContainer
               position={position}
               targetRect={targetRect}
               popoverRect={popoverRect}
@@ -66,7 +45,7 @@ const Popover: React.FC<PopoverProps> = (props) => {
                 zIndex: props.zIndex || DEFAULT_ZINDEX,
               }}
             >
-              {innerIsOpen ? (
+              {props.isOpen ? (
                 <div className="popover-content">{props.content}</div>
               ) : (
                 <div />
@@ -95,6 +74,7 @@ const Popover: React.FC<PopoverProps> = (props) => {
               ? props.border.width
               : "2px"}
             solid ${props.accentColor || Theme.POPOVER_DEFAULT_BACKGROUND};
+          overflow: hidden;
         }
         @media only screen and (max-width: 575px) {
           .popover-content {

@@ -117,11 +117,51 @@ export const MultipleDropdowns = () => {
             },
           },
           {
-            name: "Mute board",
+            name: "Inner Options",
             icon: faVolumeMute,
-            link: {
-              onClick: action("noHrefClick"),
-            },
+            options: [
+              {
+                name: "Inner Option 1",
+                icon: faBellSlash,
+                link: {
+                  onClick: action("noHrefClick"),
+                },
+              },
+              {
+                name: "Inner Option 2",
+                icon: faPaintBrush,
+                options: [
+                  {
+                    name: "Inner Option 21",
+                    icon: faBellSlash,
+                    link: {
+                      onClick: action("noHrefClick"),
+                    },
+                  },
+                  {
+                    name: "Inner Option 22",
+                    icon: faPaintBrush,
+                    link: {
+                      onClick: action("noHrefClick"),
+                    },
+                  },
+                  {
+                    name: "Inner Option 23",
+                    icon: faPaintBrush,
+                    link: {
+                      onClick: action("noHrefClick"),
+                    },
+                  },
+                  {
+                    name: "Inner Option 2424242424242424242424",
+                    icon: faPaintBrush,
+                    link: {
+                      onClick: action("noHrefClick"),
+                    },
+                  },
+                ],
+              },
+            ],
           },
           {
             name: "Dismiss notifications",
@@ -146,6 +186,6 @@ export const MultipleDropdowns = () => {
   );
 };
 
-IconDropwdownStory.story = {
+MultipleDropdowns.story = {
   name: "multiple",
 };
