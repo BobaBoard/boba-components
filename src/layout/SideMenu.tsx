@@ -1,5 +1,5 @@
 import React from "react";
-import { LinkWithAction } from "types";
+import { BoardType } from "types";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faEllipsisV, faClock, faTh } from "@fortawesome/free-solid-svg-icons";
 
@@ -161,33 +161,9 @@ const SideMenu: React.FC<SideMenuProps> = ({
 export default SideMenu;
 
 export interface SideMenuProps {
-  pinnedBoards?: {
-    slug: string;
-    avatar: string;
-    description: string;
-    color: string;
-    updates?: number;
-    muted?: boolean;
-    link: LinkWithAction;
-  }[];
-  recentBoards?: {
-    slug: string;
-    avatar: string;
-    description: string;
-    color: string;
-    updates?: number;
-    muted?: boolean;
-    link: LinkWithAction;
-  }[];
-  allBoards?: {
-    slug: string;
-    avatar: string;
-    description: string;
-    color: string;
-    updates?: number;
-    muted?: boolean;
-    link: LinkWithAction;
-  }[];
+  pinnedBoards?: BoardType[];
+  recentBoards?: BoardType[];
+  allBoards?: BoardType[];
   menuOptions?: DropdownProps["options"];
   showRecent?: boolean;
   showPinned?: boolean;

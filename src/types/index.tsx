@@ -63,3 +63,13 @@ export interface LinkWithAction {
   href?: string;
   onClick?: () => void;
 }
+
+export interface BoardType {
+  slug: string;
+  avatar: string;
+  description: string;
+  color: string;
+  updates?: number | boolean;
+  muted?: boolean;
+  link: LinkWithAction;
+}

@@ -1,7 +1,7 @@
 import { IconDefinition } from "@fortawesome/free-solid-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import React from "react";
-import { LinkWithAction } from "types";
+import { BoardType } from "types";
 import classnames from "classnames";
 
 import BoardMenuItem from "../board/BoardMenuItem";
@@ -105,15 +105,7 @@ const BoardsMenuSection: React.FC<BoardsMenuSectionProps> = ({
 export default BoardsMenuSection;
 
 export interface BoardsMenuSectionProps {
-  boards?: {
-    slug: string;
-    avatar: string;
-    description: string;
-    color: string;
-    updates?: number | boolean;
-    muted?: boolean;
-    link: LinkWithAction;
-  }[];
+  boards?: BoardType[];
   title: string;
   icon: string | IconDefinition;
   emptyTitle?: string;

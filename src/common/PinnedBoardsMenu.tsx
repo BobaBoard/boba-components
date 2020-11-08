@@ -1,5 +1,5 @@
 import React from "react";
-import { LinkWithAction } from "types";
+import { BoardType } from "types";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faThumbtack } from "@fortawesome/free-solid-svg-icons";
 
@@ -66,13 +66,5 @@ const PinnedBoardsMenu: React.FC<PinnedBoardsMenuProps> = ({ boards }) => {
 export default PinnedBoardsMenu;
 
 export interface PinnedBoardsMenuProps {
-  boards?: {
-    slug: string;
-    avatar: string;
-    description: string;
-    color: string;
-    updates?: number;
-    muted?: boolean;
-    link: LinkWithAction;
-  }[];
+  boards?: BoardType[];
 }
