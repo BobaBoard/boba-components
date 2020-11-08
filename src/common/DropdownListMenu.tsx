@@ -63,16 +63,19 @@ const DropdownContent = React.forwardRef<
   return (
     <div className={classnames("menu")} ref={ref}>
       {props.isNested && (
+        <>
         <button
           className="back option"
           onClick={props.onPreviousOption}
           key="prev-option"
         >
-          <span className="popover-icon">
+          <div className="popover-icon">
             <FontAwesomeIcon icon={faChevronLeft} />
-          </span>
+          </div>
           back
         </button>
+        <div className="separator"></div>
+        </>
       )}
       {props.options?.map((option) => (
         // TODO: this should be a button if there's no href.
@@ -93,14 +96,14 @@ const DropdownContent = React.forwardRef<
           href={option["link"]?.href || "#none"}
         >
           {!!option.icon && (
-            <span className="popover-icon">
+            <div className="popover-icon">
               <FontAwesomeIcon icon={option.icon} />
-            </span>
+            </div>
           )}
-          <span className="option-text">{option.name}</span>
-          <span className="nested-icon">
+          <div className="option-text">{option.name}</div>
+          <div className="nested-icon">
             <FontAwesomeIcon icon={faChevronRight} />
-          </span>
+          </div>
         </a>
       ))}
       <style jsx>{`
@@ -118,22 +121,25 @@ const DropdownContent = React.forwardRef<
           cursor: pointer;
           width: 100%;
           text-align: left;
+          text-transform: uppercase;
+          font-size: 13px;
+          letter-spacing: 1px;
+          padding: 4px 8px;
+          color: rgb(87, 87, 87);
+          position: relative;
         }
         .option {
           border-radius: 5px;
           padding: 8px;
-          display: block;
           color: ${reverseThemeColor};
           text-decoration: none;
           white-space: nowrap;
+          align-items: center;
+          display: flex;
         }
         .option:hover {
           background-color: ${hoverBackgroundColor};
           cursor: pointer;
-        }
-        .nested {
-          display: flex;
-          justify-content: space-between;
         }
         .nested .option-text {
           flex-grow: 1;
@@ -142,17 +148,27 @@ const DropdownContent = React.forwardRef<
           display: none;
         }
         .nested .nested-icon {
-          width: 16px;
-          height: 22px;
-          display: inline-block;
-          opacity: 0.6;
+          display: block;
+          color: rgb(87,87,87);
         }
         .popover-icon {
-          margin-right: 12px;
-          width: 16px;
-          height: 22px;
-          display: inline-block;
-          text-align: center;
+          margin-right: 10px;
+          width: 20px;
+          height: 20px;
+          display: flex;
+          justify-content: center;
+        }
+
+        .popover-icon > :global(svg),
+        .nested-icon > :global(svg) {
+          display: block;
+          margin: auto;
+        }
+        .separator {
+          height: 1px;
+          background-color: black;
+          opacity: .15;
+          margin: 4px 8px;
         }
 
         @media only screen and (max-width: 575px) {
@@ -346,7 +362,7 @@ const DropdownMenu: React.FC<DropdownProps> = (props) => {
         zIndex={props.zIndex}
         onClickOutside={() => setOpen(false)}
         background={themeColor}
-        border={{ width: "2px", radius: "5px" }}
+        border={{ width: "2px", radius: "10px" }}
       >
         <button
           className={classnames("button-wrapper", {
