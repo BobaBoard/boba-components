@@ -231,6 +231,15 @@ const DropdownMenu: React.FC<DropdownProps> = (props) => {
   ] = React.useState<HTMLDivElement | null>(null);
 
   React.useEffect(() => {
+    setOptionsStack([
+      {
+        ref: React.createRef<HTMLDivElement>(),
+        options: props.options,
+      },
+    ]);
+  }, [props.options]);
+
+  React.useEffect(() => {
     if (isOpen && isSmallScreen()) {
       setBackdropOpen(true);
     } else {

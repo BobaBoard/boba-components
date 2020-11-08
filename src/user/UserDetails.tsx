@@ -36,11 +36,15 @@ const UserDetails: React.FC<UserDetailsProps> = (props) => {
   const [avatarEdited, setAvatarEdited] = React.useState(false);
   const [crop, setCrop] = React.useState({ x: 0, y: 0 });
   const [zoom, setZoom] = React.useState(1);
-  const [username, setUsername] = React.useState("");
+  const [username, setUsername] = React.useState(props.username);
   const [mediaSize, setMediaSize] = React.useState(null);
   const uploadRef = React.createRef<HTMLInputElement>();
   const [newImage, setNewImage] = React.useState(null);
   const [croppedAreaPixels, setCroppedAreaPixels] = React.useState(null);
+
+  React.useEffect(() => {
+    setUsername(props.username);
+  }, [props.editing]);
 
   return (
     <div className={classnames("user-details", { editing: props.editing })}>
@@ -91,13 +95,13 @@ const UserDetails: React.FC<UserDetailsProps> = (props) => {
                     ).then((result) => {
                       resolve({
                         editedImg: result,
-                        username: username || props.username,
+                        username: username,
                       });
                     });
                   } else {
                     resolve({
                       editedImg: props.imageUrl,
-                      username: username || props.username,
+                      username: username,
                     });
                   }
                 })
@@ -115,7 +119,7 @@ const UserDetails: React.FC<UserDetailsProps> = (props) => {
           {props.editing ? (
             <Input
               id={"username"}
-              value={username || props.username}
+              value={username}
               onTextChange={(text: string) => setUsername(text)}
               theme={InputStyle.DARK}
               disabled={!props.editing || props.loading}
@@ -322,20 +326,19 @@ const UserDetails: React.FC<UserDetailsProps> = (props) => {
           font-size: 20px;
           font-weight: bold;
         }
-        
-          .user-details > section {
-            display: flex;
-            flex-wrap: wrap;
-          }
 
-          .user-details > section > h3 {
-            flex-shrink: 0;
-            min-width: 200px;
-          }
+        .user-details > section {
+          display: flex;
+          flex-wrap: wrap;
+        }
 
-          .username {
-            flex: 1;
-          }
+        .user-details > section > h3 {
+          flex-shrink: 0;
+          min-width: 200px;
+        }
+
+        .username {
+          flex: 1;
         }
       `}</style>
     </div>
