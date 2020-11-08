@@ -238,6 +238,49 @@ const DropdownMenu: React.FC<DropdownProps> = (props) => {
     }
   }, [isOpen]);
 
+  React.useEffect(() => {
+    if (
+      !optionsWrapper ||
+      !optionsSlider ||
+      !isOpen ||
+      optionsStack.length < 1
+    ) {
+      return;
+    }
+    //debugger;
+    const currentMenuRect = optionsStack[
+      optionsStack.length - 1
+    ].ref.current?.getBoundingClientRect();
+    optionsWrapper.style.height = (currentMenuRect?.height || 0) + "px";
+    if (!isSmallScreen()) {
+      optionsWrapper.style.width = (currentMenuRect?.width || 0) + "px";
+    } else {
+      optionsSlider.style.width =
+        optionsWrapper.getBoundingClientRect().width + "px";
+    }
+    // Only turn it in absolute when we're effectively in a multistack situation
+    // so we don't interfere with the popover operation.
+    optionsSlider.style.position = "absolute";
+    optionsSlider.style.left =
+      -getMenuOffsetInSlider({
+        menuRef: optionsStack[optionsStack.length - 1].ref,
+        sliderRef: optionsSlider,
+      }) + "px";
+  }, [optionsStack, optionsWrapper, optionsSlider]);
+
+  React.useEffect(() => {
+    if (!isOpen) {
+      if (!optionsWrapper || !optionsSlider) {
+        return;
+      }
+      optionsSlider.style.position = "relative";
+      optionsSlider.style.left = "0px";
+      optionsWrapper.style.width = "auto";
+      optionsWrapper.style.height = "auto";
+      setOptionsStack([optionsStack[0]]);
+    }
+  }, [isOpen]);
+
   if (!props.options) {
     return props.children;
   }
@@ -293,48 +336,6 @@ const DropdownMenu: React.FC<DropdownProps> = (props) => {
       }}
     />
   ));
-  React.useEffect(() => {
-    if (
-      !optionsWrapper ||
-      !optionsSlider ||
-      !isOpen ||
-      optionsStack.length < 1
-    ) {
-      return;
-    }
-    //debugger;
-    const currentMenuRect = optionsStack[
-      optionsStack.length - 1
-    ].ref.current?.getBoundingClientRect();
-    optionsWrapper.style.height = (currentMenuRect?.height || 0) + "px";
-    if (!isSmallScreen()) {
-      optionsWrapper.style.width = (currentMenuRect?.width || 0) + "px";
-    } else {
-      optionsSlider.style.width =
-        optionsWrapper.getBoundingClientRect().width + "px";
-    }
-    // Only turn it in absolute when we're effectively in a multistack situation
-    // so we don't interfere with the popover operation.
-    optionsSlider.style.position = "absolute";
-    optionsSlider.style.left =
-      -getMenuOffsetInSlider({
-        menuRef: optionsStack[optionsStack.length - 1].ref,
-        sliderRef: optionsSlider,
-      }) + "px";
-  }, [optionsStack, optionsWrapper, optionsSlider]);
-
-  React.useEffect(() => {
-    if (!isOpen) {
-      if (!optionsWrapper || !optionsSlider) {
-        return;
-      }
-      optionsSlider.style.position = "relative";
-      optionsSlider.style.left = "0px";
-      optionsWrapper.style.width = "auto";
-      optionsWrapper.style.height = "auto";
-      setOptionsStack([optionsStack[0]]);
-    }
-  }, [isOpen]);
 
   return (
     <>
