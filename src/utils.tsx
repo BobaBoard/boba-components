@@ -100,6 +100,15 @@ export const useBackdrop = ({
     backdropNode.style.right = "0";
     backdropNode.style.display = "none";
     document.body.appendChild(backdropNode);
+    return () => {
+      const backdropNode = document.querySelector(
+        `.backdrop-hook[data-backdrop-id="${id}"]`
+      ) as HTMLDivElement;
+      if (!backdropNode) {
+        return;
+      }
+      backdropNode.parentElement?.removeChild(backdropNode);
+    };
   }, []);
 
   React.useEffect(() => {

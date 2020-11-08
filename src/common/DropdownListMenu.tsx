@@ -90,8 +90,8 @@ const DropdownContent = React.forwardRef<
               props.onNestedOptions(option.options);
               return;
             }
-            option.link.onClick?.();
             props.onCloseRequest();
+            option.link.onClick?.();
           }}
           href={option["link"]?.href || "#none"}
         >

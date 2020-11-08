@@ -317,6 +317,7 @@ const BoardPreview: React.FC<BoardPreviewProps> = ({
           top: 50%;
           left: 50%;
           transform: translate(-50%, -50%);
+          z-index: 1;
         }
         .muted-icon :global(svg) {
           position: absolute;
