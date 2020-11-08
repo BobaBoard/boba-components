@@ -90,6 +90,7 @@ const Post = React.forwardRef<PostHandler, PostProps>((props, ref) => {
               contentWarnings: props.tags?.contentWarnings || [],
             })}
             getOptionsForTag={props.getOptionsForTag}
+            packBottom
           />
         </div>
         <div className="card-container" ref={containerRef}>
@@ -227,7 +228,7 @@ const Post = React.forwardRef<PostHandler, PostProps>((props, ref) => {
           opacity: 0.8;
           border-radius: 15px;
           transition: box-shadow 0.5s ease-out;
-          box-shadow: 0px 0px 5px 3px var(--card-container-shadow);
+          box-shadow: 0px 0px 8px 3px var(--card-container-shadow);
         }
         .footer {
           position: relative;

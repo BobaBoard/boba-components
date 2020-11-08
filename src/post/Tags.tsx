@@ -64,6 +64,7 @@ const TagsDisplay: React.FC<TagsInputProps & { deleting: boolean }> = ({
   deleting,
   onTagsDelete,
   getOptionsForTag,
+  packBottom,
 }) => {
   const whisperTags: TagsType[] = [];
   const specialTags: TagsType[] = [];
@@ -87,29 +88,37 @@ const TagsDisplay: React.FC<TagsInputProps & { deleting: boolean }> = ({
     <>
       {!!specialTags.length &&
         maybeWrapInDiv(
-          specialTags.map((tag, index) => (
-            <div
-              key={index}
-              className={classnames("tag-container", {
-                deleting: deleting && index == tags.length - 1,
-                // TODO: listing all things this isn't for condition, bad.
-                whisper: !(tag.category || tag.contentWarning || tag.indexable),
-              })}
-            >
-              <DropdownListMenu options={getOptionsForTag?.(tag)}>
-                <Tag
-                  name={tag.name}
-                  {...getDataForTagType(tag)}
-                  compact
-                  deletable
-                  onDeleteTag={() => {
-                    onTagsDelete?.(tag);
-                  }}
-                />
-              </DropdownListMenu>
-            </div>
-          )),
-          "special-tags"
+          (packBottom ? [...specialTags].reverse() : specialTags).map(
+            (tag, index) => (
+              <div
+                key={index}
+                className={classnames("tag-container", {
+                  deleting: deleting && index == tags.length - 1,
+                  // TODO: listing all things this isn't for condition, bad.
+                  whisper: !(
+                    tag.category ||
+                    tag.contentWarning ||
+                    tag.indexable
+                  ),
+                })}
+              >
+                <DropdownListMenu options={getOptionsForTag?.(tag)}>
+                  <Tag
+                    name={tag.name}
+                    {...getDataForTagType(tag)}
+                    compact
+                    deletable
+                    onDeleteTag={() => {
+                      onTagsDelete?.(tag);
+                    }}
+                  />
+                </DropdownListMenu>
+              </div>
+            )
+          ),
+          classnames("special-tags", {
+            "bottom-packed": !!packBottom,
+          })
         )}
       {!!whisperTags.length &&
         maybeWrapInDiv(
@@ -153,6 +162,12 @@ const TagsDisplay: React.FC<TagsInputProps & { deleting: boolean }> = ({
           flex-wrap: wrap;
           max-width: 100%;
         }
+        :global(.special-tags.bottom-packed) {
+          display: flex;
+          flex-wrap: wrap-reverse;
+          flex-direction: row-reverse;
+          justify-content: flex-end;
+        }
       `}</style>
     </>
   );
@@ -167,6 +182,7 @@ const TagsInput: React.FC<TagsInputProps> = ({
   accentColor,
   suggestedCategories,
   getOptionsForTag,
+  packBottom,
 }) => {
   const [deleteState, setDeleteState] = React.useState(false);
   const [indexable, setIndexableState] = React.useState(false);
@@ -240,6 +256,7 @@ const TagsInput: React.FC<TagsInputProps> = ({
           tags={tags}
           deleting={deleteState}
           getOptionsForTag={getOptionsForTag}
+          packBottom={packBottom}
         />
         {!!editable && (
           <span
@@ -466,4 +483,7 @@ export interface TagsInputProps {
   accentColor?: string;
   suggestedCategories?: string[];
   getOptionsForTag?: (tag: TagsType) => DropdownProps["options"];
+  // Make the tags be packed on the bottom of the display, so single
+  // item lines are at the top.
+  packBottom?: boolean;
 }

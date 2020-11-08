@@ -366,11 +366,10 @@ TaggedPost.args = {
     indexTags: ["indexable"],
     categoryTags: ["category"],
     contentWarnings: [
-      "bad content",
-      "terrible content",
-      "super awful content",
-      "just don't look at this content",
-      "for real!! it's bad content",
+      "bad content (1)",
+      "terrible content (2)",
+      "super awful content (3)",
+      "just don't look at this content (4)",
     ],
     whisperTags: [
       "tag1",
