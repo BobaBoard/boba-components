@@ -141,6 +141,9 @@ const SideMenu: React.FC<SideMenuProps> = ({
             justify-content: center;
             align-items: center;
           }
+          .board-filter-options:hover {
+            cursor: pointer;
+          }
           .board-filter-options.visible {
             display: flex;
           }
