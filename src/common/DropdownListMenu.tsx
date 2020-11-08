@@ -64,17 +64,17 @@ const DropdownContent = React.forwardRef<
     <div className={classnames("menu")} ref={ref}>
       {props.isNested && (
         <>
-        <button
-          className="back option"
-          onClick={props.onPreviousOption}
-          key="prev-option"
-        >
-          <div className="popover-icon">
-            <FontAwesomeIcon icon={faChevronLeft} />
-          </div>
-          back
-        </button>
-        <div className="separator"></div>
+          <button
+            className="back option"
+            onClick={props.onPreviousOption}
+            key="prev-option"
+          >
+            <div className="popover-icon">
+              <FontAwesomeIcon icon={faChevronLeft} />
+            </div>
+            back
+          </button>
+          <div className="separator"></div>
         </>
       )}
       {props.options?.map((option) => (
@@ -149,7 +149,7 @@ const DropdownContent = React.forwardRef<
         }
         .nested .nested-icon {
           display: block;
-          color: rgb(87,87,87);
+          color: rgb(87, 87, 87);
         }
         .popover-icon {
           margin-right: 10px;
@@ -167,7 +167,7 @@ const DropdownContent = React.forwardRef<
         .separator {
           height: 1px;
           background-color: black;
-          opacity: .15;
+          opacity: 0.15;
           margin: 4px 8px;
         }
 
@@ -293,7 +293,7 @@ const DropdownMenu: React.FC<DropdownProps> = (props) => {
       }}
     />
   ));
-  React.useLayoutEffect(() => {
+  React.useEffect(() => {
     if (
       !optionsWrapper ||
       !optionsSlider ||
