@@ -38,6 +38,7 @@ const log = debug("bobaui:stories:layout-log");
 const PINNED_BOARDS = [
   {
     slug: "gore",
+    muted: true,
     avatar: "/" + goreBackground,
     description: "Love me some bruised bois (and more).",
     color: "#f96680",
@@ -75,13 +76,6 @@ const PINNED_BOARDS = [
     avatar: "/" + meta,
     description: "In My TiMeS wE CaLlEd It WaNk",
     color: "#f9e066",
-    link: { href: "#slug", onClick: action("#slug") },
-  },
-  {
-    slug: "villain-thirst",
-    avatar: "/" + villains,
-    description: "Love to love 'em.",
-    color: "#e22b4b",
     link: { href: "#slug", onClick: action("#slug") },
   },
 ];
@@ -305,8 +299,11 @@ export const SideMenuPreview = () => {
   return (
     <div style={{ maxWidth: "500px", backgroundColor: "red" }}>
       <SideMenu
-        pinnedBoards={PINNED_BOARDS}
+        pinnedBoards={[...PINNED_BOARDS, ...PINNED_BOARDS]}
+        allBoards={[...PINNED_BOARDS, ...RECENT_BOARDS, ...SEARCH_BOARDS]}
         recentBoards={RECENT_BOARDS}
+        showPinned={true}
+        showRecent={true}
         {...menuOptions}
       />
     </div>

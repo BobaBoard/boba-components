@@ -26,7 +26,7 @@ const PinnedBoardsMenu: React.FC<PinnedBoardsMenuProps> = ({ boards }) => {
               <BoardIcon
                 avatar={board.avatar}
                 color={board.color}
-                link={board.link}
+                muted={board.muted}
                 updates={board.updates}
                 large
               />

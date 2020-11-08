@@ -4,6 +4,8 @@ import { hex2rgba } from "../utils";
 import fitty from "fitty";
 
 import HighlightedText from "../common/HighlightedText";
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import { faVolumeMute } from "@fortawesome/free-solid-svg-icons";
 
 const DEFAULT_COLOR = "#000000";
 
@@ -238,6 +240,11 @@ const BoardPreview: React.FC<BoardPreviewProps> = ({
             href={href}
           />
           {updates && <div className="updates">{updates}</div>}
+          {!!muted && (
+            <div className="muted-icon">
+              <FontAwesomeIcon icon={faVolumeMute} />
+            </div>
+          )}
         </div>
         {displayStyle != DisplayStyle.MINI && (
           <Slug
@@ -299,9 +306,25 @@ const BoardPreview: React.FC<BoardPreviewProps> = ({
           border-radius: 15px;
           padding-bottom: calc((9 / 16) * 100%);
         }
-        .board-image.muted {
-          opacity: 0.8;
-          filter: grayscale(50%);
+        .muted-icon {
+          background-color: rgb(46, 46, 48);
+          color: rgb(191, 191, 191);
+          border-radius: 50%;
+          box-sizing: border-box;
+          position: absolute;
+          width: 50px;
+          height: 50px;
+          top: 50%;
+          left: 50%;
+          transform: translate(-50%, -50%);
+        }
+        .muted-icon :global(svg) {
+          position: absolute;
+          top: 50%;
+          left: 50%;
+          transform: translate(-50%, -50%);
+          width: 20px;
+          height: 20px;
         }
         .board-image.regular {
           margin-bottom: 15px;

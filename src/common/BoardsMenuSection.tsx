@@ -39,6 +39,7 @@ const BoardsMenuSection: React.FC<BoardsMenuSectionProps> = ({
               slug={board.slug}
               updates={board.updates}
               link={board.link}
+              muted={board.muted}
             />
           </div>
         ))}

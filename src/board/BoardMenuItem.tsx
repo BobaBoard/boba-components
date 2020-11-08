@@ -8,6 +8,7 @@ const BoardMenuItem: React.FC<BoardMenuItemProps> = ({
   avatar,
   color,
   updates,
+  muted,
   slug,
   link,
 }) => {
@@ -25,10 +26,17 @@ const BoardMenuItem: React.FC<BoardMenuItemProps> = ({
       href={link.href}
       className={classnames("board-menu-item", {
         "has-updates": !!updates,
+        muted: !!muted,
       })}
     >
       <div className="board-menu-item-icon">
-        <BoardIcon avatar={avatar} color={color} updates={updates} small />
+        <BoardIcon
+          avatar={avatar}
+          color={color}
+          updates={updates}
+          muted={muted}
+          small
+        />
       </div>
       <span className="board-menu-item-slug">!{slug}</span>
       <style jsx>{`
@@ -50,6 +58,9 @@ const BoardMenuItem: React.FC<BoardMenuItemProps> = ({
           line-height: 35px;
           padding-left: 45px;
         }
+        .muted .board-menu-item-slug {
+          text-decoration: line-through;
+        }
         .board-menu-item.has-updates .board-menu-item-slug {
           color: #fff;
         }
@@ -66,4 +77,5 @@ export interface BoardMenuItemProps {
   updates?: number | boolean;
   slug: string;
   link: LinkWithAction;
+  muted?: boolean;
 }

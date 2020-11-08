@@ -1,16 +1,17 @@
 import React from "react";
 import cx from "classnames";
-import { LinkWithAction } from "types";
 import CircleMask from "../images/circle-mask.svg";
 import RectangleMask from "../images/rectangle-mask.svg";
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import { faVolumeMute } from "@fortawesome/free-solid-svg-icons";
 
 const BoardIcon: React.FC<BoardIconProps> = ({
   avatar,
   color,
-  link,
   updates,
   small,
   large,
+  muted,
 }) => {
   return (
     <>
@@ -23,6 +24,11 @@ const BoardIcon: React.FC<BoardIconProps> = ({
       >
         <div className="board-image" />
         {!!updates && <div className="board-icon__update" />}
+        {!!muted && (
+          <div className="board-icon__muted">
+            <FontAwesomeIcon icon={faVolumeMute} />
+          </div>
+        )}
       </div>
       <style jsx>{`
         .board-icon {
@@ -44,7 +50,6 @@ const BoardIcon: React.FC<BoardIconProps> = ({
           mask-composite: source-out;
           mask-repeat: no-repeat;
         }
-
         .board-icon.small.updates .board-image {
           mask: url(${RectangleMask}),
             url(${CircleMask}) -3.5px -3.5px/12px 12px;
@@ -76,6 +81,31 @@ const BoardIcon: React.FC<BoardIconProps> = ({
           top: -3px;
           left: -3px;
         }
+        .board-icon__muted {
+          background-color: rgb(46, 46, 48);
+          color: rgb(191, 191, 191);
+          border-radius: 50%;
+          box-sizing: border-box;
+          position: absolute;
+          width: 25px;
+          height: 25px;
+          top: 50%;
+          left: 50%;
+          transform: translate(-50%, -50%);
+        }
+        .board-icon__muted :global(svg) {
+          position: absolute;
+          top: 50%;
+          left: 50%;
+          transform: translate(-50%, -50%);
+        }
+        .board-icon.small .board-icon__muted {
+          width: 20px;
+          height: 20px;
+        }
+        .board-icon.small .board-icon__muted :global(svg) {
+          width: 0.7em;
+        }
       `}</style>
     </>
   );
@@ -86,7 +116,7 @@ export default BoardIcon;
 export interface BoardIconProps {
   avatar: string;
   color?: string;
-  link?: LinkWithAction;
+  muted?: boolean;
   updates?: number | boolean;
   small?: boolean;
   large?: boolean;
