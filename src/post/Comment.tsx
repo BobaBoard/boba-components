@@ -1,35 +1,17 @@
 import React from "react";
 import classNames from "classnames";
-// @ts-ignore
 import Editor from "@bobaboard/boba-editor";
 import Header, { HeaderStyle } from "./Header";
-import useComponentSize from "@rehooks/component-size";
 import debug from "debug";
 import Theme from "../theme/default";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faComment } from "@fortawesome/free-solid-svg-icons";
 const log = debug("bobaui:comment-log");
 
-const SIZES = {
-  REGULAR: "REGULAR",
-  COMPACT: "COMPACT",
-};
-const SIZE_TRIGGER = 315;
-
 const Comment = React.forwardRef<CommentHandler, CommentProps>((props, ref) => {
   const containerRef = React.useRef<HTMLDivElement>(null);
   const editorRef = React.useRef<HTMLDivElement>(null);
   const headerRef = React.useRef<HTMLDivElement>(null);
-  // @ts-ignore
-  const [showCancelModal, setShowCancelModal] = React.useState(false);
-  const [size, setSize] = React.useState(SIZES.COMPACT);
-  const [sized, setSized] = React.useState(false);
-  // @ts-ignore
-  let { width, height } = useComponentSize(containerRef);
-  React.useLayoutEffect(() => {
-    setSize(width > SIZE_TRIGGER ? SIZES.REGULAR : SIZES.COMPACT);
-    setSized(true);
-  }, [width]);
 
   React.useImperativeHandle(ref, () => ({
     editorRef: editorRef,
@@ -59,8 +41,6 @@ const Comment = React.forwardRef<CommentHandler, CommentProps>((props, ref) => {
     <>
       <div
         className={classNames("comment-container", {
-          compact: size == SIZES.COMPACT,
-          sized: sized,
           muted: props.muted,
         })}
         ref={containerRef}
@@ -180,6 +160,8 @@ const Comment = React.forwardRef<CommentHandler, CommentProps>((props, ref) => {
     </>
   );
 });
+
+Comment.displayName = "CommentForwardRef";
 
 export interface CommentHandler {
   highlight: (color: string) => void;

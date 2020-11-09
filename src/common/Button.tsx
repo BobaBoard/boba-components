@@ -8,7 +8,6 @@ import DefaultTheme from "../theme/default";
 import React from "react";
 // @ts-ignore
 import { Button as LibraryButton } from "@trendmicro/react-buttons";
-import Tooltip from "./Tooltip";
 
 export enum ButtonStyle {
   LIGHT = "LIGHT",
@@ -48,45 +47,37 @@ const Button: React.FC<ButtonProps> = ({
   color,
   theme,
   disabled,
-  tooltip,
   updates,
   imageUrl,
 }) => {
-  const [tooltipOpen, setTooltipOpen] = React.useState(false);
   const THEME_COLOR = getThemeColor(theme);
   const REVERSE_THEME_COLOR = getReverseThemeColor(theme);
   const transparent = ButtonStyle.TRANSPARENT == theme;
   return (
     <>
-      <Tooltip content={<div>{tooltip}</div>} isOpen={tooltipOpen} delay={1000}>
-        <div
-          className={classnames("button", { compact }, { disabled })}
-          onMouseEnter={() => tooltip && setTooltipOpen(true)}
-          onMouseLeave={() => setTooltipOpen(false)}
-        >
-          {updates && (
-            <div className="updates">
-              {updates === true ? (
-                <FontAwesomeIcon icon={faCertificate} />
-              ) : updates == Infinity ? (
-                "∞"
-              ) : (
-                updates
-              )}
+      <div className={classnames("button", { compact }, { disabled })}>
+        {updates && (
+          <div className="updates">
+            {updates === true ? (
+              <FontAwesomeIcon icon={faCertificate} />
+            ) : updates == Infinity ? (
+              "∞"
+            ) : (
+              updates
+            )}
+          </div>
+        )}
+        <LibraryButton btnStyle="flat" onClick={onClick} disabled={disabled}>
+          {icon && (
+            <div className="icon">
+              <FontAwesomeIcon icon={icon} />
             </div>
           )}
-          <LibraryButton btnStyle="flat" onClick={onClick} disabled={disabled}>
-            {icon && (
-              <div className="icon">
-                <FontAwesomeIcon icon={icon} />
-              </div>
-            )}
-            {imageUrl && <img className="image" src={imageUrl} />}
-            {/* if the button is compact then don't display the text, unless there's no icon or image.*/}
-            {(!compact || (!icon && !imageUrl)) && children}
-          </LibraryButton>
-        </div>
-      </Tooltip>
+          {imageUrl && <img className="image" src={imageUrl} />}
+          {/* if the button is compact then don't display the text, unless there's no icon or image.*/}
+          {(!compact || (!icon && !imageUrl)) && children}
+        </LibraryButton>
+      </div>
       <style jsx>{`
         .button {
           display: inline-block;
@@ -171,7 +162,6 @@ export default Button;
 
 export interface ButtonProps {
   children: string | JSX.Element;
-  tooltip?: string | JSX.Element;
   icon?: IconDefinition;
   imageUrl?: string;
   compact?: boolean;

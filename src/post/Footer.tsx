@@ -24,10 +24,9 @@ const Footer: React.FC<FooterProps> = ({
   answerable,
   notesLink,
 }) => {
-  let [compactFooter, setCompactFooter] = React.useState(false);
-  let ref = React.useRef<HTMLDivElement>(null);
-  // @ts-ignore
-  let { width, height } = useComponentSize(ref);
+  const [compactFooter, setCompactFooter] = React.useState(false);
+  const ref = React.useRef<HTMLDivElement>(null);
+  const { width } = useComponentSize(ref);
   React.useEffect(() => {
     setCompactFooter(width < COMPACT_FOOTER_TRIGGER_SIZE);
   }, [width]);

@@ -344,4 +344,5 @@ export interface PostHeaderProps {
   newComments?: boolean;
   newContributions?: boolean;
   backgroundColor?: string;
+  children?: JSX.Element | undefined;
 }
