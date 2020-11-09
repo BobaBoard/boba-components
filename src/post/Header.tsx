@@ -25,10 +25,9 @@ export enum HeaderStyle {
 
 const Metadata: React.FC<PostHeaderProps> = (props) => {
   const [popoverOpen, setPopoverOpen] = React.useState(false);
-  let ref = React.useRef<HTMLDivElement>(null);
-  let nicknameRef = React.useRef(null);
-  // @ts-ignore
-  let { width, height } = useComponentSize(ref);
+  const ref = React.useRef<HTMLDivElement>(null);
+  const nicknameRef = React.useRef(null);
+  const { width } = useComponentSize(ref);
   React.useLayoutEffect(() => {
     if (!nicknameRef.current) {
       return;
@@ -40,7 +39,7 @@ const Metadata: React.FC<PostHeaderProps> = (props) => {
   }, [width]);
   const hasUserIdentity =
     props.userIdentity?.name && props.userIdentity?.avatar;
-  let metadata = (
+  const metadata = (
     <>
       <div
         className={classnames("container", {
@@ -191,7 +190,12 @@ const Metadata: React.FC<PostHeaderProps> = (props) => {
     </>
   );
   return props.size == HeaderStyle.COMPACT ? (
-    <Tooltip isOpen={popoverOpen} position="top" content={metadata}>
+    <Tooltip
+      isOpen={popoverOpen}
+      position="top"
+      content={metadata}
+      onClickOutside={() => setPopoverOpen(false)}
+    >
       <div
         onMouseEnter={() => setPopoverOpen(true)}
         onMouseLeave={() => setPopoverOpen(false)}
@@ -210,9 +214,8 @@ const Metadata: React.FC<PostHeaderProps> = (props) => {
 const PostHeader: React.FC<PostHeaderProps> = (props) => {
   const [tagsOnNewLine, setTagsOnNewLine] = React.useState(false);
   const [forceCompact, setForceCompact] = React.useState(false);
-  let ref = React.useRef<HTMLDivElement>(null);
-  // @ts-ignore
-  let { width, height } = useComponentSize(ref);
+  const ref = React.useRef<HTMLDivElement>(null);
+  const { width } = useComponentSize(ref);
   React.useEffect(() => {
     setTagsOnNewLine(width < 300);
     setForceCompact(width < 300);

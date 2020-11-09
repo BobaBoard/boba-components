@@ -16,7 +16,6 @@ import Editor, {
   // @ts-ignore
 } from "@bobaboard/boba-editor";
 
-import Theme from "../theme/default";
 import Button from "../common/Button";
 import {
   faCompressArrowsAlt,
@@ -55,8 +54,7 @@ const prepareForSubmission = (
 
 const computeTags = (
   tags: TagsType[],
-  newTag: TagsType | undefined,
-  accentColor: string
+  newTag: TagsType | undefined
 ): TagsType[] => {
   if (!newTag) {
     return tags;
@@ -67,6 +65,8 @@ const computeTags = (
   return TagsFactory.orderTags(tags);
 };
 
+const MemoizedTags = React.memo(Tags);
+const MemoizedHeader = React.memo(Header);
 const PostEditor = React.forwardRef<{ focus: () => void }, PostEditorProps>(
   (props, ref) => {
     const editorRef = React.useRef<any>(null);
@@ -103,12 +103,12 @@ const PostEditor = React.forwardRef<{ focus: () => void }, PostEditorProps>(
       },
     }));
 
-    const onSubmitHandler = () => {
+    const { current: onSubmitHandler } = React.useRef(() => {
       if (isEmpty) {
         return;
       }
-      props.onSubmit(
-        prepareForSubmission(newText, props.onImageUploadRequest).then(
+      onSubmit(
+        prepareForSubmission(newText, onImageUploadRequest).then(
           (uploadedText) => ({
             text: uploadedText,
             tags,
@@ -117,7 +117,9 @@ const PostEditor = React.forwardRef<{ focus: () => void }, PostEditorProps>(
           })
         )
       );
-    };
+    });
+
+    const { onSubmit, onImageUploadRequest } = props;
 
     return (
       <>
@@ -127,7 +129,7 @@ const PostEditor = React.forwardRef<{ focus: () => void }, PostEditorProps>(
           <Card
             header={
               <div className="header">
-                <Header
+                <MemoizedHeader
                   secretIdentity={
                     props.secretIdentity ||
                     props.additionalIdentities?.find(
@@ -136,12 +138,12 @@ const PostEditor = React.forwardRef<{ focus: () => void }, PostEditorProps>(
                   }
                   userIdentity={props.userIdentity}
                   additionalIdentities={props.additionalIdentities}
-                  onSelectIdentity={(identity) => {
+                  onSelectIdentity={React.useCallback((identity) => {
                     setSelectedIdentity(identity?.id);
-                  }}
+                  }, [])}
                   size={HeaderStyle.REGULAR}
                 >
-                  {props.minimizable && (
+                  {props.minimizable ? (
                     <Button
                       icon={faCompressArrowsAlt}
                       onClick={props.onMinimize}
@@ -149,26 +151,24 @@ const PostEditor = React.forwardRef<{ focus: () => void }, PostEditorProps>(
                     >
                       Minimize
                     </Button>
-                  )}
-                </Header>
+                  ) : undefined}
+                </MemoizedHeader>
               </div>
             }
             footer={
               <div className="footer">
-                <Tags
+                <MemoizedTags
                   tags={tags}
-                  onTagsAdd={(tag: TagsType) =>
-                    setTags(
-                      computeTags(
-                        tags,
-                        tag,
-                        props.accentColor || Theme.DEFAULT_ACCENT_COLOR
-                      )
-                    )
-                  }
-                  onTagsDelete={(tag: TagsType) => {
-                    setTags(tags.filter((currentTag) => currentTag != tag));
-                  }}
+                  onTagsAdd={React.useCallback(
+                    (tag: TagsType) => setTags(computeTags(tags, tag)),
+                    [tags]
+                  )}
+                  onTagsDelete={React.useCallback(
+                    (tag: TagsType) => {
+                      setTags(tags.filter((currentTag) => currentTag != tag));
+                    },
+                    [tags]
+                  )}
                   editable
                   onSubmit={onSubmitHandler}
                   accentColor={props.accentColor}
@@ -311,6 +311,7 @@ const PostEditor = React.forwardRef<{ focus: () => void }, PostEditorProps>(
   }
 );
 
+PostEditor.displayName = "PostEditorForwardRef";
 export default PostEditor;
 
 export interface PostEditorProps {

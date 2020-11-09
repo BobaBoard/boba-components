@@ -39,13 +39,15 @@ const isSmallScreen = () => {
 
 const DropdownContent = React.forwardRef<
   HTMLDivElement,
-  DropdownProps & {
+  {
     isOpen: boolean;
+    options: DropdownProps["options"];
     onCloseRequest: () => void;
     onNestedOptions: (options: DropdownProps["options"]) => void;
-    onPreviousOption: () => void;
-    isNested: boolean;
+    onPreviousOption: (previousOption: OptionInfo) => void;
+    previousOption: OptionInfo | undefined;
     width?: string;
+    style?: DropdownStyle;
   }
 >((props, ref) => {
   const themeColor =
@@ -62,11 +64,13 @@ const DropdownContent = React.forwardRef<
       : Color(themeColor).darken(0.15).hex();
   return (
     <div className={classnames("menu")} ref={ref}>
-      {props.isNested && (
+      {!!props.previousOption && (
         <>
           <button
             className="back option"
-            onClick={props.onPreviousOption}
+            onClick={() =>
+              props.onPreviousOption(props.previousOption as OptionInfo)
+            }
             key="prev-option"
           >
             <div className="popover-icon">
@@ -190,6 +194,7 @@ const DropdownContent = React.forwardRef<
     </div>
   );
 });
+DropdownContent.displayName = "DropdownContentForwardRef";
 
 const getMenuOffsetInSlider = (refs: {
   menuRef?: React.RefObject<HTMLDivElement>;
@@ -200,21 +205,20 @@ const getMenuOffsetInSlider = (refs: {
   return (currentMenuRect?.x || 0) - (containerRect?.x || 0);
 };
 
+interface OptionInfo {
+  ref: React.RefObject<HTMLDivElement>;
+  options: DropdownProps["options"];
+}
+const TOOLTIP_BORDER = { width: "2px", radius: "10px" };
 const DropdownMenu: React.FC<DropdownProps> = (props) => {
   const [isOpen, setOpen] = React.useState(false);
+  const close = React.useCallback(() => setOpen(false), []);
   const { setOpen: setBackdropOpen } = useBackdrop({
     id: "dropdown",
     zIndex: 101,
-    onClick: () => {
-      setOpen(false);
-    },
+    onClick: close,
   });
-  const [optionsStack, setOptionsStack] = React.useState<
-    {
-      ref: React.RefObject<HTMLDivElement>;
-      options: DropdownProps["options"];
-    }[]
-  >([
+  const [optionsStack, setOptionsStack] = React.useState<OptionInfo[]>([
     {
       ref: React.createRef<HTMLDivElement>(),
       options: props.options,
@@ -239,43 +243,80 @@ const DropdownMenu: React.FC<DropdownProps> = (props) => {
     ]);
   }, [props.options]);
 
+  const {
+    slideToNextOption,
+    slideToPreviousOption,
+    appendNestedOptions,
+  } = React.useMemo(
+    () => ({
+      slideToNextOption: (option: OptionInfo) => {
+        if (!optionsWrapper || !optionsSlider) {
+          return;
+        }
+        const currentMenuRect = option.ref.current?.getBoundingClientRect();
+        optionsWrapper.style.height = (currentMenuRect?.height || 0) + "px";
+        if (!isSmallScreen()) {
+          optionsWrapper.style.width = (currentMenuRect?.width || 0) + "px";
+        } else {
+          optionsSlider.style.width =
+            optionsWrapper.getBoundingClientRect().width + "px";
+        }
+        // Only turn it in absolute when we're effectively in a multistack situation
+        // so we don't interfere with the popover operation.
+        optionsSlider.style.position = "absolute";
+        optionsSlider.style.left =
+          -getMenuOffsetInSlider({
+            menuRef: option.ref,
+            sliderRef: optionsSlider,
+          }) + "px";
+      },
+      slideToPreviousOption: (option: OptionInfo) => {
+        if (!optionsWrapper || !optionsSlider) {
+          return;
+        }
+        const previousMenuRect = option.ref.current?.getBoundingClientRect();
+        if (!isSmallScreen()) {
+          optionsWrapper.style.width = (previousMenuRect?.width || 0) + "px";
+        }
+        optionsWrapper.style.height = (previousMenuRect?.height || 0) + "px";
+
+        optionsSlider.style.left =
+          -getMenuOffsetInSlider({
+            menuRef: option.ref,
+            sliderRef: optionsSlider,
+          }) + "px";
+        optionsSlider.addEventListener(
+          "transitionend",
+          () => {
+            setOptionsStack((stack) => stack.slice(0, stack.length - 1));
+          },
+          { once: true }
+        );
+      },
+      appendNestedOptions: (options: DropdownProps["options"]) => {
+        setOptionsStack((optionsStack) => [
+          ...optionsStack,
+          { ref: React.createRef(), options },
+        ]);
+      },
+    }),
+    [optionsWrapper, optionsSlider]
+  );
+
   React.useEffect(() => {
     if (isOpen && isSmallScreen()) {
       setBackdropOpen(true);
     } else {
       setBackdropOpen(false);
     }
-  }, [isOpen]);
+  }, [isOpen, setBackdropOpen]);
 
   React.useEffect(() => {
-    if (
-      !optionsWrapper ||
-      !optionsSlider ||
-      !isOpen ||
-      optionsStack.length < 1
-    ) {
+    if (!isOpen || optionsStack.length < 1) {
       return;
     }
-    //debugger;
-    const currentMenuRect = optionsStack[
-      optionsStack.length - 1
-    ].ref.current?.getBoundingClientRect();
-    optionsWrapper.style.height = (currentMenuRect?.height || 0) + "px";
-    if (!isSmallScreen()) {
-      optionsWrapper.style.width = (currentMenuRect?.width || 0) + "px";
-    } else {
-      optionsSlider.style.width =
-        optionsWrapper.getBoundingClientRect().width + "px";
-    }
-    // Only turn it in absolute when we're effectively in a multistack situation
-    // so we don't interfere with the popover operation.
-    optionsSlider.style.position = "absolute";
-    optionsSlider.style.left =
-      -getMenuOffsetInSlider({
-        menuRef: optionsStack[optionsStack.length - 1].ref,
-        sliderRef: optionsSlider,
-      }) + "px";
-  }, [optionsStack, optionsWrapper, optionsSlider]);
+    slideToNextOption(optionsStack[optionsStack.length - 1]);
+  }, [optionsStack, isOpen, slideToNextOption]);
 
   React.useEffect(() => {
     if (!isOpen) {
@@ -286,65 +327,54 @@ const DropdownMenu: React.FC<DropdownProps> = (props) => {
       optionsSlider.style.left = "0px";
       optionsWrapper.style.width = "auto";
       optionsWrapper.style.height = "auto";
-      setOptionsStack([optionsStack[0]]);
+      setOptionsStack((optionsStack) => [optionsStack[0]]);
     }
-  }, [isOpen]);
-
-  if (!props.options) {
-    return props.children;
-  }
+  }, [isOpen, optionsSlider, optionsWrapper]);
 
   const themeColor =
     DropdownStyle.DARK == props.style
       ? Theme.DROPDOWN_BACKGROUND_COLOR_DARK
       : Theme.DROPDOWN_BACKGROUND_COLOR_LIGHT;
 
-  const content = optionsStack.map(({ options, ref }, index) => (
-    <DropdownContent
-      {...props}
-      ref={ref}
-      key={index}
-      options={options}
-      isOpen={isOpen}
-      isNested={index > 0}
-      width={
-        isSmallScreen()
-          ? (optionsWrapper?.getBoundingClientRect().width || 0) + "px"
-          : undefined
-      }
-      onPreviousOption={() => {
-        if (!optionsWrapper || !optionsSlider) {
-          return;
+  const content = React.useMemo(
+    () =>
+      optionsStack.map(({ options, ref }, index) => {
+        if (!isOpen) {
+          return <></>;
         }
-        const previousMenuRect = optionsStack[
-          optionsStack.length - 2
-        ].ref.current?.getBoundingClientRect();
-        if (!isSmallScreen()) {
-          optionsWrapper.style.width = (previousMenuRect?.width || 0) + "px";
-        }
-        optionsWrapper.style.height = (previousMenuRect?.height || 0) + "px";
-
-        optionsSlider.style.left =
-          -getMenuOffsetInSlider({
-            menuRef: optionsStack[optionsStack.length - 2].ref,
-            sliderRef: optionsSlider,
-          }) + "px";
-        optionsSlider.addEventListener(
-          "transitionend",
-          () => {
-            setOptionsStack(optionsStack.slice(0, optionsStack.length - 1));
-          },
-          { once: true }
+        return (
+          <DropdownContent
+            ref={ref}
+            key={index}
+            style={props.style}
+            options={options}
+            isOpen={isOpen}
+            previousOption={index > 0 ? optionsStack[index - 1] : undefined}
+            width={
+              isSmallScreen()
+                ? (optionsWrapper?.getBoundingClientRect().width || 0) + "px"
+                : undefined
+            }
+            onPreviousOption={slideToPreviousOption}
+            onCloseRequest={close}
+            onNestedOptions={appendNestedOptions}
+          />
         );
-      }}
-      onCloseRequest={() => {
-        setOpen(false);
-      }}
-      onNestedOptions={(options) => {
-        setOptionsStack([...optionsStack, { ref: React.createRef(), options }]);
-      }}
-    />
-  ));
+      }),
+    [
+      props.style,
+      isOpen,
+      optionsStack,
+      slideToPreviousOption,
+      close,
+      appendNestedOptions,
+      optionsWrapper,
+    ]
+  );
+
+  if (!props.options) {
+    return props.children;
+  }
 
   return (
     <>
@@ -370,9 +400,9 @@ const DropdownMenu: React.FC<DropdownProps> = (props) => {
         }
         padding={0}
         zIndex={props.zIndex}
-        onClickOutside={() => setOpen(false)}
+        onClickOutside={close}
         background={themeColor}
-        border={{ width: "2px", radius: "10px" }}
+        border={TOOLTIP_BORDER}
       >
         <button
           className={classnames("button-wrapper", {

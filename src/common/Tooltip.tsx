@@ -6,7 +6,7 @@ import LibraryPopover, {
 } from "react-tiny-popover";
 import Theme from "../theme/default";
 
-interface PopoverProps extends LibraryPopoverProps {
+interface TootlipProps extends LibraryPopoverProps {
   background?: string;
   zIndex?: number;
   delay?: number;
@@ -16,10 +16,11 @@ interface PopoverProps extends LibraryPopoverProps {
     radius: string;
     width: string;
   };
+  onClickOutside: (e?: MouseEvent) => void;
 }
 
 const DEFAULT_ZINDEX = 15;
-const Popover: React.FC<PopoverProps> = (props) => {
+const Tootlip: React.FC<TootlipProps> = (props) => {
   return (
     <>
       <LibraryPopover
@@ -27,32 +28,37 @@ const Popover: React.FC<PopoverProps> = (props) => {
         position={props.position}
         padding={props.padding || 10}
         windowBorderPadding={10}
-        onClickOutside={(e) => {
-          props.onClickOutside?.(e);
-        }}
-        containerStyle={{
-          zIndex: props.zIndex?.toString() || DEFAULT_ZINDEX.toString(),
-        }}
-        content={({ position, targetRect, popoverRect }) => {
-          return (
-            <ArrowContainer
-              position={position}
-              targetRect={targetRect}
-              popoverRect={popoverRect}
-              arrowColor={props.accentColor || Theme.POPOVER_DEFAULT_BACKGROUND}
-              style={{
-                position: "relative",
-                zIndex: props.zIndex || DEFAULT_ZINDEX,
-              }}
-            >
-              {props.isOpen ? (
-                <div className="popover-content">{props.content}</div>
-              ) : (
-                <div />
-              )}
-            </ArrowContainer>
-          );
-        }}
+        onClickOutside={props.onClickOutside}
+        containerStyle={React.useMemo(() => {
+          return {
+            zIndex: props.zIndex?.toString() || DEFAULT_ZINDEX.toString(),
+          };
+        }, [props.zIndex])}
+        content={React.useCallback(
+          ({ position, targetRect, popoverRect }) => {
+            return (
+              <ArrowContainer
+                position={position}
+                targetRect={targetRect}
+                popoverRect={popoverRect}
+                arrowColor={
+                  props.accentColor || Theme.POPOVER_DEFAULT_BACKGROUND
+                }
+                style={{
+                  position: "relative",
+                  zIndex: props.zIndex || DEFAULT_ZINDEX,
+                }}
+              >
+                {props.isOpen ? (
+                  <div className="popover-content">{props.content}</div>
+                ) : (
+                  <div />
+                )}
+              </ArrowContainer>
+            );
+          },
+          [props.content, props.accentColor, props.zIndex, props.isOpen]
+        )}
         transitionDuration={0.2}
       >
         {props.children}
@@ -86,4 +92,4 @@ const Popover: React.FC<PopoverProps> = (props) => {
   );
 };
 
-export default Popover;
+export default Tootlip;
