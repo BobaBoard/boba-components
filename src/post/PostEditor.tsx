@@ -13,7 +13,6 @@ import Editor, {
   setTumblrEmbedFetcher as libSetFetcher,
   setOEmbedFetcher as libSetEmbedFetcher,
   removeTrailingWhitespace,
-  // @ts-ignore
 } from "@bobaboard/boba-editor";
 
 import Button from "../common/Button";
@@ -25,15 +24,16 @@ import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import classnames from "classnames";
 import { TagsType } from "../types";
 import { TagsFactory } from "../common/Tag";
+import noop from "noop-ts";
 
 export const setTumblrEmbedFetcher = libSetFetcher;
 export const setOEmbedFetcher = libSetEmbedFetcher;
 
 const prepareForSubmission = (
-  text: string,
+  text: any,
   uploadFunction: (src: string) => Promise<string>
 ) => {
-  const delta = removeTrailingWhitespace(JSON.parse(text));
+  const delta = removeTrailingWhitespace(text);
   const images = getAllImages(delta);
   return Promise.all(images.map((src: string) => uploadFunction(src))).then(
     (uploadedImages) => {
@@ -69,10 +69,7 @@ const MemoizedTags = React.memo(Tags);
 const MemoizedHeader = React.memo(Header);
 const PostEditor = React.forwardRef<{ focus: () => void }, PostEditorProps>(
   (props, ref) => {
-    const editorRef = React.useRef<any>(null);
-    const [newText, setNewText] = React.useState(
-      props.initialText ? props.initialText : ""
-    );
+    const editorRef = React.useRef<Editor>(null);
     const [isEmpty, setIsEmpty] = React.useState(true);
     const [tags, setTags] = React.useState<TagsType[]>([]);
     const [selectedView, setSelectedView] = React.useState<string | undefined>(
@@ -103,23 +100,30 @@ const PostEditor = React.forwardRef<{ focus: () => void }, PostEditorProps>(
       },
     }));
 
-    const { current: onSubmitHandler } = React.useRef(() => {
+    const { onSubmit, onImageUploadRequest } = props;
+    const onSubmitHandler = React.useCallback(() => {
       if (isEmpty) {
         return;
       }
       onSubmit(
-        prepareForSubmission(newText, onImageUploadRequest).then(
-          (uploadedText) => ({
-            text: uploadedText,
-            tags,
-            viewOptionName: selectedView,
-            identityId: selectedIdentity,
-          })
-        )
+        prepareForSubmission(
+          editorRef.current?.getEditorContents(),
+          onImageUploadRequest
+        ).then((uploadedText) => ({
+          text: uploadedText,
+          tags,
+          viewOptionName: selectedView,
+          identityId: selectedIdentity,
+        }))
       );
-    });
-
-    const { onSubmit, onImageUploadRequest } = props;
+    }, [
+      isEmpty,
+      onImageUploadRequest,
+      selectedView,
+      selectedIdentity,
+      onSubmit,
+      tags,
+    ]);
 
     return (
       <>
@@ -200,7 +204,6 @@ const PostEditor = React.forwardRef<{ focus: () => void }, PostEditorProps>(
                     </DropdownListMenu>
                   )}
                   <EditorFooter
-                    // If you change this, also change onSubmit in the editor.
                     onSubmit={onSubmitHandler}
                     onCancel={() => props.onCancel(isEmpty)}
                     submittable={!props.loading && !isEmpty}
@@ -226,14 +229,12 @@ const PostEditor = React.forwardRef<{ focus: () => void }, PostEditorProps>(
                     props.initialText ? JSON.parse(props.initialText) : ""
                   }
                   editable={!props.loading}
-                  // If you change this, also change onSubmit in the editor footer.
                   onSubmit={onSubmitHandler}
                   onIsEmptyChange={(empty: boolean) => {
                     setIsEmpty(empty);
                   }}
-                  onTextChange={(text: any) =>
-                    setNewText(JSON.stringify(text.ops))
-                  }
+                  // This is a no op because we're using the handler to access the content directly.
+                  onTextChange={noop}
                 />
               </div>
             </div>
