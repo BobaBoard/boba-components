@@ -29,7 +29,7 @@ export enum PostSizes {
   WIDE,
 }
 
-export const getPostWidth = (size?: PostSizes) => {
+export const getPostWidth = (size?: PostSizes): number => {
   switch (size) {
     case PostSizes.WIDE:
       return 850;
@@ -166,7 +166,7 @@ const Post = React.forwardRef<PostHandler, PostProps>((props, ref) => {
                 {!!props.reactable && (
                   <div className="reactions">
                     {props.reactions?.map((reaction) => (
-                      <div className="reaction">
+                      <div className="reaction" key={reaction.image}>
                         <Reaction
                           image={reaction.image}
                           count={reaction.count}
@@ -308,6 +308,7 @@ const Post = React.forwardRef<PostHandler, PostProps>((props, ref) => {
   );
 });
 
+Post.displayName = "PostForwardRef";
 export default Post;
 
 export interface PostHandler {

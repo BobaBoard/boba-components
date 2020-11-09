@@ -117,14 +117,17 @@ const Layout = React.forwardRef<{ closeSideMenu: () => void }, LayoutProps>(
         "transitionend",
         transitionEndListener
       );
-    }, [showSideMenu, sideMenuRef.current]);
+    }, [showSideMenu]);
 
     const menuBar = (
       <MenuBar
         menuOptions={menuOptions}
         selectedOption={selectedMenuOption}
         userMenuOptions={loggedInMenuOptions}
-        onLoggedOutUserClick={{ onClick: onUserBarClick || noop }}
+        onLoggedOutUserClick={React.useMemo(
+          () => ({ onClick: onUserBarClick || noop }),
+          [onUserBarClick]
+        )}
         user={user}
         accentColor={headerAccent}
         loading={loading}
@@ -160,12 +163,12 @@ const Layout = React.forwardRef<{ closeSideMenu: () => void }, LayoutProps>(
                   <Button
                     icon={faBars}
                     compact
-                    onClick={() => {
+                    onClick={React.useCallback(() => {
                       if (!showSideMenu) {
                         onSideMenuButtonClick?.();
                       }
                       setShowSideMenu(!showSideMenu);
-                    }}
+                    }, [showSideMenu, onSideMenuButtonClick])}
                     color={headerAccent}
                     theme={ButtonStyle.DARK}
                     updates={updates}
@@ -496,4 +499,5 @@ export interface LayoutProps {
   onSideMenuButtonClick?: () => void;
 }
 
+Layout.displayName = "LayoutForwardRef";
 export default Layout;
