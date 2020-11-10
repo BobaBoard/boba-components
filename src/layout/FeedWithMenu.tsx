@@ -131,7 +131,13 @@ const FeedWithMenu: React.FC<FeedWithMenuProps> = ({
       ? "hidden"
       : "";
     setBackdropOpen(shouldShowSidebar);
-  }, [showSidebar, canOpenSidebar]);
+  }, [
+    showSidebar,
+    canOpenSidebar,
+    onCloseSidebar,
+    setBackdropOpen,
+    scrollableContentRef,
+  ]);
 
   // Make sure sidebar is only actually opened when the media query
   // for deatched sidebar triggers correctly
@@ -169,8 +175,8 @@ const FeedWithMenu: React.FC<FeedWithMenuProps> = ({
       observer.observe(intersectionObserverRef.current);
       return () => observer.disconnect();
     }
-    return () => {};
-  }, [intersectionObserverRef.current, onReachEnd]);
+    return undefined;
+  }, [onReachEnd]);
 
   return (
     <>

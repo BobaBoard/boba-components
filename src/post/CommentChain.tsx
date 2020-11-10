@@ -1,66 +1,62 @@
-import React from "react";
+import React, { PureComponent, createRef, RefObject } from "react";
 import Comment, { CommentHandler } from "./Comment";
 
-const CommentChain = React.forwardRef<CommentHandler, CommentChainProps>(
-  (props, ref) => {
-    const containerRef = React.useRef<HTMLDivElement>(null);
-    const handlerRefs = React.useRef(new Map<number, CommentHandler>());
+const MemoizedComment = React.memo(Comment);
+class CommentChain extends PureComponent<CommentChainProps> {
+  editorRef = createRef<HTMLDivElement>();
+  handlerRefs = new Map<number, CommentHandler>();
+  headerRef: React.RefObject<HTMLDivElement> | undefined;
+  saveRefMethods = new Map<number, (ref: Comment) => void>();
 
-    React.useImperativeHandle(ref, () => ({
-      highlight: (color: string) => {
-        handlerRefs.current.forEach((ref) => ref.highlight(color));
-      },
-      headerRef: handlerRefs.current.get(0)?.headerRef,
-      editorRef: containerRef,
-    }));
+  getSaveRefAtIndex(index: number) {
+    if (!this.saveRefMethods.has(index)) {
+      this.saveRefMethods.set(index, (ref) => this.handlerRefs.set(index, ref));
+    }
+    return this.saveRefMethods.get(index);
+  }
 
-    React.useEffect(() => {
-      props.comments.forEach((comment, index) => {
-        const commentRef = handlerRefs.current.get(index);
-        if (!commentRef?.editorRef?.current) {
-          return;
-        }
-        if (index != 0) {
-          commentRef.editorRef.current.style.borderTopLeftRadius = "0px";
-          commentRef.editorRef.current.style.borderTopRightRadius = "0px";
-          commentRef.editorRef.current.style.borderTop =
-            "1px dashed rgba(255, 255, 255, .3)";
-        }
-        if (index < handlerRefs.current.size - 1) {
-          commentRef.editorRef.current.style.borderBottomLeftRadius = "0px";
-          commentRef.editorRef.current.style.borderBottomRightRadius = "0px";
-          commentRef.editorRef.current.style.borderBottom = "none";
-        }
-      });
-    }, [props.comments]);
+  highlight = (color: string) => {
+    this.handlerRefs.forEach((ref) => ref.highlight(color));
+  };
 
-    React.useEffect(() => {
-      if (!containerRef.current) {
+  componentDidMount() {
+    this.props.comments.forEach((comment, index) => {
+      const commentRef = this.handlerRefs.get(index);
+      if (!commentRef?.editorRef?.current) {
         return;
       }
-      containerRef.current?.style.setProperty(
-        "--comment-container-stacked-radius",
-        "0"
-      );
-    }, [containerRef.current]);
+      if (index != 0) {
+        commentRef.editorRef.current.style.borderTopLeftRadius = "0px";
+        commentRef.editorRef.current.style.borderTopRightRadius = "0px";
+        commentRef.editorRef.current.style.borderTop =
+          "1px dashed rgba(255, 255, 255, .3)";
+      }
+      if (index < this.handlerRefs.size - 1) {
+        commentRef.editorRef.current.style.borderBottomLeftRadius = "0px";
+        commentRef.editorRef.current.style.borderBottomRightRadius = "0px";
+        commentRef.editorRef.current.style.borderBottom = "none";
+      }
+    });
+    this.headerRef = this.handlerRefs.get(0)?.headerRef;
+  }
 
+  render() {
     return (
-      <div className="comment-chain" ref={containerRef}>
-        {props.comments.map((comment, index) => (
-          <Comment
+      <div className="comment-chain" ref={this.editorRef}>
+        {this.props.comments.map((comment, index) => (
+          <MemoizedComment
             id={comment.id}
             key={`comment_${comment.id}`}
-            ref={(ref: CommentHandler) => {
-              handlerRefs.current.set(index, ref);
-            }}
+            ref={this.getSaveRefAtIndex(index)}
             initialText={comment.text}
-            userIdentity={props.userIdentity}
-            secretIdentity={props.secretIdentity}
+            userIdentity={this.props.userIdentity}
+            secretIdentity={this.props.secretIdentity}
             paddingTop={"0"}
-            muted={props.muted}
+            muted={this.props.muted}
             onExtraAction={
-              props.onExtraAction && index == props.comments.length - 1
-                ? props.onExtraAction
+              this.props.onExtraAction &&
+              index == this.props.comments.length - 1
+                ? this.props.onExtraAction
                 : undefined
             }
           />
@@ -69,6 +65,7 @@ const CommentChain = React.forwardRef<CommentHandler, CommentChainProps>(
           .comment-chain {
             padding-top: 15px;
             position: relative;
+            --comment-container-stacked-radius: 0;
           }
           .editor.chainable {
             margin-bottom: 15px;
@@ -77,7 +74,7 @@ const CommentChain = React.forwardRef<CommentHandler, CommentChainProps>(
       </div>
     );
   }
-);
+}
 
 export interface CommentChainProps {
   comments: { id: string; text: string }[];
@@ -91,6 +88,11 @@ export interface CommentChainProps {
   };
   muted?: boolean;
   onExtraAction?: () => void;
+  ref?:
+    | RefObject<CommentHandler>
+    | undefined
+    | null
+    | ((ref: CommentHandler) => void);
 }
 
 export default CommentChain;

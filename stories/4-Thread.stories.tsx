@@ -282,18 +282,10 @@ export const ThreadedComments = () => {
         backgroundColor: "Theme.LAYOUT_BOARD_BACKGROUND_COLOR",
       }}
     >
-      <CompactThreadIndent
-        level={0}
-        startsFromViewport={lvl0Indent.bounds}
-        nestedHandlers={[
-          lvl1Indent.bounds,
-          lvl1p2Indent.bounds,
-          lvl1p3Indent.bounds,
-        ]}
-      >
+      <CompactThreadIndent level={0} startsFromViewport={lvl0Indent.bounds}>
         <div style={{ paddingTop: "15px", maxWidth: "550px" }}>
           <CommentChain
-            ref={lvl0Indent.handler}
+            ref={(ref) => lvl0Indent.setHandler(ref)}
             comments={[
               {
                 id: "1",
@@ -319,7 +311,7 @@ export const ThreadedComments = () => {
         <CompactThreadIndent level={1} startsFromViewport={lvl1Indent.bounds}>
           <div style={{ paddingTop: "15px", opacity: 1 }}>
             <CommentChain
-              ref={lvl1Indent.handler}
+              ref={(ref) => lvl1Indent.setHandler(ref)}
               comments={[
                 {
                   id: "1",
@@ -342,7 +334,7 @@ export const ThreadedComments = () => {
               userIdentity={{ name: "SexyDaddy69", avatar: `/${mamoruAvatar}` }}
             />
             <CommentChain
-              ref={lvl1p2Indent.handler}
+              ref={(ref) => lvl1p2Indent.setHandler(ref)}
               comments={[
                 {
                   id: "1",
@@ -368,7 +360,7 @@ export const ThreadedComments = () => {
           <CompactThreadIndent level={2} startsFromViewport={lvl2Indent.bounds}>
             <div style={{ paddingTop: "15px", opacity: 1 }}>
               <CommentChain
-                ref={lvl2Indent.handler}
+                ref={(ref) => lvl2Indent.setHandler(ref)}
                 comments={[
                   {
                     id: "1",
@@ -399,7 +391,7 @@ export const ThreadedComments = () => {
               startsFromViewport={lvl3Indent.bounds}
             >
               <CommentChain
-                ref={lvl3Indent.handler}
+                ref={(ref: CommentHandler | null) => lvl3Indent.setHandler(ref)}
                 comments={[
                   {
                     id: "1",
@@ -431,7 +423,7 @@ export const ThreadedComments = () => {
         <CompactThreadIndent level={1} startsFromViewport={lvl1p3Indent.bounds}>
           <div style={{ paddingTop: "15px", opacity: 1 }}>
             <CommentChain
-              ref={lvl1p3Indent.handler}
+              ref={(ref) => lvl1p3Indent.setHandler(ref)}
               comments={[
                 {
                   id: "1",
@@ -462,4 +454,50 @@ export const ThreadedComments = () => {
 
 ThreadedComments.story = {
   name: "comments",
+};
+
+const TUXEDO_MASK_IDENTITY = {
+  name: "Tuxedo Mask",
+  avatar: `/${tuxedoAvatar}`,
+};
+const MAMORU_IDENTITY = { name: "SexyDaddy69", avatar: `/${mamoruAvatar}` };
+export const SingleThreadedComments = () => {
+  const lvl0Indent = useIndent();
+
+  return (
+    <div
+      style={{
+        marginLeft: "100px",
+        backgroundColor: "Theme.LAYOUT_BOARD_BACKGROUND_COLOR",
+      }}
+    >
+      <CompactThreadIndent level={0} startsFromViewport={lvl0Indent.bounds}>
+        <div style={{ paddingTop: "15px", maxWidth: "550px" }}>
+          <CommentChain
+            ref={(ref) => lvl0Indent.setHandler(ref)}
+            comments={React.useMemo(
+              () => [
+                {
+                  id: "1",
+                  text:
+                    '[{"insert": "[LVL 0] I mean, sure, but you know what also is great?"}]',
+                },
+                {
+                  id: "2",
+                  text: '[{"insert": "Deze nuts."}]',
+                },
+                {
+                  id: "3",
+                  text: '[{"insert": "Wait is that how you type it?"}]',
+                },
+              ],
+              []
+            )}
+            secretIdentity={TUXEDO_MASK_IDENTITY}
+            userIdentity={MAMORU_IDENTITY}
+          />
+        </div>
+      </CompactThreadIndent>
+    </div>
+  );
 };

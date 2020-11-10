@@ -22,7 +22,7 @@ const withNesting = (
 ) => {
   const end = ends?.find((ends) => ends.level == maxLevel - level);
   let isOutermost = false;
-  if (!!end) {
+  if (end) {
     // Check if this was the outermost beam up
     isOutermost = !ends?.some((end) => end.level < maxLevel - level);
   }

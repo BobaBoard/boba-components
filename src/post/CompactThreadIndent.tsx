@@ -149,24 +149,38 @@ export interface CompactThreadIndentProps {
   children: JSX.Element | (string | JSX.Element)[];
 }
 
-export const useIndent = () => {
-  const handlerRef = React.useRef<CommentHandler>(null);
-  const [headerBounds, setHeaderBounds] = React.useState<{
-    top: number;
-    left: number;
-  } | null>(null);
+interface HeaderBounds {
+  top: number;
+  left: number;
+}
+export const useIndent = (): {
+  setHandler: React.Dispatch<React.SetStateAction<CommentHandler | null>>;
+  bounds: HeaderBounds | null;
+} => {
+  // This is not a ref because the re-assignment of a ref doesn't cause a
+  // react re-render.
+  const [handler, setHandler] = React.useState<CommentHandler | null>(null);
+  const [headerBounds, setHeaderBounds] = React.useState<HeaderBounds | null>(
+    null
+  );
 
   React.useEffect(() => {
-    const boundingHeader = handlerRef.current?.headerRef?.current?.getBoundingClientRect();
+    const boundingHeader = handler?.headerRef?.current?.getBoundingClientRect();
     if (boundingHeader) {
-      setHeaderBounds({
+      const newHeaderBounds = {
         top: boundingHeader.top + boundingHeader.height / 2,
         left: boundingHeader.left - STEM_WIDTH_PX,
-      });
+      };
+      if (
+        newHeaderBounds.top != headerBounds?.top ||
+        newHeaderBounds.left != headerBounds?.left
+      ) {
+        setHeaderBounds(newHeaderBounds);
+      }
     }
-  }, [handlerRef.current?.headerRef?.current?.getBoundingClientRect()?.width]);
+  }, [handler]);
 
-  return { handler: handlerRef, bounds: headerBounds };
+  return { setHandler, bounds: headerBounds };
 };
 
 export default CompactThreadIndent;
