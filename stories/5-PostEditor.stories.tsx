@@ -246,3 +246,50 @@ export const Focus = () => {
 Focus.story = {
   name: "focus state",
 };
+
+export const TagsEditOnly = () => {
+  return (
+    <div>
+      <PostEditor
+        initialText={
+          '[{"insert":"Open RP"},{"attributes":{"header":1},"insert":"\\n"},{"insert":{"block-image":"https://cdn.discordapp.com/attachments/443967088118333442/691486081895628830/unknown.png"}}, {"attributes":{"italic":true},"insert":"You have my sword..."}]'
+        }
+        secretIdentity={{ name: "Tuxedo Mask", avatar: `/${tuxedoAvatar}` }}
+        userIdentity={{ name: "SexyDaddy69", avatar: `/${mamoruAvatar}` }}
+        onCancel={action("cancel")}
+        onSubmit={(promise) => {
+          promise.then(action("submit"));
+        }}
+        onImageUploadRequest={async (url) => {
+          action("imageUpload")(url);
+          return Promise.resolve(url);
+        }}
+        centered
+        editableSections={{
+          tags: true,
+        }}
+        initialTags={{
+          indexTags: ["indexable"],
+          categoryTags: ["category"],
+          contentWarnings: [
+            "bad content (1)",
+            "terrible content (2)",
+            "super awful content (3)",
+            "just don't look at this content (4)",
+          ],
+          whisperTags: [
+            "tag1",
+            "tag2",
+            "a long tag",
+            "a very very very very very long tag with many words",
+            "JugemuJugemuGokonoSurikireKaijarisuigyonoSuigyomatsuUnraimatsuFuraimatsuKuNeruTokoroniSumuTokoroYaburaKojinoBuraKojiPaipopaipoPaiponoShuringanShuringannoGurindaiGurindainoPonpokopinoPonpokonanoChokyumeinoChosuke",
+          ],
+        }}
+      />
+    </div>
+  );
+};
+
+TagsEditOnly.story = {
+  name: "tags edit only",
+};

@@ -71,7 +71,11 @@ const PostEditor = React.forwardRef<{ focus: () => void }, PostEditorProps>(
   (props, ref) => {
     const editorRef = React.useRef<Editor>(null);
     const [isEmpty, setIsEmpty] = React.useState(true);
-    const [tags, setTags] = React.useState<TagsType[]>([]);
+    const [tags, setTags] = React.useState<TagsType[]>(
+      props.initialTags
+        ? TagsFactory.getTagsFromTagObject(props.initialTags)
+        : []
+    );
     const [selectedView, setSelectedView] = React.useState<string | undefined>(
       props.viewOptions?.[0]?.name
     );
@@ -102,7 +106,7 @@ const PostEditor = React.forwardRef<{ focus: () => void }, PostEditorProps>(
 
     const { onSubmit, onImageUploadRequest } = props;
     const onSubmitHandler = React.useCallback(() => {
-      if (isEmpty) {
+      if (!props.editableSections && isEmpty) {
         return;
       }
       onSubmit(
@@ -117,6 +121,7 @@ const PostEditor = React.forwardRef<{ focus: () => void }, PostEditorProps>(
         }))
       );
     }, [
+      props.editableSections,
       isEmpty,
       onImageUploadRequest,
       selectedView,
@@ -141,7 +146,11 @@ const PostEditor = React.forwardRef<{ focus: () => void }, PostEditorProps>(
                     )
                   }
                   userIdentity={props.userIdentity}
-                  additionalIdentities={props.additionalIdentities}
+                  additionalIdentities={
+                    !props.editableSections
+                      ? props.additionalIdentities
+                      : undefined
+                  }
                   onSelectIdentity={React.useCallback((identity) => {
                     setSelectedIdentity(identity?.id);
                   }, [])}
@@ -206,7 +215,9 @@ const PostEditor = React.forwardRef<{ focus: () => void }, PostEditorProps>(
                   <EditorFooter
                     onSubmit={onSubmitHandler}
                     onCancel={() => props.onCancel(isEmpty)}
-                    submittable={!props.loading && !isEmpty}
+                    submittable={
+                      !props.loading && (!isEmpty || !!props.editableSections)
+                    }
                     cancellable={!props.loading}
                   />
                 </div>
@@ -221,14 +232,18 @@ const PostEditor = React.forwardRef<{ focus: () => void }, PostEditorProps>(
               <div className={"spinner"}>
                 <Spinner />
               </div>
-              <div className="editor">
+              <div
+                className={classnames("editor", {
+                  "can-edit": !props.editableSections,
+                })}
+              >
                 <Editor
                   ref={editorRef}
                   key="editor"
                   initialText={
                     props.initialText ? JSON.parse(props.initialText) : ""
                   }
-                  editable={!props.loading}
+                  editable={!props.loading && !props.editableSections}
                   onSubmit={onSubmitHandler}
                   onIsEmptyChange={(empty: boolean) => {
                     setIsEmpty(empty);
@@ -271,7 +286,7 @@ const PostEditor = React.forwardRef<{ focus: () => void }, PostEditorProps>(
           .views-dropdown {
             display: inline-flex;
             color: #1c1c1c;
-            border-radius: 10px;
+            bhjnmorder-radius: 10px;
             padding: 3px 6px;
             align-items: center;
           }
@@ -287,6 +302,9 @@ const PostEditor = React.forwardRef<{ focus: () => void }, PostEditorProps>(
           }
           .editor {
             min-height: 300px;
+          }
+          .editor:not(.can-edit) {
+            opacity: 0.7;
           }
           .editor-container.loading .editor {
             opacity: 0.5;
@@ -317,6 +335,12 @@ export default PostEditor;
 
 export interface PostEditorProps {
   initialText?: string;
+  initialTags?: {
+    contentWarnings: string[];
+    categoryTags: string[];
+    whisperTags: string[];
+    indexTags: string[];
+  };
   secretIdentity?: {
     avatar: string;
     name: string;
@@ -351,4 +375,7 @@ export interface PostEditorProps {
   centered?: boolean;
   accentColor?: string;
   suggestedCategories?: string[];
+  editableSections?: {
+    tags?: boolean;
+  };
 }
