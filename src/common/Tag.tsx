@@ -2,7 +2,7 @@ import React from "react";
 import classnames from "classnames";
 import { TagsType, TagType } from "../types";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import { faCross } from "@fortawesome/free-solid-svg-icons";
+import { faTimesCircle } from "@fortawesome/free-solid-svg-icons";
 
 export interface TagProps {
   name: string;
@@ -42,7 +42,7 @@ const Tag: React.FC<TagProps | DeleatableTagProps> = (props) => {
             onClick={() => props.onDeleteTag?.(props.name)}
             className={classnames("delete")}
           >
-            <FontAwesomeIcon icon={faCross} />
+            <FontAwesomeIcon icon={faTimesCircle} />
           </button>
         )}
       </div>
@@ -52,21 +52,50 @@ const Tag: React.FC<TagProps | DeleatableTagProps> = (props) => {
           margin-right: 2px;
         }
         .tag {
-          display: inline-block;
-          padding: 5px 8px;
-          border-radius: 100px;
+          display: flex;
+          padding: 5px 25px 5px 8px;
+          border-radius: 13px;
           background-color: ${props.color};
           color: ${props.accentColor || "black"};
           overflow-wrap: break-word;
           word-break: break-word;
+          position: relative;
         }
         .delete {
           display: none;
         }
 
-        .deletable .delete {
-          /*display: inline-block;*/
+        .deletable > .delete {
+          display: block;
+          position: absolute;
+          right: 0;
+          padding: 6px;
+          top: 0;
+          bottom: 0;
+          color: inherit;
+          opacity: 0.6;
         }
+
+        .deletable > .delete:hover {
+          opacity: 1;
+        }
+
+        .deletable > .delete > :global(svg) {
+          display: block;
+          width: 13px;
+          height: 13px;
+          margin: auto;
+        }
+
+        :global(.editable) .tag.text {
+          background-color: rgba(47, 47, 48, 0.15);
+          padding: 5px 25px 5px 8px;
+        }
+
+        :global(.editable) .deletable.tag.text > .delete {
+          color: #4D4D4D;
+        }
+
         button {
           border-width: 0;
           background-color: transparent;

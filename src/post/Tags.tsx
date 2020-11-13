@@ -415,9 +415,7 @@ const TagsInput: React.FC<TagsInputProps> = ({
               ${color(accentColor || CATEGORY_TAG_COLOR).fade(0)},
             0 0 0 4px ${color(accentColor || CATEGORY_TAG_COLOR).fade(0.7)};
         }
-        .editable :global(.tag.text) {
-          padding: 5px 0;
-        }
+        
         .deleting > :global(*)::after {
           position: absolute;
           right: 0;
