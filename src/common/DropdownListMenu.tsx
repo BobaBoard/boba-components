@@ -212,7 +212,7 @@ interface OptionInfo {
 const TOOLTIP_BORDER = { width: "2px", radius: "10px" };
 const DropdownMenu: React.FC<DropdownProps> = (props) => {
   const [isOpen, setOpen] = React.useState(false);
-  const close = React.useCallback(() => setOpen(false), []);
+  const close = React.useCallback(() => setOpen(false), [setOpen]);
   const { setOpen: setBackdropOpen } = useBackdrop({
     id: "dropdown",
     zIndex: 101,
@@ -484,7 +484,6 @@ const DropdownMenu: React.FC<DropdownProps> = (props) => {
             transform: translate(-50%, 0%);
             animation-name: slideUp;
             animation-duration: 0.2s;
-            border: 1px solid blue;
             z-index: 102;
           }
           .content-slider {

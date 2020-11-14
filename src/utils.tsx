@@ -73,6 +73,44 @@ export const useCompact = (
   );
 };
 
+const maybeCreateBackdropNode = (id: string, onClick: () => void) => {
+  let backdropNode = document.querySelector(
+    `.backdrop-hook[data-backdrop-id="${id}"]`
+  ) as HTMLDivElement;
+  if (backdropNode) {
+    return backdropNode;
+  }
+  backdropNode = document.createElement("div");
+  backdropNode.classList.add("backdrop-hook");
+  backdropNode.dataset.backdropId = id;
+
+  backdropNode.style.position = "fixed";
+  backdropNode.style.backgroundColor = Theme.MODAL_BACKGROUND_COLOR;
+  backdropNode.style.top = "0";
+  backdropNode.style.bottom = "0";
+  backdropNode.style.left = "0";
+  backdropNode.style.right = "0";
+  backdropNode.style.display = "none";
+  document.body.appendChild(backdropNode);
+
+  backdropNode.addEventListener("click", (e) => {
+    onClick();
+    e.stopPropagation();
+  });
+
+  return backdropNode;
+};
+
+const removeBackdropNode = (id: string) => {
+  const backdropNode = document.querySelector(
+    `.backdrop-hook[data-backdrop-id="${id}"]`
+  ) as HTMLDivElement;
+  if (!backdropNode) {
+    return;
+  }
+  backdropNode.parentElement?.removeChild(backdropNode);
+};
+
 export const useBackdrop = ({
   id,
   onClick,
@@ -83,49 +121,28 @@ export const useBackdrop = ({
   zIndex?: number;
 }) => {
   const [open, setOpen] = React.useState(false);
+  const currentId = React.useRef(id);
 
   React.useEffect(() => {
-    if (document.querySelector(`.backdrop-hook[data-backdrop-id="${id}"]`)) {
-      return;
-    }
-    const backdropNode = document.createElement("div");
-    backdropNode.classList.add("backdrop-hook");
-    backdropNode.dataset.backdropId = id;
-
-    backdropNode.style.position = "fixed";
-    backdropNode.style.backgroundColor = Theme.MODAL_BACKGROUND_COLOR;
-    backdropNode.style.top = "0";
-    backdropNode.style.bottom = "0";
-    backdropNode.style.left = "0";
-    backdropNode.style.right = "0";
-    backdropNode.style.display = "none";
-    document.body.appendChild(backdropNode);
+    const ref = currentId;
     return () => {
-      const backdropNode = document.querySelector(
-        `.backdrop-hook[data-backdrop-id="${id}"]`
-      ) as HTMLDivElement;
-      if (!backdropNode) {
-        return;
-      }
-      backdropNode.parentElement?.removeChild(backdropNode);
+      removeBackdropNode(ref.current);
     };
   }, []);
 
   React.useEffect(() => {
-    const backdropNode = document.querySelector(
-      `.backdrop-hook[data-backdrop-id="${id}"]`
-    ) as HTMLDivElement;
-    if (!backdropNode) {
-      return;
-    }
-    backdropNode.addEventListener("click", (e) => {
-      setOpen(false);
+    const backdropNode = maybeCreateBackdropNode(id, () => {
+      // TODO: this doesn't take into account the onclick
+      // method being updated.
       onClick();
-      e.stopPropagation();
     });
+
     backdropNode.style.display = open ? "block" : "none";
     backdropNode.style.zIndex = "" + (zIndex || 50);
-  }, [open]);
+    return () => {
+      removeBackdropNode(id);
+    };
+  }, [open, id, onClick, zIndex]);
 
   return { open, setOpen };
 };
