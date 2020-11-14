@@ -52,14 +52,17 @@ const Tag: React.FC<TagProps | DeleatableTagProps> = (props) => {
           margin-right: 2px;
         }
         .tag {
-          display: flex;
-          padding: 5px 25px 5px 8px;
+          padding: 5px 8px 5px 8px;
           border-radius: 13px;
           background-color: ${props.color};
           color: ${props.accentColor || "black"};
           overflow-wrap: break-word;
           word-break: break-word;
           position: relative;
+        }
+        .tag.deletable {
+          display: flex;
+          padding-right: 25px;
         }
         .delete {
           display: none;
@@ -80,6 +83,16 @@ const Tag: React.FC<TagProps | DeleatableTagProps> = (props) => {
           opacity: 1;
         }
 
+        .deletable > .delete:active,
+        .deletable > .delete:focus {
+          outline: 0;
+        }
+
+        .deletable > .delete:focus > :global(svg) {
+          box-shadow: 0 0 0 4px blue;
+          border-radius: 50%;
+        }
+
         .deletable > .delete > :global(svg) {
           display: block;
           width: 13px;
@@ -93,7 +106,7 @@ const Tag: React.FC<TagProps | DeleatableTagProps> = (props) => {
         }
 
         :global(.editable) .deletable.tag.text > .delete {
-          color: #4D4D4D;
+          color: #4d4d4d;
         }
 
         button {

@@ -49,7 +49,7 @@ const isWhisperTag = (tag: TagsType) => {
   return !(tag.category || tag.contentWarning || tag.indexable);
 };
 
-const resetInputState = (span: HTMLSpanElement, forceAdd: boolean = false) => {
+const resetInputState = (span: HTMLSpanElement, forceAdd = false) => {
   const hasFocus = span == document.activeElement;
   log(`Resetting input element.`);
   log(`Input element focused: ${hasFocus}`);
@@ -107,7 +107,7 @@ const TagsDisplay: React.FC<TagsInputProps & { deleting: boolean }> = ({
                     name={tag.name}
                     {...getDataForTagType(tag)}
                     compact
-                    deletable
+                    deletable={editable}
                     onDeleteTag={() => {
                       onTagsDelete?.(tag);
                     }}
@@ -137,7 +137,7 @@ const TagsDisplay: React.FC<TagsInputProps & { deleting: boolean }> = ({
                   name={tag.name}
                   {...getDataForTagType(tag)}
                   compact
-                  deletable
+                  deletable={editable}
                   onDeleteTag={() => {
                     onTagsDelete?.(tag);
                   }}
@@ -257,6 +257,7 @@ const TagsInput: React.FC<TagsInputProps> = ({
           deleting={deleteState}
           getOptionsForTag={getOptionsForTag}
           packBottom={packBottom}
+          onTagsDelete={onTagsDelete}
         />
         {!!editable && (
           <span
@@ -316,7 +317,7 @@ const TagsInput: React.FC<TagsInputProps> = ({
             }}
             onBeforeInput={(e) => {
               const target = e.target as HTMLSpanElement;
-              let inputValue = target.textContent || "";
+              const inputValue = target.textContent || "";
               if (inputValue.length >= TAG_LENGTH_LIMIT) {
                 log("Tag Limit Reached Cannot Insert new Value");
                 e.preventDefault();
@@ -330,7 +331,7 @@ const TagsInput: React.FC<TagsInputProps> = ({
             onPaste={(e) => {
               log(`Pasting text!`);
               e.preventDefault();
-              let text = extractTag(e.clipboardData.getData("text/plain"));
+              const text = extractTag(e.clipboardData.getData("text/plain"));
               if (document.queryCommandSupported("insertText")) {
                 document.execCommand("insertText", false, text);
               } else {
@@ -415,7 +416,7 @@ const TagsInput: React.FC<TagsInputProps> = ({
               ${color(accentColor || CATEGORY_TAG_COLOR).fade(0)},
             0 0 0 4px ${color(accentColor || CATEGORY_TAG_COLOR).fade(0.7)};
         }
-        
+
         .deleting > :global(*)::after {
           position: absolute;
           right: 0;
