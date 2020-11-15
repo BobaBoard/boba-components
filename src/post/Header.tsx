@@ -2,7 +2,6 @@ import React from "react";
 import useComponentSize from "@rehooks/component-size";
 
 import classnames from "classnames";
-import fitty from "fitty";
 import debug from "debug";
 import { LinkWithAction } from "types";
 
@@ -24,18 +23,13 @@ export enum HeaderStyle {
 }
 
 const Metadata: React.FC<PostHeaderProps> = (props) => {
+  const [forceCompact, setForceCompact] = React.useState(false);
   const [popoverOpen, setPopoverOpen] = React.useState(false);
   const ref = React.useRef<HTMLDivElement>(null);
   const nicknameRef = React.useRef(null);
   const { width } = useComponentSize(ref);
-  React.useLayoutEffect(() => {
-    if (!nicknameRef.current) {
-      return;
-    }
-    // @ts-ignore
-    fitty(nicknameRef.current, {
-      maxSize: 24,
-    });
+  React.useEffect(() => {
+    setForceCompact(width < 300);
   }, [width]);
   const hasUserIdentity =
     props.userIdentity?.name && props.userIdentity?.avatar;
@@ -44,6 +38,7 @@ const Metadata: React.FC<PostHeaderProps> = (props) => {
       <div
         className={classnames("container", {
           compact: HeaderStyle.COMPACT == props.size,
+          "compact-names": forceCompact
         })}
         ref={ref}
       >
@@ -88,77 +83,90 @@ const Metadata: React.FC<PostHeaderProps> = (props) => {
                     </DropdownListMenu>
                   </div>
                 ) : (
+                  <>
+                  {props.createdMessage && (
+                    <div className="timestamp">
+                      {props.createdMessageLink ? (
+                        <a
+                          onClick={(e) => {
+                            props.createdMessageLink?.onClick?.();
+                            e.preventDefault();
+                          }}
+                          href={props.createdMessageLink.href}
+                        >
+                          {props.createdMessage}
+                        </a>
+                      ) : (
+                        props.createdMessage
+                      )}
+                    </div>
+                  )}
                   <div className="secret-identity">
                     as: {props.secretIdentity?.name || "Random Identity"}
                   </div>
+                  </>
                 )}
               </>
             )}
+            {(!hasUserIdentity || props.forceHide) && props.createdMessage && (
+              <div className="timestamp">
+                {props.createdMessageLink ? (
+                  <a
+                    onClick={(e) => {
+                      props.createdMessageLink?.onClick?.();
+                      e.preventDefault();
+                    }}
+                    href={props.createdMessageLink.href}
+                  >
+                    {props.createdMessage}
+                  </a>
+                ) : (
+                  props.createdMessage
+                )}
+              </div>
+            )}
           </div>
-          {props.createdMessage && (
-            <div className="timestamp">
-              {props.createdMessageLink ? (
-                <a
-                  onClick={(e) => {
-                    props.createdMessageLink?.onClick?.();
-                    e.preventDefault();
-                  }}
-                  href={props.createdMessageLink.href}
-                >
-                  {props.createdMessage}
-                </a>
-              ) : (
-                props.createdMessage
-              )}
-            </div>
-          )}
+          
         </div>
       </div>
       <style jsx>
         {`
           .nickname {
-            font-size: 24px;
-            font-weight: bold;
+            font-size: 20px;
             white-space: nowrap;
             text-overflow: ellipsis;
             overflow: hidden;
-            display: inline-block;
             max-width: 100%;
           }
-          .timestamp {
-            font-size: smaller;
-            color: ${DefaultTheme.POST_HEADER_DATE_COLOR};
+          .timestamp, .secret-identity {
+            font-size: 14px;
+            line-height: 17px;
+            color: ${DefaultTheme.TEXT_MUTED};
             white-space: nowrap;
             text-overflow: ellipsis;
             overflow: hidden;
           }
           .timestamp a {
-            color: ${DefaultTheme.POST_HEADER_DATE_COLOR};
+            color: ${DefaultTheme.TEXT_MUTED};
             text-decoration: none;
           }
           .timestamp a:hover {
             text-decoration: underline;
           }
           .container {
-            min-width: 0;
+            min-width: 0;    
+            width: 100%;
+          
           }
-          .container.compact .nickname {
+          .container.compact-names .nickname {
             font-size: 18px;
-            color: rgba(255, 255, 255, 0.9);
           }
-          .container.compact .timestamp {
+          .container.compact-names .timestamp {
             font-size: 13px;
           }
-          .container.compact .metadata {
+          .container.compact-names .metadata {
             font-size: 13px;
             height: auto;
-          }
-          .secret-identity {
-            font-size: 15px;
-            color: #575757;
-            white-space: nowrap;
-            overflow: hidden;
-            text-overflow: ellipsis;
           }
           .identities-dropdown {
             display: inline-flex;
@@ -181,7 +189,6 @@ const Metadata: React.FC<PostHeaderProps> = (props) => {
           }
           .metadata {
             display: flex;
-            min-height: 60px;
             flex-direction: column;
             min-width: 0;
           }
@@ -218,7 +225,7 @@ const PostHeader: React.FC<PostHeaderProps> = (props) => {
   const { width } = useComponentSize(ref);
   React.useEffect(() => {
     setTagsOnNewLine(width < 300);
-    setForceCompact(width < 300);
+    setForceCompact(width < 500);
   }, [width]);
 
   info(`Rendering post header`);
@@ -241,32 +248,6 @@ const PostHeader: React.FC<PostHeaderProps> = (props) => {
           </Metadata>
         </div>
         {props.children}
-        <div className="new-tags">
-          {props.newPost && (
-            <Tag
-              name="new"
-              symbol={<FontAwesomeIcon icon={faCertificate} />}
-              compact
-              color={DefaultTheme.NEW_POST_COLOR}
-            />
-          )}
-          {props.newComments && (
-            <Tag
-              name="new"
-              symbol={<FontAwesomeIcon icon={faPlusSquare} />}
-              compact
-              color={DefaultTheme.NEW_CONTRIBUTION_COLOR}
-            />
-          )}
-          {props.newContributions && (
-            <Tag
-              name="new"
-              symbol={<FontAwesomeIcon icon={faComment} />}
-              compact
-              color={DefaultTheme.NEW_COMMENT_COLOR}
-            />
-          )}
-        </div>
       </div>
       <style jsx>{`
         .identity {
@@ -274,10 +255,6 @@ const PostHeader: React.FC<PostHeaderProps> = (props) => {
           max-width: 100%;
           flex-grow: 1;
           min-width: 0;
-        }
-        .avatar {
-          flex-shrink: 0;
-          align-self: center;
         }
         .new-tags {
           display: flex;
@@ -291,7 +268,6 @@ const PostHeader: React.FC<PostHeaderProps> = (props) => {
           align-items: center;
           position: relative;
           justify-content: space-between;
-          overflow: hidden;
         }
         .post-header.squeezed {
           flex-direction: column;

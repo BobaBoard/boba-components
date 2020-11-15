@@ -446,11 +446,23 @@ BoardPost.story = {
   name: "board post",
 };
 BoardPost.args = {
-  ...TaggedPost.args,
+  ...ActionPost.args,
   board: {
     slug: "!gore",
     accentColor: "purple",
   },
+};
+
+export const SwitchIdentityPost = () => {
+  const [identityHidden, setIdentityHidden] = React.useState(false);
+  return <div>
+  <button onClick={() => setIdentityHidden(!identityHidden)}>{identityHidden ? "Show" : "Hide"} identity</button>
+    <Post {...BoardPost.args} forceHide={identityHidden} />
+
+  </div>
+}
+SwitchIdentityPost.story = {
+  name: "switch identity post",
 };
 
 export const PostQuoteStory = () => {

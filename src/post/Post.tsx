@@ -10,7 +10,7 @@ import Reaction from "../common/Reaction";
 import Editor from "@bobaboard/boba-editor";
 import classnames from "classnames";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import { faPlus, faAngleDown } from "@fortawesome/free-solid-svg-icons";
+import { faPlus, faEllipsisV } from "@fortawesome/free-solid-svg-icons";
 import { TagsFactory } from "../common/Tag";
 
 import Theme from "../theme/default";
@@ -108,13 +108,14 @@ const Post = React.forwardRef<PostHandler, PostProps>((props, ref) => {
                       createdMessageLink={props.createdTimeLink}
                       size={HeaderStyle.REGULAR}
                       backgroundColor={props.muted ? "#dcdcdc" : undefined}
+                      forceHide={props.forceHide}
                     />
                   </div>
                   {props.menuOptions && (
                     <div className="post-options">
                       <DropdownListMenu options={props.menuOptions}>
                         <span className="post-options-icon">
-                          <FontAwesomeIcon icon={faAngleDown} />
+                          <FontAwesomeIcon icon={faEllipsisV} />
                         </span>
                       </DropdownListMenu>
                     </div>
@@ -205,7 +206,7 @@ const Post = React.forwardRef<PostHandler, PostProps>((props, ref) => {
         .header {
           border-radius: ${Theme.BORDER_RADIUS_REGULAR}
             ${Theme.BORDER_RADIUS_REGULAR} 0px 0px;
-          padding: 10px;
+          padding: 10px 10px 5px;
           display: flex;
         }
         .post-container {
@@ -276,20 +277,20 @@ const Post = React.forwardRef<PostHandler, PostProps>((props, ref) => {
           margin-right: 5px;
         }
         .header-container {
-          width: calc(100% - ${props.menuOptions ? 25 : 0}px);
+          flex: 1;
         }
         .post-options {
           width: 20px;
           height: 25px;
           text-align: center;
           line-height: 1em;
-          margin: 2px 5px 0 0;
+          margin: 2px -2px 0 0;
         }
         .post-options-icon {
           display: block;
           width: 20px;
-          height: 30px;
-          font-size: 25px;
+          height: 20px;
+          font-size: 16px;
           color: rgb(28, 28, 28);
         }
         .post-options-icon:hover {
@@ -361,4 +362,5 @@ export interface PostProps {
     accentColor: string;
   };
   getOptionsForTag?: (tag: TagsType) => DropdownProps["options"];
+  forceHide?: boolean;
 }

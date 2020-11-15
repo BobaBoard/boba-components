@@ -32,30 +32,23 @@ const Avatar: React.FC<AvatarProps> = (props) => {
         />
       </div>
       <style jsx>{`
-        .avatar-container {
-          width: 75px;
-        }
-        .avatar-container.compact {
-          width: 50px;
-        }
         .avatar-wrapper {
           position: relative;
         }
         .avatar {
           position: relative;
-          width: 50px;
-          height: 50px;
+          width: 40px;
+          height: 40px;
           display: block;
-          align-self: center;
           background: url("${currentAvatar}");
           background-size: cover;
           border-radius: 50%;
+          margin-right: 10px;
         }
         .avatar:not(.with-secret) {
-          margin: 0 auto;
+
         }
         .avatar.with-secret {
-          mask-image: url(${AvatarMask});
           mask-position: center;
           mask-repeat: no-repeat;
         }
@@ -65,20 +58,20 @@ const Avatar: React.FC<AvatarProps> = (props) => {
         }
         .secret-avatar {
           position: absolute;
-          top: 18px;
-          left: 39px;
-          width: 33px;
-          height: 33px;
+          top: 100%;
+          bottom: 0;
+          transform: translate(70%, -70%);
+          width: 22px;
+          height: 22px;
           display: none;
           background: url("${secretAvatar}");
           background-size: cover;
           border-radius: 50%;
+          border: 3px solid white
         }
         .avatar-container.compact .secret-avatar {
           width: 20px;
           height: 20px;
-          top: 14px;
-          left: 29px;
         }
         .secret-avatar.visible {
           display: block;
