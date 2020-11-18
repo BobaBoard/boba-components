@@ -57,6 +57,11 @@ const BoardMenuItem: React.FC<BoardMenuItemProps> = ({
           font-weight: bold;
           line-height: 35px;
           padding-left: 45px;
+          max-width: calc(100% - 65px);
+          overflow: hidden;
+          text-overflow: ellipsis;
+          display: inline-block;
+          white-space: nowrap;
         }
         .muted .board-menu-item-slug {
           text-decoration: line-through;

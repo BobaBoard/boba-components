@@ -90,12 +90,18 @@ const SideMenu: React.FC<SideMenuProps> = ({
             width: 100%;
             display: flex;
             flex-direction: column;
+            overflow-x: hidden;
           }
           .pinned-boards-container {
             display: none;
           }
           .pinned-boards-container.visible {
             display: block;
+            overflow-x: hidden;
+            width: 95px;
+          }
+          .pinned-boards-container.visible::-webkit-scrollbar {
+            display: none;
           }
           .recent-section {
             display: none;

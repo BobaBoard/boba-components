@@ -72,7 +72,7 @@ const PINNED_BOARDS = [
     link: { href: "#slug", onClick: action("#slug") },
   },
   {
-    slug: "meta",
+    slug: "dasdjkasdjaklsdjaklsdjaslkdjaslkjdakldjalksjaslk",
     avatar: "/" + meta,
     description: "In My TiMeS wE CaLlEd It WaNk",
     color: "#f9e066",
