@@ -1,7 +1,7 @@
 import React from "react";
 import classnames from "classnames";
 
-import AvatarMask from "../images/avatar_mask.svg";
+import CircleMask from "../images/circle-mask.svg";
 
 const Avatar: React.FC<AvatarProps> = (props) => {
   const visibleSecretAvatar =
@@ -46,10 +46,15 @@ const Avatar: React.FC<AvatarProps> = (props) => {
           margin-right: 10px;
         }
         .avatar:not(.with-secret) {
-
         }
         .avatar.with-secret {
-          mask-position: center;
+          mask: url(${CircleMask}), url(${CircleMask}) 13px 23px/28px 28px;
+          mask-composite: source-out;
+          mask-repeat: no-repeat;
+        }
+        .avatar-container.compact .avatar.with-secret {
+          mask: url(${CircleMask}), url(${CircleMask}) 12px 19px/25px 25px;
+          mask-composite: source-out;
           mask-repeat: no-repeat;
         }
         .avatar-container.compact .avatar {
@@ -67,7 +72,6 @@ const Avatar: React.FC<AvatarProps> = (props) => {
           background: url("${secretAvatar}");
           background-size: cover;
           border-radius: 50%;
-          border: 3px solid white
         }
         .avatar-container.compact .secret-avatar {
           width: 20px;

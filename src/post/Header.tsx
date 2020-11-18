@@ -38,7 +38,7 @@ const Metadata: React.FC<PostHeaderProps> = (props) => {
       <div
         className={classnames("container", {
           compact: HeaderStyle.COMPACT == props.size,
-          "compact-names": forceCompact
+          "compact-names": forceCompact,
         })}
         ref={ref}
       >
@@ -84,26 +84,26 @@ const Metadata: React.FC<PostHeaderProps> = (props) => {
                   </div>
                 ) : (
                   <>
-                  {props.createdMessage && (
-                    <div className="timestamp">
-                      {props.createdMessageLink ? (
-                        <a
-                          onClick={(e) => {
-                            props.createdMessageLink?.onClick?.();
-                            e.preventDefault();
-                          }}
-                          href={props.createdMessageLink.href}
-                        >
-                          {props.createdMessage}
-                        </a>
-                      ) : (
-                        props.createdMessage
-                      )}
+                    <div className="secret-identity">
+                      as: {props.secretIdentity?.name || "Random Identity"}
                     </div>
-                  )}
-                  <div className="secret-identity">
-                    as: {props.secretIdentity?.name || "Random Identity"}
-                  </div>
+                    {props.createdMessage && (
+                      <div className="timestamp">
+                        {props.createdMessageLink ? (
+                          <a
+                            onClick={(e) => {
+                              props.createdMessageLink?.onClick?.();
+                              e.preventDefault();
+                            }}
+                            href={props.createdMessageLink.href}
+                          >
+                            {props.createdMessage}
+                          </a>
+                        ) : (
+                          props.createdMessage
+                        )}
+                      </div>
+                    )}
                   </>
                 )}
               </>
@@ -126,7 +126,6 @@ const Metadata: React.FC<PostHeaderProps> = (props) => {
               </div>
             )}
           </div>
-          
         </div>
       </div>
       <style jsx>
@@ -138,7 +137,8 @@ const Metadata: React.FC<PostHeaderProps> = (props) => {
             overflow: hidden;
             max-width: 100%;
           }
-          .timestamp, .secret-identity {
+          .timestamp,
+          .secret-identity {
             font-size: 14px;
             line-height: 17px;
             color: ${DefaultTheme.TEXT_MUTED};
@@ -154,9 +154,8 @@ const Metadata: React.FC<PostHeaderProps> = (props) => {
             text-decoration: underline;
           }
           .container {
-            min-width: 0;    
+            min-width: 0;
             width: 100%;
-          
           }
           .container.compact-names .nickname {
             font-size: 18px;
