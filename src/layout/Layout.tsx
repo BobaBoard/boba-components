@@ -1,6 +1,6 @@
 import React from "react";
 import { faBars, IconDefinition } from "@fortawesome/free-solid-svg-icons";
-import Button, { ButtonStyle } from "../common/Button";
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import classnames from "classnames";
 import HighlightedText from "../common/HighlightedText";
 import Theme from "../theme/default";
@@ -160,23 +160,9 @@ const Layout = React.forwardRef<{ closeSideMenu: () => void }, LayoutProps>(
             />
             <div className="header" ref={headerRef}>
               <div className="title-bar">
-                <div className="sidemenu-button">
-                  <Button
-                    icon={faBars}
-                    compact
-                    onClick={React.useCallback(() => {
-                      if (!showSideMenu) {
-                        onSideMenuButtonClick?.();
-                      }
-                      setShowSideMenu(!showSideMenu);
-                    }, [showSideMenu, onSideMenuButtonClick])}
-                    color={headerAccent}
-                    theme={ButtonStyle.DARK}
-                    updates={updates}
-                  >
-                    Menu
-                  </Button>{" "}
-                </div>
+                <button className="sidemenu-button">
+                  <FontAwesomeIcon icon={faBars} />
+                </button>
                 <a
                   className="logo"
                   onClick={(e) => {
@@ -308,8 +294,26 @@ const Layout = React.forwardRef<{ closeSideMenu: () => void }, LayoutProps>(
               height: 100%;
             }
             .sidemenu-button {
-              margin: 0 10px;
+              margin-right: 15px;
               display: inline-block;
+              width: 35px;
+              height: 35px;
+              background-color: rgb(46, 46, 48);;
+              border-radius: 50%;
+              border: 0;
+              color: rgb(191, 191, 191);
+              text-align: center;
+              display: flex;
+              align-items: center;
+              justify-content: center;
+            }
+
+            .sidemenu-button:hover {
+              cursor: pointer;
+            }
+
+            .sidemenu-button:hover {
+              color: white;
             }
             .content {
               flex-grow: 1;
