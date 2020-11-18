@@ -80,14 +80,18 @@ const HighlightedText: React.FC<HighlightedTextProps> = (props) => {
         <div className="backgroundDivs" ref={background}>
           {backgroundDivs}
         </div>
-        {React.cloneElement(props.children, {
-          style: {
-            ...props.children.props.style,
-            zIndex: 2,
-            position: "relative",
-          },
-          ref: header,
-        })}
+        {React.useMemo(
+          () =>
+            React.cloneElement(props.children, {
+              style: {
+                ...props.children.props.style,
+                zIndex: 2,
+                position: "relative",
+              },
+              ref: header,
+            }),
+          [props.children]
+        )}
       </div>
       <style jsx>{`
         .header {

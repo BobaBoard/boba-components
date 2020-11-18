@@ -20,6 +20,7 @@ import MenuBar from "./MenuBar";
 
 const log = debug("bobaui:layout-log");
 
+const MemoizedMenuBar = React.memo(MenuBar);
 const Layout = React.forwardRef<{ closeSideMenu: () => void }, LayoutProps>(
   (
     {
@@ -120,7 +121,7 @@ const Layout = React.forwardRef<{ closeSideMenu: () => void }, LayoutProps>(
     }, [showSideMenu]);
 
     const menuBar = (
-      <MenuBar
+      <MemoizedMenuBar
         menuOptions={menuOptions}
         selectedOption={selectedMenuOption}
         userMenuOptions={loggedInMenuOptions}

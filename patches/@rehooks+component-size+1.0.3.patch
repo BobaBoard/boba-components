@@ -1,14 +1,22 @@
 diff --git a/node_modules/@rehooks/component-size/index.js b/node_modules/@rehooks/component-size/index.js
-index 5e652a2..c30c287 100644
+index 5e652a2..67dbcfb 100644
 --- a/node_modules/@rehooks/component-size/index.js
 +++ b/node_modules/@rehooks/component-size/index.js
-@@ -31,6 +31,9 @@ function useComponentSize(ref) {
-     },
+@@ -3,6 +3,8 @@ var React = require('react')
+ var useState = React.useState
+ var useCallback = React.useCallback
+ var useLayoutEffect = React.useLayoutEffect
++var useEffect = React.useEffect
++const useIsomorphicLayoutEffect = typeof window !== 'undefined' ? useLayoutEffect : useEffect;
+ 
+ function getSize(el) {
+   if (!el) {
+@@ -32,7 +34,7 @@ function useComponentSize(ref) {
      [ref]
    )
-+  if (typeof window === 'undefined') {
-+    return ComponentSize;
-+  }
  
-   useLayoutEffect(
+-  useLayoutEffect(
++  useIsomorphicLayoutEffect(
      function() {
+       if (!ref.current) {
+         return
