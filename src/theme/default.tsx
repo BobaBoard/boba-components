@@ -6,6 +6,7 @@ const DefaultTheme: ThemeProperties = {
   POPOVER_DEFAULT_BACKGROUND: "#1c1c1c",
   POST_HEADER_DATE_COLOR: "#2f2f30",
   POST_BACKGROUND_COLOR: "#ffffff",
+  TEXT_MUTED: "#575757",
   NEW_POST_COLOR: "#f96680",
   NEW_CONTRIBUTION_COLOR: "#f96680",
   NEW_COMMENT_COLOR: "#f96680",
@@ -44,6 +45,7 @@ export interface ThemeProperties {
   DEFAULT_ACCENT_COLOR: string;
   MODAL_BACKGROUND_COLOR: string;
   INDENT_COLORS: string[];
+  TEXT_MUTED: string;
   // TODO: add this to CSS once the CSS reset is working
   HEADER_HEIGHT_PX: number;
   DROPDOWN_BACKGROUND_COLOR_LIGHT: string;
