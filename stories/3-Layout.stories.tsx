@@ -625,7 +625,7 @@ export const Attempt1 = () => {
           />
         }
         headerAccent="#f96680"
-        title="!gore"
+        title="!goreisthebestweloveit"
         titleLink={{ onClick: () => setShowSidebar(!showSidebar) }}
         onUserBarClick={() => console.log("userbar click!")}
         loggedInMenuOptions={[
