@@ -2,9 +2,6 @@ import React from "react";
 
 import Tag, {
   TagsFactory,
-  INDEXABLE_PREFIX,
-  CATEGORY_PREFIX,
-  CONTENT_WARNING_PREFIX,
   INDEXABLE_TAG_COLOR,
   CATEGORY_TAG_COLOR,
   CW_TAG_COLOR,
@@ -25,28 +22,12 @@ const ADD_A_TAG_STRING = "Add a tag...";
 // beyond this number of pixel, we "detect" a two-line input and
 // bring the tag input to a new line.
 const HEIGHT_TRIGGER = 30;
-const UNSUBMITTABLE_TAGS = [
-  INDEXABLE_PREFIX,
-  CATEGORY_PREFIX,
-  CONTENT_WARNING_PREFIX,
-  "",
-  "#",
-];
 
-const extractTag = (inputValue: string | null) => {
+const extractSanitizedTag = (inputValue: string | null) => {
   if (!inputValue) {
     return "";
   }
   return inputValue.replace(/\n/g, " ").trim().substr(0, TAG_LENGTH_LIMIT);
-};
-
-const isTagValid = (tag: string) => {
-  log(UNSUBMITTABLE_TAGS.indexOf(tag));
-  return UNSUBMITTABLE_TAGS.indexOf(tag) === -1;
-};
-
-const isWhisperTag = (tag: TagsType) => {
-  return !(tag.category || tag.contentWarning || tag.indexable);
 };
 
 const resetInputState = (span: HTMLSpanElement, forceAdd = false) => {
@@ -69,7 +50,7 @@ const TagsDisplay: React.FC<TagsInputProps & { deleting: boolean }> = ({
   const whisperTags: TagsType[] = [];
   const specialTags: TagsType[] = [];
   tags.forEach((tag) => {
-    isWhisperTag(tag) ? whisperTags.push(tag) : specialTags.push(tag);
+    tag.type == TagType.WHISPER ? whisperTags.push(tag) : specialTags.push(tag);
   });
 
   // We cannot just wrap in a div/span because making things in different divs
@@ -128,8 +109,7 @@ const TagsDisplay: React.FC<TagsInputProps & { deleting: boolean }> = ({
               className={classnames("tag-container", {
                 deleting:
                   deleting && specialTags.length + index == tags.length - 1,
-                // TODO: listing all things this isn't for condition, bad.
-                whisper: isWhisperTag(tag),
+                whisper: tag.type == TagType.WHISPER,
               })}
             >
               <DropdownListMenu options={getOptionsForTag?.(tag)}>
@@ -168,10 +148,28 @@ const TagsDisplay: React.FC<TagsInputProps & { deleting: boolean }> = ({
           flex-direction: row-reverse;
           justify-content: flex-end;
         }
+        :global(.deleting) > :global(*)::after {
+          position: absolute;
+          right: 0;
+          bottom: -5px;
+          left: 0;
+          content: "";
+          height: 3px;
+          background: red;
+        }
       `}</style>
     </>
   );
 };
+
+enum TagInputState {
+  CONTENT_NOTICE,
+  INDEXABLE,
+  CATEGORY,
+  WHISPER,
+  EMPTY,
+  DELETE,
+}
 
 const TagsInput: React.FC<TagsInputProps> = ({
   tags,
@@ -184,21 +182,14 @@ const TagsInput: React.FC<TagsInputProps> = ({
   getOptionsForTag,
   packBottom,
 }) => {
-  const [deleteState, setDeleteState] = React.useState(false);
-  const [indexable, setIndexableState] = React.useState(false);
-  const [category, setCategoryState] = React.useState(false);
-  const [contentWarning, setCwState] = React.useState(false);
-  const [isTypingTag, setIsTypingTag] = React.useState(false);
+  const [tagInputState, setTagInputState] = React.useState(TagInputState.EMPTY);
   const [isFocused, setFocused] = React.useState(false);
   const spanRef = React.useRef<HTMLSpanElement>(null);
 
   React.useEffect(() => {
     if (spanRef.current) {
       resetInputState(spanRef.current);
-      setDeleteState(false);
-      setIndexableState(false);
-      setCategoryState(false);
-      setCwState(false);
+      setTagInputState(TagInputState.EMPTY);
     }
   }, [tags]);
 
@@ -207,12 +198,12 @@ const TagsInput: React.FC<TagsInputProps> = ({
       <div className={classnames("container", { editable })}>
         <div
           className={classnames("suggestions-container how-to", {
-            visible: isFocused && tags.length == 0 && !isTypingTag,
+            visible: isFocused && tags.length == 0 && TagInputState.EMPTY,
           })}
         >
           Start a tag with <strong>!</strong> to make it searchable,{" "}
-          <strong>+</strong> for a filterable category, or <strong>cw</strong>{" "}
-          for content warnings. Tags are separated by new lines.
+          <strong>+</strong> for a filterable category, or <strong>cn</strong>{" "}
+          for content notices. Tags are separated by new line.
         </div>
         <div
           className={classnames(
@@ -222,13 +213,13 @@ const TagsInput: React.FC<TagsInputProps> = ({
                 isFocused &&
                 suggestedCategories &&
                 suggestedCategories.length > 0 &&
-                category,
+                tagInputState == TagInputState.CATEGORY,
             }
           )}
         >
-          {suggestedCategories?.map((category, index) => (
-            <div
-              key={index}
+          {suggestedCategories?.map((category) => (
+            <button
+              key={category}
               className={classnames("tag-container")}
               // We use mouse down rather than on click because this runs
               // before the blur event.
@@ -248,13 +239,13 @@ const TagsInput: React.FC<TagsInputProps> = ({
                 category: true,
                 type: TagType.CATEGORY,
               })}
-            </div>
+            </button>
           ))}
         </div>
         <TagsDisplay
           editable={editable}
           tags={tags}
-          deleting={deleteState}
+          deleting={tagInputState == TagInputState.DELETE}
           getOptionsForTag={getOptionsForTag}
           packBottom={packBottom}
           onTagsDelete={onTagsDelete}
@@ -262,9 +253,9 @@ const TagsInput: React.FC<TagsInputProps> = ({
         {!!editable && (
           <span
             className={classnames("tag-input", {
-              indexable,
-              category,
-              "content-warning": contentWarning,
+              indexable: tagInputState == TagInputState.INDEXABLE,
+              category: tagInputState == TagInputState.CATEGORY,
+              "content-warning": tagInputState == TagInputState.CONTENT_NOTICE,
             })}
             ref={spanRef}
             onKeyDown={(e) => {
@@ -275,28 +266,31 @@ const TagsInput: React.FC<TagsInputProps> = ({
               const isTagEnterAttempt = e.key === "Enter" && !isSubmitAttempt;
               if (isDeletingPrevious) {
                 log(`Received backspace on empty tag`);
-                if (!deleteState) {
+                if (tagInputState != TagInputState.DELETE) {
                   log(`Entering delete state for previous tag`);
-                  setDeleteState(true);
+                  setTagInputState(TagInputState.DELETE);
                   return;
                 }
                 log(`Deleting previous tag`);
-                setDeleteState(false);
+                setTagInputState(TagInputState.EMPTY);
                 onTagsDelete?.(tags[tags.length - 1]);
                 return;
               }
-              setDeleteState(false);
-              const currentTag = extractTag(inputValue);
-              const isSubmittable = isTagValid(currentTag);
+              if (tagInputState == TagInputState.DELETE) {
+                setTagInputState(TagInputState.EMPTY);
+              }
+              // TODO: move this to tag utils
+              const currentTag = extractSanitizedTag(inputValue);
+              const isSubmittable = TagsFactory.isTagValid(currentTag);
               if (isSubmitAttempt) {
                 log(`Submitting with current tag ${inputValue}`);
                 if (isSubmittable) {
                   log(`Adding tag before submission: ${currentTag}`);
-                  onTagsAdd?.(TagsFactory.getTypeFromString(currentTag));
+                  onTagsAdd?.(TagsFactory.getTagDataFromString(currentTag));
                 }
                 onSubmit?.(
                   isSubmittable
-                    ? TagsFactory.getTypeFromString(currentTag)
+                    ? TagsFactory.getTagDataFromString(currentTag)
                     : undefined
                 );
                 e.preventDefault();
@@ -308,7 +302,7 @@ const TagsInput: React.FC<TagsInputProps> = ({
                 if (!isSubmittable) {
                   return;
                 }
-                onTagsAdd?.(TagsFactory.getTypeFromString(currentTag));
+                onTagsAdd?.(TagsFactory.getTagDataFromString(currentTag));
                 if (spanRef.current) {
                   // Remove inner text here so it doesn't trigger flickering.
                   spanRef.current.textContent = "";
@@ -331,7 +325,9 @@ const TagsInput: React.FC<TagsInputProps> = ({
             onPaste={(e) => {
               log(`Pasting text!`);
               e.preventDefault();
-              const text = extractTag(e.clipboardData.getData("text/plain"));
+              const text = extractSanitizedTag(
+                e.clipboardData.getData("text/plain")
+              );
               if (document.queryCommandSupported("insertText")) {
                 document.execCommand("insertText", false, text);
               } else {
@@ -355,32 +351,47 @@ const TagsInput: React.FC<TagsInputProps> = ({
               if (!spanRef.current) {
                 return;
               }
-              const currentTag = extractTag(spanRef.current.textContent);
-              const isSubmittable = isTagValid(currentTag);
+              const currentTag = extractSanitizedTag(
+                spanRef.current.textContent
+              );
+              const isSubmittable = TagsFactory.isTagValid(currentTag);
               if (isSubmittable) {
-                onTagsAdd?.(TagsFactory.getTypeFromString(currentTag));
+                onTagsAdd?.(TagsFactory.getTagDataFromString(currentTag));
               }
               resetInputState(spanRef.current, true);
-              setIndexableState(false);
-              setCategoryState(false);
-              setCwState(false);
-              setDeleteState(false);
-              setIsTypingTag(false);
+              setTagInputState(TagInputState.EMPTY);
             }}
             onKeyUp={(e) => {
               const target = e.target as HTMLSpanElement;
-              const currentTag = extractTag(target.textContent);
-              setIndexableState(currentTag.startsWith(INDEXABLE_PREFIX));
-              setCategoryState(currentTag.startsWith(CATEGORY_PREFIX));
-              setCwState(currentTag.startsWith(CONTENT_WARNING_PREFIX));
+              if (target.textContent?.trim().length == 0) {
+                if (tagInputState != TagInputState.DELETE) {
+                  setTagInputState(TagInputState.EMPTY);
+                }
+                return;
+              }
+              const currentTag = TagsFactory.getTagDataFromString(
+                extractSanitizedTag(target.textContent)
+              );
               if (target.getBoundingClientRect().height > HEIGHT_TRIGGER) {
                 log(`Multiline detected. Switching to full line.`);
                 target.style.width = "100%";
                 target.style.flex = "auto";
               }
-              const value = (e.target as HTMLSpanElement).textContent || "";
-              setIsTypingTag(value.length > 0);
-              log(`input value: ${value}`);
+              log(`Current tag type: ${currentTag.type}`);
+              switch (currentTag.type) {
+                case TagType.INDEXABLE:
+                  setTagInputState(TagInputState.INDEXABLE);
+                  return;
+                case TagType.CATEGORY:
+                  setTagInputState(TagInputState.CATEGORY);
+                  return;
+                case TagType.CONTENT_WARNING:
+                  setTagInputState(TagInputState.CONTENT_NOTICE);
+                  return;
+                case TagType.WHISPER:
+                default:
+                  setTagInputState(TagInputState.WHISPER);
+              }
             }}
             contentEditable={true}
           />
@@ -415,16 +426,6 @@ const TagsInput: React.FC<TagsInputProps> = ({
           box-shadow: 0 0 0 1px
               ${color(accentColor || CATEGORY_TAG_COLOR).fade(0)},
             0 0 0 4px ${color(accentColor || CATEGORY_TAG_COLOR).fade(0.7)};
-        }
-
-        .deleting > :global(*)::after {
-          position: absolute;
-          right: 0;
-          bottom: -5px;
-          left: 0;
-          content: "";
-          height: 3px;
-          background: red;
         }
         .container {
           padding-bottom: 5px;

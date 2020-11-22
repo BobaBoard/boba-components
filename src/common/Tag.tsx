@@ -8,24 +8,22 @@ export interface TagProps {
   name: string;
   deletable?: false;
   symbol?: string | JSX.Element;
-  avatar?: string;
   color?: string;
   accentColor?: string;
   compact?: boolean;
 }
 
-export interface DeleatableTagProps {
+export interface DeletableTagProps {
   name: string;
   deletable: true;
   onDeleteTag: (name: string) => void;
   symbol?: string | JSX.Element;
-  avatar?: string;
   color?: string;
   accentColor?: string;
   compact?: boolean;
 }
 
-const Tag: React.FC<TagProps | DeleatableTagProps> = (props) => {
+const Tag: React.FC<TagProps | DeletableTagProps> = (props) => {
   return (
     <>
       <div
@@ -132,30 +130,36 @@ export default Tag;
 
 export const INDEXABLE_PREFIX = "!";
 export const CATEGORY_PREFIX = "+";
-export const CONTENT_WARNING_PREFIX = "cw:";
+export const CONTENT_NOTICE_DEFAULT_PREFIX = "cn:";
+export const CONTENT_NOTICE_PREFIXES = [
+  CONTENT_NOTICE_DEFAULT_PREFIX,
+  "cw:",
+  "sq:",
+  "squick:",
+];
 
 export const INDEXABLE_TAG_COLOR = "#FF5A13";
 export const CATEGORY_TAG_COLOR = "#138EFF";
 export const CW_TAG_COLOR = "#FFC700";
 
 export const getDataForTagType = (tag: TagsType) => {
-  if (tag.indexable) {
+  if (tag.indexable || tag.type == TagType.INDEXABLE) {
     return {
       symbol: INDEXABLE_PREFIX,
       color: INDEXABLE_TAG_COLOR,
       type: TagType.INDEXABLE,
       accentColor: "white",
     };
-  } else if (tag.category) {
+  } else if (tag.category || tag.type == TagType.CATEGORY) {
     return {
       symbol: CATEGORY_PREFIX,
       color: CATEGORY_TAG_COLOR,
       type: TagType.CATEGORY,
       accentColor: "white",
     };
-  } else if (tag.contentWarning) {
+  } else if (tag.contentWarning || tag.type == TagType.CONTENT_WARNING) {
     return {
-      symbol: CONTENT_WARNING_PREFIX,
+      symbol: CONTENT_NOTICE_DEFAULT_PREFIX,
       color: CW_TAG_COLOR,
       type: TagType.CONTENT_WARNING,
     };
@@ -170,17 +174,19 @@ export const getDataForTagType = (tag: TagsType) => {
 
 export class TagsFactory {
   static create(tag: TagsType) {
+    return <Tag {...TagsFactory.createProps(tag)} />;
+  }
+
+  static createProps(tag: TagsType) {
     const tagData = getDataForTagType(tag);
 
-    return (
-      <Tag
-        name={tag.name}
-        compact
-        color={tag.color || tagData.color}
-        accentColor={tag.accentColor}
-        symbol={tagData.symbol}
-      />
-    );
+    return {
+      name: tag.name,
+      compact: true,
+      color: tag.color || tagData.color,
+      accentColor: tag.accentColor,
+      symbol: tagData.symbol,
+    };
   }
 
   static getTagsFromTagObject(tagsObject?: {
@@ -194,19 +200,19 @@ export class TagsFactory {
     }
     const indexableTags =
       tagsObject.indexTags?.map((tag) =>
-        TagsFactory.getTypeFromString(INDEXABLE_PREFIX + tag)
+        TagsFactory.getTagDataFromString(INDEXABLE_PREFIX + tag)
       ) || [];
     const categoryTags =
       tagsObject.categoryTags?.map((tag) =>
-        TagsFactory.getTypeFromString(CATEGORY_PREFIX + tag)
+        TagsFactory.getTagDataFromString(CATEGORY_PREFIX + tag)
       ) || [];
     const contentWarnings =
       tagsObject.contentWarnings?.map((tag) =>
-        TagsFactory.getTypeFromString(CONTENT_WARNING_PREFIX + tag)
+        TagsFactory.getTagDataFromString(CONTENT_NOTICE_DEFAULT_PREFIX + tag)
       ) || [];
     const whisperTags =
       tagsObject.whisperTags?.map((tag) =>
-        TagsFactory.getTypeFromString(tag)
+        TagsFactory.getTagDataFromString(tag)
       ) || [];
 
     return [
@@ -233,34 +239,58 @@ export class TagsFactory {
     ];
   }
 
-  // Turn tag type into a enum and refactor everything, honestly.
-  static getTypeFromString(tag: string, accentColor?: string): TagsType {
-    if (tag.startsWith(INDEXABLE_PREFIX)) {
+  static getTagDataFromString(tag: string, accentColor?: string): TagsType {
+    const tagType = TagsFactory.getTagTypeFromString(tag);
+    const lowerCaseTag = tag.toLowerCase();
+    if (tagType == TagType.INDEXABLE) {
       return {
-        name: tag.substring(INDEXABLE_PREFIX.length),
+        name: lowerCaseTag.substring(INDEXABLE_PREFIX.length).trim(),
         color: accentColor || INDEXABLE_TAG_COLOR,
         accentColor: "white",
         indexable: true,
         type: TagType.INDEXABLE,
       };
-    } else if (tag.startsWith(CATEGORY_PREFIX)) {
+    } else if (tagType == TagType.CATEGORY) {
       return {
-        name: tag.substring(CATEGORY_PREFIX.length),
+        name: tag.substring(CATEGORY_PREFIX.length).trim(),
         accentColor: "white",
         category: true,
         type: TagType.CATEGORY,
       };
-    } else if (tag.startsWith(CONTENT_WARNING_PREFIX)) {
+    } else if (tagType == TagType.CONTENT_WARNING) {
+      const cwPrefix = CONTENT_NOTICE_PREFIXES.find((prefix) =>
+        lowerCaseTag.startsWith(prefix)
+      ) as string;
       return {
-        name: tag.substring(CONTENT_WARNING_PREFIX.length).trim(),
+        name: lowerCaseTag.substring(cwPrefix.length).trim(),
         contentWarning: true,
         type: TagType.CONTENT_WARNING,
       };
     } else {
       return {
-        name: tag,
+        name: tag.trim(),
         type: TagType.WHISPER,
       };
     }
+  }
+
+  static getTagTypeFromString(tag: string) {
+    const lowerCaseTag = tag.toLowerCase();
+    if (lowerCaseTag.startsWith(INDEXABLE_PREFIX)) {
+      return TagType.INDEXABLE;
+    } else if (lowerCaseTag.startsWith(CATEGORY_PREFIX)) {
+      return TagType.CATEGORY;
+    } else if (
+      CONTENT_NOTICE_PREFIXES.some((prefix) => lowerCaseTag.startsWith(prefix))
+    ) {
+      return TagType.CONTENT_WARNING;
+    } else {
+      return TagType.WHISPER;
+    }
+  }
+
+  static isTagValid(tag: string) {
+    const tagData = TagsFactory.getTagDataFromString(tag);
+    return tagData.name !== "";
   }
 }
