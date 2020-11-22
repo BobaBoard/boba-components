@@ -198,7 +198,10 @@ const TagsInput: React.FC<TagsInputProps> = ({
       <div className={classnames("container", { editable })}>
         <div
           className={classnames("suggestions-container how-to", {
-            visible: isFocused && tags.length == 0 && TagInputState.EMPTY,
+            visible:
+              isFocused &&
+              tags.length == 0 &&
+              tagInputState == TagInputState.EMPTY,
           })}
         >
           Start a tag with <strong>!</strong> to make it searchable,{" "}
@@ -440,6 +443,9 @@ const TagsInput: React.FC<TagsInputProps> = ({
           word-break: break-word;
           display: inline-flex;
           position: relative;
+          border: 0;
+          background: none;
+          padding: 0;
         }
         .suggestions-container {
           position: absolute;

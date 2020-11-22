@@ -48,6 +48,8 @@ const Tag: React.FC<TagProps | DeletableTagProps> = (props) => {
         .hashtag {
           opacity: 0.6;
           margin-right: 2px;
+          flex-shrink: 0;
+          align-self: center;
         }
         .tag {
           padding: 5px 8px 5px 8px;
@@ -86,7 +88,7 @@ const Tag: React.FC<TagProps | DeletableTagProps> = (props) => {
           outline: 0;
         }
 
-        .deletable > .delete:focus > :global(svg) {
+        .deletable > .delete:focus-visible > :global(svg) {
           box-shadow: 0 0 0 4px blue;
           border-radius: 50%;
         }

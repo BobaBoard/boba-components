@@ -17,6 +17,7 @@ export interface InputProps {
   disabled?: boolean;
   errorMessage?: string;
   onTextChange: (text: string) => void;
+  onEnter?: (e: React.KeyboardEvent<HTMLInputElement>) => void;
   theme?: InputStyle;
   color?: string;
   password?: boolean;
@@ -46,19 +47,24 @@ const Input: React.FC<InputProps> = (props) => {
         value={value}
         placeholder={props.placeholder}
         onChange={(e) => !props.disabled && props.onTextChange(e.target.value)}
-        onFocus={(e) => !props.disabled && setFocused(true)}
+        onFocus={() => !props.disabled && setFocused(true)}
         onBlur={() => !props.disabled && setFocused(false)}
         disabled={props.disabled}
+        onKeyDown={(e) => {
+          if (e.key === "Enter") {
+            props.onEnter?.(e);
+          }
+        }}
       />
       {}
       <div></div>
       {(!!helper || !!errorMessage || !!maxLength) && (
         <div className="input__bottom">
           <span className="input__bottom-text">
-            {!!errorMessage ? errorMessage : helper || ""}
+            {errorMessage ? errorMessage : helper || ""}
           </span>
           <span className="input__bottom-limit">
-            {!!maxLength ? `${value.length}/${maxLength}` : ""}
+            {maxLength ? `${value.length}/${maxLength}` : ""}
           </span>
         </div>
       )}

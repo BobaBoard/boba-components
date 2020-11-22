@@ -1,6 +1,7 @@
 import React from "react";
 import Tags from "../src/post/Tags";
 import CategoryFilter from "../src/common/CategoryFilter";
+import TagsFilter, { FilteredTagsState } from "../src/common/TagsFilter";
 import { TagsType, TagType } from "../src/types";
 import { action } from "@storybook/addon-actions";
 
@@ -222,4 +223,84 @@ export const FilterTags = () => {
 
 FilterTags.story = {
   name: "category filter",
+};
+
+export const TagsFilterStory = () => {
+  const [tags, setTags] = React.useState([
+    { name: "tag1", state: FilteredTagsState.ACTIVE },
+    { name: "tag2", state: FilteredTagsState.ACTIVE },
+    { name: "a long tag", state: FilteredTagsState.ACTIVE },
+    {
+      name: "a very very very very very long tag with many words",
+      state: FilteredTagsState.DISABLED,
+    },
+    {
+      name:
+        "a tag with many words that is actually more than one single line long used to check words splitting",
+      state: FilteredTagsState.ACTIVE,
+    },
+    {
+      name:
+        "JugemuJugemuGokonoSurikireKaijarisuigyonoSuigyomatsuUnraimatsuFuraimatsuKuNeruTokoroniSumuTokoroYaburaKojinoBuraKojiPaipopaipoPaiponoShuringanShuringannoGurindaiGurindainoPonpokopinoPonpokonanoChokyumeinoChosuke",
+      state: FilteredTagsState.DISABLED,
+    },
+  ]);
+  return (
+    <div style={{ width: "500px", backgroundColor: "white" }}>
+      <TagsFilter
+        tags={tags}
+        type={TagType.CONTENT_WARNING}
+        onTagStateChangeRequest={(changedTag) =>
+          setTags(
+            tags.map((tag) => (changedTag.name == tag.name ? changedTag : tag))
+          )
+        }
+        onClearTagsFilterRequests={() =>
+          setTags(
+            tags.map((tag) => ({
+              name: tag.name,
+              state: FilteredTagsState.ACTIVE,
+            }))
+          )
+        }
+      />
+    </div>
+  );
+};
+
+TagsFilterStory.story = {
+  name: "non-editable tags filter",
+};
+
+export const EditableTagsFilterStory = () => {
+  const [tags, setTags] = React.useState([
+    { name: "tag1" },
+    { name: "tag2" },
+    { name: "a long tag" },
+    {
+      name: "a very very very very very long tag with many words",
+    },
+    {
+      name:
+        "a tag with many words that is actually more than one single line long used to check words splitting",
+    },
+    {
+      name:
+        "JugemuJugemuGokonoSurikireKaijarisuigyonoSuigyomatsuUnraimatsuFuraimatsuKuNeruTokoroniSumuTokoroYaburaKojinoBuraKojiPaipopaipoPaiponoShuringanShuringannoGurindaiGurindainoPonpokopinoPonpokonanoChokyumeinoChosuke",
+    },
+  ]);
+  return (
+    <div style={{ width: "500px", backgroundColor: "white" }}>
+      <TagsFilter
+        tags={tags}
+        type={TagType.CONTENT_WARNING}
+        editable
+        onTagsChange={setTags}
+      />
+    </div>
+  );
+};
+
+EditableTagsFilterStory.story = {
+  name: "editable tags filter",
 };
