@@ -6,14 +6,12 @@ import debug from "debug";
 import { LinkWithAction } from "types";
 
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import { faComment, faPlusSquare } from "@fortawesome/free-regular-svg-icons";
-import { faCaretDown, faCertificate } from "@fortawesome/free-solid-svg-icons";
+import { faCaretDown } from "@fortawesome/free-solid-svg-icons";
 
 import Avatar from "./Avatar";
 import DefaultTheme from "../theme/default";
 import Tooltip from "../common/Tooltip";
 import DropdownListMenu from "../common/DropdownListMenu";
-import Tag from "../common/Tag";
 //const log = debug("bobaui:header-log");
 const info = debug("bobaui:header-info");
 
@@ -267,6 +265,7 @@ const PostHeader: React.FC<PostHeaderProps> = (props) => {
           align-items: center;
           position: relative;
           justify-content: space-between;
+          text-align: left;
         }
         .post-header.squeezed {
           flex-direction: column;

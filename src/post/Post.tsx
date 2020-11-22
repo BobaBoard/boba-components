@@ -209,6 +209,9 @@ const Post = React.forwardRef<PostHandler, PostProps>((props, ref) => {
           padding: 10px 10px 5px;
           display: flex;
         }
+        .header-container {
+          overflow: hidden;
+        }
         .post-container {
           position: relative;
           max-width: 100%;

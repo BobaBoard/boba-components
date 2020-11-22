@@ -48,12 +48,12 @@ const Avatar: React.FC<AvatarProps> = (props) => {
         .avatar:not(.with-secret) {
         }
         .avatar.with-secret {
-          mask: url(${CircleMask}), url(${CircleMask}) 13px 23px/28px 28px;
+          mask: url(${CircleMask}), url(${CircleMask}) 20px 18px/26px 26px;
           mask-composite: source-out;
           mask-repeat: no-repeat;
         }
         .avatar-container.compact .avatar.with-secret {
-          mask: url(${CircleMask}), url(${CircleMask}) 12px 19px/25px 25px;
+          mask: url(${CircleMask}), url(${CircleMask}) 16px 16px/25px 25px;
           mask-composite: source-out;
           mask-repeat: no-repeat;
         }
@@ -65,7 +65,7 @@ const Avatar: React.FC<AvatarProps> = (props) => {
           position: absolute;
           top: 100%;
           bottom: 0;
-          transform: translate(70%, -70%);
+          transform: translate(22px, -20px);
           width: 22px;
           height: 22px;
           display: none;
@@ -76,6 +76,7 @@ const Avatar: React.FC<AvatarProps> = (props) => {
         .avatar-container.compact .secret-avatar {
           width: 20px;
           height: 20px;
+          transform: translate(19px, -17px);
         }
         .secret-avatar.visible {
           display: block;
