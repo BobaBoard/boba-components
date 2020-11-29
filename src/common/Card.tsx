@@ -96,12 +96,6 @@ const Card: React.FC<CardProps> = ({
           padding-right: 0px;
         }
 
-        .card.with-header .content,
-        .card.with-footer .content {
-          padding-left: 10px;
-          padding-right: 10px;
-        }
-
         .card.with-footer {
           padding-bottom: 0px;
           padding-left: 0px;

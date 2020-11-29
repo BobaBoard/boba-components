@@ -208,6 +208,7 @@ const Post = React.forwardRef<PostHandler, PostProps>((props, ref) => {
             ${Theme.BORDER_RADIUS_REGULAR} 0px 0px;
           padding: 10px 10px 5px;
           display: flex;
+          border-bottom: 1px dotted rgba(0, 0, 0, 0.3);
         }
         .header-container {
           overflow: hidden;
@@ -236,6 +237,8 @@ const Post = React.forwardRef<PostHandler, PostProps>((props, ref) => {
         }
         .footer {
           position: relative;
+          border-top: 1px dotted rgba(0, 0, 0, 0.3);
+          padding-top: 5px;
         }
         .footer.with-reactions {
           padding-bottom: 10px;

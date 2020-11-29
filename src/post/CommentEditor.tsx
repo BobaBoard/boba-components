@@ -70,6 +70,7 @@ const CommentFooter = (props: {
           justify-content: space-between;
           align-items: center;
           margin-top: 10px;
+          padding: 0 5px 5px 5px;
         }
         .actions.hidden {
           visibility: hidden;
@@ -221,7 +222,7 @@ const Comment = React.forwardRef<EditorRef, CommentProps>((props, ref) => {
         }
         .comment {
           position: relative;
-          padding: 15px 20px;
+          padding: 5px 10px;
           color: black;
           flex-grow: 1;
           min-width: 0;

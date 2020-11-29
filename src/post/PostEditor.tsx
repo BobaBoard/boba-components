@@ -298,7 +298,6 @@ const PostEditor = React.forwardRef<{ focus: () => void }, PostEditorProps>(
             background-color: #ececec;
           }
           .editor-container {
-            padding-top: 5px;
           }
           .editor {
             min-height: 300px;

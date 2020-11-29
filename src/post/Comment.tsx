@@ -111,7 +111,7 @@ class Comment extends PureComponent<CommentProps> {
           }
           .comment {
             position: relative;
-            padding: 10px 15px;
+            padding: 0 5px;
             color: black;
             flex-grow: 1;
             min-width: 0;
