@@ -6,6 +6,9 @@ import Tag, {
   CATEGORY_TAG_COLOR,
   CW_TAG_COLOR,
   getDataForTagType,
+  CONTENT_NOTICE_DEFAULT_PREFIX,
+  INDEXABLE_PREFIX,
+  CATEGORY_PREFIX,
 } from "../common/Tag";
 import DropdownListMenu, { DropdownProps } from "../common/DropdownListMenu";
 import classnames from "classnames";
@@ -204,9 +207,10 @@ const TagsInput: React.FC<TagsInputProps> = ({
               tagInputState == TagInputState.EMPTY,
           })}
         >
-          Start a tag with <strong>!</strong> to make it searchable,{" "}
-          <strong>+</strong> for a filterable category, or <strong>cn</strong>{" "}
-          for content notices. Tags are separated by new line.
+          Start a tag with <strong>{INDEXABLE_PREFIX}</strong> to make it
+          searchable, <strong>{CATEGORY_PREFIX}</strong> for a filterable
+          category, or <strong>{CONTENT_NOTICE_DEFAULT_PREFIX}</strong> for
+          content notices. Tags are separated by new line.
         </div>
         <div
           className={classnames(

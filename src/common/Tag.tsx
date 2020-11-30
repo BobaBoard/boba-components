@@ -2,7 +2,12 @@ import React from "react";
 import classnames from "classnames";
 import { TagsType, TagType } from "../types";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import { faTimesCircle } from "@fortawesome/free-solid-svg-icons";
+import {
+  faTimesCircle,
+  faComment,
+  faCaretRight,
+} from "@fortawesome/free-solid-svg-icons";
+import { faCommentDots } from "@fortawesome/free-regular-svg-icons";
 
 export interface TagProps {
   name: string;
@@ -33,7 +38,7 @@ const Tag: React.FC<TagProps | DeletableTagProps> = (props) => {
           deletable: !!props.deletable,
         })}
       >
-        <span className="hashtag">{props.symbol || "#"}</span>
+        <span className="hashtag">{props.symbol ?? "#"}</span>
         {props.name}
         {props.deletable && (
           <button
@@ -46,10 +51,11 @@ const Tag: React.FC<TagProps | DeletableTagProps> = (props) => {
       </div>
       <style jsx>{`
         .hashtag {
-          opacity: 0.6;
-          margin-right: 2px;
+          opacity: 0.4;
+          margin-right: 4px;
           flex-shrink: 0;
           align-self: center;
+          display: inline-flex;
         }
         .tag {
           padding: 5px 8px 5px 8px;
@@ -63,6 +69,19 @@ const Tag: React.FC<TagProps | DeletableTagProps> = (props) => {
         .tag.deletable {
           display: flex;
           padding-right: 25px;
+        }
+        .tag.text {
+          display: inline;
+        }
+        .tag.text .hashtag {
+          float: left;
+          display: inline;
+          margin-left: 2px;
+          margin-right: 3px;
+        }
+        .tag.text .hashtag :global(svg) {
+          margin-top: 1px;
+          height: 12px;
         }
         .delete {
           display: none;
@@ -130,7 +149,7 @@ const Tag: React.FC<TagProps | DeletableTagProps> = (props) => {
 
 export default Tag;
 
-export const INDEXABLE_PREFIX = "!";
+export const INDEXABLE_PREFIX = "#";
 export const CATEGORY_PREFIX = "+";
 export const CONTENT_NOTICE_DEFAULT_PREFIX = "cn:";
 export const CONTENT_NOTICE_PREFIXES = [
@@ -139,6 +158,7 @@ export const CONTENT_NOTICE_PREFIXES = [
   "sq:",
   "squick:",
 ];
+export const WHISPER_PREFIX = "»";
 
 export const INDEXABLE_TAG_COLOR = "#FF5A13";
 export const CATEGORY_TAG_COLOR = "#138EFF";
@@ -167,7 +187,7 @@ export const getDataForTagType = (tag: TagsType) => {
     };
   } else {
     return {
-      symbol: undefined,
+      symbol: "»",
       color: undefined,
       type: TagType.WHISPER,
     };
@@ -243,7 +263,7 @@ export class TagsFactory {
 
   static getTagDataFromString(tag: string, accentColor?: string): TagsType {
     const tagType = TagsFactory.getTagTypeFromString(tag);
-    const lowerCaseTag = tag.toLowerCase();
+    const lowerCaseTag = tag.toLowerCase().trim();
     if (tagType == TagType.INDEXABLE) {
       return {
         name: lowerCaseTag.substring(INDEXABLE_PREFIX.length).trim(),
@@ -270,14 +290,17 @@ export class TagsFactory {
       };
     } else {
       return {
-        name: tag.trim(),
+        name: (tag.trim().startsWith(WHISPER_PREFIX)
+          ? tag.trim().substring(WHISPER_PREFIX.length)
+          : tag
+        ).trim(),
         type: TagType.WHISPER,
       };
     }
   }
 
   static getTagTypeFromString(tag: string) {
-    const lowerCaseTag = tag.toLowerCase();
+    const lowerCaseTag = tag.toLowerCase().trim();
     if (lowerCaseTag.startsWith(INDEXABLE_PREFIX)) {
       return TagType.INDEXABLE;
     } else if (lowerCaseTag.startsWith(CATEGORY_PREFIX)) {

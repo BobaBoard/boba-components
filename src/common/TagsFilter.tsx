@@ -17,40 +17,43 @@ const TagsFilterSection: React.FC<TagsFilterProps> = (props) => {
   return (
     <div className="filter-section">
       <div className="filter-container">
-        {props.tags.map((tag) => (
-          <button
-            key={tag.name}
-            className={classnames("tag", {
-              disabled: tag.state == FilteredTagsState.DISABLED,
-            })}
-            onClick={() =>
-              !props.editable &&
-              props.onTagStateChangeRequest?.({
-                name: tag.name,
-                state:
-                  tag.state == FilteredTagsState.ACTIVE
-                    ? FilteredTagsState.DISABLED
-                    : FilteredTagsState.ACTIVE,
-              })
-            }
-          >
-            {
-              <Tag
-                {...TagsFactory.createProps({
+        {
+          // @ts-ignore
+          props.tags.map((tag: TagsFilterProps["tags"][0]) => (
+            <button
+              key={tag.name}
+              className={classnames("tag", {
+                disabled: tag["state"] == FilteredTagsState.DISABLED,
+              })}
+              onClick={() =>
+                !props.editable &&
+                props.onTagStateChangeRequest?.({
                   name: tag.name,
-                  type: props.type,
-                })}
-                deletable={props.editable}
-                onDeleteTag={() => {
-                  props.editable &&
-                    props.onTagsChange?.(
-                      props.tags.filter((oldTag) => oldTag != tag)
-                    );
-                }}
-              />
-            }
-          </button>
-        ))}
+                  state:
+                    tag["state"] == FilteredTagsState.ACTIVE
+                      ? FilteredTagsState.DISABLED
+                      : FilteredTagsState.ACTIVE,
+                })
+              }
+            >
+              {
+                <Tag
+                  {...TagsFactory.createProps({
+                    name: tag.name,
+                    type: props.type,
+                  })}
+                  deletable={props.editable}
+                  onDeleteTag={() => {
+                    props.editable &&
+                      props.onTagsChange?.(
+                        props.tags.filter((oldTag) => oldTag != tag)
+                      );
+                  }}
+                />
+              }
+            </button>
+          ))
+        }
       </div>
       <div className={classnames("tag-input", { visible: props.editable })}>
         <Input
