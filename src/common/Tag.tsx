@@ -2,12 +2,7 @@ import React from "react";
 import classnames from "classnames";
 import { TagsType, TagType } from "../types";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import {
-  faTimesCircle,
-  faComment,
-  faCaretRight,
-} from "@fortawesome/free-solid-svg-icons";
-import { faCommentDots } from "@fortawesome/free-regular-svg-icons";
+import { faTimesCircle } from "@fortawesome/free-solid-svg-icons";
 
 export interface TagProps {
   name: string;
@@ -187,7 +182,7 @@ export const getDataForTagType = (tag: TagsType) => {
     };
   } else {
     return {
-      symbol: "»",
+      symbol: WHISPER_PREFIX,
       color: undefined,
       type: TagType.WHISPER,
     };
