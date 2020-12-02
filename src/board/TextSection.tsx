@@ -71,6 +71,7 @@ const TextSection: React.FC<TextSectionProps> = (props) => {
           border-radius: 8px;
           padding: 10px 15px 15px;
           --text-color: white;
+          --text-padding: 0px;
         }
 
         .content-editor :global(.ql-editor > * + *) {
