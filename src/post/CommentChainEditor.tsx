@@ -43,6 +43,9 @@ const CommentChainEditor = React.forwardRef<
   const editorRefs = React.useRef(new Map<number, EditorRef>());
   const deleteRef = React.useRef<HTMLDivElement>(null);
   const chainEditorRef = React.useRef<HTMLDivElement>(null);
+  const [selectedIdentity, setSelectedIdentity] = React.useState<
+    string | undefined
+  >();
   React.useImperativeHandle(
     ref,
     () => ({
@@ -92,7 +95,7 @@ const CommentChainEditor = React.forwardRef<
     } else if (deleteRef.current) {
       deleteRef.current.style.display = "none";
     }
-  }, [chainComments, focusedChainIndex, deleteRef.current]);
+  }, [chainComments, focusedChainIndex, deleteRef]);
 
   React.useEffect(() => {
     console.log(editorRefs.current.get(focusedChainIndex));
@@ -103,6 +106,7 @@ const CommentChainEditor = React.forwardRef<
     <div className="comment-chain-editor" ref={chainEditorRef}>
       {chainComments.map((comment, index) => (
         <div
+          key={index}
           className={classnames("comment-container", {
             focused: index == focusedChainIndex,
           })}
@@ -115,10 +119,20 @@ const CommentChainEditor = React.forwardRef<
             ref={(ref: EditorRef) => editorRefs.current.set(index, ref)}
             initialText={comment.text}
             userIdentity={props.userIdentity}
-            secretIdentity={props.secretIdentity}
+            secretIdentity={
+              props.secretIdentity ||
+              props.additionalIdentities?.find(
+                (id) => id.name == selectedIdentity
+              )
+            }
             muted={focusedChainIndex != index}
             onSubmit={(text) =>
-              props.onSubmit?.(chainComments.map((comment) => comment.text))
+              props.onSubmit?.({
+                texts: chainComments.map((comment) => comment.text),
+                identityId: props.additionalIdentities?.find(
+                  (id) => id.name == selectedIdentity
+                )?.id,
+              })
             }
             withActions={index == chainComments.length - 1}
             onIsEmptyChange={(empty) => {
@@ -146,6 +160,8 @@ const CommentChainEditor = React.forwardRef<
             }}
             canSubmit={isValidSubmitState(chainComments)}
             loading={props.loading}
+            additionalIdentities={props.additionalIdentities}
+            onSelectIdentity={(id) => setSelectedIdentity(id?.name)}
           />
         </div>
       ))}
@@ -250,7 +266,7 @@ const CommentChainEditor = React.forwardRef<
 
 export interface CommentChainEditorProps {
   onCancel: (empty: boolean) => void;
-  onSubmit: (text: string[]) => void;
+  onSubmit: (data: { texts: string[]; identityId?: string }) => void;
   secretIdentity?: {
     avatar: string;
     name: string;
@@ -260,6 +276,12 @@ export interface CommentChainEditorProps {
     avatar: string;
     name: string;
   };
+  additionalIdentities?: {
+    id: string;
+    avatar: string;
+    name: string;
+  }[];
 }
 
+CommentChainEditor.displayName = "CommentChainEditorForwardRef";
 export default CommentChainEditor;

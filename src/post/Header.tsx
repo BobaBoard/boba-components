@@ -11,7 +11,7 @@ import { faCaretDown } from "@fortawesome/free-solid-svg-icons";
 import Avatar from "./Avatar";
 import DefaultTheme from "../theme/default";
 import Tooltip from "../common/Tooltip";
-import DropdownListMenu from "../common/DropdownListMenu";
+import DropdownListMenu, { DropdownProps } from "../common/DropdownListMenu";
 //const log = debug("bobaui:header-log");
 const info = debug("bobaui:header-info");
 
@@ -29,6 +29,26 @@ const Metadata: React.FC<PostHeaderProps> = (props) => {
   React.useEffect(() => {
     setForceCompact(width < 300);
   }, [width]);
+
+  const { onSelectIdentity } = props;
+  const identityOptions = React.useMemo(
+    () => [
+      {
+        name: "Random Identity",
+        link: {
+          onClick: () => onSelectIdentity?.(undefined),
+        },
+      },
+      ...(props.additionalIdentities || []).map((identity) => ({
+        name: identity.name,
+        icon: identity.avatar,
+        link: {
+          onClick: () => onSelectIdentity?.(identity),
+        },
+      })),
+    ],
+    [props.additionalIdentities, onSelectIdentity]
+  );
   const hasUserIdentity =
     props.userIdentity?.name && props.userIdentity?.avatar;
   const metadata = (
@@ -52,23 +72,7 @@ const Metadata: React.FC<PostHeaderProps> = (props) => {
                 {props.additionalIdentities &&
                 props.additionalIdentities.length > 0 ? (
                   <div>
-                    <DropdownListMenu
-                      zIndex={200}
-                      options={[
-                        {
-                          name: "Random Identity",
-                          link: {
-                            onClick: () => props.onSelectIdentity?.(undefined),
-                          },
-                        },
-                        ...props.additionalIdentities.map((identity) => ({
-                          name: identity.name,
-                          link: {
-                            onClick: () => props.onSelectIdentity?.(identity),
-                          },
-                        })),
-                      ]}
-                    >
+                    <DropdownListMenu zIndex={200} options={identityOptions}>
                       <div>
                         <div className="identities-dropdown">
                           <div className="secret-identity">
@@ -228,24 +232,24 @@ const PostHeader: React.FC<PostHeaderProps> = (props) => {
   info(`Rendering post header`);
   return (
     <>
-      <div
-        className={classnames("post-header", { squeezed: tagsOnNewLine })}
-        ref={ref}
-      >
-        <div className="identity">
-          <Metadata {...props}>
-            <div className="avatar">
+      <DropdownListMenu options={props.avatarOptions} zIndex={200}>
+        <div
+          className={classnames("post-header", { squeezed: tagsOnNewLine })}
+          ref={ref}
+        >
+          <div className="identity">
+            <Metadata {...props}>
               <Avatar
                 forceHide={props.forceHide}
                 userIdentity={props.userIdentity}
                 secretIdentity={props.secretIdentity}
                 compact={props.size == HeaderStyle.COMPACT || forceCompact}
               />
-            </div>
-          </Metadata>
+            </Metadata>
+          </div>
+          {props.children}
         </div>
-        {props.children}
-      </div>
+      </DropdownListMenu>
       <style jsx>{`
         .identity {
           display: flex;
@@ -318,5 +322,6 @@ export interface PostHeaderProps {
   newComments?: boolean;
   newContributions?: boolean;
   backgroundColor?: string;
+  avatarOptions?: DropdownProps["options"];
   children?: JSX.Element | undefined;
 }

@@ -102,8 +102,6 @@ const Comment = React.forwardRef<EditorRef, CommentProps>((props, ref) => {
   const headerRef = React.useRef<HTMLDivElement>(null);
   const editorRef = React.useRef<HTMLDivElement>(null);
   const focusRef = React.useRef<any>(null);
-  // @ts-ignore
-  const [showCancelModal, setShowCancelModal] = React.useState(false);
   const [charactersTyped, setCharactersTyped] = React.useState(1);
   const [text, setText] = React.useState(props.initialText || "[]");
 
@@ -130,6 +128,29 @@ const Comment = React.forwardRef<EditorRef, CommentProps>((props, ref) => {
       props.loading
     );
 
+  const { onSelectIdentity } = props;
+  const identityOptions = React.useMemo(
+    () =>
+      props.additionalIdentities
+        ? [
+            {
+              name: "Random Identity",
+              link: {
+                onClick: () => onSelectIdentity?.(undefined),
+              },
+            },
+            ...(props.additionalIdentities || []).map((identity) => ({
+              name: identity.name,
+              icon: identity.avatar,
+              link: {
+                onClick: () => onSelectIdentity?.(identity),
+              },
+            })),
+          ]
+        : undefined,
+    [props.additionalIdentities, onSelectIdentity]
+  );
+
   return (
     <>
       <div
@@ -143,6 +164,7 @@ const Comment = React.forwardRef<EditorRef, CommentProps>((props, ref) => {
             size={HeaderStyle.COMPACT}
             secretIdentity={props.secretIdentity}
             userIdentity={props.userIdentity}
+            avatarOptions={identityOptions}
           />
         </div>
         <div className={classNames("editor")}>
@@ -274,6 +296,20 @@ export interface CommentProps {
     avatar: string;
     name: string;
   };
+  additionalIdentities?: {
+    id: string;
+    avatar: string;
+    name: string;
+  }[];
+  onSelectIdentity?: (
+    identity:
+      | {
+          avatar: string;
+          name: string;
+          id: string;
+        }
+      | undefined
+  ) => void;
   initialText?: string;
   onCancel: () => void;
   onSubmit: (text: string) => void;
@@ -287,4 +323,5 @@ export interface CommentProps {
   muted?: boolean;
 }
 
+Comment.displayName = "CommentForwardRef";
 export default Comment;

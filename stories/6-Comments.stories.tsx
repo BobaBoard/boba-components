@@ -8,6 +8,14 @@ import Button from "../src/common/Button";
 
 import tuxedoAvatar from "./images/tuxedo-mask.jpg";
 import mamoruAvatar from "./images/mamoru.png";
+import oncelerAvatar from "./images/oncie.jpg";
+import {
+  faBellSlash,
+  faMapPin,
+  faPaintBrush,
+  faVolumeMute,
+} from "@fortawesome/free-solid-svg-icons";
+import { action } from "@storybook/addon-actions";
 
 export default {
   title: "Comments",
@@ -22,6 +30,10 @@ export const Editable = () => (
         userIdentity={{ name: "SexyDaddy69", avatar: `/${mamoruAvatar}` }}
         onSubmit={(text) => console.log(text)}
         onCancel={() => console.log("click!")}
+        additionalIdentities={[
+          { id: "id1", name: "Tuxedo Mask", avatar: `/${tuxedoAvatar}` },
+          { id: "id2", name: "Mega Mod", avatar: `/${oncelerAvatar}` },
+        ]}
       />
     </div>
 
@@ -31,6 +43,10 @@ export const Editable = () => (
         userIdentity={{ name: "SexyDaddy69", avatar: `/${mamoruAvatar}` }}
         onSubmit={(text) => console.log(text)}
         onCancel={() => console.log("click!")}
+        additionalIdentities={[
+          { id: "id1", name: "Tuxedo Mask", avatar: `/${tuxedoAvatar}` },
+          { id: "id2", name: "Mega Mod", avatar: `/${oncelerAvatar}` },
+        ]}
       />
     </div>
   </>
@@ -137,15 +153,13 @@ export const CommentChainEditorStory = () => {
   return (
     <>
       <CommentChainEditor
-        onSubmit={(text: string[]) => {
-          console.log(text);
-        }}
-        secretIdentity={{
-          name: "Tuxedo Mask",
-          avatar: `/${tuxedoAvatar}`,
-        }}
+        onSubmit={action("submit")}
         userIdentity={{ name: "SexyDaddy69", avatar: `/${mamoruAvatar}` }}
         onCancel={() => {}}
+        additionalIdentities={[
+          { id: "id1", name: "Tuxedo Mask", avatar: `/${tuxedoAvatar}` },
+          { id: "id2", name: "Mega Mod", avatar: `/${oncelerAvatar}` },
+        ]}
       />
     </>
   );
@@ -234,4 +248,67 @@ export const ExtraActionStory = () => {
 };
 ExtraActionStory.story = {
   name: "extra action",
+};
+
+export const WithOptionsStory = () => {
+  return (
+    <>
+      <CommentChain
+        comments={[
+          {
+            id: "1",
+            text:
+              '[{"insert": "I mean, sure, but you know what also is great?"}]',
+          },
+          {
+            id: "1",
+            text: '[{"insert": "Deze nuts."}]',
+          },
+          {
+            id: "1",
+            text: '[{"insert": "Wait is that how you type it?"}]',
+          },
+        ]}
+        secretIdentity={{
+          name: "Tuxedo Mask",
+          avatar: `/${tuxedoAvatar}`,
+        }}
+        userIdentity={{ name: "SexyDaddy69", avatar: `/${mamoruAvatar}` }}
+        onExtraAction={() => {}}
+        options={[
+          {
+            name: "Pin board",
+            icon: faMapPin,
+            link: {
+              onClick: action("noHrefClick"),
+            },
+          },
+          {
+            name: "Mute board",
+            icon: faVolumeMute,
+            link: {
+              onClick: action("noHrefClick"),
+            },
+          },
+          {
+            name: "Dismiss notifications",
+            icon: faBellSlash,
+            link: {
+              onClick: action("noHrefClick"),
+            },
+          },
+          {
+            name: "Customize Summary",
+            icon: faPaintBrush,
+            link: {
+              onClick: action("noHrefClick"),
+            },
+          },
+        ]}
+      />
+    </>
+  );
+};
+WithOptionsStory.story = {
+  name: "with options",
 };

@@ -24,7 +24,7 @@ export interface DropdownProps {
   // If Options are empty, children is simply returned.
   options?: ({
     name: string;
-    icon?: IconDefinition;
+    icon?: IconDefinition | string;
   } & ({ link: LinkWithAction } | { options: DropdownProps["options"] }))[];
   style?: DropdownStyle;
   accentColor?: string;
@@ -100,8 +100,20 @@ const DropdownContent = React.forwardRef<
           href={option["link"]?.href || "#none"}
         >
           {!!option.icon && (
-            <div className="popover-icon">
-              <FontAwesomeIcon icon={option.icon} />
+            <div
+              className={classnames("popover-icon", {
+                "with-image": typeof option.icon === "string",
+              })}
+              style={{
+                backgroundImage:
+                  typeof option.icon === "string"
+                    ? `url(${option.icon}`
+                    : undefined,
+              }}
+            >
+              {typeof option.icon !== "string" && (
+                <FontAwesomeIcon icon={option.icon} />
+              )}
             </div>
           )}
           <div className="option-text">{option.name}</div>
@@ -162,7 +174,10 @@ const DropdownContent = React.forwardRef<
           display: flex;
           justify-content: center;
         }
-
+        .popover-icon.with-image {
+          background-size: cover;
+          border-radius: 50%;
+        }
         .popover-icon > :global(svg),
         .nested-icon > :global(svg) {
           display: block;
@@ -456,10 +471,10 @@ const DropdownMenu: React.FC<DropdownProps> = (props) => {
           padding: 0;
           text-align: inherit;
         }
-        .wrapper:focus {
+        .button-wrapper:focus {
           outline: none;
         }
-        .wrapper.with-options:hover {
+        .button-wrapper.with-options:hover {
           cursor: pointer;
         }
         @keyframes slideUp {

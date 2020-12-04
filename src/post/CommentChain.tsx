@@ -1,3 +1,4 @@
+import { DropdownProps } from "common/DropdownListMenu";
 import React, { PureComponent, createRef, RefObject } from "react";
 import Comment, { CommentHandler } from "./Comment";
 
@@ -59,6 +60,7 @@ class CommentChain extends PureComponent<CommentChainProps> {
                 ? this.props.onExtraAction
                 : undefined
             }
+            options={this.props.options}
           />
         ))}
         <style jsx>{`
@@ -87,6 +89,7 @@ export interface CommentChainProps {
     name: string;
   };
   muted?: boolean;
+  options?: DropdownProps["options"];
   onExtraAction?: () => void;
   ref?:
     | RefObject<CommentHandler>

@@ -6,6 +6,7 @@ import Button from "../src/common/Button";
 
 import tuxedoAvatar from "./images/tuxedo-mask.jpg";
 import mamoruAvatar from "./images/mamoru.png";
+import oncelerAvatar from "./images/oncie.jpg";
 import { action } from "@storybook/addon-actions";
 
 export default {
@@ -112,7 +113,7 @@ export const SmallestViewport = () => (
       userIdentity={{ name: "SexyDaddy69", avatar: `/${mamoruAvatar}` }}
       additionalIdentities={[
         { id: "id1", name: "Tuxedo Mask", avatar: `/${tuxedoAvatar}` },
-        { id: "id2", name: "Mega Mod", avatar: `/${tuxedoAvatar}` },
+        { id: "id2", name: "Mega Mod", avatar: `/${oncelerAvatar}` },
       ]}
       onCancel={action("cancel")}
       onSubmit={(promise) => {
@@ -143,7 +144,7 @@ export const EditableInModal = () => (
       userIdentity={{ name: "SexyDaddy69", avatar: `/${mamoruAvatar}` }}
       additionalIdentities={[
         { id: "id1", name: "Tuxedo Mask", avatar: `/${tuxedoAvatar}` },
-        { id: "id2", name: "Mega Mod", avatar: `/${tuxedoAvatar}` },
+        { id: "id2", name: "Mega Mod", avatar: `/${oncelerAvatar}` },
       ]}
       onCancel={action("cancel")}
       onSubmit={(promise) => {

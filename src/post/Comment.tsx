@@ -6,6 +6,7 @@ import debug from "debug";
 import Theme from "../theme/default";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faComment } from "@fortawesome/free-solid-svg-icons";
+import { DropdownProps } from "common/DropdownListMenu";
 const log = debug("bobaui:comment-log");
 
 class Comment extends PureComponent<CommentProps> {
@@ -44,7 +45,7 @@ class Comment extends PureComponent<CommentProps> {
               size={HeaderStyle.COMPACT}
               secretIdentity={this.props.secretIdentity}
               userIdentity={this.props.userIdentity}
-              backgroundColor={Theme.LAYOUT_BOARD_BACKGROUND_COLOR}
+              avatarOptions={this.props.options}
             />
           </div>
           <div className={classNames("comment")} ref={this.editorRef}>
@@ -177,6 +178,7 @@ export interface CommentProps {
   muted?: boolean;
   paddingTop?: string;
   onExtraAction?: () => void;
+  options?: DropdownProps["options"];
   ref?: RefObject<CommentHandler> | undefined | null;
 }
 
