@@ -1,6 +1,6 @@
 import React from "react";
-import { faBars, IconDefinition } from "@fortawesome/free-solid-svg-icons";
-import Button, { ButtonStyle } from "../common/Button";
+import { faBars, faCompass, IconDefinition } from "@fortawesome/free-solid-svg-icons";
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import classnames from "classnames";
 import HighlightedText from "../common/HighlightedText";
 import Theme from "../theme/default";
@@ -10,9 +10,6 @@ import noop from "noop-ts";
 import "@bobaboard/boba-editor/dist/main.css";
 
 import "normalize.css";
-
-import logo from "../images/logo.svg";
-import compactLogo from "../images/logo-compact.svg";
 
 import debug from "debug";
 import { LinkWithAction } from "types";
@@ -28,7 +25,6 @@ const Layout = React.forwardRef<{ closeSideMenu: () => void }, LayoutProps>(
       mainContent,
       headerAccent,
       title,
-      logoLink,
       menuOptions,
       selectedMenuOption,
       onUserBarClick,
@@ -159,37 +155,9 @@ const Layout = React.forwardRef<{ closeSideMenu: () => void }, LayoutProps>(
               }}
             />
             <div className="header" ref={headerRef}>
-              <div className="title-bar">
-                <div className="sidemenu-button">
-                  <Button
-                    icon={faBars}
-                    compact
-                    onClick={React.useCallback(() => {
-                      if (!showSideMenu) {
-                        onSideMenuButtonClick?.();
-                      }
-                      setShowSideMenu(!showSideMenu);
-                    }, [showSideMenu, onSideMenuButtonClick])}
-                    color={headerAccent}
-                    theme={ButtonStyle.DARK}
-                    updates={updates}
-                  >
-                    Menu
-                  </Button>{" "}
-                </div>
-                <a
-                  className="logo"
-                  onClick={(e) => {
-                    logoLink?.onClick?.();
-                    if (logoLink?.onClick) {
-                      e.preventDefault();
-                    }
-                  }}
-                  href={logoLink?.href}
-                >
-                  <img src={logo} className="regular" />
-                  <img src={compactLogo} className="compact" />
-                </a>
+                <button className="sidemenu-button notification">
+                  <FontAwesomeIcon icon={faBars} />
+                </button>
                 {title && (
                   <a
                     className={classnames("title", {
@@ -208,7 +176,9 @@ const Layout = React.forwardRef<{ closeSideMenu: () => void }, LayoutProps>(
                     </HighlightedText>
                   </a>
                 )}
-              </div>
+                <button className="sidemenu-button">
+                  <FontAwesomeIcon icon={faCompass} />
+                </button>
               <div className="header-menu-bar">{menuBar}</div>
             </div>
             <div ref={contentRef} className="content">
@@ -274,42 +244,52 @@ const Layout = React.forwardRef<{ closeSideMenu: () => void }, LayoutProps>(
             .side-menu-open.layout-body {
               margin-left: var(--side-menu-width);
             }
-            .title-bar {
+            .sidemenu-button {
+              width: 35px;
+              height: 35px;
+              border-radius: 50%;
+              border: 0;
+              background: transparent;
+              color: rgb(191, 191, 191);
+              text-align: center;
               display: flex;
               align-items: center;
-              min-width: 250px;
+              justify-content: center;
               position: relative;
-              height: 100%;
+              flex-shrink: 0;
+              font-size: 20px;
+              padding: 0;
             }
-            .logo {
-              position: relative;
-              height: calc(100% - 30px);
-              cursor: pointer;
-            }
-            .logo > img {
-              height: 100%;
-              z-index: 2;
-              position: relative;
-            }
-            .logo .compact {
-              display: none;
-            }
-            .logo::after {
-              content: "";
-              background-color: ${headerAccent || "transparent"};
-              mask: url(${logo}) no-repeat;
-              display: block;
+            .sidemenu-button.notification::after {
+              content: '';
               position: absolute;
-              z-index: 1;
-              mask-size: 100%;
-              top: 2px;
-              left: 3px;
-              width: 100%;
-              height: 100%;
+              top: 4px;
+              right: 4px;
+              width: 8px;
+              height: 8px;
+              background: red;
+              border-radius: 50%;
+              border: 2px solid ${Theme.LAYOUT_HEADER_BACKGROUND_COLOR};
             }
-            .sidemenu-button {
-              margin: 0 10px;
-              display: inline-block;
+
+            .sidemenu-button.notification:hover::after {
+              border-color: rgb(46, 46, 48);
+            }
+
+            .sidemenu-button:hover {
+              cursor: pointer;
+              background-color: rgb(46, 46, 48);
+            }
+
+            .sidemenu-button:hover {
+              color: white;
+            }
+            .sidemenu-button:first-child {
+              margin-left: -3px;
+              font-size: 22px;
+            }
+            .sidemenu-button ~ .sidemenu-button {
+              margin-right: -3px;
             }
             .content {
               flex-grow: 1;
@@ -353,7 +333,7 @@ const Layout = React.forwardRef<{ closeSideMenu: () => void }, LayoutProps>(
             .title {
               margin: 0px 35px;
               color: white;
-              font-size: 30px;
+              font-size: 24px;
               font-weight: bold;
               cursor: pointer;
               text-decoration: none;
@@ -418,16 +398,6 @@ const Layout = React.forwardRef<{ closeSideMenu: () => void }, LayoutProps>(
                 width: calc(100vw - 100px);
                 max-width: var(--side-menu-width);
               }
-
-              .logo .regular {
-                display: none;
-              }
-              .logo .compact {
-                display: block;
-              }
-              .logo::after {
-                mask: url(${compactLogo}) no-repeat;
-              }
             }
             @media only screen and (max-width: 600px) {
               .side-menu-content {
@@ -481,7 +451,6 @@ export interface LayoutProps {
   forceHideTitle?: boolean;
   actionButton?: JSX.Element;
   user?: { username: string; avatarUrl?: string };
-  logoLink?: LinkWithAction;
   titleLink?: LinkWithAction;
   onUserBarClick?: () => void;
   loading?: boolean;
