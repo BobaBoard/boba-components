@@ -10,6 +10,7 @@ import HighlightedText from "../common/HighlightedText";
 import Theme from "../theme/default";
 import LoadingBar from "../common/LoadingBar";
 import noop from "noop-ts";
+import Hammer from "hammerjs";
 
 import "@bobaboard/boba-editor/dist/main.css";
 
@@ -53,11 +54,30 @@ const Layout = React.forwardRef<{ closeSideMenu: () => void }, LayoutProps>(
     const contentRef = React.useRef<HTMLDivElement>(null);
     const layoutRef = React.useRef<HTMLDivElement>(null);
     const sideMenuRef = React.useRef<HTMLDivElement>(null);
+    const swipeHandler = React.useRef<HammerManager>(null);
     React.useImperativeHandle(ref, () => ({
       closeSideMenu: () => {
         setShowSideMenu(false);
       },
     }));
+
+    React.useEffect(() => {
+      if (layoutRef.current && !swipeHandler.current) {
+        // @ts-ignore
+        swipeHandler.current = new Hammer(layoutRef.current, {
+          inputClass: Hammer.TouchInput,
+        });
+        swipeHandler.current.get("swipe").set({
+          threshold: 30,
+        });
+        swipeHandler.current.on("swiperight", () => {
+          setShowSideMenu(true);
+        });
+        swipeHandler.current.on("swipeleft", () => {
+          setShowSideMenu(false);
+        });
+      }
+    }, [layoutRef]);
 
     React.useEffect(() => {
       log(`${showSideMenu ? "Opening" : "Closing"} side`);
@@ -72,7 +92,7 @@ const Layout = React.forwardRef<{ closeSideMenu: () => void }, LayoutProps>(
       log(`Current sideMenu scrollY: ${sideMenuRef.current.clientWidth}`);
 
       if (!showSideMenu) {
-        if (sideMenuRef.current.clientWidth) {
+        if (sideMenuRef.current.classList.contains("opened")) {
           sideMenuRef.current.classList.add("closing");
           sideMenuRef.current.classList.remove("opened");
         } else {
@@ -92,13 +112,20 @@ const Layout = React.forwardRef<{ closeSideMenu: () => void }, LayoutProps>(
       // We attach it when we get the first request for showing
       // the sidemenu, and then reattach it only once that
       // transition is finished.
-      const transitionEndListener = () => {
+      const transitionEndListener = (e: TransitionEvent) => {
         log(`Animation finished...`);
+        if (e.propertyName !== "transform") {
+          // We only listen to this on transform or it might fire multiple
+          // times for the same transition, which makes the logic not work.
+          // This is because we're relying on ".opening" as a condition, since
+          // we don't want to deal with parsing the CSS transform property.
+          return;
+        }
         if (
           !contentRef.current ||
           !layoutRef.current ||
           !sideMenuRef.current ||
-          sideMenuRef.current.clientWidth
+          sideMenuRef.current.classList.contains("opening")
         ) {
           // The menu is open (or the refs are not available).
           // This means that we're still waiting for the menu to
@@ -119,6 +146,7 @@ const Layout = React.forwardRef<{ closeSideMenu: () => void }, LayoutProps>(
         layoutRef.current.style.overflow = "";
         contentRef.current.style.overflow = "";
       };
+      log(`Adding event listener for end of transition...`);
       sideMenuRef.current.addEventListener(
         "transitionend",
         transitionEndListener
@@ -239,7 +267,6 @@ const Layout = React.forwardRef<{ closeSideMenu: () => void }, LayoutProps>(
               flex-direction: column;
               flex-grow: 1;
               position: relative;
-              transition: margin-left 0.3s ease-out;
             }
             .content {
               display: flex;
@@ -249,6 +276,7 @@ const Layout = React.forwardRef<{ closeSideMenu: () => void }, LayoutProps>(
               background: ${Theme.LAYOUT_BOARD_BACKGROUND_COLOR};
               overflow-x: hidden;
               padding-top: 70px;
+              transition: transform 0.3s ease-out;
             }
             .backdrop {
               position: absolute;
@@ -257,12 +285,15 @@ const Layout = React.forwardRef<{ closeSideMenu: () => void }, LayoutProps>(
               bottom: 0;
               left: 0;
               right: 0;
-              opacity: 0.5;
+              opacity: 0.9;
               z-index: 100;
-              display: none;
+              width: 0;
             }
             .backdrop.visible {
               display: block;
+              transition: transform 0.3s ease-out;
+              transform: translateX(var(--side-menu-width));
+              width: 100%;
             }
             .header {
               background-color: ${Theme.LAYOUT_HEADER_BACKGROUND_COLOR};
@@ -276,13 +307,10 @@ const Layout = React.forwardRef<{ closeSideMenu: () => void }, LayoutProps>(
               display: flex;
               align-items: center;
               z-index: 10;
-              transition: left 0.3s ease-out;
+              transition: transform 0.3s ease-out;
             }
-            .side-menu-open .header {
-              left: var(--side-menu-width);
-            }
-            .side-menu-open.layout-body {
-              margin-left: var(--side-menu-width);
+            .side-menu-open.content {
+              transform: translateX(var(--side-menu-width));
             }
             .sidemenu-button {
               width: 35px;
@@ -309,11 +337,11 @@ const Layout = React.forwardRef<{ closeSideMenu: () => void }, LayoutProps>(
             .sidemenu-button.notification::after {
               content: "";
               position: absolute;
-              top: 4px;
-              right: 4px;
-              width: 8px;
-              height: 8px;
-              background: red;
+              top: 2px;
+              right: 2px;
+              width: 10px;
+              height: 10px;
+              background: ${Theme.DEFAULT_ACCENT_COLOR};
               border-radius: 50%;
               border: 2px solid ${Theme.LAYOUT_HEADER_BACKGROUND_COLOR};
             }
@@ -350,14 +378,18 @@ const Layout = React.forwardRef<{ closeSideMenu: () => void }, LayoutProps>(
               background-color: ${Theme.LAYOUT_SIDEMENU_BACKGROUND_COLOR};
               overflow: hidden;
               z-index: 1;
-              width: 0;
+              width: var(--side-menu-width);
               flex-shrink: 0;
               overscroll-behavior: contain;
               position: fixed;
               top: 0;
               left: 0;
               bottom: 0;
-              transition: width 0.3s ease-out;
+              transition: transform 0.3s ease-out;
+              transform: translateX(calc(-1 * var(--side-menu-width)));
+            }
+            .side-menu.closed {
+              visibility: hidden;
             }
             .side-menu-content {
               width: var(--side-menu-width);
@@ -365,7 +397,8 @@ const Layout = React.forwardRef<{ closeSideMenu: () => void }, LayoutProps>(
               height: 100%;
             }
             .side-menu.visible {
-              width: var(--side-menu-width);
+              transform: translateX(0);
+              visibility: visible;
             }
             .side-bottom-menu {
               display: none;
@@ -423,6 +456,9 @@ const Layout = React.forwardRef<{ closeSideMenu: () => void }, LayoutProps>(
               height: 100%;
               z-index: 2;
               position: relative;
+            }
+            .logo .regular {
+              width: 87px;
             }
             .logo .compact {
               display: none;
@@ -485,12 +521,12 @@ const Layout = React.forwardRef<{ closeSideMenu: () => void }, LayoutProps>(
                 flex-direction: column;
                 flex-shrink: 1;
               }
-              .layout-body.side-menu-open {
-                margin-left: var(--side-menu-width);
-                flex-shrink: 0;
+              .layout-body.side-menu-open .header {
+                transform: translateX(var(--side-menu-width));
               }
-              .side-menu-open .header {
-                left: var(--side-menu-width);
+              .layout-body.side-menu-open .content {
+                transform: translateX(var(--side-menu-width));
+                flex-shrink: 0;
               }
               .sidebar-button {
                 display: inline-block;
@@ -522,18 +558,15 @@ const Layout = React.forwardRef<{ closeSideMenu: () => void }, LayoutProps>(
               }
             }
             @media only screen and (max-width: 600px) {
+              .layout {
+                --side-menu-width: calc(100vw - 100px);
+              }
               .header {
                 justify-content: space-between;
               }
               .side-menu-content {
                 height: calc(100% - 60px);
                 transition: height 0.3s ease-out;
-              }
-              .layout-body.side-menu-open {
-                margin-left: calc(100vw - 100px);
-              }
-              .side-menu-open .header {
-                left: calc(100vw - 100px);
               }
               .side-bottom-menu {
                 position: absolute;
