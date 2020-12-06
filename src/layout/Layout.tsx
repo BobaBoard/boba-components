@@ -309,8 +309,12 @@ const Layout = React.forwardRef<{ closeSideMenu: () => void }, LayoutProps>(
               z-index: 10;
               transition: transform 0.3s ease-out;
             }
-            .side-menu-open.content {
+            .layout-body.side-menu-open .header {
               transform: translateX(var(--side-menu-width));
+            }
+            .layout-body.side-menu-open .content {
+              transform: translateX(var(--side-menu-width));
+              flex-shrink: 0;
             }
             .sidemenu-button {
               width: 35px;
@@ -520,13 +524,6 @@ const Layout = React.forwardRef<{ closeSideMenu: () => void }, LayoutProps>(
               .layout-body {
                 flex-direction: column;
                 flex-shrink: 1;
-              }
-              .layout-body.side-menu-open .header {
-                transform: translateX(var(--side-menu-width));
-              }
-              .layout-body.side-menu-open .content {
-                transform: translateX(var(--side-menu-width));
-                flex-shrink: 0;
               }
               .sidebar-button {
                 display: inline-block;

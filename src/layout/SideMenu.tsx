@@ -97,8 +97,6 @@ const SideMenu: React.FC<SideMenuProps> = ({
           }
           .pinned-boards-container.visible {
             display: block;
-            overflow-x: hidden;
-            width: 95px;
           }
           .pinned-boards-container.visible::-webkit-scrollbar {
             display: none;
