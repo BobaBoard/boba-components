@@ -10,7 +10,8 @@ import HighlightedText from "../common/HighlightedText";
 import Theme from "../theme/default";
 import LoadingBar from "../common/LoadingBar";
 import noop from "noop-ts";
-import Hammer from "hammerjs";
+// @ts-ignore
+import type HammerManager from "hammerjs";
 
 import "@bobaboard/boba-editor/dist/main.css";
 
@@ -62,6 +63,7 @@ const Layout = React.forwardRef<{ closeSideMenu: () => void }, LayoutProps>(
     }));
 
     React.useEffect(() => {
+      const Hammer = require("hammerjs") as HammerStatic;
       if (layoutRef.current && !swipeHandler.current) {
         // @ts-ignore
         swipeHandler.current = new Hammer(layoutRef.current, {
