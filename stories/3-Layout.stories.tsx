@@ -628,6 +628,7 @@ export const Attempt1 = () => {
         title="!goreisthebestweloveit"
         titleLink={{ onClick: () => setShowSidebar(!showSidebar) }}
         onUserBarClick={() => console.log("userbar click!")}
+        onCompassClick={action("compass!")}
         loggedInMenuOptions={[
           {
             name: "no href",

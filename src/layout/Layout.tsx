@@ -1,5 +1,9 @@
 import React from "react";
-import { faBars, faCompass, IconDefinition } from "@fortawesome/free-solid-svg-icons";
+import {
+  faBars,
+  faCompass,
+  IconDefinition,
+} from "@fortawesome/free-solid-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import classnames from "classnames";
 import HighlightedText from "../common/HighlightedText";
@@ -14,6 +18,9 @@ import "normalize.css";
 import debug from "debug";
 import { LinkWithAction } from "types";
 import MenuBar from "./MenuBar";
+
+import logo from "../images/logo.svg";
+import compactLogo from "../images/logo-compact.svg";
 
 const log = debug("bobaui:layout-log");
 
@@ -32,10 +39,12 @@ const Layout = React.forwardRef<{ closeSideMenu: () => void }, LayoutProps>(
       actionButton,
       user,
       loading,
+      logoLink,
       updates,
       forceHideTitle,
       loggedInMenuOptions,
       onSideMenuButtonClick,
+      onCompassClick,
     },
     ref
   ) => {
@@ -155,31 +164,63 @@ const Layout = React.forwardRef<{ closeSideMenu: () => void }, LayoutProps>(
               }}
             />
             <div className="header" ref={headerRef}>
-                <button className="sidemenu-button notification">
-                  <FontAwesomeIcon icon={faBars} />
-                </button>
-                {title && (
-                  <a
-                    className={classnames("title", {
-                      "desktop-hidden": forceHideTitle,
-                    })}
-                    onClick={(e) => {
-                      titleLink?.onClick?.();
-                      if (titleLink?.onClick) {
-                        e.preventDefault();
-                      }
-                    }}
-                    href={titleLink?.href}
-                  >
-                    <HighlightedText highlightColor={headerAccent || "#fffff"}>
-                      <span className="title-text">{title}</span>
-                    </HighlightedText>
-                  </a>
+              <button
+                className={classnames("sidemenu-button menu", {
+                  notification: updates,
+                })}
+                onClick={React.useCallback(() => {
+                  if (!showSideMenu) {
+                    onSideMenuButtonClick?.();
+                  }
+                  setShowSideMenu(!showSideMenu);
+                }, [showSideMenu, onSideMenuButtonClick])}
+              >
+                <FontAwesomeIcon icon={faBars} />
+              </button>
+              <a
+                className="logo"
+                onClick={React.useCallback(
+                  (e) => {
+                    logoLink?.onClick?.();
+                    if (logoLink?.onClick) {
+                      e.preventDefault();
+                    }
+                  },
+                  [logoLink]
                 )}
-                <button className="sidemenu-button">
+                href={logoLink?.href}
+              >
+                <img src={logo} className="regular" />
+                <img src={compactLogo} className="compact" />
+              </a>
+              {title && (
+                <a
+                  className={classnames("title", {
+                    "desktop-hidden": forceHideTitle,
+                  })}
+                  onClick={(e) => {
+                    titleLink?.onClick?.();
+                    if (titleLink?.onClick) {
+                      e.preventDefault();
+                    }
+                  }}
+                  href={titleLink?.href}
+                >
+                  <HighlightedText highlightColor={headerAccent || "#fffff"}>
+                    <span className="title-text">{title}</span>
+                  </HighlightedText>
+                </a>
+              )}
+              <div
+                className={classnames("header-menu-bar", {
+                  "has-compass": !!onCompassClick,
+                })}
+              >
+                <button className={classnames("sidemenu-button compass")}>
                   <FontAwesomeIcon icon={faCompass} />
                 </button>
-              <div className="header-menu-bar">{menuBar}</div>
+                <div className="menu-bar">{menuBar}</div>
+              </div>
             </div>
             <div ref={contentRef} className="content">
               {mainContent}
@@ -233,7 +274,6 @@ const Layout = React.forwardRef<{ closeSideMenu: () => void }, LayoutProps>(
               flex-shrink: 0;
               padding: 0 15px;
               display: flex;
-              justify-content: space-between;
               align-items: center;
               z-index: 10;
               transition: left 0.3s ease-out;
@@ -260,8 +300,14 @@ const Layout = React.forwardRef<{ closeSideMenu: () => void }, LayoutProps>(
               font-size: 20px;
               padding: 0;
             }
+            .sidemenu-button:focus {
+              outline: none;
+            }
+            .sidemenu-button:focus-visible {
+              outline: white auto 1px;
+            }
             .sidemenu-button.notification::after {
-              content: '';
+              content: "";
               position: absolute;
               top: 4px;
               right: 4px;
@@ -284,12 +330,18 @@ const Layout = React.forwardRef<{ closeSideMenu: () => void }, LayoutProps>(
             .sidemenu-button:hover {
               color: white;
             }
-            .sidemenu-button:first-child {
+            .sidemenu-button.menu {
               margin-left: -3px;
               font-size: 22px;
+              margin-right: 5px;
             }
-            .sidemenu-button ~ .sidemenu-button {
+            .sidemenu-button.compass {
               margin-right: -3px;
+              display: flex;
+              align-items: center;
+            }
+            .header-menu-bar:not(.has-compass) .sidemenu-button.compass {
+              display: none;
             }
             .content {
               flex-grow: 1;
@@ -332,6 +384,7 @@ const Layout = React.forwardRef<{ closeSideMenu: () => void }, LayoutProps>(
             }
             .title {
               margin: 0px 35px;
+              margin-left: 25px;
               color: white;
               font-size: 24px;
               font-weight: bold;
@@ -357,8 +410,77 @@ const Layout = React.forwardRef<{ closeSideMenu: () => void }, LayoutProps>(
             }
             .header-menu-bar {
               height: 100%;
+              display: flex;
+              flex-grow: 1;
+              justify-content: flex-end;
+            }
+            .logo {
+              position: relative;
+              height: calc(100% - 30px);
+              cursor: pointer;
+            }
+            .logo > img {
+              height: 100%;
+              z-index: 2;
+              position: relative;
+            }
+            .logo .compact {
+              display: none;
+            }
+            .logo::after {
+              content: "";
+              background-color: ${headerAccent || "transparent"};
+              mask: url(${logo}) no-repeat;
+              display: block;
+              position: absolute;
+              z-index: 1;
+              mask-size: 100%;
+              top: 2px;
+              left: 3px;
+              width: 100%;
+              height: 100%;
+            }
+            .sidemenu-button.compass {
+              display: none;
+            }
+            @media only screen and (max-width: 950px) {
+              .sidemenu-button.compass {
+                display: block;
+                margin-right: 15px;
+                align-self: center;
+              }
+              .header-menu-bar.has-compass .menu-bar {
+                padding-left: 10px;
+                border-left: 2px solid #2e2e30;
+                border-image: linear-gradient(
+                  to bottom,
+                  #131518 0%,
+                  #131518 15%,
+                  #2e2e30 20%,
+                  #2e2e30 80%,
+                  #131518 85%,
+                  #131518 100%
+                );
+                border-image-slice: 1;
+              }
+              .logo .regular {
+                display: none;
+              }
+              .logo .compact {
+                display: block;
+                width: 35px;
+                height: 40px;
+              }
+              .logo::after {
+                mask: url(${compactLogo}) no-repeat;
+                width: 35px;
+                height: 40px;
+              }
             }
             @media only screen and (max-width: 850px) {
+              .title {
+                font-size: 24px;
+              }
               .layout-body {
                 flex-direction: column;
                 flex-shrink: 1;
@@ -400,6 +522,9 @@ const Layout = React.forwardRef<{ closeSideMenu: () => void }, LayoutProps>(
               }
             }
             @media only screen and (max-width: 600px) {
+              .header {
+                justify-content: space-between;
+              }
               .side-menu-content {
                 height: calc(100% - 60px);
                 transition: height 0.3s ease-out;
@@ -424,7 +549,10 @@ const Layout = React.forwardRef<{ closeSideMenu: () => void }, LayoutProps>(
                 overflow: hidden;
                 z-index: 10;
               }
-              .header-menu-bar {
+              .sidemenu-button.compass {
+                margin-right: 0;
+              }
+              .menu-bar {
                 display: none;
               }
               .side-menu:not(.visible) .side-menu-content {
@@ -432,6 +560,20 @@ const Layout = React.forwardRef<{ closeSideMenu: () => void }, LayoutProps>(
               }
               .side-menu.visible .side-bottom-menu {
                 height: 60px;
+              }
+            }
+            @media only screen and (max-width: 450px) {
+              .logo {
+                display: none;
+              }
+              .header {
+                justify-content: space-between;
+              }
+              .header-menu-bar {
+                flex-grow: 0;
+              }
+              .sidemenu-button.menu {
+                margin-right: 0;
               }
             }
           `}</style>
@@ -451,8 +593,10 @@ export interface LayoutProps {
   forceHideTitle?: boolean;
   actionButton?: JSX.Element;
   user?: { username: string; avatarUrl?: string };
+  logoLink?: LinkWithAction;
   titleLink?: LinkWithAction;
   onUserBarClick?: () => void;
+  onCompassClick?: () => void;
   loading?: boolean;
   updates?: number | boolean;
   menuOptions?: {
