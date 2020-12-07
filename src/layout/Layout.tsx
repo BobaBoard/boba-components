@@ -246,7 +246,12 @@ const Layout = React.forwardRef<{ closeSideMenu: () => void }, LayoutProps>(
                   "has-compass": !!onCompassClick,
                 })}
               >
-                <button className={classnames("sidemenu-button compass")}>
+                <button
+                  className={classnames("sidemenu-button compass")}
+                  onClick={React.useCallback(() => onCompassClick?.(), [
+                    onCompassClick,
+                  ])}
+                >
                   <FontAwesomeIcon icon={faCompass} />
                 </button>
                 <div className="menu-bar">{menuBar}</div>
