@@ -3,7 +3,7 @@ import React from "react";
 import UpdatesHeader from "./UpdatesHeader";
 import Header, { HeaderStyle } from "./Header";
 import Footer from "./Footer";
-import Tags from "./Tags";
+import Tags from "../tags/Tags";
 import DropdownListMenu, { DropdownProps } from "../common/DropdownListMenu";
 import Card from "../common/Card";
 import Reaction from "../common/Reaction";
@@ -11,7 +11,7 @@ import Editor from "@bobaboard/boba-editor";
 import classnames from "classnames";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faPlus, faEllipsisV } from "@fortawesome/free-solid-svg-icons";
-import { TagsFactory } from "../common/Tag";
+import { TagsFactory } from "../tags/Tag";
 
 import Theme from "../theme/default";
 import debug from "debug";

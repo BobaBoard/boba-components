@@ -1,7 +1,7 @@
 import React from "react";
-import Tags from "../src/post/Tags";
+import Tags from "../src/tags/Tags";
 import CategoryFilter from "../src/common/CategoryFilter";
-import TagsFilter, { FilteredTagsState } from "../src/common/TagsFilter";
+import TagsFilter, { FilteredTagsState } from "../src/tags/TagsFilter";
 import { TagsType, TagType } from "../src/types";
 import { action } from "@storybook/addon-actions";
 

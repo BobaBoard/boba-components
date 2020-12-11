@@ -2,7 +2,7 @@ import React from "react";
 //import { linkTo } from "@storybook/addon-links";
 import BoardPreview, { DisplayStyle } from "../src/board/BoardPreview";
 import BoardsDisplay from "../src/board/BoardsDisplay";
-import Tag from "../src/common/Tag";
+import Tag from "../src/tags/Tag";
 
 import goreBackground from "./images/gore.png";
 import anime from "./images/anime.png";

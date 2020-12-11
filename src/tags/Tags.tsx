@@ -9,7 +9,7 @@ import Tag, {
   CONTENT_NOTICE_DEFAULT_PREFIX,
   INDEXABLE_PREFIX,
   CATEGORY_PREFIX,
-} from "../common/Tag";
+} from "./Tag";
 import DropdownListMenu, { DropdownProps } from "../common/DropdownListMenu";
 import classnames from "classnames";
 import debug from "debug";

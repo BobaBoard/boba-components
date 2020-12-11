@@ -3,7 +3,7 @@ import React from "react";
 import Header, { HeaderStyle } from "./Header";
 import EditorFooter from "./EditorFooter";
 import Card from "../common/Card";
-import Tags from "./Tags";
+import Tags from "../tags/Tags";
 import { PostSizes, getPostWidth } from "./Post";
 import Spinner from "../common/Spinner";
 import DropdownListMenu from "../common/DropdownListMenu";
@@ -23,7 +23,7 @@ import {
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import classnames from "classnames";
 import { TagsType } from "../types";
-import { TagsFactory } from "../common/Tag";
+import { TagsFactory } from "../tags/Tag";
 import noop from "noop-ts";
 
 export const setTumblrEmbedFetcher = libSetFetcher;

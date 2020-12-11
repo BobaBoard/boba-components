@@ -5,7 +5,7 @@ import Input, { InputStyle } from "../common/Input";
 import Button from "../common/Button";
 
 import debug from "debug";
-import Tag, { TagsFactory } from "./Tag";
+import Tag, { TagsFactory } from "../tags/Tag";
 import { TagType } from "../types";
 import { ButtonStyle } from "../common/Button";
 import { faPlus } from "@fortawesome/free-solid-svg-icons";

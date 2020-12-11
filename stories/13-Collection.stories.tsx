@@ -4,7 +4,7 @@ import Layout from "../src/layout/Layout";
 import FeedWithMenu from "../src/layout/FeedWithMenu";
 import PostingActionButton from "../src/board/PostingActionButton";
 import Post from "../src/post/Post";
-import Tag from "../src/common/Tag";
+import Tag from "../src/tags/Tag";
 // @ts-ignore
 import Editor from "@bobaboard/boba-editor";
 

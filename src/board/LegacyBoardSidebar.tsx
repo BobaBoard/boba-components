@@ -1,7 +1,7 @@
 import React from "react";
 
 import BoardPreview from "./BoardPreview";
-import Tag from "../common/Tag";
+import Tag from "../tags/Tag";
 import { LinkWithAction } from "types";
 import Button, { ButtonStyle } from "../common/Button";
 import DropdownMenu, { DropdownStyle } from "../common/DropdownListMenu";
