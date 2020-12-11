@@ -22,8 +22,8 @@ import {
 } from "@fortawesome/free-solid-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import classnames from "classnames";
-import { TagsType } from "../types";
-import { TagsFactory } from "../common/Tag";
+import { TagLists, TagsType } from "../types";
+import { TagsFactory, BOARD_PREFIX } from "../common/Tag";
 import noop from "noop-ts";
 
 export const setTumblrEmbedFetcher = libSetFetcher;
@@ -71,11 +71,21 @@ const PostEditor = React.forwardRef<{ focus: () => void }, PostEditorProps>(
   (props, ref) => {
     const editorRef = React.useRef<Editor>(null);
     const [isEmpty, setIsEmpty] = React.useState(true);
-    const [tags, setTags] = React.useState<TagsType[]>(
-      props.initialTags
+    // TODO: this sucks
+    const boardTag: TagsType[] = props.selectedBoard
+      ? [
+          TagsFactory.getTagDataFromString(
+            BOARD_PREFIX + props.selectedBoard,
+            props.accentColor
+          ),
+        ]
+      : [];
+    const [tags, setTags] = React.useState<TagsType[]>([
+      ...boardTag,
+      ...(props.initialTags
         ? TagsFactory.getTagsFromTagObject(props.initialTags)
-        : []
-    );
+        : []),
+    ]);
     const [selectedView, setSelectedView] = React.useState<string | undefined>(
       props.viewOptions?.[0]?.name
     );
@@ -186,6 +196,7 @@ const PostEditor = React.forwardRef<{ focus: () => void }, PostEditorProps>(
                   onSubmit={onSubmitHandler}
                   accentColor={props.accentColor}
                   suggestedCategories={suggestedCategories}
+                  availableBoards={props.availableBoards}
                 />
                 <div
                   className={classnames("footer-actions", {
@@ -334,12 +345,7 @@ export default PostEditor;
 
 export interface PostEditorProps {
   initialText?: string;
-  initialTags?: {
-    contentWarnings: string[];
-    categoryTags: string[];
-    whisperTags: string[];
-    indexTags: string[];
-  };
+  initialTags?: TagLists;
   secretIdentity?: {
     avatar: string;
     name: string;
@@ -372,7 +378,13 @@ export interface PostEditorProps {
     iconUrl?: string;
   }[];
   centered?: boolean;
+  selectedBoard?: string;
   accentColor?: string;
+  availableBoards?: {
+    slug: string;
+    avatar: string;
+    color: string;
+  }[];
   suggestedCategories?: string[];
   editableSections?: {
     tags?: boolean;

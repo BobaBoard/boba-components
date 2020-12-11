@@ -19,6 +19,7 @@ export enum TagType {
   CONTENT_WARNING,
   CATEGORY,
   WHISPER,
+  BOARD,
 }
 
 export interface TagsType {
@@ -30,6 +31,14 @@ export interface TagsType {
   indexable?: boolean;
   category?: boolean;
   contentWarning?: boolean;
+}
+
+export interface TagLists {
+  boardTags: string[];
+  contentWarnings: string[];
+  categoryTags: string[];
+  whisperTags: string[];
+  indexTags: string[];
 }
 
 export interface BoardMetadataType {

@@ -1,6 +1,6 @@
 import React from "react";
 import classnames from "classnames";
-import { TagsType, TagType } from "../types";
+import { TagLists, TagsType, TagType } from "../types";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faTimesCircle } from "@fortawesome/free-solid-svg-icons";
 
@@ -146,6 +146,7 @@ export default Tag;
 
 export const INDEXABLE_PREFIX = "#";
 export const CATEGORY_PREFIX = "+";
+export const BOARD_PREFIX = "!";
 export const CONTENT_NOTICE_DEFAULT_PREFIX = "cn:";
 export const CONTENT_NOTICE_PREFIXES = [
   CONTENT_NOTICE_DEFAULT_PREFIX,
@@ -158,6 +159,7 @@ export const WHISPER_PREFIX = "»";
 export const INDEXABLE_TAG_COLOR = "#FF5A13";
 export const CATEGORY_TAG_COLOR = "#138EFF";
 export const CW_TAG_COLOR = "#FFC700";
+export const BOARD_DEFAULT_TAG_COLOR = "#f96680";
 
 export const getDataForTagType = (tag: TagsType) => {
   if (tag.indexable || tag.type == TagType.INDEXABLE) {
@@ -179,6 +181,12 @@ export const getDataForTagType = (tag: TagsType) => {
       symbol: CONTENT_NOTICE_DEFAULT_PREFIX,
       color: CW_TAG_COLOR,
       type: TagType.CONTENT_WARNING,
+    };
+  } else if (tag.type == TagType.BOARD) {
+    return {
+      symbol: BOARD_PREFIX,
+      color: tag.color || BOARD_DEFAULT_TAG_COLOR,
+      type: TagType.BOARD,
     };
   } else {
     return {
@@ -206,15 +214,14 @@ export class TagsFactory {
     };
   }
 
-  static getTagsFromTagObject(tagsObject?: {
-    contentWarnings: string[];
-    categoryTags: string[];
-    whisperTags: string[];
-    indexTags: string[];
-  }) {
+  static getTagsFromTagObject(tagsObject?: TagLists) {
     if (!tagsObject) {
       return [];
     }
+    const boardTags =
+      tagsObject.boardTags?.map((tag) =>
+        TagsFactory.getTagDataFromString(BOARD_PREFIX + tag)
+      ) || [];
     const indexableTags =
       tagsObject.indexTags?.map((tag) =>
         TagsFactory.getTagDataFromString(INDEXABLE_PREFIX + tag)
@@ -233,6 +240,7 @@ export class TagsFactory {
       ) || [];
 
     return [
+      ...boardTags,
       ...indexableTags,
       ...categoryTags,
       ...contentWarnings,
@@ -241,6 +249,7 @@ export class TagsFactory {
   }
 
   static orderTags(tags: TagsType[]) {
+    const boardTags = tags.filter((tag) => tag.type == TagType.BOARD);
     const indexableTags = tags.filter((tag) => tag.indexable);
     const categoryTags = tags.filter((tag) => tag.category);
     const contentWarnings = tags.filter((tag) => tag.contentWarning);
@@ -249,6 +258,7 @@ export class TagsFactory {
     );
 
     return [
+      ...boardTags,
       ...indexableTags,
       ...categoryTags,
       ...contentWarnings,
@@ -273,6 +283,12 @@ export class TagsFactory {
         accentColor: "white",
         category: true,
         type: TagType.CATEGORY,
+      };
+    } else if (tagType == TagType.BOARD) {
+      return {
+        name: tag.substring(BOARD_PREFIX.length).trim(),
+        color: accentColor || BOARD_DEFAULT_TAG_COLOR,
+        type: TagType.BOARD,
       };
     } else if (tagType == TagType.CONTENT_WARNING) {
       const cwPrefix = CONTENT_NOTICE_PREFIXES.find((prefix) =>
@@ -300,6 +316,8 @@ export class TagsFactory {
       return TagType.INDEXABLE;
     } else if (lowerCaseTag.startsWith(CATEGORY_PREFIX)) {
       return TagType.CATEGORY;
+    } else if (lowerCaseTag.startsWith(BOARD_PREFIX)) {
+      return TagType.BOARD;
     } else if (
       CONTENT_NOTICE_PREFIXES.some((prefix) => lowerCaseTag.startsWith(prefix))
     ) {

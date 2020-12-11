@@ -9,6 +9,8 @@ import Tag, {
   CONTENT_NOTICE_DEFAULT_PREFIX,
   INDEXABLE_PREFIX,
   CATEGORY_PREFIX,
+  BOARD_PREFIX,
+  BOARD_DEFAULT_TAG_COLOR,
 } from "../common/Tag";
 import DropdownListMenu, { DropdownProps } from "../common/DropdownListMenu";
 import classnames from "classnames";
@@ -16,6 +18,8 @@ import debug from "debug";
 import { TagsType, TagType } from "../types";
 import DefaultTheme from "../theme/default";
 import color from "color";
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import { faCaretDown } from "@fortawesome/free-solid-svg-icons";
 
 const log = debug("bobaui:tagsinput-log");
 
@@ -70,6 +74,14 @@ const TagsDisplay: React.FC<TagsInputProps & { deleting: boolean }> = ({
 
   return (
     <>
+      Post in:
+      <div className="board-selector">
+        <span className="board-symbol" />
+        <span>!gore</span>
+        <button className={classnames("delete")}>
+          <FontAwesomeIcon icon={faCaretDown} />
+        </button>
+      </div>
       {!!specialTags.length &&
         maybeWrapInDiv(
           (packBottom ? [...specialTags].reverse() : specialTags).map(
@@ -79,11 +91,7 @@ const TagsDisplay: React.FC<TagsInputProps & { deleting: boolean }> = ({
                 className={classnames("tag-container", {
                   deleting: deleting && index == tags.length - 1,
                   // TODO: listing all things this isn't for condition, bad.
-                  whisper: !(
-                    tag.category ||
-                    tag.contentWarning ||
-                    tag.indexable
-                  ),
+                  whisper: tag.type === TagType.WHISPER,
                 })}
               >
                 <DropdownListMenu options={getOptionsForTag?.(tag)}>
@@ -131,6 +139,54 @@ const TagsDisplay: React.FC<TagsInputProps & { deleting: boolean }> = ({
           "whisper-tags"
         )}
       <style jsx>{`
+        .board-selector {
+          margin: 5px 5px 0 0;
+          padding-right: 25px;
+          border-radius: 5px;
+          font-size: smaller;
+          margin-right: 15px;
+          position: relative;
+          min-width: 50px;
+          border-radius: 15px;
+          background-color: #2e2e30;
+          color: white;
+          display: flex;
+          align-items: center;
+        }
+        .board-symbol {
+          background: url("https://firebasestorage.googleapis.com/v0/b/bobaboard-fb.appspot.com/o/images%2Fmain_street%2F6f71da44-8f28-4a2a-b795-e6e679032c23?alt=media&token=132c83dd-29d9-4828-abe2-9d260d759664");
+          height: 23px;
+          width: 23px;
+          border-radius: 50%;
+          display: inline-block;
+          text-align: center;
+          line-height: 23px;
+          margin-right: 5px;
+          border: 2px solid red;
+          background-position: center;
+          background-size: cover;
+        }
+        .board-selector::after {
+          content: "";
+          position: absolute;
+          border-right: 1px solid rgba(47, 47, 48, 0.5);
+          margin-left: 10px;
+          right: -10px;
+          top: 0;
+          bottom: 0;
+        }
+        .delete {
+          display: block;
+          position: absolute;
+          right: 0;
+          padding: 6px;
+          top: 0;
+          bottom: 0;
+          color: inherit;
+          opacity: 0.6;
+          background: none;
+          border: none;
+        }
         :global(.tag-container) {
           margin: 5px 5px 0 0;
           align-items: center;
@@ -170,6 +226,7 @@ enum TagInputState {
   INDEXABLE,
   CATEGORY,
   WHISPER,
+  BOARD,
   EMPTY,
   DELETE,
 }
@@ -182,6 +239,7 @@ const TagsInput: React.FC<TagsInputProps> = ({
   onSubmit,
   accentColor,
   suggestedCategories,
+  availableBoards,
   getOptionsForTag,
   packBottom,
 }) => {
@@ -249,6 +307,40 @@ const TagsInput: React.FC<TagsInputProps> = ({
             </button>
           ))}
         </div>
+        <div
+          className={classnames("suggestions-container boards-suggestions", {
+            visible:
+              isFocused &&
+              availableBoards &&
+              availableBoards.length > 0 &&
+              tagInputState == TagInputState.BOARD,
+          })}
+        >
+          {availableBoards?.map((board) => (
+            <button
+              key={board.slug}
+              className={classnames("tag-container")}
+              // We use mouse down rather than on click because this runs
+              // before the blur event.
+              onMouseDown={(e) => {
+                onTagsAdd?.({
+                  name: board.slug,
+                  accentColor: "white",
+                  color: board.color,
+                  type: TagType.BOARD,
+                });
+                e.preventDefault();
+              }}
+            >
+              {TagsFactory.create({
+                name: board.slug,
+                accentColor: "white",
+                color: board.color,
+                type: TagType.BOARD,
+              })}
+            </button>
+          ))}
+        </div>
         <TagsDisplay
           editable={editable}
           tags={tags}
@@ -262,6 +354,7 @@ const TagsInput: React.FC<TagsInputProps> = ({
             className={classnames("tag-input", {
               indexable: tagInputState == TagInputState.INDEXABLE,
               category: tagInputState == TagInputState.CATEGORY,
+              board: tagInputState == TagInputState.BOARD,
               "content-warning": tagInputState == TagInputState.CONTENT_NOTICE,
             })}
             ref={spanRef}
@@ -395,6 +488,9 @@ const TagsInput: React.FC<TagsInputProps> = ({
                 case TagType.CONTENT_WARNING:
                   setTagInputState(TagInputState.CONTENT_NOTICE);
                   return;
+                case TagType.BOARD:
+                  setTagInputState(TagInputState.BOARD);
+                  return;
                 case TagType.WHISPER:
                 default:
                   setTagInputState(TagInputState.WHISPER);
@@ -421,18 +517,20 @@ const TagsInput: React.FC<TagsInputProps> = ({
           box-shadow: 0 0 0 1px rgba(0, 0, 0, 0.3), 0 0 0 4px rgba(0, 0, 0, 0.1);
         }
         .tag-input.indexable:focus {
-          box-shadow: 0 0 0 1px
-              ${color(accentColor || INDEXABLE_TAG_COLOR).fade(0)},
-            0 0 0 4px ${color(accentColor || INDEXABLE_TAG_COLOR).fade(0.7)};
+          box-shadow: 0 0 0 1px ${color(INDEXABLE_TAG_COLOR).fade(0)},
+            0 0 0 4px ${color(INDEXABLE_TAG_COLOR).fade(0.7)};
         }
         .tag-input.content-warning:focus {
-          box-shadow: 0 0 0 1px ${color(accentColor || CW_TAG_COLOR).fade(0)},
-            0 0 0 4px ${color(accentColor || CW_TAG_COLOR).fade(0.7)};
+          box-shadow: 0 0 0 1px ${color(CW_TAG_COLOR).fade(0)},
+            0 0 0 4px ${color(CW_TAG_COLOR).fade(0.7)};
         }
         .tag-input.category:focus {
-          box-shadow: 0 0 0 1px
-              ${color(accentColor || CATEGORY_TAG_COLOR).fade(0)},
-            0 0 0 4px ${color(accentColor || CATEGORY_TAG_COLOR).fade(0.7)};
+          box-shadow: 0 0 0 1px ${color(CATEGORY_TAG_COLOR).fade(0)},
+            0 0 0 4px ${color(CATEGORY_TAG_COLOR).fade(0.7)};
+        }
+        .tag-input.board:focus {
+          box-shadow: 0 0 0 1px ${color(BOARD_DEFAULT_TAG_COLOR).fade(0)},
+            0 0 0 4px ${color(BOARD_DEFAULT_TAG_COLOR).fade(0.7)};
         }
         .container {
           padding-bottom: 5px;
@@ -468,11 +566,13 @@ const TagsInput: React.FC<TagsInputProps> = ({
         .suggestions-container.visible {
           display: block;
         }
+        .boards-suggestions .tag-container,
         .categories-suggestions .tag-container {
           margin-top: 3px;
           margin-bottom: 3px;
           margin-right: 10px;
         }
+        .boards-suggestions .tag-container:hover,
         .categories-suggestions .tag-container:hover {
           cursor: pointer;
         }
@@ -496,4 +596,9 @@ export interface TagsInputProps {
   // Make the tags be packed on the bottom of the display, so single
   // item lines are at the top.
   packBottom?: boolean;
+  availableBoards?: {
+    slug: string;
+    avatar: string;
+    color: string;
+  }[];
 }

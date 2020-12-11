@@ -9,6 +9,11 @@ import mamoruAvatar from "./images/mamoru.png";
 import oncelerAvatar from "./images/oncie.jpg";
 import { action } from "@storybook/addon-actions";
 
+import crack from "./images/crack.png";
+import oncelerBoard from "./images/onceler-board.png";
+import book from "./images/book.png";
+import kinkmeme from "./images/kink-meme.png";
+
 export default {
   title: "Post Editor",
   component: PostEditor,
@@ -101,6 +106,58 @@ export const EditableWithViewSelect = () => (
 
 EditableWithViewSelect.story = {
   name: "view select",
+};
+
+export const EditableWithBoardSelect = () => (
+  <PostEditor
+    userIdentity={{ name: "SexyDaddy69", avatar: `/${mamoruAvatar}` }}
+    additionalIdentities={[
+      { id: "id1", name: "Tuxedo Mask", avatar: `/${tuxedoAvatar}` },
+      { id: "id2", name: "Mega Mod", avatar: `/${tuxedoAvatar}` },
+    ]}
+    onCancel={action("cancel")}
+    onSubmit={(promise) => {
+      promise.then(action("submit"));
+    }}
+    onImageUploadRequest={async (url) => {
+      action("imageUpload")(url);
+      return Promise.resolve(url);
+    }}
+    selectedBoard="gore"
+    accentColor="blue"
+    availableBoards={[
+      {
+        slug: "oncie-den",
+        avatar: "/" + oncelerBoard,
+        color: "#27caba",
+      },
+      {
+        slug: "fic-club",
+        avatar: "/" + book,
+        color: "#7724d2",
+      },
+      {
+        slug: "kink-memes",
+        avatar: "/" + kinkmeme,
+        color: "#000000",
+      },
+      {
+        slug: "crack",
+        avatar: "/" + crack,
+        color: "#f9e066",
+      },
+    ]}
+    viewOptions={[
+      { name: "Thread" },
+      { name: "Gallery" },
+      { name: "Timeline" },
+    ]}
+    centered
+  />
+);
+
+EditableWithBoardSelect.story = {
+  name: "board select",
 };
 
 export const SmallestViewport = () => (
