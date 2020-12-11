@@ -1,7 +1,6 @@
 import React from "react";
 
-import Tag, {
-  TagsFactory,
+import TagsFactory, {
   INDEXABLE_TAG_COLOR,
   CATEGORY_TAG_COLOR,
   CW_TAG_COLOR,
@@ -9,12 +8,13 @@ import Tag, {
   CONTENT_NOTICE_DEFAULT_PREFIX,
   INDEXABLE_PREFIX,
   CATEGORY_PREFIX,
-} from "./Tag";
+} from "./TagsFactory";
 import DropdownListMenu, { DropdownProps } from "../common/DropdownListMenu";
 import classnames from "classnames";
 import debug from "debug";
 import { TagsType, TagType } from "../types";
 import DefaultTheme from "../theme/default";
+import Tag from "./Tag";
 import color from "color";
 
 const log = debug("bobaui:tagsinput-log");
