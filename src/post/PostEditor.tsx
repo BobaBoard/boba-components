@@ -23,8 +23,9 @@ import {
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import classnames from "classnames";
 import { TagsType } from "../types";
-import { TagsFactory } from "../tags/Tag";
+import TagsFactory from "../tags/TagsFactory";
 import noop from "noop-ts";
+import BoardSelector, { BoardSelectorProps } from "../tags/BoardSelector";
 
 export const setTumblrEmbedFetcher = libSetFetcher;
 export const setOEmbedFetcher = libSetEmbedFetcher;
@@ -71,6 +72,9 @@ const PostEditor = React.forwardRef<{ focus: () => void }, PostEditorProps>(
   (props, ref) => {
     const editorRef = React.useRef<Editor>(null);
     const [isEmpty, setIsEmpty] = React.useState(true);
+    const [selectedBoard, setSelectedBoard] = React.useState(
+      props.initialBoard
+    );
     const [tags, setTags] = React.useState<TagsType[]>(
       props.initialTags
         ? TagsFactory.getTagsFromTagObject(props.initialTags)
@@ -118,6 +122,7 @@ const PostEditor = React.forwardRef<{ focus: () => void }, PostEditorProps>(
           tags,
           viewOptionName: selectedView,
           identityId: selectedIdentity,
+          boardSlug: selectedBoard,
         }))
       );
     }, [
@@ -128,6 +133,7 @@ const PostEditor = React.forwardRef<{ focus: () => void }, PostEditorProps>(
       selectedIdentity,
       onSubmit,
       tags,
+      selectedBoard,
     ]);
 
     return (
@@ -186,7 +192,13 @@ const PostEditor = React.forwardRef<{ focus: () => void }, PostEditorProps>(
                   onSubmit={onSubmitHandler}
                   accentColor={props.accentColor}
                   suggestedCategories={suggestedCategories}
-                />
+                >
+                  <BoardSelector
+                    availableBoards={props.availableBoards}
+                    onBoardSelected={setSelectedBoard}
+                    selectedBoard={selectedBoard}
+                  />
+                </MemoizedTags>
                 <div
                   className={classnames("footer-actions", {
                     "with-options": !!props.viewOptions,
@@ -362,6 +374,7 @@ export interface PostEditorProps {
       tags: TagsType[];
       viewOptionName?: string;
       identityId?: string;
+      boardSlug: string;
     }>
   ) => void;
   onCancel: (empty: boolean) => void;
@@ -377,4 +390,6 @@ export interface PostEditorProps {
   editableSections?: {
     tags?: boolean;
   };
+  availableBoards: BoardSelectorProps["availableBoards"];
+  initialBoard: BoardSelectorProps["selectedBoard"];
 }

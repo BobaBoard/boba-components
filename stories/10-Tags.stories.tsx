@@ -2,6 +2,7 @@ import React from "react";
 import Tags from "../src/tags/Tags";
 import CategoryFilter from "../src/common/CategoryFilter";
 import TagsFilter, { FilteredTagsState } from "../src/tags/TagsFilter";
+import BoardSelector from "../src/tags/BoardSelector";
 import { TagsType, TagType } from "../src/types";
 import { action } from "@storybook/addon-actions";
 
@@ -9,6 +10,12 @@ export default {
   title: "Tags Preview",
   component: Tags,
 };
+
+import goreBackground from "./images/gore.png";
+import crack from "./images/crack.png";
+import oncelerBoard from "./images/onceler-board.png";
+import book from "./images/book.png";
+import kinkmeme from "./images/kink-meme.png";
 
 export const EditableTags = () => {
   const [tags, setTags] = React.useState<TagsType[]>([
@@ -303,4 +310,66 @@ export const EditableTagsFilterStory = () => {
 
 EditableTagsFilterStory.story = {
   name: "editable tags filter",
+};
+
+const RECENT_BOARDS = [
+  {
+    slug: "gore",
+    avatar: "/" + goreBackground,
+    description: "Love me some bruised bois (and more).",
+    color: "#f96680",
+    link: { href: "#slug", onClick: action("#slug") },
+    updates: 10,
+  },
+  {
+    slug: "oncie-den",
+    avatar: "/" + oncelerBoard,
+    description: "Party like it's 2012",
+    color: "#27caba",
+    updates: 10,
+    backgroundColor: "#131518",
+    link: { href: "#slug", onClick: action("#slug") },
+  },
+  {
+    slug: "fic-club",
+    avatar: "/" + book,
+    description: "Come enjoy all the fics!",
+    color: "#7724d2",
+    updates: 5,
+    backgroundColor: "#131518",
+    link: { href: "#slug", onClick: action("#slug") },
+  },
+  {
+    slug: "kink-memes",
+    avatar: "/" + kinkmeme,
+    description: "No limits. No shame.",
+    color: "#000000",
+    link: { href: "#slug", onClick: action("#slug") },
+    updates: 10,
+  },
+  {
+    slug: "crack",
+    avatar: "/" + crack,
+    description: "What's crackalackin",
+    color: "#f9e066",
+    updates: 3,
+    backgroundColor: "#131518",
+    link: { href: "#slug", onClick: action("#slug") },
+  },
+];
+export const BoardSelectorStory = () => {
+  const [selectedBoard, setSelectedBoard] = React.useState("gore");
+  return (
+    <div style={{ width: "500px", backgroundColor: "white", padding: "10px" }}>
+      <BoardSelector
+        availableBoards={RECENT_BOARDS}
+        selectedBoard={selectedBoard}
+        onBoardSelected={setSelectedBoard}
+      />
+    </div>
+  );
+};
+
+BoardSelectorStory.story = {
+  name: "boardSelector",
 };

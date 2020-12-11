@@ -11,7 +11,7 @@ import Editor from "@bobaboard/boba-editor";
 import classnames from "classnames";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faPlus, faEllipsisV } from "@fortawesome/free-solid-svg-icons";
-import { TagsFactory } from "../tags/Tag";
+import TagsFactory from "../tags/TagsFactory";
 
 import Theme from "../theme/default";
 import debug from "debug";

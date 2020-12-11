@@ -9,6 +9,12 @@ import mamoruAvatar from "./images/mamoru.png";
 import oncelerAvatar from "./images/oncie.jpg";
 import { action } from "@storybook/addon-actions";
 
+import goreBackground from "./images/gore.png";
+import crack from "./images/crack.png";
+import oncelerBoard from "./images/onceler-board.png";
+import book from "./images/book.png";
+import kinkmeme from "./images/kink-meme.png";
+
 export default {
   title: "Post Editor",
   component: PostEditor,
@@ -24,6 +30,51 @@ setTumblrEmbedFetcher((url: string) => {
     did: "22a0a2f8b7a33dc50bbf5f49fb53f92b181a88aa",
   });
 });
+const RECENT_BOARDS = [
+  {
+    slug: "gore",
+    avatar: "/" + goreBackground,
+    description: "Love me some bruised bois (and more).",
+    color: "#f96680",
+    link: { href: "#slug", onClick: action("#slug") },
+    updates: 10,
+  },
+  {
+    slug: "oncie-den",
+    avatar: "/" + oncelerBoard,
+    description: "Party like it's 2012",
+    color: "#27caba",
+    updates: 10,
+    backgroundColor: "#131518",
+    link: { href: "#slug", onClick: action("#slug") },
+  },
+  {
+    slug: "fic-club",
+    avatar: "/" + book,
+    description: "Come enjoy all the fics!",
+    color: "#7724d2",
+    updates: 5,
+    backgroundColor: "#131518",
+    link: { href: "#slug", onClick: action("#slug") },
+  },
+  {
+    slug: "kink-memes",
+    avatar: "/" + kinkmeme,
+    description: "No limits. No shame.",
+    color: "#000000",
+    link: { href: "#slug", onClick: action("#slug") },
+    updates: 10,
+  },
+  {
+    slug: "crack",
+    avatar: "/" + crack,
+    description: "What's crackalackin",
+    color: "#f9e066",
+    updates: 3,
+    backgroundColor: "#131518",
+    link: { href: "#slug", onClick: action("#slug") },
+  },
+];
 
 export const EditableWithFooter = () => (
   <PostEditor
@@ -45,6 +96,8 @@ export const EditableWithFooter = () => (
       "pls.... help....",
       "off topic",
     ]}
+    availableBoards={RECENT_BOARDS}
+    initialBoard="gore"
   />
 );
 
@@ -68,6 +121,8 @@ export const EditableWithMultipleIdentities = () => (
       return Promise.resolve(url);
     }}
     centered
+    availableBoards={RECENT_BOARDS}
+    initialBoard="gore"
   />
 );
 
@@ -96,6 +151,8 @@ export const EditableWithViewSelect = () => (
       { name: "Timeline" },
     ]}
     centered
+    availableBoards={RECENT_BOARDS}
+    initialBoard="gore"
   />
 );
 
@@ -129,6 +186,8 @@ export const SmallestViewport = () => (
         { name: "Timeline" },
       ]}
       centered
+      availableBoards={RECENT_BOARDS}
+      initialBoard="gore"
     />
   </div>
 );
@@ -155,6 +214,8 @@ export const EditableInModal = () => (
         return Promise.resolve(url);
       }}
       centered
+      availableBoards={RECENT_BOARDS}
+      initialBoard="gore"
     />
   </Modal>
 );
@@ -180,6 +241,8 @@ export const LongEditableInModal = () => (
         return Promise.resolve(url);
       }}
       centered
+      availableBoards={RECENT_BOARDS}
+      initialBoard="gore"
     />
   </Modal>
 );
@@ -208,6 +271,8 @@ export const Loading = () => {
         }}
         loading={loading}
         centered
+        availableBoards={RECENT_BOARDS}
+        initialBoard="gore"
       />
       <Button onClick={() => setLoading(!loading)}>Change Load State</Button>
     </div>
@@ -238,6 +303,8 @@ export const Focus = () => {
         }}
         ref={postRef}
         centered
+        availableBoards={RECENT_BOARDS}
+        initialBoard="gore"
       />
       <Button onClick={() => postRef.current.focus()}>Focus!</Button>
     </div>
@@ -286,6 +353,8 @@ export const TagsEditOnly = () => {
             "JugemuJugemuGokonoSurikireKaijarisuigyonoSuigyomatsuUnraimatsuFuraimatsuKuNeruTokoroniSumuTokoroYaburaKojinoBuraKojiPaipopaipoPaiponoShuringanShuringannoGurindaiGurindainoPonpokopinoPonpokonanoChokyumeinoChosuke",
           ],
         }}
+        availableBoards={RECENT_BOARDS}
+        initialBoard="gore"
       />
     </div>
   );
