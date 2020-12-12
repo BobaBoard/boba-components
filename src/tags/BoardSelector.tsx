@@ -56,8 +56,6 @@ const BoardSelector: React.FC<BoardSelectorProps> = (props) => {
             display: flex;
             align-items: center;
             width: 130px;
-            overflow: hidden;
-            text-overflow: ellipsis;
           }
           .symbol {
             height: 18px;
@@ -70,15 +68,19 @@ const BoardSelector: React.FC<BoardSelectorProps> = (props) => {
             border: 2px solid red;
             background-position: center;
             background-size: cover;
+            flex-shrink: 0;
           }
           .name {
             flex-grow: 1;
+            overflow: hidden;
+            text-overflow: ellipsis;
           }
           .dropdown {
             background-color: transparent;
             border: 0;
             color: white;
             padding-left: 5px;
+            flex-shrink: 0;
           }
         `}</style>
       </div>

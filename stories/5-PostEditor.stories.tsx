@@ -66,7 +66,7 @@ const RECENT_BOARDS = [
     updates: 10,
   },
   {
-    slug: "crack",
+    slug: "areallylongcrackyslug",
     avatar: "/" + crack,
     description: "What's crackalackin",
     color: "#f9e066",
