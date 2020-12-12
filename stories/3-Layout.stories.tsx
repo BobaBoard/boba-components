@@ -629,6 +629,7 @@ export const Attempt1 = () => {
         titleLink={{ onClick: () => setShowSidebar(!showSidebar) }}
         onUserBarClick={() => console.log("userbar click!")}
         onCompassClick={action("compass!")}
+        forceHideTitle={true}
         loggedInMenuOptions={[
           {
             name: "no href",

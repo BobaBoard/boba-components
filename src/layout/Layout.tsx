@@ -169,6 +169,7 @@ const Layout = React.forwardRef<{ closeSideMenu: () => void }, LayoutProps>(
         user={user}
         accentColor={headerAccent}
         loading={loading}
+        onHomeMenuClick={logoLink}
       />
     );
     return (
@@ -438,9 +439,6 @@ const Layout = React.forwardRef<{ closeSideMenu: () => void }, LayoutProps>(
               text-decoration: none;
               min-width: 0;
             }
-            .title.desktop-hidden {
-              display: none;
-            }
             .title-text {
               outline: none;
               display: block;
@@ -492,11 +490,17 @@ const Layout = React.forwardRef<{ closeSideMenu: () => void }, LayoutProps>(
             .sidemenu-button.compass {
               display: none;
             }
+            .title.desktop-hidden {
+              display: none;
+            }
             @media only screen and (max-width: 950px) {
               .sidemenu-button.compass {
                 display: block;
                 margin-right: 15px;
                 align-self: center;
+              }
+              .title.desktop-hidden {
+                display: block;
               }
               .header-menu-bar.has-compass .menu-bar {
                 padding-left: 10px;

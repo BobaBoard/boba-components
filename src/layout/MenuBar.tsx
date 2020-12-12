@@ -1,6 +1,7 @@
 import React from "react";
 import DropdownListMenu, { DropdownStyle } from "../common/DropdownListMenu";
 import {
+  faHome,
   faSpinner,
   faUser,
   IconDefinition,
@@ -119,6 +120,7 @@ const MenuItem: React.FC<{
 const MenuBar: React.FC<MenuBarProps> = ({
   user,
   accentColor,
+  onHomeMenuClick,
   onLoggedOutUserClick,
   loading,
   menuOptions,
@@ -128,6 +130,17 @@ const MenuBar: React.FC<MenuBarProps> = ({
   const isLoggedIn = !loading && user?.avatarUrl;
   return (
     <div className="container">
+      {onHomeMenuClick && (
+        <div className="home">
+          <MenuItem
+            id={"home"}
+            icon={faHome}
+            link={onHomeMenuClick}
+            accentColor={accentColor}
+            loading={loading}
+          />
+        </div>
+      )}
       {menuOptions?.map((option) => (
         <MenuItem
           key={option.id}
@@ -158,6 +171,14 @@ const MenuBar: React.FC<MenuBarProps> = ({
           display: flex;
           justify-content: space-around;
         }
+        .home {
+          display: none;
+        }
+        @media only screen and (max-width: 450px) {
+          .home {
+            display: block;
+          }
+        }
       `}</style>
     </div>
   );
@@ -169,6 +190,7 @@ export interface MenuBarProps {
   loading?: boolean;
   accentColor?: string;
   onLoggedOutUserClick: LinkWithAction;
+  onHomeMenuClick?: LinkWithAction;
   menuOptions?: {
     id: string;
     icon: IconDefinition;
