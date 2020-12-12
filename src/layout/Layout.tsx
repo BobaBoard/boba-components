@@ -66,6 +66,8 @@ const Layout = React.forwardRef<{ closeSideMenu: () => void }, LayoutProps>(
       const Hammer = require("hammerjs") as HammerStatic;
       if (layoutRef.current && !swipeHandler.current) {
         // @ts-ignore
+        delete Hammer.defaults.cssProps.userSelect;
+        // @ts-ignore
         swipeHandler.current = new Hammer(layoutRef.current, {
           inputClass: Hammer.TouchInput,
         });
