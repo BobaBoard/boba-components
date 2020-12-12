@@ -20,6 +20,7 @@ const BoardSelector: React.FC<BoardSelectorProps> = (props) => {
       options={props.availableBoards?.map((board) => ({
         name: `!${board.slug}`,
         icon: board.avatar,
+        color: board.color,
         link: {
           onClick: () => props.onBoardSelected?.(board.slug),
         },

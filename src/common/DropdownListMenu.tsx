@@ -25,6 +25,7 @@ export interface DropdownProps {
   options?: ({
     name: string;
     icon?: IconDefinition | string;
+    color?: string;
   } & ({ link: LinkWithAction } | { options: DropdownProps["options"] }))[];
   style?: DropdownStyle;
   accentColor?: string;
@@ -109,6 +110,7 @@ const DropdownContent = React.forwardRef<
                   typeof option.icon === "string"
                     ? `url(${option.icon}`
                     : undefined,
+                borderColor: option.color ? option.color : "transparent",
               }}
             >
               {typeof option.icon !== "string" && (
@@ -129,6 +131,27 @@ const DropdownContent = React.forwardRef<
           text-align: left;
           flex-shrink: 0;
           padding: 5px;
+          max-height: 400px;
+          overflow-y: auto;
+        }
+        .menu {
+          scrollbar-width: thin;
+          scrollbar-color: ${reverseThemeColor} ${themeColor};
+        }
+        .menu::-webkit-scrollbar-track {
+          -webkit-box-shadow: inset 0 0 5px 0px ${hoverBackgroundColor};
+          border-radius: 10px;
+        }
+
+        .menu::-webkit-scrollbar {
+          width: 10px;
+          background-color: ${hoverBackgroundColor};
+        }
+
+        .menu::-webkit-scrollbar-thumb {
+          border-radius: 15px;
+          -webkit-box-shadow: inset 0 0px 2px 1px ${reverseThemeColor};
+          background-color: ${reverseThemeColor};
         }
         .back.option {
           border: none;
@@ -173,6 +196,7 @@ const DropdownContent = React.forwardRef<
           height: 20px;
           display: flex;
           justify-content: center;
+          border: 2px solid transparent;
         }
         .popover-icon.with-image {
           background-size: cover;

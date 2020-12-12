@@ -231,7 +231,10 @@ const BoardPreview: React.FC<BoardPreviewProps> = ({
         >
           <a
             onClick={React.useCallback(
-              (e) => {
+              (e: React.MouseEvent<HTMLAnchorElement>) => {
+                if (e.ctrlKey || e.metaKey || e.altKey) {
+                  return;
+                }
                 onClick?.();
                 e.preventDefault();
               },

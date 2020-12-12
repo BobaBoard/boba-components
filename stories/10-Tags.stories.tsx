@@ -373,3 +373,27 @@ export const BoardSelectorStory = () => {
 BoardSelectorStory.story = {
   name: "boardSelector",
 };
+
+export const BoardSelectorLongListStory = () => {
+  const [selectedBoard, setSelectedBoard] = React.useState("gore");
+  return (
+    <div style={{ width: "500px", backgroundColor: "white", padding: "10px" }}>
+      <BoardSelector
+        availableBoards={[
+          ...RECENT_BOARDS,
+          ...RECENT_BOARDS,
+          ...RECENT_BOARDS,
+          ...RECENT_BOARDS,
+          ...RECENT_BOARDS,
+          ...RECENT_BOARDS,
+        ]}
+        selectedBoard={selectedBoard}
+        onBoardSelected={setSelectedBoard}
+      />
+    </div>
+  );
+};
+
+BoardSelectorLongListStory.story = {
+  name: "boardSelector (long list)",
+};
