@@ -24,6 +24,7 @@ const BoardSelector: React.FC<BoardSelectorProps> = (props) => {
           onClick: () => props.onBoardSelected?.(board.slug),
         },
       }))}
+      zIndex={200}
     >
       <div className="board-selector">
         <span

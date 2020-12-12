@@ -193,11 +193,13 @@ const PostEditor = React.forwardRef<{ focus: () => void }, PostEditorProps>(
                   accentColor={props.accentColor}
                   suggestedCategories={suggestedCategories}
                 >
-                  <BoardSelector
-                    availableBoards={props.availableBoards}
-                    onBoardSelected={setSelectedBoard}
-                    selectedBoard={selectedBoard}
-                  />
+                  {props.availableBoards && selectedBoard && (
+                    <BoardSelector
+                      availableBoards={props.availableBoards}
+                      onBoardSelected={setSelectedBoard}
+                      selectedBoard={selectedBoard}
+                    />
+                  )}
                 </MemoizedTags>
                 <div
                   className={classnames("footer-actions", {
@@ -374,7 +376,7 @@ export interface PostEditorProps {
       tags: TagsType[];
       viewOptionName?: string;
       identityId?: string;
-      boardSlug: string;
+      boardSlug?: string;
     }>
   ) => void;
   onCancel: (empty: boolean) => void;
@@ -390,6 +392,6 @@ export interface PostEditorProps {
   editableSections?: {
     tags?: boolean;
   };
-  availableBoards: BoardSelectorProps["availableBoards"];
-  initialBoard: BoardSelectorProps["selectedBoard"];
+  availableBoards?: BoardSelectorProps["availableBoards"];
+  initialBoard?: BoardSelectorProps["selectedBoard"];
 }
