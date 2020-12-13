@@ -8,7 +8,7 @@ import { LinkWithAction } from "types";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faCaretDown } from "@fortawesome/free-solid-svg-icons";
 
-import Avatar from "./Avatar";
+import Avatar, { AvatarProps } from "./Avatar";
 import DefaultTheme from "../theme/default";
 import Tooltip from "../common/Tooltip";
 import DropdownListMenu, { DropdownProps } from "../common/DropdownListMenu";
@@ -244,6 +244,7 @@ const PostHeader: React.FC<PostHeaderProps> = (props) => {
                 userIdentity={props.userIdentity}
                 secretIdentity={props.secretIdentity}
                 compact={props.size == HeaderStyle.COMPACT || forceCompact}
+                accessory={props.accessory}
               />
             </Metadata>
           </div>
@@ -323,5 +324,6 @@ export interface PostHeaderProps {
   newContributions?: boolean;
   backgroundColor?: string;
   avatarOptions?: DropdownProps["options"];
+  accessory?: AvatarProps["accessory"];
   children?: JSX.Element | undefined;
 }

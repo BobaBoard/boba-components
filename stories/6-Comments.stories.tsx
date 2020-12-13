@@ -9,6 +9,8 @@ import Button from "../src/common/Button";
 import tuxedoAvatar from "./images/tuxedo-mask.jpg";
 import mamoruAvatar from "./images/mamoru.png";
 import oncelerAvatar from "./images/oncie.jpg";
+import reindeerEars from "./images/reindeer-ears.png";
+import wreath from "./images/wreath.png";
 import {
   faBellSlash,
   faMapPin,
@@ -206,6 +208,49 @@ export const CommentChainStory = () => {
 };
 CommentChainStory.story = {
   name: "chained",
+};
+
+export const CommentChainAccessoryStory = () => {
+  const [currentAccessory, setCurrentAccessory] = React.useState<
+    string | undefined
+  >(reindeerEars);
+  return (
+    <>
+      <CommentChain
+        comments={[
+          {
+            id: "1",
+            text:
+              '[{"insert": "I mean, sure, but you know what also is great?"}]',
+          },
+          {
+            id: "1",
+            text: '[{"insert": "Deze nuts."}]',
+          },
+          {
+            id: "1",
+            text: '[{"insert": "Wait is that how you type it?"}]',
+          },
+        ]}
+        secretIdentity={{
+          name: "Tuxedo Mask",
+          avatar: `/${tuxedoAvatar}`,
+        }}
+        userIdentity={{ name: "SexyDaddy69", avatar: `/${mamoruAvatar}` }}
+        accessory={currentAccessory}
+      />
+      <div style={{ marginTop: "20px" }}>
+        <button onClick={() => setCurrentAccessory(undefined)}>None</button>
+        <button onClick={() => setCurrentAccessory(reindeerEars)}>
+          Reindeer
+        </button>
+        <button onClick={() => setCurrentAccessory(wreath)}>Wreath</button>
+      </div>
+    </>
+  );
+};
+CommentChainAccessoryStory.story = {
+  name: "accessory",
 };
 
 export const ExtraActionStory = () => {

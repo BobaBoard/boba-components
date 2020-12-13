@@ -1,5 +1,6 @@
 import { DropdownProps } from "common/DropdownListMenu";
 import React, { PureComponent, createRef, RefObject } from "react";
+import { AvatarProps } from "./Avatar";
 import Comment, { CommentHandler } from "./Comment";
 
 const MemoizedComment = React.memo(Comment);
@@ -61,6 +62,7 @@ class CommentChain extends PureComponent<CommentChainProps> {
                 : undefined
             }
             options={this.props.options}
+            accessory={this.props.accessory}
           />
         ))}
         <style jsx>{`
@@ -90,6 +92,7 @@ export interface CommentChainProps {
   };
   muted?: boolean;
   options?: DropdownProps["options"];
+  accessory?: AvatarProps["accessory"];
   onExtraAction?: () => void;
   ref?:
     | RefObject<CommentHandler>

@@ -25,6 +25,7 @@ const Avatar: React.FC<AvatarProps> = (props) => {
             "with-secret": visibleSecretAvatar,
           })}
         />
+        {props.accessory && <img src={props.accessory} className="accessory" />}
         <div
           className={classnames("secret-avatar", {
             visible: visibleSecretAvatar,
@@ -34,6 +35,16 @@ const Avatar: React.FC<AvatarProps> = (props) => {
       <style jsx>{`
         .avatar-wrapper {
           position: relative;
+        }
+        .accessory {
+          position: absolute;
+          top: 50%;
+          left: 50%;
+          /* remove half the margin */
+          transform: translate(calc(-50% - 5px), -50%);
+        }
+        .compact .accessory {
+          transform: translate(calc(-50% - 5px), -50%) scale(0.85);
         }
         .avatar {
           position: relative;
@@ -96,6 +107,7 @@ export interface AvatarProps {
   };
   forceHide?: boolean;
   compact?: boolean;
+  accessory?: string;
 }
 
 export default Avatar;

@@ -16,6 +16,7 @@ import TagsFactory from "../tags/TagsFactory";
 import Theme from "../theme/default";
 import debug from "debug";
 import { LinkWithAction, TagsType } from "types";
+import { AvatarProps } from "./Avatar";
 
 const log = debug("bobaui:post-log");
 
@@ -109,6 +110,7 @@ const Post = React.forwardRef<PostHandler, PostProps>((props, ref) => {
                       size={HeaderStyle.REGULAR}
                       backgroundColor={props.muted ? "#dcdcdc" : undefined}
                       forceHide={props.forceHide}
+                      accessory={props.accessory}
                     />
                   </div>
                   {props.menuOptions && (
@@ -209,9 +211,11 @@ const Post = React.forwardRef<PostHandler, PostProps>((props, ref) => {
           padding: 10px 10px 5px;
           display: flex;
           border-bottom: 1px dotted rgba(0, 0, 0, 0.3);
+          max-width: 100%;
+          justify-content: space-between;
         }
         .header-container {
-          overflow: hidden;
+          max-width: calc(100% - 20px);
         }
         .post-container {
           position: relative;
@@ -369,4 +373,5 @@ export interface PostProps {
   };
   getOptionsForTag?: (tag: TagsType) => DropdownProps["options"];
   forceHide?: boolean;
+  accessory?: AvatarProps["accessory"];
 }

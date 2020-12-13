@@ -17,6 +17,8 @@ import oncieReaction from "./images/oncie-reaction.png";
 import sportacusReaction from "./images/sportacus-reaction.png";
 import luigiReaction from "./images/luigi-reaction.png";
 import junkoReaction from "./images/junko-reaction.png";
+import reindeerEars from "./images/reindeer-ears.png";
+import wreath from "./images/wreath.png";
 import Button from "../src/common/Button";
 import { action } from "@storybook/addon-actions";
 
@@ -275,20 +277,11 @@ export const HeaderStory = () => (
     <WithUserIdentityForceHideCompact
       {...WithUserIdentityForceHideCompact.args}
     />
-    {/*These will probably need to be deleted at some point*/}
-    <RegularHeader {...RegularHeader.args} newPost />
-    <RegularHeader {...RegularHeader.args} newComments />
-    <RegularHeader {...RegularHeader.args} newComments newContributions />
-
     <div style={{ width: "200px", backgroundColor: "green" }}>
       <WithUserIdentity {...WithUserIdentity.args} />
     </div>
     <div style={{ width: "200px", backgroundColor: "yellow" }}>
-      <WithUserIdentity
-        {...WithUserIdentity.args}
-        newComments
-        newContributions
-      />
+      <WithUserIdentity {...WithUserIdentity.args} accessory={reindeerEars} />
     </div>
     <style jsx>
       {`
@@ -455,12 +448,42 @@ BoardPost.args = {
 
 export const SwitchIdentityPost = () => {
   const [identityHidden, setIdentityHidden] = React.useState(false);
-  return <div>
-  <button onClick={() => setIdentityHidden(!identityHidden)}>{identityHidden ? "Show" : "Hide"} identity</button>
-    <Post {...BoardPost.args} forceHide={identityHidden} />
+  return (
+    <div>
+      <button onClick={() => setIdentityHidden(!identityHidden)}>
+        {identityHidden ? "Show" : "Hide"} identity
+      </button>
+      <Post {...BoardPost.args} forceHide={identityHidden} />
+    </div>
+  );
+};
+SwitchIdentityPost.story = {
+  name: "switch identity post",
+};
 
-  </div>
-}
+export const AccessoryPost = () => {
+  const [currentAccessory, setCurrentAccessory] = React.useState<
+    string | undefined
+  >(reindeerEars);
+  return (
+    <div>
+      <button onClick={() => setCurrentAccessory(undefined)}>None</button>
+      <button onClick={() => setCurrentAccessory(reindeerEars)}>
+        Reindeer
+      </button>
+      <button onClick={() => setCurrentAccessory(wreath)}>Wreath</button>
+      <Post
+        {...BoardPost.args}
+        secretIdentity={{
+          name:
+            "Tuxedo Mask askldjaksldjaskld askdjaskldjaskldjas daskjdaklsdjaklsdj askdjaskldjaklsdjaskld askdj kasjdaklsdjaklsdjaskldjslk",
+          avatar: `/${tuxedoAvatar}`,
+        }}
+        accessory={currentAccessory}
+      />
+    </div>
+  );
+};
 SwitchIdentityPost.story = {
   name: "switch identity post",
 };
