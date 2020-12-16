@@ -18,6 +18,8 @@ import sportacusReaction from "./images/sportacus-reaction.png";
 import luigiReaction from "./images/luigi-reaction.png";
 import junkoReaction from "./images/junko-reaction.png";
 import reindeerEars from "./images/reindeer-ears.png";
+import scarf from "./images/scarf.png";
+import snow from "./images/snow.gif";
 import wreath from "./images/wreath.png";
 import Button from "../src/common/Button";
 import { action } from "@storybook/addon-actions";
@@ -472,6 +474,8 @@ export const AccessoryPost = () => {
         Reindeer
       </button>
       <button onClick={() => setCurrentAccessory(wreath)}>Wreath</button>
+      <button onClick={() => setCurrentAccessory(scarf)}>Scarf</button>
+      <button onClick={() => setCurrentAccessory(snow)}>Snow</button>
       <Post
         {...BoardPost.args}
         secretIdentity={{

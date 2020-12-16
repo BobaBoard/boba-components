@@ -42,6 +42,7 @@ const Avatar: React.FC<AvatarProps> = (props) => {
           left: 50%;
           /* remove half the margin */
           transform: translate(calc(-50% - 5px), -50%);
+          pointer-events: none;
         }
         .compact .accessory {
           transform: translate(calc(-50% - 5px), -50%) scale(0.85);
