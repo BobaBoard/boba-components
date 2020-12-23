@@ -40,6 +40,7 @@ const BoardsMenuSection: React.FC<BoardsMenuSectionProps> = ({
               updates={board.updates}
               link={board.link}
               muted={board.muted}
+              outdated={board.outdated}
             />
           </div>
         ))}

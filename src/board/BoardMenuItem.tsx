@@ -11,6 +11,7 @@ const BoardMenuItem: React.FC<BoardMenuItemProps> = ({
   muted,
   slug,
   link,
+  outdated,
 }) => {
   return (
     <a
@@ -21,7 +22,7 @@ const BoardMenuItem: React.FC<BoardMenuItemProps> = ({
             e.preventDefault();
           }
         },
-        [link.onClick]
+        [link]
       )}
       href={link.href}
       className={classnames("board-menu-item", {
@@ -35,6 +36,7 @@ const BoardMenuItem: React.FC<BoardMenuItemProps> = ({
           color={color}
           updates={updates}
           muted={muted}
+          outdated={outdated}
           small
         />
       </div>
@@ -83,4 +85,5 @@ export interface BoardMenuItemProps {
   slug: string;
   link: LinkWithAction;
   muted?: boolean;
+  outdated?: boolean;
 }

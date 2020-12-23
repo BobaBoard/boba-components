@@ -43,6 +43,7 @@ const Layout = React.forwardRef<{ closeSideMenu: () => void }, LayoutProps>(
       loading,
       logoLink,
       updates,
+      outdated,
       forceHideTitle,
       loggedInMenuOptions,
       onSideMenuButtonClick,
@@ -200,6 +201,7 @@ const Layout = React.forwardRef<{ closeSideMenu: () => void }, LayoutProps>(
               <button
                 className={classnames("sidemenu-button menu", {
                   notification: updates,
+                  outdated: outdated,
                 })}
                 onClick={React.useCallback(() => {
                   if (!showSideMenu) {
@@ -358,6 +360,10 @@ const Layout = React.forwardRef<{ closeSideMenu: () => void }, LayoutProps>(
               background: ${Theme.DEFAULT_ACCENT_COLOR};
               border-radius: 50%;
               border: 2px solid ${Theme.LAYOUT_HEADER_BACKGROUND_COLOR};
+            }
+
+            .sidemenu-button.notification.outdated::after {
+              background: white;
             }
 
             .sidemenu-button.notification:hover::after {
@@ -642,6 +648,7 @@ export interface LayoutProps {
   onCompassClick?: () => void;
   loading?: boolean;
   updates?: number | boolean;
+  outdated?: boolean;
   menuOptions?: {
     id: string;
     icon: IconDefinition;

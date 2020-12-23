@@ -70,6 +70,7 @@ export interface BoardType {
   description: string;
   color: string;
   updates?: number | boolean;
+  outdated?: boolean;
   muted?: boolean;
   link: LinkWithAction;
 }

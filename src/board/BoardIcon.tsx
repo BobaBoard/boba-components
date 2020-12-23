@@ -12,6 +12,7 @@ const BoardIcon: React.FC<BoardIconProps> = ({
   small,
   large,
   muted,
+  outdated,
 }) => {
   return (
     <>
@@ -20,6 +21,7 @@ const BoardIcon: React.FC<BoardIconProps> = ({
           large: !!large,
           small: !!small,
           updates: !!updates,
+          outdated: !!outdated,
         })}
       >
         <div className="board-image" />
@@ -63,6 +65,7 @@ const BoardIcon: React.FC<BoardIconProps> = ({
         .board-icon.small .board-image {
           width: 35px;
           height: 35px;
+          border-radius: 11px;
         }
         .board-icon__update {
           background-color: ${color};
@@ -73,6 +76,9 @@ const BoardIcon: React.FC<BoardIconProps> = ({
           position: absolute;
           top: -5.5px;
           left: -5.5px;
+        }
+        .outdated .board-icon__update {
+          opacity: 50%;
         }
         .board-icon.small .board-icon__update {
           width: 10px;
@@ -120,4 +126,5 @@ export interface BoardIconProps {
   updates?: number | boolean;
   small?: boolean;
   large?: boolean;
+  outdated?: boolean;
 }

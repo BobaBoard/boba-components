@@ -110,6 +110,7 @@ const RECENT_BOARDS = [
     description: "Party like it's 2012",
     color: "#27caba",
     updates: 10,
+    outdated: true,
     backgroundColor: "#131518",
     link: { href: "#slug", onClick: action("#slug") },
   },
@@ -136,6 +137,7 @@ const RECENT_BOARDS = [
     description: "What's crackalackin",
     color: "#f9e066",
     updates: 3,
+    outdated: true,
     backgroundColor: "#131518",
     link: { href: "#slug", onClick: action("#slug") },
   },
@@ -630,6 +632,8 @@ export const Attempt1 = () => {
         onUserBarClick={() => console.log("userbar click!")}
         onCompassClick={action("compass!")}
         forceHideTitle={true}
+        updates={true}
+        outdated={true}
         loggedInMenuOptions={[
           {
             name: "no href",

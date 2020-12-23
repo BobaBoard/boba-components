@@ -28,6 +28,7 @@ const PinnedBoardsMenu: React.FC<PinnedBoardsMenuProps> = ({ boards }) => {
                 color={board.color}
                 muted={board.muted}
                 updates={board.updates}
+                outdated={board.outdated}
                 large
               />
             </a>
