@@ -12,7 +12,7 @@ import {
 import { action } from "@storybook/addon-actions";
 
 export default {
-  title: "Dopdown Preview",
+  title: "Dropdown Preview",
   component: DropdownListMenu,
 };
 
@@ -188,4 +188,95 @@ export const MultipleDropdowns = () => {
 
 MultipleDropdowns.story = {
   name: "multiple",
+};
+
+export const WithHeader = () => {
+  return (
+    <div style={{ width: "500px", backgroundColor: "white", padding: "15px" }}>
+      <DropdownListMenu
+        header={
+          <div style={{ backgroundColor: "red" }}>
+            This is a header, this is a header, a beautiful header
+          </div>
+        }
+        options={[
+          {
+            name: "Pin board",
+            icon: faMapPin,
+            link: {
+              onClick: action("noHrefClick"),
+            },
+          },
+          {
+            name: "Inner Options",
+            icon: faVolumeMute,
+            options: [
+              {
+                name: "Inner Option 1",
+                icon: faBellSlash,
+                link: {
+                  onClick: action("noHrefClick"),
+                },
+              },
+              {
+                name: "Inner Option 2",
+                icon: faPaintBrush,
+                options: [
+                  {
+                    name: "Inner Option 21",
+                    icon: faBellSlash,
+                    link: {
+                      onClick: action("noHrefClick"),
+                    },
+                  },
+                  {
+                    name: "Inner Option 22",
+                    icon: faPaintBrush,
+                    link: {
+                      onClick: action("noHrefClick"),
+                    },
+                  },
+                  {
+                    name: "Inner Option 23",
+                    icon: faPaintBrush,
+                    link: {
+                      onClick: action("noHrefClick"),
+                    },
+                  },
+                  {
+                    name: "Inner Option 2424242424242424242424",
+                    icon: faPaintBrush,
+                    link: {
+                      onClick: action("noHrefClick"),
+                    },
+                  },
+                ],
+              },
+            ],
+          },
+          {
+            name: "Dismiss notifications",
+            icon: faBellSlash,
+            link: {
+              onClick: action("noHrefClick"),
+            },
+          },
+          {
+            name: "Customize Summary",
+            icon: faPaintBrush,
+            link: {
+              onClick: action("noHrefClick"),
+            },
+          },
+        ]}
+        zIndex={51}
+      >
+        <FontAwesomeIcon icon={faCaretDown} />
+      </DropdownListMenu>
+    </div>
+  );
+};
+
+WithHeader.story = {
+  name: "with header",
 };

@@ -20,7 +20,7 @@ export enum DropdownStyle {
 }
 
 export interface DropdownProps {
-  children: JSX.Element;
+  children: React.ReactElement;
   // If Options are empty, children is simply returned.
   options?: ({
     name: string;
@@ -29,6 +29,7 @@ export interface DropdownProps {
   } & ({ link: LinkWithAction } | { options: DropdownProps["options"] }))[];
   style?: DropdownStyle;
   accentColor?: string;
+  header?: React.ReactElement;
   zIndex?: number;
 }
 
@@ -47,7 +48,7 @@ const DropdownContent = React.forwardRef<
     onNestedOptions: (options: DropdownProps["options"]) => void;
     onPreviousOption: (previousOption: OptionInfo) => void;
     previousOption: OptionInfo | undefined;
-    width?: string;
+    minWidthPx?: number;
     style?: DropdownStyle;
   }
 >((props, ref) => {
@@ -126,13 +127,14 @@ const DropdownContent = React.forwardRef<
       ))}
       <style jsx>{`
         .menu {
-          min-width: 250px;
+          min-width: ${Math.max(props.minWidthPx || 0, 250)}px;
           color: ${reverseThemeColor};
           text-align: left;
           flex-shrink: 0;
           padding: 5px;
           max-height: 400px;
           overflow-y: auto;
+          box-sizing: border-box;
         }
         .menu {
           scrollbar-width: thin;
@@ -217,7 +219,7 @@ const DropdownContent = React.forwardRef<
         @media only screen and (max-width: 575px) {
           .menu {
             background-color: ${themeColor};
-            width: calc(100% - 10px);
+            width: 100%;
           }
           .popover-icon {
             margin-right: 12px;
@@ -227,6 +229,10 @@ const DropdownContent = React.forwardRef<
             padding: 12px;
             text-overflow: ellipsis;
             overflow: hidden;
+          }
+          .option-text {
+            overflow: hidden;
+            text-overflow: ellipsis;
           }
         }
       `}</style>
@@ -271,6 +277,10 @@ const DropdownMenu: React.FC<DropdownProps> = (props) => {
   const [
     optionsSlider,
     setOptionsSlider,
+  ] = React.useState<HTMLDivElement | null>(null);
+  const [
+    contentWrapper,
+    setContentWrapper,
   ] = React.useState<HTMLDivElement | null>(null);
 
   React.useEffect(() => {
@@ -389,9 +399,9 @@ const DropdownMenu: React.FC<DropdownProps> = (props) => {
             options={options}
             isOpen={isOpen}
             previousOption={index > 0 ? optionsStack[index - 1] : undefined}
-            width={
-              isSmallScreen()
-                ? (optionsWrapper?.getBoundingClientRect().width || 0) + "px"
+            minWidthPx={
+              !isSmallScreen()
+                ? contentWrapper?.getBoundingClientRect().width || 0
                 : undefined
             }
             onPreviousOption={slideToPreviousOption}
@@ -407,11 +417,11 @@ const DropdownMenu: React.FC<DropdownProps> = (props) => {
       slideToPreviousOption,
       close,
       appendNestedOptions,
-      optionsWrapper,
+      contentWrapper,
     ]
   );
 
-  if (!props.options) {
+  if (!props.options && !props.header) {
     return props.children;
   }
 
@@ -423,14 +433,23 @@ const DropdownMenu: React.FC<DropdownProps> = (props) => {
         content={
           isOpen ? (
             <div
-              className="content-wrapper"
-              ref={(ref) => setOptionsWrapper(ref)}
+              ref={(ref) => setContentWrapper(ref)}
+              className={classnames("content-wrapper", {
+                "has-options": !!props.options,
+                "has-header": !!props.header,
+              })}
             >
+              {props.header}
               <div
-                className="content-slider"
-                ref={(ref) => setOptionsSlider(ref)}
+                className="options-wrapper"
+                ref={(ref) => setOptionsWrapper(ref)}
               >
-                {content}
+                <div
+                  className="options-slider"
+                  ref={(ref) => setOptionsSlider(ref)}
+                >
+                  {content}
+                </div>
               </div>
             </div>
           ) : (
@@ -446,6 +465,7 @@ const DropdownMenu: React.FC<DropdownProps> = (props) => {
         <button
           className={classnames("button-wrapper", {
             "with-options": props.options,
+            "with-header": props.header,
           })}
           tabIndex={0}
           onClick={() => setOpen(!isOpen)}
@@ -457,11 +477,11 @@ const DropdownMenu: React.FC<DropdownProps> = (props) => {
         ReactDOM.createPortal(
           <div className={classnames("portal-content", { visible: isOpen })}>
             <div
-              className="content-wrapper"
+              className="options-wrapper"
               ref={(ref) => setOptionsWrapper(ref)}
             >
               <div
-                className="content-slider"
+                className="options-slider"
                 ref={(ref) => setOptionsSlider(ref)}
               >
                 {content}
@@ -477,13 +497,22 @@ const DropdownMenu: React.FC<DropdownProps> = (props) => {
         .portal-content.visible {
           display: block;
         }
-        .content-wrapper {
+        .content-wrapper:not(.has-options) .options-wrapper {
+          display: none;
+        }
+        .options-wrapper {
           overflow: hidden;
           min-width: 30px;
           min-height: 30px;
           transition: all 0.2s ease-out;
         }
-        .content-slider {
+        .content-wrapper.has-header .options-wrapper {
+          // This is a kinda hackish solution to remove the menu
+          // padding without having to pass down whether a header exists.
+          // TODO: avoid this.
+          margin-top: -5px;
+        }
+        .options-slider {
           display: flex;
           align-items: flex-start;
           transition: left 0.2s ease-out;
@@ -499,6 +528,9 @@ const DropdownMenu: React.FC<DropdownProps> = (props) => {
           outline: none;
         }
         .button-wrapper.with-options:hover {
+          cursor: pointer;
+        }
+        .button-wrapper.with-header:hover {
           cursor: pointer;
         }
         @keyframes slideUp {
@@ -525,7 +557,7 @@ const DropdownMenu: React.FC<DropdownProps> = (props) => {
             animation-duration: 0.2s;
             z-index: 102;
           }
-          .content-slider {
+          .options-slider {
             align-items: flex-start;
           }
         }
