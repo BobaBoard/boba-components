@@ -15,16 +15,54 @@ export interface BoardSelectorProps {
   onBoardSelected: (slug: string) => void;
 }
 const BoardSelector: React.FC<BoardSelectorProps> = (props) => {
+  const [filter, setFilter] = React.useState("");
   return (
     <DropdownMenu
-      options={props.availableBoards?.map((board) => ({
-        name: `!${board.slug}`,
-        icon: board.avatar,
-        color: board.color,
-        link: {
-          onClick: () => props.onBoardSelected?.(board.slug),
-        },
-      }))}
+      options={props.availableBoards
+        ?.filter(
+          (board) =>
+            filter == "" ||
+            board.slug.toLowerCase().includes(filter.toLowerCase())
+        )
+        .map((board) => ({
+          name: `!${board.slug}`,
+          icon: board.avatar,
+          color: board.color,
+          link: {
+            onClick: () => props.onBoardSelected?.(board.slug),
+          },
+        }))}
+      header={
+        <div className="filter">
+          <input
+            placeholder="Filter boards"
+            onChange={(e) => setFilter(e.target.value)}
+          />
+          <style jsx>{`
+            .filter {
+              padding: 5px;
+              position: relative;
+              border-bottom: 1px solid #131518;
+              display: flex;
+              width: 100%;
+              justify-content: space-between;
+              box-sizing: border-box;
+            }
+            .filter input {
+              color: #2e2e30;
+              font-size: 16px;
+              line-height: 16px;
+              padding: 3px 10px;
+              width: 100%;
+              border: 1px solid transparent;
+            }
+            .filter input:focus {
+              outline: none;
+              border: 1px rgba(255, 255, 255, 0.8) solid;
+            }
+          `}</style>
+        </div>
+      }
       zIndex={200}
     >
       <div className="board-selector">
