@@ -28,7 +28,7 @@ const CommentFooter = (props: {
   canSubmit: boolean;
 }) => {
   const containerRef = React.useRef<HTMLDivElement>(null);
-  let { width } = useComponentSize(containerRef);
+  const { width } = useComponentSize(containerRef);
   const size = width > SIZE_TRIGGER ? SIZES.REGULAR : SIZES.COMPACT;
   return (
     <>
@@ -165,6 +165,7 @@ const Comment = React.forwardRef<EditorRef, CommentProps>((props, ref) => {
             secretIdentity={props.secretIdentity}
             userIdentity={props.userIdentity}
             avatarOptions={identityOptions}
+            showMetadata={false}
           />
         </div>
         <div className={classNames("editor")}>

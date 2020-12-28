@@ -319,6 +319,7 @@ export const WithOptionsStory = () => {
           avatar: `/${tuxedoAvatar}`,
         }}
         userIdentity={{ name: "SexyDaddy69", avatar: `/${mamoruAvatar}` }}
+        createdTime="69 days ago."
         onExtraAction={() => {}}
         options={[
           {

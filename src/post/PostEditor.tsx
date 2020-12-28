@@ -161,17 +161,16 @@ const PostEditor = React.forwardRef<{ focus: () => void }, PostEditorProps>(
                     setSelectedIdentity(identity?.id);
                   }, [])}
                   size={HeaderStyle.REGULAR}
-                >
-                  {props.minimizable ? (
-                    <Button
-                      icon={faCompressArrowsAlt}
-                      onClick={props.onMinimize}
-                      disabled={props.loading}
-                    >
-                      Minimize
-                    </Button>
-                  ) : undefined}
-                </MemoizedHeader>
+                />
+                {props.minimizable ? (
+                  <Button
+                    icon={faCompressArrowsAlt}
+                    onClick={props.onMinimize}
+                    disabled={props.loading}
+                  >
+                    Minimize
+                  </Button>
+                ) : undefined}
               </div>
             }
             footer={
@@ -282,6 +281,9 @@ const PostEditor = React.forwardRef<{ focus: () => void }, PostEditorProps>(
             padding: 10px 0;
             margin: 0 10px 5px 10px;
             border-bottom: 1px solid #d2d2d2;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
           }
           .footer {
             border-top: 1px solid #d2d2d2;

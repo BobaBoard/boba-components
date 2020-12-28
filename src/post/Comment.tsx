@@ -6,7 +6,7 @@ import debug from "debug";
 import Theme from "../theme/default";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faComment } from "@fortawesome/free-solid-svg-icons";
-import { DropdownProps } from "common/DropdownListMenu";
+import { DropdownProps } from "../common/DropdownListMenu";
 import { AvatarProps } from "./Avatar";
 const log = debug("bobaui:comment-log");
 
@@ -48,6 +48,7 @@ class Comment extends PureComponent<CommentProps> {
               userIdentity={this.props.userIdentity}
               avatarOptions={this.props.options}
               accessory={this.props.accessory}
+              createdMessage={this.props.createdTime}
             />
           </div>
           <div className={classNames("comment")} ref={this.editorRef}>
@@ -177,6 +178,7 @@ export interface CommentProps {
     avatar: string;
     name: string;
   };
+  createdTime: string;
   muted?: boolean;
   paddingTop?: string;
   onExtraAction?: () => void;

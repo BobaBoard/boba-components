@@ -10,7 +10,6 @@ import { faCaretDown } from "@fortawesome/free-solid-svg-icons";
 
 import Avatar, { AvatarProps } from "./Avatar";
 import DefaultTheme from "../theme/default";
-import Tooltip from "../common/Tooltip";
 import DropdownListMenu, { DropdownProps } from "../common/DropdownListMenu";
 //const log = debug("bobaui:header-log");
 const info = debug("bobaui:header-info");
@@ -21,14 +20,8 @@ export enum HeaderStyle {
 }
 
 const Metadata: React.FC<PostHeaderProps> = (props) => {
-  const [forceCompact, setForceCompact] = React.useState(false);
-  const [popoverOpen, setPopoverOpen] = React.useState(false);
   const ref = React.useRef<HTMLDivElement>(null);
   const nicknameRef = React.useRef(null);
-  const { width } = useComponentSize(ref);
-  React.useEffect(() => {
-    setForceCompact(width < 300);
-  }, [width]);
 
   const { onSelectIdentity } = props;
   const identityOptions = React.useMemo(
@@ -56,7 +49,6 @@ const Metadata: React.FC<PostHeaderProps> = (props) => {
       <div
         className={classnames("container", {
           compact: HeaderStyle.COMPACT == props.size,
-          "compact-names": forceCompact,
         })}
         ref={ref}
       >
@@ -197,21 +189,7 @@ const Metadata: React.FC<PostHeaderProps> = (props) => {
       </style>
     </>
   );
-  return props.size == HeaderStyle.COMPACT ? (
-    <Tooltip
-      isOpen={popoverOpen}
-      position="top"
-      content={metadata}
-      onClickOutside={() => setPopoverOpen(false)}
-    >
-      <div
-        onMouseEnter={() => setPopoverOpen(true)}
-        onMouseLeave={() => setPopoverOpen(false)}
-      >
-        {props.children}
-      </div>
-    </Tooltip>
-  ) : (
+  return (
     <>
       {props.children}
       {metadata}
@@ -220,35 +198,58 @@ const Metadata: React.FC<PostHeaderProps> = (props) => {
 };
 
 const PostHeader: React.FC<PostHeaderProps> = (props) => {
-  const [tagsOnNewLine, setTagsOnNewLine] = React.useState(false);
-  const [forceCompact, setForceCompact] = React.useState(false);
   const ref = React.useRef<HTMLDivElement>(null);
-  const { width } = useComponentSize(ref);
-  React.useEffect(() => {
-    setTagsOnNewLine(width < 300);
-    setForceCompact(width < 500);
-  }, [width]);
 
   info(`Rendering post header`);
+  const isCompact = props.size == HeaderStyle.COMPACT;
+  const dropdownMetadata = (
+    <div
+      className={classnames("metadata-identity", {
+        "with-options": !!props.avatarOptions,
+      })}
+    >
+      <Avatar
+        forceHide={props.forceHide}
+        userIdentity={props.userIdentity}
+        secretIdentity={props.secretIdentity}
+        compact={isCompact}
+        accessory={props.accessory}
+      />
+      <Metadata {...props} />
+      <style jsx>{`
+        .metadata-identity {
+          color: black;
+          padding: 10px;
+          display: flex;
+        }
+        .metadata-identity.with-options {
+          padding-bottom: 0px;
+        }
+      `}</style>
+    </div>
+  );
   return (
     <>
-      <DropdownListMenu options={props.avatarOptions} zIndex={200}>
-        <div
-          className={classnames("post-header", { squeezed: tagsOnNewLine })}
-          ref={ref}
-        >
+      <DropdownListMenu
+        options={props.avatarOptions}
+        header={
+          props.showMetadata !== false && (props.avatarOptions || isCompact)
+            ? dropdownMetadata
+            : undefined
+        }
+        zIndex={200}
+      >
+        <div className={classnames("post-header")} ref={ref}>
           <div className="identity">
-            <Metadata {...props}>
-              <Avatar
-                forceHide={props.forceHide}
-                userIdentity={props.userIdentity}
-                secretIdentity={props.secretIdentity}
-                compact={props.size == HeaderStyle.COMPACT || forceCompact}
-                accessory={props.accessory}
-              />
-            </Metadata>
+            <Avatar
+              forceHide={props.forceHide}
+              userIdentity={props.userIdentity}
+              secretIdentity={props.secretIdentity}
+              compact={isCompact}
+              accessory={props.accessory}
+            />
+            {!isCompact && <Metadata {...props} />}
           </div>
-          {props.children}
         </div>
       </DropdownListMenu>
       <style jsx>{`
@@ -324,6 +325,6 @@ export interface PostHeaderProps {
   newContributions?: boolean;
   backgroundColor?: string;
   avatarOptions?: DropdownProps["options"];
+  showMetadata?: boolean;
   accessory?: AvatarProps["accessory"];
-  children?: JSX.Element | undefined;
 }
