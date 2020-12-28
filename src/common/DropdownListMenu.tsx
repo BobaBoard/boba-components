@@ -476,6 +476,7 @@ const DropdownMenu: React.FC<DropdownProps> = (props) => {
       {isSmallScreen() &&
         ReactDOM.createPortal(
           <div className={classnames("portal-content", { visible: isOpen })}>
+            {props.header}
             <div
               className="options-wrapper"
               ref={(ref) => setOptionsWrapper(ref)}
