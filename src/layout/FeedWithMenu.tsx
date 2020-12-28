@@ -5,6 +5,7 @@ import Scrollbar from "../common/Scrollbar";
 
 import Theme from "../theme/default";
 import { useBackdrop } from "../utils";
+import debounce from "debounce";
 import { ResizeObserver as Polyfill } from "@juggle/resize-observer";
 require("intersection-observer");
 
@@ -162,12 +163,13 @@ const FeedWithMenu: React.FC<FeedWithMenuProps> = ({
   // Call reach end method when bottom of content is reached
   React.useEffect(() => {
     if (intersectionObserverRef.current && onReachEnd) {
+      const debouncedReachEnd = debounce(onReachEnd, 200, true);
       const observer = new IntersectionObserver((entry) => {
         log(`Reaching end of scrollable area.`);
         log(entry);
         if (entry[0]?.isIntersecting) {
           log(`Found intersecting entry.`);
-          onReachEnd?.();
+          debouncedReachEnd();
         } else {
           log(`Intersecting entry not found.`);
         }
