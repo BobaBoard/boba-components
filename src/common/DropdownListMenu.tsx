@@ -475,8 +475,13 @@ const DropdownMenu: React.FC<DropdownProps> = (props) => {
       </Tooltip>
       {isSmallScreen() &&
         ReactDOM.createPortal(
-          <div className={classnames("portal-content", { visible: isOpen })}>
-            {props.header}
+          <div
+            className={classnames("portal-content", {
+              visible: isOpen,
+              "has-header": props.header,
+            })}
+          >
+            <div className="header-wrapper">{props.header}</div>
             <div
               className="options-wrapper"
               ref={(ref) => setOptionsWrapper(ref)}
@@ -557,6 +562,19 @@ const DropdownMenu: React.FC<DropdownProps> = (props) => {
             animation-name: slideUp;
             animation-duration: 0.2s;
             z-index: 102;
+          }
+          .header-wrapper {
+            // This is a kinda hackish solution to remove the menu
+            // padding without having to pass down whether a header exists.
+            // TODO: avoid this.
+            z-index: 103;
+            position: relative;
+          }
+          .portal-content.has-header .options-wrapper {
+            // This is a kinda hackish solution to remove the menu
+            // padding without having to pass down whether a header exists.
+            // TODO: avoid this.
+            margin-top: -5px;
           }
           .options-slider {
             align-items: flex-start;
