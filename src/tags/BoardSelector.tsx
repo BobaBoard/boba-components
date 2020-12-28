@@ -16,6 +16,7 @@ export interface BoardSelectorProps {
 }
 const BoardSelector: React.FC<BoardSelectorProps> = (props) => {
   const [filter, setFilter] = React.useState("");
+  const inputRef = React.useRef<HTMLInputElement>(null);
   return (
     <DropdownMenu
       options={props.availableBoards
@@ -29,14 +30,22 @@ const BoardSelector: React.FC<BoardSelectorProps> = (props) => {
           icon: board.avatar,
           color: board.color,
           link: {
-            onClick: () => props.onBoardSelected?.(board.slug),
+            onClick: () => {
+              setFilter("");
+              props.onBoardSelected?.(board.slug);
+            },
           },
         }))}
+      onOpen={() => {
+        inputRef.current?.focus();
+      }}
       header={
         <div className="filter">
           <input
             placeholder="Filter boards"
+            value={filter}
             onChange={(e) => setFilter(e.target.value)}
+            ref={inputRef}
           />
           <style jsx>{`
             .filter {

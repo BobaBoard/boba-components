@@ -31,6 +31,7 @@ export interface DropdownProps {
   accentColor?: string;
   header?: React.ReactElement;
   zIndex?: number;
+  onOpen?: () => void;
 }
 
 const isSmallScreen = () => {
@@ -91,10 +92,12 @@ const DropdownContent = React.forwardRef<
             nested: "options" in option,
           })}
           onClick={(e) => {
-            e.preventDefault();
             if ("options" in option) {
               props.onNestedOptions(option.options);
               return;
+            }
+            if (option.link.onClick) {
+              e.preventDefault();
             }
             props.onCloseRequest();
             option.link.onClick?.();
@@ -359,6 +362,16 @@ const DropdownMenu: React.FC<DropdownProps> = (props) => {
       setBackdropOpen(false);
     }
   }, [isOpen, setBackdropOpen]);
+
+  const { onOpen } = props;
+  React.useEffect(() => {
+    if (isOpen) {
+      // Wait a little bit to make sure the transition is done.
+      setTimeout(() => {
+        onOpen?.();
+      }, 300);
+    }
+  }, [isOpen, onOpen]);
 
   React.useEffect(() => {
     if (!isOpen || optionsStack.length < 1) {

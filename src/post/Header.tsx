@@ -1,5 +1,4 @@
 import React from "react";
-import useComponentSize from "@rehooks/component-size";
 
 import classnames from "classnames";
 import debug from "debug";
