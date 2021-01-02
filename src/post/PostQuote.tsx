@@ -4,10 +4,16 @@ import Theme from "../theme/default";
 import Avatar from "./Avatar";
 
 const PostQuote: React.FC<PostQuoteProps> = (props) => {
+  let initialText = [];
+  try {
+    initialText = JSON.parse(props.text);
+  } catch (e) {
+    // ignore error, there was a problem with text
+  }
   return (
     <div className="quote">
       <div className="quote-editor">
-        <Editor initialText={JSON.parse(props.text)} editable={false} />
+        <Editor initialText={initialText} editable={false} />
         <div className="avatar-container">
           <Avatar
             secretIdentity={props.secretIdentity}
@@ -37,7 +43,6 @@ const PostQuote: React.FC<PostQuoteProps> = (props) => {
           padding: 5px 0px;
           border-radius: 15px;
           position: relative;
-          margin-right: 20px;
           margin-bottom: 15px;
         }
         .avatar-container {
