@@ -39,6 +39,7 @@ const Layout = React.forwardRef<{ closeSideMenu: () => void }, LayoutProps>(
       onUserBarClick,
       titleLink,
       actionButton,
+      userLoading,
       user,
       loading,
       logoLink,
@@ -169,7 +170,7 @@ const Layout = React.forwardRef<{ closeSideMenu: () => void }, LayoutProps>(
         )}
         user={user}
         accentColor={headerAccent}
-        loading={loading}
+        loading={userLoading}
         onHomeMenuClick={logoLink}
       />
     );
@@ -647,6 +648,7 @@ export interface LayoutProps {
   onUserBarClick?: () => void;
   onCompassClick?: () => void;
   loading?: boolean;
+  userLoading?: boolean;
   updates?: number | boolean;
   outdated?: boolean;
   menuOptions?: {
