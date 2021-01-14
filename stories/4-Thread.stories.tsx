@@ -1,6 +1,7 @@
 import React from "react";
 import CompactThread from "../src/post/CompactThread";
 import ThreadIndent from "../src/post/ThreadIndent";
+import CollapsedPlaceholder from "../src/thread/CollapsedPlaceholder";
 import CompactThreadIndent, {
   useIndent,
 } from "../src/post/CompactThreadIndent";
@@ -15,6 +16,7 @@ import mamoruAvatar from "./images/mamoru.png";
 import hannibalAvatar from "./images/hannibal.png";
 import CommentChain from "../src/post/CommentChain";
 import { CommentHandler } from "index";
+import { action } from "@storybook/addon-actions";
 
 export default {
   title: "Thread Preview",
@@ -498,6 +500,22 @@ export const SingleThreadedComments = () => {
           />
         </div>
       </CompactThreadIndent>
+    </div>
+  );
+};
+
+export const CollapsePlaceholderStory = () => {
+  return (
+    <div style={{ maxWidth: "500px" }}>
+      <CollapsedPlaceholder onUncollapseClick={action("uncollapse")}>
+        <div>
+          5 comments <span style={{ color: "green" }}>manually hidden</span>.
+          Reason:{" "}
+          <em>
+            people started talking about Coffee Shop AUs, which disgust me.
+          </em>
+        </div>
+      </CollapsedPlaceholder>
     </div>
   );
 };
