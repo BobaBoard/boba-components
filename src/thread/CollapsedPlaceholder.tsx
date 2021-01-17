@@ -9,7 +9,7 @@ interface CollapsedPlaceholderProps {
 const CollapsedPlaceholder: React.FC<CollapsedPlaceholderProps> = (props) => {
   return (
     <div className="collapsed-placeholder">
-      <div className="icon">
+      <div className="icon" onClick={props.onUncollapseClick}>
         <FontAwesomeIcon icon={faAngleUp} />
         <FontAwesomeIcon icon={faAngleDown} />
       </div>
@@ -23,11 +23,18 @@ const CollapsedPlaceholder: React.FC<CollapsedPlaceholderProps> = (props) => {
           border-radius: 15px;
           display: flex;
           padding: 10px 15px;
+          align-items: center;
         }
         .icon {
           padding-right: 10px;
           color: #e8e8e8;
           position: relative;
+        }
+        .icon:hover {
+          cursor: pointer;
+        }
+        .icon :global(svg):first-child {
+          margin-bottom: 10px;
         }
         .icon :global(svg):last-child {
           position: absolute;
@@ -36,16 +43,17 @@ const CollapsedPlaceholder: React.FC<CollapsedPlaceholderProps> = (props) => {
         }
         .text {
           color: white;
+          flex-grow: 1;
         }
         .view-all {
           flex-shrink: 0;
           font-size: 14px;
           text-decoration: underline;
           color: #a8d5c0;
-          margin-top: 10px;
         }
         .view-all:hover {
           cursor: pointer;
+          color: red;
         }
       `}</style>
     </div>

@@ -2,6 +2,7 @@ import React from "react";
 import CompactThread from "../src/post/CompactThread";
 import ThreadIndent from "../src/post/ThreadIndent";
 import CollapsedPlaceholder from "../src/thread/CollapsedPlaceholder";
+import Thread, { Indent, CollapseGroup } from "../src/thread/NewThread";
 import CompactThreadIndent, {
   useIndent,
 } from "../src/post/CompactThreadIndent";
@@ -516,6 +517,86 @@ export const CollapsePlaceholderStory = () => {
           </em>
         </div>
       </CollapsedPlaceholder>
+    </div>
+  );
+};
+
+export const NewThreadStory = () => {
+  const [collapsed, setCollapsed] = React.useState<string[]>([
+    "level-2,1",
+    "cg-1",
+  ]);
+  return (
+    <div className="container">
+      <Thread
+        onCollapseLevel={(levelId) => {
+          if (!collapsed.includes(levelId)) {
+            const newCollapsed = [...collapsed];
+            newCollapsed.push(levelId);
+            setCollapsed(newCollapsed);
+          }
+        }}
+        onUncollapseLevel={(levelId) => {
+          console.log(levelId);
+          if (collapsed.includes(levelId)) {
+            const newCollapsed = collapsed.filter((level) => level != levelId);
+            setCollapsed(newCollapsed);
+          }
+        }}
+        getCollapseReason={(levelId) => {
+          return <div>Subthread manually hidden.</div>;
+        }}
+      >
+        <div className="fake-post">This is the main post</div>
+        <Indent id="level-1" collapsed={collapsed.includes("level-1")}>
+          <div className="fake-post">This is its first child</div>
+          <Indent id="level-2,1" collapsed={collapsed.includes("level-2,1")}>
+            <div className="fake-post">This is (1,1)</div>
+            <div className="fake-post">This is (1,2)</div>
+            <div className="fake-post">This is (1,3)</div>
+          </Indent>
+          <div className="fake-post">This is its second child</div>
+          <CollapseGroup id="cg-1" collapsed={collapsed.includes("cg-1")}>
+            <div className="fake-post">This is its third child</div>
+            <div className="fake-post">This is its fourth child</div>
+            <Indent id="level-4,1" collapsed={collapsed.includes("level-4,1")}>
+              <div className="fake-post">This is (4,1)</div>
+              <Indent
+                id="level-4,1,1"
+                collapsed={collapsed.includes("level-4,1,1")}
+              >
+                <div className="fake-post">This is (4,1,1)</div>
+              </Indent>
+            </Indent>
+            <div className="fake-post">This is its fifth child</div>
+            <div className="fake-post">This is its sixth child</div>
+            <div className="fake-post">This is its seventh child</div>
+          </CollapseGroup>
+          <div className="fake-post">This is its eight child</div>
+          <div className="fake-post">This is its ninth child</div>
+          <Indent id="level-9,2" collapsed={collapsed.includes("level-9,2")}>
+            <div className="fake-post">This is (9,1)</div>
+            <Indent id="level-9,1" collapsed={collapsed.includes("level-9,1")}>
+              <div className="fake-post">This is (9,1,1)</div>
+              <div className="fake-post">This is (9,1,2)</div>
+            </Indent>
+          </Indent>
+        </Indent>
+      </Thread>
+      <style jsx>{`
+        .container {
+          max-width: 500px;
+        }
+        .fake-post {
+          background-color: white;
+          max-width: 500px;
+          margin-top: 15px;
+          margin-bottom: 15px;
+        }
+        .fake-post:hover {
+          background-color: red;
+        }
+      `}</style>
     </div>
   );
 };
