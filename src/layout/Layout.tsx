@@ -70,6 +70,8 @@ const Layout = React.forwardRef<{ closeSideMenu: () => void }, LayoutProps>(
         // @ts-ignore
         delete Hammer.defaults.cssProps.userSelect;
         // @ts-ignore
+        delete Hammer.defaults.cssProps.touchCallout;
+        // @ts-ignore
         swipeHandler.current = new Hammer(layoutRef.current, {
           inputClass: Hammer.TouchInput,
         });
