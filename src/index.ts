@@ -1,4 +1,6 @@
 import "resize-observer-polyfill";
+import React from "react";
+
 import "@fortawesome/fontawesome-svg-core/styles.css";
 import "react-loader-spinner/dist/loader/css/react-spinner-loader.css";
 require("intersection-observer");
@@ -12,10 +14,7 @@ import Input, { InputStyle } from "./common/Input";
 import ToastContainer, { toast } from "./common/Toast";
 import Modal from "./common/Modal";
 import ModalWithButtons from "./common/ModalWithButtons";
-import PostEditor, {
-  setTumblrEmbedFetcher,
-  setOEmbedFetcher,
-} from "./post/PostEditor";
+import PostEditor from "./post/PostEditor";
 import Post, { PostSizes, PostHandler } from "./post/Post";
 import Comment, { CommentHandler } from "./post/Comment";
 import CompactThreadIndent, { useIndent } from "./post/CompactThreadIndent";
@@ -34,8 +33,16 @@ import PostQuote from "./post/PostQuote";
 import UserDetails from "./user/UserDetails";
 import BobaDex from "./user/BobaDex";
 import { TagType } from "./types";
+import { EmbedsFetcherContext } from "@bobaboard/boba-editor";
 
 import flush from "styled-jsx/server";
+
+interface ImageUploaderContextProps {
+  onImageUploadRequest: (imgUrl: string) => Promise<string>;
+}
+const ImageUploaderContext = React.createContext<ImageUploaderContextProps | null>(
+  null
+);
 
 export {
   Layout,
@@ -67,8 +74,8 @@ export {
   ToastContainer,
   MasonryView,
   toast,
-  setTumblrEmbedFetcher,
-  setOEmbedFetcher,
+  EmbedsFetcherContext,
+  ImageUploaderContext,
   flush,
   useCompact,
   DefaultTheme,

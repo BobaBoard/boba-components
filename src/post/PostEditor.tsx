@@ -7,13 +7,8 @@ import Tags from "../tags/Tags";
 import { PostSizes, getPostWidth } from "./Post";
 import Spinner from "../common/Spinner";
 import DropdownListMenu from "../common/DropdownListMenu";
-import Editor, {
-  getAllImages,
-  replaceImages,
-  setTumblrEmbedFetcher as libSetFetcher,
-  setOEmbedFetcher as libSetEmbedFetcher,
-  removeTrailingWhitespace,
-} from "@bobaboard/boba-editor";
+import Editor from "@bobaboard/boba-editor";
+import { prepareContentSubmission } from "../utils";
 
 import Button from "../common/Button";
 import {
@@ -26,32 +21,7 @@ import { TagsType } from "../types";
 import TagsFactory from "../tags/TagsFactory";
 import noop from "noop-ts";
 import BoardSelector, { BoardSelectorProps } from "../tags/BoardSelector";
-
-export const setTumblrEmbedFetcher = libSetFetcher;
-export const setOEmbedFetcher = libSetEmbedFetcher;
-
-const prepareForSubmission = (
-  text: any,
-  uploadFunction: (src: string) => Promise<string>
-) => {
-  const delta = removeTrailingWhitespace(text);
-  const images = getAllImages(delta);
-  return Promise.all(images.map((src: string) => uploadFunction(src))).then(
-    (uploadedImages) => {
-      const replacements = images.reduce(
-        (obj: any, image: string, index: number) => {
-          return {
-            ...obj,
-            [image]: uploadedImages[index],
-          };
-        },
-        {}
-      );
-      replaceImages(delta, replacements);
-      return JSON.stringify(delta);
-    }
-  );
-};
+import { ImageUploaderContext } from "../index";
 
 const computeTags = (
   tags: TagsType[],
@@ -89,6 +59,7 @@ const PostEditor = React.forwardRef<{ focus: () => void }, PostEditorProps>(
     const [suggestedCategories, setSuggestedCategories] = React.useState(
       props.suggestedCategories
     );
+    const imageUploader = React.useContext(ImageUploaderContext);
 
     React.useEffect(() => {
       const currentCategories = tags.filter((tag) => tag.category);
@@ -108,15 +79,18 @@ const PostEditor = React.forwardRef<{ focus: () => void }, PostEditorProps>(
       },
     }));
 
-    const { onSubmit, onImageUploadRequest } = props;
+    const { onSubmit } = props;
     const onSubmitHandler = React.useCallback(() => {
       if (!props.editableSections && isEmpty) {
         return;
       }
+      if (!imageUploader?.onImageUploadRequest) {
+        throw new Error("An image uploader context must be provided");
+      }
       onSubmit(
-        prepareForSubmission(
+        prepareContentSubmission(
           editorRef.current?.getEditorContents(),
-          onImageUploadRequest
+          imageUploader.onImageUploadRequest
         ).then((uploadedText) => ({
           text: uploadedText,
           tags,
@@ -128,7 +102,7 @@ const PostEditor = React.forwardRef<{ focus: () => void }, PostEditorProps>(
     }, [
       props.editableSections,
       isEmpty,
-      onImageUploadRequest,
+      imageUploader,
       selectedView,
       selectedIdentity,
       onSubmit,
@@ -371,7 +345,6 @@ export interface PostEditorProps {
   }[];
   loading?: boolean;
   defaultSize?: PostSizes;
-  onImageUploadRequest: (imgUrl: string) => Promise<string>;
   onSubmit: (
     postPromise: Promise<{
       text: string;

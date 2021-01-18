@@ -6,6 +6,8 @@ import Button from "../common/Button";
 import { faCross, faCheck } from "@fortawesome/free-solid-svg-icons";
 import useComponentSize from "@rehooks/component-size";
 import Spinner from "../common/Spinner";
+import { prepareContentSubmission } from "../utils";
+import { ImageUploaderContext } from "../index";
 
 export const modes = {
   VIEW: "VIEW",
@@ -104,6 +106,7 @@ const Comment = React.forwardRef<EditorRef, CommentProps>((props, ref) => {
   const focusRef = React.useRef<any>(null);
   const [charactersTyped, setCharactersTyped] = React.useState(1);
   const [text, setText] = React.useState(props.initialText || "[]");
+  const imageUploader = React.useContext(ImageUploaderContext);
 
   // TODO: do something that's less of a crime
   React.useImperativeHandle(
@@ -151,6 +154,21 @@ const Comment = React.forwardRef<EditorRef, CommentProps>((props, ref) => {
     [props.additionalIdentities, onSelectIdentity]
   );
 
+  const { onSubmit, prepareSubmission } = props;
+  const onSubmitHandler = React.useCallback(() => {
+    if (!imageUploader?.onImageUploadRequest) {
+      throw new Error("An image uploader context must be provided");
+    }
+    onSubmit(
+      (prepareSubmission !== false
+        ? prepareContentSubmission(text, imageUploader.onImageUploadRequest)
+        : Promise.resolve(text)
+      ).then((uploadedText) => ({
+        text: uploadedText,
+      }))
+    );
+  }, [onSubmit, text, prepareSubmission, imageUploader?.onImageUploadRequest]);
+
   return (
     <>
       <div
@@ -197,12 +215,8 @@ const Comment = React.forwardRef<EditorRef, CommentProps>((props, ref) => {
                     }
                     props.onCanSubmitChange?.(canSubmit(characters));
                   }}
-                  onSubmit={() => {
-                    // This is for cmd + enter
-                    props.onSubmit(text);
-                  }}
+                  onSubmit={onSubmitHandler}
                   singleLine={true}
-                  showTooltip={false}
                   ref={focusRef}
                 />
               </div>
@@ -210,12 +224,8 @@ const Comment = React.forwardRef<EditorRef, CommentProps>((props, ref) => {
             <CommentFooter
               charactersLeft={MAX_CHARACTERS - charactersTyped}
               isEmpty={charactersTyped == 1}
-              onSubmit={() => {
-                props.onSubmit(text);
-              }}
-              onCancel={() => {
-                props.onCancel();
-              }}
+              onSubmit={onSubmitHandler}
+              onCancel={props.onCancel}
               loading={!!props.loading}
               withActions={props.withActions}
               canSubmit={
@@ -313,7 +323,8 @@ export interface CommentProps {
   ) => void;
   initialText?: string;
   onCancel: () => void;
-  onSubmit: (text: string) => void;
+  onSubmit: (commentPromise: Promise<{ text: string }>) => void;
+  prepareSubmission?: boolean;
   onTextChange?: (text: string) => void;
   onCanSubmitChange?: (canSubmit: boolean) => void;
   onIsEmptyChange?: (empty: boolean) => void;

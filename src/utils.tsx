@@ -5,6 +5,11 @@ import {
 } from "@fortawesome/free-solid-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import Theme from "./theme/default";
+import {
+  getAllImages,
+  replaceImages,
+  removeTrailingWhitespace,
+} from "@bobaboard/boba-editor";
 
 export const hex2rgba = (hex: string, alpha = 1) => {
   const [r, g, b] =
@@ -145,4 +150,27 @@ export const useBackdrop = ({
   }, [open, id, onClick, zIndex]);
 
   return { open, setOpen };
+};
+
+export const prepareContentSubmission = (
+  text: any,
+  uploadFunction: (src: string) => Promise<string>
+) => {
+  const delta = removeTrailingWhitespace(text);
+  const images = getAllImages(delta);
+  return Promise.all(images.map((src: string) => uploadFunction(src))).then(
+    (uploadedImages) => {
+      const replacements = images.reduce(
+        (obj: any, image: string, index: number) => {
+          return {
+            ...obj,
+            [image]: uploadedImages[index],
+          };
+        },
+        {}
+      );
+      replaceImages(delta, replacements);
+      return JSON.stringify(delta);
+    }
+  );
 };

@@ -18,6 +18,7 @@ import {
   faVolumeMute,
 } from "@fortawesome/free-solid-svg-icons";
 import { action } from "@storybook/addon-actions";
+import { ImageUploaderContext } from "../src/index";
 
 export default {
   title: "Comments",
@@ -25,7 +26,14 @@ export default {
 };
 
 export const Editable = () => (
-  <>
+  <ImageUploaderContext.Provider
+    value={{
+      onImageUploadRequest: async (url) => {
+        action("imageUpload")(url);
+        return Promise.resolve(`uploaded: ${url}`);
+      },
+    }}
+  >
     <div style={{}}>
       <CommentEditor
         secretIdentity={{ name: "Tuxedo Mask", avatar: `/${tuxedoAvatar}` }}
@@ -51,7 +59,7 @@ export const Editable = () => (
         ]}
       />
     </div>
-  </>
+  </ImageUploaderContext.Provider>
 );
 
 Editable.story = {
@@ -153,9 +161,18 @@ Highlight.story = {
 
 export const CommentChainEditorStory = () => {
   return (
-    <>
+    <ImageUploaderContext.Provider
+      value={{
+        onImageUploadRequest: async (url) => {
+          action("imageUpload")(url);
+          return Promise.resolve(`uploaded: ${url}`);
+        },
+      }}
+    >
       <CommentChainEditor
-        onSubmit={action("submit")}
+        onSubmit={(submit) => {
+          submit.texts.then(action("submit"));
+        }}
         userIdentity={{ name: "SexyDaddy69", avatar: `/${mamoruAvatar}` }}
         onCancel={() => {}}
         additionalIdentities={[
@@ -163,7 +180,7 @@ export const CommentChainEditorStory = () => {
           { id: "id2", name: "Mega Mod", avatar: `/${oncelerAvatar}` },
         ]}
       />
-    </>
+    </ImageUploaderContext.Provider>
   );
 };
 
@@ -357,4 +374,45 @@ export const WithOptionsStory = () => {
 };
 WithOptionsStory.story = {
   name: "with options",
+};
+
+export const CommentImageStory = () => {
+  const commentRef = React.createRef<any>();
+  return (
+    <>
+      <CommentChain
+        ref={commentRef}
+        comments={[
+          {
+            id: "1",
+            text:
+              '[{"insert": "I mean, sure, but you know what also is great?"}]',
+          },
+          {
+            id: "1",
+            text:
+              '[{"insert":{"block-image":"https://cdn.discordapp.com/attachments/443967088118333442/691486081895628830/unknown.png"}}]',
+          },
+          {
+            id: "1",
+            text:
+              '[{"insert":{"block-image":"https://cdn.discordapp.com/attachments/443967088118333442/691486081895628830/unknown.png"}}, {"insert": "Wait is that how you type it?"}]',
+          },
+        ]}
+        secretIdentity={{
+          name: "Tuxedo Mask",
+          avatar: `/${tuxedoAvatar}`,
+        }}
+        userIdentity={{ name: "SexyDaddy69", avatar: `/${mamoruAvatar}` }}
+      />
+      <div style={{ marginTop: "20px" }}>
+        <Button onClick={() => commentRef.current.highlight("red")}>
+          Highlight!
+        </Button>
+      </div>
+    </>
+  );
+};
+CommentImageStory.story = {
+  name: "image",
 };

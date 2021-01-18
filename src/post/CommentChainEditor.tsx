@@ -4,6 +4,8 @@ import classnames from "classnames";
 import DefaultTheme from "../theme/default";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faPlus, faTimes } from "@fortawesome/free-solid-svg-icons";
+import { ImageUploaderContext } from "../index";
+import { prepareContentSubmission } from "../utils";
 
 const isValidSubmitState = (chainComments: any) => {
   const hasUnsubmittable = chainComments.some(
@@ -46,6 +48,8 @@ const CommentChainEditor = React.forwardRef<
   const [selectedIdentity, setSelectedIdentity] = React.useState<
     string | undefined
   >();
+  const imageUploader = React.useContext(ImageUploaderContext);
+
   React.useImperativeHandle(
     ref,
     () => ({
@@ -102,6 +106,34 @@ const CommentChainEditor = React.forwardRef<
     editorRefs.current.get(focusedChainIndex)?.focus();
   }, [focusedChainIndex]);
 
+  const { onSubmit, additionalIdentities } = props;
+  const onSubmitHandler = React.useCallback(() => {
+    if (!imageUploader?.onImageUploadRequest) {
+      throw new Error("An image uploader context must be provided");
+    }
+    const textsPromises = {
+      texts: Promise.all(
+        chainComments.map(
+          async (comment) =>
+            await prepareContentSubmission(
+              JSON.parse(comment.text).ops,
+              imageUploader.onImageUploadRequest
+            )
+        )
+      ),
+      identityId: additionalIdentities?.find(
+        (id) => id.name == selectedIdentity
+      )?.id,
+    };
+    onSubmit(textsPromises);
+  }, [
+    onSubmit,
+    chainComments,
+    imageUploader?.onImageUploadRequest,
+    additionalIdentities,
+    selectedIdentity,
+  ]);
+
   return (
     <div className="comment-chain-editor" ref={chainEditorRef}>
       {chainComments.map((comment, index) => (
@@ -126,14 +158,9 @@ const CommentChainEditor = React.forwardRef<
               )
             }
             muted={focusedChainIndex != index}
-            onSubmit={(text) =>
-              props.onSubmit?.({
-                texts: chainComments.map((comment) => comment.text),
-                identityId: props.additionalIdentities?.find(
-                  (id) => id.name == selectedIdentity
-                )?.id,
-              })
-            }
+            onSubmit={onSubmitHandler}
+            // We add this to avoid double upload
+            prepareSubmission={false}
             withActions={index == chainComments.length - 1}
             onIsEmptyChange={(empty) => {
               chainComments[index] = {
@@ -266,7 +293,10 @@ const CommentChainEditor = React.forwardRef<
 
 export interface CommentChainEditorProps {
   onCancel: (empty: boolean) => void;
-  onSubmit: (data: { texts: string[]; identityId?: string }) => void;
+  onSubmit: (submission: {
+    texts: Promise<string[]>;
+    identityId?: string;
+  }) => void;
   secretIdentity?: {
     avatar: string;
     name: string;

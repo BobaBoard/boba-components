@@ -1,6 +1,7 @@
 import React from "react";
 //import { linkTo } from "@storybook/addon-links";
-import PostEditor, { setTumblrEmbedFetcher } from "../src/post/PostEditor";
+import PostEditor from "../src/post/PostEditor";
+import { ImageUploaderContext, EmbedsFetcherContext } from "../src/index";
 import Modal from "../src/common/Modal";
 import Button from "../src/common/Button";
 
@@ -20,16 +21,54 @@ export default {
   component: PostEditor,
 };
 
-setTumblrEmbedFetcher((url: string) => {
-  console.log(`""Fetching"" from ${url}`);
-  return Promise.resolve({
-    url:
-      "https://turquoisemagpie.tumblr.com/post/618042321716510720/eternity-stuck-in-white-noise-can-drive-you-a",
-    href:
-      "https://embed.tumblr.com/embed/post/2_D8XbYRWYBtQD0A9Pfw-w/618042321716510720",
-    did: "22a0a2f8b7a33dc50bbf5f49fb53f92b181a88aa",
-  });
-});
+const embedFetchers = {
+  getTumblrEmbedFromUrl: (url: string) => {
+    return new Promise((resolve) => {
+      setTimeout(() => {
+        resolve({
+          url:
+            "https://turquoisemagpie.tumblr.com/post/618042321716510720/eternity-stuck-in-white-noise-can-drive-you-a",
+          href:
+            "https://embed.tumblr.com/embed/post/2_D8XbYRWYBtQD0A9Pfw-w/618042321716510720",
+          did: "22a0a2f8b7a33dc50bbf5f49fb53f92b181a88aa",
+        });
+      }, 2000);
+    });
+  },
+  getOEmbedFromUrl: (url: string) => {
+    const LOAD_DELAY = 1000;
+    const promise = new Promise((resolve, reject) => {
+      fetch(`http://localhost:8061/iframely?uri=${url}`)
+        .then((response) => {
+          setTimeout(() => {
+            resolve(response.json());
+          }, LOAD_DELAY);
+        })
+        .catch((error) => {
+          reject(error);
+        });
+    });
+    return promise;
+  },
+};
+
+const withContextProviders = (component: React.ReactNode): React.ReactNode => {
+  return (
+    <EmbedsFetcherContext.Provider value={embedFetchers}>
+      <ImageUploaderContext.Provider
+        value={{
+          onImageUploadRequest: async (url) => {
+            action("imageUpload")(url);
+            return Promise.resolve(`uploaded: ${url}`);
+          },
+        }}
+      >
+        {component}
+      </ImageUploaderContext.Provider>
+    </EmbedsFetcherContext.Provider>
+  );
+};
+
 const RECENT_BOARDS = [
   {
     slug: "gore",
@@ -76,109 +115,65 @@ const RECENT_BOARDS = [
   },
 ];
 
-export const EditableWithFooter = () => (
-  <PostEditor
-    secretIdentity={{ name: "Tuxedo Mask", avatar: `/${tuxedoAvatar}` }}
-    userIdentity={{ name: "SexyDaddy69", avatar: `/${mamoruAvatar}` }}
-    onCancel={action("cancel")}
-    onSubmit={(promise) => {
-      promise.then(action("submit"));
-    }}
-    onImageUploadRequest={async (url) => {
-      action("imageUpload")(url);
-      return Promise.resolve(url);
-    }}
-    centered
-    minimizable
-    suggestedCategories={[
-      "dank memes",
-      "hot yaois",
-      "pls.... help....",
-      "off topic",
-    ]}
-    availableBoards={RECENT_BOARDS}
-    initialBoard="gore"
-  />
-);
+export const EditableWithFooter = () =>
+  withContextProviders(
+    <PostEditor
+      secretIdentity={{ name: "Tuxedo Mask", avatar: `/${tuxedoAvatar}` }}
+      userIdentity={{ name: "SexyDaddy69", avatar: `/${mamoruAvatar}` }}
+      onCancel={action("cancel")}
+      onSubmit={(promise) => {
+        promise.then(action("submit"));
+      }}
+      centered
+      minimizable
+      suggestedCategories={[
+        "dank memes",
+        "hot yaois",
+        "pls.... help....",
+        "off topic",
+      ]}
+      availableBoards={RECENT_BOARDS}
+      initialBoard="gore"
+    />
+  );
 
 EditableWithFooter.story = {
   name: "editable",
 };
 
-export const EditableWithMultipleIdentities = () => (
-  <PostEditor
-    userIdentity={{ name: "SexyDaddy69", avatar: `/${mamoruAvatar}` }}
-    additionalIdentities={[
-      { id: "id1", name: "Tuxedo Mask", avatar: `/${tuxedoAvatar}` },
-      { id: "id2", name: "Mega Mod", avatar: `/${tuxedoAvatar}` },
-    ]}
-    onCancel={action("cancel")}
-    onSubmit={(promise) => {
-      promise.then(action("submit"));
-    }}
-    onImageUploadRequest={async (url) => {
-      action("imageUpload")(url);
-      return Promise.resolve(url);
-    }}
-    centered
-    availableBoards={RECENT_BOARDS}
-    initialBoard="gore"
-  />
-);
-
-EditableWithMultipleIdentities.story = {
-  name: "multiple identities",
-};
-
-export const EditableWithViewSelect = () => (
-  <PostEditor
-    userIdentity={{ name: "SexyDaddy69", avatar: `/${mamoruAvatar}` }}
-    additionalIdentities={[
-      { id: "id1", name: "Tuxedo Mask", avatar: `/${tuxedoAvatar}` },
-      { id: "id2", name: "Mega Mod", avatar: `/${tuxedoAvatar}` },
-    ]}
-    onCancel={action("cancel")}
-    onSubmit={(promise) => {
-      promise.then(action("submit"));
-    }}
-    onImageUploadRequest={async (url) => {
-      action("imageUpload")(url);
-      return Promise.resolve(url);
-    }}
-    viewOptions={[
-      { name: "Thread" },
-      { name: "Gallery" },
-      { name: "Timeline" },
-    ]}
-    centered
-    availableBoards={RECENT_BOARDS}
-    initialBoard="gore"
-  />
-);
-
-EditableWithViewSelect.story = {
-  name: "view select",
-};
-
-export const SmallestViewport = () => (
-  <div style={{ maxWidth: "345px" }}>
+export const EditableWithMultipleIdentities = () =>
+  withContextProviders(
     <PostEditor
-      secretIdentity={{
-        name: "Tuxedo Mask, the one, the only, the legend.",
-        avatar: `/${tuxedoAvatar}`,
-      }}
       userIdentity={{ name: "SexyDaddy69", avatar: `/${mamoruAvatar}` }}
       additionalIdentities={[
         { id: "id1", name: "Tuxedo Mask", avatar: `/${tuxedoAvatar}` },
-        { id: "id2", name: "Mega Mod", avatar: `/${oncelerAvatar}` },
+        { id: "id2", name: "Mega Mod", avatar: `/${tuxedoAvatar}` },
       ]}
       onCancel={action("cancel")}
       onSubmit={(promise) => {
         promise.then(action("submit"));
       }}
-      onImageUploadRequest={async (url) => {
-        action("imageUpload")(url);
-        return Promise.resolve(url);
+      centered
+      availableBoards={RECENT_BOARDS}
+      initialBoard="gore"
+    />
+  );
+
+EditableWithMultipleIdentities.story = {
+  name: "multiple identities",
+};
+
+export const EditableWithViewSelect = () =>
+  withContextProviders(
+    <PostEditor
+      userIdentity={{ name: "SexyDaddy69", avatar: `/${mamoruAvatar}` }}
+      additionalIdentities={[
+        { id: "id1", name: "Tuxedo Mask", avatar: `/${tuxedoAvatar}` },
+        { id: "id2", name: "Mega Mod", avatar: `/${tuxedoAvatar}` },
+      ]}
+      onCancel={action("cancel")}
+      onSubmit={(promise) => {
+        promise.then(action("submit"));
       }}
       viewOptions={[
         { name: "Thread" },
@@ -189,63 +184,89 @@ export const SmallestViewport = () => (
       availableBoards={RECENT_BOARDS}
       initialBoard="gore"
     />
-  </div>
-);
+  );
+
+EditableWithViewSelect.story = {
+  name: "view select",
+};
+
+export const SmallestViewport = () =>
+  withContextProviders(
+    <div style={{ maxWidth: "345px" }}>
+      <PostEditor
+        secretIdentity={{
+          name: "Tuxedo Mask, the one, the only, the legend.",
+          avatar: `/${tuxedoAvatar}`,
+        }}
+        userIdentity={{ name: "SexyDaddy69", avatar: `/${mamoruAvatar}` }}
+        additionalIdentities={[
+          { id: "id1", name: "Tuxedo Mask", avatar: `/${tuxedoAvatar}` },
+          { id: "id2", name: "Mega Mod", avatar: `/${oncelerAvatar}` },
+        ]}
+        onCancel={action("cancel")}
+        onSubmit={(promise) => {
+          promise.then(action("submit"));
+        }}
+        viewOptions={[
+          { name: "Thread" },
+          { name: "Gallery" },
+          { name: "Timeline" },
+        ]}
+        centered
+        availableBoards={RECENT_BOARDS}
+        initialBoard="gore"
+      />
+    </div>
+  );
 
 SmallestViewport.story = {
   name: "small viewport",
 };
 
-export const EditableInModal = () => (
-  <Modal isOpen={true}>
-    <PostEditor
-      secretIdentity={{ name: "Tuxedo Mask", avatar: `/${tuxedoAvatar}` }}
-      userIdentity={{ name: "SexyDaddy69", avatar: `/${mamoruAvatar}` }}
-      additionalIdentities={[
-        { id: "id1", name: "Tuxedo Mask", avatar: `/${tuxedoAvatar}` },
-        { id: "id2", name: "Mega Mod", avatar: `/${oncelerAvatar}` },
-      ]}
-      onCancel={action("cancel")}
-      onSubmit={(promise) => {
-        promise.then(action("submit"));
-      }}
-      onImageUploadRequest={async (url) => {
-        action("imageUpload")(url);
-        return Promise.resolve(url);
-      }}
-      centered
-      availableBoards={RECENT_BOARDS}
-      initialBoard="gore"
-    />
-  </Modal>
-);
+export const EditableInModal = () =>
+  withContextProviders(
+    <Modal isOpen={true}>
+      <PostEditor
+        secretIdentity={{ name: "Tuxedo Mask", avatar: `/${tuxedoAvatar}` }}
+        userIdentity={{ name: "SexyDaddy69", avatar: `/${mamoruAvatar}` }}
+        additionalIdentities={[
+          { id: "id1", name: "Tuxedo Mask", avatar: `/${tuxedoAvatar}` },
+          { id: "id2", name: "Mega Mod", avatar: `/${oncelerAvatar}` },
+        ]}
+        onCancel={action("cancel")}
+        onSubmit={(promise) => {
+          promise.then(action("submit"));
+        }}
+        centered
+        availableBoards={RECENT_BOARDS}
+        initialBoard="gore"
+      />
+    </Modal>
+  );
 
 EditableInModal.story = {
   name: "editable with modal",
 };
 
-export const LongEditableInModal = () => (
-  <Modal isOpen={true}>
-    <PostEditor
-      initialText={
-        '[{"insert":"Open RP"},{"attributes":{"header":1},"insert":"\\n"},{"insert":{"block-image":"https://cdn.discordapp.com/attachments/443967088118333442/691486081895628830/unknown.png"}}, {"attributes":{"italic":true},"insert":"You have my sword..."},{"insert":"Open RP"},{"attributes":{"header":1},"insert":"\\n"},{"insert":{"block-image":"https://cdn.discordapp.com/attachments/443967088118333442/691486081895628830/unknown.png"}}, {"attributes":{"italic":true},"insert":"You have my sword..."},{"insert":"Open RP"},{"attributes":{"header":1},"insert":"\\n"},{"insert":{"block-image":"https://cdn.discordapp.com/attachments/443967088118333442/691486081895628830/unknown.png"}}, {"attributes":{"italic":true},"insert":"You have my sword..."}]'
-      }
-      secretIdentity={{ name: "Tuxedo Mask", avatar: `/${tuxedoAvatar}` }}
-      userIdentity={{ name: "SexyDaddy69", avatar: `/${mamoruAvatar}` }}
-      onCancel={action("cancel")}
-      onSubmit={(promise) => {
-        promise.then(action("submit"));
-      }}
-      onImageUploadRequest={async (url) => {
-        action("imageUpload")(url);
-        return Promise.resolve(url);
-      }}
-      centered
-      availableBoards={RECENT_BOARDS}
-      initialBoard="gore"
-    />
-  </Modal>
-);
+export const LongEditableInModal = () =>
+  withContextProviders(
+    <Modal isOpen={true}>
+      <PostEditor
+        initialText={
+          '[{"insert":"Open RP"},{"attributes":{"header":1},"insert":"\\n"},{"insert":{"block-image":"https://cdn.discordapp.com/attachments/443967088118333442/691486081895628830/unknown.png"}}, {"attributes":{"italic":true},"insert":"You have my sword..."},{"insert":"Open RP"},{"attributes":{"header":1},"insert":"\\n"},{"insert":{"block-image":"https://cdn.discordapp.com/attachments/443967088118333442/691486081895628830/unknown.png"}}, {"attributes":{"italic":true},"insert":"You have my sword..."},{"insert":"Open RP"},{"attributes":{"header":1},"insert":"\\n"},{"insert":{"block-image":"https://cdn.discordapp.com/attachments/443967088118333442/691486081895628830/unknown.png"}}, {"attributes":{"italic":true},"insert":"You have my sword..."}]'
+        }
+        secretIdentity={{ name: "Tuxedo Mask", avatar: `/${tuxedoAvatar}` }}
+        userIdentity={{ name: "SexyDaddy69", avatar: `/${mamoruAvatar}` }}
+        onCancel={action("cancel")}
+        onSubmit={(promise) => {
+          promise.then(action("submit"));
+        }}
+        centered
+        availableBoards={RECENT_BOARDS}
+        initialBoard="gore"
+      />
+    </Modal>
+  );
 
 LongEditableInModal.story = {
   name: "long editable with modal",
@@ -253,7 +274,7 @@ LongEditableInModal.story = {
 
 export const Loading = () => {
   const [loading, setLoading] = React.useState(true);
-  return (
+  return withContextProviders(
     <div>
       <PostEditor
         initialText={
@@ -264,10 +285,6 @@ export const Loading = () => {
         onCancel={action("cancel")}
         onSubmit={(promise) => {
           promise.then(action("submit"));
-        }}
-        onImageUploadRequest={async (url) => {
-          action("imageUpload")(url);
-          return Promise.resolve(url);
         }}
         loading={loading}
         centered
@@ -285,7 +302,7 @@ Loading.story = {
 
 export const Focus = () => {
   const postRef = React.createRef<any>();
-  return (
+  return withContextProviders(
     <div>
       <PostEditor
         initialText={
@@ -296,10 +313,6 @@ export const Focus = () => {
         onCancel={action("cancel")}
         onSubmit={(promise) => {
           promise.then(action("submit"));
-        }}
-        onImageUploadRequest={async (url) => {
-          action("imageUpload")(url);
-          return Promise.resolve(url);
         }}
         ref={postRef}
         centered
@@ -316,7 +329,7 @@ Focus.story = {
 };
 
 export const TagsEditOnly = () => {
-  return (
+  return withContextProviders(
     <div>
       <PostEditor
         initialText={
@@ -327,10 +340,6 @@ export const TagsEditOnly = () => {
         onCancel={action("cancel")}
         onSubmit={(promise) => {
           promise.then(action("submit"));
-        }}
-        onImageUploadRequest={async (url) => {
-          action("imageUpload")(url);
-          return Promise.resolve(url);
         }}
         centered
         editableSections={{
