@@ -14,8 +14,6 @@ import debug from "debug";
 const log = debug("bobaui:feed-with-menu-log");
 
 export interface FeedWithMenuProps {
-  sidebarContent: React.ReactNode;
-  feedContent: React.ReactNode;
   showSidebar?: boolean;
   forceHideSidebar?: boolean;
   onCloseSidebar?: () => void;
@@ -45,9 +43,37 @@ export interface FeedWithMenuProps {
 //   };
 // };
 
-const FeedWithMenu: React.FC<FeedWithMenuProps> = ({
-  sidebarContent,
-  feedContent,
+interface CompoundComponents {
+  Sidebar: React.FC<{ children: React.ReactNode }>;
+  FeedContent: React.FC<{ children: React.ReactNode }>;
+}
+
+const Sidebar: CompoundComponents["Sidebar"] = (props) => {
+  return <>{props.children}</>;
+};
+
+const FeedContent: CompoundComponents["FeedContent"] = (props) => {
+  return <>{props.children}</>;
+};
+
+const extractFeedContent = (
+  children: React.ReactNode
+): typeof FeedContent | undefined => {
+  return React.Children.toArray(children).find(
+    (node) => React.isValidElement(node) && node.type == FeedContent
+  ) as typeof FeedContent;
+};
+
+const extractSidebar = (
+  children: React.ReactNode
+): typeof Sidebar | undefined => {
+  return React.Children.toArray(children).find(
+    (node) => React.isValidElement(node) && node.type == Sidebar
+  ) as typeof Sidebar;
+};
+
+const FeedWithMenu: React.FC<FeedWithMenuProps> & CompoundComponents = ({
+  children,
   showSidebar,
   onCloseSidebar,
   onReachEnd,
@@ -180,6 +206,8 @@ const FeedWithMenu: React.FC<FeedWithMenuProps> = ({
     return undefined;
   }, [onReachEnd]);
 
+  const sidebarContent = extractSidebar(children);
+  const feedContent = extractFeedContent(children);
   return (
     <>
       <div className="content" ref={scrollableContentRef}>
@@ -285,5 +313,6 @@ const FeedWithMenu: React.FC<FeedWithMenuProps> = ({
     </>
   );
 };
-
+FeedWithMenu.FeedContent = FeedContent;
+FeedWithMenu.Sidebar = Sidebar;
 export default FeedWithMenu;

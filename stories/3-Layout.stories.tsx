@@ -333,7 +333,10 @@ export const FeedWithMenuShortPreview = () => {
               Feed Content!!
             </div>
           }
-        />
+        >
+          <FeedWithMenu.Sidebar></FeedWithMenu.Sidebar>
+          <FeedWithMenu.FeedContent></FeedWithMenu.FeedContent>
+        </FeedWithMenu>
       }
       sideMenuContent={<div>Side menu side menu!</div>}
       title="test!"
@@ -357,31 +360,6 @@ export const FeedWithMenuPreview = () => {
     <Layout
       mainContent={
         <FeedWithMenu
-          sidebarContent={
-            <div
-              style={{ height: "100px", width: "50%", backgroundColor: "red" }}
-            >
-              Sidebar!!
-            </div>
-          }
-          feedContent={
-            <>
-              {Array.from({ length: feedItemsNumber }).map((_, index) => (
-                <div
-                  style={{
-                    height: "1500px",
-                    backgroundColor: COLORS[index % 3],
-                  }}
-                  key={index}
-                >
-                  Feed {index + 1} of {feedItemsNumber}!!
-                  <Button onClick={() => setShowSidebar(!showSidebar)}>
-                    Click!
-                  </Button>
-                </div>
-              ))}
-            </>
-          }
           showSidebar={showSidebar}
           onCloseSidebar={() => setShowSidebar(false)}
           onReachEnd={() => {
@@ -398,7 +376,31 @@ export const FeedWithMenuPreview = () => {
             log(`...loading a new one!`);
             setLoading(true);
           }}
-        />
+        >
+          <FeedWithMenu.Sidebar>
+            <div
+              style={{ height: "100px", width: "50%", backgroundColor: "red" }}
+            >
+              Sidebar!!
+            </div>
+          </FeedWithMenu.Sidebar>
+          <FeedWithMenu.FeedContent>
+            {Array.from({ length: feedItemsNumber }).map((_, index) => (
+              <div
+                style={{
+                  height: "1500px",
+                  backgroundColor: COLORS[index % 3],
+                }}
+                key={index}
+              >
+                Feed {index + 1} of {feedItemsNumber}!!
+                <Button onClick={() => setShowSidebar(!showSidebar)}>
+                  Click!
+                </Button>
+              </div>
+            ))}
+          </FeedWithMenu.FeedContent>
+        </FeedWithMenu>
       }
       sideMenuContent={<div>Side menu side menu!</div>}
       title="test!"
@@ -559,11 +561,22 @@ export const Attempt1 = () => {
       <Layout
         mainContent={
           <FeedWithMenu
-            sidebarContent={<BoardSidebar {...BOARD_INFO} />}
-            feedContent={
+            showSidebar={showSidebar}
+            onCloseSidebar={() => setShowSidebar(false)}
+            onReachEnd={() => {
+              log(`Reached end`);
+            }}
+          >
+            <FeedWithMenu.Sidebar>
+              <BoardSidebar {...BOARD_INFO} />
+            </FeedWithMenu.Sidebar>
+            <FeedWithMenu.FeedContent>
               <div>
                 {POSTS.map((post) => (
-                  <div style={{ marginTop: "20px", marginBottom: "20px" }}>
+                  <div
+                    style={{ marginTop: "20px", marginBottom: "20px" }}
+                    key={post.text}
+                  >
                     <Post
                       newPost={post.newPost}
                       createdTime={post.createdTime}
@@ -588,13 +601,8 @@ export const Attempt1 = () => {
                   </div>
                 ))}
               </div>
-            }
-            showSidebar={showSidebar}
-            onCloseSidebar={() => setShowSidebar(false)}
-            onReachEnd={() => {
-              log(`Reached end`);
-            }}
-          />
+            </FeedWithMenu.FeedContent>
+          </FeedWithMenu>
         }
         sideMenuContent={
           <SideMenu
@@ -705,50 +713,49 @@ export const MasonryLayout = () => {
       <Layout
         mainContent={
           <FeedWithMenu
-            sidebarContent={<div />}
-            feedContent={
-              <>
-                <Button onClick={() => masonryRef.current?.reposition()}>
-                  Reposition Masonry View
-                </Button>
-                <MasonryView ref={masonryRef}>
-                  {POSTS.map((post) => (
-                    <div
-                      style={{
-                        marginTop: "20px",
-                        marginBottom: "20px",
-                        maxWidth: "500px",
-                      }}
-                    >
-                      <Post
-                        newPost={post.newPost}
-                        createdTime={post.createdTime}
-                        text={post.text}
-                        secretIdentity={post.secretIdentity}
-                        userIdentity={post.userIdentity}
-                        newComments={post.newComments}
-                        totalComments={post.totalComments}
-                        totalContributions={post.totalContributions}
-                        directContributions={post.directContributions}
-                        onNewContribution={() => console.log("click!")}
-                        onNewComment={() => console.log("click!")}
-                        notesLink={{ onClick: () => console.log("click") }}
-                        createdTimeLink={{
-                          onClick: () => console.log("click"),
-                        }}
-                      />
-                    </div>
-                  ))}
-                </MasonryView>
-              </>
-            }
             showSidebar={showSidebar}
             onCloseSidebar={() => setShowSidebar(false)}
             forceHideSidebar={true}
             onReachEnd={() => {
               log(`Reached end`);
             }}
-          />
+          >
+            <FeedWithMenu.FeedContent>
+              <Button onClick={() => masonryRef.current?.reposition()}>
+                Reposition Masonry View
+              </Button>
+              <MasonryView ref={masonryRef}>
+                {POSTS.map((post) => (
+                  <div
+                    key={post.text}
+                    style={{
+                      marginTop: "20px",
+                      marginBottom: "20px",
+                      maxWidth: "500px",
+                    }}
+                  >
+                    <Post
+                      newPost={post.newPost}
+                      createdTime={post.createdTime}
+                      text={post.text}
+                      secretIdentity={post.secretIdentity}
+                      userIdentity={post.userIdentity}
+                      newComments={post.newComments}
+                      totalComments={post.totalComments}
+                      totalContributions={post.totalContributions}
+                      directContributions={post.directContributions}
+                      onNewContribution={() => console.log("click!")}
+                      onNewComment={() => console.log("click!")}
+                      notesLink={{ onClick: () => console.log("click") }}
+                      createdTimeLink={{
+                        onClick: () => console.log("click"),
+                      }}
+                    />
+                  </div>
+                ))}
+              </MasonryView>
+            </FeedWithMenu.FeedContent>
+          </FeedWithMenu>
         }
         sideMenuContent={
           <SideMenu
