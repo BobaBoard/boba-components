@@ -3,17 +3,26 @@ import Editor from "@bobaboard/boba-editor";
 import Theme from "../theme/default";
 import Avatar from "./Avatar";
 
-const PostQuote: React.FC<PostQuoteProps> = (props) => {
-  let initialText = [];
+const parseText = (text: string) => {
   try {
-    initialText = JSON.parse(props.text);
+    return JSON.parse(text);
   } catch (e) {
-    // ignore error, there was a problem with text
+    // Ignore errors. The problem is coming from the passed text.
+    return [];
   }
+};
+
+const PostQuote: React.FC<PostQuoteProps> = (props) => {
+  const [parsedText, setParsedText] = React.useState(parseText(props.text));
+
+  React.useEffect(() => {
+    setParsedText(parseText(props.text));
+  }, [props.text]);
+
   return (
     <div className="quote">
       <div className="quote-editor">
-        <Editor initialText={initialText} editable={false} />
+        <Editor initialText={parsedText} editable={false} />
         <div className="avatar-container">
           <Avatar
             secretIdentity={props.secretIdentity}

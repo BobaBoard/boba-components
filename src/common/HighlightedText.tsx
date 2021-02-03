@@ -38,7 +38,9 @@ function getBackgroundDivs(
 const HighlightedText: React.FC<HighlightedTextProps> = (props) => {
   const header = React.useRef<HTMLDivElement>();
   const background = React.useRef<HTMLDivElement>(null);
-  const [backgroundDivs, setBackgroundDivs] = React.useState<JSX.Element[]>([]);
+  const [backgroundDivs, setBackgroundDivs] = React.useState<React.ReactNode[]>(
+    []
+  );
   const { width } = useComponentSize(header);
 
   React.useEffect(() => {
@@ -82,6 +84,7 @@ const HighlightedText: React.FC<HighlightedTextProps> = (props) => {
         </div>
         {React.useMemo(
           () =>
+            React.isValidElement(props.children) &&
             React.cloneElement(props.children, {
               style: {
                 ...props.children.props.style,
@@ -115,5 +118,5 @@ export default HighlightedText;
 
 export interface HighlightedTextProps {
   highlightColor: string;
-  children: JSX.Element;
+  children: React.ReactNode;
 }

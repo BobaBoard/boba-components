@@ -4,7 +4,7 @@ import debug from "debug";
 const log = debug("bobaui:scrollbar-log");
 
 export interface ScrollbarProps {
-  children: JSX.Element;
+  children: React.ReactNode;
   height?: string;
   onReachEnd?: () => void;
 }
@@ -24,15 +24,16 @@ const Scrollbar: React.FC<ScrollbarProps> = (props) => {
   //   }
   // }, [scrollableNodeRef.current]);
 
+  const { onReachEnd } = props;
   React.useEffect(() => {
-    if (intersectionObserverRef.current && props.onReachEnd) {
+    if (intersectionObserverRef.current && onReachEnd) {
       const observer = new IntersectionObserver(
         (entry) => {
           log(`Reaching end of scrollable area.`);
           log(entry);
           if (entry[0]?.isIntersecting) {
             log(`Found intersecting entry.`);
-            props.onReachEnd?.();
+            onReachEnd?.();
           } else {
             log(`Intersecting entry not found.`);
           }
@@ -44,12 +45,8 @@ const Scrollbar: React.FC<ScrollbarProps> = (props) => {
       observer.observe(intersectionObserverRef.current);
       return () => observer.disconnect();
     }
-    return () => {};
-  }, [
-    intersectionObserverRef.current,
-    scrollableNodeRef.current,
-    props.onReachEnd,
-  ]);
+    return undefined;
+  }, [onReachEnd, scrollableNodeRef]);
 
   return (
     <div
@@ -73,7 +70,7 @@ const Scrollbar: React.FC<ScrollbarProps> = (props) => {
         }
       `}</style>
     </div>
-  ) as JSX.Element;
+  ) as React.ReactElement;
 };
 
 export default Scrollbar;

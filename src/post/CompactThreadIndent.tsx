@@ -146,7 +146,7 @@ export interface CompactThreadIndentProps {
     left: number;
   };
   hideLine?: boolean;
-  children: JSX.Element | (string | JSX.Element)[];
+  children: React.ReactNode | (string | React.ReactNode)[];
 }
 
 interface HeaderBounds {

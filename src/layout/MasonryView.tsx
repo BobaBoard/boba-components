@@ -50,7 +50,7 @@ const MasonryView: React.ForwardRefRenderFunction<
 };
 
 export interface MasonryViewProps {
-  children: JSX.Element[] | Element[];
+  children: React.ReactNode[] | Element[];
 }
 
 export default React.forwardRef(MasonryView);

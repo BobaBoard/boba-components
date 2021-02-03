@@ -9,8 +9,8 @@ import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import Theme from "../theme/default";
 
 export interface CardProps {
-  footer?: JSX.Element;
-  header?: JSX.Element;
+  footer?: React.ReactNode;
+  header?: React.ReactNode;
   height?: number;
   backgroundColor?: string;
 }

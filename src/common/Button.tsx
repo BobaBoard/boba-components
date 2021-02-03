@@ -161,7 +161,7 @@ const Button: React.FC<ButtonProps> = ({
 export default Button;
 
 export interface ButtonProps {
-  children: string | JSX.Element;
+  children: string | React.ReactNode;
   icon?: IconDefinition;
   imageUrl?: string;
   compact?: boolean;

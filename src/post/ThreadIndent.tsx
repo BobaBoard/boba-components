@@ -10,7 +10,7 @@ const indentationSizePx = 4;
 const barGap = 5;
 
 const withNesting = (
-  el: JSX.Element | JSX.Element[],
+  el: React.ReactNode | React.ReactNode[],
   level: number,
   maxLevel: number,
   ends?: {
@@ -165,7 +165,7 @@ const ThreadIndent: React.FC<ThreadIndentProps> = (props) => {
 export default ThreadIndent;
 
 export interface ThreadIndentProps {
-  children: JSX.Element | JSX.Element[];
+  children: React.ReactNode | React.ReactNode[];
   level: number;
   ends?: {
     level: number;

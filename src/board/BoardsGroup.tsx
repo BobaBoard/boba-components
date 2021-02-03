@@ -36,6 +36,6 @@ const BoardsGroup: React.FC<BoardsGroupProps> = (props) => {
 export default BoardsGroup;
 
 export interface BoardsGroupProps {
-  children: JSX.Element[];
+  children: React.ReactNode[];
   title?: string;
 }

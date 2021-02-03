@@ -636,14 +636,14 @@ const Layout = React.forwardRef<{ closeSideMenu: () => void }, LayoutProps>(
 );
 
 export interface LayoutProps {
-  sidebarContent?: JSX.Element;
-  mainContent: JSX.Element;
-  sideMenuContent: JSX.Element;
+  sidebarContent?: React.ReactNode;
+  mainContent: React.ReactNode;
+  sideMenuContent: React.ReactNode;
   headerAccent?: string;
   title?: string;
   // Force hides the title from desktop
   forceHideTitle?: boolean;
-  actionButton?: JSX.Element;
+  actionButton?: React.ReactNode;
   user?: { username: string; avatarUrl?: string };
   logoLink?: LinkWithAction;
   titleLink?: LinkWithAction;

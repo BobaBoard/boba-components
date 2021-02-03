@@ -14,8 +14,8 @@ import debug from "debug";
 const log = debug("bobaui:feed-with-menu-log");
 
 export interface FeedWithMenuProps {
-  sidebarContent: JSX.Element;
-  feedContent: JSX.Element;
+  sidebarContent: React.ReactNode;
+  feedContent: React.ReactNode;
   showSidebar?: boolean;
   forceHideSidebar?: boolean;
   onCloseSidebar?: () => void;

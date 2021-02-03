@@ -6,7 +6,7 @@ import { faTimesCircle } from "@fortawesome/free-solid-svg-icons";
 export interface TagProps {
   name: string;
   deletable?: false;
-  symbol?: string | JSX.Element;
+  symbol?: string | React.ReactNode;
   color?: string;
   accentColor?: string;
   compact?: boolean;
@@ -16,7 +16,7 @@ export interface DeletableTagProps {
   name: string;
   deletable: true;
   onDeleteTag: (name: string) => void;
-  symbol?: string | JSX.Element;
+  symbol?: string | React.ReactNode;
   color?: string;
   accentColor?: string;
   compact?: boolean;

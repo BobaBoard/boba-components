@@ -34,7 +34,10 @@ const TagsDisplay: React.FC<TagsDisplayProps> = ({
   // flow inline with a with a container that is display:flex seems to be impossible.
   // Removing the display:flex from the container makes it impossible to keep the tag
   // input following the text on its line while expanding to fill.
-  const maybeWrapInDiv = (component: JSX.Element[], wrapClassName: string) => {
+  const maybeWrapInDiv = (
+    component: React.ReactNode[],
+    wrapClassName: string
+  ) => {
     return editable ? (
       component
     ) : (

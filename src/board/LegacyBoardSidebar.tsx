@@ -153,7 +153,7 @@ export interface BoardSidebarProps {
     allowed: boolean;
     name: string;
   }[];
-  otherRules?: JSX.Element;
+  otherRules?: React.ReactNode;
   previewOptions?: { name: string; link: LinkWithAction }[];
   muted?: boolean;
 }
