@@ -123,7 +123,7 @@ const Footer: React.FC<FooterProps> = ({
           font-size: large;
           font-weight: normal;
         }
-        .notes-button {
+        .notes-button a {
           margin-right: 5px;
           padding: 5px 12px;
           color: rgb(28, 28, 28);
@@ -142,7 +142,7 @@ const Footer: React.FC<FooterProps> = ({
           padding: 3px 5px;
           position: absolute;
           right: 0;
-          top: -1px;
+          top: -6px;
           transform: translate(20%, -50%);
           font-size: smaller;
         }
