@@ -497,6 +497,10 @@ export const PostQuoteStory = () => {
     <div style={{ width: "300px" }}>
       <PostQuote
         createdTime="yesterday"
+        createdTimeLink={{
+          href: "#test-link",
+          onClick: action("clickity-click"),
+        }}
         text={
           '[{"insert":"Open RP"},{"attributes":{"header":1},"insert":"\\n"},{"insert":{"block-image":"https://cdn.discordapp.com/attachments/443967088118333442/691486081895628830/unknown.png"}}, {"attributes":{"italic":true},"insert":"You have my sword..."}]'
         }

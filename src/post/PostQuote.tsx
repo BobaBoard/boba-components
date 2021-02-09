@@ -2,6 +2,9 @@ import React from "react";
 import Editor from "@bobaboard/boba-editor";
 import Theme from "../theme/default";
 import Avatar from "./Avatar";
+import ActionLink from "../common/ActionLink";
+import { LinkWithAction } from "types";
+import css from "styled-jsx/css";
 
 const parseText = (text: string) => {
   try {
@@ -11,6 +14,15 @@ const parseText = (text: string) => {
     return [];
   }
 };
+
+const { className, styles } = css.resolve`
+  a {
+    color: rgba(255, 255, 255, 0.5);
+  }
+  a:hover {
+    color: rgba(255, 255, 255, 0.8);
+  }
+`;
 
 const PostQuote: React.FC<PostQuoteProps> = (props) => {
   const [parsedText, setParsedText] = React.useState(parseText(props.text));
@@ -29,8 +41,13 @@ const PostQuote: React.FC<PostQuoteProps> = (props) => {
             userIdentity={props.userIdentity}
           />
         </div>
-        <div className="creation-time">published: {props.createdTime}</div>
+        <div className="creation-time">
+          <ActionLink link={props.createdTimeLink} className={className}>
+            published: {props.createdTime}
+          </ActionLink>
+        </div>
       </div>
+      {styles}
       <style jsx>{`
         .quote {
           --text-color: white;
@@ -41,6 +58,13 @@ const PostQuote: React.FC<PostQuoteProps> = (props) => {
         }
         .quote :global(p) {
           padding: 0 5px;
+          font-size: 15px !important;
+        }
+        // TODO: figure out how to do this without having to repeat the styling for every element
+        .quote :global(li) {
+          font-size: 15px !important;
+        }
+        .quote :global(ol) {
           font-size: 15px !important;
         }
         .quote :global(.block-image-class) {
@@ -77,6 +101,7 @@ const PostQuote: React.FC<PostQuoteProps> = (props) => {
 
 export interface PostQuoteProps {
   createdTime: string;
+  createdTimeLink?: LinkWithAction;
   text: string;
   secretIdentity: {
     avatar: string;
