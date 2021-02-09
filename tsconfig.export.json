@@ -26,9 +26,9 @@
     "types": [
       "react",
       "react-dom",
-      "styled-jsx",
       "node",
-      "resize-observer-browser"
+      "resize-observer-browser",
+      "styled-jsx"
     ]
   },
   "include": ["src/**/*", "index.d.ts"],

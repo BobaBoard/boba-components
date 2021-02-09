@@ -42,7 +42,22 @@ module.exports = {
         // Include ts, tsx, js, and jsx files.
         test: /\.(ts|js)x?$/,
         exclude: /node_modules/,
-        use: [{ loader: "babel-loader", options: { babelrc: true } }],
+        use: [
+          {
+            loader: "babel-loader",
+            options: {
+              presets: [
+                "@babel/preset-env",
+                "@babel/preset-react",
+                "@babel/typescript",
+              ],
+              plugins: [
+                ["styled-jsx/babel", { optimizeForSpeed: true }],
+                "@babel/plugin-proposal-class-properties",
+              ],
+            },
+          },
+        ],
       },
       {
         test: /\.css$/i,

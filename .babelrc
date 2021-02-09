@@ -1,7 +1,0 @@
-{
-  "presets": ["@babel/preset-env", "@babel/preset-react", "@babel/typescript"],
-  "plugins": [
-    ["styled-jsx/babel", { "optimizeForSpeed": true }],
-    "@babel/plugin-proposal-class-properties"
-  ]
-}

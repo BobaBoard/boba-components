@@ -18,6 +18,10 @@ module.exports = {
               "@babel/preset-react",
               "@babel/preset-typescript",
             ],
+            plugins: [
+              ["styled-jsx/babel", { optimizeForSpeed: true }],
+              "@babel/plugin-proposal-class-properties",
+            ],
           },
         },
         {
