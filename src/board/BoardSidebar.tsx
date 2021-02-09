@@ -1,10 +1,13 @@
 import React from "react";
 
 import BoardPreview from "./BoardPreview";
-import { BoardMetadataType, DescriptionType, LinkWithAction } from "types";
+import { BoardMetadataType, DescriptionType } from "types";
 import Button, { ButtonStyle } from "../common/Button";
 import ColorInput from "../common/ColorInput";
-import DropdownMenu, { DropdownStyle } from "../common/DropdownListMenu";
+import DropdownMenu, {
+  DropdownProps,
+  DropdownStyle,
+} from "../common/DropdownListMenu";
 import {
   faCaretDown,
   faArrowLeft,
@@ -309,21 +312,20 @@ const BoardSidebar: React.FC<BoardSidebarProps> = (props) => {
 
 export default BoardSidebar;
 
-interface EditableBoardSidebarProps extends BoardMetadataType {
+interface EditableBoardSidebarProps {
   editing: true;
   onCancelEditing: () => void;
   onUpdateMetadata: (metadata: BoardMetadataType) => void;
 }
 
-interface DisplayBoardSidebarProps extends BoardMetadataType {
+interface DisplayBoardSidebarProps {
   editing?: false;
-  previewOptions?: { name: string; link: LinkWithAction }[];
+  previewOptions?: DropdownProps["options"];
   activeCategory: string | null;
   onCategoriesStateChange: (
     categories: { name: string; active: boolean }[]
   ) => void;
 }
 
-export type BoardSidebarProps =
-  | DisplayBoardSidebarProps
-  | EditableBoardSidebarProps;
+export type BoardSidebarProps = BoardMetadataType &
+  (DisplayBoardSidebarProps | EditableBoardSidebarProps);

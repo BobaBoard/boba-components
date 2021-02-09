@@ -1,7 +1,7 @@
 import React from "react";
 
 import Button, { ButtonStyle } from "../common/Button";
-import classNames from "classnames";
+import classnames from "classnames";
 import useComponentSize from "@rehooks/component-size";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 
@@ -32,7 +32,11 @@ const Footer: React.FC<FooterProps> = ({
   }, [width]);
   return (
     <div className="footer" ref={ref}>
-      <div className="notes">
+      <div
+        className={classnames("notes", {
+          "with-updates": newContributions || newComments,
+        })}
+      >
         {(!!newContributions || !!newComments) && (
           <div className="notes-update">
             {!!newContributions && (
@@ -80,7 +84,7 @@ const Footer: React.FC<FooterProps> = ({
         </div>
       </div>
       <div
-        className={classNames("footer-actions", {
+        className={classnames("footer-actions", {
           compact,
         })}
       >
@@ -111,6 +115,9 @@ const Footer: React.FC<FooterProps> = ({
         .notes {
           position: relative;
           min-width: 0;
+        }
+        .notes.with-updates {
+          margin-top: 5px;
         }
         .notes .note-count {
           font-size: large;

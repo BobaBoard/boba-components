@@ -161,7 +161,6 @@ const DropdownContent = React.forwardRef<
         .back.option {
           border: none;
           background-color: transparent;
-          font-family: inherit;
           cursor: pointer;
           width: 100%;
           text-align: left;
