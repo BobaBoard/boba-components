@@ -33,7 +33,7 @@ import PostQuote from "./post/PostQuote";
 import UserDetails from "./user/UserDetails";
 import BobaDex from "./user/BobaDex";
 import { TagType } from "./types";
-import { EmbedsFetcherContext } from "@bobaboard/boba-editor";
+import { EditorContext } from "@bobaboard/boba-editor";
 
 import flush from "styled-jsx/server";
 
@@ -74,7 +74,7 @@ export {
   ToastContainer,
   MasonryView,
   toast,
-  EmbedsFetcherContext,
+  EditorContext,
   ImageUploaderContext,
   flush,
   useCompact,
