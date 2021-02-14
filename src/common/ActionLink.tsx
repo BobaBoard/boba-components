@@ -11,7 +11,7 @@ const ActionLink: React.FC<ActionLinkProps> = ({
       if (!link?.onClick) {
         return;
       }
-      link.onClick();
+      link.onClick(e);
       e.preventDefault();
     },
     [link]
@@ -23,6 +23,14 @@ const ActionLink: React.FC<ActionLinkProps> = ({
     return (
       <button className={className} onClick={preventDefaultCallback}>
         {children}
+        <style jsx>{`
+          button {
+            background: none repeat scroll 0 0 transparent;
+            border: 0;
+            margin: 0;
+            padding: 0;
+          }
+        `}</style>
       </button>
     );
   }

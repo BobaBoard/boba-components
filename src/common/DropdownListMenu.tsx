@@ -13,6 +13,15 @@ import {
   faChevronLeft,
   faChevronRight,
 } from "@fortawesome/free-solid-svg-icons";
+import ActionLink from "./ActionLink";
+import css from "styled-jsx/css";
+
+const { className: buttonClass, styles: buttonStyles } = css.resolve`
+  button {
+    display: block;
+    width: 100%;
+  }
+`;
 
 export enum DropdownStyle {
   LIGHT = "LIGHT",
@@ -86,48 +95,56 @@ const DropdownContent = React.forwardRef<
       )}
       {props.options?.map((option) => (
         // TODO: this should be a button if there's no href.
-        <a
+        <ActionLink
+          className={buttonClass}
           key={option.name}
-          className={classnames("option", {
-            nested: "options" in option,
-          })}
-          onClick={(e) => {
-            if ("options" in option) {
-              props.onNestedOptions(option.options);
-              return;
-            }
-            if (option.link.onClick) {
-              e.preventDefault();
-            }
-            props.onCloseRequest();
-            option.link.onClick?.();
+          link={{
+            onClick: (e) => {
+              if ("options" in option) {
+                props.onNestedOptions(option.options);
+                e?.preventDefault();
+                return;
+              }
+              if (option.link.onClick) {
+                e?.preventDefault();
+              }
+              props.onCloseRequest();
+              option.link.onClick?.(e);
+            },
+            href: option["link"]?.href,
           }}
-          href={option["link"]?.href || "#none"}
         >
-          {!!option.icon && (
-            <div
-              className={classnames("popover-icon", {
-                "with-image": typeof option.icon === "string",
-              })}
-              style={{
-                backgroundImage:
-                  typeof option.icon === "string"
-                    ? `url(${option.icon}`
-                    : undefined,
-                borderColor: option.color ? option.color : "transparent",
-              }}
-            >
-              {typeof option.icon !== "string" && (
-                <FontAwesomeIcon icon={option.icon} />
-              )}
+          <div
+            className={classnames("option", {
+              nested: "options" in option,
+            })}
+          >
+            {!!option.icon && (
+              <div
+                className={classnames("popover-icon", {
+                  "with-image": typeof option.icon === "string",
+                })}
+                style={{
+                  backgroundImage:
+                    typeof option.icon === "string"
+                      ? `url(${option.icon}`
+                      : undefined,
+                  borderColor: option.color ? option.color : "transparent",
+                }}
+              >
+                {typeof option.icon !== "string" && (
+                  <FontAwesomeIcon icon={option.icon} />
+                )}
+              </div>
+            )}
+            <div className="option-text">{option.name}</div>
+            <div className="nested-icon">
+              <FontAwesomeIcon icon={faChevronRight} />
             </div>
-          )}
-          <div className="option-text">{option.name}</div>
-          <div className="nested-icon">
-            <FontAwesomeIcon icon={faChevronRight} />
           </div>
-        </a>
+        </ActionLink>
       ))}
+      {buttonStyles}
       <style jsx>{`
         .menu {
           min-width: ${Math.max(props.minWidthPx || 0, 250)}px;
@@ -177,8 +194,9 @@ const DropdownContent = React.forwardRef<
           color: ${reverseThemeColor};
           text-decoration: none;
           white-space: nowrap;
-          align-items: center;
           display: flex;
+          align-items: center;
+          text-align: left;
         }
         .option:hover {
           background-color: ${hoverBackgroundColor};

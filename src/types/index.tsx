@@ -1,3 +1,5 @@
+import { MouseEvent } from "react";
+
 export interface PostDetailsType {
   text: string;
   createdTime: string;
@@ -61,7 +63,7 @@ export type DescriptionType = TextDescriptionType | FilterDescriptionType;
 
 export interface LinkWithAction {
   href?: string;
-  onClick?: () => void;
+  onClick?: (e?: MouseEvent) => void;
 }
 
 export interface BoardType {
