@@ -37,6 +37,11 @@ const ActionLink: React.FC<ActionLinkProps> = ({
   return (
     <a className={className} href={link.href} onClick={preventDefaultCallback}>
       {children}
+      <style jsx>{`
+        a {
+          text-decoration: inherit;
+        }
+      `}</style>
     </a>
   );
 };

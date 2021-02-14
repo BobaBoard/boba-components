@@ -201,7 +201,7 @@ export const WithHeader = () => {
         }
         options={[
           {
-            name: "Pin board",
+            name: "OnClick Only",
             icon: faMapPin,
             link: {
               onClick: action("noHrefClick"),
@@ -255,16 +255,17 @@ export const WithHeader = () => {
             ],
           },
           {
-            name: "Dismiss notifications",
+            name: "Href Only",
             icon: faBellSlash,
             link: {
-              onClick: action("noHrefClick"),
+              href: "#href",
             },
           },
           {
-            name: "Customize Summary",
+            name: "Both",
             icon: faPaintBrush,
             link: {
+              href: "#href",
               onClick: action("noHrefClick"),
             },
           },
