@@ -6,6 +6,7 @@ import Scrollbar from "../common/Scrollbar";
 import Theme from "../theme/default";
 import { useBackdrop } from "../utils";
 import debounce from "debounce";
+import noop from "noop-ts";
 import { ResizeObserver as Polyfill } from "@juggle/resize-observer";
 require("intersection-observer");
 
@@ -16,9 +17,10 @@ const log = debug("bobaui:feed-with-menu-log");
 export interface FeedWithMenuProps {
   showSidebar?: boolean;
   forceHideSidebar?: boolean;
+  reachToBottom?: boolean;
   onCloseSidebar?: () => void;
   accentColor?: string;
-  onReachEnd?: () => void;
+  onReachEnd?: (more?: (more: boolean) => void) => void;
 }
 
 // const maybePreventScrollOverflow = (
@@ -27,7 +29,7 @@ export interface FeedWithMenuProps {
 // ) => {
 //   if (
 //     event.deltaY > 0 &&
-//     wrapper.scrollTop == wrapper.scrollHeight - wrapper.offsetHeight
+//     wrapper.scrollTop == wrapper.scrollHeight - wrapper.offsetHeight;
 //   ) {
 //     event.preventDefault();
 //   }
@@ -77,10 +79,12 @@ const FeedWithMenu: React.FC<FeedWithMenuProps> & CompoundComponents = ({
   showSidebar,
   onCloseSidebar,
   onReachEnd,
+  reachToBottom,
   forceHideSidebar,
 }) => {
-  const scrollableContentRef = React.createRef<any>();
+  const scrollableContentRef = React.useRef<HTMLDivElement>(null);
   const intersectionObserverRef = React.useRef<HTMLDivElement>(null);
+  const hasReachedBottom = React.useRef<boolean>(false);
   const [canOpenSidebar, setCanOpenSidebar] = React.useState(
     typeof window != "undefined" &&
       matchMedia("only screen and (max-width: 850px)").matches
@@ -189,22 +193,58 @@ const FeedWithMenu: React.FC<FeedWithMenuProps> & CompoundComponents = ({
   // Call reach end method when bottom of content is reached
   React.useEffect(() => {
     if (intersectionObserverRef.current && onReachEnd) {
+      // Add a disconnection spy so that "loading to bottom" efforts
+      // can be abandoned if the useEffect hook has been refreshed.
+      let hasDisconnected = false;
       const debouncedReachEnd = debounce(onReachEnd, 200, true);
       const observer = new IntersectionObserver((entry) => {
         log(`Reaching end of scrollable area.`);
         log(entry);
         if (entry[0]?.isIntersecting) {
           log(`Found intersecting entry.`);
-          debouncedReachEnd();
+          if (!reachToBottom || hasReachedBottom.current) {
+            debouncedReachEnd(noop);
+            return;
+          }
+          // If the feed asks to attempt loading to bottom, we trigger
+          // the onReachEnd callback until the intersection observer "spy"
+          // is below the fold of the viewport.
+          const attemptLoadingToBottom = () => {
+            const isAtEnd =
+              (intersectionObserverRef.current?.getBoundingClientRect().top ||
+                1) > (entry[0].rootBounds?.bottom || 0);
+            if (isAtEnd) {
+              // We have reached the fold! Let's signal that, and stop loading
+              // more.
+              hasReachedBottom.current = true;
+              return;
+            }
+            // Since "loading more" usually implies setting some state,
+            // and we need to wait for the state to be updated to check whether the
+            // intersection "spy" has reached below the fold, we pass a promise
+            // "resolve" method that we wait on to decide whether we should
+            // attempt loading more.
+            new Promise((resolve) => {
+              onReachEnd(resolve);
+            }).then((hasMore) => {
+              if (reachToBottom && !hasDisconnected && hasMore) {
+                attemptLoadingToBottom();
+              }
+            });
+          };
+          attemptLoadingToBottom();
         } else {
           log(`Intersecting entry not found.`);
         }
       });
       observer.observe(intersectionObserverRef.current);
-      return () => observer.disconnect();
+      return () => {
+        observer.disconnect();
+        hasDisconnected = true;
+      };
     }
     return undefined;
-  }, [onReachEnd]);
+  }, [onReachEnd, reachToBottom]);
 
   const sidebarContent = extractSidebar(children);
   const feedContent = extractFeedContent(children);

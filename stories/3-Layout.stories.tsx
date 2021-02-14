@@ -10,6 +10,8 @@ import ModalWithButtons from "../src/common/ModalWithButtons";
 import Input from "../src/common/Input";
 import Post from "../src/post/Post";
 import MasonryView from "../src/layout/MasonryView";
+import { useStateWithCallbackLazy } from "use-state-with-callback";
+
 import { faInbox, faSearch, faTh } from "@fortawesome/free-solid-svg-icons";
 
 import { action } from "@storybook/addon-actions";
@@ -420,7 +422,103 @@ FeedWithMenuPreview.story = {
 
 const POSTS = [
   {
-    createdTime: "1 minute ago",
+    createdMessage: "1 minute ago",
+    text: '[{"insert":"A short post."}]',
+    secretIdentity: {
+      name: "Good Guy",
+      avatar: `/${oncelerAvatar}`,
+    },
+    newPost: true,
+    totalComments: 6,
+    totalContributions: 5,
+    directContributions: 3,
+  },
+  {
+    createdMessage: "1 minute ago",
+    text: '[{"insert":"A short post."}]',
+    secretIdentity: {
+      name: "Good Guy",
+      avatar: `/${oncelerAvatar}`,
+    },
+    newPost: true,
+    totalComments: 6,
+    totalContributions: 5,
+    directContributions: 3,
+  },
+  {
+    createdMessage: "1 minute ago",
+    text: '[{"insert":"A short post."}]',
+    secretIdentity: {
+      name: "Good Guy",
+      avatar: `/${oncelerAvatar}`,
+    },
+    newPost: true,
+    totalComments: 6,
+    totalContributions: 5,
+    directContributions: 3,
+  },
+  {
+    createdMessage: "1 minute ago",
+    text: '[{"insert":"A short post."}]',
+    secretIdentity: {
+      name: "Good Guy",
+      avatar: `/${oncelerAvatar}`,
+    },
+    newPost: true,
+    totalComments: 6,
+    totalContributions: 5,
+    directContributions: 3,
+  },
+  {
+    createdMessage: "1 minute ago",
+    text: '[{"insert":"A short post."}]',
+    secretIdentity: {
+      name: "Good Guy",
+      avatar: `/${oncelerAvatar}`,
+    },
+    newPost: true,
+    totalComments: 6,
+    totalContributions: 5,
+    directContributions: 3,
+  },
+  {
+    createdMessage: "1 minute ago",
+    text: '[{"insert":"A short post."}]',
+    secretIdentity: {
+      name: "Good Guy",
+      avatar: `/${oncelerAvatar}`,
+    },
+    newPost: true,
+    totalComments: 6,
+    totalContributions: 5,
+    directContributions: 3,
+  },
+  {
+    createdMessage: "1 minute ago",
+    text: '[{"insert":"A short post."}]',
+    secretIdentity: {
+      name: "Good Guy",
+      avatar: `/${oncelerAvatar}`,
+    },
+    newPost: true,
+    totalComments: 6,
+    totalContributions: 5,
+    directContributions: 3,
+  },
+  {
+    createdMessage: "1 minute ago",
+    text: '[{"insert":"A short post."}]',
+    secretIdentity: {
+      name: "Good Guy",
+      avatar: `/${oncelerAvatar}`,
+    },
+    newPost: true,
+    totalComments: 6,
+    totalContributions: 5,
+    directContributions: 3,
+  },
+  {
+    createdMessage: "1 minute ago",
     text: '[{"insert":"A short post."}]',
     secretIdentity: {
       name: "Good Guy",
@@ -708,24 +806,34 @@ ModalWithButtonsStory.story = {
 export const MasonryLayout = () => {
   const [showSidebar, setShowSidebar] = React.useState(false);
   const masonryRef = React.useRef<{ reposition: () => void }>(null);
+  const [showMax, setShowMax] = useStateWithCallbackLazy(1);
+
+  const closeSidebar = React.useCallback(() => setShowSidebar(false), []);
   return (
     <>
       <Layout
         mainContent={
           <FeedWithMenu
             showSidebar={showSidebar}
-            onCloseSidebar={() => setShowSidebar(false)}
+            onCloseSidebar={closeSidebar}
             forceHideSidebar={true}
-            onReachEnd={() => {
+            reachToBottom={showMax < POSTS.length}
+            onReachEnd={React.useCallback((more) => {
+              setShowMax(
+                (showMax) => showMax + 1,
+                (showMax: number) => {
+                  more(showMax < 3);
+                }
+              );
               log(`Reached end`);
-            }}
+            }, [])}
           >
             <FeedWithMenu.FeedContent>
               <Button onClick={() => masonryRef.current?.reposition()}>
                 Reposition Masonry View
               </Button>
               <MasonryView ref={masonryRef}>
-                {POSTS.map((post) => (
+                {POSTS.filter((post, index) => index < showMax).map((post) => (
                   <div
                     key={post.text}
                     style={{
