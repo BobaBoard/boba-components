@@ -252,6 +252,7 @@ const Post = React.forwardRef<PostHandler, PostProps>((props, ref) => {
         }
         .tags {
           padding: 0 10px;
+          text-align: left;
         }
         .content-warnings {
           display: flex;
