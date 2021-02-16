@@ -4,7 +4,7 @@ import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faEllipsisV, faClock, faTh } from "@fortawesome/free-solid-svg-icons";
 
 import PinnedBoardsMenu from "../common/PinnedBoardsMenu";
-import BoardsMenuSection from "../common/BoardsMenuSection";
+import BoardsMenuSection from "../board/BoardsMenuSection";
 import DropdownMenu, {
   DropdownProps,
   DropdownStyle,
@@ -19,6 +19,7 @@ const SideMenu: React.FC<SideMenuProps> = ({
   showRecent,
   showPinned,
   onFilterChange,
+  currentBoardSlug,
 }) => {
   return (
     <div className="side-menu">
@@ -27,7 +28,10 @@ const SideMenu: React.FC<SideMenuProps> = ({
           visible: !!showPinned,
         })}
       >
-        <PinnedBoardsMenu boards={pinnedBoards} />
+        <PinnedBoardsMenu
+          boards={pinnedBoards}
+          currentBoardSlug={currentBoardSlug}
+        />
       </div>
       <div className="board-menus">
         <div className="board-filter">
@@ -62,6 +66,7 @@ const SideMenu: React.FC<SideMenuProps> = ({
               boards={recentBoards}
               emptyTitle="Congratulations!"
               emptyDescription="You read 'em all."
+              currentBoardSlug={currentBoardSlug}
             />
           </div>
           <BoardsMenuSection
@@ -71,6 +76,7 @@ const SideMenu: React.FC<SideMenuProps> = ({
             boards={allBoards}
             emptyTitle="There's no board here."
             emptyDescription="Somehow, that feels wrong."
+            currentBoardSlug={currentBoardSlug}
           />
         </div>
       </div>
@@ -171,6 +177,7 @@ export interface SideMenuProps {
   pinnedBoards?: BoardType[];
   recentBoards?: BoardType[];
   allBoards?: BoardType[];
+  currentBoardSlug?: string;
   menuOptions?: DropdownProps["options"];
   showRecent?: boolean;
   showPinned?: boolean;

@@ -4,7 +4,7 @@ import React from "react";
 import { BoardType } from "types";
 import classnames from "classnames";
 
-import BoardMenuItem from "../board/BoardMenuItem";
+import BoardMenuItem from "./BoardMenuItem";
 
 const BoardsMenuSection: React.FC<BoardsMenuSectionProps> = ({
   boards,
@@ -12,6 +12,7 @@ const BoardsMenuSection: React.FC<BoardsMenuSectionProps> = ({
   icon,
   emptyTitle,
   emptyDescription,
+  currentBoardSlug,
 }) => {
   return (
     <div className="boardSection">
@@ -41,6 +42,7 @@ const BoardsMenuSection: React.FC<BoardsMenuSectionProps> = ({
               link={board.link}
               muted={board.muted}
               outdated={board.outdated}
+              current={board.slug === currentBoardSlug}
             />
           </div>
         ))}
@@ -112,4 +114,5 @@ export interface BoardsMenuSectionProps {
   icon: string | IconDefinition;
   emptyTitle?: string;
   emptyDescription?: string;
+  currentBoardSlug?: string;
 }

@@ -3,6 +3,15 @@ import React from "react";
 import BoardIcon from "./BoardIcon";
 import classnames from "classnames";
 import { LinkWithAction } from "types";
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import {
+  faLocationArrow,
+  faMapMarkedAlt,
+  faMapMarker,
+  faMapMarkerAlt,
+  faMapPin,
+  faStar,
+} from "@fortawesome/free-solid-svg-icons";
 
 const BoardMenuItem: React.FC<BoardMenuItemProps> = ({
   avatar,
@@ -12,6 +21,7 @@ const BoardMenuItem: React.FC<BoardMenuItemProps> = ({
   slug,
   link,
   outdated,
+  current,
 }) => {
   return (
     <a
@@ -41,7 +51,12 @@ const BoardMenuItem: React.FC<BoardMenuItemProps> = ({
           small
         />
       </div>
-      <span className="board-menu-item-slug">!{slug}</span>
+      <div className="board-menu-item-slug-container">
+        <span className="board-menu-item-slug">!{slug}</span>
+        <span className={classnames("current", { hidden: !current })}>
+          <FontAwesomeIcon icon={faMapMarkerAlt} />
+        </span>
+      </div>
       <style jsx>{`
         .board-menu-item {
           display: block;
@@ -54,17 +69,22 @@ const BoardMenuItem: React.FC<BoardMenuItemProps> = ({
         .board-menu-item-icon {
           position: absolute;
         }
+        .board-menu-item-slug-container {
+          max-width: calc(100% - 60px);
+          padding-left: 45px;
+          line-height: 35px;
+          display: inline-block;
+          position: relative;
+          display: flex;
+        }
         .board-menu-item-slug {
           color: #969696;
           font-size: 18px;
           font-weight: bold;
-          line-height: 35px;
-          padding-left: 45px;
-          max-width: calc(100% - 65px);
           overflow: hidden;
           text-overflow: ellipsis;
-          display: inline-block;
           white-space: nowrap;
+          flex-grow: 1;
         }
         .muted .board-menu-item-slug {
           text-decoration: line-through;
@@ -74,6 +94,13 @@ const BoardMenuItem: React.FC<BoardMenuItemProps> = ({
         }
         .board-menu-item.outdated .board-menu-item-slug {
           color: #c7c7c7;
+        }
+        .current {
+          color: #ff0f4b;
+          margin-left: 5px;
+        }
+        .hidden {
+          display: none;
         }
       `}</style>
     </a>
@@ -90,4 +117,5 @@ export interface BoardMenuItemProps {
   link: LinkWithAction;
   muted?: boolean;
   outdated?: boolean;
+  current?: boolean;
 }

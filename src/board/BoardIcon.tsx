@@ -3,7 +3,11 @@ import cx from "classnames";
 import CircleMask from "../images/circle-mask.svg";
 import RectangleMask from "../images/rectangle-mask.svg";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import { faVolumeMute } from "@fortawesome/free-solid-svg-icons";
+import {
+  faMapMarkerAlt,
+  faMapPin,
+  faVolumeMute,
+} from "@fortawesome/free-solid-svg-icons";
 import Color from "color";
 
 const BoardIcon: React.FC<BoardIconProps> = ({
@@ -14,6 +18,7 @@ const BoardIcon: React.FC<BoardIconProps> = ({
   large,
   muted,
   outdated,
+  current,
 }) => {
   return (
     <>
@@ -23,13 +28,19 @@ const BoardIcon: React.FC<BoardIconProps> = ({
           small: !!small,
           updates: !!updates,
           outdated: !!outdated,
+          current: !!current,
         })}
       >
         <div className="board-image" />
         {!!updates && <div className="board-icon__update" />}
         {!!muted && (
-          <div className="board-icon__muted">
+          <div className="board-state-icon muted">
             <FontAwesomeIcon icon={faVolumeMute} />
+          </div>
+        )}
+        {!!current && (
+          <div className="current-board-icon">
+            <FontAwesomeIcon icon={faMapMarkerAlt} />
           </div>
         )}
       </div>
@@ -47,21 +58,33 @@ const BoardIcon: React.FC<BoardIconProps> = ({
           border-radius: 15px;
           box-sizing: border-box;
         }
-        .updates .board-image {
+        .board-icon.large.updates:not(.current) .board-image:not(.current) {
           mask: url(${RectangleMask}),
             url(${CircleMask}) -7.5px -7.5px/20px 20px;
           mask-composite: source-out;
           mask-repeat: no-repeat;
         }
-        .board-icon.small.updates .board-image {
+        .board-icon.small.updates:not(.current) .board-image {
           mask: url(${RectangleMask}),
             url(${CircleMask}) -3.5px -3.5px/12px 12px;
           mask-composite: source-out;
           mask-repeat: no-repeat;
         }
+        .board-icon.large.updates.current .board-image:not(.current) {
+          mask: url(${RectangleMask}),
+            url(${CircleMask}) -7.5px -7.5px/21px 21px,
+            url(${CircleMask}) 33px 33px/28px 28px;
+          mask-composite: xor;
+          mask-repeat: no-repeat;
+        }
         .board-icon.large .board-image {
           width: 50px;
           height: 50px;
+        }
+        .board-icon.large.current:not(.updates) .board-image {
+          mask: url(${RectangleMask}), url(${CircleMask}) 33px 33px/28px 28px;
+          mask-composite: source-out;
+          mask-repeat: no-repeat;
         }
         .board-icon.small .board-image {
           width: 35px;
@@ -88,9 +111,8 @@ const BoardIcon: React.FC<BoardIconProps> = ({
           top: -3px;
           left: -3px;
         }
-        .board-icon__muted {
+        .board-state-icon {
           background-color: rgb(46, 46, 48);
-          color: rgb(191, 191, 191);
           border-radius: 50%;
           box-sizing: border-box;
           position: absolute;
@@ -100,17 +122,35 @@ const BoardIcon: React.FC<BoardIconProps> = ({
           left: 50%;
           transform: translate(-50%, -50%);
         }
-        .board-icon__muted :global(svg) {
+        .board-state-icon :global(svg) {
           position: absolute;
           top: 50%;
           left: 50%;
           transform: translate(-50%, -50%);
         }
-        .board-icon.small .board-icon__muted {
+        .board-state-icon.muted {
+          color: rgb(191, 191, 191);
+        }
+        .current-board-icon {
+          color: #ff0f4b;
+          position: absolute;
+          right: 0;
+          bottom: 0;
+          transform: translate(0px, 1px);
+          width: 8px;
+          height: 8px;
+        }
+        .current-board-icon :global(svg) {
+          position: absolute;
+          top: 50%;
+          left: 50%;
+          transform: translate(-50%, -50%);
+        }
+        .board-icon.small .board-state-icon {
           width: 20px;
           height: 20px;
         }
-        .board-icon.small .board-icon__muted :global(svg) {
+        .board-icon.small .board-state-icon :global(svg) {
           width: 0.7em;
         }
       `}</style>
@@ -128,4 +168,5 @@ export interface BoardIconProps {
   small?: boolean;
   large?: boolean;
   outdated?: boolean;
+  current?: boolean;
 }

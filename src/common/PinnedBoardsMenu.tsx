@@ -5,7 +5,10 @@ import { faThumbtack } from "@fortawesome/free-solid-svg-icons";
 
 import BoardIcon from "../board/BoardIcon";
 
-const PinnedBoardsMenu: React.FC<PinnedBoardsMenuProps> = ({ boards }) => {
+const PinnedBoardsMenu: React.FC<PinnedBoardsMenuProps> = ({
+  boards,
+  currentBoardSlug,
+}) => {
   return (
     <>
       <div className="board-pinned">
@@ -29,6 +32,7 @@ const PinnedBoardsMenu: React.FC<PinnedBoardsMenuProps> = ({ boards }) => {
                 muted={board.muted}
                 updates={board.updates}
                 outdated={board.outdated}
+                current={board.slug === currentBoardSlug}
                 large
               />
             </a>
@@ -68,4 +72,5 @@ export default PinnedBoardsMenu;
 
 export interface PinnedBoardsMenuProps {
   boards?: BoardType[];
+  currentBoardSlug?: string;
 }
