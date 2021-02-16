@@ -41,12 +41,13 @@ const PostContent: React.FC<
           tags={
             props.tags
               ? TagsFactory.getTagsFromTagObject({
-                  ...props.tags,
+                  whisperTags: props.tags.whisperTags,
                   contentWarnings: [],
+                  categoryTags: props.showFooter ? props.tags.categoryTags : [],
+                  indexTags: props.showFooter ? props.tags.indexTags : [],
                 })
               : []
           }
-          getOptionsForTag={() => []}
         />
       </div>
       {props.showFooter !== false && (
@@ -70,6 +71,7 @@ const PostContent: React.FC<
           padding: 0 10px;
           text-align: left;
           border-top: 1px dotted rgba(0, 0, 0, 0.3);
+          padding-top: 5px;
           padding-bottom: 10px;
         }
       `}</style>
