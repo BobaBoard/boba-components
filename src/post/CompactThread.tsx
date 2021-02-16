@@ -11,6 +11,8 @@ import classnames from "classnames";
 
 import Theme from "../theme/default";
 import { PostDetailsType } from "../types";
+import Tags from "../tags/Tags";
+import TagsFactory from "../tags/TagsFactory";
 
 const PostContent: React.FC<
   PostDetailsType & { showHeader?: boolean; showFooter?: boolean }
@@ -19,7 +21,7 @@ const PostContent: React.FC<
     <div
       className={classnames("post", {
         old: !props.newPost,
-        "with-footer": props.showFooter !== false,
+        "with-footer": !!props.showFooter,
       })}
     >
       {props.showHeader !== false && (
@@ -34,6 +36,19 @@ const PostContent: React.FC<
         </div>
       )}
       <Editor initialText={JSON.parse(props.text)} editable={false} />
+      <div className={classnames("tags", { visible: !props.tags })}>
+        <Tags
+          tags={
+            props.tags
+              ? TagsFactory.getTagsFromTagObject({
+                  ...props.tags,
+                  contentWarnings: [],
+                })
+              : []
+          }
+          getOptionsForTag={() => []}
+        />
+      </div>
       {props.showFooter !== false && (
         <div className="footer">
           {/* <Footer
@@ -43,10 +58,19 @@ const PostContent: React.FC<
         </div>
       )}
       <style jsx>{`
-        .post.old {
-          opacity: 0.8;
+        .post:not(.with-footer) {
+          border-bottom: 4px dashed ${Theme.LAYOUT_BOARD_BACKGROUND_COLOR};
         }
-        .post.with-footer {
+        .header {
+          padding-top: 15px;
+          padding-left: 5px;
+          padding-right: 5px;
+        }
+        .tags {
+          padding: 0 10px;
+          text-align: left;
+          border-top: 1px dotted rgba(0, 0, 0, 0.3);
+          padding-bottom: 10px;
         }
       `}</style>
     </div>
@@ -67,7 +91,7 @@ const ThreadContent: React.FC<{ posts: PostDetailsType[] }> = ({ posts }) => {
           if (index == oldPosts.length - 1) {
             return;
           }
-          return <PostContent {...post} showHeader={index != 0} />;
+          return <PostContent key={index} {...post} showHeader={index != 0} />;
         })}
         {/* {expandDiv} */}
       </div>
@@ -77,7 +101,11 @@ const ThreadContent: React.FC<{ posts: PostDetailsType[] }> = ({ posts }) => {
       <div className="new-posts">
         {newPosts.map((post, index) => {
           return (
-            <PostContent {...post} showFooter={index != newPosts.length - 1} />
+            <PostContent
+              key={index}
+              {...post}
+              showFooter={index == newPosts.length - 1}
+            />
           );
         })}
       </div>
@@ -86,7 +114,6 @@ const ThreadContent: React.FC<{ posts: PostDetailsType[] }> = ({ posts }) => {
           .old-posts,
           .old-last {
             position: relative;
-            padding-bottom: 20px;
           }
           .post {
             background-color: red;
@@ -131,6 +158,7 @@ const CompactThread: React.FC<CompactThreadProps> = (props) => {
           border-radius: 15px 15px 0px 0px;
           background-color: ${Theme.POST_BACKGROUND_COLOR};
           padding: 10px;
+          border-bottom: 1px dotted rgba(0, 0, 0, 0.3);
         }
         .post-container {
           margin-bottom: 50px;

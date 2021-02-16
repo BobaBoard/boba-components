@@ -14,6 +14,12 @@ export interface PostDetailsType {
   newPost?: boolean;
   newComments?: number;
   newContributions?: number;
+  tags?: {
+    contentWarnings: string[];
+    categoryTags: string[];
+    whisperTags: string[];
+    indexTags: string[];
+  };
 }
 
 export enum TagType {

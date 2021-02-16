@@ -36,6 +36,23 @@ export const CompactThreadStory = () => {
             name: "Good Guy",
             avatar: `/${oncelerAvatar}`,
           },
+          tags: {
+            indexTags: ["indexable"],
+            categoryTags: ["category"],
+            contentWarnings: [
+              "bad content (1)",
+              "terrible content (2)",
+              "super awful content (3)",
+              "just don't look at this content (4)",
+            ],
+            whisperTags: [
+              "tag1",
+              "tag2",
+              "a long tag",
+              "a very very very very very long tag with many words",
+              "JugemuJugemuGokonoSurikireKaijarisuigyonoSuigyomatsuUnraimatsuFuraimatsuKuNeruTokoroniSumuTokoroYaburaKojinoBuraKojiPaipopaipoPaiponoShuringanShuringannoGurindaiGurindainoPonpokopinoPonpokonanoChokyumeinoChosuke",
+            ],
+          },
         },
         {
           createdTime: "10 hours ago",
@@ -50,6 +67,23 @@ export const CompactThreadStory = () => {
             avatar: `/${mamoruAvatar}`,
           },
           newComments: 5,
+          tags: {
+            indexTags: ["indexable"],
+            categoryTags: ["category"],
+            contentWarnings: [
+              "bad content (1)",
+              "terrible content (2)",
+              "super awful content (3)",
+              "just don't look at this content (4)",
+            ],
+            whisperTags: [
+              "tag1",
+              "tag2",
+              "a long tag",
+              "a very very very very very long tag with many words",
+              "JugemuJugemuGokonoSurikireKaijarisuigyonoSuigyomatsuUnraimatsuFuraimatsuKuNeruTokoroniSumuTokoroYaburaKojinoBuraKojiPaipopaipoPaiponoShuringanShuringannoGurindaiGurindainoPonpokopinoPonpokonanoChokyumeinoChosuke",
+            ],
+          },
         },
         {
           createdTime: "yesterday",
@@ -60,6 +94,23 @@ export const CompactThreadStory = () => {
             avatar: `/${greedlerAvatar}`,
           },
           newPost: true,
+          tags: {
+            indexTags: ["indexable"],
+            categoryTags: ["category"],
+            contentWarnings: [
+              "bad content (1)",
+              "terrible content (2)",
+              "super awful content (3)",
+              "just don't look at this content (4)",
+            ],
+            whisperTags: [
+              "tag1",
+              "tag2",
+              "a long tag",
+              "a very very very very very long tag with many words",
+              "JugemuJugemuGokonoSurikireKaijarisuigyonoSuigyomatsuUnraimatsuFuraimatsuKuNeruTokoroniSumuTokoroYaburaKojinoBuraKojiPaipopaipoPaiponoShuringanShuringannoGurindaiGurindainoPonpokopinoPonpokonanoChokyumeinoChosuke",
+            ],
+          },
         },
       ]}
       onNewComment={() => console.log("click")}
