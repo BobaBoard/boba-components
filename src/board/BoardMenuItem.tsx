@@ -28,6 +28,7 @@ const BoardMenuItem: React.FC<BoardMenuItemProps> = ({
       className={classnames("board-menu-item", {
         "has-updates": !!updates,
         muted: !!muted,
+        outdated: !!outdated,
       })}
     >
       <div className="board-menu-item-icon">
@@ -54,7 +55,7 @@ const BoardMenuItem: React.FC<BoardMenuItemProps> = ({
           position: absolute;
         }
         .board-menu-item-slug {
-          color: #bfbfbf;
+          color: #969696;
           font-size: 18px;
           font-weight: bold;
           line-height: 35px;
@@ -70,6 +71,9 @@ const BoardMenuItem: React.FC<BoardMenuItemProps> = ({
         }
         .board-menu-item.has-updates .board-menu-item-slug {
           color: #fff;
+        }
+        .board-menu-item.outdated .board-menu-item-slug {
+          color: #c7c7c7;
         }
       `}</style>
     </a>

@@ -4,6 +4,7 @@ import CircleMask from "../images/circle-mask.svg";
 import RectangleMask from "../images/rectangle-mask.svg";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faVolumeMute } from "@fortawesome/free-solid-svg-icons";
+import Color from "color";
 
 const BoardIcon: React.FC<BoardIconProps> = ({
   avatar,
@@ -78,7 +79,7 @@ const BoardIcon: React.FC<BoardIconProps> = ({
           left: -5.5px;
         }
         .outdated .board-icon__update {
-          opacity: 50%;
+          background-color: ${Color(color).darken(0.6).hex()};
         }
         .board-icon.small .board-icon__update {
           width: 10px;
