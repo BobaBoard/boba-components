@@ -824,7 +824,7 @@ export const MasonryLayout = () => {
               setShowMax(
                 (showMax) => showMax + 1,
                 (showMax: number) => {
-                  more(showMax < 3);
+                  more(showMax < POSTS.length);
                 }
               );
               log(`Reached end`);
