@@ -5,11 +5,11 @@ import RectangleMask from "../images/rectangle-mask.svg";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import {
   faMapMarkerAlt,
-  faMapPin,
   faVolumeMute,
 } from "@fortawesome/free-solid-svg-icons";
 import Color from "color";
 
+const CURRENT_BOARD_PIN_MASK = `url(${CircleMask}) 35px 32px / 25px 24px;`;
 const BoardIcon: React.FC<BoardIconProps> = ({
   avatar,
   color,
@@ -70,10 +70,10 @@ const BoardIcon: React.FC<BoardIconProps> = ({
           mask-composite: source-out;
           mask-repeat: no-repeat;
         }
-        .board-icon.large.updates.current .board-image:not(.current) {
+        .board-icon.large.updates.current .board-image {
           mask: url(${RectangleMask}),
             url(${CircleMask}) -7.5px -7.5px/21px 21px,
-            url(${CircleMask}) 33px 33px/28px 28px;
+            ${CURRENT_BOARD_PIN_MASK};
           mask-composite: xor;
           mask-repeat: no-repeat;
         }
@@ -82,7 +82,7 @@ const BoardIcon: React.FC<BoardIconProps> = ({
           height: 50px;
         }
         .board-icon.large.current:not(.updates) .board-image {
-          mask: url(${RectangleMask}), url(${CircleMask}) 33px 33px/28px 28px;
+          mask: url(${RectangleMask}), ${CURRENT_BOARD_PIN_MASK};
           mask-composite: source-out;
           mask-repeat: no-repeat;
         }
@@ -136,15 +136,15 @@ const BoardIcon: React.FC<BoardIconProps> = ({
           position: absolute;
           right: 0;
           bottom: 0;
-          transform: translate(0px, 1px);
-          width: 8px;
-          height: 8px;
+          transform: translate(-3px, -5px);
         }
         .current-board-icon :global(svg) {
           position: absolute;
           top: 50%;
           left: 50%;
           transform: translate(-50%, -50%);
+          width: 10px;
+          height: 14px;
         }
         .board-icon.small .board-state-icon {
           width: 20px;

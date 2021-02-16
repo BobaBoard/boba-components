@@ -308,7 +308,7 @@ export const SideMenuPreview = () => {
         pinnedBoards={[...PINNED_BOARDS, ...PINNED_BOARDS]}
         allBoards={[...PINNED_BOARDS, ...RECENT_BOARDS, ...SEARCH_BOARDS]}
         recentBoards={RECENT_BOARDS}
-        currentBoardSlug="gore"
+        currentBoardSlug="anime"
         showPinned={true}
         showRecent={true}
         {...menuOptions}
