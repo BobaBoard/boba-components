@@ -8,11 +8,12 @@ import "react-toastify/dist/ReactToastify.css";
 
 export interface ToastContainerProps {}
 
-export default (props: ToastContainerProps) => {
+const Toast = (props: ToastContainerProps) => {
   return (
     <>
       <ToastLib
         position="top-center"
+        autoClose={2200}
         newestOnTop={false}
         rtl={false}
         draggable
@@ -32,4 +33,5 @@ export default (props: ToastContainerProps) => {
   );
 };
 
+export default Toast;
 export const toast = toastLibFunction;
