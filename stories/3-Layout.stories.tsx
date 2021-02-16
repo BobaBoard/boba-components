@@ -295,7 +295,9 @@ LoadingLayout.args = {
     },
   ],
   loading: true,
+  userLoading: true,
   updates: true,
+  headerAccent: "red",
   ...menuOptions,
 };
 

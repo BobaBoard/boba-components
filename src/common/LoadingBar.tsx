@@ -1,6 +1,7 @@
 import React from "react";
+// This library has no type.
 // @ts-ignore
-import LoadingBar from "react-top-loading-bar";
+import LibraryLoadingBar from "react-top-loading-bar";
 import css from "styled-jsx/css";
 
 const getLoadingBarStyle = (color: string) => {
@@ -28,7 +29,7 @@ const getLoadingBarContainerStyle = (color: string, height: number) => {
       position: fixed;
       top: 0;
       left: 0;
-      z-index: 1;
+      z-index: 100;
       transition: width 0.5s;
       width: "0%";
     }
@@ -41,7 +42,7 @@ const getGrandpa = (className: string) => {
 };
 
 const HEIGHT = 1;
-export default (props: LoadingBarProps) => {
+const LoadingBar = (props: LoadingBarProps) => {
   const barRef = React.useRef<any>();
   const {
     className: loadingBarClassName,
@@ -58,7 +59,7 @@ export default (props: LoadingBarProps) => {
         loadingBarContainerClassName
       );
     }
-  }, [barRef]);
+  }, [loadingBarClassName, loadingBarContainerClassName]);
   React.useEffect(() => {
     if (barRef.current) {
       const grandpa = getGrandpa(loadingBarClassName);
@@ -76,11 +77,16 @@ export default (props: LoadingBarProps) => {
         }, 500);
       }
     }
-  }, [props.loading]);
+  }, [
+    props.loading,
+    loadingBarClassName,
+    loadingBarContainerClassName,
+    props.accentColor,
+  ]);
 
   return (
     <div>
-      <LoadingBar
+      <LibraryLoadingBar
         className={loadingBarClassName}
         height={HEIGHT}
         ref={barRef}
@@ -91,6 +97,8 @@ export default (props: LoadingBarProps) => {
     </div>
   );
 };
+
+export default LoadingBar;
 
 export interface LoadingBarProps {
   accentColor?: string;
