@@ -144,6 +144,7 @@ const ThreadIndent: React.FC<ThreadIndentProps> = (props) => {
         .thread-level {
           position: relative;
           max-width: 550px;
+          width: 100%;
         }
         .thread-level::before {
           border-radius: ${Theme.BORDER_RADIUS_REGULAR} 0 0
