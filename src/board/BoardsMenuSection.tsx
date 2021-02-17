@@ -14,9 +14,10 @@ const BoardsMenuSection: React.FC<BoardsMenuSectionProps> = ({
   emptyDescription,
   currentBoardSlug,
   loading,
-  placeholders,
+  placeholdersHeight,
   accentColor,
 }) => {
+  const isEmpty = !loading && (!boards || boards.length == 0);
   return (
     <div className="boardSection">
       <div className="boardSection-title">
@@ -29,47 +30,50 @@ const BoardsMenuSection: React.FC<BoardsMenuSectionProps> = ({
         </div>
         {title}
       </div>
-      <div
-        className={classnames("boardSection-board-items", {
-          visible: !loading && boards && boards?.length > 0,
-        })}
-        key="items-section"
-      >
-        {boards?.map((board, index) => (
-          <div className="boardItem" key={`board-item-${index}`}>
-            <BoardMenuItem
-              avatar={board.avatar}
-              color={board.color}
-              slug={board.slug}
-              updates={board.updates}
-              link={board.link}
-              muted={board.muted}
-              outdated={board.outdated}
-              current={board.slug === currentBoardSlug}
-            />
-          </div>
-        ))}
-      </div>
-      <div
-        className={classnames("boardSection-board-items", {
-          visible: loading,
-        })}
-        key="loading-items-section"
-      >
-        {Array.from({ length: placeholders || 1 }).map((_, index) => (
-          <div className="boardItem" key={`board-item-${index}`}>
-            <BoardMenuItem key={index} loading accentColor={accentColor} />
-          </div>
-        ))}
-      </div>
-      <div
-        className={classnames("boardSection-empty", {
-          visible: !loading && (!boards || boards.length == 0),
-        })}
-        key="empty-section"
-      >
-        <p className="emtpy-title">{emptyTitle}</p>
-        <p className="empty-desc">{emptyDescription}</p>
+      <div className="boardSection-display">
+        <div
+          className={classnames("boardSection-board-items", {
+            visible: !loading && boards && boards?.length > 0,
+          })}
+          key="items-section"
+        >
+          {boards?.map((board, index) => (
+            <div className="boardItem" key={`board-item-${index}`}>
+              <BoardMenuItem
+                avatar={board.avatar}
+                color={board.color}
+                slug={board.slug}
+                updates={board.updates}
+                link={board.link}
+                muted={board.muted}
+                outdated={board.outdated}
+                current={board.slug === currentBoardSlug}
+              />
+            </div>
+          ))}
+        </div>
+        <div
+          className={classnames("boardSection-board-items", {
+            visible: loading,
+            hidden: isEmpty,
+          })}
+          key="loading-items-section"
+        >
+          {Array.from({ length: placeholdersHeight || 0 }).map((_, index) => (
+            <div className="boardItem" key={`board-item-${index}`}>
+              <BoardMenuItem key={index} loading accentColor={accentColor} />
+            </div>
+          ))}
+        </div>
+        <div
+          className={classnames("boardSection-empty", {
+            visible: isEmpty,
+          })}
+          key="empty-section"
+        >
+          <p className="emtpy-title">{emptyTitle}</p>
+          <p className="empty-desc">{emptyDescription}</p>
+        </div>
       </div>
       <style jsx>{`
         .boardSection-title {
@@ -96,6 +100,7 @@ const BoardsMenuSection: React.FC<BoardsMenuSectionProps> = ({
           font-size: 14px;
           opacity: 0.5;
           text-align: center;
+          flex-grow: 1;
           display: none;
         }
         .boardSection-empty.visible {
@@ -112,9 +117,19 @@ const BoardsMenuSection: React.FC<BoardsMenuSectionProps> = ({
         }
         .boardSection-board-items {
           display: none;
+          flex-grow: 1;
+          max-width: 100%;
         }
         .boardSection-board-items.visible {
           display: block;
+        }
+        .boardSection-board-items.hidden {
+          visibility: hidden;
+          display: block;
+          max-width: 0px;
+        }
+        .boardSection-display {
+          display: flex;
         }
       `}</style>
     </div>
@@ -131,6 +146,6 @@ export interface BoardsMenuSectionProps {
   emptyDescription?: string;
   currentBoardSlug?: string;
   loading?: boolean;
-  placeholders?: number;
+  placeholdersHeight?: number;
   accentColor?: string;
 }

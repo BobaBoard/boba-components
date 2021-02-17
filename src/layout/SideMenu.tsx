@@ -1,7 +1,7 @@
 import React, { Children } from "react";
 import { BoardType } from "types";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import { faEllipsisV, faClock, faTh } from "@fortawesome/free-solid-svg-icons";
+import { faEllipsisV } from "@fortawesome/free-solid-svg-icons";
 
 import PinnedBoardsMenu from "../common/PinnedBoardsMenu";
 import BoardsMenuSection, {

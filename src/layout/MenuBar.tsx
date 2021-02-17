@@ -1,6 +1,7 @@
 import React from "react";
 import DropdownListMenu, { DropdownStyle } from "../common/DropdownListMenu";
 import {
+  faChevronCircleDown,
   faHome,
   faSpinner,
   faUser,
@@ -9,6 +10,8 @@ import {
 import { LinkWithAction } from "types";
 import classnames from "classnames";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import CircleMask from "../images/circle-mask.svg";
+import RectangleMask from "../images/rectangle-mask.svg";
 
 const MenuItem: React.FC<{
   id: string;
@@ -18,6 +21,7 @@ const MenuItem: React.FC<{
   link?: LinkWithAction;
   accentColor?: string;
   defaultBorderColor?: string;
+  withDropdown?: boolean;
 }> = ({
   id,
   loading,
@@ -26,6 +30,7 @@ const MenuItem: React.FC<{
   link,
   accentColor,
   defaultBorderColor,
+  withDropdown,
 }) => {
   // TODO: links should be done using buttons if there's no href
   const isButton = !link?.href && !!link?.onClick;
@@ -35,25 +40,36 @@ const MenuItem: React.FC<{
       key={id}
       className={classnames("menu-item", { selected, loading: !!loading })}
     >
-      <a
-        href={link?.href || isButton ? "#0" : undefined}
-        role={isButton ? "button" : isAnchor ? "link" : undefined}
-        onClick={(e) => {
-          link?.onClick?.();
-          if (link?.href || isButton) {
-            e.preventDefault();
-          }
-        }}
-        className="icon"
-      >
-        {loading ? (
-          <FontAwesomeIcon icon={faSpinner} />
-        ) : typeof icon == "string" ? (
-          <img src={icon} />
-        ) : (
-          <FontAwesomeIcon icon={icon} />
-        )}
-      </a>
+      <div className="icon-wrapper">
+        <a
+          href={link?.href || isButton ? "#0" : undefined}
+          role={isButton ? "button" : isAnchor ? "link" : undefined}
+          onClick={(e) => {
+            link?.onClick?.();
+            if (link?.href || isButton) {
+              e.preventDefault();
+            }
+          }}
+          className={classnames("icon", {
+            dropdown: !!withDropdown,
+          })}
+        >
+          {loading ? (
+            <FontAwesomeIcon icon={faSpinner} />
+          ) : typeof icon == "string" ? (
+            <img src={icon} />
+          ) : (
+            <FontAwesomeIcon icon={icon} />
+          )}
+        </a>
+        <div
+          className={classnames("dropdown-indicator", {
+            visible: !!withDropdown,
+          })}
+        >
+          <FontAwesomeIcon icon={faChevronCircleDown} />
+        </div>
+      </div>
       {selected && <div className="select-bar" />}
       <style jsx>{`
         .menu-item {
@@ -73,6 +89,31 @@ const MenuItem: React.FC<{
           border-color: ${accentColor || "white"};
           color: white;
         }
+        .icon-wrapper {
+          position: relative;
+        }
+        .dropdown-indicator {
+          position: absolute;
+          right: -3px;
+          bottom: 1px;
+          color: rgb(46, 46, 48);
+          background-color: rgb(191, 191, 191);
+          border-radius: 50%;
+          width: 10px;
+          height: 10px;
+          display: none;
+        }
+        .dropdown-indicator.visible {
+          display: block;
+        }
+        .dropdown-indicator :global(svg) {
+          height: 15px;
+          width: 15px;
+          position: absolute;
+          top: 50%;
+          left: 50%;
+          transform: translate(-50%, -50%);
+        }
         .icon {
           width: 35px;
           height: 35px;
@@ -84,6 +125,11 @@ const MenuItem: React.FC<{
           display: flex;
           align-items: center;
           justify-content: center;
+        }
+        .icon.dropdown {
+          mask: url(${RectangleMask}), url(${CircleMask}) 26px 23px / 23px 22px;
+          mask-composite: xor;
+          mask-repeat: no-repeat;
         }
         .loading .icon :global(svg) {
           animation: spin 2s linear infinite;
@@ -163,6 +209,7 @@ const MenuBar: React.FC<MenuBarProps> = ({
           accentColor={accentColor}
           defaultBorderColor={isLoggedIn ? "green" : undefined}
           loading={loading}
+          withDropdown={!!isLoggedIn && !!userMenuOptions?.length}
         />
       </DropdownListMenu>
       <style jsx>{`

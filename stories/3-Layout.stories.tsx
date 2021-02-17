@@ -310,44 +310,61 @@ LoadingLayout.args = {
 };
 
 export const SideMenuPreview = () => {
+  const [showPinned, setShowPinned] = React.useState(true);
+  const [loading, setLoading] = React.useState(true);
   return (
-    <div style={{ maxWidth: "500px", backgroundColor: "red" }}>
-      <SideMenu
-        pinnedBoards={[...PINNED_BOARDS, ...PINNED_BOARDS]}
-        currentBoardSlug="anime"
-        showPinned={true}
-        {...menuOptions}
+    <div>
+      <div
+        style={{
+          position: "absolute",
+          right: 0,
+          top: 0,
+          zIndex: 2000,
+        }}
       >
-        <SideMenu.BoardsMenuSection
-          title="recent unreads"
-          icon={faClock}
-          boards={RECENT_BOARDS}
-          emptyTitle="Congratulations!"
-          emptyDescription="You read 'em all."
-        />
-        <SideMenu.BoardsMenuSection
-          title="loading section"
-          icon={faUpload}
-          emptyTitle="Congratulations!"
-          emptyDescription="You read 'em all."
-          loading
-          placeholders={5}
-          accentColor="red"
-        />
-        <SideMenu.BoardsMenuSection
-          title="empty section"
-          icon={faTrash}
-          emptyTitle="Congratulations!"
-          emptyDescription="You read 'em all."
-        />
-        <SideMenu.BoardsMenuSection
-          title="all boards"
-          icon={faTh}
-          boards={[...PINNED_BOARDS, ...RECENT_BOARDS, ...SEARCH_BOARDS]}
-          emptyTitle="There's no board here."
-          emptyDescription="Somehow, that feels wrong."
-        />
-      </SideMenu>
+        <button onClick={() => setShowPinned(!showPinned)}>
+          Toggle Pinned
+        </button>
+        <button onClick={() => setLoading(!loading)}>Toggle Loading</button>
+      </div>
+      <div style={{ maxWidth: "500px", backgroundColor: "red" }}>
+        <SideMenu
+          pinnedBoards={[...PINNED_BOARDS, ...PINNED_BOARDS]}
+          currentBoardSlug="anime"
+          showPinned={showPinned}
+          {...menuOptions}
+        >
+          <SideMenu.BoardsMenuSection
+            title="recent unreads"
+            icon={faClock}
+            boards={RECENT_BOARDS}
+            emptyTitle="Congratulations!"
+            emptyDescription="You read 'em all."
+          />
+          <SideMenu.BoardsMenuSection
+            title="loading section"
+            icon={faUpload}
+            emptyTitle="Congratulations!"
+            emptyDescription="You read 'em all."
+            loading={loading}
+            placeholdersHeight={5}
+            accentColor="red"
+          />
+          <SideMenu.BoardsMenuSection
+            title="empty section"
+            icon={faTrash}
+            emptyTitle="Congratulations!"
+            emptyDescription="You read 'em all."
+          />
+          <SideMenu.BoardsMenuSection
+            title="all boards"
+            icon={faTh}
+            boards={[...PINNED_BOARDS, ...RECENT_BOARDS, ...SEARCH_BOARDS]}
+            emptyTitle="There's no board here."
+            emptyDescription="Somehow, that feels wrong."
+          />
+        </SideMenu>
+      </div>
     </div>
   );
 };
