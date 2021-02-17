@@ -6,7 +6,7 @@ import {
 } from "@fortawesome/free-solid-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import classnames from "classnames";
-import HighlightedText from "../common/HighlightedText";
+import HighlightedText from "../common/HighlightedText2";
 import Theme from "../theme/default";
 import LoadingBar from "../common/LoadingBar";
 import noop from "noop-ts";
