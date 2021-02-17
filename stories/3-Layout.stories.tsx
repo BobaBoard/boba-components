@@ -12,7 +12,15 @@ import Post from "../src/post/Post";
 import MasonryView from "../src/layout/MasonryView";
 import { useStateWithCallbackLazy } from "use-state-with-callback";
 
-import { faInbox, faSearch, faTh } from "@fortawesome/free-solid-svg-icons";
+import {
+  faClock,
+  faHeart,
+  faInbox,
+  faSearch,
+  faTh,
+  faTrash,
+  faUpload,
+} from "@fortawesome/free-solid-svg-icons";
 
 import { action } from "@storybook/addon-actions";
 
@@ -306,13 +314,40 @@ export const SideMenuPreview = () => {
     <div style={{ maxWidth: "500px", backgroundColor: "red" }}>
       <SideMenu
         pinnedBoards={[...PINNED_BOARDS, ...PINNED_BOARDS]}
-        allBoards={[...PINNED_BOARDS, ...RECENT_BOARDS, ...SEARCH_BOARDS]}
-        recentBoards={RECENT_BOARDS}
         currentBoardSlug="anime"
         showPinned={true}
-        showRecent={true}
         {...menuOptions}
-      />
+      >
+        <SideMenu.BoardsMenuSection
+          title="recent unreads"
+          icon={faClock}
+          boards={RECENT_BOARDS}
+          emptyTitle="Congratulations!"
+          emptyDescription="You read 'em all."
+        />
+        <SideMenu.BoardsMenuSection
+          title="loading section"
+          icon={faUpload}
+          emptyTitle="Congratulations!"
+          emptyDescription="You read 'em all."
+          loading
+          placeholders={5}
+          accentColor="red"
+        />
+        <SideMenu.BoardsMenuSection
+          title="empty section"
+          icon={faTrash}
+          emptyTitle="Congratulations!"
+          emptyDescription="You read 'em all."
+        />
+        <SideMenu.BoardsMenuSection
+          title="all boards"
+          icon={faTh}
+          boards={[...PINNED_BOARDS, ...RECENT_BOARDS, ...SEARCH_BOARDS]}
+          emptyTitle="There's no board here."
+          emptyDescription="Somehow, that feels wrong."
+        />
+      </SideMenu>
     </div>
   );
 };

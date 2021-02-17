@@ -417,29 +417,28 @@ const DropdownMenu: React.FC<DropdownProps> = (props) => {
 
   const content = React.useMemo(
     () =>
-      optionsStack.map(({ options, ref }, index) => {
-        if (!isOpen) {
-          return <></>;
-        }
-        return (
-          <DropdownContent
-            ref={ref}
-            key={index}
-            style={props.style}
-            options={options}
-            isOpen={isOpen}
-            previousOption={index > 0 ? optionsStack[index - 1] : undefined}
-            minWidthPx={
-              !isSmallScreen()
-                ? contentWrapper?.getBoundingClientRect().width || 0
-                : undefined
-            }
-            onPreviousOption={slideToPreviousOption}
-            onCloseRequest={close}
-            onNestedOptions={appendNestedOptions}
-          />
-        );
-      }),
+      isOpen
+        ? optionsStack.map(({ options, ref }, index) => {
+            return (
+              <DropdownContent
+                ref={ref}
+                key={index}
+                style={props.style}
+                options={options}
+                isOpen={isOpen}
+                previousOption={index > 0 ? optionsStack[index - 1] : undefined}
+                minWidthPx={
+                  !isSmallScreen()
+                    ? contentWrapper?.getBoundingClientRect().width || 0
+                    : undefined
+                }
+                onPreviousOption={slideToPreviousOption}
+                onCloseRequest={close}
+                onNestedOptions={appendNestedOptions}
+              />
+            );
+          })
+        : [],
     [
       props.style,
       isOpen,

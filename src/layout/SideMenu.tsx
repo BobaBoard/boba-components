@@ -1,25 +1,29 @@
-import React from "react";
+import React, { Children } from "react";
 import { BoardType } from "types";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faEllipsisV, faClock, faTh } from "@fortawesome/free-solid-svg-icons";
 
 import PinnedBoardsMenu from "../common/PinnedBoardsMenu";
-import BoardsMenuSection from "../board/BoardsMenuSection";
+import BoardsMenuSection, {
+  BoardsMenuSectionProps,
+} from "../board/BoardsMenuSection";
 import DropdownMenu, {
   DropdownProps,
   DropdownStyle,
 } from "../common/DropdownListMenu";
 import classnames from "classnames";
 
-const SideMenu: React.FC<SideMenuProps> = ({
+interface CompoundComponents {
+  BoardsMenuSection: React.FC<BoardsMenuSectionProps>;
+}
+
+const SideMenu: React.FC<SideMenuProps> & CompoundComponents = ({
   pinnedBoards,
-  allBoards,
-  recentBoards,
   menuOptions,
-  showRecent,
   showPinned,
   onFilterChange,
   currentBoardSlug,
+  children,
 }) => {
   return (
     <div className="side-menu">
@@ -54,30 +58,21 @@ const SideMenu: React.FC<SideMenuProps> = ({
           </DropdownMenu>
         </div>
         <div className="board-sections">
-          <div
-            className={classnames("recent-section", {
-              visible: showRecent,
-            })}
-          >
-            <BoardsMenuSection
-              key="recent-unreads"
-              title="recent unreads"
-              icon={faClock}
-              boards={recentBoards}
-              emptyTitle="Congratulations!"
-              emptyDescription="You read 'em all."
-              currentBoardSlug={currentBoardSlug}
-            />
-          </div>
-          <BoardsMenuSection
-            key="all-boards"
-            title="all boards"
-            icon={faTh}
-            boards={allBoards}
-            emptyTitle="There's no board here."
-            emptyDescription="Somehow, that feels wrong."
-            currentBoardSlug={currentBoardSlug}
-          />
+          {Children.toArray(children).map((child) => {
+            if (
+              !React.isValidElement<BoardsMenuSectionProps>(child) ||
+              child.type !== BoardsMenuSection
+            ) {
+              throw Error(
+                "SideMenu only accepts BoardsMenuSections as children"
+              );
+            }
+            const menuSection: React.ReactElement<BoardsMenuSectionProps> = child;
+            return React.cloneElement<BoardsMenuSectionProps>(menuSection, {
+              key: menuSection.props.title,
+              currentBoardSlug,
+            });
+          })}
         </div>
       </div>
       <style jsx>
@@ -106,12 +101,6 @@ const SideMenu: React.FC<SideMenuProps> = ({
           }
           .pinned-boards-container.visible::-webkit-scrollbar {
             display: none;
-          }
-          .recent-section {
-            display: none;
-          }
-          .recent-section.visible {
-            display: block;
           }
           .board-sections {
             height: 100%;
@@ -171,17 +160,16 @@ const SideMenu: React.FC<SideMenuProps> = ({
   );
 };
 
+SideMenu.BoardsMenuSection = BoardsMenuSection;
 export default SideMenu;
 
 export interface SideMenuProps {
   pinnedBoards?: BoardType[];
-  recentBoards?: BoardType[];
-  allBoards?: BoardType[];
   currentBoardSlug?: string;
   menuOptions?: DropdownProps["options"];
-  showRecent?: boolean;
   showPinned?: boolean;
-  // TODO: actually implement loading
-  loading?: boolean;
   onFilterChange?: (text: string) => void;
+  children:
+    | React.ReactElement<BoardsMenuSectionProps>
+    | React.ReactElement<BoardsMenuSectionProps>[];
 }

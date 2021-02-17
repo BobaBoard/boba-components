@@ -13,6 +13,9 @@ const BoardsMenuSection: React.FC<BoardsMenuSectionProps> = ({
   emptyTitle,
   emptyDescription,
   currentBoardSlug,
+  loading,
+  placeholders,
+  accentColor,
 }) => {
   return (
     <div className="boardSection">
@@ -28,7 +31,7 @@ const BoardsMenuSection: React.FC<BoardsMenuSectionProps> = ({
       </div>
       <div
         className={classnames("boardSection-board-items", {
-          visible: boards && boards?.length > 0,
+          visible: !loading && boards && boards?.length > 0,
         })}
         key="items-section"
       >
@@ -48,8 +51,20 @@ const BoardsMenuSection: React.FC<BoardsMenuSectionProps> = ({
         ))}
       </div>
       <div
+        className={classnames("boardSection-board-items", {
+          visible: loading,
+        })}
+        key="loading-items-section"
+      >
+        {Array.from({ length: placeholders || 1 }).map((_, index) => (
+          <div className="boardItem" key={`board-item-${index}`}>
+            <BoardMenuItem key={index} loading accentColor={accentColor} />
+          </div>
+        ))}
+      </div>
+      <div
         className={classnames("boardSection-empty", {
-          visible: !boards || boards.length == 0,
+          visible: !loading && (!boards || boards.length == 0),
         })}
         key="empty-section"
       >
@@ -115,4 +130,7 @@ export interface BoardsMenuSectionProps {
   emptyTitle?: string;
   emptyDescription?: string;
   currentBoardSlug?: string;
+  loading?: boolean;
+  placeholders?: number;
+  accentColor?: string;
 }
