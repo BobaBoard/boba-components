@@ -1,87 +1,24 @@
-import useComponentSize from "@rehooks/component-size";
 import React from "react";
 
-function getBackgroundDivs(
-  containerRect: DOMRect,
-  textRects: DOMRectList,
-  highlightColor: string
-) {
-  const rotateStart = -4;
-  const rotateIncrement = 4;
-  let rotateNext = rotateStart;
-  return Object.keys(textRects).map((textRect, i) => {
-    const rotation = rotateNext;
-    const bias = textRects[textRect].width / textRects[textRect].height;
-    rotateNext += rotateIncrement;
-    if ((i + 1) % 3 == 0) {
-      rotateNext = rotateStart;
-    }
-    const adjustement = (-rotation * bias) / 50;
-    return (
-      <div
-        key={textRect}
-        style={{
-          backgroundColor: highlightColor,
-          borderRadius: "20px",
-          position: "absolute",
-          top: textRects[textRect].top - containerRect.top + 7,
-          left: textRects[textRect].left - containerRect.left - 15,
-          width: textRects[textRect].width + 30,
-          height: textRects[textRect].height - 10,
-          transform: `rotate(${rotation + adjustement}deg)`,
-        }}
-      />
-    );
-  });
-}
-
+const INITIAL_ROTATION = -5;
 const HighlightedText: React.FC<HighlightedTextProps> = (props) => {
-  const header = React.useRef<HTMLDivElement>();
-  const background = React.useRef<HTMLDivElement>(null);
-  const [backgroundDivs, setBackgroundDivs] = React.useState<React.ReactNode[]>(
-    []
-  );
-  const { width } = useComponentSize(header);
+  const container = React.useRef<HTMLDivElement>();
+  const [rotationAdjustment, setRotationAdjustment] = React.useState(0);
 
   React.useEffect(() => {
-    let throttled = false;
-    let attempted = false;
-    const addBackground = () => {
-      if (throttled) {
-        attempted = true;
-        return;
-      }
-      if (!header.current || !background.current) {
-        // TODO: figure out why this happens.
-        console.log(`uh-oh, ${props.children}`);
-        return;
-      }
-      const textRects = header.current.getClientRects();
-      const containerRect = background.current.getClientRects()[0];
-      setBackgroundDivs(
-        getBackgroundDivs(containerRect, textRects, props.highlightColor)
-      );
-      throttled = true;
-      setTimeout(() => {
-        throttled = false;
-        if (attempted) {
-          attempted = false;
-          addBackground();
-        }
-      }, 50);
-    };
-    // Chrome has some problems with rendering. Add delay.
-    setTimeout(addBackground, 50);
-    setTimeout(addBackground, 100);
-    setTimeout(addBackground, 150);
-  }, [props.highlightColor, width]);
+    const headerSizes = container.current?.getBoundingClientRect();
+    if (!headerSizes) {
+      return;
+    }
+    setRotationAdjustment(
+      -(INITIAL_ROTATION * (headerSizes.width / headerSizes.height)) / 20
+    );
+  }, []);
 
   return (
     <div>
-      <div className="header">
-        <div className="backgroundDivs" ref={background}>
-          {backgroundDivs}
-        </div>
+      <div className="container">
+        <div className="backgroundDivs"></div>
         {React.useMemo(
           () =>
             React.isValidElement(props.children) &&
@@ -91,23 +28,31 @@ const HighlightedText: React.FC<HighlightedTextProps> = (props) => {
                 zIndex: 2,
                 position: "relative",
               },
-              ref: header,
+              ref: container,
             }),
           [props.children]
         )}
       </div>
       <style jsx>{`
-        .header {
+        .container {
           position: relative;
           min-height: 0;
           min-width: 0;
+          z-index: 10;
+          display: inline-block;
         }
         .backgroundDivs {
-          background-color: blue;
-          position: relative;
-          z-index: 1;
-          min-height: 0;
-          min-width: 0;
+          background-color: ${props.highlightColor};
+          border-radius: 20px;
+          position: absolute;
+          width: calc(100% + 30px);
+          content: "";
+          height: calc(100% - 10px);
+          top: 50%;
+          transform: translateY(-50%)
+            rotate(${INITIAL_ROTATION + rotationAdjustment}deg);
+          z-index: -1;
+          left: -15px;
         }
       `}</style>
     </div>
