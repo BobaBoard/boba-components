@@ -66,12 +66,16 @@ const Post = React.forwardRef<PostHandler, PostProps>((props, ref) => {
     },
   }));
 
+  const hasFooterTags =
+    !!props.tags?.categoryTags?.length ||
+    !!props.tags?.indexTags?.length ||
+    !!props.tags?.whisperTags?.length;
   return (
     <>
       <div
         className={classnames("post-container", { centered: props.centered })}
       >
-        {hasUpdate && (
+        {hasUpdate && !props.hideUpdates && (
           <UpdatesHeader
             newPost={props.newPost}
             newComments={props.newComments}
@@ -97,7 +101,7 @@ const Post = React.forwardRef<PostHandler, PostProps>((props, ref) => {
         <div className="card-container" ref={containerRef}>
           <Card
             height={props.collapsed ? COLLAPSED_HEIGHT : undefined}
-            backgroundColor={props.muted ? "#dcdcdc" : undefined}
+            backgroundColor={props.muted ? "#dcdcdc" : props.backgroundColor}
             header={
               <>
                 <div className={classnames("header", { muted: props.muted })}>
@@ -141,21 +145,9 @@ const Post = React.forwardRef<PostHandler, PostProps>((props, ref) => {
                 className={classnames("footer", {
                   "with-reactions": !!props.reactions?.length,
                   muted: props.muted,
+                  hidden: props.hideFooter,
                 })}
               >
-                <div className={classnames("tags", { visible: !props.tags })}>
-                  <Tags
-                    tags={
-                      props.tags
-                        ? TagsFactory.getTagsFromTagObject({
-                            ...props.tags,
-                            contentWarnings: [],
-                          })
-                        : []
-                    }
-                    getOptionsForTag={props.getOptionsForTag}
-                  />
-                </div>
                 <div className="notes">
                   <MemoizedFooter
                     onContribution={props.onNewContribution}
@@ -193,6 +185,23 @@ const Post = React.forwardRef<PostHandler, PostProps>((props, ref) => {
                 editable={false}
                 onEmbedLoaded={props.onEmbedLoaded}
               />
+              <div
+                className={classnames("tags", {
+                  hidden: !props.tags || (props.hideFooter && !hasFooterTags),
+                })}
+              >
+                <Tags
+                  tags={
+                    props.tags
+                      ? TagsFactory.getTagsFromTagObject({
+                          ...props.tags,
+                          contentWarnings: [],
+                        })
+                      : []
+                  }
+                  getOptionsForTag={props.getOptionsForTag}
+                />
+              </div>
             </div>
           </Card>
         </div>
@@ -244,8 +253,6 @@ const Post = React.forwardRef<PostHandler, PostProps>((props, ref) => {
         }
         .footer {
           position: relative;
-          border-top: 1px dotted rgba(0, 0, 0, 0.3);
-          padding-top: 5px;
         }
         .footer.with-reactions {
           padding-bottom: 10px;
@@ -253,6 +260,10 @@ const Post = React.forwardRef<PostHandler, PostProps>((props, ref) => {
         .tags {
           padding: 0 10px;
           text-align: left;
+        }
+        .content .tags {
+          padding-top: 5px;
+          border-top: 1px dotted rgba(0, 0, 0, 0.3);
         }
         .content-warnings {
           display: flex;
@@ -318,6 +329,9 @@ const Post = React.forwardRef<PostHandler, PostProps>((props, ref) => {
           color: white;
           font-weight: bold;
         }
+        .hidden {
+          display: none;
+        }
       `}</style>
     </>
   );
@@ -378,5 +392,8 @@ export interface PostProps {
   };
   getOptionsForTag?: (tag: TagsType) => DropdownProps["options"];
   forceHide?: boolean;
+  hideFooter?: boolean;
+  hideUpdates?: boolean;
+  backgroundColor?: string;
   accessory?: AvatarProps["accessory"];
 }

@@ -1,9 +1,7 @@
 import React from "react";
 
-import UpdatesHeader from "./UpdatesHeader";
 import Header, { HeaderStyle } from "./Header";
-import Footer from "./Footer";
-import { PostSizes, getPostWidth } from "./Post";
+import Post, { PostSizes, getPostWidth, PostProps } from "./Post";
 import Card from "../common/Card";
 import Editor from "@bobaboard/boba-editor";
 import classnames from "classnames";
@@ -13,6 +11,7 @@ import Theme from "../theme/default";
 import { PostDetailsType } from "../types";
 import Tags from "../tags/Tags";
 import TagsFactory from "../tags/TagsFactory";
+import UpdatesHeader from "./UpdatesHeader";
 
 const PostContent: React.FC<
   PostDetailsType & { showHeader?: boolean; showFooter?: boolean }
@@ -60,7 +59,6 @@ const PostContent: React.FC<
       )}
       <style jsx>{`
         .post:not(.with-footer) {
-          border-bottom: 4px dashed ${Theme.LAYOUT_BOARD_BACKGROUND_COLOR};
         }
         .header {
           padding-top: 15px;
@@ -78,7 +76,7 @@ const PostContent: React.FC<
     </div>
   );
 };
-
+// @ts-ignore
 const ThreadContent: React.FC<{ posts: PostDetailsType[] }> = ({ posts }) => {
   // const divRef = React.createRef<HTMLDivElement>();
   // const expandDiv = useCompact(divRef, 250, "lightgrey");
@@ -127,49 +125,106 @@ const ThreadContent: React.FC<{ posts: PostDetailsType[] }> = ({ posts }) => {
 };
 
 const CompactThread: React.FC<CompactThreadProps> = (props) => {
+  const lastPost = props.posts[props.posts.length - 1];
+  const hasUpdate =
+    lastPost.newComments || lastPost.newContributions || lastPost.newPost;
+  const allWarnings = [
+    ...new Set(
+      props.posts
+        .flatMap((post) => post.tags?.contentWarnings)
+        .filter((x): x is string => x !== undefined)
+    ),
+  ];
   return (
     <>
       <div className="post-container">
-        <UpdatesHeader
-          newPost={props.newPost}
-          newComments={props.newComments}
-          newContributions={props.newContributions}
-        />
-        <Card
-          header={
-            <div className="header">
-              <Header
-                secretIdentity={props.posts[0].secretIdentity}
-                userIdentity={props.posts[0].userIdentity}
-                createdMessage={`${props.posts[0].createdTime}`}
-                size={HeaderStyle.REGULAR}
-              />
-            </div>
-          }
-          footer={
-            <div className="footer">
-              <Footer />
-            </div>
-          }
+        {hasUpdate && (
+          <UpdatesHeader
+            newPost={lastPost.newPost}
+            newComments={lastPost.newComments}
+            newContributions={lastPost.newContributions}
+          />
+        )}
+        <div
+          className={classnames("tags content-warnings", {
+            hidden: !allWarnings.length,
+          })}
         >
-          <ThreadContent posts={props.posts} />
+          <Tags
+            tags={TagsFactory.getTagsFromTagObject({
+              indexTags: [],
+              categoryTags: [],
+              whisperTags: [],
+              contentWarnings: allWarnings || [],
+            })}
+            getOptionsForTag={lastPost.getOptionsForTag}
+            packBottom
+          />
+        </div>
+        <Card
+          header={<div className="header"></div>}
+          footer={<div className="footer"></div>}
+        >
+          {props.posts.map((post, index) => {
+            const isLast = index == props.posts.length - 1;
+            const tags = {
+              ...post.tags,
+              contentWarnings: [],
+              indexTags: isLast ? post.tags?.indexTags : [],
+              categoryTags: isLast ? post.tags?.categoryTags : [],
+            };
+            const newPost = {
+              ...post,
+              tags,
+            };
+            return (
+              <div className="post-separator" key={post.createdTime}>
+                {
+                  // @ts-ignore
+                  <Post
+                    {...newPost}
+                    menuOptions={isLast ? newPost.menuOptions : undefined}
+                    hideFooter={!isLast}
+                    hideUpdates
+                    backgroundColor={isLast ? undefined : "transparent"}
+                  />
+                }
+              </div>
+            );
+          })}
         </Card>
       </div>
       <style jsx>{`
         .header {
-          border-radius: 15px 15px 0px 0px;
-          background-color: ${Theme.POST_BACKGROUND_COLOR};
-          padding: 10px;
-          border-bottom: 1px dotted rgba(0, 0, 0, 0.3);
+          padding: 0;
         }
         .post-container {
-          margin-bottom: 50px;
+          position: relative;
+          max-width: 100%;
           width: ${getPostWidth(PostSizes.REGULAR)}px;
         }
         .footer {
-          border-radius: 0px 0px 15px 15px;
-          background-color: ${Theme.POST_BACKGROUND_COLOR};
-          padding: 15px;
+          padding: 0;
+        }
+        .post-separator:first-child {
+          border-radius: ${Theme.BORDER_RADIUS_REGULAR}
+            ${Theme.BORDER_RADIUS_REGULAR} 0px 0px;
+        }
+        .post-separator:not(:last-child) {
+          border-bottom: 4px dashed ${Theme.LAYOUT_BOARD_BACKGROUND_COLOR};
+          background-color: #e6e6e6;
+        }
+        .tags {
+          padding: 0 10px;
+          text-align: left;
+        }
+        .content-warnings {
+          display: flex;
+          align-items: flex-end;
+          position: relative;
+        }
+        .content-warnings.hidden {
+          display: none;
         }
       `}</style>
     </>
@@ -179,10 +234,5 @@ const CompactThread: React.FC<CompactThreadProps> = (props) => {
 export default CompactThread;
 
 export interface CompactThreadProps {
-  posts: PostDetailsType[];
-  onNewContribution: () => void;
-  onNewComment: () => void;
-  newPost?: boolean;
-  newComments?: number;
-  newContributions?: number;
+  posts: PostProps[];
 }

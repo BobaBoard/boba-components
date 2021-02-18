@@ -18,6 +18,7 @@ import PostEditor from "./post/PostEditor";
 import Post, { PostSizes, PostHandler } from "./post/Post";
 import Comment, { CommentHandler } from "./post/Comment";
 import CompactThreadIndent, { useIndent } from "./post/CompactThreadIndent";
+import CompactPostThread from "./post/CompactPostThread";
 import CommentChain from "./post/CommentChain";
 import CommentChainEditor from "./post/CommentChainEditor";
 import CommentEditor from "./post/CommentEditor";
@@ -64,6 +65,7 @@ export {
   CommentChainEditor,
   CommentHandler,
   CompactThreadIndent,
+  CompactPostThread,
   useIndent,
   CommentEditor,
   CycleNewButton,
