@@ -29,7 +29,7 @@ const Slug: React.FC<{
     }
     // @ts-ignore
     fitty(ref.current, {
-      maxSize: 80,
+      maxSize: 70,
     });
   }, [ref.current]);
 
