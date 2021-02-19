@@ -1,6 +1,7 @@
-import React from "react";
+import React, { useState } from "react";
 //import { linkTo } from "@storybook/addon-links";
 import Button, { ButtonStyle } from "../src/common/Button";
+import SegmentedButton from "../src/common/SegmentedButton";
 import { faCoffee } from "@fortawesome/free-solid-svg-icons";
 import mamoru from "./images/mamoru.png";
 
@@ -301,4 +302,48 @@ export const SimpleButton = () => {
 
 SimpleButton.story = {
   name: "simple",
+};
+
+export const SegmentedButtonStory = () => {
+  const [selected, setSelected] = useState('seg1');
+  return (
+    <div>
+      <div>
+        <SegmentedButton
+          options={[{
+            id: "seg1",
+            label: "Left",
+            updates: undefined,
+            onClick: () => { setSelected('seg1'); },
+          },
+          {
+            id: "seg2",
+            label: "Middle",
+            updates: 5,
+            onClick: () => { setSelected('seg2'); },
+          },{
+            id: "seg3",
+            label: "Right",
+            updates: 5,
+            onClick: () => { setSelected('seg3'); },
+          }]}
+          selected={selected}
+        />
+      </div>
+      <style jsx>
+        {`
+          div > div {
+            display: flex;
+            justify-content: space-evenly;
+            flex-wrap: wrap;
+            margin-top: 15px;
+          }
+        `}
+      </style>
+    </div>
+  );
+};
+
+SegmentedButtonStory.story = {
+  name: "segmented",
 };

@@ -1,9 +1,7 @@
 import React from "react";
-import {
-  Button,
+import Button, {
   ButtonStyle,
-  // @ts-ignore
-} from "@bobaboard/ui-components";
+} from "./Button";
 import classnames from "classnames";
 
 const SegmentedButton: React.FC<SegmentedButtonProps> = (props) => {
