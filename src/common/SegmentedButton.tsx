@@ -54,10 +54,6 @@ const SegmentedButton: React.FC<SegmentedButtonProps> = (props) => {
           color: ${props.color || THEME_COLOR};
           background-color: ${REVERSE_THEME_COLOR};
           border: 2px solid ${REVERSE_THEME_COLOR};
-          -webkit-transition: all 0.2s linear 0s;
-          -moz-transition: all 0.2s linear 0s;
-          -o-transition: all 0.2s linear 0s;
-          -ms-transition: all 0.2s linear 0s;
           transition: all 0.2s linear 0s;
         }
         :global(button):focus {
@@ -89,10 +85,6 @@ const SegmentedButton: React.FC<SegmentedButtonProps> = (props) => {
           line-height: 20px;
           font-weight: bold;
           z-index: 2;
-          -webkit-transition: all 0.2s linear 0s;
-          -moz-transition: all 0.2s linear 0s;
-          -o-transition: all 0.2s linear 0s;
-          -ms-transition: all 0.2s linear 0s;
           transition: all 0.2s linear 0s;
         }
         .selected .updates {
