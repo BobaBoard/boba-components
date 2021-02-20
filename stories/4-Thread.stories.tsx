@@ -477,6 +477,7 @@ export const NewThreadStory = () => {
     "level-2,1",
     "cg-1",
   ]);
+  const [spacerPadding, setSpacerPadding] = React.useState(25);
 
   // In real usage, indents will sometimes be wrapped within components, and they should
   // continue working anyway.
@@ -552,77 +553,132 @@ export const NewThreadStory = () => {
           return <div>Subthread manually hidden.</div>;
         }}
       >
-        <div className="fake-post">This is the main post</div>
-        <Thread.Indent id="level-1" collapsed={collapsed.includes("level-1")}>
-          <Thread.Item>
-            <div className="fake-post">This is its first child</div>
+        {(setBoundaryElement) => (
+          <>
+            <div
+              style={{
+                paddingTop: spacerPadding + "px",
+                marginLeft: "25px",
+                backgroundColor: "aqua",
+              }}
+            >
+              This should not be included in the stem length
+              <button onClick={() => setSpacerPadding(spacerPadding + 10)}>
+                Increase
+              </button>
+              <button onClick={() => setSpacerPadding(spacerPadding - 10)}>
+                Decrease
+              </button>
+            </div>
+            <div className="fake-post" ref={(div) => setBoundaryElement(div)}>
+              This is the main post
+            </div>
             <Thread.Indent
-              id="level-1,1"
-              collapsed={collapsed.includes("level-1,1")}
+              id="level-1"
+              collapsed={collapsed.includes("level-1")}
             >
               <Thread.Item>
-                <div className="fake-post">This is (1,1)</div>
+                {(setBoundaryElement) => (
+                  <>
+                    <div
+                      style={{
+                        paddingTop: spacerPadding + "px",
+                        marginLeft: "25px",
+                        backgroundColor: "aqua",
+                      }}
+                    >
+                      This should not be included in the stem length
+                      <button
+                        onClick={() => setSpacerPadding(spacerPadding + 10)}
+                      >
+                        Increase
+                      </button>
+                      <button
+                        onClick={() => setSpacerPadding(spacerPadding - 10)}
+                      >
+                        Decrease
+                      </button>
+                    </div>
+                    <div
+                      ref={(div) => setBoundaryElement(div)}
+                      className="fake-post"
+                    >
+                      This is its first child
+                    </div>
+                    <Thread.Indent
+                      id="level-1,1"
+                      collapsed={collapsed.includes("level-1,1")}
+                    >
+                      <Thread.Item>
+                        <div className="fake-post">This is (1,1)</div>
+                      </Thread.Item>
+                      <Thread.Item>
+                        <div style={{ pointerEvents: "none" }}>
+                          <div className="fake-post">This is (1,2)</div>
+                          <div
+                            style={{ marginLeft: "15px" }}
+                            className="fake-post"
+                          >
+                            This one has an element with a margin and so the
+                            container needs `pointer-events: none`;
+                          </div>
+                        </div>
+                      </Thread.Item>
+                      <Thread.Item>
+                        <div className="fake-post">This is (1,3)</div>
+                      </Thread.Item>
+                    </Thread.Indent>
+                  </>
+                )}
               </Thread.Item>
               <Thread.Item>
-                <div style={{ pointerEvents: "none" }}>
-                  <div className="fake-post">This is (1,2)</div>
-                  <div style={{ marginLeft: "15px" }} className="fake-post">
-                    This one has an element with a margin and so the container
-                    needs `pointer-events: none`;
-                  </div>
-                </div>
+                <div className="fake-post">This is its second child</div>
               </Thread.Item>
-              <Thread.Item>
-                <div className="fake-post">This is (1,3)</div>
-              </Thread.Item>
-            </Thread.Indent>
-          </Thread.Item>
-          <Thread.Item>
-            <div className="fake-post">This is its second child</div>
-          </Thread.Item>
-          <CollapseGroup id="cg-1" collapsed={collapsed.includes("cg-1")}>
-            <Thread.Item>
-              <div className="fake-post">This is its third child</div>
-            </Thread.Item>
-            <Thread.Item>
-              <div className="fake-post">This is its fourth child</div>
-              <Thread.Indent
-                id="level-4,1"
-                collapsed={collapsed.includes("level-4,1")}
-              >
+              <CollapseGroup id="cg-1" collapsed={collapsed.includes("cg-1")}>
                 <Thread.Item>
-                  <div className="fake-post">This is (4,1)</div>
+                  <div className="fake-post">This is its third child</div>
+                </Thread.Item>
+                <Thread.Item>
+                  <div className="fake-post">This is its fourth child</div>
                   <Thread.Indent
-                    id="level-4,1,1"
-                    collapsed={collapsed.includes("level-4,1,1")}
+                    id="level-4,1"
+                    collapsed={collapsed.includes("level-4,1")}
                   >
                     <Thread.Item>
-                      <div className="fake-post">This is (4,1,1)</div>
+                      <div className="fake-post">This is (4,1)</div>
+                      <Thread.Indent
+                        id="level-4,1,1"
+                        collapsed={collapsed.includes("level-4,1,1")}
+                      >
+                        <Thread.Item>
+                          <div className="fake-post">This is (4,1,1)</div>
+                        </Thread.Item>
+                      </Thread.Indent>
+                    </Thread.Item>
+                    <Thread.Item>
+                      <div className="fake-post">This is (4,2)</div>
                     </Thread.Item>
                   </Thread.Indent>
                 </Thread.Item>
                 <Thread.Item>
-                  <div className="fake-post">This is (4,2)</div>
+                  <div className="fake-post">This is its fifth child</div>
                 </Thread.Item>
-              </Thread.Indent>
-            </Thread.Item>
-            <Thread.Item>
-              <div className="fake-post">This is its fifth child</div>
-            </Thread.Item>
-            <Thread.Item>
-              <div className="fake-post">This is its sixth child</div>
-            </Thread.Item>
-            <Thread.Item>
-              <div className="fake-post">This is its seventh child</div>
-            </Thread.Item>
-          </CollapseGroup>
-          <Thread.Item>
-            <div className="fake-post">This is its eight child</div>
-          </Thread.Item>
-          <WrappedIndents name="9">
-            <WrappedIndents name="9,1,3" />
-          </WrappedIndents>
-        </Thread.Indent>
+                <Thread.Item>
+                  <div className="fake-post">This is its sixth child</div>
+                </Thread.Item>
+                <Thread.Item>
+                  <div className="fake-post">This is its seventh child</div>
+                </Thread.Item>
+              </CollapseGroup>
+              <Thread.Item>
+                <div className="fake-post">This is its eight child</div>
+              </Thread.Item>
+              <WrappedIndents name="9">
+                <WrappedIndents name="9,1,3" />
+              </WrappedIndents>
+            </Thread.Indent>
+          </>
+        )}
       </Thread>
       <style jsx>{`
         .container {

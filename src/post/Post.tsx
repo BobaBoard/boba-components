@@ -47,6 +47,7 @@ const MemoizedFooter = React.memo(Footer);
 const MemoizedEditor = React.memo(Editor);
 const Post = React.forwardRef<PostHandler, PostProps>((props, ref) => {
   const containerRef = React.useRef<HTMLDivElement>(null);
+  const avatarRef = React.createRef<HTMLDivElement>();
   const hasUpdate =
     props.newComments || props.newContributions || props.newPost;
 
@@ -64,6 +65,7 @@ const Post = React.forwardRef<PostHandler, PostProps>((props, ref) => {
       };
       containerRef.current.style.setProperty("--card-container-shadow", color);
     },
+    avatarRef,
   }));
 
   const hasFooterTags =
@@ -105,7 +107,7 @@ const Post = React.forwardRef<PostHandler, PostProps>((props, ref) => {
             header={
               <>
                 <div className={classnames("header", { muted: props.muted })}>
-                  <div className="header-container">
+                  <div className="header-container" ref={avatarRef}>
                     <MemoizedHeader
                       secretIdentity={props.secretIdentity}
                       userIdentity={props.userIdentity}
@@ -343,6 +345,7 @@ export default Post;
 
 export interface PostHandler {
   highlight: (color: string) => void;
+  avatarRef?: React.RefObject<HTMLDivElement>;
 }
 
 export interface PostProps {
