@@ -88,6 +88,12 @@ const SegmentedButton: React.FC<SegmentedButtonProps> = (props) => {
           font-size: 14px;
           line-height: 20px;
           font-weight: bold;
+          z-index: 2;
+          -webkit-transition: all 0.2s linear 0s;
+          -moz-transition: all 0.2s linear 0s;
+          -o-transition: all 0.2s linear 0s;
+          -ms-transition: all 0.2s linear 0s;
+          transition: all 0.2s linear 0s;
         }
         .selected .updates {
           background-color: ${REVERSE_THEME_COLOR};
