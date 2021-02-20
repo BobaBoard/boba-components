@@ -318,6 +318,7 @@ const TagsInput: React.FC<TagsInputProps> = ({
           flex-wrap: wrap;
           position: relative;
           box-sizing: border-box;
+          pointer-events: all;
         }
         .tag-container {
           margin: 5px 5px 0 0;

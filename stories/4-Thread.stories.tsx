@@ -477,6 +477,60 @@ export const NewThreadStory = () => {
     "level-2,1",
     "cg-1",
   ]);
+
+  // In real usage, indents will sometimes be wrapped within components, and they should
+  // continue working anyway.
+  const WrappedIndents = (props: {
+    name: string;
+    children?: React.ReactNode;
+  }) => {
+    return (
+      <Thread.Item>
+        <div className="fake-post">This is ({props.name})</div>
+        <Thread.Indent
+          id={`level-9,2,${props.name}`}
+          collapsed={collapsed.includes(`level-9,2,${props.name}`)}
+        >
+          <Thread.Item>
+            <div className="fake-post wrapped">This is ({props.name},1)</div>
+            <Thread.Indent
+              id={`level-9,2,1,${props.name}`}
+              collapsed={collapsed.includes(`level-9,2,1,${props.name}`)}
+            >
+              <Thread.Item>
+                <div className="fake-post wrapped">
+                  This is ({props.name},1,1)
+                </div>
+              </Thread.Item>
+              <Thread.Item>
+                <div className="fake-post wrapped">
+                  This is ({props.name},1,2)
+                </div>
+              </Thread.Item>
+              {props.children}
+            </Thread.Indent>
+          </Thread.Item>
+          <Thread.Item>
+            <div className="fake-post wrapped">This is ({props.name},2)</div>
+          </Thread.Item>
+        </Thread.Indent>
+        <style jsx>{`
+          .container {
+            max-width: 500px;
+          }
+          .fake-post {
+            background-color: white;
+            max-width: 500px;
+            margin-top: 15px;
+            margin-bottom: 15px;
+          }
+          .fake-post:hover {
+            background-color: red;
+          }
+        `}</style>
+      </Thread.Item>
+    );
+  };
   return (
     <div className="container">
       <Thread
@@ -494,45 +548,81 @@ export const NewThreadStory = () => {
             setCollapsed(newCollapsed);
           }
         }}
-        getCollapseReason={(levelId) => {
+        getCollapseReason={() => {
           return <div>Subthread manually hidden.</div>;
         }}
       >
         <div className="fake-post">This is the main post</div>
-        <Indent id="level-1" collapsed={collapsed.includes("level-1")}>
-          <div className="fake-post">This is its first child</div>
-          <Indent id="level-2,1" collapsed={collapsed.includes("level-2,1")}>
-            <div className="fake-post">This is (1,1)</div>
-            <div className="fake-post">This is (1,2)</div>
-            <div className="fake-post">This is (1,3)</div>
-          </Indent>
-          <div className="fake-post">This is its second child</div>
+        <Thread.Indent id="level-1" collapsed={collapsed.includes("level-1")}>
+          <Thread.Item>
+            <div className="fake-post">This is its first child</div>
+            <Thread.Indent
+              id="level-1,1"
+              collapsed={collapsed.includes("level-1,1")}
+            >
+              <Thread.Item>
+                <div className="fake-post">This is (1,1)</div>
+              </Thread.Item>
+              <Thread.Item>
+                <div style={{ pointerEvents: "none" }}>
+                  <div className="fake-post">This is (1,2)</div>
+                  <div style={{ marginLeft: "15px" }} className="fake-post">
+                    This one has an element with a margin and so the container
+                    needs `pointer-events: none`;
+                  </div>
+                </div>
+              </Thread.Item>
+              <Thread.Item>
+                <div className="fake-post">This is (1,3)</div>
+              </Thread.Item>
+            </Thread.Indent>
+          </Thread.Item>
+          <Thread.Item>
+            <div className="fake-post">This is its second child</div>
+          </Thread.Item>
           <CollapseGroup id="cg-1" collapsed={collapsed.includes("cg-1")}>
-            <div className="fake-post">This is its third child</div>
-            <div className="fake-post">This is its fourth child</div>
-            <Indent id="level-4,1" collapsed={collapsed.includes("level-4,1")}>
-              <div className="fake-post">This is (4,1)</div>
-              <Indent
-                id="level-4,1,1"
-                collapsed={collapsed.includes("level-4,1,1")}
+            <Thread.Item>
+              <div className="fake-post">This is its third child</div>
+            </Thread.Item>
+            <Thread.Item>
+              <div className="fake-post">This is its fourth child</div>
+              <Thread.Indent
+                id="level-4,1"
+                collapsed={collapsed.includes("level-4,1")}
               >
-                <div className="fake-post">This is (4,1,1)</div>
-              </Indent>
-            </Indent>
-            <div className="fake-post">This is its fifth child</div>
-            <div className="fake-post">This is its sixth child</div>
-            <div className="fake-post">This is its seventh child</div>
+                <Thread.Item>
+                  <div className="fake-post">This is (4,1)</div>
+                  <Thread.Indent
+                    id="level-4,1,1"
+                    collapsed={collapsed.includes("level-4,1,1")}
+                  >
+                    <Thread.Item>
+                      <div className="fake-post">This is (4,1,1)</div>
+                    </Thread.Item>
+                  </Thread.Indent>
+                </Thread.Item>
+                <Thread.Item>
+                  <div className="fake-post">This is (4,2)</div>
+                </Thread.Item>
+              </Thread.Indent>
+            </Thread.Item>
+            <Thread.Item>
+              <div className="fake-post">This is its fifth child</div>
+            </Thread.Item>
+            <Thread.Item>
+              <div className="fake-post">This is its sixth child</div>
+            </Thread.Item>
+            <Thread.Item>
+              <div className="fake-post">This is its seventh child</div>
+            </Thread.Item>
           </CollapseGroup>
-          <div className="fake-post">This is its eight child</div>
-          <div className="fake-post">This is its ninth child</div>
-          <Indent id="level-9,2" collapsed={collapsed.includes("level-9,2")}>
-            <div className="fake-post">This is (9,1)</div>
-            <Indent id="level-9,1" collapsed={collapsed.includes("level-9,1")}>
-              <div className="fake-post">This is (9,1,1)</div>
-              <div className="fake-post">This is (9,1,2)</div>
-            </Indent>
-          </Indent>
-        </Indent>
+          <Thread.Item>
+            <div className="fake-post">This is its eight child</div>
+          </Thread.Item>
+          <WrappedIndents name="9">
+            <WrappedIndents name="9,1,3" />
+          </WrappedIndents>
+        </Thread.Indent>
       </Thread>
       <style jsx>{`
         .container {

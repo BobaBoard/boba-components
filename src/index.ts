@@ -23,6 +23,8 @@ import CommentChain from "./post/CommentChain";
 import CommentChainEditor from "./post/CommentChainEditor";
 import CommentEditor from "./post/CommentEditor";
 import ThreadIndent from "./post/ThreadIndent";
+import NewThread from "./thread/NewThread";
+import CollapsedPlaceholder from "./thread/CollapsedPlaceholder";
 import PostingActionButton from "./board/PostingActionButton";
 import CycleNewButton from "./board/CycleNewButton";
 import Layout from "./layout/Layout";
@@ -83,6 +85,8 @@ export {
   DefaultTheme,
   CategoryFilter,
   PostQuote,
+  NewThread,
+  CollapsedPlaceholder,
   BobaDex,
   TagType,
 };

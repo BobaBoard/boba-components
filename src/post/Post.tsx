@@ -235,6 +235,7 @@ const Post = React.forwardRef<PostHandler, PostProps>((props, ref) => {
         }
         .card-container {
           position: relative;
+          pointer-events: all;
         }
         .card-container::after {
           content: "";
