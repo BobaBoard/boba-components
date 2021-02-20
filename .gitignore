@@ -106,8 +106,5 @@ dist
 # VSCode Preference
 .vscode
 
-# React Storybook
-storybook-static/
-
 # MacOS cache
 *.DS_Store
