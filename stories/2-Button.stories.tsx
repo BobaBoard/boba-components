@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React from "react";
 //import { linkTo } from "@storybook/addon-links";
 import Button, { ButtonStyle } from "../src/common/Button";
 import SegmentedButton from "../src/common/SegmentedButton";
@@ -305,7 +305,6 @@ SimpleButton.story = {
 };
 
 export const SegmentedButtonStory = () => {
-  const [selected, setSelected] = useState('seg1');
   return (
     <div>
       <div>
@@ -314,20 +313,44 @@ export const SegmentedButtonStory = () => {
             id: "seg1",
             label: "Left",
             updates: undefined,
-            onClick: () => { setSelected('seg1'); },
+            onClick: () => { return; },
           },
           {
             id: "seg2",
             label: "Middle",
             updates: 5,
-            onClick: () => { setSelected('seg2'); },
+            onClick: () => { return; },
           },{
             id: "seg3",
             label: "Right",
             updates: 5,
-            onClick: () => { setSelected('seg3'); },
+            onClick: () => { return; },
           }]}
-          selected={selected}
+          selected={'seg1'}
+          theme={ButtonStyle.LIGHT}
+        />
+      </div>
+      <div>
+        <SegmentedButton
+          options={[{
+            id: "seg1",
+            label: "Left",
+            updates: undefined,
+            onClick: () => { return; },
+          },
+          {
+            id: "seg2",
+            label: "Middle",
+            updates: 5,
+            onClick: () => { return; },
+          },{
+            id: "seg3",
+            label: "Right",
+            updates: 5,
+            onClick: () => { return; },
+          }]}
+          selected={'seg1'}
+          color="#f96680"
         />
       </div>
       <style jsx>
