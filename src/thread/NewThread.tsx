@@ -114,7 +114,14 @@ const Thread: React.FC<ThreadProps & ChildrenWithRenderProps> & {
   }, []);
 
   // We wrap children in a Thread.Item, so we can simply use the regular Thread.Item
-  // recursion even for the first level.
+  // recursion even for the first level. We do this unless the child is already a
+  // Thread.Item, mostly so if the first level can be done through recursion there's
+  // no need for the users of this class to special case it.
+  const children = isThreadItem(props.children) ? (
+    props.children
+  ) : (
+    <Thread.Item>{props.children}</Thread.Item>
+  );
   return (
     <ThreadContext.Provider
       value={React.useMemo(
@@ -127,7 +134,7 @@ const Thread: React.FC<ThreadProps & ChildrenWithRenderProps> & {
       )}
     >
       <div className="thread" ref={threadRef}>
-        <Thread.Item>{props.children}</Thread.Item>
+        {children}
         <style jsx>{`
           .thread {
             width: 100%;
@@ -271,6 +278,7 @@ const Item: React.FC<ChildrenWithRenderProps> = (props) => {
         li.level-item {
           position: relative;
           pointer-events: none;
+          --stem-margin-top: 0;
         }
         .thread-element {
           position: relative;
@@ -283,6 +291,7 @@ const Item: React.FC<ChildrenWithRenderProps> = (props) => {
         }
         div[data-level="0"] {
           position: relative;
+          --stem-margin-top: 0;
         }
       `}</style>
     </>
@@ -327,6 +336,7 @@ export const Stem: React.FC<StemProps> = (props) => {
           border: 0;
           padding: 0;
           margin-top: var(--stem-margin-top, 0);
+          margin-bottom: var(--stem-margin-bottom, 0);
         }
         .thread-stem.hover {
           cursor: pointer;

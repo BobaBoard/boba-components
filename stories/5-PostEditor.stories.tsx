@@ -1,7 +1,7 @@
 import React from "react";
 //import { linkTo } from "@storybook/addon-links";
 import PostEditor from "../src/post/PostEditor";
-import { ImageUploaderContext, EmbedsFetcherContext } from "../src/index";
+import { ImageUploaderContext, EditorContext } from "../src/index";
 import Modal from "../src/common/Modal";
 import Button from "../src/common/Button";
 
@@ -54,7 +54,7 @@ const embedFetchers = {
 
 const withContextProviders = (component: React.ReactNode): React.ReactNode => {
   return (
-    <EmbedsFetcherContext.Provider value={embedFetchers}>
+    <EditorContext.Provider value={{ fetchers: embedFetchers }}>
       <ImageUploaderContext.Provider
         value={{
           onImageUploadRequest: async (url) => {
@@ -65,7 +65,7 @@ const withContextProviders = (component: React.ReactNode): React.ReactNode => {
       >
         {component}
       </ImageUploaderContext.Provider>
-    </EmbedsFetcherContext.Provider>
+    </EditorContext.Provider>
   );
 };
 

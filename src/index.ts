@@ -15,8 +15,8 @@ import ToastContainer, { toast } from "./common/Toast";
 import Modal from "./common/Modal";
 import ModalWithButtons from "./common/ModalWithButtons";
 import PostEditor from "./post/PostEditor";
-import Post, { PostSizes, PostHandler } from "./post/Post";
-import Comment, { CommentHandler } from "./post/Comment";
+import Post, { PostSizes } from "./post/Post";
+import Comment from "./post/Comment";
 import CompactThreadIndent, { useIndent } from "./post/CompactThreadIndent";
 import CompactPostThread from "./post/CompactPostThread";
 import CommentChain from "./post/CommentChain";
@@ -59,13 +59,11 @@ export {
   ModalWithButtons,
   Post,
   PostSizes,
-  PostHandler,
   PostEditor,
   PostingActionButton,
   Comment,
   CommentChain,
   CommentChainEditor,
-  CommentHandler,
   CompactThreadIndent,
   CompactPostThread,
   useIndent,
@@ -92,4 +90,6 @@ export {
 };
 
 import type { TagsType } from "./types";
-export type { TagsType };
+import type { PostHandler } from "./post/Post";
+import type { CommentHandler } from "./post/Comment";
+export type { TagsType, PostHandler, CommentHandler };
