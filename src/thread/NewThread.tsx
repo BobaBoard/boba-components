@@ -67,24 +67,11 @@ interface ThreadContext extends ThreadProps {
 
 const ThreadContext = React.createContext<ThreadContext | null>(null);
 const ThreadLevel = React.createContext<number>(0);
-const ThreadStem = React.createContext<{
-  visible: boolean;
-  setVisible: (x: boolean) => void;
-} | null>(null);
 
 interface ThreadProps {
   onCollapseLevel: (id: string) => void;
   onUncollapseLevel: (id: string) => void;
   getCollapseReason: (id: string) => React.ReactNode;
-}
-
-interface IndentProps {
-  id: string | null;
-  collapsed: boolean;
-  level?: number;
-  // Internal: do not use.
-  childOfItem?: boolean;
-  marginTop?: number;
 }
 
 interface CollapseGroupProps extends IndentProps {
@@ -144,22 +131,12 @@ const Thread: React.FC<ThreadProps> & {
   Indent: typeof Indent;
   Item: typeof Item;
 } = (props) => {
-  // Thread should have up to two children, one which is the item to display at "level 0",
-  // and a potential second element of type Thread.Indent, which contains the subthread.
-  // Actually, at least for now, we just take all the children that aren't an indent, and simply
-  // display them as the "top" element.
-  const resizeCallbacks = React.useRef<(() => void)[]>([]);
   const threadRef = React.createRef<HTMLDivElement>();
 
-  const addResizeCallback = React.useCallback((callback: () => void) => {
-    resizeCallbacks.current.push(callback);
-  }, []);
-  const removeResizeCallback = React.useCallback((callback: () => void) => {
-    resizeCallbacks.current = resizeCallbacks.current.filter(
-      (entry) => callback != entry
-    );
-  }, []);
-
+  // When the overall thread container is resized, cycle through all the handlers to
+  // "warn" the stems that readjustment might be needed (+ whatever other callback might
+  // have been assigned).
+  const resizeCallbacks = React.useRef<(() => void)[]>([]);
   React.useEffect(() => {
     if (!threadRef.current) {
       return;
@@ -173,19 +150,28 @@ const Thread: React.FC<ThreadProps> & {
       resizeObserver.disconnect();
     };
   }, [threadRef]);
-  const providedValues = React.useMemo(
-    () => ({
-      ...props,
-      addResizeCallback,
-      removeResizeCallback,
-    }),
-    [props, addResizeCallback, removeResizeCallback]
-  );
+  const addResizeCallback = React.useCallback((callback: () => void) => {
+    resizeCallbacks.current.push(callback);
+  }, []);
+  const removeResizeCallback = React.useCallback((callback: () => void) => {
+    resizeCallbacks.current = resizeCallbacks.current.filter(
+      (entry) => callback != entry
+    );
+  }, []);
 
-  // We wrap both elements in a Thread.Item, so we can simply use the regular Thread.Item
+  // We wrap children in a Thread.Item, so we can simply use the regular Thread.Item
   // recursion even for the first level.
   return (
-    <ThreadContext.Provider value={providedValues}>
+    <ThreadContext.Provider
+      value={React.useMemo(
+        () => ({
+          ...props,
+          addResizeCallback,
+          removeResizeCallback,
+        }),
+        [props, addResizeCallback, removeResizeCallback]
+      )}
+    >
       <div className="thread" ref={threadRef}>
         <Thread.Item>{props.children}</Thread.Item>
         <style jsx>{`
@@ -249,7 +235,6 @@ export const CollapseGroup: React.FC<CollapseGroupProps> = (props) => {
 
 const Item: React.FC<{ children?: React.ReactNode }> = (props) => {
   const level = React.useContext(ThreadLevel);
-  const threadContext = React.useContext(ThreadContext);
   const { styles, className } = getThreadCss(level);
   const [
     boundaryElement,
@@ -268,65 +253,36 @@ const Item: React.FC<{ children?: React.ReactNode }> = (props) => {
   if (Children.toArray(children).some(isThreadItem)) {
     throw new Error("Items shouldn't be children of items");
   }
-  const stemClickHandler = React.useCallback(() => {
-    if (!indent) {
-      return;
-    }
-    if (indent.props.collapsed) {
-      threadContext?.onUncollapseLevel?.(indent.props.id as string);
-    } else {
-      threadContext?.onCollapseLevel?.(indent.props.id as string);
-    }
-  }, [threadContext, indent]);
-  return (
+  const content = (
     <>
-      {level === 0 ? (
-        <div data-level={0} className={className}>
-          <div className={`thread-element ${className}`}>{levelItems}</div>
-          {indent && (
-            <Stem
-              className={className}
-              boundaryElement={boundaryElement}
-              clickHandler={stemClickHandler}
-            />
-          )}
-          {indent &&
-            // @ts-ignore
-            React.cloneElement(indent, {
-              ...indent?.props,
-              childOfItem: true,
-              boundaryElement,
-            })}
-        </div>
-      ) : (
-        <li data-level={level} className={`level-item ${className}`}>
-          {indent && (
-            <Stem
-              className={className}
-              boundaryElement={boundaryElement}
-              clickHandler={stemClickHandler}
-            />
-          )}
-          <div className={`thread-element ${className}`}>{levelItems}</div>
-          {indent &&
-            // @ts-ignore
-            React.cloneElement(indent, {
-              ...indent?.props,
-              childOfItem: true,
-              positionElement: boundaryElement,
-              boundaryElement,
-            })}
-        </li>
-      )}
+      <div className={`thread-element ${className}`}>{levelItems}</div>
+      {indent &&
+        // @ts-ignore
+        React.cloneElement(indent, {
+          ...indent.props,
+          // Add this so an indent that is not a direct child of an item will
+          // raise an exception
+          _childOfItem: true,
+          _boundaryElement: boundaryElement,
+        })}
       {styles}
     </>
+  );
+  return level === 0 ? (
+    <div data-level={0} className={className}>
+      {content}
+    </div>
+  ) : (
+    <li data-level={level} className={`level-item ${className}`}>
+      {content}
+    </li>
   );
 };
 
 interface StemProps {
   className: string;
   clickHandler: () => void;
-  boundaryElement: HTMLElement | null;
+  boundaryElement?: HTMLElement | null;
 }
 export const Stem: React.FC<StemProps> = (props) => {
   const threadContext = React.useContext(ThreadContext);
@@ -381,30 +337,53 @@ export const Stem: React.FC<StemProps> = (props) => {
   );
 };
 
+interface IndentProps {
+  id: string | null;
+  collapsed: boolean;
+  // Internal: do not use.
+  _boundaryElement?: HTMLElement | null;
+  _childOfItem?: boolean;
+}
 export const Indent: React.FC<IndentProps> = (props) => {
+  const threadContext = React.useContext(ThreadContext);
   const level = React.useContext(ThreadLevel);
   const { styles, className } = getThreadCss(level);
   const childrenArray = React.Children.toArray(props.children);
 
-  if (!props.childOfItem) {
+  if (!props._childOfItem) {
     throw new Error("indent should be child of item");
   }
 
-  const toRender = childrenArray.flatMap((child) =>
+  const stemClickHandler = React.useCallback(() => {
+    if (props.collapsed) {
+      threadContext?.onUncollapseLevel?.(props.id as string);
+    } else {
+      threadContext?.onCollapseLevel?.(props.id as string);
+    }
+  }, [threadContext, props.collapsed, props.id]);
+
+  // If the child is an uncollapsed CollapseGroup, then skip the CollapseGroup
+  // and render its children instead. If not, render whatever the child is.
+  const childrenForRendering = childrenArray.flatMap((child) =>
     isCollapseGroup(child) && !child.props.collapsed
       ? child.props.children
       : child
   );
-  const indentContext = React.useContext(ThreadStem);
-  if (indentContext && !indentContext.visible) {
-    indentContext.setVisible(true);
-  }
 
   return (
     <>
+      <Stem
+        className={className}
+        boundaryElement={props._boundaryElement}
+        clickHandler={stemClickHandler}
+      />
       <ol data-level={level + 1} className={`level-container ${className}`}>
         <ThreadLevel.Provider value={level + 1}>
-          {props.collapsed ? <CollapseGroup {...props} endsLevel /> : toRender}
+          {props.collapsed ? (
+            <CollapseGroup {...props} endsLevel />
+          ) : (
+            childrenForRendering
+          )}
         </ThreadLevel.Provider>
         {styles}
       </ol>
