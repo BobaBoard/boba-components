@@ -1,64 +1,12 @@
-import React, { Children, MutableRefObject } from "react";
+import React, { Children } from "react";
 
 import Theme from "../theme/default";
 import CollapsedPlaceholder from "./CollapsedPlaceholder";
 import CircleMask from "../images/circle-mask.svg";
 import RectangleMask from "../images/rectangle-mask.svg";
 import classnames from "classnames";
-import css from "styled-jsx/css";
 
 const INDENT_WIDTH_PX = 8;
-const getThreadCss = (level: number) => css.resolve`
-  ol.level-container {
-    list-style: none;
-    position: relative;
-    margin-inline-start: ${INDENT_WIDTH_PX}px;
-    padding-inline-start: 0;
-    pointer-events: none;
-  }
-  div[data-level="0"],
-  ol.level-container[data-level="1"] {
-    padding-inline-start: 0;
-    margin-inline-start: 0;
-  }
-  li.level-item {
-    position: relative;
-    pointer-events: none;
-  }
-  .thread-element {
-    position: relative;
-    z-index: 1;
-    pointer-events: none;
-  }
-  .thread-element
-    > :global(*:not(.level-item .level-container .thread-element)) {
-    pointer-events: all;
-  }
-  .thread-stem {
-    position: absolute;
-    top: 0;
-    bottom: -10px;
-    left: ${INDENT_WIDTH_PX}px;
-    width: ${INDENT_WIDTH_PX}px;
-    background-color: ${Theme.INDENT_COLORS[
-      level % Theme.INDENT_COLORS.length
-    ]};
-    border-radius: 15px;
-    pointer-events: all;
-    border: 0;
-    padding: 0;
-  }
-  .thread-stem.hover {
-    cursor: pointer;
-    background-color: purple;
-  }
-  div[data-level="0"] > .thread-stem {
-    left: 0px;
-  }
-  div[data-level="0"] {
-    position: relative;
-  }
-`;
 
 interface ThreadContext extends ThreadProps {
   addResizeCallback: (callback: () => void) => void;
@@ -104,6 +52,12 @@ const processItemChildren = (children: React.ReactNode | undefined) => {
   return { levelItems, indent };
 };
 
+interface ChildrenWithRenderProps {
+  children?:
+    | JSX.Element
+    | ((refCallback: (element: HTMLElement | null) => void) => React.ReactNode);
+}
+
 /**
  * This is how the thread structure is supposed to look like:
  *
@@ -127,7 +81,7 @@ const processItemChildren = (children: React.ReactNode | undefined) => {
  * If a component is wrapped around levels of these tree, make sure that it wraps a
  * Thread.Item and not simply the indentation.
  */
-const Thread: React.FC<ThreadProps> & {
+const Thread: React.FC<ThreadProps & ChildrenWithRenderProps> & {
   Indent: typeof Indent;
   Item: typeof Item;
 } = (props) => {
@@ -233,21 +187,45 @@ export const CollapseGroup: React.FC<CollapseGroupProps> = (props) => {
   );
 };
 
-const Item: React.FC<{ children?: React.ReactNode }> = (props) => {
+const Item: React.FC<ChildrenWithRenderProps> = (props) => {
+  const threadContext = React.useContext(ThreadContext);
   const level = React.useContext(ThreadLevel);
-  const { styles, className } = getThreadCss(level);
   const [
     boundaryElement,
     setBoundaryElement,
   ] = React.useState<HTMLElement | null>(null);
-  // We only wrap the result in a <li> when it's above level 0.
+  const levelContent = React.createRef<HTMLLIElement & HTMLDivElement>();
+
+  //
   let children: React.ReactNode = props.children;
   if (typeof props.children == "function") {
     children = props.children(setBoundaryElement);
-    if (React.isValidElement(children) && children.type == React.Fragment) {
+    // Since thread indent must always be a direct child of Item, but the component
+    // rendered by using a render props function will likely need to wrap more than one
+    // element as a return value, we check if the returned children are a fragment,
+    // and just iterate on the returned children in that case.
+    if (React.isValidElement(children) && children.type === React.Fragment) {
       children = children.props.children;
     }
   }
+
+  React.useEffect(() => {
+    if (!boundaryElement || !levelContent.current) {
+      return;
+    }
+
+    const contentRef = levelContent.current;
+    const setTopMarginCallback = () => {
+      const { top: stemTop } = contentRef.getBoundingClientRect();
+      const { top } = boundaryElement.getBoundingClientRect();
+      contentRef.style.setProperty("--stem-margin-top", `${top - stemTop}px`);
+    };
+    threadContext?.addResizeCallback(setTopMarginCallback);
+    setTopMarginCallback();
+    return () => {
+      threadContext?.removeResizeCallback(setTopMarginCallback);
+    };
+  }, [boundaryElement, threadContext, levelContent]);
 
   const { levelItems, indent } = processItemChildren(children);
   if (Children.toArray(children).some(isThreadItem)) {
@@ -255,38 +233,67 @@ const Item: React.FC<{ children?: React.ReactNode }> = (props) => {
   }
   const content = (
     <>
-      <div className={`thread-element ${className}`}>{levelItems}</div>
-      {indent &&
-        // @ts-ignore
+      <div className={`thread-element`}>{levelItems}</div>
+      {React.isValidElement(indent) &&
         React.cloneElement(indent, {
           ...indent.props,
           // Add this so an indent that is not a direct child of an item will
           // raise an exception
           _childOfItem: true,
-          _boundaryElement: boundaryElement,
         })}
-      {styles}
+      <style jsx>{`
+        .thread-element {
+          position: relative;
+          z-index: 1;
+          pointer-events: none;
+        }
+        .thread-element
+          > :global(*:not(.level-item .level-container .thread-element)) {
+          pointer-events: all;
+        }
+      `}</style>
     </>
   );
-  return level === 0 ? (
-    <div data-level={0} className={className}>
-      {content}
-    </div>
-  ) : (
-    <li data-level={level} className={`level-item ${className}`}>
-      {content}
-    </li>
+  // We only wrap the result in a <li> when it's above level 0, and is thus child
+  // of a Thread.Indent
+  return (
+    <>
+      {level === 0 ? (
+        <div data-level={0} ref={levelContent}>
+          {content}
+        </div>
+      ) : (
+        <li data-level={level} className={`level-item`} ref={levelContent}>
+          {content}
+        </li>
+      )}
+      <style jsx>{`
+        li.level-item {
+          position: relative;
+          pointer-events: none;
+        }
+        .thread-element {
+          position: relative;
+          z-index: 1;
+          pointer-events: none;
+        }
+        .thread-element
+          > :global(*:not(.level-item .level-container .thread-element)) {
+          pointer-events: all;
+        }
+        div[data-level="0"] {
+          position: relative;
+        }
+      `}</style>
+    </>
   );
 };
 
 interface StemProps {
-  className: string;
   clickHandler: () => void;
-  boundaryElement?: HTMLElement | null;
 }
 export const Stem: React.FC<StemProps> = (props) => {
-  const threadContext = React.useContext(ThreadContext);
-  const stem = React.createRef<HTMLButtonElement>();
+  const level = React.useContext(ThreadLevel);
   const stemHoverEnterHandler = React.useCallback((e) => {
     const target = e.target as HTMLElement;
     target.classList.add("hover");
@@ -295,44 +302,40 @@ export const Stem: React.FC<StemProps> = (props) => {
     const target = e.target as HTMLElement;
     target.classList.remove("hover");
   }, []);
-  // TODO: this can likely be done with CSS vars without triggering
-  // a react re-render.
-  const [marginTop, setMarginTop] = React.useState(10);
-
-  React.useEffect(() => {
-    if (!props.boundaryElement || !stem.current) {
-      return;
-    }
-
-    // We use parent element here because the stem will be positioned relative
-    // to it.
-    const stemRef = stem.current.parentElement;
-    if (!stemRef) {
-      throw new Error("Found unattached stem.");
-    }
-    const boundaryElement = props.boundaryElement;
-    const setTopMarginCallback = () => {
-      const { top: stemTop } = stemRef.getBoundingClientRect();
-      const { top } = boundaryElement.getBoundingClientRect();
-      setMarginTop(top - stemTop);
-    };
-    threadContext?.addResizeCallback(setTopMarginCallback);
-    setTopMarginCallback();
-    return () => {
-      threadContext?.removeResizeCallback(setTopMarginCallback);
-    };
-  }, [props.boundaryElement, threadContext, stem]);
 
   return (
     <>
       <button
-        ref={stem}
-        className={`thread-stem ${props.className}`}
-        style={{ marginTop: marginTop + "px" }}
+        className={`thread-stem`}
+        data-level={level}
         onMouseEnter={stemHoverEnterHandler}
         onMouseLeave={stemHoverLeaveHandler}
         onClick={props.clickHandler}
       />
+      <style jsx>{`
+        .thread-stem {
+          position: absolute;
+          top: 0;
+          bottom: -10px;
+          left: ${INDENT_WIDTH_PX}px;
+          width: ${INDENT_WIDTH_PX}px;
+          background-color: ${Theme.INDENT_COLORS[
+            level % Theme.INDENT_COLORS.length
+          ]};
+          border-radius: 15px;
+          pointer-events: all;
+          border: 0;
+          padding: 0;
+          margin-top: var(--stem-margin-top, 0);
+        }
+        .thread-stem.hover {
+          cursor: pointer;
+          background-color: purple;
+        }
+        .thread-stem[data-level="0"] {
+          left: 0px;
+        }
+      `}</style>
     </>
   );
 };
@@ -341,13 +344,11 @@ interface IndentProps {
   id: string | null;
   collapsed: boolean;
   // Internal: do not use.
-  _boundaryElement?: HTMLElement | null;
   _childOfItem?: boolean;
 }
 export const Indent: React.FC<IndentProps> = (props) => {
   const threadContext = React.useContext(ThreadContext);
   const level = React.useContext(ThreadLevel);
-  const { styles, className } = getThreadCss(level);
   const childrenArray = React.Children.toArray(props.children);
 
   if (!props._childOfItem) {
@@ -372,12 +373,8 @@ export const Indent: React.FC<IndentProps> = (props) => {
 
   return (
     <>
-      <Stem
-        className={className}
-        boundaryElement={props._boundaryElement}
-        clickHandler={stemClickHandler}
-      />
-      <ol data-level={level + 1} className={`level-container ${className}`}>
+      <Stem clickHandler={stemClickHandler} />
+      <ol data-level={level + 1} className={`level-container`}>
         <ThreadLevel.Provider value={level + 1}>
           {props.collapsed ? (
             <CollapseGroup {...props} endsLevel />
@@ -385,7 +382,19 @@ export const Indent: React.FC<IndentProps> = (props) => {
             childrenForRendering
           )}
         </ThreadLevel.Provider>
-        {styles}
+        <style jsx>{`
+          ol.level-container {
+            list-style: none;
+            position: relative;
+            margin-inline-start: ${INDENT_WIDTH_PX}px;
+            padding-inline-start: 0;
+            pointer-events: none;
+          }
+          ol.level-container[data-level="1"] {
+            padding-inline-start: 0;
+            margin-inline-start: 0;
+          }
+        `}</style>
       </ol>
     </>
   );
