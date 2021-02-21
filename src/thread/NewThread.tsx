@@ -250,15 +250,11 @@ export const CollapseGroup: React.FC<CollapseGroupProps> = (props) => {
 const Item: React.FC<{ children?: React.ReactNode }> = (props) => {
   const level = React.useContext(ThreadLevel);
   const threadContext = React.useContext(ThreadContext);
-  // TODO: this can likely be done with CSS vars without triggering
-  // a react re-render.
-  const [marginTop, setMarginTop] = React.useState(10);
   const { styles, className } = getThreadCss(level);
   const [
     boundaryElement,
     setBoundaryElement,
   ] = React.useState<HTMLElement | null>(null);
-  const container = React.createRef<HTMLDivElement | HTMLLIElement>();
   // We only wrap the result in a <li> when it's above level 0.
   let children: React.ReactNode = props.children;
   if (typeof props.children == "function") {
@@ -268,50 +264,49 @@ const Item: React.FC<{ children?: React.ReactNode }> = (props) => {
     }
   }
 
-  React.useEffect(() => {
-    if (!boundaryElement || !container.current) {
-      return;
-    }
-    const containerRef = container.current;
-    const setTopMarginCallback = () => {
-      const { top: containerTop } = containerRef.getBoundingClientRect();
-      const { top } = boundaryElement.getBoundingClientRect();
-      setMarginTop(top - containerTop);
-    };
-    threadContext?.addResizeCallback(setTopMarginCallback);
-    setTopMarginCallback();
-    return () => {
-      threadContext?.removeResizeCallback(setTopMarginCallback);
-    };
-  }, [boundaryElement, threadContext, container]);
-
   const { levelItems, indent } = processItemChildren(children);
   if (Children.toArray(children).some(isThreadItem)) {
     throw new Error("Items shouldn't be children of items");
   }
+  const stemClickHandler = React.useCallback(() => {
+    if (!indent) {
+      return;
+    }
+    if (indent.props.collapsed) {
+      threadContext?.onUncollapseLevel?.(indent.props.id as string);
+    } else {
+      threadContext?.onCollapseLevel?.(indent.props.id as string);
+    }
+  }, [threadContext, indent]);
   return (
     <>
       {level === 0 ? (
-        <div
-          data-level={0}
-          className={className}
-          ref={container as MutableRefObject<HTMLDivElement>}
-        >
+        <div data-level={0} className={className}>
           <div className={`thread-element ${className}`}>{levelItems}</div>
+          {indent && (
+            <Stem
+              className={className}
+              boundaryElement={boundaryElement}
+              clickHandler={stemClickHandler}
+            />
+          )}
           {indent &&
             // @ts-ignore
             React.cloneElement(indent, {
               ...indent?.props,
               childOfItem: true,
-              marginTop: marginTop,
+              boundaryElement,
             })}
         </div>
       ) : (
-        <li
-          data-level={level}
-          className={`level-item ${className}`}
-          ref={container as MutableRefObject<HTMLLIElement>}
-        >
+        <li data-level={level} className={`level-item ${className}`}>
+          {indent && (
+            <Stem
+              className={className}
+              boundaryElement={boundaryElement}
+              clickHandler={stemClickHandler}
+            />
+          )}
           <div className={`thread-element ${className}`}>{levelItems}</div>
           {indent &&
             // @ts-ignore
@@ -319,7 +314,7 @@ const Item: React.FC<{ children?: React.ReactNode }> = (props) => {
               ...indent?.props,
               childOfItem: true,
               positionElement: boundaryElement,
-              marginTop: marginTop,
+              boundaryElement,
             })}
         </li>
       )}
@@ -328,8 +323,65 @@ const Item: React.FC<{ children?: React.ReactNode }> = (props) => {
   );
 };
 
-export const Indent: React.FC<IndentProps> = (props) => {
+interface StemProps {
+  className: string;
+  clickHandler: () => void;
+  boundaryElement: HTMLElement | null;
+}
+export const Stem: React.FC<StemProps> = (props) => {
   const threadContext = React.useContext(ThreadContext);
+  const stem = React.createRef<HTMLButtonElement>();
+  const stemHoverEnterHandler = React.useCallback((e) => {
+    const target = e.target as HTMLElement;
+    target.classList.add("hover");
+  }, []);
+  const stemHoverLeaveHandler = React.useCallback((e) => {
+    const target = e.target as HTMLElement;
+    target.classList.remove("hover");
+  }, []);
+  // TODO: this can likely be done with CSS vars without triggering
+  // a react re-render.
+  const [marginTop, setMarginTop] = React.useState(10);
+
+  React.useEffect(() => {
+    if (!props.boundaryElement || !stem.current) {
+      return;
+    }
+
+    // We use parent element here because the stem will be positioned relative
+    // to it.
+    const stemRef = stem.current.parentElement;
+    if (!stemRef) {
+      throw new Error("Found unattached stem.");
+    }
+    const boundaryElement = props.boundaryElement;
+    const setTopMarginCallback = () => {
+      const { top: stemTop } = stemRef.getBoundingClientRect();
+      const { top } = boundaryElement.getBoundingClientRect();
+      setMarginTop(top - stemTop);
+    };
+    threadContext?.addResizeCallback(setTopMarginCallback);
+    setTopMarginCallback();
+    return () => {
+      threadContext?.removeResizeCallback(setTopMarginCallback);
+    };
+  }, [props.boundaryElement, threadContext, stem]);
+
+  return (
+    <>
+      <button
+        ref={stem}
+        className={`thread-stem ${props.className}`}
+        style={{ marginTop: marginTop + "px" }}
+        onMouseEnter={stemHoverEnterHandler}
+        onMouseLeave={stemHoverLeaveHandler}
+        onClick={props.clickHandler}
+      />
+    </>
+  );
+};
+
+export const Indent: React.FC<IndentProps> = (props) => {
   const level = React.useContext(ThreadLevel);
   const { styles, className } = getThreadCss(level);
   const childrenArray = React.Children.toArray(props.children);
@@ -347,30 +399,9 @@ export const Indent: React.FC<IndentProps> = (props) => {
   if (indentContext && !indentContext.visible) {
     indentContext.setVisible(true);
   }
-  const stemHoverEnterHandler = React.useCallback((e) => {
-    const target = e.target as HTMLElement;
-    target.classList.add("hover");
-  }, []);
-  const stemHoverLeaveHandler = React.useCallback((e) => {
-    const target = e.target as HTMLElement;
-    target.classList.remove("hover");
-  }, []);
 
   return (
     <>
-      <button
-        className={`thread-stem ${className}`}
-        style={{ marginTop: props.marginTop + "px" }}
-        onMouseEnter={stemHoverEnterHandler}
-        onMouseLeave={stemHoverLeaveHandler}
-        onClick={() => {
-          if (props.collapsed) {
-            threadContext?.onUncollapseLevel?.(props.id as string);
-          } else {
-            threadContext?.onCollapseLevel?.(props.id as string);
-          }
-        }}
-      />
       <ol data-level={level + 1} className={`level-container ${className}`}>
         <ThreadLevel.Provider value={level + 1}>
           {props.collapsed ? <CollapseGroup {...props} endsLevel /> : toRender}
