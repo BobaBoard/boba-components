@@ -20,7 +20,7 @@ const DefaultTheme: ThemeProperties = {
   HEADER_HEIGHT_PX: 70,
   //INDENT_COLORS: ["#f96680", "#24d282", "#27caba", "#f9e066"],
   //INDENT_COLORS: ["#535353", "#808080", "#27caba", "#f9e066"],
-  INDENT_COLORS: ["#a8d5c0", "#f0b3b2", "#27caba", "#f9e066"],
+  INDENT_COLORS: ["#65E8B7", "#FEF48F", "#A1C6FA", "#F9B7CB"],
   BUTTON_ACCENT_COLOR_LIGHT: "#1c1c1c",
   BUTTON_BACKGROUND_COLOR_LIGHT: "#ffffff",
   BUTTON_ACCENT_COLOR_DARK: "#ffffff",
@@ -50,7 +50,7 @@ export interface ThemeProperties {
   HEADER_HEIGHT_PX: number;
   DROPDOWN_BACKGROUND_COLOR_LIGHT: string;
   DROPDOWN_BACKGROUND_COLOR_DARK: string;
-  DROPDOWN_HOVER_BACKGROUND_COLOR: string,
+  DROPDOWN_HOVER_BACKGROUND_COLOR: string;
   BUTTON_ACCENT_COLOR_LIGHT: string;
   BUTTON_ACCENT_COLOR_DARK: string;
   BUTTON_BACKGROUND_COLOR_LIGHT: string;

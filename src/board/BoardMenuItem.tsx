@@ -33,7 +33,7 @@ const BoardMenuItem: React.FC<
   );
 
   if (props.loading) {
-    const color = Color(props.accentColor).desaturate(0.4).hex() || "#bd4faf";
+    const color = Color(props.accentColor).darken(0.4).hex() || "#bd4faf";
     return (
       <div className={`${containerClassname} board-menu-item`}>
         {containerStyles}

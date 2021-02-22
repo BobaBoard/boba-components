@@ -1,12 +1,19 @@
 import React from "react";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faAngleDown, faAngleUp } from "@fortawesome/free-solid-svg-icons";
+import DefaultTheme from "../theme/default";
+import { lightenColor } from "../utils";
 
 interface CollapsedPlaceholderProps {
   onUncollapseClick: () => void;
+  accentColor?: string;
 }
 
 const CollapsedPlaceholder: React.FC<CollapsedPlaceholderProps> = (props) => {
+  const stemHoverColor = lightenColor(
+    props.accentColor || DefaultTheme.INDENT_COLORS[0],
+    0.07
+  );
   return (
     <div className="collapsed-placeholder">
       <div className="icon" onClick={props.onUncollapseClick}>
@@ -14,9 +21,9 @@ const CollapsedPlaceholder: React.FC<CollapsedPlaceholderProps> = (props) => {
         <FontAwesomeIcon icon={faAngleDown} />
       </div>
       <div className="text">{props.children}</div>
-      <div className="view-all" onClick={props.onUncollapseClick}>
+      <button className="view-all" onClick={props.onUncollapseClick}>
         View All
-      </div>
+      </button>
       <style jsx>{`
         .collapsed-placeholder {
           background-color: #464646;
@@ -49,11 +56,19 @@ const CollapsedPlaceholder: React.FC<CollapsedPlaceholderProps> = (props) => {
           flex-shrink: 0;
           font-size: 14px;
           text-decoration: underline;
-          color: #a8d5c0;
+          color: ${props.accentColor || DefaultTheme.INDENT_COLORS[0]};
+          border: 0;
+          background-color: transparent;
         }
         .view-all:hover {
           cursor: pointer;
-          color: red;
+          color: ${stemHoverColor};
+        }
+        .view-all:focus {
+          outline: none;
+        }
+        .view-all:focus-visible {
+          outline: auto;
         }
       `}</style>
     </div>

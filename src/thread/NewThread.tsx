@@ -5,6 +5,7 @@ import CollapsedPlaceholder from "./CollapsedPlaceholder";
 import CircleMask from "../images/circle-mask.svg";
 import RectangleMask from "../images/rectangle-mask.svg";
 import classnames from "classnames";
+import { lightenColor } from "../utils";
 
 const INDENT_WIDTH_PX = 8;
 
@@ -148,6 +149,9 @@ const Thread: React.FC<ThreadProps & ChildrenWithRenderProps> & {
 
 export const CollapseGroup: React.FC<CollapseGroupProps> = (props) => {
   const threadContext = React.useContext(ThreadContext);
+  const level = React.useContext(ThreadLevel);
+  const stemColor =
+    Theme.INDENT_COLORS[level - (1 % Theme.INDENT_COLORS.length)];
   return props.collapsed ? (
     <div
       className={classnames("collapsed", { "ends-level": !!props.endsLevel })}
@@ -157,6 +161,7 @@ export const CollapseGroup: React.FC<CollapseGroupProps> = (props) => {
           onUncollapseClick={() =>
             threadContext?.onUncollapseLevel?.(props.id as string)
           }
+          accentColor={stemColor}
         >
           {threadContext?.getCollapseReason?.(props.id as string)}
         </CollapsedPlaceholder>
@@ -183,6 +188,7 @@ export const CollapseGroup: React.FC<CollapseGroupProps> = (props) => {
           left: 0;
           width: ${INDENT_WIDTH_PX}px;
           z-index: 1;
+          pointer-events: none;
         }
         .collapsed.ends-level .background {
           bottom: 10px;
@@ -251,7 +257,7 @@ const Item: React.FC<ChildrenWithRenderProps> = (props) => {
       <style jsx>{`
         .thread-element {
           position: relative;
-          z-index: 1;
+          z-index: 2;
           pointer-events: none;
         }
         .thread-element
@@ -282,7 +288,7 @@ const Item: React.FC<ChildrenWithRenderProps> = (props) => {
         }
         .thread-element {
           position: relative;
-          z-index: 1;
+          z-index: 2;
           pointer-events: none;
         }
         .thread-element
@@ -312,6 +318,8 @@ export const Stem: React.FC<StemProps> = (props) => {
     target.classList.remove("hover");
   }, []);
 
+  const stemColor = Theme.INDENT_COLORS[level % Theme.INDENT_COLORS.length];
+  const stemHoverColor = lightenColor(stemColor, 0.07);
   return (
     <>
       <button
@@ -328,9 +336,7 @@ export const Stem: React.FC<StemProps> = (props) => {
           bottom: -10px;
           left: ${INDENT_WIDTH_PX}px;
           width: ${INDENT_WIDTH_PX}px;
-          background-color: ${Theme.INDENT_COLORS[
-            level % Theme.INDENT_COLORS.length
-          ]};
+          background-color: ${stemColor};
           border-radius: 15px;
           pointer-events: all;
           border: 0;
@@ -338,9 +344,17 @@ export const Stem: React.FC<StemProps> = (props) => {
           margin-top: var(--stem-margin-top, 0);
           margin-bottom: var(--stem-margin-bottom, 0);
         }
+        .thread-stem:focus {
+          outline: none;
+        }
+        .thread-stem:focus-visible {
+          outline: auto;
+        }
         .thread-stem.hover {
           cursor: pointer;
-          background-color: purple;
+          background-color: ${stemHoverColor};
+          z-index: 1;
+          box-shadow: 0 0 6px 0 rgba(0, 0, 0, 0.2), 0 0 0 1px rgba(0, 0, 0, 0.1);
         }
         .thread-stem[data-level="0"] {
           left: 0px;

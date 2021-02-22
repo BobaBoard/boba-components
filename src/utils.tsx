@@ -10,6 +10,7 @@ import {
   replaceImages,
   removeTrailingWhitespace,
 } from "@bobaboard/boba-editor";
+import chroma from "chroma-js";
 
 export const hex2rgba = (hex: string, alpha = 1) => {
   const [r, g, b] =
@@ -173,4 +174,16 @@ export const prepareContentSubmission = (
       return JSON.stringify(delta);
     }
   );
+};
+
+export const lightenColor = (color: string, lightenPercentage: number) => {
+  const oldColor = chroma(color);
+  const newColor = oldColor.set("lch.l", `*${1 + lightenPercentage}`);
+  return newColor.css();
+};
+
+export const darkenColor = (color: string, darkenPercentage: number) => {
+  const oldColor = chroma(color);
+  const newColor = oldColor.set("lch.l", `*${1 - darkenPercentage}`);
+  return newColor.css();
 };
