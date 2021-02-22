@@ -38,6 +38,7 @@ class Comment extends PureComponent<CommentProps> {
         <div
           className={classNames("comment-container", {
             muted: this.props.muted,
+            "with-extra-action": !!this.props.onExtraAction,
           })}
           ref={this.containerRef}
         >
@@ -60,28 +61,42 @@ class Comment extends PureComponent<CommentProps> {
               showTooltip={false}
             />
           </div>
-          <div
+          <button
             className={classNames("extra-action", {
               visible: !!this.props.onExtraAction,
             })}
             onClick={this.props.onExtraAction}
           >
-            <FontAwesomeIcon icon={faComment} />
-          </div>
+            <div className="extra-action-icon">
+              <FontAwesomeIcon icon={faComment} />
+            </div>
+          </button>
         </div>
         <style jsx>{`
           .extra-action {
             position: absolute;
-            bottom: 0;
-            right: 0;
+            bottom: 0px;
+            right: 6px;
             transform: translate(50%, 50%);
+            display: none;
+            background-color: transparent;
+            padding: 0;
+            border: 0;
+          }
+          .extra-action:focus {
+            outline: none;
+          }
+          .extra-action:focus-visible {
+            outline: auto;
+          }
+          .extra-action-icon {
             border-radius: 50%;
             background-color: #5e5e5f;
             border: 1px solid rgba(255, 255, 255, 0.3);
-            width: 24px;
-            height: 24px;
+            width: 20px;
+            height: 20px;
+            margin: 15px;
             color: rgba(255, 255, 255, 0.6);
-            display: none;
             transition: all 0.2s ease-out;
           }
           .extra-action.visible {
@@ -93,13 +108,10 @@ class Comment extends PureComponent<CommentProps> {
             left: 50%;
             transform: translate(-50%, -50%) scale(0.8);
           }
-          .extra-action:hover {
+          .extra-action:hover .extra-action-icon {
             cursor: pointer;
             color: white;
             background-color: #757575;
-          }
-
-          .extra-action:hover {
           }
           .comment-container {
             margin-top: ${this.props.paddingTop || "15px"};
@@ -124,6 +136,17 @@ class Comment extends PureComponent<CommentProps> {
             border: 1px solid rgba(255, 255, 255, 0.3);
             background: #5e5e5f;
             border-radius: ${Theme.BORDER_RADIUS_REGULAR};
+          }
+          .comment-container.with-extra-action:last-child .comment {
+            mask: linear-gradient(0deg, rgba(0, 0, 0, 0), rgba(0, 0, 0, 0)),
+              radial-gradient(
+                  29px circle at bottom 0px right 6px,
+                  transparent 50%,
+                  black 51%
+                )
+                bottom right;
+            mask-composite: subtract;
+            mask-size: cover;
           }
           .comment-container.muted .comment {
             color: rgba(255, 255, 255, 0.8);
