@@ -122,12 +122,12 @@ class Comment extends PureComponent<CommentProps> {
             position: relative;
           }
           .header {
-            margin-right: 10px;
+            margin-right: 4px;
             cursor: pointer;
           }
           .comment {
             position: relative;
-            padding: 0 5px;
+            padding: 0 3px;
             color: black;
             flex-grow: 1;
             min-width: 0;
@@ -140,7 +140,7 @@ class Comment extends PureComponent<CommentProps> {
           .comment-container.with-extra-action:last-child .comment {
             mask: linear-gradient(0deg, rgba(0, 0, 0, 0), rgba(0, 0, 0, 0)),
               radial-gradient(
-                  29px circle at bottom 0px right 6px,
+                  28px circle at bottom 0px right 6px,
                   transparent 50%,
                   black 51%
                 )
