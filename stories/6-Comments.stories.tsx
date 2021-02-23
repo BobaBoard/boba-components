@@ -89,6 +89,28 @@ export const NonEditable = () => (
         userIdentity={{ name: "SexyDaddy69", avatar: `/${mamoruAvatar}` }}
       />
     </div>
+    <div style={{ width: "500" }}>
+      <Comment
+        id="comment"
+        initialText={
+          '[{"insert":{"block-image":{"src":"https://media.tenor.com/images/2d4aeafd88c82922635b972e454c07d3/tenor.gif","spoilers":false,"width":320,"height":176}}},{"insert":""}]'
+        }
+        secretIdentity={{ name: "Tuxedo Mask", avatar: `/${tuxedoAvatar}` }}
+        userIdentity={{ name: "SexyDaddy69", avatar: `/${mamoruAvatar}` }}
+        onExtraAction={action("extra")}
+      />
+    </div>
+    <div style={{ width: "320px" }}>
+      <Comment
+        id="comment"
+        initialText={
+          '[{"insert":{"block-image":{"src":"https://media.tenor.com/images/2d4aeafd88c82922635b972e454c07d3/tenor.gif","spoilers":false,"width":320,"height":176}}},{"insert":""}]'
+        }
+        secretIdentity={{ name: "Tuxedo Mask", avatar: `/${tuxedoAvatar}` }}
+        userIdentity={{ name: "SexyDaddy69", avatar: `/${mamoruAvatar}` }}
+        onExtraAction={action("extra")}
+      />
+    </div>
   </>
 );
 
@@ -143,6 +165,7 @@ export const Highlight = () => {
           }
           secretIdentity={{ name: "Tuxedo Mask", avatar: `/${tuxedoAvatar}` }}
           userIdentity={{ name: "SexyDaddy69", avatar: `/${mamoruAvatar}` }}
+          onExtraAction={action("extra")}
         />
       </div>
 
@@ -207,6 +230,26 @@ export const CommentChainStory = () => {
           {
             id: "1",
             text: '[{"insert": "Wait is that how you type it?"}]',
+          },
+        ]}
+        secretIdentity={{
+          name: "Tuxedo Mask",
+          avatar: `/${tuxedoAvatar}`,
+        }}
+        userIdentity={{ name: "SexyDaddy69", avatar: `/${mamoruAvatar}` }}
+      />
+      <CommentChain
+        ref={commentRef}
+        comments={[
+          {
+            id: "1",
+            text:
+              '[{"insert": "I\'m a man of simple taste. I see half an ankle and go:"}]',
+          },
+          {
+            id: "1",
+            text:
+              '[{"insert":{"block-image":{"src":"https://media.tenor.com/images/2d4aeafd88c82922635b972e454c07d3/tenor.gif","spoilers":false,"width":320,"height":176}}},{"insert":""}]',
           },
         ]}
         secretIdentity={{
@@ -416,3 +459,4 @@ export const CommentImageStory = () => {
 CommentImageStory.story = {
   name: "image",
 };
+47;
