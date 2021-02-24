@@ -144,7 +144,7 @@ class Comment extends PureComponent<CommentProps> {
             color: white;
             background: #5e5e5f;
             border-radius: ${Theme.BORDER_RADIUS_REGULAR};
-            min-height: 37px;
+            min-height: 38px;
           }
           .image-only .comment {
             padding: 0px;

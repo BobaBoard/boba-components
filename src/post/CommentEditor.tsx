@@ -116,8 +116,6 @@ const Comment = React.forwardRef<EditorRef, CommentProps>((props, ref) => {
       editorRef,
       text,
       focus: () => {
-        console.log("focus");
-        console.log(editorRef);
         focusRef.current?.focus();
       },
     }),
@@ -200,22 +198,16 @@ const Comment = React.forwardRef<EditorRef, CommentProps>((props, ref) => {
                   key={"comment_editor"}
                   editable={!props.loading}
                   initialText={JSON.parse(text)}
-                  onTextChange={(text: any) => {
+                  onTextChange={(text) => {
                     const jsonText = JSON.stringify(text);
                     props.onTextChange?.(jsonText);
                     setText(jsonText);
                   }}
+                  onIsEmptyChange={props.onIsEmptyChange}
                   onCharactersChange={(characters: number) => {
                     setCharactersTyped(characters);
-                    if (
-                      (charactersTyped > 1 && characters == 1) ||
-                      (charactersTyped == 1 && characters > 1)
-                    ) {
-                      props.onIsEmptyChange?.(characters == 1);
-                    }
                     props.onCanSubmitChange?.(canSubmit(characters));
                   }}
-                  onSubmit={onSubmitHandler}
                   singleLine={true}
                   ref={focusRef}
                 />

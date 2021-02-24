@@ -39,10 +39,8 @@ const TextSection: React.FC<TextSectionProps> = (props) => {
           <Editor
             initialText={props.description ? JSON.parse(props.description) : ""}
             editable={props.editable || false}
-            onSubmit={() => {}}
-            onIsEmptyChange={(empty: boolean) => {}}
-            onTextChange={(text: any) =>
-              // @ts-ignore remove this ignore once editor has correct typing
+            onTextChange={(text) =>
+              props.editable &&
               props.onDescriptionChange?.(JSON.stringify(text.ops))
             }
           />
