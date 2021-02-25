@@ -37,7 +37,7 @@ const BoardsDisplay: React.FC<BoardsDisplayProps> = (props) => {
           display: grid;
           grid-template-columns: repeat(
             auto-fit,
-            minmax(${props.minSizePx || 100}px, 1fr)
+            minmax(var(--board-display-min-size, 180px), 1fr)
           );
           gap: 10px;
           row-gap: 10px;
@@ -65,5 +65,4 @@ export interface BoardsDisplayProps {
   }[];
   title?: string;
   boardsDisplayStyle?: DisplayStyle;
-  minSizePx?: number;
 }
