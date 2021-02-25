@@ -212,11 +212,17 @@ CommentChainEditorStory.story = {
 };
 
 export const CommentChainStory = () => {
-  const commentRef = React.createRef<any>();
+  const commentRef1 = React.createRef<any>();
+  const commentRef2 = React.createRef<any>();
+
+  const highlight = () => {
+    commentRef1.current.highlight("red");
+    commentRef2.current.highlight("red");
+  };
   return (
     <>
       <CommentChain
-        ref={commentRef}
+        ref={commentRef1}
         comments={[
           {
             id: "1",
@@ -225,7 +231,8 @@ export const CommentChainStory = () => {
           },
           {
             id: "1",
-            text: '[{"insert": "Deze nuts."}]',
+            text:
+              '[{"attributes": {"inline-spoilers": true}, "insert": "Deze nuts."}]',
           },
           {
             id: "1",
@@ -239,7 +246,7 @@ export const CommentChainStory = () => {
         userIdentity={{ name: "SexyDaddy69", avatar: `/${mamoruAvatar}` }}
       />
       <CommentChain
-        ref={commentRef}
+        ref={commentRef2}
         comments={[
           {
             id: "1",
@@ -259,9 +266,7 @@ export const CommentChainStory = () => {
         userIdentity={{ name: "SexyDaddy69", avatar: `/${mamoruAvatar}` }}
       />
       <div style={{ marginTop: "20px" }}>
-        <Button onClick={() => commentRef.current.highlight("red")}>
-          Highlight!
-        </Button>
+        <Button onClick={highlight}>Highlight!</Button>
       </div>
     </>
   );
@@ -285,7 +290,8 @@ export const CommentChainAccessoryStory = () => {
           },
           {
             id: "1",
-            text: '[{"insert": "Deze nuts."}]',
+            text:
+              '[{"attributes": {"inline-spoilers": true}, "insert": "Deze nuts."}]',
           },
           {
             id: "1",
@@ -325,7 +331,8 @@ export const ExtraActionStory = () => {
           },
           {
             id: "1",
-            text: '[{"insert": "Deze nuts."}]',
+            text:
+              '[{"attributes": {"inline-spoilers": true}, "insert": "Deze nuts."}]',
           },
           {
             id: "1",
@@ -367,7 +374,8 @@ export const WithOptionsStory = () => {
           },
           {
             id: "1",
-            text: '[{"insert": "Deze nuts."}]',
+            text:
+              '[{"attributes": {"inline-spoilers": true}, "insert": "Deze nuts."}]',
           },
           {
             id: "1",

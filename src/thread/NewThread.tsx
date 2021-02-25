@@ -366,7 +366,7 @@ export const Stem: React.FC<StemProps> = (props) => {
 
 interface IndentProps {
   id: string | null;
-  collapsed: boolean;
+  collapsed?: boolean;
   // Internal: do not use.
   _childOfItem?: boolean;
 }

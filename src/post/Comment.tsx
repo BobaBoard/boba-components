@@ -157,7 +157,6 @@ class Comment extends PureComponent<CommentProps> {
                   black 51%
                 )
                 bottom right;
-            mask-composite: subtract;
             mask-size: cover;
           }
           .comment-container.muted .comment {
@@ -181,6 +180,7 @@ class Comment extends PureComponent<CommentProps> {
               --comment-container-stacked-radius,
               ${Theme.BORDER_RADIUS_REGULAR}
             );
+            pointer-events: none;
           }
           .comment-container:first-child .comment::after {
             border-top-left-radius: ${Theme.BORDER_RADIUS_REGULAR};
