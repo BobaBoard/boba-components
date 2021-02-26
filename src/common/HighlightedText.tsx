@@ -38,7 +38,7 @@ const HighlightedText: React.FC<HighlightedTextProps> = (props) => {
           position: relative;
           min-height: 0;
           min-width: 0;
-          z-index: 10;
+          z-index: 1;
           display: inline-block;
         }
         .backgroundDivs {

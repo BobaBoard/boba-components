@@ -1,12 +1,13 @@
-import React, { PureComponent, createRef, RefObject } from "react";
+import React, { PureComponent, createRef } from "react";
 import { AvatarProps } from "./Avatar";
 import Comment, { CommentHandler, CommentProps } from "./Comment";
+import Header, { HeaderStyle } from "./Header";
 
 const MemoizedComment = React.memo(Comment);
 class CommentChain extends PureComponent<CommentChainProps> {
   editorRef = createRef<HTMLDivElement>();
   handlerRefs = new Map<number, CommentHandler>();
-  headerRef: React.RefObject<HTMLDivElement> | undefined;
+  headerRef = createRef<HTMLDivElement>();
   saveRefMethods = new Map<number, (ref: Comment) => void>();
 
   getSaveRefAtIndex(index: number) {
@@ -38,41 +39,66 @@ class CommentChain extends PureComponent<CommentChainProps> {
         commentRef.editorRef.current.style.borderBottom = "none";
       }
     });
-    this.headerRef = this.handlerRefs.get(0)?.headerRef;
   }
 
   render() {
     return (
       <div className="comment-chain" ref={this.editorRef}>
-        {this.props.comments.map((comment, index) => (
-          <MemoizedComment
-            id={comment.id}
-            key={`comment_${comment.id}`}
-            ref={this.getSaveRefAtIndex(index)}
-            initialText={comment.text}
-            userIdentity={this.props.userIdentity}
+        <div className="header">
+          <Header
+            size={HeaderStyle.COMPACT}
             secretIdentity={this.props.secretIdentity}
-            paddingTop={"0"}
-            muted={this.props.muted}
-            onExtraAction={
-              this.props.onExtraAction &&
-              index == this.props.comments.length - 1
-                ? this.props.onExtraAction
-                : undefined
-            }
-            createdTime={this.props.createdTime}
-            options={this.props.options}
+            userIdentity={this.props.userIdentity}
+            avatarOptions={this.props.options}
             accessory={this.props.accessory}
+            createdMessage={this.props.createdTime}
+            ref={this.headerRef}
           />
-        ))}
+        </div>
+        <div className="comments">
+          {this.props.comments.map((comment, index) => (
+            <MemoizedComment
+              id={comment.id}
+              key={`comment_${comment.id}`}
+              ref={this.getSaveRefAtIndex(index)}
+              initialText={comment.text}
+              userIdentity={this.props.userIdentity}
+              secretIdentity={this.props.secretIdentity}
+              paddingTop={"0"}
+              muted={this.props.muted}
+              onExtraAction={
+                this.props.onExtraAction &&
+                index == this.props.comments.length - 1
+                  ? this.props.onExtraAction
+                  : undefined
+              }
+              createdTime={this.props.createdTime}
+              options={this.props.options}
+              accessory={this.props.accessory}
+            />
+          ))}
+        </div>
         <style jsx>{`
           .comment-chain {
             padding-top: 15px;
             position: relative;
+            align-items: start;
+            display: flex;
             --comment-container-stacked-radius: 0;
+            max-width: 550px;
+            width: 100%;
+          }
+          .header {
+            margin-right: 4px;
+            cursor: pointer;
+            position: sticky;
+            top: 5px;
           }
           .editor.chainable {
             margin-bottom: 15px;
+          }
+          .comments {
+            flex-grow: 1;
           }
         `}</style>
       </div>
@@ -95,11 +121,11 @@ export interface CommentChainProps {
   options?: CommentProps["options"];
   accessory?: AvatarProps["accessory"];
   onExtraAction?: () => void;
-  ref?:
-    | RefObject<CommentHandler>
-    | undefined
-    | null
-    | ((ref: CommentHandler) => void);
+  ref?: React.Ref<CommentHandler>;
 }
 
 export default CommentChain;
+
+// export default React.forwardRef<CommentHandler, CommentChainProps>(
+//   (props, ref) => <CommentChain {...props} innerRef={ref} />
+// );

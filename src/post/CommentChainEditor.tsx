@@ -7,11 +7,16 @@ import { faPlus, faTimes } from "@fortawesome/free-solid-svg-icons";
 import { ImageUploaderContext } from "../index";
 import { prepareContentSubmission } from "../utils";
 
-const isValidSubmitState = (chainComments: any) => {
-  const hasUnsubmittable = chainComments.some(
-    (comment: any) => !comment.canSubmit
+import debug from "debug";
+import { useHotkeys } from "react-hotkeys-hook";
+const log = debug("bobaui:CommentChainEditor-log");
+
+const isValidSubmitState = (chainComments: Comment[]) => {
+  log(chainComments);
+  const canSubmitAll = chainComments.every(
+    (comment) => comment.canSubmit && !comment.empty
   );
-  return !hasUnsubmittable;
+  return canSubmitAll;
 };
 const getTopRightCornerPosition = (
   parent: HTMLDivElement,
@@ -26,7 +31,13 @@ const getTopRightCornerPosition = (
   };
 };
 
-const INITIAL_COMMENT_VALUE = () => ({
+interface Comment {
+  text: string;
+  empty: boolean;
+  id: number;
+  canSubmit: boolean;
+}
+const INITIAL_COMMENT_VALUE = (): Comment => ({
   text: "[]",
   empty: true,
   id: new Date().getTime(),
@@ -102,14 +113,18 @@ const CommentChainEditor = React.forwardRef<
   }, [chainComments, focusedChainIndex, deleteRef]);
 
   React.useEffect(() => {
-    console.log(editorRefs.current.get(focusedChainIndex));
     editorRefs.current.get(focusedChainIndex)?.focus();
   }, [focusedChainIndex]);
+
+  const canSubmit = isValidSubmitState(chainComments);
 
   const { onSubmit, additionalIdentities } = props;
   const onSubmitHandler = React.useCallback(() => {
     if (!imageUploader?.onImageUploadRequest) {
       throw new Error("An image uploader context must be provided");
+    }
+    if (!isValidSubmitState(chainComments)) {
+      return;
     }
     const textsPromises = {
       texts: Promise.all(
@@ -133,6 +148,15 @@ const CommentChainEditor = React.forwardRef<
     additionalIdentities,
     selectedIdentity,
   ]);
+  useHotkeys(
+    "control+enter,command+enter",
+    (e) => {
+      onSubmitHandler();
+      e.preventDefault();
+    },
+    { keydown: true },
+    [onSubmitHandler]
+  );
 
   return (
     <div className="comment-chain-editor" ref={chainEditorRef}>
@@ -163,11 +187,14 @@ const CommentChainEditor = React.forwardRef<
             prepareSubmission={false}
             withActions={index == chainComments.length - 1}
             onIsEmptyChange={(empty) => {
-              chainComments[index] = {
-                ...chainComments[index],
-                empty,
-              };
-              setChainComments([...chainComments]);
+              log(`Empty status change: ${empty}`);
+              if (comment.empty != empty) {
+                chainComments[index] = {
+                  ...chainComments[index],
+                  empty,
+                };
+                setChainComments([...chainComments]);
+              }
             }}
             onTextChange={(text) => {
               comment.text = text;
@@ -176,7 +203,6 @@ const CommentChainEditor = React.forwardRef<
               props.onCancel(chainComments.every((comment) => comment.empty))
             }
             onCanSubmitChange={(canSubmit) => {
-              console.log(canSubmit);
               if (comment.canSubmit != canSubmit) {
                 chainComments[index] = {
                   ...chainComments[index],
@@ -185,7 +211,7 @@ const CommentChainEditor = React.forwardRef<
                 setChainComments([...chainComments]);
               }
             }}
-            canSubmit={isValidSubmitState(chainComments)}
+            canSubmit={canSubmit}
             loading={props.loading}
             additionalIdentities={props.additionalIdentities}
             onSelectIdentity={(id) => setSelectedIdentity(id?.name)}

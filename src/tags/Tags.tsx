@@ -55,7 +55,6 @@ const TagsInput: React.FC<TagsInputProps> = ({
   onTagsAdd,
   onTagsDelete,
   editable,
-  onSubmit,
   accentColor,
   suggestedCategories,
   getOptionsForTag,
@@ -146,9 +145,7 @@ const TagsInput: React.FC<TagsInputProps> = ({
             onKeyDown={(e) => {
               const inputValue = (e.target as HTMLSpanElement).textContent;
               const isDeletingPrevious = !inputValue && e.key == "Backspace";
-              const isSubmitAttempt =
-                e.key === "Enter" && (e.metaKey || e.ctrlKey);
-              const isTagEnterAttempt = e.key === "Enter" && !isSubmitAttempt;
+              const isTagEnterAttempt = e.key === "Enter";
               if (isDeletingPrevious) {
                 log(`Received backspace on empty tag`);
                 if (tagInputState != TagInputState.DELETE) {
@@ -167,20 +164,6 @@ const TagsInput: React.FC<TagsInputProps> = ({
               // TODO: move this to tag utils
               const currentTag = extractSanitizedTag(inputValue);
               const isSubmittable = TagsFactory.isTagValid(currentTag);
-              if (isSubmitAttempt) {
-                log(`Submitting with current tag ${inputValue}`);
-                if (isSubmittable) {
-                  log(`Adding tag before submission: ${currentTag}`);
-                  onTagsAdd?.(TagsFactory.getTagDataFromString(currentTag));
-                }
-                onSubmit?.(
-                  isSubmittable
-                    ? TagsFactory.getTagDataFromString(currentTag)
-                    : undefined
-                );
-                e.preventDefault();
-                return;
-              }
               if (isTagEnterAttempt) {
                 log(`Attempting to enter tag ${inputValue}`);
                 e.preventDefault();
@@ -318,6 +301,7 @@ const TagsInput: React.FC<TagsInputProps> = ({
           flex-wrap: wrap;
           position: relative;
           box-sizing: border-box;
+          pointer-events: all;
         }
         .tag-container {
           margin: 5px 5px 0 0;
@@ -373,7 +357,6 @@ export interface TagsInputProps {
   onTagsAdd?: (newTag: TagsType) => void;
   onTagClick?: (clickedTag: TagsType) => void;
   editable?: boolean;
-  onSubmit?: (newTag?: TagsType) => void;
   accentColor?: string;
   suggestedCategories?: string[];
   getOptionsForTag?: (tag: TagsType) => DropdownProps["options"];

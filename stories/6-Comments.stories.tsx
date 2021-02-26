@@ -89,6 +89,28 @@ export const NonEditable = () => (
         userIdentity={{ name: "SexyDaddy69", avatar: `/${mamoruAvatar}` }}
       />
     </div>
+    <div style={{ width: "500" }}>
+      <Comment
+        id="comment"
+        initialText={
+          '[{"insert":{"block-image":{"src":"https://media.tenor.com/images/2d4aeafd88c82922635b972e454c07d3/tenor.gif","spoilers":false,"width":320,"height":176}}},{"insert":""}]'
+        }
+        secretIdentity={{ name: "Tuxedo Mask", avatar: `/${tuxedoAvatar}` }}
+        userIdentity={{ name: "SexyDaddy69", avatar: `/${mamoruAvatar}` }}
+        onExtraAction={action("extra")}
+      />
+    </div>
+    <div style={{ width: "320px" }}>
+      <Comment
+        id="comment"
+        initialText={
+          '[{"insert":{"block-image":{"src":"https://media.tenor.com/images/2d4aeafd88c82922635b972e454c07d3/tenor.gif","spoilers":false,"width":320,"height":176}}},{"insert":""}]'
+        }
+        secretIdentity={{ name: "Tuxedo Mask", avatar: `/${tuxedoAvatar}` }}
+        userIdentity={{ name: "SexyDaddy69", avatar: `/${mamoruAvatar}` }}
+        onExtraAction={action("extra")}
+      />
+    </div>
   </>
 );
 
@@ -143,6 +165,7 @@ export const Highlight = () => {
           }
           secretIdentity={{ name: "Tuxedo Mask", avatar: `/${tuxedoAvatar}` }}
           userIdentity={{ name: "SexyDaddy69", avatar: `/${mamoruAvatar}` }}
+          onExtraAction={action("extra")}
         />
       </div>
 
@@ -189,11 +212,17 @@ CommentChainEditorStory.story = {
 };
 
 export const CommentChainStory = () => {
-  const commentRef = React.createRef<any>();
+  const commentRef1 = React.createRef<any>();
+  const commentRef2 = React.createRef<any>();
+
+  const highlight = () => {
+    commentRef1.current.highlight("red");
+    commentRef2.current.highlight("red");
+  };
   return (
     <>
       <CommentChain
-        ref={commentRef}
+        ref={commentRef1}
         comments={[
           {
             id: "1",
@@ -202,7 +231,8 @@ export const CommentChainStory = () => {
           },
           {
             id: "1",
-            text: '[{"insert": "Deze nuts."}]',
+            text:
+              '[{"attributes": {"inline-spoilers": true}, "insert": "Deze nuts."}]',
           },
           {
             id: "1",
@@ -215,10 +245,28 @@ export const CommentChainStory = () => {
         }}
         userIdentity={{ name: "SexyDaddy69", avatar: `/${mamoruAvatar}` }}
       />
+      <CommentChain
+        ref={commentRef2}
+        comments={[
+          {
+            id: "1",
+            text:
+              '[{"insert": "I\'m a man of simple taste. I see half an ankle and go:"}]',
+          },
+          {
+            id: "1",
+            text:
+              '[{"insert":{"block-image":{"src":"https://media.tenor.com/images/2d4aeafd88c82922635b972e454c07d3/tenor.gif","spoilers":false,"width":320,"height":176}}},{"insert":""}]',
+          },
+        ]}
+        secretIdentity={{
+          name: "Tuxedo Mask",
+          avatar: `/${tuxedoAvatar}`,
+        }}
+        userIdentity={{ name: "SexyDaddy69", avatar: `/${mamoruAvatar}` }}
+      />
       <div style={{ marginTop: "20px" }}>
-        <Button onClick={() => commentRef.current.highlight("red")}>
-          Highlight!
-        </Button>
+        <Button onClick={highlight}>Highlight!</Button>
       </div>
     </>
   );
@@ -242,7 +290,8 @@ export const CommentChainAccessoryStory = () => {
           },
           {
             id: "1",
-            text: '[{"insert": "Deze nuts."}]',
+            text:
+              '[{"attributes": {"inline-spoilers": true}, "insert": "Deze nuts."}]',
           },
           {
             id: "1",
@@ -282,7 +331,8 @@ export const ExtraActionStory = () => {
           },
           {
             id: "1",
-            text: '[{"insert": "Deze nuts."}]',
+            text:
+              '[{"attributes": {"inline-spoilers": true}, "insert": "Deze nuts."}]',
           },
           {
             id: "1",
@@ -324,7 +374,8 @@ export const WithOptionsStory = () => {
           },
           {
             id: "1",
-            text: '[{"insert": "Deze nuts."}]',
+            text:
+              '[{"attributes": {"inline-spoilers": true}, "insert": "Deze nuts."}]',
           },
           {
             id: "1",
@@ -416,3 +467,4 @@ export const CommentImageStory = () => {
 CommentImageStory.story = {
   name: "image",
 };
+47;

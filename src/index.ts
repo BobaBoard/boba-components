@@ -15,14 +15,16 @@ import ToastContainer, { toast } from "./common/Toast";
 import Modal from "./common/Modal";
 import ModalWithButtons from "./common/ModalWithButtons";
 import PostEditor from "./post/PostEditor";
-import Post, { PostSizes, PostHandler } from "./post/Post";
-import Comment, { CommentHandler } from "./post/Comment";
+import Post, { PostSizes } from "./post/Post";
+import Comment from "./post/Comment";
 import CompactThreadIndent, { useIndent } from "./post/CompactThreadIndent";
 import CompactPostThread from "./post/CompactPostThread";
 import CommentChain from "./post/CommentChain";
 import CommentChainEditor from "./post/CommentChainEditor";
 import CommentEditor from "./post/CommentEditor";
 import ThreadIndent from "./post/ThreadIndent";
+import NewThread from "./thread/NewThread";
+import CollapsedPlaceholder from "./thread/CollapsedPlaceholder";
 import PostingActionButton from "./board/PostingActionButton";
 import CycleNewButton from "./board/CycleNewButton";
 import Layout from "./layout/Layout";
@@ -57,13 +59,11 @@ export {
   ModalWithButtons,
   Post,
   PostSizes,
-  PostHandler,
   PostEditor,
   PostingActionButton,
   Comment,
   CommentChain,
   CommentChainEditor,
-  CommentHandler,
   CompactThreadIndent,
   CompactPostThread,
   useIndent,
@@ -83,9 +83,13 @@ export {
   DefaultTheme,
   CategoryFilter,
   PostQuote,
+  NewThread,
+  CollapsedPlaceholder,
   BobaDex,
   TagType,
 };
 
 import type { TagsType } from "./types";
-export type { TagsType };
+import type { PostHandler } from "./post/Post";
+import type { CommentHandler } from "./post/Comment";
+export type { TagsType, PostHandler, CommentHandler };

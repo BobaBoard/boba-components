@@ -345,7 +345,8 @@ const FeedWithMenu: React.FC<FeedWithMenuProps> & CompoundComponents = ({
               transform: translate(-50%, 0%);
             }
             .main {
-              width: calc(100% - 40px);
+              width: calc(100% - 12px);
+              padding: 0 6px;
             }
           }
         `}

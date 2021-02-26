@@ -1,7 +1,6 @@
 import React, { createRef, PureComponent, RefObject } from "react";
 import classNames from "classnames";
 import Editor from "@bobaboard/boba-editor";
-import Header, { HeaderStyle } from "./Header";
 import debug from "debug";
 import Theme from "../theme/default";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
@@ -13,7 +12,6 @@ const log = debug("bobaui:comment-log");
 class Comment extends PureComponent<CommentProps> {
   containerRef = createRef<HTMLDivElement>();
   editorRef = createRef<HTMLDivElement>();
-  headerRef = createRef<HTMLDivElement>();
 
   highlight = (color: string) => {
     log(`Highlighting post with ${color}!`);
@@ -38,50 +36,65 @@ class Comment extends PureComponent<CommentProps> {
         <div
           className={classNames("comment-container", {
             muted: this.props.muted,
+            "with-extra-action": !!this.props.onExtraAction,
+            "image-only": true,
           })}
           ref={this.containerRef}
         >
-          <div className="header" ref={this.headerRef}>
-            <Header
-              size={HeaderStyle.COMPACT}
-              secretIdentity={this.props.secretIdentity}
-              userIdentity={this.props.userIdentity}
-              avatarOptions={this.props.options}
-              accessory={this.props.accessory}
-              createdMessage={this.props.createdTime}
-            />
+          <div className="highlight">
+            <div className={classNames("comment")} ref={this.editorRef}>
+              <Editor
+                key={this.props.id + "_editor"}
+                editable={false}
+                initialText={JSON.parse(this.props.initialText)}
+                singleLine={true}
+                showTooltip={false}
+              />
+            </div>
           </div>
-          <div className={classNames("comment")} ref={this.editorRef}>
-            <Editor
-              key={this.props.id + "_editor"}
-              editable={false}
-              initialText={JSON.parse(this.props.initialText)}
-              singleLine={true}
-              showTooltip={false}
-            />
-          </div>
-          <div
+          <button
             className={classNames("extra-action", {
               visible: !!this.props.onExtraAction,
             })}
             onClick={this.props.onExtraAction}
           >
-            <FontAwesomeIcon icon={faComment} />
-          </div>
+            <div className="extra-action-icon">
+              <FontAwesomeIcon icon={faComment} />
+            </div>
+          </button>
         </div>
         <style jsx>{`
           .extra-action {
             position: absolute;
-            bottom: 0;
-            right: 0;
+            bottom: 0px;
+            right: 6px;
             transform: translate(50%, 50%);
+            display: none;
+            background-color: transparent;
+            padding: 0;
+            border: 0;
+          }
+          .extra-action:focus {
+            outline: none;
+          }
+          .extra-action:focus-visible {
+            outline: auto;
+          }
+          .highlight {
+            filter: drop-shadow(0px 0px 3px var(--comment-container-shadow))
+              drop-shadow(0px 0px 3px var(--comment-container-shadow))
+              drop-shadow(0px 0px 3px var(--comment-container-shadow));
+            transition: filter 0.5s ease-out;
+            flex-grow: 1;
+          }
+          .extra-action-icon {
             border-radius: 50%;
             background-color: #5e5e5f;
             border: 1px solid rgba(255, 255, 255, 0.3);
-            width: 24px;
-            height: 24px;
+            width: 20px;
+            height: 20px;
+            margin: 15px;
             color: rgba(255, 255, 255, 0.6);
-            display: none;
             transition: all 0.2s ease-out;
           }
           .extra-action.visible {
@@ -93,66 +106,67 @@ class Comment extends PureComponent<CommentProps> {
             left: 50%;
             transform: translate(-50%, -50%) scale(0.8);
           }
-          .extra-action:hover {
+          .extra-action:hover .extra-action-icon {
             cursor: pointer;
             color: white;
             background-color: #757575;
           }
-
-          .extra-action:hover {
-          }
-          .comment-container {
-            margin-top: ${this.props.paddingTop || "15px"};
-            margin-left: 10px;
-            align-items: start;
-            display: flex;
-            max-width: 550px;
-            position: relative;
-          }
-          .header {
-            margin-right: 10px;
-            cursor: pointer;
-          }
           .comment {
             position: relative;
-            padding: 0 5px;
+            padding: 0 3px;
             color: black;
-            flex-grow: 1;
             min-width: 0;
             align-self: flex-end;
             color: white;
-            border: 1px solid rgba(255, 255, 255, 0.3);
             background: #5e5e5f;
             border-radius: ${Theme.BORDER_RADIUS_REGULAR};
+            min-height: 38px;
+          }
+          .image-only .comment {
+            padding: 0px;
+          }
+          .comment-container.with-extra-action:last-child .comment {
+            mask: linear-gradient(0deg, rgba(0, 0, 0, 0), rgba(0, 0, 0, 0)),
+              radial-gradient(
+                  28px circle at bottom 0px right 6px,
+                  transparent 50%,
+                  black 51%
+                )
+                bottom right;
+            mask-size: cover;
           }
           .comment-container.muted .comment {
             color: rgba(255, 255, 255, 0.8);
           }
           .comment::after {
             content: "";
+            border: 2px solid rgba(255, 255, 255, 0.2);
+            border-bottom-width: 0px;
+            border-top-width: 0px;
+            box-sizing: border-box;
             top: 0px;
             bottom: 0px;
             left: 0px;
             right: 0px;
             position: absolute;
-            z-index: -1;
+            z-index: 2;
             width: 100%;
             height: 100%;
-            opacity: 0.8;
             border-radius: var(
               --comment-container-stacked-radius,
               ${Theme.BORDER_RADIUS_REGULAR}
             );
-            transition: box-shadow 0.5s ease-out;
-            box-shadow: 0px 0px 5px 3px var(--comment-container-shadow);
+            pointer-events: none;
           }
           .comment-container:first-child .comment::after {
             border-top-left-radius: ${Theme.BORDER_RADIUS_REGULAR};
             border-top-right-radius: ${Theme.BORDER_RADIUS_REGULAR};
+            border-top-width: 2px;
           }
           .comment-container:last-child .comment::after {
             border-bottom-left-radius: ${Theme.BORDER_RADIUS_REGULAR};
             border-bottom-right-radius: ${Theme.BORDER_RADIUS_REGULAR};
+            border-bottom-width: 2px;
           }
         `}</style>
       </>
@@ -163,7 +177,7 @@ class Comment extends PureComponent<CommentProps> {
 export interface CommentHandler {
   highlight: (color: string) => void;
   editorRef?: React.RefObject<HTMLDivElement>;
-  headerRef?: React.RefObject<HTMLDivElement>;
+  avatarRef?: React.RefObject<HTMLDivElement>;
 }
 
 export interface CommentProps {

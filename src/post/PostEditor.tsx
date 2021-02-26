@@ -9,6 +9,7 @@ import Spinner from "../common/Spinner";
 import DropdownListMenu from "../common/DropdownListMenu";
 import Editor from "@bobaboard/boba-editor";
 import { prepareContentSubmission } from "../utils";
+import { useHotkeys } from "react-hotkeys-hook";
 
 import Button from "../common/Button";
 import {
@@ -109,6 +110,12 @@ const PostEditor = React.forwardRef<{ focus: () => void }, PostEditorProps>(
       tags,
       selectedBoard,
     ]);
+    useHotkeys(
+      "control+enter,command+enter",
+      onSubmitHandler,
+      { keydown: true },
+      [onSubmitHandler]
+    );
 
     return (
       <>
@@ -162,7 +169,6 @@ const PostEditor = React.forwardRef<{ focus: () => void }, PostEditorProps>(
                     [tags]
                   )}
                   editable
-                  onSubmit={onSubmitHandler}
                   accentColor={props.accentColor}
                   suggestedCategories={suggestedCategories}
                 >
@@ -231,7 +237,6 @@ const PostEditor = React.forwardRef<{ focus: () => void }, PostEditorProps>(
                     props.initialText ? JSON.parse(props.initialText) : ""
                   }
                   editable={!props.loading && !props.editableSections}
-                  onSubmit={onSubmitHandler}
                   onIsEmptyChange={(empty: boolean) => {
                     setIsEmpty(empty);
                   }}
