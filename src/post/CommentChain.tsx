@@ -95,11 +95,11 @@ export interface CommentChainProps {
   options?: CommentProps["options"];
   accessory?: AvatarProps["accessory"];
   onExtraAction?: () => void;
-  ref?:
-    | RefObject<CommentHandler>
-    | undefined
-    | null
-    | ((ref: CommentHandler) => void);
+  ref?: React.Ref<CommentHandler>;
 }
 
 export default CommentChain;
+
+// export default React.forwardRef<CommentHandler, CommentChainProps>(
+//   (props, ref) => <CommentChain {...props} innerRef={ref} />
+// );
