@@ -289,13 +289,7 @@ const setLevelStemBoundaries = ({
     ].getBoundingClientRect();
     levelElement.style.setProperty(
       "--stem-margin-bottom",
-      `${
-        levelBottom -
-        nextLevelTop -
-        nextLevelHeight / 2 +
-        LEVEL_STEM_HEIGHT_PX -
-        STEM_WIDTH_PX / 2
-      }px`
+      `${levelBottom - nextLevelTop + STEM_WIDTH_PX / 2 - 5}px`
     );
   }
 };
@@ -330,17 +324,15 @@ const setNextLevelStemBoundaries = ({
   // is the one in STEM_LEVEL_HEIGHT
   nextLevelElement.style.setProperty(
     "--level-stem-top",
-    `${
-      nextLevelBoundaryTop -
-      nextLevelTop +
-      nextLevelBoundaryHeight / 2 +
-      STEM_WIDTH_PX / 2 -
-      LEVEL_STEM_HEIGHT_PX
-    }px`
+    `${nextLevelBoundaryTop - nextLevelTop + STEM_WIDTH_PX / 2 - 5}px`
+  );
+  nextLevelElement.style.setProperty(
+    "--level-stem-margin-bottom",
+    `${nextLevelBoundaryHeight / 2 - STEM_WIDTH_PX / 2 + 5}px`
   );
   nextLevelElement.style.setProperty(
     "--level-stem-height",
-    `${LEVEL_STEM_HEIGHT_PX}px`
+    `${nextLevelBoundaryHeight / 2 + 5}px`
   );
   nextLevelElement.style.setProperty(
     "--level-stem-width",
@@ -357,6 +349,7 @@ const Item: React.FC<ChildrenWithRenderProps> = (props) => {
   ] = React.useState<HTMLElement | null>(null);
   const levelContent = React.createRef<HTMLLIElement & HTMLDivElement>();
   const levelStem = React.createRef<HTMLDivElement>();
+  const levelStemContainer = React.createRef<HTMLDivElement>();
 
   let children: React.ReactNode = props.children;
   if (typeof props.children == "function") {
@@ -414,9 +407,16 @@ const Item: React.FC<ChildrenWithRenderProps> = (props) => {
   if (Children.toArray(children).some(isThreadItem)) {
     throw new Error("Items shouldn't be children of items");
   }
+  const stemColor =
+    Theme.INDENT_COLORS[(level - 1) % Theme.INDENT_COLORS.length];
   const content = (
     <>
-      <div className={`thread-element`}>{levelItems}</div>
+      <div className={`thread-element`}>
+        <div className="level-stem-container" ref={levelStemContainer}>
+          <div className="level-stem" ref={levelStem} />
+        </div>
+        {levelItems}
+      </div>
       {React.isValidElement(indent) &&
         React.cloneElement(indent, {
           ...indent.props,
@@ -434,14 +434,29 @@ const Item: React.FC<ChildrenWithRenderProps> = (props) => {
           > :global(*:not(.level-item .level-container .thread-element)) {
           pointer-events: all;
         }
+        .level-stem-container {
+          position: absolute;
+          top: var(--level-stem-top, 0);
+          bottom: 0;
+          left: var(--level-stem-left, 0);
+          pointer-events: all;
+        }
+        .level-stem {
+          position: sticky;
+          width: var(--level-stem-width, 0);
+          top: 5px;
+          height: var(--level-stem-height, 0);
+          margin-bottom: var(--level-stem-margin-bottom, 0);
+          border-left: ${STEM_WIDTH_PX}px solid ${stemColor};
+          border-bottom: ${STEM_WIDTH_PX}px solid ${stemColor};
+          box-sizing: border-box;
+          border-bottom-left-radius: 15px;
+        }
       `}</style>
     </>
   );
   // We only wrap the result in a <li> when it's above level 0, and is thus child
   // of a Thread.Indent
-
-  const stemColor =
-    Theme.INDENT_COLORS[(level - 1) % Theme.INDENT_COLORS.length];
   return (
     <>
       {level === 0 ? (
@@ -450,7 +465,6 @@ const Item: React.FC<ChildrenWithRenderProps> = (props) => {
         </div>
       ) : (
         <li data-level={level} className={`level-item`} ref={levelContent}>
-          <div className="level-stem" ref={levelStem} />
           {content}
         </li>
       )}
@@ -459,27 +473,6 @@ const Item: React.FC<ChildrenWithRenderProps> = (props) => {
           position: relative;
           pointer-events: none;
           --stem-margin-top: 0;
-        }
-        .thread-element {
-          position: relative;
-          z-index: 2;
-          pointer-events: none;
-        }
-        .thread-element
-          > :global(*:not(.level-item .level-container .thread-element)) {
-          pointer-events: all;
-        }
-        .level-stem {
-          position: absolute;
-          left: var(--level-stem-left, 0);
-          width: var(--level-stem-width, 0);
-          top: var(--level-stem-top, 0);
-          height: var(--level-stem-height, 0);
-          border-left: ${STEM_WIDTH_PX}px solid ${stemColor};
-          border-bottom: ${STEM_WIDTH_PX}px solid ${stemColor};
-          box-sizing: border-box;
-          pointer-events: all;
-          border-bottom-left-radius: 15px;
         }
         div[data-level="0"] {
           position: relative;
