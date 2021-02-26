@@ -1,7 +1,6 @@
 import React, { createRef, PureComponent, RefObject } from "react";
 import classNames from "classnames";
 import Editor from "@bobaboard/boba-editor";
-import Header, { HeaderStyle } from "./Header";
 import debug from "debug";
 import Theme from "../theme/default";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
@@ -13,7 +12,6 @@ const log = debug("bobaui:comment-log");
 class Comment extends PureComponent<CommentProps> {
   containerRef = createRef<HTMLDivElement>();
   editorRef = createRef<HTMLDivElement>();
-  avatarRef = createRef<HTMLDivElement>();
 
   highlight = (color: string) => {
     log(`Highlighting post with ${color}!`);
@@ -43,17 +41,6 @@ class Comment extends PureComponent<CommentProps> {
           })}
           ref={this.containerRef}
         >
-          <div className="header">
-            <Header
-              size={HeaderStyle.COMPACT}
-              secretIdentity={this.props.secretIdentity}
-              userIdentity={this.props.userIdentity}
-              avatarOptions={this.props.options}
-              accessory={this.props.accessory}
-              createdMessage={this.props.createdTime}
-              ref={this.avatarRef}
-            />
-          </div>
           <div className="highlight">
             <div className={classNames("comment")} ref={this.editorRef}>
               <Editor
@@ -123,18 +110,6 @@ class Comment extends PureComponent<CommentProps> {
             cursor: pointer;
             color: white;
             background-color: #757575;
-          }
-          .comment-container {
-            margin-top: ${this.props.paddingTop || "15px"};
-            margin-left: 10px;
-            align-items: start;
-            display: flex;
-            max-width: 550px;
-            position: relative;
-          }
-          .header {
-            margin-right: 4px;
-            cursor: pointer;
           }
           .comment {
             position: relative;
