@@ -13,7 +13,7 @@ const log = debug("bobaui:comment-log");
 class Comment extends PureComponent<CommentProps> {
   containerRef = createRef<HTMLDivElement>();
   editorRef = createRef<HTMLDivElement>();
-  headerRef = createRef<HTMLDivElement>();
+  avatarRef = createRef<HTMLDivElement>();
 
   highlight = (color: string) => {
     log(`Highlighting post with ${color}!`);
@@ -43,7 +43,7 @@ class Comment extends PureComponent<CommentProps> {
           })}
           ref={this.containerRef}
         >
-          <div className="header" ref={this.headerRef}>
+          <div className="header">
             <Header
               size={HeaderStyle.COMPACT}
               secretIdentity={this.props.secretIdentity}
@@ -51,6 +51,7 @@ class Comment extends PureComponent<CommentProps> {
               avatarOptions={this.props.options}
               accessory={this.props.accessory}
               createdMessage={this.props.createdTime}
+              ref={this.avatarRef}
             />
           </div>
           <div className="highlight">
@@ -201,7 +202,7 @@ class Comment extends PureComponent<CommentProps> {
 export interface CommentHandler {
   highlight: (color: string) => void;
   editorRef?: React.RefObject<HTMLDivElement>;
-  headerRef?: React.RefObject<HTMLDivElement>;
+  avatarRef?: React.RefObject<HTMLDivElement>;
 }
 
 export interface CommentProps {

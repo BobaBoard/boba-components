@@ -196,100 +196,102 @@ const Metadata: React.FC<PostHeaderProps> = (props) => {
   );
 };
 
-const PostHeader: React.FC<PostHeaderProps> = (props) => {
-  const ref = React.useRef<HTMLDivElement>(null);
-
-  info(`Rendering post header`);
-  const isCompact = props.size == HeaderStyle.COMPACT;
-  const dropdownMetadata = (
-    <div
-      className={classnames("metadata-identity", {
-        "with-options": !!props.avatarOptions,
-      })}
-    >
-      <Avatar
-        forceHide={props.forceHide}
-        userIdentity={props.userIdentity}
-        secretIdentity={props.secretIdentity}
-        compact={isCompact}
-        accessory={props.accessory}
-      />
-      <Metadata {...props} />
-      <style jsx>{`
-        .metadata-identity {
-          color: black;
-          padding: 10px;
-          display: flex;
-        }
-        .metadata-identity.with-options {
-          padding-bottom: 0px;
-        }
-      `}</style>
-    </div>
-  );
-  return (
-    <>
-      <DropdownListMenu
-        options={props.avatarOptions}
-        header={
-          props.showMetadata !== false && (props.avatarOptions || isCompact)
-            ? dropdownMetadata
-            : undefined
-        }
-        zIndex={200}
+const PostHeader = React.forwardRef<HTMLDivElement, PostHeaderProps>(
+  (props, avatarRef) => {
+    info(`Rendering post header`);
+    const isCompact = props.size == HeaderStyle.COMPACT;
+    const dropdownMetadata = (
+      <div
+        className={classnames("metadata-identity", {
+          "with-options": !!props.avatarOptions,
+        })}
       >
-        <div className={classnames("post-header")} ref={ref}>
-          <div className="identity">
-            <Avatar
-              forceHide={props.forceHide}
-              userIdentity={props.userIdentity}
-              secretIdentity={props.secretIdentity}
-              compact={isCompact}
-              accessory={props.accessory}
-            />
-            {!isCompact && <Metadata {...props} />}
+        <Avatar
+          forceHide={props.forceHide}
+          userIdentity={props.userIdentity}
+          secretIdentity={props.secretIdentity}
+          compact={isCompact}
+          accessory={props.accessory}
+        />
+        <Metadata {...props} />
+        <style jsx>{`
+          .metadata-identity {
+            color: black;
+            padding: 10px;
+            display: flex;
+          }
+          .metadata-identity.with-options {
+            padding-bottom: 0px;
+          }
+        `}</style>
+      </div>
+    );
+    return (
+      <>
+        <DropdownListMenu
+          options={props.avatarOptions}
+          header={
+            props.showMetadata !== false && (props.avatarOptions || isCompact)
+              ? dropdownMetadata
+              : undefined
+          }
+          zIndex={200}
+        >
+          <div className={classnames("post-header")}>
+            <div className="identity">
+              <Avatar
+                forceHide={props.forceHide}
+                userIdentity={props.userIdentity}
+                secretIdentity={props.secretIdentity}
+                compact={isCompact}
+                accessory={props.accessory}
+                ref={avatarRef}
+              />
+              {!isCompact && <Metadata {...props} />}
+            </div>
           </div>
-        </div>
-      </DropdownListMenu>
-      <style jsx>{`
-        .identity {
-          display: flex;
-          max-width: 100%;
-          flex-grow: 1;
-          min-width: 0;
-        }
-        .new-tags {
-          display: flex;
-          flex-direction: column;
-          align-self: stretch;
-          justify-content: space-evenly;
-          margin-right: 15px;
-        }
-        .post-header {
-          display: flex;
-          align-items: center;
-          position: relative;
-          justify-content: space-between;
-          text-align: left;
-        }
-        .post-header.squeezed {
-          flex-direction: column;
-          align-items: stretch;
-          width: 100%;
-        }
-        .post-header.squeezed .new-tags {
-          margin-top: 5px;
-          flex-direction: row;
-          justify-content: flex-start;
-        }
-        .post-header.squeezed .new-tags > :global(div) {
-          margin-right: 3px;
-        }
-      `}</style>
-    </>
-  );
-};
+        </DropdownListMenu>
+        <style jsx>{`
+          .identity {
+            display: flex;
+            max-width: 100%;
+            flex-grow: 1;
+            min-width: 0;
+          }
+          .new-tags {
+            display: flex;
+            flex-direction: column;
+            align-self: stretch;
+            justify-content: space-evenly;
+            margin-right: 15px;
+          }
+          .post-header {
+            display: flex;
+            align-items: center;
+            position: relative;
+            justify-content: space-between;
+            text-align: left;
+          }
+          .post-header.squeezed {
+            flex-direction: column;
+            align-items: stretch;
+            width: 100%;
+          }
+          .post-header.squeezed .new-tags {
+            margin-top: 5px;
+            flex-direction: row;
+            justify-content: flex-start;
+          }
+          .post-header.squeezed .new-tags > :global(div) {
+            margin-right: 3px;
+          }
+        `}</style>
+      </>
+    );
+  }
+);
 
+PostHeader.displayName = "PostHeader";
 export default PostHeader;
 
 export interface PostHeaderProps {

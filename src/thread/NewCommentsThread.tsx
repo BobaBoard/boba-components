@@ -3,9 +3,9 @@ import React, { Children } from "react";
 import Theme from "../theme/default";
 import { lightenColor } from "../utils";
 
-const INDENT_WIDTH_PX = 50;
+const INDENT_WIDTH_PX = 30;
 const STEM_WIDTH_PX = 3;
-const LEVEL_STEM_HEIGHT_PX = 5;
+const LEVEL_STEM_HEIGHT_PX = 35;
 
 interface ThreadContext extends ThreadProps {
   addResizeCallback: (callback: () => void) => void;
@@ -208,6 +208,102 @@ const Thread: React.FC<ThreadProps & ChildrenWithRenderProps> & {
   );
 };
 
+const getLevelIndex = (levelElement: HTMLElement) => {
+  let previousSibling = levelElement.previousElementSibling;
+  while (previousSibling && !(previousSibling instanceof HTMLElement)) {
+    previousSibling = levelElement.previousElementSibling;
+  }
+  const previousLevel =
+    (previousSibling as HTMLElement)?.dataset.listIndex || "0";
+  return parseInt(previousLevel) + 1;
+};
+
+const setLevelStemBoundaries = ({
+  levelElement,
+  boundaryElement,
+  nextLevelBoundaries,
+}: {
+  levelElement: HTMLElement;
+  boundaryElement: HTMLElement;
+  nextLevelBoundaries: HTMLElement[];
+}) => {
+  const {
+    top: levelTop,
+    left: levelLeft,
+    bottom: levelBottom,
+  } = levelElement.getBoundingClientRect();
+  const {
+    bottom: boundaryBottom,
+    left: boundaryLeft,
+    width: boundaryWidth,
+  } = boundaryElement.getBoundingClientRect();
+  levelElement.style.setProperty(
+    "--stem-margin-top",
+    `${boundaryBottom - levelTop}px`
+  );
+  const boundaryMiddlePoint = boundaryLeft - levelLeft + boundaryWidth / 2;
+  levelElement.style.setProperty(
+    "--stem-margin-left",
+    `${boundaryMiddlePoint - STEM_WIDTH_PX / 2}px`
+  );
+  if (nextLevelBoundaries.length) {
+    const { top: nextLevelTop, height: nextLevelHeight } = nextLevelBoundaries[
+      nextLevelBoundaries.length - 1
+    ].getBoundingClientRect();
+    levelElement.style.setProperty(
+      "--stem-margin-bottom",
+      `${
+        levelBottom - nextLevelTop - nextLevelHeight / 2 + LEVEL_STEM_HEIGHT_PX
+      }px`
+    );
+  }
+};
+
+const setStemsToPreviousLevelBoundaries = ({
+  levelElement,
+  boundaryElement,
+  previousLevelBoundaries,
+}: {
+  levelElement: HTMLElement;
+  boundaryElement: HTMLElement;
+  previousLevelBoundaries: HTMLElement[];
+}) => {
+  const {
+    top: levelTop,
+    left: levelLeft,
+  } = levelElement.getBoundingClientRect();
+
+  const {
+    top: boundaryTop,
+    left: boundaryLeft,
+    height: boundaryHeight,
+  } = boundaryElement.getBoundingClientRect();
+  const {
+    left: previousBoundaryLeft,
+    right: previousBoundaryRight,
+    width: previousBoundaryWidth,
+  } = previousLevelBoundaries[0].getBoundingClientRect();
+  const previousBoundaryMiddlePoint =
+    previousBoundaryLeft + previousBoundaryWidth / 2;
+  const stemLeft = previousBoundaryMiddlePoint - levelLeft - STEM_WIDTH_PX / 2;
+  const boundaryMiddlePoint = boundaryTop - levelTop + boundaryHeight / 2;
+  levelElement.style.setProperty("--level-stem-left", `${stemLeft}px`);
+  // We start the level stem so that, overall, the height occupied by the level stem
+  // is the one in STEM_LEVEL_HEIGHT
+  levelElement.style.setProperty(
+    "--level-stem-top",
+    `${boundaryMiddlePoint - LEVEL_STEM_HEIGHT_PX}px`
+  );
+  levelElement.style.setProperty(
+    "--level-stem-height",
+    `${LEVEL_STEM_HEIGHT_PX}px`
+  );
+  levelElement.style.setProperty(
+    "--level-stem-width",
+    `${-stemLeft + boundaryLeft - levelLeft}px`
+  );
+};
+
 const Item: React.FC<ChildrenWithRenderProps> = (props) => {
   const threadContext = React.useContext(ThreadContext);
   const level = React.useContext(ThreadLevel);
@@ -218,7 +314,6 @@ const Item: React.FC<ChildrenWithRenderProps> = (props) => {
   const levelContent = React.createRef<HTMLLIElement & HTMLDivElement>();
   const levelStem = React.createRef<HTMLDivElement>();
 
-  //
   let children: React.ReactNode = props.children;
   if (typeof props.children == "function") {
     children = props.children(setBoundaryElement);
@@ -235,88 +330,41 @@ const Item: React.FC<ChildrenWithRenderProps> = (props) => {
     if (!boundaryElement || !levelContent.current || !threadContext) {
       return;
     }
-
-    const contentRef = levelContent.current;
-    const index = contentRef.previousElementSibling
-      ? parseInt(contentRef.previousElementSibling.dataset.listIndex) + 1
-      : 1;
-    const setTopMarginCallback = () => {
-      const {
-        top: stemTop,
-        bottom: stemBottom,
-      } = contentRef.getBoundingClientRect();
-      const { bottom, top, width } = boundaryElement.getBoundingClientRect();
-      contentRef.style.setProperty(
-        "--stem-margin-top",
-        `${bottom - stemTop}px`
-      );
-      contentRef.style.setProperty(
-        "--stem-margin-left",
-        `${width / 2 + STEM_WIDTH_PX}px`
-      );
-      contentRef.dataset.listIndex = "" + index;
-      threadContext.registerItemBoundary({
-        level,
-        index,
-        boundaryElement,
-      });
+    const levelElement = levelContent.current;
+    const index = getLevelIndex(levelElement);
+    levelElement.dataset.listIndex = "" + index;
+    threadContext.registerItemBoundary({
+      level,
+      index,
+      boundaryElement,
+    });
+    const setStemPositions = () => {
       const nextLevelBoundaries = threadContext.getLevelBoundaries(level + 1);
-      if (!nextLevelBoundaries.length) {
-        return;
-      }
-      const { top: lastTop } = nextLevelBoundaries[
-        nextLevelBoundaries?.length - 1
-      ].getBoundingClientRect();
-
-      contentRef.style.setProperty(
-        "--stem-margin-bottom",
-        `${stemBottom - lastTop + LEVEL_STEM_HEIGHT_PX}px`
-      );
-
-      if (level == 0) {
-        return;
-      }
+      setLevelStemBoundaries({
+        levelElement,
+        boundaryElement,
+        nextLevelBoundaries,
+      });
       const previousLevelBoundaries = threadContext.getLevelBoundaries(
         level - 1
       );
-      if (!previousLevelBoundaries.length) {
-        return;
+      if (previousLevelBoundaries.length) {
+        setStemsToPreviousLevelBoundaries({
+          levelElement,
+          boundaryElement,
+          previousLevelBoundaries,
+        });
       }
-      const {
-        left: levelLeft,
-        top: levelTop,
-      } = contentRef.getBoundingClientRect();
-      const {
-        left: previousLevelLeft,
-        right: previousLevelRight,
-      } = previousLevelBoundaries[0].getBoundingClientRect();
-      const { top: boundaryTop } = boundaryElement.getBoundingClientRect();
-      const stemStart =
-        previousLevelLeft - levelLeft + width / 2 - STEM_WIDTH_PX - 1;
-      contentRef.style.setProperty("--level-stem-left", `${stemStart}px`);
-      contentRef.style.setProperty(
-        "--level-stem-top",
-        `${boundaryTop - levelTop - LEVEL_STEM_HEIGHT_PX}px`
-      );
-      contentRef.style.setProperty(
-        "--level-stem-height",
-        `${LEVEL_STEM_HEIGHT_PX}px`
-      );
-      contentRef.style.setProperty(
-        "--level-stem-width",
-        `${-stemStart + width / 2 + 2 * STEM_WIDTH_PX}px`
-      );
     };
-    threadContext?.addResizeCallback(setTopMarginCallback);
-    setTopMarginCallback();
+    threadContext?.addResizeCallback(setStemPositions);
+    setStemPositions();
     return () => {
-      threadContext?.removeResizeCallback(setTopMarginCallback);
-      threadContext?.unregisterItemBoundary({ level, index });
+      threadContext.removeResizeCallback(setStemPositions);
+      threadContext.unregisterItemBoundary({ level, index });
     };
   }, [boundaryElement, threadContext, levelContent, level]);
 
   const { levelItems, indent } = processItemChildren(children);
-  0;
   if (Children.toArray(children).some(isThreadItem)) {
     throw new Error("Items shouldn't be children of items");
   }
@@ -377,13 +425,15 @@ const Item: React.FC<ChildrenWithRenderProps> = (props) => {
         }
         .level-stem {
           position: absolute;
-          top: var(--level-stem-top, 0);
           left: var(--level-stem-left, 0);
           width: var(--level-stem-width, 0);
+          top: var(--level-stem-top, 0);
           height: var(--level-stem-height, 0);
-          border-top: ${STEM_WIDTH_PX}px solid ${stemColor};
-          border-right: ${STEM_WIDTH_PX}px solid ${stemColor};
+          border-left: ${STEM_WIDTH_PX}px solid ${stemColor};
+          border-bottom: ${STEM_WIDTH_PX}px solid ${stemColor};
           box-sizing: border-box;
+          pointer-events: all;
+          border-bottom-left-radius: 5px;
         }
         div[data-level="0"] {
           position: relative;
@@ -427,7 +477,9 @@ export const Stem: React.FC<StemProps> = (props) => {
           left: 0;
           width: ${STEM_WIDTH_PX}px;
           background-color: ${stemColor};
-          border-radius: 15px;
+           {
+            /* border-radius: 15px; */
+          }
           pointer-events: all;
           border: 0;
           padding: 0;

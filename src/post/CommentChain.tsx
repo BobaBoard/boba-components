@@ -38,7 +38,7 @@ class CommentChain extends PureComponent<CommentChainProps> {
         commentRef.editorRef.current.style.borderBottom = "none";
       }
     });
-    this.headerRef = this.handlerRefs.get(0)?.headerRef;
+    this.headerRef = this.handlerRefs.get(0)?.avatarRef;
   }
 
   render() {

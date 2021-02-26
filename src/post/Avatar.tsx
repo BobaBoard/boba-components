@@ -3,7 +3,7 @@ import classnames from "classnames";
 
 import CircleMask from "../images/circle-mask.svg";
 
-const Avatar: React.FC<AvatarProps> = (props) => {
+const Avatar = React.forwardRef<HTMLDivElement, AvatarProps>((props, ref) => {
   const visibleSecretAvatar =
     !props.forceHide &&
     props.userIdentity?.avatar &&
@@ -24,6 +24,7 @@ const Avatar: React.FC<AvatarProps> = (props) => {
           className={classnames("avatar", {
             "with-secret": visibleSecretAvatar,
           })}
+          ref={ref}
         />
         {props.accessory && <img src={props.accessory} className="accessory" />}
         <div
@@ -96,7 +97,9 @@ const Avatar: React.FC<AvatarProps> = (props) => {
       `}</style>
     </div>
   );
-};
+});
+
+Avatar.displayName = "Avatar";
 export interface AvatarProps {
   secretIdentity?: {
     avatar: string;
