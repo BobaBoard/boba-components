@@ -1,10 +1,6 @@
 import React, { Children } from "react";
 
 import Theme from "../theme/default";
-import CollapsedPlaceholder from "./CollapsedPlaceholder";
-import CircleMask from "../images/circle-mask.svg";
-import RectangleMask from "../images/rectangle-mask.svg";
-import classnames from "classnames";
 import { lightenColor } from "../utils";
 
 const INDENT_WIDTH_PX = 50;
@@ -20,8 +16,6 @@ interface ThreadContext extends ThreadProps {
     boundaryElement: HTMLElement;
   }) => void;
   unregisterItemBoundary: (element: { index: number; level: number }) => void;
-  addItemBoundaryCallback: (level: number, callback: () => void) => void;
-  removeItemBoundaryCallback: (level: number, callback: () => void) => void;
   getLevelBoundaries: (level: number) => HTMLElement[];
 }
 
@@ -34,10 +28,6 @@ interface ThreadProps {
   getCollapseReason: (id: string) => React.ReactNode;
 }
 
-interface CollapseGroupProps extends IndentProps {
-  endsLevel?: boolean;
-}
-
 const isIndentElement = (
   node: React.ReactNode
 ): node is React.Component<IndentProps> => {
@@ -48,12 +38,6 @@ const isThreadItem = (
   node: React.ReactNode
 ): node is React.Component<IndentProps> => {
   return React.isValidElement(node) && node.type == Item;
-};
-
-const isCollapseGroup = (
-  node: React.ReactNode
-): node is React.Component<CollapseGroupProps> => {
-  return React.isValidElement(node) && node.type == CollapseGroup;
 };
 
 const processItemChildren = (children: React.ReactNode | undefined) => {
@@ -69,6 +53,77 @@ interface ChildrenWithRenderProps {
     | JSX.Element
     | ((refCallback: (element: HTMLElement | null) => void) => React.ReactNode);
 }
+
+const useResizeCallbacks = (toWatch: React.RefObject<HTMLElement>) => {
+  const resizeCallbacks = React.useRef<(() => void)[]>([]);
+  React.useEffect(() => {
+    if (!toWatch.current) {
+      return;
+    }
+    const resizeObserver = new ResizeObserver(() => {
+      resizeCallbacks.current.forEach((callback) => callback());
+    });
+    resizeObserver.observe(toWatch.current);
+    return () => {
+      resizeObserver.disconnect();
+    };
+  }, [toWatch]);
+  const addResizeCallback = React.useCallback((callback: () => void) => {
+    resizeCallbacks.current.push(callback);
+  }, []);
+  const removeResizeCallback = React.useCallback((callback: () => void) => {
+    resizeCallbacks.current = resizeCallbacks.current.filter(
+      (entry) => callback != entry
+    );
+  }, []);
+
+  return {
+    addResizeCallback,
+    removeResizeCallback,
+  };
+};
+
+const useBoundariesMap = () => {
+  const levelsBoundariesMap = React.useRef(
+    new Map<number, Map<number, HTMLElement>>()
+  );
+  const registerItemBoundary = React.useCallback(
+    (element: {
+      index: number;
+      level: number;
+      boundaryElement: HTMLElement;
+    }) => {
+      let levelMap = levelsBoundariesMap.current.get(element.level);
+      if (!levelMap) {
+        levelMap = new Map();
+        levelsBoundariesMap.current.set(element.level, levelMap);
+      }
+      levelMap.set(element.index, element.boundaryElement);
+    },
+    []
+  );
+  const unregisterItemBoundary = React.useCallback(
+    (element: { index: number; level: number }) => {
+      const levelMap = levelsBoundariesMap.current.get(element.level);
+      levelMap?.delete(element.level);
+    },
+    []
+  );
+  const getLevelBoundaries = React.useCallback((level: number) => {
+    const levelMap = levelsBoundariesMap.current.get(level);
+    if (!levelMap) {
+      return [];
+    }
+    const returnArray: HTMLElement[] = [];
+    levelMap.forEach((value, key) => {
+      returnArray[key] = value;
+    });
+    // Remove the holes in the array, if any.
+    return returnArray.filter((el) => el != undefined);
+  }, []);
+
+  return { registerItemBoundary, unregisterItemBoundary, getLevelBoundaries };
+};
 
 /**
  * This is how the thread structure is supposed to look like:
@@ -97,94 +152,18 @@ const Thread: React.FC<ThreadProps & ChildrenWithRenderProps> & {
   Indent: typeof Indent;
   Item: typeof Item;
 } = (props) => {
-  const threadRef = React.createRef<HTMLDivElement>();
-
   // When the overall thread container is resized, cycle through all the handlers to
   // "warn" the stems that readjustment might be needed (+ whatever other callback might
   // have been assigned).
-  const resizeCallbacks = React.useRef<(() => void)[]>([]);
-  React.useEffect(() => {
-    if (!threadRef.current) {
-      return;
-    }
-    const resizeObserver = new ResizeObserver(() => {
-      resizeCallbacks.current.forEach((callback) => callback());
-    });
-    resizeObserver.observe(threadRef.current);
-
-    return () => {
-      resizeObserver.disconnect();
-    };
-  }, [threadRef]);
-  const addResizeCallback = React.useCallback((callback: () => void) => {
-    resizeCallbacks.current.push(callback);
-  }, []);
-  const removeResizeCallback = React.useCallback((callback: () => void) => {
-    resizeCallbacks.current = resizeCallbacks.current.filter(
-      (entry) => callback != entry
-    );
-  }, []);
-  const levelsBoundariesMap = React.useRef(
-    new Map<number, Map<number, HTMLElement>>()
+  const threadRef = React.createRef<HTMLDivElement>();
+  const { addResizeCallback, removeResizeCallback } = useResizeCallbacks(
+    threadRef
   );
-  const itemBoundariesCallbacks = React.useRef(
-    new Map<number, (() => void)[]>()
-  );
-  const registerItemBoundary = React.useCallback(
-    (element: {
-      index: number;
-      level: number;
-      boundaryElement: HTMLElement;
-    }) => {
-      let levelMap = levelsBoundariesMap.current.get(element.level);
-      if (!levelMap) {
-        levelMap = new Map();
-        levelsBoundariesMap.current.set(element.level, levelMap);
-      }
-      levelMap.set(element.index, element.boundaryElement);
-    },
-    []
-  );
-  const unregisterItemBoundary = React.useCallback(
-    (element: { index: number; level: number }) => {
-      const levelMap = levelsBoundariesMap.current.get(element.level);
-      levelMap?.delete(element.level);
-    },
-    []
-  );
-  const addItemBoundaryCallback = React.useCallback(
-    (level: number, callback: () => void) => {
-      let levelCallbacks = itemBoundariesCallbacks.current.get(level);
-      if (!levelCallbacks) {
-        levelCallbacks = [];
-        itemBoundariesCallbacks.current.set(level, levelCallbacks);
-      }
-      levelCallbacks.push(callback);
-    },
-    []
-  );
-  const removeItemBoundaryCallback = React.useCallback(
-    (level: number, callback: () => void) => {
-      const levelCallbacks = itemBoundariesCallbacks.current.get(level) || [];
-      itemBoundariesCallbacks.current.set(
-        level,
-        levelCallbacks.filter((savedCallback) => savedCallback !== callback)
-      );
-    },
-    []
-  );
-  const getLevelBoundaries = React.useCallback((level: number) => {
-    const levelMap = levelsBoundariesMap.current.get(level);
-    if (!levelMap) {
-      return [];
-    }
-    const returnArray: HTMLElement[] = [];
-    levelMap.forEach((value, key) => {
-      returnArray[key] = value;
-    });
-    // Remove the holes in the array, if any.
-    return returnArray.filter((el) => el != undefined);
-  }, []);
+  const {
+    registerItemBoundary,
+    unregisterItemBoundary,
+    getLevelBoundaries,
+  } = useBoundariesMap();
 
   // We wrap children in a Thread.Item, so we can simply use the regular Thread.Item
   // recursion even for the first level. We do this unless the child is already a
@@ -204,8 +183,6 @@ const Thread: React.FC<ThreadProps & ChildrenWithRenderProps> & {
           removeResizeCallback,
           registerItemBoundary,
           unregisterItemBoundary,
-          addItemBoundaryCallback,
-          removeItemBoundaryCallback,
           getLevelBoundaries,
         }),
         [
@@ -214,8 +191,6 @@ const Thread: React.FC<ThreadProps & ChildrenWithRenderProps> & {
           removeResizeCallback,
           registerItemBoundary,
           unregisterItemBoundary,
-          addItemBoundaryCallback,
-          removeItemBoundaryCallback,
           getLevelBoundaries,
         ]
       )}
@@ -230,59 +205,6 @@ const Thread: React.FC<ThreadProps & ChildrenWithRenderProps> & {
         `}</style>
       </div>
     </ThreadContext.Provider>
-  );
-};
-
-export const CollapseGroup: React.FC<CollapseGroupProps> = (props) => {
-  const threadContext = React.useContext(ThreadContext);
-  const level = React.useContext(ThreadLevel);
-  const stemColor =
-    Theme.INDENT_COLORS[level - (1 % Theme.INDENT_COLORS.length)];
-  return props.collapsed ? (
-    <div
-      className={classnames("collapsed", { "ends-level": !!props.endsLevel })}
-    >
-      <div className="placeholder">
-        <CollapsedPlaceholder
-          onUncollapseClick={() =>
-            threadContext?.onUncollapseLevel?.(props.id as string)
-          }
-          accentColor={stemColor}
-        >
-          {threadContext?.getCollapseReason?.(props.id as string)}
-        </CollapsedPlaceholder>
-      </div>
-      <div className="background" />
-      <style jsx>{`
-        .collapsed {
-          pointer-events: all;
-          margin-bottom: 20px;
-          position: relative;
-        }
-        .placeholder {
-          z-index: 2;
-          position: relative;
-        }
-        .collapsed .background {
-          mask: url(${RectangleMask}), url(${CircleMask}) 0px -6px/8px 10px;
-          mask-composite: source-out;
-          mask-repeat: repeat-y;
-          background-color: #2e2e30;
-          position: absolute;
-          top: -15px;
-          bottom: -17px;
-          left: 0;
-          width: ${INDENT_WIDTH_PX}px;
-          z-index: 1;
-          pointer-events: none;
-        }
-        .collapsed.ends-level .background {
-          bottom: 10px;
-        }
-      `}</style>
-    </div>
-  ) : (
-    <>{props.children}</>
   );
 };
 
@@ -556,24 +478,12 @@ export const Indent: React.FC<IndentProps> = (props) => {
     }
   }, [threadContext, props.collapsed, props.id]);
 
-  // If the child is an uncollapsed CollapseGroup, then skip the CollapseGroup
-  // and render its children instead. If not, render whatever the child is.
-  const childrenForRendering = childrenArray.flatMap((child) =>
-    isCollapseGroup(child) && !child.props.collapsed
-      ? child.props.children
-      : child
-  );
-
   return (
     <>
       <Stem clickHandler={stemClickHandler} />
       <ol data-level={level + 1} className={`level-container`}>
         <ThreadLevel.Provider value={level + 1}>
-          {props.collapsed ? (
-            <CollapseGroup {...props} endsLevel />
-          ) : (
-            childrenForRendering
-          )}
+          {childrenArray}
         </ThreadLevel.Provider>
         <style jsx>{`
           ol.level-container {
