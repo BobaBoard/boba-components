@@ -291,7 +291,7 @@ const FeedWithMenu: React.FC<FeedWithMenuProps> & CompoundComponents = ({
       <style jsx>
         {`
           .content {
-            width: 100vw;
+            width: 100%;
             display: flex;
             min-height: calc(100vh - 70px);
           }

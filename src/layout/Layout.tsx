@@ -65,6 +65,12 @@ const Layout = React.forwardRef<{ closeSideMenu: () => void }, LayoutProps>(
     }));
 
     React.useEffect(() => {
+      return () => {
+        document.body.style.overflow = "";
+      };
+    }, []);
+
+    React.useEffect(() => {
       const Hammer = require("hammerjs") as HammerStatic;
       if (layoutRef.current && !swipeHandler.current) {
         // @ts-ignore
@@ -287,10 +293,8 @@ const Layout = React.forwardRef<{ closeSideMenu: () => void }, LayoutProps>(
               display: flex;
               flex-grow: 1;
               position: relative;
-              overflow-y: auto;
-              background: ${Theme.LAYOUT_BOARD_BACKGROUND_COLOR};
-              overflow-x: hidden;
               padding-top: 70px;
+              background: ${Theme.LAYOUT_BOARD_BACKGROUND_COLOR};
               transition: transform 0.3s ease-out;
             }
             .backdrop {
@@ -312,7 +316,7 @@ const Layout = React.forwardRef<{ closeSideMenu: () => void }, LayoutProps>(
             }
             .header {
               background-color: ${Theme.LAYOUT_HEADER_BACKGROUND_COLOR};
-              height: 70px;
+              height: ${Theme.HEADER_HEIGHT_PX}px;
               position: fixed;
               top: 0;
               right: 0;

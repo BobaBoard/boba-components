@@ -724,7 +724,7 @@ export const Attempt1 = () => {
               <BoardSidebar {...BOARD_INFO} />
             </FeedWithMenu.Sidebar>
             <FeedWithMenu.FeedContent>
-              <div>
+              <div style={{ width: "100%", padding: "10px" }}>
                 {POSTS.map((post) => (
                   <div
                     style={{ marginTop: "20px", marginBottom: "20px" }}
@@ -791,7 +791,7 @@ export const Attempt1 = () => {
         title="!goreisthebestweloveit"
         titleLink={{ onClick: () => setShowSidebar(!showSidebar) }}
         onUserBarClick={() => console.log("userbar click!")}
-        onCompassClick={action("compass!")}
+        onCompassClick={() => setShowSidebar(!showSidebar)}
         forceHideTitle={true}
         updates={true}
         outdated={true}
