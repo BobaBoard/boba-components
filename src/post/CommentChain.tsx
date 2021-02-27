@@ -2,6 +2,7 @@ import React, { PureComponent, createRef } from "react";
 import { AvatarProps } from "./Avatar";
 import Comment, { CommentHandler, CommentProps } from "./Comment";
 import Header, { HeaderStyle } from "./Header";
+import Theme from "../theme/default";
 
 const MemoizedComment = React.memo(Comment);
 class CommentChain extends PureComponent<CommentChainProps> {
@@ -81,20 +82,21 @@ class CommentChain extends PureComponent<CommentChainProps> {
         </div>
         <style jsx>{`
           .comment-chain {
-            padding-top: 15px;
+            padding-top: 5px;
             position: relative;
             align-items: start;
             display: flex;
             --comment-container-stacked-radius: 0;
             max-width: 550px;
             width: 100%;
+            margin-bottom: 15px;
           }
           .header {
             margin-right: 4px;
             cursor: pointer;
             position: sticky;
             padding-top: 5px;
-            top: 0;
+            top: ${Theme.HEADER_HEIGHT_PX}px;
           }
           .editor.chainable {
             margin-bottom: 15px;

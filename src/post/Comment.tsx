@@ -67,7 +67,7 @@ class Comment extends PureComponent<CommentProps> {
           .extra-action {
             position: absolute;
             bottom: 0px;
-            right: 6px;
+            right: 13px;
             transform: translate(50%, 50%);
             display: none;
             background-color: transparent;
@@ -94,6 +94,8 @@ class Comment extends PureComponent<CommentProps> {
             width: 20px;
             height: 20px;
             margin: 15px;
+            margin-right: 0px;
+            position: relative;
             color: rgba(255, 255, 255, 0.6);
             transition: all 0.2s ease-out;
           }
@@ -110,6 +112,11 @@ class Comment extends PureComponent<CommentProps> {
             cursor: pointer;
             color: white;
             background-color: #757575;
+          }
+          .comment-container {
+            position: relative;
+            max-width: 550px;
+            width: calc(100% - 6px);
           }
           .comment {
             position: relative;

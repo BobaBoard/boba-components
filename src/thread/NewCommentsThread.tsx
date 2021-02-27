@@ -1,4 +1,4 @@
-import React, { Children, isValidElement } from "react";
+import React, { Children } from "react";
 
 import Theme from "../theme/default";
 import { lightenColor } from "../utils";
@@ -60,8 +60,6 @@ interface ChildrenWithRenderProps {
   children?:
     | JSX.Element
     | ((refCallback: (element: HTMLElement | null) => void) => React.ReactNode);
-  // Internal, do not use.
-  _root?: boolean;
 }
 
 const useResizeCallbacks = (toWatch: React.RefObject<HTMLElement>) => {
@@ -189,15 +187,11 @@ const Thread: React.FC<ThreadProps & ChildrenWithRenderProps> & {
   // recursion even for the first level. We do this unless the child is already a
   // Thread.Item, mostly so if the first level can be done through recursion there's
   // no need for the users of this class to special case it.
-  const children =
-    isThreadItem(props.children) && isValidElement(props.children) ? (
-      React.cloneElement(props.children, {
-        ...props.children.props,
-        _root: true,
-      })
-    ) : (
-      <Thread.Item _root>{props.children}</Thread.Item>
-    );
+  const children = isThreadItem(props.children) ? (
+    props.children
+  ) : (
+    <Thread.Item>{props.children}</Thread.Item>
+  );
   return (
     <ThreadContext.Provider
       value={React.useMemo(
@@ -249,9 +243,12 @@ const getStickyElementBoundingRect = (element: HTMLElement) => {
   if (getComputedStyle(element).position !== "sticky") {
     return element.getBoundingClientRect();
   }
+  const previousTop = getComputedStyle(element).top;
   element.style.position = "relative";
+  element.style.top = "0";
   const box = element.getBoundingClientRect();
   element.style.position = "sticky";
+  element.style.top = previousTop;
   return box;
 };
 
@@ -396,7 +393,7 @@ const Item: React.FC<ChildrenWithRenderProps> = (props) => {
         boundaryElement,
         nextLevelBoundaries: nextLevelBoundaries.map((v) => v.boundaryElement),
       });
-      if (props._root) {
+      if (level === 0) {
         setNextLevelStemBoundaries({
           // TODO: figure out why this works
           levelBoundary: boundaryElement,
@@ -462,7 +459,7 @@ const Item: React.FC<ChildrenWithRenderProps> = (props) => {
         .level-stem {
           position: sticky;
           width: var(--level-stem-width, 0);
-          top: 0px;
+          top: ${Theme.HEADER_HEIGHT_PX}px;
           height: var(--level-stem-height, 0);
           margin-bottom: var(--level-stem-margin-bottom, 0);
           border-left: ${STEM_WIDTH_PX}px solid ${stemColor};
@@ -478,7 +475,7 @@ const Item: React.FC<ChildrenWithRenderProps> = (props) => {
           background-color: ${DEBUG
             ? "red"
             : Theme.LAYOUT_BOARD_BACKGROUND_COLOR};
-          top: 0;
+          top: ${Theme.HEADER_HEIGHT_PX}px;
           margin-left: var(--level-stem-mask-margin-left, 0);
           margin-top: var(--level-stem-mask-margin-top, 0);
           border-bottom-left-radius: 15px;

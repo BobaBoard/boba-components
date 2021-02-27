@@ -1,8 +1,6 @@
 import React from "react";
 import classnames from "classnames";
 
-import CircleMask from "../images/circle-mask.svg";
-
 const Avatar = React.forwardRef<HTMLDivElement, AvatarProps>((props, ref) => {
   const visibleSecretAvatar =
     !props.forceHide &&

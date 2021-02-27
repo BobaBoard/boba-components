@@ -165,7 +165,7 @@ export const useIndent = (): {
   );
 
   React.useEffect(() => {
-    const boundingHeader = handler?.headerRef?.current?.getBoundingClientRect();
+    const boundingHeader = handler?.avatarRef?.current?.getBoundingClientRect();
     if (boundingHeader) {
       const newHeaderBounds = {
         top: boundingHeader.top + boundingHeader.height / 2,

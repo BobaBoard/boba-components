@@ -24,6 +24,7 @@ import CommentChainEditor from "./post/CommentChainEditor";
 import CommentEditor from "./post/CommentEditor";
 import ThreadIndent from "./post/ThreadIndent";
 import NewThread from "./thread/NewThread";
+import NewCommentsThread from "./thread/NewCommentsThread";
 import CollapsedPlaceholder from "./thread/CollapsedPlaceholder";
 import PostingActionButton from "./board/PostingActionButton";
 import CycleNewButton from "./board/CycleNewButton";
@@ -86,6 +87,7 @@ export {
   NewThread,
   CollapsedPlaceholder,
   BobaDex,
+  NewCommentsThread,
   TagType,
 };
 
