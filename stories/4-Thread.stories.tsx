@@ -942,7 +942,7 @@ export const NewRegularThread = () => {
 };
 
 export const CommentsThread = () => {
-  const [additionalComments, setAdditionalComments] = React.useState(2);
+  const [additionalComments, setAdditionalComments] = React.useState(0);
   return (
     <div style={{ display: "flex" }}>
       <div
