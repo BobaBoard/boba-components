@@ -1,4 +1,4 @@
-import React, { Children } from "react";
+import React, { Children, isValidElement } from "react";
 
 import Theme from "../theme/default";
 import { lightenColor } from "../utils";
@@ -44,7 +44,7 @@ const isIndentElement = (
 
 const isThreadItem = (
   node: React.ReactNode
-): node is React.Component<IndentProps> => {
+): node is React.Component<ChildrenWithRenderProps> => {
   return React.isValidElement(node) && node.type == Item;
 };
 
@@ -60,6 +60,8 @@ interface ChildrenWithRenderProps {
   children?:
     | JSX.Element
     | ((refCallback: (element: HTMLElement | null) => void) => React.ReactNode);
+  // Internal, do not use.
+  _root?: boolean;
 }
 
 const useResizeCallbacks = (toWatch: React.RefObject<HTMLElement>) => {
@@ -187,11 +189,15 @@ const Thread: React.FC<ThreadProps & ChildrenWithRenderProps> & {
   // recursion even for the first level. We do this unless the child is already a
   // Thread.Item, mostly so if the first level can be done through recursion there's
   // no need for the users of this class to special case it.
-  const children = isThreadItem(props.children) ? (
-    props.children
-  ) : (
-    <Thread.Item>{props.children}</Thread.Item>
-  );
+  const children =
+    isThreadItem(props.children) && isValidElement(props.children) ? (
+      React.cloneElement(props.children, {
+        ...props.children.props,
+        _root: true,
+      })
+    ) : (
+      <Thread.Item _root>{props.children}</Thread.Item>
+    );
   return (
     <ThreadContext.Provider
       value={React.useMemo(
@@ -234,17 +240,6 @@ const getLevelIndex = (levelElement: HTMLElement) => {
   const previousLevel =
     (previousSibling as HTMLElement)?.dataset.listIndex || "0";
   return parseInt(previousLevel) + 1;
-};
-
-const getParentId = (levelElement: HTMLElement) => {
-  let parent = levelElement.parentElement;
-  while (parent && !parent.dataset.threadStart) {
-    if (parent.dataset.itemId) {
-      return parent.dataset.itemId;
-    }
-    parent = parent.parentElement;
-  }
-  return null;
 };
 
 // When something is position sticky, it moves alongside the viewport.
@@ -387,10 +382,7 @@ const Item: React.FC<ChildrenWithRenderProps> = (props) => {
     }
     const levelElement = levelContent.current;
     const index = getLevelIndex(levelElement);
-    const parentId = getParentId(levelElement);
     levelElement.dataset.levelIndex = "" + index;
-    const itemId = parentId ? parentId + "_" + parentId : "" + index;
-    levelElement.dataset.itemId = itemId;
     threadContext.registerItemBoundary({
       levelElement,
       boundaryElement,
@@ -404,6 +396,14 @@ const Item: React.FC<ChildrenWithRenderProps> = (props) => {
         boundaryElement,
         nextLevelBoundaries: nextLevelBoundaries.map((v) => v.boundaryElement),
       });
+      if (props._root) {
+        setNextLevelStemBoundaries({
+          // TODO: figure out why this works
+          levelBoundary: boundaryElement,
+          nextLevelElement: levelElement,
+          nextLevelBoundary: boundaryElement,
+        });
+      }
       nextLevelBoundaries.forEach((boundary) => {
         setNextLevelStemBoundaries({
           levelBoundary: boundaryElement,
@@ -429,12 +429,10 @@ const Item: React.FC<ChildrenWithRenderProps> = (props) => {
   const content = (
     <>
       <div className={`thread-element`}>
-        {level !== 0 && (
-          <div className="level-stem-container" ref={levelStemContainer}>
-            <div className="level-stem" ref={levelStem} />
-            <div className="level-mask" />
-          </div>
-        )}
+        <div className="level-stem-container" ref={levelStemContainer}>
+          <div className="level-stem" ref={levelStem} />
+          <div className="level-mask" />
+        </div>
         {levelItems}
       </div>
       {React.isValidElement(indent) &&
@@ -477,7 +475,9 @@ const Item: React.FC<ChildrenWithRenderProps> = (props) => {
           position: sticky;
           width: var(--level-stem-mask-width, 0);
           height: var(--level-stem-mask-height, 0);
-          background-color: ${Theme.LAYOUT_BOARD_BACKGROUND_COLOR};
+          background-color: ${DEBUG
+            ? "red"
+            : Theme.LAYOUT_BOARD_BACKGROUND_COLOR};
           top: 0;
           margin-left: var(--level-stem-mask-margin-left, 0);
           margin-top: var(--level-stem-mask-margin-top, 0);
