@@ -5,7 +5,11 @@ import { lightenColor } from "../utils";
 
 const INDENT_WIDTH_PX = 25;
 const STEM_WIDTH_PX = 1;
-const LEVEL_STEM_HEIGHT_PX = 35;
+// This is given by the commentchain avatar padding,
+// and it might be calculated that way too, one day.
+const STICKY_TOP_PX = 5;
+// Note: this turns on transparency for stems, which helps with debugging.
+const DEBUG = false;
 
 interface ThreadContext extends ThreadProps {
   addResizeCallback: (callback: () => void) => void;
@@ -15,7 +19,6 @@ interface ThreadContext extends ThreadProps {
     boundaryElement: HTMLElement;
   }) => void;
   unregisterItemBoundary: (element: { levelElement: HTMLElement }) => void;
-  getPreviousLevelBoundaries: (levelElement: HTMLElement) => HTMLElement[];
   getNextLevelBoundaries: (
     levelElement: HTMLElement
   ) => {
@@ -132,19 +135,11 @@ const useBoundariesMap = () => {
     },
     []
   );
-  const getPreviousLevelBoundaries = React.useCallback(
-    (levelElement: HTMLElement) => {
-      const previousLevelBoundaries: HTMLElement[] = [];
-      return previousLevelBoundaries;
-    },
-    []
-  );
 
   return {
     registerItemBoundary,
     unregisterItemBoundary,
     getNextLevelBoundaries,
-    getPreviousLevelBoundaries,
   };
 };
 
@@ -185,7 +180,6 @@ const Thread: React.FC<ThreadProps & ChildrenWithRenderProps> & {
   const {
     registerItemBoundary,
     unregisterItemBoundary,
-    getPreviousLevelBoundaries,
     getNextLevelBoundaries,
   } = useBoundariesMap();
 
@@ -207,7 +201,6 @@ const Thread: React.FC<ThreadProps & ChildrenWithRenderProps> & {
           removeResizeCallback,
           registerItemBoundary,
           unregisterItemBoundary,
-          getPreviousLevelBoundaries,
           getNextLevelBoundaries,
         }),
         [
@@ -216,7 +209,6 @@ const Thread: React.FC<ThreadProps & ChildrenWithRenderProps> & {
           removeResizeCallback,
           registerItemBoundary,
           unregisterItemBoundary,
-          getPreviousLevelBoundaries,
           getNextLevelBoundaries,
         ]
       )}
@@ -255,6 +247,19 @@ const getParentId = (levelElement: HTMLElement) => {
   return null;
 };
 
+// When something is position sticky, it moves alongside the viewport.
+// In order to accurately calculate its position, we make it position
+// relative, calculate, and set it back to sticky.
+const getStickyElementBoundingRect = (element: HTMLElement) => {
+  if (getComputedStyle(element).position !== "sticky") {
+    return element.getBoundingClientRect();
+  }
+  element.style.position = "relative";
+  const box = element.getBoundingClientRect();
+  element.style.position = "sticky";
+  return box;
+};
+
 const setLevelStemBoundaries = ({
   levelElement,
   boundaryElement,
@@ -273,7 +278,7 @@ const setLevelStemBoundaries = ({
     bottom: boundaryBottom,
     left: boundaryLeft,
     width: boundaryWidth,
-  } = boundaryElement.getBoundingClientRect();
+  } = getStickyElementBoundingRect(boundaryElement);
   levelElement.style.setProperty(
     "--stem-margin-top",
     `${boundaryBottom - levelTop}px`
@@ -284,12 +289,11 @@ const setLevelStemBoundaries = ({
     `${boundaryMiddlePoint - STEM_WIDTH_PX / 2}px`
   );
   if (nextLevelBoundaries.length) {
-    const { top: nextLevelTop, height: nextLevelHeight } = nextLevelBoundaries[
-      nextLevelBoundaries.length - 1
-    ].getBoundingClientRect();
+    const lastBoundary = nextLevelBoundaries[nextLevelBoundaries.length - 1];
+    const { top: nextLevelTop } = getStickyElementBoundingRect(lastBoundary);
     levelElement.style.setProperty(
       "--stem-margin-bottom",
-      `${levelBottom - nextLevelTop + STEM_WIDTH_PX / 2 - 5}px`
+      `${levelBottom - nextLevelTop}px`
     );
   }
 };
@@ -306,8 +310,7 @@ const setNextLevelStemBoundaries = ({
   const {
     left: levelBoundaryLeft,
     width: levelBoundaryWidth,
-  } = levelBoundary.getBoundingClientRect();
-
+  } = getStickyElementBoundingRect(levelBoundary);
   const {
     top: nextLevelTop,
     left: nextLevelLeft,
@@ -315,28 +318,43 @@ const setNextLevelStemBoundaries = ({
   const {
     left: nextLevelBoundaryLeft,
     top: nextLevelBoundaryTop,
+    bottom: nextLevelBoundaryBottom,
     height: nextLevelBoundaryHeight,
-  } = nextLevelBoundary.getBoundingClientRect();
+  } = getStickyElementBoundingRect(nextLevelBoundary);
   const currentLevelMiddlePoint = levelBoundaryLeft + levelBoundaryWidth / 2;
   const stemLeft = currentLevelMiddlePoint - nextLevelLeft - STEM_WIDTH_PX / 2;
   nextLevelElement.style.setProperty("--level-stem-left", `${stemLeft}px`);
-  // We start the level stem so that, overall, the height occupied by the level stem
-  // is the one in STEM_LEVEL_HEIGHT
   nextLevelElement.style.setProperty(
     "--level-stem-top",
-    `${nextLevelBoundaryTop - nextLevelTop + STEM_WIDTH_PX / 2 - 5}px`
+    `${nextLevelBoundaryTop - nextLevelTop}px`
   );
   nextLevelElement.style.setProperty(
     "--level-stem-margin-bottom",
-    `${nextLevelBoundaryHeight / 2 - STEM_WIDTH_PX / 2 + 5}px`
+    `${nextLevelBoundaryHeight / 2 - STEM_WIDTH_PX / 2}px`
   );
   nextLevelElement.style.setProperty(
     "--level-stem-height",
-    `${nextLevelBoundaryHeight / 2 + 5}px`
+    `${nextLevelBoundaryHeight / 2 + STICKY_TOP_PX + STEM_WIDTH_PX / 2}px`
   );
   nextLevelElement.style.setProperty(
     "--level-stem-width",
     `${nextLevelBoundaryLeft - currentLevelMiddlePoint + STEM_WIDTH_PX / 2}px`
+  );
+  nextLevelElement.style.setProperty(
+    "--level-stem-mask-width",
+    `${STEM_WIDTH_PX}px`
+  );
+  nextLevelElement.style.setProperty(
+    "--level-stem-mask-height",
+    `${nextLevelBoundaryBottom - nextLevelBoundaryTop}px`
+  );
+  nextLevelElement.style.setProperty(
+    "--level-stem-mask-margin-top",
+    `${-nextLevelBoundaryHeight - STICKY_TOP_PX}px`
+  );
+  nextLevelElement.style.setProperty(
+    "--level-stem-mask-margin-left",
+    `${nextLevelBoundaryLeft - levelBoundaryLeft}px`
   );
 };
 
@@ -381,7 +399,6 @@ const Item: React.FC<ChildrenWithRenderProps> = (props) => {
       const nextLevelBoundaries = threadContext.getNextLevelBoundaries(
         levelElement
       );
-      console.log(nextLevelBoundaries);
       setLevelStemBoundaries({
         levelElement,
         boundaryElement,
@@ -412,9 +429,12 @@ const Item: React.FC<ChildrenWithRenderProps> = (props) => {
   const content = (
     <>
       <div className={`thread-element`}>
-        <div className="level-stem-container" ref={levelStemContainer}>
-          <div className="level-stem" ref={levelStem} />
-        </div>
+        {level !== 0 && (
+          <div className="level-stem-container" ref={levelStemContainer}>
+            <div className="level-stem" ref={levelStem} />
+            <div className="level-mask" />
+          </div>
+        )}
         {levelItems}
       </div>
       {React.isValidElement(indent) &&
@@ -444,13 +464,25 @@ const Item: React.FC<ChildrenWithRenderProps> = (props) => {
         .level-stem {
           position: sticky;
           width: var(--level-stem-width, 0);
-          top: 5px;
+          top: 0px;
           height: var(--level-stem-height, 0);
           margin-bottom: var(--level-stem-margin-bottom, 0);
           border-left: ${STEM_WIDTH_PX}px solid ${stemColor};
           border-bottom: ${STEM_WIDTH_PX}px solid ${stemColor};
           box-sizing: border-box;
           border-bottom-left-radius: 15px;
+          opacity: ${DEBUG ? "0.5" : "1"};
+        }
+        .level-mask {
+          position: sticky;
+          width: var(--level-stem-mask-width, 0);
+          height: var(--level-stem-mask-height, 0);
+          background-color: ${Theme.LAYOUT_BOARD_BACKGROUND_COLOR};
+          top: 0;
+          margin-left: var(--level-stem-mask-margin-left, 0);
+          margin-top: var(--level-stem-mask-margin-top, 0);
+          border-bottom-left-radius: 15px;
+          border-bottom-right-radius: 15px;
         }
       `}</style>
     </>
@@ -488,13 +520,13 @@ interface StemProps {
 }
 export const Stem: React.FC<StemProps> = (props) => {
   const level = React.useContext(ThreadLevel);
-  const stemHoverEnterHandler = React.useCallback((e) => {
-    const target = e.target as HTMLElement;
-    target.classList.add("hover");
+  const stemHoverEnterHandler = React.useCallback(() => {
+    //const target = e.target as HTMLElement;
+    //target.classList.add("hover");
   }, []);
-  const stemHoverLeaveHandler = React.useCallback((e) => {
-    const target = e.target as HTMLElement;
-    target.classList.remove("hover");
+  const stemHoverLeaveHandler = React.useCallback(() => {
+    //const target = e.target as HTMLElement;
+    //target.classList.remove("hover");
   }, []);
 
   const stemColor = Theme.INDENT_COLORS[level % Theme.INDENT_COLORS.length];
@@ -514,14 +546,15 @@ export const Stem: React.FC<StemProps> = (props) => {
           top: 0;
           bottom: 0;
           left: 0;
-          width: ${STEM_WIDTH_PX}px;
-          background-color: ${stemColor};
+          width: 0;
           pointer-events: all;
           border: 0;
           padding: 0;
           margin-top: var(--stem-margin-top, 0);
           margin-left: var(--stem-margin-left, 0);
           margin-bottom: var(--stem-margin-bottom, 0);
+          border-left: ${STEM_WIDTH_PX}px solid ${stemColor};
+          opacity: ${DEBUG ? "0.5" : "1"};
         }
         .thread-stem:focus {
           outline: none;

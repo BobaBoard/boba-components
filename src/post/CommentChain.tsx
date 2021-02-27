@@ -7,6 +7,7 @@ const MemoizedComment = React.memo(Comment);
 class CommentChain extends PureComponent<CommentChainProps> {
   editorRef = createRef<HTMLDivElement>();
   handlerRefs = new Map<number, CommentHandler>();
+  avatarRef = createRef<HTMLDivElement>();
   headerRef = createRef<HTMLDivElement>();
   saveRefMethods = new Map<number, (ref: Comment) => void>();
 
@@ -44,7 +45,7 @@ class CommentChain extends PureComponent<CommentChainProps> {
   render() {
     return (
       <div className="comment-chain" ref={this.editorRef}>
-        <div className="header">
+        <div className="header" ref={this.headerRef}>
           <Header
             size={HeaderStyle.COMPACT}
             secretIdentity={this.props.secretIdentity}
@@ -52,7 +53,7 @@ class CommentChain extends PureComponent<CommentChainProps> {
             avatarOptions={this.props.options}
             accessory={this.props.accessory}
             createdMessage={this.props.createdTime}
-            ref={this.headerRef}
+            ref={this.avatarRef}
           />
         </div>
         <div className="comments">
@@ -92,7 +93,8 @@ class CommentChain extends PureComponent<CommentChainProps> {
             margin-right: 4px;
             cursor: pointer;
             position: sticky;
-            top: 5px;
+            padding-top: 5px;
+            top: 0;
           }
           .editor.chainable {
             margin-bottom: 15px;
