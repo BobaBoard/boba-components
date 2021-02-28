@@ -40,6 +40,7 @@ const ActionLink: React.FC<ActionLinkProps> = ({
       <style jsx>{`
         a {
           text-decoration: inherit;
+          color: inherit;
         }
       `}</style>
     </a>
