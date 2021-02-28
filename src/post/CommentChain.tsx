@@ -100,21 +100,19 @@ class CommentChain extends PureComponent<CommentChainProps> {
         </div>
         <style jsx>{`
           .comment-chain {
-            padding-top: 5px;
             position: relative;
             align-items: start;
             display: flex;
             --comment-container-stacked-radius: 0;
             max-width: 550px;
             width: 100%;
-            margin-bottom: 15px;
+            margin-bottom: 14px;
+            --text-padding: 13px;
           }
           .header {
-            margin-right: 4px;
             cursor: pointer;
             position: sticky;
-            padding-top: 5px;
-            top: ${Theme.HEADER_HEIGHT_PX}px;
+            top: ${Theme.HEADER_HEIGHT_PX + 2}px;
           }
           .editor.chainable {
             margin-bottom: 15px;

@@ -10,6 +10,10 @@ import { AvatarProps } from "./Avatar";
 class Comment extends PureComponent<CommentProps> {
   editorRef = createRef<HTMLDivElement>();
 
+  highlight() {
+    console.log("deprecated!");
+  }
+
   render() {
     return (
       <>
@@ -43,8 +47,8 @@ class Comment extends PureComponent<CommentProps> {
         <style jsx>{`
           .extra-action {
             position: absolute;
-            bottom: 0px;
-            right: 13px;
+            bottom: 3px;
+            right: 16px;
             transform: translate(50%, 50%);
             display: none;
             background-color: transparent;
@@ -86,7 +90,7 @@ class Comment extends PureComponent<CommentProps> {
           .comment-container {
             position: relative;
             max-width: 550px;
-            width: calc(100% - 6px);
+            width: calc(100% - 3px);
           }
           .comment {
             position: relative;
@@ -105,7 +109,7 @@ class Comment extends PureComponent<CommentProps> {
           .comment-container.with-extra-action:last-child .comment {
             mask: linear-gradient(0deg, rgba(0, 0, 0, 0), rgba(0, 0, 0, 0)),
               radial-gradient(
-                  28px circle at bottom 0px right 6px,
+                  28px circle at bottom 3px right 9px,
                   transparent 50%,
                   black 51%
                 )

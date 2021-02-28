@@ -1026,6 +1026,7 @@ export const CommentsThread = () => {
                           name: "SexyDaddy69",
                           avatar: `/${mamoruAvatar}`,
                         }}
+                        onExtraAction={action("extra")}
                       />
                     )}
                   </NewCommentsThread.Item>
@@ -1134,6 +1135,7 @@ export const CommentsThread = () => {
                                               name: "SexyDaddy69",
                                               avatar: `/${mamoruAvatar}`,
                                             }}
+                                            onExtraAction={action("extra")}
                                           />
                                         )}
                                       </NewCommentsThread.Item>
@@ -1286,6 +1288,9 @@ export const CommentsThread = () => {
                                                     name: "SexyDaddy69",
                                                     avatar: `/${mamoruAvatar}`,
                                                   }}
+                                                  onExtraAction={action(
+                                                    "extra"
+                                                  )}
                                                 />
                                               )}
                                             </NewCommentsThread.Item>
@@ -1332,6 +1337,7 @@ export const CommentsThread = () => {
                           name: "SexyDaddy69",
                           avatar: `/${mamoruAvatar}`,
                         }}
+                        onExtraAction={action("extra")}
                       />
                     )}
                   </NewCommentsThread.Item>

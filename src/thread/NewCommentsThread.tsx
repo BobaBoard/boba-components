@@ -7,9 +7,12 @@ const INDENT_WIDTH_PX = 25;
 const STEM_WIDTH_PX = 1;
 // This is given by the commentchain avatar padding,
 // and it might be calculated that way too, one day.
-const STICKY_TOP_PX = 5;
+const STICKY_TOP_PX = 0;
 // Note: this turns on transparency for stems, which helps with debugging.
-const DEBUG = false;
+const DEBUG = true;
+
+// TODO: make the avatar itself be the center.
+const STEM_LEFT_OFFSET = 0;
 
 interface ThreadContext extends ThreadProps {
   addResizeCallback: (callback: () => void) => void;
@@ -34,6 +37,7 @@ interface ThreadProps {
   onCollapseLevel: (id: string) => void;
   onUncollapseLevel: (id: string) => void;
   getCollapseReason: (id: string) => React.ReactNode;
+  resizeSpy?: React.RefObject<HTMLElement>;
 }
 
 const isIndentElement = (
@@ -175,7 +179,7 @@ const Thread: React.FC<ThreadProps & ChildrenWithRenderProps> & {
   // have been assigned).
   const threadRef = React.createRef<HTMLDivElement>();
   const { addResizeCallback, removeResizeCallback } = useResizeCallbacks(
-    threadRef
+    props.resizeSpy || threadRef
   );
   const {
     registerItemBoundary,
@@ -278,7 +282,7 @@ const setLevelStemBoundaries = ({
   const boundaryMiddlePoint = boundaryLeft - levelLeft + boundaryWidth / 2;
   levelElement.style.setProperty(
     "--stem-margin-left",
-    `${boundaryMiddlePoint - STEM_WIDTH_PX / 2}px`
+    `${boundaryMiddlePoint - STEM_WIDTH_PX / 2 - STEM_LEFT_OFFSET}px`
   );
   if (nextLevelBoundaries.length) {
     const lastBoundary = nextLevelBoundaries[nextLevelBoundaries.length - 1];
@@ -315,7 +319,10 @@ const setNextLevelStemBoundaries = ({
   } = getStickyElementBoundingRect(nextLevelBoundary);
   const currentLevelMiddlePoint = levelBoundaryLeft + levelBoundaryWidth / 2;
   const stemLeft = currentLevelMiddlePoint - nextLevelLeft - STEM_WIDTH_PX / 2;
-  nextLevelElement.style.setProperty("--level-stem-left", `${stemLeft}px`);
+  nextLevelElement.style.setProperty(
+    "--level-stem-left",
+    `${stemLeft - STEM_LEFT_OFFSET}px`
+  );
   nextLevelElement.style.setProperty(
     "--level-stem-top",
     `${nextLevelBoundaryTop - nextLevelTop}px`
@@ -330,7 +337,12 @@ const setNextLevelStemBoundaries = ({
   );
   nextLevelElement.style.setProperty(
     "--level-stem-width",
-    `${nextLevelBoundaryLeft - currentLevelMiddlePoint + STEM_WIDTH_PX / 2}px`
+    `${
+      nextLevelBoundaryLeft -
+      currentLevelMiddlePoint +
+      STEM_WIDTH_PX / 2 +
+      STEM_LEFT_OFFSET
+    }px`
   );
   nextLevelElement.style.setProperty(
     "--level-stem-mask-width",
@@ -459,7 +471,7 @@ const Item: React.FC<ChildrenWithRenderProps> = (props) => {
         .level-stem {
           position: sticky;
           width: var(--level-stem-width, 0);
-          top: ${Theme.HEADER_HEIGHT_PX}px;
+          top: ${Theme.HEADER_HEIGHT_PX + 2}px;
           height: var(--level-stem-height, 0);
           margin-bottom: var(--level-stem-margin-bottom, 0);
           border-left: ${STEM_WIDTH_PX}px solid ${stemColor};
@@ -473,7 +485,7 @@ const Item: React.FC<ChildrenWithRenderProps> = (props) => {
           width: var(--level-stem-mask-width, 0);
           height: var(--level-stem-mask-height, 0);
           background-color: ${DEBUG
-            ? "red"
+            ? "blue"
             : Theme.LAYOUT_BOARD_BACKGROUND_COLOR};
           top: ${Theme.HEADER_HEIGHT_PX}px;
           margin-left: var(--level-stem-mask-margin-left, 0);
