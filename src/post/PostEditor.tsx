@@ -122,8 +122,8 @@ const PostEditor = React.forwardRef<{ focus: () => void }, PostEditorProps>(
         <div
           className={classnames("post-container", { centered: props.centered })}
         >
-          <Card
-            header={
+          <Card>
+            <Card.Header>
               <div className="header">
                 <MemoizedHeader
                   secretIdentity={
@@ -153,8 +153,36 @@ const PostEditor = React.forwardRef<{ focus: () => void }, PostEditorProps>(
                   </Button>
                 ) : undefined}
               </div>
-            }
-            footer={
+            </Card.Header>
+            <div
+              className={classnames("editor-container", {
+                loading: props.loading,
+              })}
+            >
+              <div className={"spinner"}>
+                <Spinner />
+              </div>
+              <div
+                className={classnames("editor", {
+                  "can-edit": !props.editableSections,
+                })}
+              >
+                <Editor
+                  ref={editorRef}
+                  key="editor"
+                  initialText={
+                    props.initialText ? JSON.parse(props.initialText) : ""
+                  }
+                  editable={!props.loading && !props.editableSections}
+                  onIsEmptyChange={(empty: boolean) => {
+                    setIsEmpty(empty);
+                  }}
+                  // This is a no op because we're using the handler to access the content directly.
+                  onTextChange={noop}
+                />
+              </div>
+            </div>
+            <Card.Footer>
               <div className="footer">
                 <MemoizedTags
                   tags={tags}
@@ -215,36 +243,7 @@ const PostEditor = React.forwardRef<{ focus: () => void }, PostEditorProps>(
                   />
                 </div>
               </div>
-            }
-          >
-            <div
-              className={classnames("editor-container", {
-                loading: props.loading,
-              })}
-            >
-              <div className={"spinner"}>
-                <Spinner />
-              </div>
-              <div
-                className={classnames("editor", {
-                  "can-edit": !props.editableSections,
-                })}
-              >
-                <Editor
-                  ref={editorRef}
-                  key="editor"
-                  initialText={
-                    props.initialText ? JSON.parse(props.initialText) : ""
-                  }
-                  editable={!props.loading && !props.editableSections}
-                  onIsEmptyChange={(empty: boolean) => {
-                    setIsEmpty(empty);
-                  }}
-                  // This is a no op because we're using the handler to access the content directly.
-                  onTextChange={noop}
-                />
-              </div>
-            </div>
+            </Card.Footer>
           </Card>
         </div>
         <style jsx>{`

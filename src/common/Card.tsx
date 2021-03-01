@@ -15,14 +15,48 @@ export interface CardProps {
   backgroundColor?: string;
 }
 
-const Card: React.FC<CardProps> = ({
+interface CompoundComponents {
+  Footer: React.FC<{ children: React.ReactNode }>;
+  Header: React.FC<{ children: React.ReactNode }>;
+}
+
+const Footer: CompoundComponents["Footer"] = (props) => {
+  return <>{props.children}</>;
+};
+
+const Header: CompoundComponents["Header"] = (props) => {
+  return <>{props.children}</>;
+};
+
+const extractFooter = (
+  children: React.ReactNode
+): typeof Footer | undefined => {
+  return React.Children.toArray(children).find(
+    (node) => React.isValidElement(node) && node.type == Footer
+  ) as typeof Footer;
+};
+
+const extractHeader = (
+  children: React.ReactNode
+): typeof Header | undefined => {
+  return React.Children.toArray(children).find(
+    (node) => React.isValidElement(node) && node.type == Header
+  ) as typeof Header;
+};
+
+const Card: React.FC<CardProps> & CompoundComponents = ({
   children,
-  footer,
-  header,
   height,
   backgroundColor,
 }) => {
   const [isExpanded, setExpanded] = React.useState(!height);
+  const footer = extractFooter(children);
+  const header = extractHeader(children);
+  const rest = React.Children.toArray(children).filter(
+    (child) =>
+      !React.isValidElement(child) ||
+      (child.type != Footer && child.type != Header)
+  );
   return (
     <>
       <div
@@ -34,7 +68,7 @@ const Card: React.FC<CardProps> = ({
       >
         {<div className="header">{header}</div>}
         <div className="content">
-          {children}
+          {rest}
           {height && (
             <div
               className="expand-overlay"
@@ -106,4 +140,6 @@ const Card: React.FC<CardProps> = ({
   );
 };
 
+Card.Footer = Footer;
+Card.Header = Header;
 export default Card;

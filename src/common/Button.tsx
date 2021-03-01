@@ -158,7 +158,7 @@ const Button: React.FC<ButtonProps> = ({
   );
 };
 
-export default Button;
+export default React.memo(Button);
 
 export interface ButtonProps {
   children: string | React.ReactNode;
