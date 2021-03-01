@@ -17,7 +17,11 @@ const ActionLink: React.FC<ActionLinkProps> = ({
     [link]
   );
   if (!link) {
-    return <>{children}</>;
+    return className ? (
+      <span className={className}>{children}</span>
+    ) : (
+      <>{children}</>
+    );
   }
   if (link.onClick && !link.href) {
     return (
@@ -29,6 +33,15 @@ const ActionLink: React.FC<ActionLinkProps> = ({
             border: 0;
             margin: 0;
             padding: 0;
+          }
+          button:hover {
+            cursor: pointer;
+          }
+          button:focus {
+            outline: none;
+          }
+          button:focus-visible {
+            outline: auto;
           }
         `}</style>
       </button>
