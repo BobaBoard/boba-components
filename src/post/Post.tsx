@@ -349,6 +349,7 @@ export interface PostHandler {
 }
 
 export interface PostProps {
+  id?: string;
   mode?: string;
   editable?: boolean;
   answerable?: boolean;

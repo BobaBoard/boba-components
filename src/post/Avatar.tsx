@@ -1,8 +1,6 @@
 import React from "react";
 import classnames from "classnames";
 
-import CircleMask from "../images/circle-mask.svg";
-
 const Avatar = React.forwardRef<HTMLDivElement, AvatarProps>((props, ref) => {
   const visibleSecretAvatar =
     !props.forceHide &&
@@ -61,14 +59,24 @@ const Avatar = React.forwardRef<HTMLDivElement, AvatarProps>((props, ref) => {
         .avatar:not(.with-secret) {
         }
         .avatar.with-secret {
-          mask: url(${CircleMask}), url(${CircleMask}) 20px 18px/26px 26px;
-          mask-composite: source-out;
-          mask-repeat: no-repeat;
+          mask: linear-gradient(0deg, rgba(0, 0, 0, 0), rgba(0, 0, 0, 0)),
+            radial-gradient(
+                26px circle at bottom 9px right 7px,
+                transparent 50%,
+                black 51%
+              )
+              bottom right;
+          mask-size: cover;
         }
         .avatar-container.compact .avatar.with-secret {
-          mask: url(${CircleMask}), url(${CircleMask}) 16px 16px/25px 25px;
-          mask-composite: source-out;
-          mask-repeat: no-repeat;
+          mask: linear-gradient(0deg, rgba(0, 0, 0, 0), rgba(0, 0, 0, 0)),
+            radial-gradient(
+                24px circle at bottom 7px right 6px,
+                transparent 50%,
+                black 51%
+              )
+              bottom right;
+          mask-size: cover;
         }
         .avatar-container.compact .avatar {
           width: 35px;

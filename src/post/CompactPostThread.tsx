@@ -12,6 +12,7 @@ import { PostDetailsType } from "../types";
 import Tags from "../tags/Tags";
 import TagsFactory from "../tags/TagsFactory";
 import UpdatesHeader from "./UpdatesHeader";
+import { PostHandler } from "index";
 
 const PostContent: React.FC<
   PostDetailsType & { showHeader?: boolean; showFooter?: boolean }
@@ -178,7 +179,7 @@ const CompactThread: React.FC<CompactThreadProps> = (props) => {
               tags,
             };
             return (
-              <div className="post-separator" key={post.createdTime}>
+              <div className="post-separator" key={post.id || index}>
                 {
                   // @ts-ignore
                   <Post
@@ -187,6 +188,7 @@ const CompactThread: React.FC<CompactThreadProps> = (props) => {
                     hideFooter={!isLast}
                     hideUpdates
                     backgroundColor={isLast ? undefined : "transparent"}
+                    ref={index === 0 ? props.innerRef : undefined}
                   />
                 }
               </div>
@@ -231,8 +233,14 @@ const CompactThread: React.FC<CompactThreadProps> = (props) => {
   );
 };
 
-export default CompactThread;
+const ForwardedCompactThread = React.forwardRef<
+  PostHandler,
+  CompactThreadProps
+>((props, ref) => <CompactThread {...props} innerRef={ref} />);
+
+export default ForwardedCompactThread;
 
 export interface CompactThreadProps {
   posts: PostProps[];
+  innerRef?: React.Ref<PostHandler>;
 }

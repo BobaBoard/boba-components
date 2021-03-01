@@ -264,6 +264,7 @@ export const CommentChainStory = () => {
           avatar: `/${tuxedoAvatar}`,
         }}
         userIdentity={{ name: "SexyDaddy69", avatar: `/${mamoruAvatar}` }}
+        onExtraAction={action("extra")}
       />
       <div style={{ marginTop: "20px" }}>
         <Button onClick={highlight}>Highlight!</Button>

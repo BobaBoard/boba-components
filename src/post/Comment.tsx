@@ -1,34 +1,18 @@
 import React, { createRef, PureComponent, RefObject } from "react";
 import classNames from "classnames";
 import Editor from "@bobaboard/boba-editor";
-import debug from "debug";
 import Theme from "../theme/default";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faComment } from "@fortawesome/free-solid-svg-icons";
 import { DropdownProps } from "../common/DropdownListMenu";
 import { AvatarProps } from "./Avatar";
-const log = debug("bobaui:comment-log");
 
 class Comment extends PureComponent<CommentProps> {
-  containerRef = createRef<HTMLDivElement>();
   editorRef = createRef<HTMLDivElement>();
 
-  highlight = (color: string) => {
-    log(`Highlighting post with ${color}!`);
-    if (!this.containerRef.current) {
-      return;
-    }
-    this.containerRef.current.ontransitionend = () => {
-      this.containerRef.current?.style.setProperty(
-        "--comment-container-shadow",
-        null
-      );
-    };
-    this.containerRef.current.style.setProperty(
-      "--comment-container-shadow",
-      color
-    );
-  };
+  highlight() {
+    console.log("deprecated!");
+  }
 
   render() {
     return (
@@ -39,18 +23,15 @@ class Comment extends PureComponent<CommentProps> {
             "with-extra-action": !!this.props.onExtraAction,
             "image-only": true,
           })}
-          ref={this.containerRef}
         >
-          <div className="highlight">
-            <div className={classNames("comment")} ref={this.editorRef}>
-              <Editor
-                key={this.props.id + "_editor"}
-                editable={false}
-                initialText={JSON.parse(this.props.initialText)}
-                singleLine={true}
-                showTooltip={false}
-              />
-            </div>
+          <div className={classNames("comment")} ref={this.editorRef}>
+            <Editor
+              key={this.props.id + "_editor"}
+              editable={false}
+              initialText={JSON.parse(this.props.initialText)}
+              singleLine={true}
+              showTooltip={false}
+            />
           </div>
           <button
             className={classNames("extra-action", {
@@ -66,8 +47,8 @@ class Comment extends PureComponent<CommentProps> {
         <style jsx>{`
           .extra-action {
             position: absolute;
-            bottom: 0px;
-            right: 6px;
+            bottom: 3px;
+            right: 16px;
             transform: translate(50%, 50%);
             display: none;
             background-color: transparent;
@@ -80,13 +61,6 @@ class Comment extends PureComponent<CommentProps> {
           .extra-action:focus-visible {
             outline: auto;
           }
-          .highlight {
-            filter: drop-shadow(0px 0px 3px var(--comment-container-shadow))
-              drop-shadow(0px 0px 3px var(--comment-container-shadow))
-              drop-shadow(0px 0px 3px var(--comment-container-shadow));
-            transition: filter 0.5s ease-out;
-            flex-grow: 1;
-          }
           .extra-action-icon {
             border-radius: 50%;
             background-color: #5e5e5f;
@@ -94,6 +68,8 @@ class Comment extends PureComponent<CommentProps> {
             width: 20px;
             height: 20px;
             margin: 15px;
+            margin-right: 0px;
+            position: relative;
             color: rgba(255, 255, 255, 0.6);
             transition: all 0.2s ease-out;
           }
@@ -110,6 +86,11 @@ class Comment extends PureComponent<CommentProps> {
             cursor: pointer;
             color: white;
             background-color: #757575;
+          }
+          .comment-container {
+            position: relative;
+            max-width: 550px;
+            width: calc(100% - 3px);
           }
           .comment {
             position: relative;
@@ -128,7 +109,7 @@ class Comment extends PureComponent<CommentProps> {
           .comment-container.with-extra-action:last-child .comment {
             mask: linear-gradient(0deg, rgba(0, 0, 0, 0), rgba(0, 0, 0, 0)),
               radial-gradient(
-                  28px circle at bottom 0px right 6px,
+                  28px circle at bottom 3px right 9px,
                   transparent 50%,
                   black 51%
                 )
@@ -158,12 +139,12 @@ class Comment extends PureComponent<CommentProps> {
             );
             pointer-events: none;
           }
-          .comment-container:first-child .comment::after {
+          .comment-container:first-of-type .comment::after {
             border-top-left-radius: ${Theme.BORDER_RADIUS_REGULAR};
             border-top-right-radius: ${Theme.BORDER_RADIUS_REGULAR};
             border-top-width: 2px;
           }
-          .comment-container:last-child .comment::after {
+          .comment-container:last-of-type .comment::after {
             border-bottom-left-radius: ${Theme.BORDER_RADIUS_REGULAR};
             border-bottom-right-radius: ${Theme.BORDER_RADIUS_REGULAR};
             border-bottom-width: 2px;

@@ -2,12 +2,17 @@ import React, { PureComponent, createRef } from "react";
 import { AvatarProps } from "./Avatar";
 import Comment, { CommentHandler, CommentProps } from "./Comment";
 import Header, { HeaderStyle } from "./Header";
+import Theme from "../theme/default";
+import debug from "debug";
+const log = debug("bobaui:comment-log");
 
 const MemoizedComment = React.memo(Comment);
 class CommentChain extends PureComponent<CommentChainProps> {
   editorRef = createRef<HTMLDivElement>();
   handlerRefs = new Map<number, CommentHandler>();
+  avatarRef = createRef<HTMLDivElement>();
   headerRef = createRef<HTMLDivElement>();
+  containerRef = createRef<HTMLDivElement>();
   saveRefMethods = new Map<number, (ref: Comment) => void>();
 
   getSaveRefAtIndex(index: number) {
@@ -18,7 +23,20 @@ class CommentChain extends PureComponent<CommentChainProps> {
   }
 
   highlight = (color: string) => {
-    this.handlerRefs.forEach((ref) => ref.highlight(color));
+    log(`Highlighting post with ${color}!`);
+    if (!this.containerRef.current) {
+      return;
+    }
+    this.containerRef.current.ontransitionend = () => {
+      this.containerRef.current?.style.setProperty(
+        "--comment-container-shadow",
+        null
+      );
+    };
+    this.containerRef.current.style.setProperty(
+      "--comment-container-shadow",
+      color
+    );
   };
 
   componentDidMount() {
@@ -44,7 +62,7 @@ class CommentChain extends PureComponent<CommentChainProps> {
   render() {
     return (
       <div className="comment-chain" ref={this.editorRef}>
-        <div className="header">
+        <div className="header" ref={this.headerRef}>
           <Header
             size={HeaderStyle.COMPACT}
             secretIdentity={this.props.secretIdentity}
@@ -52,10 +70,12 @@ class CommentChain extends PureComponent<CommentChainProps> {
             avatarOptions={this.props.options}
             accessory={this.props.accessory}
             createdMessage={this.props.createdTime}
-            ref={this.headerRef}
+            ref={this.avatarRef}
           />
         </div>
+
         <div className="comments">
+          <span className="highlight" ref={this.containerRef} />
           {this.props.comments.map((comment, index) => (
             <MemoizedComment
               id={comment.id}
@@ -80,25 +100,37 @@ class CommentChain extends PureComponent<CommentChainProps> {
         </div>
         <style jsx>{`
           .comment-chain {
-            padding-top: 15px;
             position: relative;
             align-items: start;
             display: flex;
             --comment-container-stacked-radius: 0;
             max-width: 550px;
             width: 100%;
+            margin-bottom: 14px;
+            --text-padding: 13px;
           }
           .header {
-            margin-right: 4px;
             cursor: pointer;
             position: sticky;
-            top: 5px;
+            top: ${Theme.HEADER_HEIGHT_PX + 2}px;
           }
           .editor.chainable {
             margin-bottom: 15px;
           }
+          .highlight {
+            box-shadow: 0px 0px 5px 3px var(--comment-container-shadow);
+            transition: box-shadow 0.5s ease-out;
+            background-color: transparent;
+            position: absolute;
+            top: 0;
+            left: 0;
+            bottom: 0;
+            right: 6px;
+            border-radius: ${Theme.BORDER_RADIUS_REGULAR};
+          }
           .comments {
             flex-grow: 1;
+            position: relative;
           }
         `}</style>
       </div>
