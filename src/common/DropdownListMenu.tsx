@@ -23,6 +23,25 @@ const { className: buttonClass, styles: buttonStyles } = css.resolve`
   }
 `;
 
+const { className: popoverIconClass, styles: popoverIconStyles } = css.resolve`
+  .popover-icon {
+    margin-right: 10px;
+    width: 20px;
+    height: 20px;
+    display: flex;
+    justify-content: center;
+    border: 2px solid transparent;
+  }
+  .popover-icon.with-image {
+    background-size: cover;
+    border-radius: 50%;
+  }
+  .popover-icon > :global(svg) {
+    display: block;
+    margin: auto;
+  }
+`;
+
 export enum DropdownStyle {
   LIGHT = "LIGHT",
   DARK = "DARK",
@@ -49,6 +68,136 @@ const isSmallScreen = () => {
     : matchMedia("only screen and (max-width: 575px)").matches;
 };
 
+const getThemeColors = (style?: DropdownStyle) => {
+  const themeColor =
+    DropdownStyle.DARK == style
+      ? Theme.DROPDOWN_BACKGROUND_COLOR_DARK
+      : Theme.DROPDOWN_BACKGROUND_COLOR_LIGHT;
+  const reverseThemeColor =
+    DropdownStyle.DARK == style
+      ? Theme.DROPDOWN_BACKGROUND_COLOR_LIGHT
+      : Theme.DROPDOWN_BACKGROUND_COLOR_DARK;
+  const hoverBackgroundColor =
+    DropdownStyle.DARK == style
+      ? Color(themeColor).lighten(0.85).hex()
+      : Color(themeColor).darken(0.15).hex();
+
+  return {
+    themeColor,
+    reverseThemeColor,
+    hoverBackgroundColor,
+  };
+};
+
+const DropdownItem: React.FC<{
+  option: NonNullable<DropdownProps["options"]>[0];
+  onNestedOptions: (options: DropdownProps["options"]) => void;
+  onCloseRequest: () => void;
+  style?: DropdownStyle;
+}> = ({ option, onNestedOptions, onCloseRequest, style }) => {
+  const link = React.useMemo(
+    () => ({
+      onClick: (e: React.MouseEvent) => {
+        if ("options" in option) {
+          onNestedOptions(option.options);
+          e?.preventDefault();
+          return;
+        }
+        if (option.link.onClick) {
+          e?.preventDefault();
+        }
+        onCloseRequest();
+        option.link.onClick?.(e);
+      },
+      href: option["link"]?.href,
+    }),
+    [onNestedOptions, onCloseRequest, option]
+  );
+  const { reverseThemeColor, hoverBackgroundColor } = getThemeColors(style);
+
+  return (
+    <ActionLink
+      className={buttonClass}
+      key={option.name}
+      link={link}
+      allowDefault
+    >
+      <div
+        className={classnames("option", {
+          nested: "options" in option,
+        })}
+      >
+        {!!option.icon && (
+          <div
+            className={classnames("popover-icon", {
+              "with-image": typeof option.icon === "string",
+              [popoverIconClass]: true,
+            })}
+            style={{
+              backgroundImage:
+                typeof option.icon === "string"
+                  ? `url(${option.icon}`
+                  : undefined,
+              borderColor: option.color ? option.color : "transparent",
+            }}
+          >
+            {typeof option.icon !== "string" && (
+              <FontAwesomeIcon icon={option.icon} />
+            )}
+          </div>
+        )}
+        <div className="option-text">{option.name}</div>
+        <div className="nested-icon">
+          <FontAwesomeIcon icon={faChevronRight} />
+        </div>
+      </div>
+      {buttonStyles}
+      {popoverIconStyles}
+      <style jsx>{`
+        .option {
+          border-radius: 5px;
+          padding: 8px;
+          color: ${reverseThemeColor};
+          text-decoration: none;
+          white-space: nowrap;
+          display: flex;
+          align-items: center;
+          text-align: left;
+        }
+        .option:hover {
+          background-color: ${hoverBackgroundColor};
+          cursor: pointer;
+        }
+        .nested .option-text {
+          flex-grow: 1;
+        }
+        .nested-icon {
+          display: none;
+        }
+        .nested .nested-icon {
+          display: block;
+          color: rgb(87, 87, 87);
+        }
+        .nested-icon > :global(svg) {
+          display: block;
+          margin: auto;
+        }
+        @media only screen and (max-width: 575px) {
+          .option {
+            padding: 12px;
+            text-overflow: ellipsis;
+            overflow: hidden;
+          }
+          .option-text {
+            overflow: hidden;
+            text-overflow: ellipsis;
+          }
+        }
+      `}</style>
+    </ActionLink>
+  );
+};
+
 const DropdownContent = React.forwardRef<
   HTMLDivElement,
   {
@@ -62,18 +211,11 @@ const DropdownContent = React.forwardRef<
     style?: DropdownStyle;
   }
 >((props, ref) => {
-  const themeColor =
-    DropdownStyle.DARK == props.style
-      ? Theme.DROPDOWN_BACKGROUND_COLOR_DARK
-      : Theme.DROPDOWN_BACKGROUND_COLOR_LIGHT;
-  const reverseThemeColor =
-    DropdownStyle.DARK == props.style
-      ? Theme.DROPDOWN_BACKGROUND_COLOR_LIGHT
-      : Theme.DROPDOWN_BACKGROUND_COLOR_DARK;
-  const hoverBackgroundColor =
-    DropdownStyle.DARK == props.style
-      ? Color(themeColor).lighten(0.85).hex()
-      : Color(themeColor).darken(0.15).hex();
+  const {
+    reverseThemeColor,
+    themeColor,
+    hoverBackgroundColor,
+  } = getThemeColors(props.style);
   return (
     <div className={classnames("menu")} ref={ref}>
       {!!props.previousOption && (
@@ -85,7 +227,7 @@ const DropdownContent = React.forwardRef<
             }
             key="prev-option"
           >
-            <div className="popover-icon">
+            <div className={`popover-icon ${popoverIconClass}`}>
               <FontAwesomeIcon icon={faChevronLeft} />
             </div>
             back
@@ -94,57 +236,15 @@ const DropdownContent = React.forwardRef<
         </>
       )}
       {props.options?.map((option) => (
-        // TODO: this should be a button if there's no href.
-        <ActionLink
-          className={buttonClass}
+        <DropdownItem
           key={option.name}
-          link={{
-            onClick: (e) => {
-              if ("options" in option) {
-                props.onNestedOptions(option.options);
-                e?.preventDefault();
-                return;
-              }
-              if (option.link.onClick) {
-                e?.preventDefault();
-              }
-              props.onCloseRequest();
-              option.link.onClick?.(e);
-            },
-            href: option["link"]?.href,
-          }}
-        >
-          <div
-            className={classnames("option", {
-              nested: "options" in option,
-            })}
-          >
-            {!!option.icon && (
-              <div
-                className={classnames("popover-icon", {
-                  "with-image": typeof option.icon === "string",
-                })}
-                style={{
-                  backgroundImage:
-                    typeof option.icon === "string"
-                      ? `url(${option.icon}`
-                      : undefined,
-                  borderColor: option.color ? option.color : "transparent",
-                }}
-              >
-                {typeof option.icon !== "string" && (
-                  <FontAwesomeIcon icon={option.icon} />
-                )}
-              </div>
-            )}
-            <div className="option-text">{option.name}</div>
-            <div className="nested-icon">
-              <FontAwesomeIcon icon={faChevronRight} />
-            </div>
-          </div>
-        </ActionLink>
+          option={option}
+          onCloseRequest={props.onCloseRequest}
+          onNestedOptions={props.onNestedOptions}
+          style={props.style}
+        />
       ))}
-      {buttonStyles}
+      {popoverIconStyles}
       <style jsx>{`
         .menu {
           min-width: ${Math.max(props.minWidthPx || 0, 250)}px;
@@ -175,6 +275,12 @@ const DropdownContent = React.forwardRef<
           -webkit-box-shadow: inset 0 0px 2px 1px ${reverseThemeColor};
           background-color: ${reverseThemeColor};
         }
+        .back:focus {
+          outline: none;
+        }
+        .back:focus-visible {
+          outline: auto;
+        }
         .back.option {
           border: none;
           background-color: transparent;
@@ -201,33 +307,6 @@ const DropdownContent = React.forwardRef<
         .option:hover {
           background-color: ${hoverBackgroundColor};
           cursor: pointer;
-        }
-        .nested .option-text {
-          flex-grow: 1;
-        }
-        .nested-icon {
-          display: none;
-        }
-        .nested .nested-icon {
-          display: block;
-          color: rgb(87, 87, 87);
-        }
-        .popover-icon {
-          margin-right: 10px;
-          width: 20px;
-          height: 20px;
-          display: flex;
-          justify-content: center;
-          border: 2px solid transparent;
-        }
-        .popover-icon.with-image {
-          background-size: cover;
-          border-radius: 50%;
-        }
-        .popover-icon > :global(svg),
-        .nested-icon > :global(svg) {
-          display: block;
-          margin: auto;
         }
         .separator {
           height: 1px;
@@ -561,6 +640,9 @@ const DropdownMenu: React.FC<DropdownProps> = (props) => {
         }
         .button-wrapper:focus {
           outline: none;
+        }
+        .button-wrapper:focus-visible {
+          outline: auto;
         }
         .button-wrapper.with-options:hover {
           cursor: pointer;

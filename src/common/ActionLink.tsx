@@ -5,6 +5,7 @@ const ActionLink: React.FC<ActionLinkProps> = ({
   children,
   link,
   className,
+  allowDefault,
 }) => {
   const preventDefaultCallback = React.useCallback(
     (e: React.MouseEvent) => {
@@ -12,9 +13,11 @@ const ActionLink: React.FC<ActionLinkProps> = ({
         return;
       }
       link.onClick(e);
-      e.preventDefault();
+      if (!allowDefault) {
+        e.preventDefault();
+      }
     },
-    [link]
+    [link, allowDefault]
   );
   if (!link) {
     return className ? (
@@ -63,6 +66,7 @@ const ActionLink: React.FC<ActionLinkProps> = ({
 interface ActionLinkProps {
   link?: LinkWithAction;
   className?: string;
+  allowDefault?: boolean;
 }
 
 export default ActionLink;
