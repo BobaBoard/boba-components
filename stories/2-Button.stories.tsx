@@ -353,6 +353,32 @@ export const SegmentedButtonStory = () => {
           color="#f96680"
         />
       </div>
+      <div>
+        <SegmentedButton
+          options={[{
+            id: "seg1",
+            label: "onClick",
+            updates: undefined,
+            onClick: () => { alert('test'); return; },
+          },
+          {
+            id: "seg2",
+            label: "href",
+            updates: 5,
+            href: "https://www.google.com/",
+          },{
+            id: "seg3",
+            label: "Both",
+            updates: 5,
+            onClick: () => { return; },
+          },{
+            id: "seg4",
+            label: "Neither",
+            updates: 5,
+          }]}
+          selected={'seg1'}
+        />
+      </div>
       <style jsx>
         {`
           div > div {

@@ -1,5 +1,6 @@
 import React, { useState } from "react";
 import { ButtonStyle, getThemeColor, getReverseThemeColor } from "./Button";
+import ActionLink from './ActionLink';
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faCertificate } from "@fortawesome/free-solid-svg-icons";
 import Color from 'color';
@@ -13,7 +14,7 @@ const SegmentedButton: React.FC<SegmentedButtonProps> = (props) => {
   return (
     <div className={classnames("segmented-button", {})}>
       {props.options.map((option) => (
-        <div className={classnames("button", selected == option.id ? "selected" : {})} key={"" + option.id}>
+        <div className={classnames("segmented-button-option", selected == option.id ? "selected" : {})} key={"" + option.id}>
           {option.updates && (
             <div className="updates">
               {option.updates === true ? (
@@ -25,14 +26,20 @@ const SegmentedButton: React.FC<SegmentedButtonProps> = (props) => {
               )}
             </div>
           )}
-          <button
-            onClick={() => {
-              setSelected(option.id);
-              option.onClick();
+          <ActionLink
+            link={{ 
+              onClick: () => {
+                setSelected(option.id);
+                if (option.onClick) {
+                  option.onClick();
+                }
+              },
+              href: option.href,
             }}
+            className="segmented-button-link"
           >
             {option.label}
-          </button>
+          </ActionLink>
         </div>
       ))}
       <style jsx>{`
@@ -43,11 +50,12 @@ const SegmentedButton: React.FC<SegmentedButtonProps> = (props) => {
           display: flex;
           justify-content: space-evenly;
         }
-        .button {
+        .segmented-button-option {
           display: inline-block;
           position: relative;
         }
-        .button > :global(button) {
+        .segmented-button-option > :global(button),
+        .segmented-button-option > :global(a) {
           border-radius: 25px;
           padding: 8px 12px;
           background-image: none;
@@ -55,18 +63,23 @@ const SegmentedButton: React.FC<SegmentedButtonProps> = (props) => {
           background-color: ${REVERSE_THEME_COLOR};
           border: 2px solid ${REVERSE_THEME_COLOR};
           transition: all 0.2s linear 0s;
+          box-sizing: border-box;
         }
-        :global(button):focus {
+        .segmented-button-option > :global(button):focus,
+        .segmented-button-option > :global(a):focus {
           outline: none;
         }
-        .button:not(.selected):hover > :global(button) {
+        .segmented-button-option:not(.selected):hover > :global(button),
+        .segmented-button-option:not(.selected):hover > :global(a) {
           background-color: ${Color(props.color || THEME_COLOR).alpha(0.5)};
           cursor: pointer;
         }
-        .button.selected:hover > :global(button) {
+        .segmented-button-option.selected:hover > :global(button),
+        .segmented-button-option.selected:hover > :global(a) {
           cursor: pointer;
         }
-        .selected > :global(button) {
+        .selected > :global(button),
+        .selected > :global(a) {
           border: 2px solid ${REVERSE_THEME_COLOR};
           color: ${REVERSE_THEME_COLOR};
           background-color: ${props.color || THEME_COLOR};
@@ -101,7 +114,8 @@ export interface SegmentedButtonProps {
     id: string;
     label: string;
     updates?: number | boolean;
-    onClick: () => void;
+    onClick?: () => void;
+    href?: string;
   }[];
   selected: string;
   theme?: ButtonStyle;
