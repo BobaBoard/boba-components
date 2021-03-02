@@ -364,18 +364,19 @@ export const SegmentedButtonStory = () => {
             id: "seg1",
             label: "onClick",
             updates: undefined,
-            onClick: () => { alert('test'); return; },
+            onClick: () => { alert('Click worked'); return; },
           },
           {
             id: "seg2",
             label: "href",
             updates: 5,
-            href: "https://www.google.com/",
+            href: "https://boba.social/",
           },{
             id: "seg3",
             label: "Both",
             updates: 5,
-            onClick: () => { return; },
+            onClick: () => { alert('Click worked'); return; },
+            href: "https://boba.social/",
           },{
             id: "seg4",
             label: "Neither",
