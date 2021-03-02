@@ -64,6 +64,7 @@ const SegmentedButton: React.FC<SegmentedButtonProps> = (props) => {
           border: 2px solid ${REVERSE_THEME_COLOR};
           transition: all 0.2s linear 0s;
           box-sizing: border-box;
+          display: inline-block;
         }
         .segmented-button-option > :global(button):focus,
         .segmented-button-option > :global(a):focus {
