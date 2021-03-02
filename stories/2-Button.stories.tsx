@@ -8,6 +8,11 @@ import mamoru from "./images/mamoru.png";
 export default {
   title: "Button Preview",
   component: Button,
+  parameters: {
+    actions: {
+      handles: ['click .segmented-button-option'],
+    },
+  },
 };
 
 export const SimpleButton = () => {
