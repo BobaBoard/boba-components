@@ -128,6 +128,9 @@ FooterWithNotes.args = {
   totalContributions: 5,
   directContributions: 2,
   totalComments: 4,
+  // TODO: figure out why one should do this weird thing
+  onContribution: () => action("contribution")(),
+  onComment: () => action("comment")(),
 };
 
 const FooterWithUpdates = FooterTemplate.bind({});
@@ -157,7 +160,9 @@ const FooterWithoutHref = FooterTemplate.bind({});
 FooterWithoutHref.args = {
   ...FooterWithUpdates.args,
   notesLink: {
-    onClick: action("withoutHref"),
+    // We need to do this because when action is given an event
+    // it causes an exception
+    onClick: () => action("withoutHref")(),
   },
 };
 
@@ -166,7 +171,9 @@ FooterWithHref.args = {
   ...FooterWithUpdates.args,
   answerable: false,
   notesLink: {
-    onClick: action("withHref"),
+    // We need to do this because when action is given an event
+    // it causes an exception
+    onClick: () => action("withHref")(),
     href: "https://www.youtube.com/watch?v=dQw4w9WgXcQ",
   },
 };
@@ -175,7 +182,7 @@ export const FooterStory = (args: any) => (
   <div>
     <h2>Empty</h2>
     <AnswerableFooter {...AnswerableFooter.args} />
-    <h2>No Updates</h2>
+    <h2>Notes, No Updates</h2>
     <FooterWithNotes {...FooterWithNotes.args} />
     <h2>With Updates</h2>
     <FooterWithUpdates {...FooterWithUpdates.args} />

@@ -80,6 +80,7 @@ const Layout = React.forwardRef<{ closeSideMenu: () => void }, LayoutProps>(
         // @ts-ignore
         swipeHandler.current = new Hammer(layoutRef.current, {
           inputClass: Hammer.TouchInput,
+          touchAction: "auto",
         });
         swipeHandler.current.get("swipe").set({
           threshold: 30,

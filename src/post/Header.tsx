@@ -10,6 +10,7 @@ import { faCaretDown } from "@fortawesome/free-solid-svg-icons";
 import Avatar, { AvatarProps } from "./Avatar";
 import DefaultTheme from "../theme/default";
 import DropdownListMenu, { DropdownProps } from "../common/DropdownListMenu";
+import ActionLink from "../common/ActionLink";
 //const log = debug("bobaui:header-log");
 const info = debug("bobaui:header-info");
 
@@ -82,19 +83,9 @@ const Metadata: React.FC<PostHeaderProps> = (props) => {
                     </div>
                     {props.createdMessage && (
                       <div className="timestamp">
-                        {props.createdMessageLink ? (
-                          <a
-                            onClick={(e) => {
-                              props.createdMessageLink?.onClick?.();
-                              e.preventDefault();
-                            }}
-                            href={props.createdMessageLink.href}
-                          >
-                            {props.createdMessage}
-                          </a>
-                        ) : (
-                          props.createdMessage
-                        )}
+                        <ActionLink link={props.createdMessageLink}>
+                          {props.createdMessage}
+                        </ActionLink>
                       </div>
                     )}
                   </>
@@ -103,19 +94,9 @@ const Metadata: React.FC<PostHeaderProps> = (props) => {
             )}
             {(!hasUserIdentity || props.forceHide) && props.createdMessage && (
               <div className="timestamp">
-                {props.createdMessageLink ? (
-                  <a
-                    onClick={(e) => {
-                      props.createdMessageLink?.onClick?.();
-                      e.preventDefault();
-                    }}
-                    href={props.createdMessageLink.href}
-                  >
-                    {props.createdMessage}
-                  </a>
-                ) : (
-                  props.createdMessage
-                )}
+                <ActionLink link={props.createdMessageLink}>
+                  {props.createdMessage}
+                </ActionLink>
               </div>
             )}
           </div>
@@ -143,7 +124,7 @@ const Metadata: React.FC<PostHeaderProps> = (props) => {
             color: ${DefaultTheme.TEXT_MUTED};
             text-decoration: none;
           }
-          .timestamp a:hover {
+          .timestamp:hover {
             text-decoration: underline;
           }
           .container {

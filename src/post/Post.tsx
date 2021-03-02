@@ -43,8 +43,86 @@ export const getPostWidth = (size?: PostSizes): number => {
 const COLLAPSED_HEIGHT = 150;
 
 const MemoizedHeader = React.memo(Header);
-const MemoizedFooter = React.memo(Footer);
 const MemoizedEditor = React.memo(Editor);
+
+const PostFooter: React.FC<PostProps> = (props) => {
+  return (
+    <div
+      className={classnames("footer", {
+        "with-reactions": !!props.reactions?.length,
+        muted: props.muted,
+        hidden: props.hideFooter,
+      })}
+    >
+      <div className="notes">
+        <Footer
+          onContribution={props.onNewContribution}
+          onComment={props.onNewComment}
+          totalContributions={props.totalContributions}
+          directContributions={props.directContributions}
+          totalComments={props.totalComments}
+          newContributions={props.newContributions}
+          newComments={props.newComments}
+          notesLink={props.notesLink}
+          answerable={props.answerable}
+        />
+      </div>
+      {!!props.reactable && (
+        <div className="reactions">
+          {props.reactions?.map((reaction) => (
+            <div className="reaction" key={reaction.image}>
+              <Reaction image={reaction.image} count={reaction.count} />
+            </div>
+          ))}
+          <div className="add-reaction">
+            <FontAwesomeIcon icon={faPlus} />
+          </div>
+        </div>
+      )}
+      <style jsx>{`
+        .footer {
+          position: relative;
+        }
+        .footer.with-reactions {
+          padding-bottom: 10px;
+        }
+        .add-reaction {
+          background-color: rgb(28, 28, 28);
+          height: 25px;
+          width: 25px;
+          border-radius: 50%;
+          text-align: center;
+          line-height: 25px;
+          margin-top: 5px;
+        }
+        .add-reaction:hover {
+          cursor: pointer;
+        }
+        .add-reaction :global(svg) {
+          color: white;
+        }
+        .notes {
+          padding: 15px;
+          padding-top: 10px;
+        }
+        .reactions {
+          display: flex;
+          position: absolute;
+          right: 17px;
+          bottom: -20px;
+        }
+        .reaction {
+          margin-right: 5px;
+        }
+        .hidden {
+          display: none;
+        }
+      `}</style>
+    </div>
+  );
+};
+
+const MemoizedFooter = React.memo(PostFooter);
 const Post = React.forwardRef<PostHandler, PostProps>((props, ref) => {
   const containerRef = React.useRef<HTMLDivElement>(null);
   const avatarRef = React.createRef<HTMLDivElement>();
@@ -104,83 +182,43 @@ const Post = React.forwardRef<PostHandler, PostProps>((props, ref) => {
           <Card
             height={props.collapsed ? COLLAPSED_HEIGHT : undefined}
             backgroundColor={props.muted ? "#dcdcdc" : props.backgroundColor}
-            header={
-              <>
-                <div className={classnames("header", { muted: props.muted })}>
-                  <div className="header-container" ref={avatarRef}>
-                    <MemoizedHeader
-                      secretIdentity={props.secretIdentity}
-                      userIdentity={props.userIdentity}
-                      createdMessage={props.createdTime}
-                      createdMessageLink={props.createdTimeLink}
-                      size={HeaderStyle.REGULAR}
-                      backgroundColor={props.muted ? "#dcdcdc" : undefined}
-                      forceHide={props.forceHide}
-                      accessory={props.accessory}
-                    />
-                  </div>
-                  {props.menuOptions && (
-                    <div className="post-options">
-                      <DropdownListMenu
-                        options={props.menuOptions}
-                        header={props.menuOptionsHeader}
-                      >
-                        <span className="post-options-icon">
-                          <FontAwesomeIcon icon={faEllipsisV} />
-                        </span>
-                      </DropdownListMenu>
-                    </div>
-                  )}
-                </div>
-                {props.board && (
-                  <div
-                    className="board-info"
-                    style={{ backgroundColor: props.board.accentColor }}
-                  >
-                    {props.board.slug}
-                  </div>
-                )}
-              </>
-            }
-            footer={
-              <div
-                className={classnames("footer", {
-                  "with-reactions": !!props.reactions?.length,
-                  muted: props.muted,
-                  hidden: props.hideFooter,
-                })}
-              >
-                <div className="notes">
-                  <MemoizedFooter
-                    onContribution={props.onNewContribution}
-                    onComment={props.onNewComment}
-                    totalContributions={props.totalContributions}
-                    directContributions={props.directContributions}
-                    totalComments={props.totalComments}
-                    newContributions={props.newContributions}
-                    newComments={props.newComments}
-                    notesLink={props.notesLink}
-                    answerable={props.answerable}
+          >
+            <Card.Header>
+              <div className={classnames("header", { muted: props.muted })}>
+                <div className="header-container" ref={avatarRef}>
+                  <MemoizedHeader
+                    secretIdentity={props.secretIdentity}
+                    userIdentity={props.userIdentity}
+                    createdMessage={props.createdTime}
+                    createdMessageLink={props.createdTimeLink}
+                    size={HeaderStyle.REGULAR}
+                    backgroundColor={props.muted ? "#dcdcdc" : undefined}
+                    forceHide={props.forceHide}
+                    accessory={props.accessory}
                   />
                 </div>
-                {!!props.reactable && (
-                  <div className="reactions">
-                    {props.reactions?.map((reaction) => (
-                      <div className="reaction" key={reaction.image}>
-                        <Reaction
-                          image={reaction.image}
-                          count={reaction.count}
-                        />
-                      </div>
-                    ))}
-                    <div className="add-reaction">
-                      <FontAwesomeIcon icon={faPlus} />
-                    </div>
+                {props.menuOptions && (
+                  <div className="post-options">
+                    <DropdownListMenu
+                      options={props.menuOptions}
+                      header={props.menuOptionsHeader}
+                    >
+                      <span className="post-options-icon">
+                        <FontAwesomeIcon icon={faEllipsisV} />
+                      </span>
+                    </DropdownListMenu>
                   </div>
                 )}
               </div>
-            }
-          >
+              {props.board && (
+                <div
+                  className="board-info"
+                  style={{ backgroundColor: props.board.accentColor }}
+                >
+                  {props.board.slug}
+                </div>
+              )}
+            </Card.Header>
             <div className={classnames("content", { muted: props.muted })}>
               <MemoizedEditor
                 initialText={JSON.parse(props.text)}
@@ -205,6 +243,9 @@ const Post = React.forwardRef<PostHandler, PostProps>((props, ref) => {
                 />
               </div>
             </div>
+            <Card.Footer>
+              <MemoizedFooter {...props} />
+            </Card.Footer>
           </Card>
         </div>
       </div>

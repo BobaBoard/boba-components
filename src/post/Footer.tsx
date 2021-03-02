@@ -2,15 +2,78 @@ import React from "react";
 
 import Button, { ButtonStyle } from "../common/Button";
 import classnames from "classnames";
-import useComponentSize from "@rehooks/component-size";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 
 import { faComment, faPlusSquare } from "@fortawesome/free-regular-svg-icons";
 
 import { faCodeBranch } from "@fortawesome/free-solid-svg-icons";
 import { LinkWithAction } from "types";
+import useDimensions from "react-cool-dimensions";
+import ActionLink from "../common/ActionLink";
+import css from "styled-jsx/css";
 
 const COMPACT_FOOTER_TRIGGER_SIZE = 450;
+
+const { className: buttonClassName, styles: buttonStyle } = css.resolve`
+  a.notes-link,
+  button.notes-link,
+  span.notes-link {
+    margin-right: 5px;
+    padding: 5px 12px;
+    color: rgb(28, 28, 28);
+    border-radius: 25px;
+    border-width: 2px;
+    border-style: solid;
+    border-color: rgb(28, 28, 28);
+    user-select: none;
+    white-space: nowrap;
+    overflow: hidden;
+  }
+`;
+
+const NotesDisplay: React.FC<{
+  totalContributions: number;
+  directContributions: number;
+  totalComments: number;
+}> = ({ totalContributions, directContributions, totalComments }) => {
+  return (
+    <>
+      <span className="note-count contributions">
+        {totalContributions || 0}
+        <FontAwesomeIcon icon={faPlusSquare} />
+      </span>
+      <span className="note-breakdown">
+        [
+        <span className="note-count">
+          {directContributions || 0}
+          <FontAwesomeIcon icon={faCodeBranch} />
+        </span>
+        ]
+      </span>
+      <span className="note-count comments">
+        {totalComments || 0}
+        <FontAwesomeIcon icon={faComment} />
+      </span>
+      <style jsx>{`
+        span :global(svg) {
+          height: 15px;
+          padding: 1px 0px;
+        }
+        .note-count {
+          font-size: large;
+          font-weight: bold;
+          vertical-align: middle;
+        }
+        .note-breakdown {
+          opacity: 0.4;
+          margin-right: 5px;
+          font-size: large;
+          font-weight: normal;
+        }
+      `}</style>
+    </>
+  );
+};
 
 const Footer: React.FC<FooterProps> = ({
   compact,
@@ -24,12 +87,10 @@ const Footer: React.FC<FooterProps> = ({
   answerable,
   notesLink,
 }) => {
-  const [compactFooter, setCompactFooter] = React.useState(false);
-  const ref = React.useRef<HTMLDivElement>(null);
-  const { width } = useComponentSize(ref);
-  React.useEffect(() => {
-    setCompactFooter(width < COMPACT_FOOTER_TRIGGER_SIZE);
-  }, [width]);
+  const { ref, currentBreakpoint } = useDimensions<HTMLDivElement>({
+    breakpoints: { compact: 0, regular: COMPACT_FOOTER_TRIGGER_SIZE },
+    updateOnBreakpointChange: true,
+  });
   return (
     <div className="footer" ref={ref}>
       <div
@@ -54,33 +115,16 @@ const Footer: React.FC<FooterProps> = ({
           </div>
         )}
         <div className="notes-button">
-          <a
-            href={notesLink?.href}
-            onClick={(e) => {
-              if (!notesLink?.onClick) {
-                return;
-              }
-              e.preventDefault();
-              notesLink.onClick();
-            }}
+          <ActionLink
+            link={notesLink}
+            className={`notes-link ${buttonClassName}`}
           >
-            <span className="note-count contributions">
-              {totalContributions || 0}
-              <FontAwesomeIcon icon={faPlusSquare} />
-            </span>
-            <span className="note-breakdown">
-              [
-              <span className="note-count">
-                {directContributions || 0}
-                <FontAwesomeIcon icon={faCodeBranch} />
-              </span>
-              ]
-            </span>
-            <span className="note-count comments">
-              {totalComments || 0}
-              <FontAwesomeIcon icon={faComment} />
-            </span>
-          </a>
+            <NotesDisplay
+              directContributions={directContributions || 0}
+              totalContributions={totalContributions || 0}
+              totalComments={totalComments || 0}
+            />
+          </ActionLink>
         </div>
       </div>
       <div
@@ -93,7 +137,7 @@ const Footer: React.FC<FooterProps> = ({
             <Button
               onClick={onContribution}
               icon={faPlusSquare}
-              compact={compactFooter}
+              compact={currentBreakpoint == "compact"}
               theme={ButtonStyle.TRANSPARENT}
             >
               Contribute
@@ -102,7 +146,7 @@ const Footer: React.FC<FooterProps> = ({
             <Button
               onClick={onComment}
               icon={faComment}
-              compact={compactFooter}
+              compact={currentBreakpoint == "compact"}
               theme={ButtonStyle.TRANSPARENT}
             >
               Comment
@@ -110,7 +154,6 @@ const Footer: React.FC<FooterProps> = ({
           </>
         )}
       </div>
-
       <style jsx>{`
         .notes {
           position: relative;
@@ -118,29 +161,6 @@ const Footer: React.FC<FooterProps> = ({
         }
         .notes.with-updates {
           margin-top: 5px;
-        }
-        .notes .note-count {
-          font-size: large;
-          font-weight: bold;
-          vertical-align: middle;
-        }
-        .notes .note-breakdown {
-          opacity: 0.4;
-          margin-right: 5px;
-          font-size: large;
-          font-weight: normal;
-        }
-        .notes-button a {
-          margin-right: 5px;
-          padding: 5px 12px;
-          color: rgb(28, 28, 28);
-          border-radius: 25px;
-          border-width: 2px;
-          border-style: solid;
-          border-color: rgb(28, 28, 28);
-          user-select: none;
-          white-space: nowrap;
-          overflow: hidden;
         }
         .notes-update {
           background-color: rgb(28, 28, 28);
@@ -162,16 +182,9 @@ const Footer: React.FC<FooterProps> = ({
           margin-left: 5%;
           padding-right: 4px;
         }
-        .notes-button a {
+        .notes-button {
           color: black;
           text-decoration: none;
-        }
-        .notes-button:hover {
-          cursor: pointer;
-        }
-        .notes-button span :global(svg) {
-          height: 15px;
-          padding: 1px 0px;
         }
         .footer {
           display: flex;
@@ -200,6 +213,7 @@ const Footer: React.FC<FooterProps> = ({
           margin: 0;
         }
       `}</style>
+      {buttonStyle}
     </div>
   );
 };

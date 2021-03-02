@@ -5,6 +5,7 @@ const ActionLink: React.FC<ActionLinkProps> = ({
   children,
   link,
   className,
+  allowDefault,
 }) => {
   const preventDefaultCallback = React.useCallback(
     (e: React.MouseEvent) => {
@@ -12,12 +13,18 @@ const ActionLink: React.FC<ActionLinkProps> = ({
         return;
       }
       link.onClick(e);
-      e.preventDefault();
+      if (!allowDefault) {
+        e.preventDefault();
+      }
     },
-    [link]
+    [link, allowDefault]
   );
   if (!link) {
-    return <>{children}</>;
+    return className ? (
+      <span className={className}>{children}</span>
+    ) : (
+      <>{children}</>
+    );
   }
   if (link.onClick && !link.href) {
     return (
@@ -30,6 +37,15 @@ const ActionLink: React.FC<ActionLinkProps> = ({
             margin: 0;
             padding: 0;
           }
+          button:hover {
+            cursor: pointer;
+          }
+          button:focus {
+            outline: none;
+          }
+          button:focus-visible {
+            outline: auto;
+          }
         `}</style>
       </button>
     );
@@ -40,6 +56,7 @@ const ActionLink: React.FC<ActionLinkProps> = ({
       <style jsx>{`
         a {
           text-decoration: inherit;
+          color: inherit;
         }
       `}</style>
     </a>
@@ -49,6 +66,7 @@ const ActionLink: React.FC<ActionLinkProps> = ({
 interface ActionLinkProps {
   link?: LinkWithAction;
   className?: string;
+  allowDefault?: boolean;
 }
 
 export default ActionLink;

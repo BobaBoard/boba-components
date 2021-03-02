@@ -162,10 +162,13 @@ const CompactThread: React.FC<CompactThreadProps> = (props) => {
             packBottom
           />
         </div>
-        <Card
-          header={<div className="header"></div>}
-          footer={<div className="footer"></div>}
-        >
+        <Card>
+          <Card.Header>
+            <div className="header"></div>
+          </Card.Header>
+          <Card.Footer>
+            <div className="footer"></div>
+          </Card.Footer>
           {props.posts.map((post, index) => {
             const isLast = index == props.posts.length - 1;
             const tags = {

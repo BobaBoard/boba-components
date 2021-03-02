@@ -4,7 +4,7 @@ import Editor from "@bobaboard/boba-editor";
 import Header, { HeaderStyle } from "./Header";
 import Button from "../common/Button";
 import { faCross, faCheck } from "@fortawesome/free-solid-svg-icons";
-import useComponentSize from "@rehooks/component-size";
+import useDimensions from "react-cool-dimensions";
 import Spinner from "../common/Spinner";
 import { prepareContentSubmission } from "../utils";
 import { ImageUploaderContext } from "../index";
@@ -29,9 +29,14 @@ const CommentFooter = (props: {
   withActions?: boolean;
   canSubmit: boolean;
 }) => {
-  const containerRef = React.useRef<HTMLDivElement>(null);
-  const { width } = useComponentSize(containerRef);
-  const size = width > SIZE_TRIGGER ? SIZES.REGULAR : SIZES.COMPACT;
+  const {
+    ref: containerRef,
+    currentBreakpoint,
+  } = useDimensions<HTMLDivElement>({
+    breakpoints: { compact: 0, regular: SIZE_TRIGGER },
+    updateOnBreakpointChange: true,
+  });
+  const size = currentBreakpoint == "regular" ? SIZES.REGULAR : SIZES.COMPACT;
   return (
     <>
       <div className="footer" ref={containerRef}>
