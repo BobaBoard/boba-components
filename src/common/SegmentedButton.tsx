@@ -37,6 +37,7 @@ const SegmentedButton: React.FC<SegmentedButtonProps> = (props) => {
               href: option.href,
             }}
             className="segmented-button-link"
+            allowDefault={!!option.href && !option.onClick}
           >
             {option.label}
           </ActionLink>
