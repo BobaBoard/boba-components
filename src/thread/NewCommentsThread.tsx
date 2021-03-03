@@ -9,7 +9,7 @@ const STEM_WIDTH_PX = 1;
 // and it might be calculated that way too, one day.
 const STICKY_TOP_PX = 0;
 // Note: this turns on transparency for stems, which helps with debugging.
-const DEBUG = true;
+const DEBUG = false;
 
 // TODO: make the avatar itself be the center.
 const STEM_LEFT_OFFSET = 0;
@@ -457,8 +457,9 @@ const Item: React.FC<ChildrenWithRenderProps> = (props) => {
           z-index: 2;
           pointer-events: none;
         }
-        .thread-element
-          > :global(*:not(.level-item .level-container .thread-element)) {
+        .thread-element > :global(*:not(.level-item)),
+        .thread-element > :global(*:not(.level-container)),
+        .thread-element > :global(*:not(.thread-element)) {
           pointer-events: all;
         }
         .level-stem-container {

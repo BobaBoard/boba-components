@@ -20,12 +20,16 @@ interface PopupButtonsProps {
   centerLeft: string;
 }
 
+const BUTTONS_SIZE = 35;
+const BUTTONS_OFFSET = 55;
+const DEG_OFFSET = 40;
+
 const getButtonStyle = (color?: string) => {
   return css.resolve`
     .icon {
       display: block;
-      width: 40px;
-      height: 40px;
+      width: ${BUTTONS_SIZE}px;
+      height: ${BUTTONS_SIZE}px;
       background-color: ${color || DefaultTheme.DEFAULT_ACCENT_COLOR};
       border-radius: 50%;
       position: relative;
@@ -46,6 +50,7 @@ const PopupButton: React.FC<NonNullable<PopupButtonsProps["options"]>[0]> = (
   return (
     <ActionLink link={option.link} className={`icon ${buttonClass}`}>
       <FontAwesomeIcon
+        // @ts-ignore
         icon={option.icon}
         style={{
           position: "absolute",
@@ -59,13 +64,11 @@ const PopupButton: React.FC<NonNullable<PopupButtonsProps["options"]>[0]> = (
     </ActionLink>
   );
 };
-
-const BUTTONS_OFFSET = 60;
 const PopupButtons: React.FC<PopupButtonsProps> = (props) => {
   const options = (
     <>
       {props.options?.map((option, index) => {
-        const angle = ((-90 + index * 45) * Math.PI) / 180;
+        const angle = ((-90 + index * 45 + DEG_OFFSET) * Math.PI) / 180;
         const offsetX = Math.cos(angle) * BUTTONS_OFFSET;
         const offsetY = Math.sin(angle) * BUTTONS_OFFSET;
         return (
@@ -119,9 +122,11 @@ const PopupButtons: React.FC<PopupButtonsProps> = (props) => {
           position: relative;
         }
         .center {
-          width: 5px;
+           {
+            /* width: 5px;
           height: 5px;
-          background-color: red;
+          background-color: red; */
+          }
           position: absolute;
           top: ${props.centerTop};
           left: ${props.centerLeft};
