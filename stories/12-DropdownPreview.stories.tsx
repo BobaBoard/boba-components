@@ -290,6 +290,7 @@ export const PopupButtonsStory = () => {
     <>
       <button onClick={() => setShow(!show)}>Toggle visibility</button>
       <PopupButtons
+        onCloseRequest={() => setShow(false)}
         options={[
           {
             name: "Href Only",
@@ -315,23 +316,23 @@ export const PopupButtonsStory = () => {
               onClick: action("noHrefClick"),
             },
           },
-          // {
-          //   name: "Href Only",
-          //   color: DefaultTheme.INDENT_COLORS[0],
-          //   icon: faBellSlash,
-          //   link: {
-          //     href: "#href",
-          //   },
-          // },
-          // {
-          //   name: "Both",
-          //   color: DefaultTheme.INDENT_COLORS[1],
-          //   icon: faPaintBrush,
-          //   link: {
-          //     href: "#href",
-          //     onClick: action("noHrefClick"),
-          //   },
-          // },
+          {
+            name: "Href Only",
+            color: DefaultTheme.INDENT_COLORS[0],
+            icon: faBellSlash,
+            link: {
+              href: "#href",
+            },
+          },
+          {
+            name: "Both",
+            color: DefaultTheme.INDENT_COLORS[1],
+            icon: faPaintBrush,
+            link: {
+              href: "#href",
+              onClick: action("noHrefClick"),
+            },
+          },
         ]}
         show={show}
         centerTop={"100px"}

@@ -18,6 +18,14 @@ import hannibalAvatar from "./images/hannibal.png";
 import CommentChain from "../src/post/CommentChain";
 import { CommentHandler } from "index";
 import { action } from "@storybook/addon-actions";
+import {
+  faAngleDoubleUp,
+  faBellSlash,
+  faCompressArrowsAlt,
+  faMapPin,
+  faPaintBrush,
+  faPlusSquare,
+} from "@fortawesome/free-solid-svg-icons";
 
 export default {
   title: "Thread Preview",
@@ -553,6 +561,41 @@ export const NewThreadStory = () => {
         }}
         getCollapseReason={() => {
           return <div>Subthread manually hidden.</div>;
+        }}
+        getStemOptions={(levelId) => {
+          return [
+            {
+              name: "Collapse",
+              icon: faCompressArrowsAlt,
+              link: {
+                onClick: () => {
+                  if (!levelId) {
+                    return;
+                  }
+                  if (!collapsed.includes(levelId)) {
+                    const newCollapsed = [...collapsed];
+                    newCollapsed.push(levelId);
+                    setCollapsed(newCollapsed);
+                  }
+                },
+              },
+            },
+            {
+              name: "Beam up",
+              icon: faAngleDoubleUp,
+              link: {
+                href: "#href",
+                onClick: action("noHrefClick"),
+              },
+            },
+            {
+              name: "Add Contrib",
+              icon: faPlusSquare,
+              link: {
+                onClick: action("noHrefClick"),
+              },
+            },
+          ];
         }}
       >
         {(setBoundaryElement) => (

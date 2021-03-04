@@ -6,12 +6,27 @@ import CircleMask from "../images/circle-mask.svg";
 import RectangleMask from "../images/rectangle-mask.svg";
 import classnames from "classnames";
 import { lightenColor } from "../utils";
+import PopupButtons, { PopupButtonsProps } from "../common/PopupButtons";
 
 const INDENT_WIDTH_PX = 8;
 
+type PopupData = {
+  level: number;
+  levelId: string | null;
+  x: number;
+  y: number;
+};
 interface ThreadContext extends ThreadProps {
   addResizeCallback: (callback: () => void) => void;
   removeResizeCallback: (callback: () => void) => void;
+  // There's a problem with click being triggered after dragging outside of an element with the pointer
+  // pressed, and there's no easy way of preventing default in that case.
+  // See: https://stackoverflow.com/questions/33389641/clicking-inside-element-and-dragging-mouse-outside-it
+  // Solution is to set this to true while the mouse moves, and if this is true swallowing the click
+  // event once.
+  setPreventClick: (prevent: boolean) => void;
+  onPopupOpenRequest: (position: PopupData) => void;
+  popupData: PopupData | null;
 }
 
 const ThreadContext = React.createContext<ThreadContext | null>(null);
@@ -21,6 +36,7 @@ interface ThreadProps {
   onCollapseLevel: (id: string) => void;
   onUncollapseLevel: (id: string) => void;
   getCollapseReason: (id: string) => React.ReactNode;
+  getStemOptions: (levelId: string | null) => PopupButtonsProps["options"];
 }
 
 interface CollapseGroupProps extends IndentProps {
@@ -114,6 +130,11 @@ const Thread: React.FC<ThreadProps & ChildrenWithRenderProps> & {
     );
   }, []);
 
+  const [popupData, onPopupOpenRequest] = React.useState<PopupData | null>(
+    null
+  );
+  const [shouldPreventClick, setPreventClick] = React.useState(false);
+
   // We wrap children in a Thread.Item, so we can simply use the regular Thread.Item
   // recursion even for the first level. We do this unless the child is already a
   // Thread.Item, mostly so if the first level can be done through recursion there's
@@ -123,6 +144,13 @@ const Thread: React.FC<ThreadProps & ChildrenWithRenderProps> & {
   ) : (
     <Thread.Item>{props.children}</Thread.Item>
   );
+  const { getStemOptions } = props;
+  const stemOptions = React.useMemo(
+    () => (popupData ? getStemOptions(popupData.levelId) : []),
+    [getStemOptions, popupData]
+  );
+  const popupColor =
+    Theme.INDENT_COLORS[(popupData?.level || 0) % Theme.INDENT_COLORS.length];
   return (
     <ThreadContext.Provider
       value={React.useMemo(
@@ -130,11 +158,26 @@ const Thread: React.FC<ThreadProps & ChildrenWithRenderProps> & {
           ...props,
           addResizeCallback,
           removeResizeCallback,
+          onPopupOpenRequest,
+          setPreventClick,
+          popupData: popupData,
         }),
-        [props, addResizeCallback, removeResizeCallback]
+        [props, addResizeCallback, removeResizeCallback, popupData]
       )}
     >
-      <div className="thread" ref={threadRef}>
+      <div
+        className="thread"
+        ref={threadRef}
+        onClick={React.useCallback(
+          (e) => {
+            if (shouldPreventClick) {
+              e.nativeEvent.stopImmediatePropagation();
+              setPreventClick(false);
+            }
+          },
+          [shouldPreventClick]
+        )}
+      >
         {children}
         <style jsx>{`
           .thread {
@@ -143,6 +186,16 @@ const Thread: React.FC<ThreadProps & ChildrenWithRenderProps> & {
           }
         `}</style>
       </div>
+      <PopupButtons
+        options={stemOptions}
+        show={!!popupData}
+        centerTop={`${popupData?.y}px`}
+        centerLeft={`${popupData?.x}px`}
+        defaultColor={popupColor}
+        onCloseRequest={React.useCallback(() => {
+          onPopupOpenRequest(null);
+        }, [])}
+      />
     </ThreadContext.Provider>
   );
 };
@@ -305,29 +358,109 @@ const Item: React.FC<ChildrenWithRenderProps> = (props) => {
 };
 
 interface StemProps {
-  clickHandler: () => void;
+  levelId: string | null;
 }
 export const Stem: React.FC<StemProps> = (props) => {
   const level = React.useContext(ThreadLevel);
-  const stemHoverEnterHandler = React.useCallback((e) => {
-    const target = e.target as HTMLElement;
-    target.classList.add("hover");
-  }, []);
-  const stemHoverLeaveHandler = React.useCallback((e) => {
-    const target = e.target as HTMLElement;
-    target.classList.remove("hover");
-  }, []);
+  const threadContext = React.useContext(ThreadContext);
+  // This is used when moving around with "pointer move" events to remove the
+  // "hover" target from previously-hovered stems.
+  const previousTarget = React.useRef<HTMLElement>();
 
   const stemColor = Theme.INDENT_COLORS[level % Theme.INDENT_COLORS.length];
-  const stemHoverColor = lightenColor(stemColor, 0.07);
+  const onStemClick = React.useCallback(
+    (e: React.PointerEvent<HTMLButtonElement>) => {
+      threadContext?.onPopupOpenRequest({
+        level,
+        levelId: props.levelId,
+        x: e.pageX,
+        y: e.pageY,
+      });
+      e.preventDefault();
+      e.stopPropagation();
+      e.nativeEvent.stopImmediatePropagation();
+    },
+    [level, threadContext, props.levelId]
+  );
+
+  const pointerMove = React.useCallback(
+    (e: React.PointerEvent<HTMLButtonElement>) => {
+      if (threadContext?.popupData === null) {
+        // We only use this event to handle the case when the popup data
+        // is open and the user drags their pointer around.
+        return;
+      }
+      // If we're in a mouse situation, only do this when the main
+      // button is pressed.
+      if (e.pointerType == "mouse" && e.buttons !== 1) {
+        return;
+      }
+      // Find the target underneath the new clientX and clientY
+      const target = document.elementFromPoint(e.clientX, e.clientY) as
+        | HTMLElement
+        | undefined;
+      const targetLevel = parseInt(target?.dataset?.level || "");
+      const targetLevelId = target?.dataset?.levelId || null;
+      if (
+        !target ||
+        isNaN(targetLevel) ||
+        threadContext?.popupData.level === targetLevel
+      ) {
+        // If we're at the same level as before (or not on a "level" element, a.k.a. a stem)
+        // we bail.
+        return;
+      }
+      // See documentation of "setPreventClick"
+      threadContext?.setPreventClick(true);
+      previousTarget.current?.classList.remove("hover");
+      target.classList.add("hover");
+      previousTarget.current = target;
+      threadContext?.onPopupOpenRequest({
+        level: targetLevel,
+        levelId: targetLevelId,
+        x: e.pageX,
+        y: e.pageY,
+      });
+    },
+    [threadContext]
+  );
+
+  const stemHoverColor = lightenColor(stemColor, 0.1);
   return (
     <>
       <button
         className={`thread-stem`}
         data-level={level}
-        onMouseEnter={stemHoverEnterHandler}
-        onMouseLeave={stemHoverLeaveHandler}
-        onClick={props.clickHandler}
+        data-level-id={props.levelId}
+        onPointerEnter={React.useCallback((e) => {
+          const target = e.target as HTMLElement;
+          target.classList.add("hover");
+        }, [])}
+        onPointerLeave={React.useCallback(
+          (e: React.PointerEvent<HTMLButtonElement>) => {
+            const target = e.target as HTMLElement;
+            target.classList.remove("hover");
+          },
+          []
+        )}
+        onPointerMove={pointerMove}
+        onPointerDownCapture={onStemClick}
+        onPointerUp={React.useCallback(() => {
+          previousTarget.current = undefined;
+        }, [])}
+        onClickCapture={React.useCallback((e) => {
+          // Prevents the click that opens the stem menu from bubbling up to document.
+          // TODO: this should likely be taken care of by the popup buttons menu itself.
+          // IMPORTANT TODO: readd accessibility on tabbing here.
+          e.nativeEvent.stopImmediatePropagation();
+        }, [])}
+        onContextMenu={React.useCallback((e) => {
+          // Prevents the opening of the contextual menu on android long press
+          e.stopPropagation();
+          e.preventDefault();
+
+          return false;
+        }, [])}
       />
       <style jsx>{`
         .thread-stem {
@@ -343,6 +476,7 @@ export const Stem: React.FC<StemProps> = (props) => {
           padding: 0;
           margin-top: var(--stem-margin-top, 0);
           margin-bottom: var(--stem-margin-bottom, 0);
+          touch-action: none;
         }
         .thread-stem:focus {
           outline: none;
@@ -371,21 +505,12 @@ interface IndentProps {
   _childOfItem?: boolean;
 }
 export const Indent: React.FC<IndentProps> = (props) => {
-  const threadContext = React.useContext(ThreadContext);
   const level = React.useContext(ThreadLevel);
   const childrenArray = React.Children.toArray(props.children);
 
   if (!props._childOfItem) {
     throw new Error("indent should be child of item");
   }
-
-  const stemClickHandler = React.useCallback(() => {
-    if (props.collapsed) {
-      threadContext?.onUncollapseLevel?.(props.id as string);
-    } else {
-      threadContext?.onCollapseLevel?.(props.id as string);
-    }
-  }, [threadContext, props.collapsed, props.id]);
 
   // If the child is an uncollapsed CollapseGroup, then skip the CollapseGroup
   // and render its children instead. If not, render whatever the child is.
@@ -397,7 +522,7 @@ export const Indent: React.FC<IndentProps> = (props) => {
 
   return (
     <>
-      <Stem clickHandler={stemClickHandler} />
+      <Stem levelId={props.id} />
       <ol data-level={level + 1} className={`level-container`}>
         <ThreadLevel.Provider value={level + 1}>
           {props.collapsed ? (
