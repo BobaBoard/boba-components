@@ -1,4 +1,5 @@
 import React, { useState } from "react";
+import css from "styled-jsx/css";
 import { ButtonStyle, getThemeColor, getReverseThemeColor } from "./Button";
 import ActionLink from './ActionLink';
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
@@ -88,6 +89,7 @@ const SegmentedButton: React.FC<SegmentedButtonProps> = (props) => {
         }
         .updates {
           background-color: ${props.color || THEME_COLOR};
+          border: 2px solid ${REVERSE_THEME_COLOR};
           color: ${transparent ? "black" : REVERSE_THEME_COLOR};
           position: absolute;
           border-radius: 50%;
@@ -101,10 +103,6 @@ const SegmentedButton: React.FC<SegmentedButtonProps> = (props) => {
           font-weight: bold;
           z-index: 2;
           transition: all 0.2s linear 0s;
-        }
-        .selected .updates {
-          background-color: ${REVERSE_THEME_COLOR};
-          color: ${transparent ? "white" : props.color || THEME_COLOR};
         }
       `}</style>
     </div>
