@@ -27,6 +27,7 @@ interface ThreadContext extends ThreadProps {
   setPreventClick: (prevent: boolean) => void;
   onPopupOpenRequest: (position: PopupData) => void;
   popupData: PopupData | null;
+  boundaries: Map<string, HTMLElement | null>;
 }
 
 const ThreadContext = React.createContext<ThreadContext | null>(null);
@@ -70,9 +71,13 @@ const processItemChildren = (children: React.ReactNode | undefined) => {
 };
 
 interface ChildrenWithRenderProps {
+  parentBoundary?: string;
   children?:
     | JSX.Element
-    | ((refCallback: (element: HTMLElement | null) => void) => React.ReactNode);
+    | ((
+        refCallback: (element: HTMLElement | null) => void,
+        id: string
+      ) => React.ReactNode);
 }
 
 /**
@@ -151,6 +156,7 @@ const Thread: React.FC<ThreadProps & ChildrenWithRenderProps> & {
   );
   const popupColor =
     Theme.INDENT_COLORS[(popupData?.level || 0) % Theme.INDENT_COLORS.length];
+  const boundaries = React.useRef(new Map<string, HTMLElement>());
   return (
     <ThreadContext.Provider
       value={React.useMemo(
@@ -161,6 +167,7 @@ const Thread: React.FC<ThreadProps & ChildrenWithRenderProps> & {
           onPopupOpenRequest,
           setPreventClick,
           popupData: popupData,
+          boundaries: boundaries.current,
         }),
         [props, addResizeCallback, removeResizeCallback, popupData]
       )}
@@ -260,12 +267,19 @@ const Item: React.FC<ChildrenWithRenderProps> = (props) => {
     boundaryElement,
     setBoundaryElement,
   ] = React.useState<HTMLElement | null>(null);
+  // Sometimes a lower level might want its boundary element to be the same as one of its
+  // "parents". We create a unique boundary id that children of this element can refer
+  // to if they want to tie up their boundary with the one of a level above them.
+  const boundaryId = React.useRef(`${Math.ceil(Math.random() * 10000000)}`);
   const levelContent = React.createRef<HTMLLIElement & HTMLDivElement>();
 
-  //
+  React.useEffect(() => {
+    threadContext?.boundaries.set(boundaryId.current, boundaryElement);
+  }, [boundaryElement, threadContext?.boundaries]);
+
   let children: React.ReactNode = props.children;
   if (typeof props.children == "function") {
-    children = props.children(setBoundaryElement);
+    children = props.children(setBoundaryElement, boundaryId.current);
     // Since thread indent must always be a direct child of Item, but the component
     // rendered by using a render props function will likely need to wrap more than one
     // element as a return value, we check if the returned children are a fragment,
@@ -274,6 +288,15 @@ const Item: React.FC<ChildrenWithRenderProps> = (props) => {
       children = children.props.children;
     }
   }
+
+  const parentBoundary = props.parentBoundary
+    ? threadContext?.boundaries.get(props.parentBoundary)
+    : null;
+  React.useEffect(() => {
+    if (props.parentBoundary && parentBoundary && !boundaryElement) {
+      setBoundaryElement(parentBoundary);
+    }
+  }, [props.parentBoundary, parentBoundary, boundaryElement]);
 
   React.useEffect(() => {
     if (!boundaryElement || !levelContent.current) {
