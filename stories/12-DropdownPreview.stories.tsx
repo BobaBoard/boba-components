@@ -290,6 +290,7 @@ export const PopupButtonsStory = () => {
     <>
       <button onClick={() => setShow(!show)}>Toggle visibility</button>
       <PopupButtons
+        onCloseRequest={() => setShow(false)}
         options={[
           {
             name: "Href Only",
