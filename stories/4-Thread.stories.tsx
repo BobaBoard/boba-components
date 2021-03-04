@@ -758,6 +758,32 @@ export const NewRegularThread = () => {
         getCollapseReason={() => {
           return <div>Subthread manually hidden.</div>;
         }}
+        getStemOptions={(levelId) => {
+          return [
+            {
+              name: "Collapse",
+              icon: faCompressArrowsAlt,
+              link: {
+                onClick: () => {},
+              },
+            },
+            {
+              name: "Beam up",
+              icon: faAngleDoubleUp,
+              link: {
+                href: "#href",
+                onClick: action("noHrefClick"),
+              },
+            },
+            {
+              name: "Add Contrib",
+              icon: faPlusSquare,
+              link: {
+                onClick: action("noHrefClick"),
+              },
+            },
+          ];
+        }}
       >
         {(setBoundaryElement) => (
           <>
@@ -813,12 +839,17 @@ export const NewRegularThread = () => {
                     </div>
                     <Thread.Indent id="level1-1">
                       <Thread.Item>
-                        <CompactThreadIndent
-                          level={0}
-                          startsFromViewport={lvl0Indent.bounds}
+                        <div
+                          style={{
+                            paddingTop: "15px",
+                            marginLeft: "30px",
+                            maxWidth: "550px",
+                            pointerEvents: "none",
+                          }}
                         >
-                          <div
-                            style={{ paddingTop: "15px", maxWidth: "550px" }}
+                          <CompactThreadIndent
+                            level={0}
+                            startsFromViewport={lvl0Indent.bounds}
                           >
                             <CommentChain
                               ref={(ref) => lvl0Indent.setHandler(ref)}
@@ -845,8 +876,8 @@ export const NewRegularThread = () => {
                               secretIdentity={TUXEDO_MASK_IDENTITY}
                               userIdentity={MAMORU_IDENTITY}
                             />
-                          </div>
-                        </CompactThreadIndent>
+                          </CompactThreadIndent>
+                        </div>
                       </Thread.Item>
                       <Thread.Item>
                         {(setBoundaryElement) => (

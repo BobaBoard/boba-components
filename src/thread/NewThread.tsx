@@ -8,6 +8,10 @@ import classnames from "classnames";
 import { lightenColor } from "../utils";
 import PopupButtons, { PopupButtonsProps } from "../common/PopupButtons";
 
+import debug from "debug";
+const log = debug("bobaui:NewThread-log");
+const info = debug("bobaui:NewThread-info");
+
 const INDENT_WIDTH_PX = 8;
 
 type PopupData = {
@@ -424,9 +428,14 @@ export const Stem: React.FC<StemProps> = (props) => {
         | undefined;
       const targetLevel = parseInt(target?.dataset?.level || "");
       const targetLevelId = target?.dataset?.levelId || null;
+      info(
+        `Found target underneath pointer at level ${targetLevel} with id ${targetLevelId}:`
+      );
+      info(target);
       if (
         !target ||
         isNaN(targetLevel) ||
+        !target.classList.contains("thread-stem") ||
         threadContext?.popupData.level === targetLevel
       ) {
         // If we're at the same level as before (or not on a "level" element, a.k.a. a stem)
