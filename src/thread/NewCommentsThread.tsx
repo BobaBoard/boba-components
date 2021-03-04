@@ -34,9 +34,6 @@ const ThreadContext = React.createContext<ThreadContext | null>(null);
 const ThreadLevel = React.createContext<number>(0);
 
 interface ThreadProps {
-  onCollapseLevel: (id: string) => void;
-  onUncollapseLevel: (id: string) => void;
-  getCollapseReason: (id: string) => React.ReactNode;
   resizeSpy?: React.RefObject<HTMLElement>;
 }
 
@@ -525,31 +522,15 @@ const Item: React.FC<ChildrenWithRenderProps> = (props) => {
   );
 };
 
-interface StemProps {
-  clickHandler: () => void;
-}
-export const Stem: React.FC<StemProps> = (props) => {
+interface StemProps {}
+export const Stem: React.FC<StemProps> = () => {
   const level = React.useContext(ThreadLevel);
-  const stemHoverEnterHandler = React.useCallback(() => {
-    //const target = e.target as HTMLElement;
-    //target.classList.add("hover");
-  }, []);
-  const stemHoverLeaveHandler = React.useCallback(() => {
-    //const target = e.target as HTMLElement;
-    //target.classList.remove("hover");
-  }, []);
 
   const stemColor = Theme.INDENT_COLORS[level % Theme.INDENT_COLORS.length];
   const stemHoverColor = lightenColor(stemColor, 0.07);
   return (
     <>
-      <button
-        className={`thread-stem`}
-        data-level={level}
-        onMouseEnter={stemHoverEnterHandler}
-        onMouseLeave={stemHoverLeaveHandler}
-        onClick={props.clickHandler}
-      />
+      <button className={`thread-stem`} data-level={level} />
       <style jsx>{`
         .thread-stem {
           position: absolute;
@@ -593,7 +574,6 @@ interface IndentProps {
   _childOfItem?: boolean;
 }
 export const Indent: React.FC<IndentProps> = (props) => {
-  const threadContext = React.useContext(ThreadContext);
   const level = React.useContext(ThreadLevel);
   const childrenArray = React.Children.toArray(props.children);
 
@@ -601,17 +581,9 @@ export const Indent: React.FC<IndentProps> = (props) => {
     throw new Error("indent should be child of item");
   }
 
-  const stemClickHandler = React.useCallback(() => {
-    if (props.collapsed) {
-      threadContext?.onUncollapseLevel?.(props.id as string);
-    } else {
-      threadContext?.onCollapseLevel?.(props.id as string);
-    }
-  }, [threadContext, props.collapsed, props.id]);
-
   return (
     <>
-      <Stem clickHandler={stemClickHandler} />
+      <Stem />
       <ol data-level={level + 1} className={`level-container`}>
         <ThreadLevel.Provider value={level + 1}>
           {childrenArray}
