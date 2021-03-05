@@ -49,6 +49,7 @@ const Metadata: React.FC<PostHeaderProps> = (props) => {
       <div
         className={classnames("container", {
           compact: HeaderStyle.COMPACT == props.size,
+          "with-options": identityOptions.length > 0,
         })}
         ref={ref}
       >
@@ -123,9 +124,6 @@ const Metadata: React.FC<PostHeaderProps> = (props) => {
           .timestamp a {
             color: ${DefaultTheme.TEXT_MUTED};
             text-decoration: none;
-          }
-          .timestamp:hover {
-            text-decoration: underline;
           }
           .container {
             min-width: 0;
@@ -203,6 +201,8 @@ const PostHeader = React.forwardRef<HTMLDivElement, PostHeaderProps>(
           }
           .metadata-identity.with-options {
             padding-bottom: 0px;
+            margin-bottom: 5px;
+            border-bottom: 1px dashed black;
           }
         `}</style>
       </div>
