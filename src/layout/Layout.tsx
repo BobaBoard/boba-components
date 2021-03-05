@@ -47,6 +47,7 @@ const Layout = React.forwardRef<{ closeSideMenu: () => void }, LayoutProps>(
       outdated,
       forceHideTitle,
       loggedInMenuOptions,
+      forceHideIdentity,
       onSideMenuButtonClick,
       onCompassClick,
     },
@@ -181,6 +182,7 @@ const Layout = React.forwardRef<{ closeSideMenu: () => void }, LayoutProps>(
         accentColor={headerAccent}
         loading={userLoading}
         onHomeMenuClick={logoLink}
+        forceHideIdentity={forceHideIdentity}
       />
     );
     return (
@@ -670,6 +672,7 @@ export interface LayoutProps {
     link: LinkWithAction;
   }[];
   onSideMenuButtonClick?: () => void;
+  forceHideIdentity?: boolean;
 }
 
 Layout.displayName = "LayoutForwardRef";

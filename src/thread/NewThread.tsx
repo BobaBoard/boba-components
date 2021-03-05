@@ -9,7 +9,6 @@ import { lightenColor } from "../utils";
 import PopupButtons, { PopupButtonsProps } from "../common/PopupButtons";
 
 import debug from "debug";
-const log = debug("bobaui:NewThread-log");
 const info = debug("bobaui:NewThread-info");
 
 const INDENT_WIDTH_PX = 8;

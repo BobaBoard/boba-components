@@ -169,7 +169,5 @@ export interface SideMenuProps {
   menuOptions?: DropdownProps["options"];
   showPinned?: boolean;
   onFilterChange?: (text: string) => void;
-  children:
-    | React.ReactElement<BoardsMenuSectionProps>
-    | React.ReactElement<BoardsMenuSectionProps>[];
+  children: React.ReactNode;
 }

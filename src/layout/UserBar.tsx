@@ -38,14 +38,7 @@ const UserBar: React.FC<UserBarProps> = ({
       ) : (
         indicator
       )}
-      <style jsx>{`
-        .sidebar {
-          padding: 20px;
-        }
-        .board-details {
-          margin-top: 30px;
-        }
-      `}</style>
+      <style jsx>{``}</style>
     </div>
   );
 };

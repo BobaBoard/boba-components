@@ -22,6 +22,7 @@ const MenuItem: React.FC<{
   accentColor?: string;
   defaultBorderColor?: string;
   withDropdown?: boolean;
+  blurred?: boolean;
 }> = ({
   id,
   loading,
@@ -31,6 +32,7 @@ const MenuItem: React.FC<{
   accentColor,
   defaultBorderColor,
   withDropdown,
+  blurred,
 }) => {
   // TODO: links should be done using buttons if there's no href
   const isButton = !link?.href && !!link?.onClick;
@@ -52,6 +54,7 @@ const MenuItem: React.FC<{
           }}
           className={classnames("icon", {
             dropdown: !!withDropdown,
+            blurred,
           })}
         >
           {loading ? (
@@ -126,6 +129,12 @@ const MenuItem: React.FC<{
           align-items: center;
           justify-content: center;
         }
+        .icon.blurred :global(img) {
+          filter: blur(3px) invert(1);
+        }
+        .icon.blurred:hover :global(img) {
+          filter: none;
+        }
         .icon.dropdown {
           mask: url(${RectangleMask}), url(${CircleMask}) 26px 23px / 23px 22px;
           mask-composite: xor;
@@ -172,6 +181,7 @@ const MenuBar: React.FC<MenuBarProps> = ({
   menuOptions,
   userMenuOptions,
   selectedOption,
+  forceHideIdentity,
 }) => {
   const isLoggedIn = !loading && user?.avatarUrl;
   return (
@@ -210,6 +220,7 @@ const MenuBar: React.FC<MenuBarProps> = ({
           defaultBorderColor={isLoggedIn ? "green" : undefined}
           loading={loading}
           withDropdown={!!isLoggedIn && !!userMenuOptions?.length}
+          blurred={forceHideIdentity}
         />
       </DropdownListMenu>
       <style jsx>{`
@@ -249,4 +260,5 @@ export interface MenuBarProps {
   }[];
   selectedOption?: string;
   user?: { username: string; avatarUrl?: string };
+  forceHideIdentity?: boolean;
 }

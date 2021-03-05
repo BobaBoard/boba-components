@@ -70,6 +70,7 @@ class CommentChain extends PureComponent<CommentChainProps> {
             avatarOptions={this.props.options}
             accessory={this.props.accessory}
             createdMessage={this.props.createdTime}
+            forceHide={this.props.forceHideIdentity}
             ref={this.avatarRef}
           />
         </div>
@@ -148,6 +149,7 @@ export interface CommentChainProps {
     avatar: string;
     name: string;
   };
+  forceHideIdentity?: boolean;
   createdTime: string;
   muted?: boolean;
   options?: CommentProps["options"];

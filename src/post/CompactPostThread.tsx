@@ -192,6 +192,7 @@ const CompactThread: React.FC<CompactThreadProps> = (props) => {
                     hideUpdates
                     backgroundColor={isLast ? undefined : "transparent"}
                     ref={index === 0 ? props.innerRef : undefined}
+                    forceHideIdentity={props.forceHideIdentity}
                   />
                 }
               </div>
@@ -246,4 +247,5 @@ export default ForwardedCompactThread;
 export interface CompactThreadProps {
   posts: PostProps[];
   innerRef?: React.Ref<PostHandler>;
+  forceHideIdentity?: boolean;
 }

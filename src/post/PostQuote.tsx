@@ -39,6 +39,7 @@ const PostQuote: React.FC<PostQuoteProps> = (props) => {
           <Avatar
             secretIdentity={props.secretIdentity}
             userIdentity={props.userIdentity}
+            forceHide={props.forceHideIdentity}
           />
         </div>
         <div className="creation-time">
@@ -111,6 +112,7 @@ export interface PostQuoteProps {
     avatar: string;
     name: string;
   };
+  forceHideIdentity?: boolean;
 }
 
 export default PostQuote;

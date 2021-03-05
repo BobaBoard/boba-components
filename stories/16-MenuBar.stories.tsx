@@ -70,6 +70,12 @@ MenuBarSimple.args = {
   onLoggedOutUserClick: action("userClick!"),
 };
 
+export const MenuBarLockedIdentity = MenuBarTemplate.bind({});
+MenuBarLockedIdentity.args = {
+  ...MenuBarSimple.args,
+  forceHideIdentity: true,
+};
+
 export const MenuBarLoading = MenuBarTemplate.bind({});
 MenuBarLoading.args = {
   menuOptions: [

@@ -193,7 +193,7 @@ const Post = React.forwardRef<PostHandler, PostProps>((props, ref) => {
                     createdMessageLink={props.createdTimeLink}
                     size={HeaderStyle.REGULAR}
                     backgroundColor={props.muted ? "#dcdcdc" : undefined}
-                    forceHide={props.forceHide}
+                    forceHide={props.forceHideIdentity}
                     accessory={props.accessory}
                   />
                 </div>
@@ -437,7 +437,7 @@ export interface PostProps {
     accentColor: string;
   };
   getOptionsForTag?: (tag: TagsType) => DropdownProps["options"];
-  forceHide?: boolean;
+  forceHideIdentity?: boolean;
   hideFooter?: boolean;
   hideUpdates?: boolean;
   backgroundColor?: string;
