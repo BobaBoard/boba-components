@@ -468,7 +468,7 @@ export const SingleThreadedComments = () => {
 
 export const CollapsePlaceholderStory = () => {
   return (
-    <div style={{ maxWidth: "500px" }}>
+    <div style={{ maxWidth: "500px", textAlign: "center" }}>
       <CollapsedPlaceholder onUncollapseClick={action("uncollapse")}>
         <div>
           5 comments <span style={{ color: "green" }}>manually hidden</span>.

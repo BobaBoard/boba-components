@@ -15,15 +15,13 @@ const CollapsedPlaceholder: React.FC<CollapsedPlaceholderProps> = (props) => {
     0.07
   );
   return (
-    <div className="collapsed-placeholder">
-      <div className="icon" onClick={props.onUncollapseClick}>
+    <div className="collapsed-placeholder" onClick={props.onUncollapseClick}>
+      <div className="icon">
         <FontAwesomeIcon icon={faAngleUp} />
         <FontAwesomeIcon icon={faAngleDown} />
       </div>
       <div className="text">{props.children}</div>
-      <button className="view-all" onClick={props.onUncollapseClick}>
-        View All
-      </button>
+      <button className="view-all">View All</button>
       <style jsx>{`
         .collapsed-placeholder {
           background-color: #464646;
@@ -31,13 +29,14 @@ const CollapsedPlaceholder: React.FC<CollapsedPlaceholderProps> = (props) => {
           display: flex;
           padding: 10px 15px;
           align-items: center;
+          text-align: left;
         }
         .icon {
           padding-right: 10px;
           color: #e8e8e8;
           position: relative;
         }
-        .icon:hover {
+        .collapsed-placeholder:hover {
           cursor: pointer;
         }
         .icon :global(svg):first-child {
@@ -60,7 +59,7 @@ const CollapsedPlaceholder: React.FC<CollapsedPlaceholderProps> = (props) => {
           border: 0;
           background-color: transparent;
         }
-        .view-all:hover {
+        .collapsed-placeholder:hover .view-all {
           cursor: pointer;
           color: ${stemHoverColor};
         }
