@@ -18,6 +18,8 @@ import { v4 as uuidv4 } from "uuid";
 
 import BoardDescription from "./BoardDescription";
 import Input, { InputStyle } from "../common/Input";
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import Theme from "../theme/default";
 
 const BoardSidebar: React.FC<BoardSidebarProps> = (props) => {
   const [editingSection, setEditingSection] = React.useState<{
@@ -135,14 +137,9 @@ const BoardSidebar: React.FC<BoardSidebarProps> = (props) => {
                 accentColor={currentAccent}
                 zIndex={200}
               >
-                <Button
-                  icon={faCaretDown}
-                  compact
-                  color={props.accentColor}
-                  theme={ButtonStyle.DARK}
-                >
-                  Options
-                </Button>
+                <span className="options-button">
+                  <FontAwesomeIcon icon={faCaretDown} />
+                </span>
               </DropdownMenu>
             )}
           </div>
@@ -273,6 +270,25 @@ const BoardSidebar: React.FC<BoardSidebarProps> = (props) => {
         .buttons {
           display: flex;
           justify-content: space-between;
+        }
+        .options-button {
+          display: block;
+          width: 30px;
+          height: 30px;
+          background-color: ${Theme.BUTTON_BACKGROUND_COLOR_DARK};
+          border-radius: 50%;
+          border: 2px solid ${props.accentColor};
+          color: ${props.accentColor};
+          postion: relative;
+        }
+        .options-button:hover {
+          background-color: ${Theme.BUTTON_ACCENT_COLOR_DARK};
+        }
+        .options-button :global(svg) {
+          position: absolute;
+          top: calc(50% - 2px);
+          left: 50%;
+          transform: translate(-50%, -50%);
         }
         .board-details {
           margin-top: 10px;

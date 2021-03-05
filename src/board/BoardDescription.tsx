@@ -88,7 +88,7 @@ const EditableBoardDescriptions: React.FC<EditableBoardDescriptionProps> = (
     >
       {!props.editingCategory ? (
         props.descriptions.map((description) => (
-          <div className={classnames("section")}>
+          <div className={classnames("section")} key={description.id}>
             <Button
               icon={description.type == "text" ? faFont : faTags}
               onClick={() => props.onEditDescriptionRequest(description.id)}
@@ -151,7 +151,7 @@ const BoardDescription: React.FC<BoardDescriptionProps> = (props) => {
     >
       {!props.editing ? (
         props.descriptions.map((description) => (
-          <div className={classnames("section")}>
+          <div className={classnames("section")} key={description.id}>
             {getSection(props, description)}
           </div>
         ))
@@ -159,7 +159,8 @@ const BoardDescription: React.FC<BoardDescriptionProps> = (props) => {
         <EditableBoardDescriptions {...props} />
       )}
       <style jsx>{`
-        .sections-container:not(.editing), .section {
+        .sections-container:not(.editing),
+        .section {
           margin-top: 20px;
         }
       `}</style>
