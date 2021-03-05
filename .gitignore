@@ -105,3 +105,6 @@ dist
 
 # VSCode Preference
 .vscode
+
+# MacOS cache
+*.DS_Store

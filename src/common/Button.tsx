@@ -15,7 +15,7 @@ export enum ButtonStyle {
   TRANSPARENT = "TRANSPARENT",
 }
 
-const getThemeColor = (style: ButtonStyle | undefined) => {
+export const getThemeColor = (style: ButtonStyle | undefined) => {
   switch (style) {
     case ButtonStyle.TRANSPARENT:
       return "transparent";
@@ -27,7 +27,7 @@ const getThemeColor = (style: ButtonStyle | undefined) => {
   }
 };
 
-const getReverseThemeColor = (style: ButtonStyle | undefined) => {
+export const getReverseThemeColor = (style: ButtonStyle | undefined) => {
   switch (style) {
     case ButtonStyle.TRANSPARENT:
       return "#1c1c1c";

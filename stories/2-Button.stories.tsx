@@ -1,12 +1,18 @@
 import React from "react";
 //import { linkTo } from "@storybook/addon-links";
 import Button, { ButtonStyle } from "../src/common/Button";
+import SegmentedButton from "../src/common/SegmentedButton";
 import { faCoffee } from "@fortawesome/free-solid-svg-icons";
 import mamoru from "./images/mamoru.png";
 
 export default {
   title: "Button Preview",
   component: Button,
+  parameters: {
+    actions: {
+      handles: ['click .segmented-button-option'],
+    },
+  },
 };
 
 export const SimpleButton = () => {
@@ -301,4 +307,98 @@ export const SimpleButton = () => {
 
 SimpleButton.story = {
   name: "simple",
+};
+
+export const SegmentedButtonStory = () => {
+  return (
+    <div>
+      <div>
+        <SegmentedButton
+          options={[{
+            id: "seg1",
+            label: "Left",
+            updates: undefined,
+            onClick: () => { return; },
+          },
+          {
+            id: "seg2",
+            label: "Middle",
+            updates: 5,
+            onClick: () => { return; },
+          },{
+            id: "seg3",
+            label: "Right",
+            updates: 5,
+            onClick: () => { return; },
+          }]}
+          selected={'seg1'}
+          theme={ButtonStyle.LIGHT}
+        />
+      </div>
+      <div>
+        <SegmentedButton
+          options={[{
+            id: "seg1",
+            label: "Left",
+            updates: undefined,
+            onClick: () => { return; },
+          },
+          {
+            id: "seg2",
+            label: "Middle",
+            updates: 5,
+            onClick: () => { return; },
+          },{
+            id: "seg3",
+            label: "Right",
+            updates: 5,
+            onClick: () => { return; },
+          }]}
+          selected={'seg1'}
+          color="#f96680"
+        />
+      </div>
+      <div>
+        <SegmentedButton
+          options={[{
+            id: "seg1",
+            label: "onClick",
+            updates: undefined,
+            onClick: () => { alert('Click worked'); return; },
+          },
+          {
+            id: "seg2",
+            label: "href",
+            updates: 5,
+            href: "https://boba.social/",
+          },{
+            id: "seg3",
+            label: "Both",
+            updates: 5,
+            onClick: () => { alert('Click worked'); return; },
+            href: "https://boba.social/",
+          },{
+            id: "seg4",
+            label: "Neither",
+            updates: 5,
+          }]}
+          selected={'seg1'}
+        />
+      </div>
+      <style jsx>
+        {`
+          div > div {
+            display: flex;
+            justify-content: space-evenly;
+            flex-wrap: wrap;
+            margin-top: 15px;
+          }
+        `}
+      </style>
+    </div>
+  );
+};
+
+SegmentedButtonStory.story = {
+  name: "segmented",
 };
