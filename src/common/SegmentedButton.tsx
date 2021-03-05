@@ -1,10 +1,9 @@
 import React, { useState } from "react";
-import css from "styled-jsx/css";
 import { ButtonStyle, getThemeColor, getReverseThemeColor } from "./Button";
-import ActionLink from './ActionLink';
+import ActionLink from "./ActionLink";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faCertificate } from "@fortawesome/free-solid-svg-icons";
-import Color from 'color';
+import Color from "color";
 import classnames from "classnames";
 
 const SegmentedButton: React.FC<SegmentedButtonProps> = (props) => {
@@ -15,7 +14,13 @@ const SegmentedButton: React.FC<SegmentedButtonProps> = (props) => {
   return (
     <div className={classnames("segmented-button", {})}>
       {props.options.map((option) => (
-        <div className={classnames("segmented-button-option", selected == option.id ? "selected" : {})} key={"" + option.id}>
+        <div
+          className={classnames(
+            "segmented-button-option",
+            selected == option.id ? "selected" : {}
+          )}
+          key={"" + option.id}
+        >
           {option.updates && (
             <div className="updates">
               {option.updates === true ? (
@@ -28,7 +33,7 @@ const SegmentedButton: React.FC<SegmentedButtonProps> = (props) => {
             </div>
           )}
           <ActionLink
-            link={{ 
+            link={{
               onClick: () => {
                 setSelected(option.id);
                 if (option.onClick) {
@@ -50,11 +55,11 @@ const SegmentedButton: React.FC<SegmentedButtonProps> = (props) => {
           background-color: ${REVERSE_THEME_COLOR};
           border: 2px solid ${props.color || THEME_COLOR};
           display: flex;
-          justify-content: space-evenly;
         }
         .segmented-button-option {
           display: inline-block;
           position: relative;
+          flex: 1;
         }
         .segmented-button-option > :global(button),
         .segmented-button-option > :global(a) {
@@ -67,6 +72,7 @@ const SegmentedButton: React.FC<SegmentedButtonProps> = (props) => {
           transition: all 0.2s linear 0s;
           box-sizing: border-box;
           display: inline-block;
+          width: 100%;
         }
         .segmented-button-option > :global(button):focus,
         .segmented-button-option > :global(a):focus {
