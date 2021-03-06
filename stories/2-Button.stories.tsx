@@ -311,8 +311,8 @@ SimpleButton.story = {
 
 export const SegmentedButtonStory = () => {
   return (
-    <div>
-      <div>
+    <div className="container">
+    <div style={{ width: '300px' }}>
         <SegmentedButton
           options={[{
             id: "seg1",
@@ -335,7 +335,7 @@ export const SegmentedButtonStory = () => {
           theme={ButtonStyle.LIGHT}
         />
       </div>
-      <div>
+      <div style={{ width: '400px' }}>
         <SegmentedButton
           options={[{
             id: "seg1",
@@ -358,7 +358,7 @@ export const SegmentedButtonStory = () => {
           color="#f96680"
         />
       </div>
-      <div>
+      <div style={{ width: '500px' }}>
         <SegmentedButton
           options={[{
             id: "seg1",
@@ -387,10 +387,13 @@ export const SegmentedButtonStory = () => {
       </div>
       <style jsx>
         {`
-          div > div {
+          .container {
             display: flex;
-            justify-content: space-evenly;
-            flex-wrap: wrap;
+            flex-direction: column;
+            align-items: center;
+            margin: 0 auto;
+          }
+          .container > div {
             margin-top: 15px;
           }
         `}
