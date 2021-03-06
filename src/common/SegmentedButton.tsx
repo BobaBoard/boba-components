@@ -7,6 +7,35 @@ import Color from "color";
 import classnames from "classnames";
 import css from "styled-jsx/css";
 
+const getOptionStyle = () => css.resolve`
+  .option {
+    display: inline-block;
+    text-align: center;
+    position: relative;
+    flex: 1;
+  }
+`;
+
+const getUpdatesStyle = (color: string, reverseColor: string, transparent: boolean) => css.resolve`
+  .updates {
+    background-color: ${color};
+    border: 2px solid ${reverseColor};
+    color: ${transparent ? "black" : reverseColor};
+    position: absolute;
+    border-radius: 50%;
+    width: 20px;
+    height: 20px;
+    right: -5px;
+    top: -5px;
+    text-align: center;
+    font-size: 14px;
+    line-height: 20px;
+    font-weight: bold;
+    z-index: 2;
+    transition: all 0.2s linear 0s;
+  }
+`;
+
 const getLinkStyle = (color: string, reverseColor: string) => css.resolve`
   .option-link {
     border-radius: 25px;
@@ -40,56 +69,107 @@ const getSelectedLinkStyle = (color: string, reverseColor: string) => css.resolv
   }
 `;
 
+const SegmentedButtonOption: React.FC<SegmentedButtonOptionProps> = (props) => {
+  return (
+    <div
+      className={classnames(
+        'option',
+        props.optionClass,
+        props.isSelected ? "selected" : {}
+      )}
+    >
+      {props.updates && (
+        <div className={classnames(
+          'updates',
+          props.updatesClass)}
+        >
+          {props.updates === true ? (
+            <FontAwesomeIcon icon={faCertificate} />
+          ) : props.updates == Infinity ? (
+            "∞"
+          ) : (
+            props.updates
+          )}
+        {props.updatesStyles}
+        </div>
+      )}
+      <ActionLink
+        link={{
+          onClick: () => {
+            props.setSelected(props.id);
+            if (props.onClick) {
+              props.onClick();
+            }
+          },
+          href: props.href,
+        }}
+        className={classnames(
+          'option-link', props.linkClass,
+          props.isSelected ? props.selectedLinkClass : {})}
+        allowDefault={!!props.href && !props.onClick}
+      >
+        {props.label}
+        {props.linkStyles}
+        {props.isSelected && props.selectedLinkStyles}
+      </ActionLink>
+      {props.optionStyles}
+    </div>
+  );
+};
+
+interface SegmentedButtonOptionProps {
+  isSelected: boolean,
+  setSelected: React.Dispatch<React.SetStateAction<string>>,
+  linkClass: string,
+  linkStyles: string,
+  optionClass: string,
+  optionStyles: string,
+  selectedLinkClass: string,
+  selectedLinkStyles: string,
+  updatesClass: string,
+  updatesStyles: string,
+  id: string;
+  label: string;
+  updates?: number | boolean;
+  onClick?: () => void;
+  href?: string;
+}
+
 const SegmentedButton: React.FC<SegmentedButtonProps> = (props) => {
   const [selected, setSelected] = useState(props.selected);
   const THEME_COLOR = getThemeColor(props.theme);
   const REVERSE_THEME_COLOR = getReverseThemeColor(props.theme);
-  const transparent = ButtonStyle.TRANSPARENT == props.theme;
   const { className: linkClass, styles: linkStyles } = getLinkStyle(
     props.color || THEME_COLOR, REVERSE_THEME_COLOR
   );
   const { className: selectedLinkClass, styles: selectedLinkStyles } = getSelectedLinkStyle(
     props.color || THEME_COLOR, REVERSE_THEME_COLOR
   );
+  const { className: optionClass, styles: optionStyles } = getOptionStyle();
+  const { className: updatesClass, styles: updatesStyles } = getUpdatesStyle(
+    props.color || THEME_COLOR, REVERSE_THEME_COLOR, ButtonStyle.TRANSPARENT == props.theme
+  );
   return (
     <div className={classnames("segmented-button", {})}>
       {props.options.map((option) => (
-        <div
-          className={classnames(
-            "segmented-button-option",
-            selected == option.id ? "selected" : {}
-          )}
+        <SegmentedButtonOption
+          isSelected={option.id == selected}
+          setSelected={setSelected}
+          optionClass={optionClass}
+          optionStyles={optionStyles}
+          linkClass={linkClass}
+          linkStyles={linkStyles}
+          selectedLinkClass={selectedLinkClass}
+          selectedLinkStyles={selectedLinkStyles}
+          updatesClass={updatesClass}
+          updatesStyles={updatesStyles}
+          id={option.id}
           key={"" + option.id}
-        >
-          {option.updates && (
-            <div className="updates">
-              {option.updates === true ? (
-                <FontAwesomeIcon icon={faCertificate} />
-              ) : option.updates == Infinity ? (
-                "∞"
-              ) : (
-                option.updates
-              )}
-            </div>
-          )}
-          <ActionLink
-            link={{
-              onClick: () => {
-                setSelected(option.id);
-                if (option.onClick) {
-                  option.onClick();
-                }
-              },
-              href: option.href,
-            }}
-            className={`option-link ${linkClass} ${selected == option.id ? selectedLinkClass : ''}`}
-            allowDefault={!!option.href && !option.onClick}
-          >
-            {option.label}
-            {linkStyles}
-            {selected == option.id && selectedLinkStyles}
-          </ActionLink>
-        </div>
+          updates={option.updates}
+          onClick={option.onClick}
+          href={option.href}
+          label={option.label}
+        />
       ))}
       <style jsx>{`
         .segmented-button {
@@ -97,29 +177,6 @@ const SegmentedButton: React.FC<SegmentedButtonProps> = (props) => {
           background-color: ${REVERSE_THEME_COLOR};
           border: 2px solid ${props.color || THEME_COLOR};
           display: flex;
-        }
-        .segmented-button-option {
-          display: inline-block;
-          text-align: center;
-          position: relative;
-          flex: 1;
-        }
-        .updates {
-          background-color: ${props.color || THEME_COLOR};
-          border: 2px solid ${REVERSE_THEME_COLOR};
-          color: ${transparent ? "black" : REVERSE_THEME_COLOR};
-          position: absolute;
-          border-radius: 50%;
-          width: 20px;
-          height: 20px;
-          right: -5px;
-          top: -5px;
-          text-align: center;
-          font-size: 14px;
-          line-height: 20px;
-          font-weight: bold;
-          z-index: 2;
-          transition: all 0.2s linear 0s;
         }
       `}</style>
     </div>
