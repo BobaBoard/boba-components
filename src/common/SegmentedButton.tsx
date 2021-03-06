@@ -58,6 +58,7 @@ const SegmentedButton: React.FC<SegmentedButtonProps> = (props) => {
         }
         .segmented-button-option {
           display: inline-block;
+          text-align: center;
           position: relative;
           flex: 1;
         }
