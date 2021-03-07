@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useState } from "react";
 //import { linkTo } from "@storybook/addon-links";
 import Button, { ButtonStyle } from "../src/common/Button";
 import SegmentedButton from "../src/common/SegmentedButton";
@@ -310,79 +310,102 @@ SimpleButton.story = {
 };
 
 export const SegmentedButtonStory = () => {
+  const [selectedA, setSelectedA] = useState('seg1a');
+  const [selectedB, setSelectedB] = useState('seg1b');
+  const [selectedC, setSelectedC] = useState('seg1c');
   return (
     <div className="container">
     <div style={{ width: '300px' }}>
         <SegmentedButton
           options={[{
-            id: "seg1",
+            id: "seg1a",
             label: "Left",
             updates: undefined,
-            onClick: () => { return; },
+            link: {
+              onClick: () => setSelectedA("seg1a")
+            },
           },
           {
-            id: "seg2",
+            id: "seg2a",
             label: "Middle",
             updates: 5,
-            onClick: () => { return; },
+            link: {
+              onClick: () => setSelectedA("seg2a")
+            },
           },{
-            id: "seg3",
+            id: "seg3a",
             label: "Right",
             updates: 5,
-            onClick: () => { return; },
+            link: {
+              onClick: () => setSelectedA("seg3a")
+            },
           }]}
-          selected={'seg1'}
+          selected={selectedA}
           theme={ButtonStyle.LIGHT}
         />
       </div>
       <div style={{ width: '400px' }}>
         <SegmentedButton
           options={[{
-            id: "seg1",
+            id: "seg1b",
             label: "Left",
             updates: undefined,
-            onClick: () => { return; },
+            link: {
+              onClick: () => setSelectedB("seg1b")
+            },
           },
           {
-            id: "seg2",
+            id: "seg2b",
             label: "Middle",
             updates: 5,
-            onClick: () => { return; },
+            link: {
+              onClick: () => setSelectedB("seg2b")
+            },
           },{
-            id: "seg3",
+            id: "seg3b",
             label: "Right",
             updates: 5,
-            onClick: () => { return; },
+            link: {
+              onClick: () => setSelectedB("seg3b")
+            },
           }]}
-          selected={'seg1'}
+          selected={selectedB}
           color="#f96680"
         />
       </div>
       <div style={{ width: '500px' }}>
         <SegmentedButton
           options={[{
-            id: "seg1",
+            id: "seg1c",
             label: "onClick",
             updates: undefined,
-            onClick: () => { alert('Click worked'); return; },
+            link: {
+              onClick: () => {
+                setSelectedC("seg1c");
+                alert('Click worked');
+              }
+            },
           },
           {
-            id: "seg2",
+            id: "seg2c",
             label: "href",
             updates: 5,
-            href: "https://boba.social/",
+            link: {
+              href: "https://boba.social/",
+            }
           },{
-            id: "seg3",
+            id: "seg3c",
             label: "Both",
             updates: 5,
-            onClick: () => { alert('Click worked'); return; },
-            href: "https://boba.social/",
-          },{
-            id: "seg4",
-            label: "Neither",
-            updates: 5,
+            link: {
+              href: "https://boba.social/",
+              onClick: () => {
+                setSelectedC("seg3c");
+                alert('Click worked');
+              }
+            }
           }]}
-          selected={'seg1'}
+          selected={selectedC}
         />
       </div>
       <style jsx>
