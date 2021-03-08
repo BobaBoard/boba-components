@@ -665,7 +665,7 @@ export interface LayoutProps {
     icon: IconDefinition;
     link: LinkWithAction;
   }[];
-  selectedMenuOption?: string;
+  selectedMenuOption?: string | null;
   loggedInMenuOptions?: {
     icon: IconDefinition;
     name: string;

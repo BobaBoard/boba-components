@@ -165,7 +165,7 @@ export default SideMenu;
 
 export interface SideMenuProps {
   pinnedBoards?: BoardType[];
-  currentBoardSlug?: string;
+  currentBoardSlug?: string | null;
   menuOptions?: DropdownProps["options"];
   showPinned?: boolean;
   onFilterChange?: (text: string) => void;

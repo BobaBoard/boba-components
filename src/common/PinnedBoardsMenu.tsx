@@ -72,5 +72,5 @@ export default PinnedBoardsMenu;
 
 export interface PinnedBoardsMenuProps {
   boards?: BoardType[];
-  currentBoardSlug?: string;
+  currentBoardSlug?: string | null;
 }

@@ -258,7 +258,7 @@ export interface MenuBarProps {
     name: string;
     link: LinkWithAction;
   }[];
-  selectedOption?: string;
+  selectedOption?: string | null;
   user?: { username: string; avatarUrl?: string };
   forceHideIdentity?: boolean;
 }

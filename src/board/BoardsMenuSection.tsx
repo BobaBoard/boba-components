@@ -144,7 +144,7 @@ export interface BoardsMenuSectionProps {
   icon: string | IconDefinition;
   emptyTitle?: string;
   emptyDescription?: string;
-  currentBoardSlug?: string;
+  currentBoardSlug?: string | null;
   loading?: boolean;
   placeholdersHeight?: number;
   accentColor?: string;
