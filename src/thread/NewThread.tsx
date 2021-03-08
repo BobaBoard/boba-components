@@ -160,6 +160,16 @@ const Thread: React.FC<ThreadProps & ChildrenWithRenderProps> & {
   const popupColor =
     Theme.INDENT_COLORS[(popupData?.level || 0) % Theme.INDENT_COLORS.length];
   const boundaries = React.useRef(new Map<string, HTMLElement>());
+
+  React.useEffect(() => {
+    if (popupData) {
+      const closePopup = () => onPopupOpenRequest(null);
+      window.addEventListener("scroll", closePopup);
+      return () => {
+        window.removeEventListener("scroll", closePopup);
+      };
+    }
+  }, [popupData]);
   return (
     <ThreadContext.Provider
       value={React.useMemo(
