@@ -71,7 +71,26 @@ class CommentChain extends PureComponent<CommentChainProps> {
             accessory={this.props.accessory}
             createdMessage={this.props.createdTime}
             forceHide={this.props.forceHideIdentity}
-            ref={this.avatarRef}
+            ref={(ref) => {
+              // @ts-ignore
+              this.avatarRef.current = ref;
+              if (!this.avatarRef.current) {
+                return;
+              }
+              // TODO: investigate why this fixes the problem with the avatar
+              // calculation in NewCommentsThread.
+              // It seems like the key of the problem is the "getStickyElementBoundingRect"
+              // method. This method temporarily removes the sticky positioning of elements,
+              // calculates their position at their non-scrolled place, then puts the stickiness back.
+              // Theoretically, whether the avatar is sticky or not should not make
+              // any difference to its screen position, as the avatar is not the one that's "sticky",
+              // its container is (and is indeed what moves). Instead, it seems that if we move
+              // the avatar position from sticky to relative and back again, the calculations are
+              // correct, as if we had applied this trick to the container. This is convenient because
+              // using a ref to the avatar insted of the container is actually easier for me, even if,
+              // overall, this whole thing makes no sense.
+              this.avatarRef.current.style.position = "sticky";
+            }}
           />
         </div>
 

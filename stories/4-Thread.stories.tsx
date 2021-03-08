@@ -1042,7 +1042,7 @@ export const CommentsThread = () => {
                 <div style={{ paddingTop: "15px", maxWidth: "550px" }}>
                   <CommentChain
                     ref={(ref) =>
-                      setBoundaryElement(ref?.headerRef?.current || null)
+                      setBoundaryElement(ref?.avatarRef?.current || null)
                     }
                     comments={[
                       {
@@ -1074,7 +1074,7 @@ export const CommentsThread = () => {
                     {(setBoundaryElement) => (
                       <CommentChain
                         ref={(ref) =>
-                          setBoundaryElement(ref?.headerRef?.current || null)
+                          setBoundaryElement(ref?.avatarRef?.current || null)
                         }
                         comments={[
                           {
@@ -1111,7 +1111,7 @@ export const CommentsThread = () => {
                           <CommentChain
                             ref={(ref) =>
                               setBoundaryElement(
-                                ref?.headerRef?.current || null
+                                ref?.avatarRef?.current || null
                               )
                             }
                             comments={[
@@ -1147,7 +1147,7 @@ export const CommentsThread = () => {
                                     <CommentChain
                                       ref={(ref) =>
                                         setBoundaryElement(
-                                          ref?.headerRef?.current || null
+                                          ref?.avatarRef?.current || null
                                         )
                                       }
                                       comments={[
@@ -1181,7 +1181,7 @@ export const CommentsThread = () => {
                                           <CommentChain
                                             ref={(ref) =>
                                               setBoundaryElement(
-                                                ref?.headerRef?.current || null
+                                                ref?.avatarRef?.current || null
                                               )
                                             }
                                             comments={[
@@ -1228,7 +1228,7 @@ export const CommentsThread = () => {
                       <>
                         <CommentChain
                           ref={(ref) =>
-                            setBoundaryElement(ref?.headerRef?.current || null)
+                            setBoundaryElement(ref?.avatarRef?.current || null)
                           }
                           comments={[
                             {
@@ -1262,7 +1262,7 @@ export const CommentsThread = () => {
                                 <CommentChain
                                   ref={(ref) =>
                                     setBoundaryElement(
-                                      ref?.headerRef?.current || null
+                                      ref?.avatarRef?.current || null
                                     )
                                   }
                                   comments={[
@@ -1297,7 +1297,7 @@ export const CommentsThread = () => {
                                         <CommentChain
                                           ref={(ref) =>
                                             setBoundaryElement(
-                                              ref?.headerRef?.current || null
+                                              ref?.avatarRef?.current || null
                                             )
                                           }
                                           comments={[
@@ -1333,7 +1333,7 @@ export const CommentsThread = () => {
                                                 <CommentChain
                                                   ref={(ref) =>
                                                     setBoundaryElement(
-                                                      ref?.headerRef?.current ||
+                                                      ref?.avatarRef?.current ||
                                                         null
                                                     )
                                                   }
@@ -1385,7 +1385,7 @@ export const CommentsThread = () => {
                     {(setBoundaryElement) => (
                       <CommentChain
                         ref={(ref) =>
-                          setBoundaryElement(ref?.headerRef?.current || null)
+                          setBoundaryElement(ref?.avatarRef?.current || null)
                         }
                         comments={[
                           {
@@ -1431,6 +1431,255 @@ export const CommentsThread = () => {
           >
             Remove Comments
           </button>
+        </div>
+      </div>
+    </div>
+  );
+};
+
+export const MultipleCommentsThread = () => {
+  const [threads, setAdditionalThreads] = React.useState([{}]);
+  return (
+    <div>
+      <div style={{ display: "flex" }}>
+        <div
+          style={{
+            marginLeft: "100px",
+            backgroundColor: "Theme.LAYOUT_BOARD_BACKGROUND_COLOR",
+          }}
+        >
+          <div
+            style={{
+              height: "70px",
+              backgroundColor: "red",
+              position: "sticky",
+              top: 0,
+            }}
+          >
+            This Div simulates Boba's sticky header
+          </div>
+          {threads.map((_, index) => (
+            <NewCommentsThread key={index}>
+              {(setBoundaryElement) => (
+                <>
+                  <div style={{ paddingTop: "15px", maxWidth: "550px" }}>
+                    <CommentChain
+                      ref={(ref) =>
+                        setBoundaryElement(ref?.avatarRef?.current || null)
+                      }
+                      comments={[
+                        {
+                          id: "1",
+                          text:
+                            '[{"insert": "[LVL 0] I mean, sure, but you know what also is great?"}]',
+                        },
+                        {
+                          id: "2",
+                          text: '[{"insert": "Deze nuts."}]',
+                        },
+                        {
+                          id: "3",
+                          text: '[{"insert": "Wait is that how you type it?"}]',
+                        },
+                      ]}
+                      secretIdentity={{
+                        name: "Tuxedo Mask",
+                        avatar: `/${tuxedoAvatar}`,
+                      }}
+                      userIdentity={{
+                        name: "SexyDaddy69",
+                        avatar: `/${mamoruAvatar}`,
+                      }}
+                    />
+                  </div>
+                  <NewCommentsThread.Indent>
+                    <NewCommentsThread.Item>
+                      {(setBoundaryElement) => (
+                        <CommentChain
+                          ref={(ref) =>
+                            setBoundaryElement(ref?.avatarRef?.current || null)
+                          }
+                          comments={[
+                            {
+                              id: "1",
+                              text:
+                                '[{"insert": "[LVL 1]I mean, sure, but you know what also is great?"}]',
+                            },
+                            {
+                              id: "2",
+                              text: '[{"insert": "Deze nuts."}]',
+                            },
+                            {
+                              id: "3",
+                              text:
+                                '[{"insert": "Wait is that how you type it?"}]',
+                            },
+                          ]}
+                          secretIdentity={{
+                            name: "Tuxedo Mask",
+                            avatar: `/${tuxedoAvatar}`,
+                          }}
+                          onExtraAction={action("extra")}
+                        />
+                      )}
+                    </NewCommentsThread.Item>
+                    <NewCommentsThread.Item>
+                      {(setBoundaryElement) => (
+                        <>
+                          <CommentChain
+                            ref={(ref) =>
+                              setBoundaryElement(
+                                ref?.avatarRef?.current || null
+                              )
+                            }
+                            comments={[
+                              {
+                                id: "1",
+                                text:
+                                  '[{"insert": "[LVL 1]I mean, sure, but you know what also is great?"}]',
+                              },
+                              {
+                                id: "2",
+                                text: '[{"insert": "Deze nuts."}]',
+                              },
+                              {
+                                id: "3",
+                                text:
+                                  '[{"insert": "Wait is that how you type it?"}]',
+                              },
+                            ]}
+                            secretIdentity={{
+                              name: "Tuxedo Mask",
+                              avatar: `/${tuxedoAvatar}`,
+                            }}
+                          />
+                          <NewCommentsThread.Indent>
+                            <NewCommentsThread.Item>
+                              {(setBoundaryElement) => (
+                                <>
+                                  <CommentChain
+                                    ref={(ref) =>
+                                      setBoundaryElement(
+                                        ref?.avatarRef?.current || null
+                                      )
+                                    }
+                                    comments={[
+                                      {
+                                        id: "1",
+                                        text:
+                                          '[{"insert": "[LVL2] I mean, sure, but you know what also is great?"}]',
+                                      },
+                                      {
+                                        id: "2",
+                                        text: '[{"insert": "Deze nuts."}]',
+                                      },
+                                      {
+                                        id: "3",
+                                        text:
+                                          '[{"insert": "Wait is that how you type it?"}]',
+                                      },
+                                    ]}
+                                    secretIdentity={{
+                                      name: "Tuxedo Mask",
+                                      avatar: `/${tuxedoAvatar}`,
+                                    }}
+                                  />
+                                  <NewCommentsThread.Indent>
+                                    <NewCommentsThread.Item>
+                                      {(setBoundaryElement) => (
+                                        <>
+                                          <CommentChain
+                                            ref={(ref) =>
+                                              setBoundaryElement(
+                                                ref?.avatarRef?.current || null
+                                              )
+                                            }
+                                            comments={[
+                                              {
+                                                id: "1",
+                                                text:
+                                                  '[{"insert": "[LVL3] I mean, sure, but you know what also is great?"}]',
+                                              },
+                                              {
+                                                id: "2",
+                                                text:
+                                                  '[{"insert": "Deze nuts."}]',
+                                              },
+                                              {
+                                                id: "3",
+                                                text:
+                                                  '[{"insert": "Wait is that how you type it?"}]',
+                                              },
+                                            ]}
+                                            secretIdentity={{
+                                              name: "Tuxedo Mask",
+                                              avatar: `/${tuxedoAvatar}`,
+                                            }}
+                                            userIdentity={{
+                                              name: "SexyDaddy69",
+                                              avatar: `/${mamoruAvatar}`,
+                                            }}
+                                          />
+                                        </>
+                                      )}
+                                    </NewCommentsThread.Item>
+                                  </NewCommentsThread.Indent>
+                                </>
+                              )}
+                            </NewCommentsThread.Item>
+                          </NewCommentsThread.Indent>
+                        </>
+                      )}
+                    </NewCommentsThread.Item>
+                    <NewCommentsThread.Item>
+                      {(setBoundaryElement) => (
+                        <CommentChain
+                          ref={(ref) =>
+                            setBoundaryElement(ref?.avatarRef?.current || null)
+                          }
+                          comments={[
+                            {
+                              id: "1",
+                              text:
+                                '[{"insert": "[LVL1] I mean, sure, but you know what also is great?"}]',
+                            },
+                            {
+                              id: "2",
+                              text: '[{"insert": "Deze nuts."}]',
+                            },
+                            {
+                              id: "3",
+                              text:
+                                '[{"insert": "Wait is that how you type it?"}]',
+                            },
+                          ]}
+                          secretIdentity={{
+                            name: "Tuxedo Mask",
+                            avatar: `/${tuxedoAvatar}`,
+                          }}
+                          userIdentity={{
+                            name: "SexyDaddy69",
+                            avatar: `/${mamoruAvatar}`,
+                          }}
+                          onExtraAction={action("extra")}
+                        />
+                      )}
+                    </NewCommentsThread.Item>
+                  </NewCommentsThread.Indent>
+                </>
+              )}
+            </NewCommentsThread>
+          ))}
+        </div>
+        <div style={{ position: "sticky", top: 0, alignSelf: "flex-start" }}>
+          <button onClick={() => setAdditionalThreads([...threads, {}])}>
+            Add Thread
+          </button>
+          {/* <button
+            onClick={() => threads.pop()}
+          >
+            Remove Thread
+          </button> */}
         </div>
       </div>
     </div>

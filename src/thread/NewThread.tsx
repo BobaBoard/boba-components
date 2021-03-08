@@ -169,6 +169,7 @@ const Thread: React.FC<ThreadProps & ChildrenWithRenderProps> & {
         window.removeEventListener("scroll", closePopup);
       };
     }
+    return;
   }, [popupData]);
   return (
     <ThreadContext.Provider
@@ -285,10 +286,9 @@ const Item: React.FC<ChildrenWithRenderProps> = (props) => {
   // to if they want to tie up their boundary with the one of a level above them.
   const boundaryId = React.useRef(`${Math.ceil(Math.random() * 10000000)}`);
   const levelContent = React.createRef<HTMLLIElement & HTMLDivElement>();
-
-  React.useEffect(() => {
-    threadContext?.boundaries.set(boundaryId.current, boundaryElement);
-  }, [boundaryElement, threadContext?.boundaries]);
+  // Setting this won't trigger any re-rendering, and so we can simply set it to make sure
+  // it's always up to date in time for the commit phase.
+  threadContext?.boundaries.set(boundaryId.current, boundaryElement);
 
   let children: React.ReactNode = props.children;
   if (typeof props.children == "function") {
