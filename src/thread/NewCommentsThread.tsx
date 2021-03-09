@@ -65,7 +65,9 @@ interface ChildrenWithRenderProps {
   children?:
     | JSX.Element
     | ((
-        refCallback: (element: HTMLElement | BoundaryElement | null) => void
+        refCallback: (
+          element: HTMLElement | Partial<BoundaryElement> | null
+        ) => void
       ) => React.ReactNode);
 }
 
