@@ -1465,7 +1465,10 @@ export const MultipleCommentsThread = () => {
                   <div style={{ paddingTop: "15px", maxWidth: "550px" }}>
                     <CommentChain
                       ref={(ref) =>
-                        setBoundaryElement(ref?.avatarRef?.current || null)
+                        setBoundaryElement({
+                          positionX: ref?.avatarRef?.current || undefined,
+                          positionY: ref?.headerRef?.current || undefined,
+                        })
                       }
                       comments={[
                         {
@@ -1497,7 +1500,10 @@ export const MultipleCommentsThread = () => {
                       {(setBoundaryElement) => (
                         <CommentChain
                           ref={(ref) =>
-                            setBoundaryElement(ref?.avatarRef?.current || null)
+                            setBoundaryElement({
+                              positionX: ref?.avatarRef?.current || undefined,
+                              positionY: ref?.headerRef?.current || undefined,
+                            })
                           }
                           comments={[
                             {
@@ -1528,9 +1534,10 @@ export const MultipleCommentsThread = () => {
                         <>
                           <CommentChain
                             ref={(ref) =>
-                              setBoundaryElement(
-                                ref?.avatarRef?.current || null
-                              )
+                              setBoundaryElement({
+                                positionX: ref?.avatarRef?.current || undefined,
+                                positionY: ref?.headerRef?.current || undefined,
+                              })
                             }
                             comments={[
                               {
@@ -1559,9 +1566,12 @@ export const MultipleCommentsThread = () => {
                                 <>
                                   <CommentChain
                                     ref={(ref) =>
-                                      setBoundaryElement(
-                                        ref?.avatarRef?.current || null
-                                      )
+                                      setBoundaryElement({
+                                        positionX:
+                                          ref?.avatarRef?.current || undefined,
+                                        positionY:
+                                          ref?.headerRef?.current || undefined,
+                                      })
                                     }
                                     comments={[
                                       {
@@ -1590,9 +1600,14 @@ export const MultipleCommentsThread = () => {
                                         <>
                                           <CommentChain
                                             ref={(ref) =>
-                                              setBoundaryElement(
-                                                ref?.avatarRef?.current || null
-                                              )
+                                              setBoundaryElement({
+                                                positionX:
+                                                  ref?.avatarRef?.current ||
+                                                  undefined,
+                                                positionY:
+                                                  ref?.headerRef?.current ||
+                                                  undefined,
+                                              })
                                             }
                                             comments={[
                                               {
@@ -1635,7 +1650,10 @@ export const MultipleCommentsThread = () => {
                       {(setBoundaryElement) => (
                         <CommentChain
                           ref={(ref) =>
-                            setBoundaryElement(ref?.avatarRef?.current || null)
+                            setBoundaryElement({
+                              positionX: ref?.avatarRef?.current || undefined,
+                              positionY: ref?.headerRef?.current || undefined,
+                            })
                           }
                           comments={[
                             {

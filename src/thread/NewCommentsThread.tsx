@@ -14,19 +14,23 @@ const DEBUG = false;
 // TODO: make the avatar itself be the center.
 const STEM_LEFT_OFFSET = 0;
 
+type BoundaryElement = {
+  positionX: HTMLElement;
+  positionY: HTMLElement;
+};
 interface ThreadContext extends ThreadProps {
   addResizeCallback: (callback: () => void) => void;
   removeResizeCallback: (callback: () => void) => void;
   registerItemBoundary: (element: {
     levelElement: HTMLElement;
-    boundaryElement: HTMLElement;
+    boundaryElement: BoundaryElement;
   }) => void;
   unregisterItemBoundary: (element: { levelElement: HTMLElement }) => void;
   getNextLevelBoundaries: (
     levelElement: HTMLElement
   ) => {
     levelElement: HTMLElement;
-    boundaryElement: HTMLElement;
+    boundaryElement: BoundaryElement;
   }[];
 }
 
@@ -60,7 +64,9 @@ const processItemChildren = (children: React.ReactNode | undefined) => {
 interface ChildrenWithRenderProps {
   children?:
     | JSX.Element
-    | ((refCallback: (element: HTMLElement | null) => void) => React.ReactNode);
+    | ((
+        refCallback: (element: HTMLElement | BoundaryElement | null) => void
+      ) => React.ReactNode);
 }
 
 const useResizeCallbacks = (toWatch: React.RefObject<HTMLElement>) => {
@@ -93,9 +99,14 @@ const useResizeCallbacks = (toWatch: React.RefObject<HTMLElement>) => {
 };
 
 const useBoundariesMap = () => {
-  const levelsBoundariesMap = React.useRef(new Map<HTMLElement, HTMLElement>());
+  const levelsBoundariesMap = React.useRef(
+    new Map<HTMLElement, BoundaryElement>()
+  );
   const registerItemBoundary = React.useCallback(
-    (element: { levelElement: HTMLElement; boundaryElement: HTMLElement }) => {
+    (element: {
+      levelElement: HTMLElement;
+      boundaryElement: BoundaryElement;
+    }) => {
       levelsBoundariesMap.current.set(
         element.levelElement,
         element.boundaryElement
@@ -113,14 +124,14 @@ const useBoundariesMap = () => {
     (levelElement: HTMLElement) => {
       const nextLevelBoundaries: {
         levelElement: HTMLElement;
-        boundaryElement: HTMLElement;
+        boundaryElement: BoundaryElement;
       }[] = [];
       const nextLevelElements = levelElement.querySelectorAll(
         ":scope > ol > li"
       );
       nextLevelElements.forEach((element) => {
         const boundaryElement:
-          | HTMLElement
+          | BoundaryElement
           | undefined = levelsBoundariesMap.current.get(element as HTMLElement);
         if (!boundaryElement) {
           // This can happen when an element is added after the first render, and has not yet registered
@@ -240,17 +251,33 @@ const getLevelIndex = (levelElement: HTMLElement) => {
 // When something is position sticky, it moves alongside the viewport.
 // In order to accurately calculate its position, we make it position
 // relative, calculate, and set it back to sticky.
-const getStickyElementBoundingRect = (element: HTMLElement) => {
-  if (getComputedStyle(element).position !== "sticky") {
-    return element.getBoundingClientRect();
+const getStickyElementBoundingRect = (
+  element: BoundaryElement
+): {
+  left: number;
+  width: number;
+  top: number;
+  height: number;
+  bottom: number;
+} => {
+  const { left, width } = element.positionX.getBoundingClientRect();
+  let yBoundingRect = element.positionY.getBoundingClientRect();
+  if (getComputedStyle(element.positionY).position === "sticky") {
+    const previousTop = getComputedStyle(element.positionY).top;
+    element.positionY.style.position = "relative";
+    element.positionY.style.top = "0";
+    yBoundingRect = element.positionY.getBoundingClientRect();
+    element.positionY.style.position = "sticky";
+    element.positionY.style.top = previousTop;
   }
-  const previousTop = getComputedStyle(element).top;
-  element.style.position = "relative";
-  element.style.top = "0";
-  const box = element.getBoundingClientRect();
-  element.style.position = "sticky";
-  element.style.top = previousTop;
-  return box;
+
+  return {
+    left,
+    width,
+    top: yBoundingRect.top,
+    height: yBoundingRect.height,
+    bottom: yBoundingRect.bottom,
+  };
 };
 
 const setLevelStemBoundaries = ({
@@ -259,8 +286,8 @@ const setLevelStemBoundaries = ({
   nextLevelBoundaries,
 }: {
   levelElement: HTMLElement;
-  boundaryElement: HTMLElement;
-  nextLevelBoundaries: HTMLElement[];
+  boundaryElement: BoundaryElement;
+  nextLevelBoundaries: BoundaryElement[];
 }) => {
   const {
     top: levelTop,
@@ -296,9 +323,9 @@ const setNextLevelStemBoundaries = ({
   nextLevelElement,
   nextLevelBoundary,
 }: {
-  levelBoundary: HTMLElement;
+  levelBoundary: BoundaryElement;
   nextLevelElement: HTMLElement;
-  nextLevelBoundary: HTMLElement;
+  nextLevelBoundary: BoundaryElement;
 }) => {
   const {
     left: levelBoundaryLeft,
@@ -365,14 +392,51 @@ const Item: React.FC<ChildrenWithRenderProps> = (props) => {
   const [
     boundaryElement,
     setBoundaryElement,
-  ] = React.useState<HTMLElement | null>(null);
+  ] = React.useState<BoundaryElement | null>(null);
   const levelContent = React.createRef<HTMLLIElement & HTMLDivElement>();
   const levelStem = React.createRef<HTMLDivElement>();
   const levelStemContainer = React.createRef<HTMLDivElement>();
 
+  const boundaryElementCallback = React.useCallback(
+    (ref: HTMLElement | Partial<BoundaryElement> | null) => {
+      // If anything in the ref is null, set everything to null.
+      if (
+        !ref ||
+        (!(ref instanceof HTMLElement) && (!ref.positionX || !ref.positionY))
+      ) {
+        if (boundaryElement) {
+          setBoundaryElement(null);
+        }
+        return;
+      }
+      if (ref instanceof HTMLElement) {
+        const isUpdatedBoundary =
+          boundaryElement?.positionX !== ref ||
+          boundaryElement?.positionY !== ref;
+        if (isUpdatedBoundary) {
+          setBoundaryElement({
+            positionX: ref,
+            positionY: ref,
+          });
+        }
+        return;
+      }
+      if ("positionX" in ref) {
+        const isUpdatedBoundary =
+          boundaryElement?.positionX !== ref.positionX ||
+          boundaryElement?.positionY !== ref.positionY;
+        if (isUpdatedBoundary) {
+          setBoundaryElement(ref as BoundaryElement);
+          return;
+        }
+      }
+    },
+    [setBoundaryElement, boundaryElement]
+  );
+
   let children: React.ReactNode = props.children;
   if (typeof props.children == "function") {
-    children = props.children(setBoundaryElement);
+    children = props.children(boundaryElementCallback);
     // Since thread indent must always be a direct child of Item, but the component
     // rendered by using a render props function will likely need to wrap more than one
     // element as a return value, we check if the returned children are a fragment,
