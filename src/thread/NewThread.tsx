@@ -2,8 +2,6 @@ import React, { Children } from "react";
 
 import Theme from "../theme/default";
 import CollapsedPlaceholder from "./CollapsedPlaceholder";
-import CircleMask from "../images/circle-mask.svg";
-import RectangleMask from "../images/rectangle-mask.svg";
 import classnames from "classnames";
 import { lightenColor } from "../utils";
 import PopupButtons, { PopupButtonsProps } from "../common/PopupButtons";
@@ -253,17 +251,24 @@ export const CollapseGroup: React.FC<CollapseGroupProps> = (props) => {
           position: relative;
         }
         .collapsed .background {
-          mask: url(${RectangleMask}), url(${CircleMask}) 0px -6px/8px 10px;
-          mask-composite: source-out;
-          mask-repeat: repeat-y;
           background-color: #2e2e30;
-          position: absolute;
           top: -15px;
           bottom: -17px;
+          position: absolute;
           left: 0;
           width: ${INDENT_WIDTH_PX}px;
           z-index: 1;
           pointer-events: none;
+          mask: linear-gradient(0deg, rgba(0, 0, 0, 0), rgba(0, 0, 0, 0)),
+            radial-gradient(
+              ${INDENT_WIDTH_PX}px circle at top ${INDENT_WIDTH_PX / 2}px left
+                ${INDENT_WIDTH_PX / 2}px,
+              transparent 50%,
+              black 51%
+            );
+          mask-position: 0px -${INDENT_WIDTH_PX / 2}px;
+          mask-size: ${INDENT_WIDTH_PX}px ${INDENT_WIDTH_PX + 2}px;
+          mask-repeat: repeat-y;
         }
         .collapsed.ends-level .background {
           bottom: 10px;
