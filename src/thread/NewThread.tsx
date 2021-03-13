@@ -109,6 +109,7 @@ interface ChildrenWithRenderProps {
 const Thread: React.FC<ThreadProps & ChildrenWithRenderProps> & {
   Indent: typeof Indent;
   Item: typeof Item;
+  CollapseGroup: typeof CollapseGroup;
 } = (props) => {
   const threadRef = React.createRef<HTMLDivElement>();
 
@@ -590,6 +591,7 @@ export const Indent: React.FC<IndentProps> = (props) => {
   );
 };
 
+Thread.CollapseGroup = CollapseGroup;
 Thread.Indent = Indent;
 Thread.Item = Item;
 export default Thread;
