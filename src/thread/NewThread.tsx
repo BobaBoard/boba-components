@@ -42,7 +42,9 @@ interface ThreadProps {
 }
 
 interface CollapseGroupProps extends IndentProps {
-  endsLevel?: boolean;
+  onLoadBefore?: (id: string) => void;
+  onLoadAfter?: (id: string) => void;
+  _endsLevel?: boolean;
 }
 
 const isIndentElement = (
@@ -225,15 +227,36 @@ export const CollapseGroup: React.FC<CollapseGroupProps> = (props) => {
   const level = React.useContext(ThreadLevel);
   const stemColor =
     Theme.INDENT_COLORS[level - (1 % Theme.INDENT_COLORS.length)];
+
+  const { onUncollapseLevel } = threadContext || { onUncollapseLevel: null };
+  const uncollapseCallback = React.useMemo(
+    () => ({
+      onClick: () => onUncollapseLevel?.(props.id as string),
+    }),
+    [onUncollapseLevel, props.id]
+  );
+  const { onLoadBefore, onLoadAfter } = props;
+  const onLoadBeforeCallback = React.useMemo(
+    () => ({
+      onClick: () => onLoadBefore?.(props.id as string),
+    }),
+    [onLoadBefore, props.id]
+  );
+  const onLoadAfterCallback = React.useMemo(
+    () => ({
+      onClick: () => onLoadAfter?.(props.id as string),
+    }),
+    [onLoadAfter, props.id]
+  );
   return props.collapsed ? (
     <div
-      className={classnames("collapsed", { "ends-level": !!props.endsLevel })}
+      className={classnames("collapsed", { "ends-level": !!props._endsLevel })}
     >
       <div className="placeholder">
         <CollapsedPlaceholder
-          onUncollapseClick={() =>
-            threadContext?.onUncollapseLevel?.(props.id as string)
-          }
+          onUncollapseClick={uncollapseCallback}
+          onLoadBefore={onLoadBefore ? onLoadBeforeCallback : undefined}
+          onLoadAfter={onLoadAfter ? onLoadAfterCallback : undefined}
           accentColor={stemColor}
         >
           {threadContext?.getCollapseReason?.(props.id as string)}
@@ -573,7 +596,7 @@ export const Indent: React.FC<IndentProps> = (props) => {
       <ol data-level={level + 1} className={`level-container`}>
         <ThreadLevel.Provider value={level + 1}>
           {props.collapsed ? (
-            <CollapseGroup {...props} endsLevel />
+            <CollapseGroup {...props} _endsLevel />
           ) : (
             childrenForRendering
           )}

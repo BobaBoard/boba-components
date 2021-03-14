@@ -469,7 +469,46 @@ export const SingleThreadedComments = () => {
 export const CollapsePlaceholderStory = () => {
   return (
     <div style={{ maxWidth: "500px", textAlign: "center" }}>
-      <CollapsedPlaceholder onUncollapseClick={action("uncollapse")}>
+      <CollapsedPlaceholder
+        onUncollapseClick={{ onClick: () => action("uncollapse")() }}
+      >
+        <div>
+          5 comments <span style={{ color: "green" }}>manually hidden</span>.
+          Reason:{" "}
+          <em>
+            people started talking about Coffee Shop AUs, which disgust me.
+          </em>
+        </div>
+      </CollapsedPlaceholder>
+      <CollapsedPlaceholder
+        onUncollapseClick={{ onClick: () => action("uncollapse")() }}
+        onLoadBefore={{ onClick: () => action("loadBefore")() }}
+      >
+        <div>
+          5 comments <span style={{ color: "green" }}>manually hidden</span>.
+          Reason:{" "}
+          <em>
+            people started talking about Coffee Shop AUs, which disgust me.
+          </em>
+        </div>
+      </CollapsedPlaceholder>
+      <CollapsedPlaceholder
+        onUncollapseClick={{ onClick: () => action("uncollapse")() }}
+        onLoadAfter={{ onClick: () => action("loadAfter")() }}
+      >
+        <div>
+          5 comments <span style={{ color: "green" }}>manually hidden</span>.
+          Reason:{" "}
+          <em>
+            people started talking about Coffee Shop AUs, which disgust me.
+          </em>
+        </div>
+      </CollapsedPlaceholder>
+      <CollapsedPlaceholder
+        onUncollapseClick={{ onClick: () => action("uncollapse")() }}
+        onLoadBefore={{ onClick: () => action("loadBefore")() }}
+        onLoadAfter={{ onClick: () => action("loadAfter")() }}
+      >
         <div>
           5 comments <span style={{ color: "green" }}>manually hidden</span>.
           Reason:{" "}
