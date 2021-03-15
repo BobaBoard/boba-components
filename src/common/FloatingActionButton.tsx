@@ -53,6 +53,12 @@ const FloatingActionButton: React.FC<FloatingActionButtonProps> = (props) => {
           transform: scale(1.048);
           cursor: pointer;
         }
+        .fab:focus {
+          outline: none;
+        }
+        .fab:focus-visible {
+          outline: auto;
+        }
         .icon {
           position: absolute;
           top: 50%;
