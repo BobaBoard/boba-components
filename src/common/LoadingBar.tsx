@@ -1,99 +1,54 @@
+import Color from "color";
 import React from "react";
-// This library has no type.
-// @ts-ignore
 import LibraryLoadingBar from "react-top-loading-bar";
-import css from "styled-jsx/css";
 
-const getLoadingBarStyle = (color: string) => {
-  return css.resolve`
-    div {
-      background-color: ${color}!important;
-      box-shadow: 0px 1px 1px ${color};
-    }
-  `;
-};
-
-const getLoadingBarContainerStyle = (color: string, height: number) => {
-  return css.resolve`
-    div::before {
-      content: "";
-      background-color: ${color};
-      opacity: 0.5;
-      position: absolute;
-      height: ${height}px;
-      width: 100%;
-      display: block;
-      box-shadow: 0px 1px 1px ${color};
-    }
-    div {
-      position: fixed;
-      top: 0;
-      left: 0;
-      z-index: 100;
-      transition: width 0.5s;
-      width: "0%";
-    }
-  `;
-};
-
-const getGrandpa = (className: string) => {
-  return document.getElementsByClassName(className)[0]?.parentElement
-    ?.parentElement;
+// From: https://github.com/klendi/react-top-loading-bar/issues/41
+type LoadingBarRef = {
+  add(value: number): void;
+  decrease(value: number): void;
+  continuousStart(startingValue?: number, refreshRate?: number): void;
+  staticStart(startingValue: number): void;
+  complete(): void;
 };
 
 const HEIGHT = 1;
 const LoadingBar = (props: LoadingBarProps) => {
-  const barRef = React.useRef<any>();
-  const {
-    className: loadingBarClassName,
-    styles: loadingBarStyle,
-  } = getLoadingBarStyle(props.accentColor || "#ffffff");
-  const {
-    className: loadingBarContainerClassName,
-    styles: loadingBarContainerStyle,
-  } = getLoadingBarContainerStyle(props.accentColor || "#ffffff", HEIGHT);
+  const barRef = React.useRef<LoadingBarRef>();
+
+  const barColor = props.accentColor || "#ffffff";
+  const lighterColor = Color(barColor).darken(0.5);
 
   React.useEffect(() => {
-    if (barRef.current) {
-      getGrandpa(loadingBarClassName)?.classList.add(
-        loadingBarContainerClassName
-      );
+    if (!barRef.current) {
+      return;
     }
-  }, [loadingBarClassName, loadingBarContainerClassName]);
-  React.useEffect(() => {
-    if (barRef.current) {
-      const grandpa = getGrandpa(loadingBarClassName);
-      if (!grandpa) {
-        return;
-      }
-      if (props.loading) {
-        grandpa.style.width = "100%";
-        barRef.current.continuousStart();
-      } else {
+    if (props.progress) {
+      // For some reason you can either use this with the ref or the progress prop.
+      barRef.current.staticStart(props.progress);
+      if (props.progress >= 100) {
         barRef.current.complete();
-        // Give it some time to complete then hide container
-        setTimeout(() => {
-          grandpa.style.width = "0%";
-        }, 500);
       }
+      return;
     }
-  }, [
-    props.loading,
-    loadingBarClassName,
-    loadingBarContainerClassName,
-    props.accentColor,
-  ]);
+    if (props.loading) {
+      barRef.current.continuousStart();
+    } else {
+      barRef.current.complete();
+    }
+  }, [props.loading, props.progress]);
 
   return (
     <div>
       <LibraryLoadingBar
-        className={loadingBarClassName}
+        className={props.className}
         height={HEIGHT}
         ref={barRef}
-        progress={50}
+        background={
+          props.loading || props.progress ? lighterColor.toString() : undefined
+        }
+        color={barColor}
+        waitingTime={800}
       />
-      {loadingBarContainerStyle}
-      {loadingBarStyle}
     </div>
   );
 };
@@ -103,4 +58,6 @@ export default LoadingBar;
 export interface LoadingBarProps {
   accentColor?: string;
   loading?: boolean;
+  progress?: number;
+  className?: string;
 }

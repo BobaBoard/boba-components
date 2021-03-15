@@ -39,6 +39,7 @@ import BobaDex from "./user/BobaDex";
 import { TagType } from "./types";
 import { EditorContext } from "@bobaboard/boba-editor";
 import SegmentedButton from "./common/SegmentedButton";
+import LoadingBar from "./common/LoadingBar";
 
 import flush from "styled-jsx/server";
 
@@ -77,6 +78,7 @@ export {
   BoardsDisplay,
   ToastContainer,
   MasonryView,
+  LoadingBar,
   toast,
   EditorContext,
   ImageUploaderContext,
