@@ -318,6 +318,8 @@ const FeedWithMenu: React.FC<FeedWithMenuProps> & CompoundComponents = ({
           }
           .intersection-observer-ref {
             height: 1px;
+            position: absolute;
+            bottom: 500px;
           }
 
           @media only screen and (max-width: 950px) {

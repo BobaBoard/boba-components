@@ -442,6 +442,16 @@ export const FeedWithMenuPreview = () => {
             </div>
           </FeedWithMenu.Sidebar>
           <FeedWithMenu.FeedContent>
+            <div
+              style={{
+                position: "sticky",
+                left: "0",
+                top: "50%",
+                backgroundColor: "lightgray",
+              }}
+            >
+              Loading: {loading ? "true" : "false"}
+            </div>
             {Array.from({ length: feedItemsNumber }).map((_, index) => (
               <div
                 style={{
