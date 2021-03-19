@@ -3,7 +3,7 @@ import React from "react";
 import BoardSidebar from "../src/board/BoardSidebar";
 import LegacyBoardSidebar from "../src/board/LegacyBoardSidebar";
 import TextSection from "../src/board/TextSection";
-import CategoryFilterSection from "../src/board/CategoryFilterSection";
+import TagsFilterSection from "../src/board/TagsFilterSection";
 import BoardDescription from "../src/board/BoardDescription";
 import Button from "../src/common/Button";
 
@@ -173,7 +173,7 @@ EditableDescription.args = {
 };
 
 const CategoryFilterSectionTemplate = (args: any) => (
-  <CategoryFilterSection {...args} />
+  <TagsFilterSection {...args} />
 );
 export const FiltersSection = CategoryFilterSectionTemplate.bind({});
 FiltersSection.args = {

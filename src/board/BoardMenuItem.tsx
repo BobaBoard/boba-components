@@ -122,7 +122,7 @@ const BoardMenuItem: React.FC<
         .board-menu-item-slug {
           color: #969696;
           font-size: 18px;
-          font-weight: bold;
+          font-weight: 500;
           overflow: hidden;
           text-overflow: ellipsis;
           white-space: nowrap;

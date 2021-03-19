@@ -1,14 +1,14 @@
 import React from "react";
 
 import TextSection from "./TextSection";
-import CategoryFilterSection from "./CategoryFilterSection";
+import TagsFilterSection from "./TagsFilterSection";
 import Button, { ButtonStyle } from "../common/Button";
 import { faFont, faPlus, faTags } from "@fortawesome/free-solid-svg-icons";
 
 import classnames from "classnames";
 
 import debug from "debug";
-import { DescriptionType } from "types";
+import { DescriptionType, TagType } from "../types";
 // @ts-ignore
 const log = debug("bobaui:boards:boardsDescription");
 
@@ -47,30 +47,32 @@ const getSection = (
       );
     case "category_filter":
       return props.editing ? (
-        <CategoryFilterSection
+        <TagsFilterSection
           key={description.id}
           title={description.title}
-          categories={description.categories}
+          tags={description.categories}
           editable={true}
+          type={TagType.CATEGORY}
           onTitleChange={(title) => {
             props.onDescriptionChange({ ...description, title });
           }}
-          onCategoriesChange={(categories) =>
+          onTagsChange={(categories) =>
             props.onDescriptionChange({ ...description, categories })
           }
         />
       ) : (
-        <CategoryFilterSection
+        <TagsFilterSection
           key={description.id}
           title={description.title}
-          categories={description.categories.map((category) => ({
+          type={TagType.CATEGORY}
+          tags={description.categories.map((category) => ({
             name: category,
             active: props.activeCategories.some(
               (activeCategory) => category === activeCategory
             ),
           }))}
           editable={false}
-          onCategoryStateChangeRequest={props.onCategoryStateChangeRequest}
+          onTagsStateChangeRequest={props.onCategoryStateChangeRequest}
           onClearFilterRequests={props.onClearFilterRequests}
         />
       );

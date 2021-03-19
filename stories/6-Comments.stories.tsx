@@ -245,27 +245,29 @@ export const CommentChainStory = () => {
         }}
         userIdentity={{ name: "SexyDaddy69", avatar: `/${mamoruAvatar}` }}
       />
-      <CommentChain
-        ref={commentRef2}
-        comments={[
-          {
-            id: "1",
-            text:
-              '[{"insert": "I\'m a man of simple taste. I see half an ankle and go:"}]',
-          },
-          {
-            id: "1",
-            text:
-              '[{"insert":{"block-image":{"src":"https://media.tenor.com/images/2d4aeafd88c82922635b972e454c07d3/tenor.gif","spoilers":false,"width":320,"height":176}}},{"insert":""}]',
-          },
-        ]}
-        secretIdentity={{
-          name: "Tuxedo Mask",
-          avatar: `/${tuxedoAvatar}`,
-        }}
-        userIdentity={{ name: "SexyDaddy69", avatar: `/${mamoruAvatar}` }}
-        onExtraAction={action("extra")}
-      />
+      <div style={{ width: "320px" }}>
+        <CommentChain
+          ref={commentRef2}
+          comments={[
+            {
+              id: "1",
+              text:
+                '[{"insert": "I\'m a man of simple taste. I see half an ankle and go:"}]',
+            },
+            {
+              id: "1",
+              text:
+                '[{"insert":{"block-image":{"src":"https://media.tenor.com/images/2d4aeafd88c82922635b972e454c07d3/tenor.gif","spoilers":false,"width":320,"height":176}}},{"insert":""}]',
+            },
+          ]}
+          secretIdentity={{
+            name: "Tuxedo Mask",
+            avatar: `/${tuxedoAvatar}`,
+          }}
+          userIdentity={{ name: "SexyDaddy69", avatar: `/${mamoruAvatar}` }}
+          onExtraAction={action("extra")}
+        />
+      </div>
       <div style={{ marginTop: "20px" }}>
         <Button onClick={highlight}>Highlight!</Button>
       </div>

@@ -31,7 +31,7 @@ import CycleNewButton from "./board/CycleNewButton";
 import Layout from "./layout/Layout";
 import { useCompact } from "./utils";
 import DefaultTheme from "./theme/default";
-import CategoryFilter from "./common/CategoryFilter";
+import TagsFilterSection from "./board/TagsFilterSection";
 import MasonryView from "./layout/MasonryView";
 import PostQuote from "./post/PostQuote";
 import UserDetails from "./user/UserDetails";
@@ -85,7 +85,7 @@ export {
   flush,
   useCompact,
   DefaultTheme,
-  CategoryFilter,
+  TagsFilterSection,
   PostQuote,
   NewThread,
   CollapsedPlaceholder,

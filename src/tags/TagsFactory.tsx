@@ -18,32 +18,54 @@ export const INDEXABLE_TAG_COLOR = "#FF5A13";
 export const CATEGORY_TAG_COLOR = "#138EFF";
 export const CW_TAG_COLOR = "#FFC700";
 
-export const getDataForTagType = (tag: TagsType) => {
-  if (tag.indexable || tag.type == TagType.INDEXABLE) {
+const getTagType = (tag: TagsType | TagType) => {
+  if (typeof tag === "object") {
+    if (tag.type) {
+      return tag.type;
+    }
+    if (tag.category) {
+      return TagType.CATEGORY;
+    }
+    if (tag.contentWarning) {
+      return TagType.CONTENT_WARNING;
+    }
+    if (tag.indexable) {
+      return TagType.INDEXABLE;
+    }
+    return TagType.WHISPER;
+  }
+  return tag;
+};
+
+export const getDataForTagType = (tag: TagsType | TagType) => {
+  const tagType = getTagType(tag);
+  if (tagType == TagType.INDEXABLE) {
     return {
       symbol: INDEXABLE_PREFIX,
       color: INDEXABLE_TAG_COLOR,
       type: TagType.INDEXABLE,
       accentColor: "white",
     };
-  } else if (tag.category || tag.type == TagType.CATEGORY) {
+  } else if (tagType == TagType.CATEGORY) {
     return {
       symbol: CATEGORY_PREFIX,
       color: CATEGORY_TAG_COLOR,
       type: TagType.CATEGORY,
       accentColor: "white",
     };
-  } else if (tag.contentWarning || tag.type == TagType.CONTENT_WARNING) {
+  } else if (tagType == TagType.CONTENT_WARNING) {
     return {
       symbol: CONTENT_NOTICE_DEFAULT_PREFIX,
       color: CW_TAG_COLOR,
       type: TagType.CONTENT_WARNING,
+      accentColor: "black",
     };
   } else {
     return {
       symbol: WHISPER_PREFIX,
       color: undefined,
       type: TagType.WHISPER,
+      accentColor: "black",
     };
   }
 };
@@ -60,7 +82,7 @@ export class TagsFactory {
       name: tag.name,
       compact: true,
       color: tag.color || tagData.color,
-      accentColor: tag.accentColor,
+      accentColor: tag.accentColor || tagData.accentColor,
       symbol: tagData.symbol,
     };
   }

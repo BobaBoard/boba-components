@@ -279,6 +279,50 @@ TagsFilterStory.story = {
   name: "non-editable tags filter",
 };
 
+export const TagsFilterUncategorizedStory = () => {
+  const [tags, setTags] = React.useState([
+    { name: "tag1", state: FilteredTagsState.ACTIVE },
+    { name: "tag2", state: FilteredTagsState.ACTIVE },
+    { name: "a long tag", state: FilteredTagsState.ACTIVE },
+    {
+      name: "a very very very very very long tag with many words",
+      state: FilteredTagsState.DISABLED,
+    },
+    {
+      name:
+        "a tag with many words that is actually more than one single line long used to check words splitting",
+      state: FilteredTagsState.ACTIVE,
+    },
+    {
+      name:
+        "JugemuJugemuGokonoSurikireKaijarisuigyonoSuigyomatsuUnraimatsuFuraimatsuKuNeruTokoroniSumuTokoroYaburaKojinoBuraKojiPaipopaipoPaiponoShuringanShuringannoGurindaiGurindainoPonpokopinoPonpokonanoChokyumeinoChosuke",
+      state: FilteredTagsState.DISABLED,
+    },
+  ]);
+  const [uncategorizedState, setUncategorizedState] = React.useState(
+    FilteredTagsState.DISABLED
+  );
+  return (
+    <div style={{ width: "500px", backgroundColor: "white" }}>
+      <TagsFilter
+        tags={tags}
+        type={TagType.CONTENT_WARNING}
+        onTagStateChangeRequest={(changedTag) =>
+          setTags(
+            tags.map((tag) => (changedTag.name == tag.name ? changedTag : tag))
+          )
+        }
+        uncategorized={uncategorizedState}
+        onUncategorizedStateChangeRequest={setUncategorizedState}
+      />
+    </div>
+  );
+};
+
+TagsFilterUncategorizedStory.story = {
+  name: "tags filter (+ uncategorized)",
+};
+
 export const EditableTagsFilterStory = () => {
   const [tags, setTags] = React.useState([
     { name: "tag1" },

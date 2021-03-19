@@ -5,7 +5,7 @@ import Input, { InputStyle } from "../common/Input";
 import Button from "../common/Button";
 
 import debug from "debug";
-import TagsFactory from "./TagsFactory";
+import TagsFactory, { getDataForTagType } from "./TagsFactory";
 import Tag from "../tags/Tag";
 import { TagType } from "../types";
 import { ButtonStyle } from "../common/Button";
@@ -13,8 +13,9 @@ import { faPlus } from "@fortawesome/free-solid-svg-icons";
 // @ts-ignore
 const log = debug("bobaui:common:TagsFilter");
 
-const TagsFilterSection: React.FC<TagsFilterProps> = (props) => {
+const TagsFilter: React.FC<TagsFilterProps> = (props) => {
   const [newTag, setNewTag] = React.useState("");
+
   return (
     <div className="filter-section">
       <div className="filter-container">
@@ -55,6 +56,29 @@ const TagsFilterSection: React.FC<TagsFilterProps> = (props) => {
             </button>
           ))
         }
+        {!props.editable && typeof props.uncategorized !== "undefined" && (
+          <button
+            key={"uncategorized"}
+            className={classnames("tag", {
+              disabled: props.uncategorized === FilteredTagsState.DISABLED,
+            })}
+            onClick={() =>
+              !props.editable &&
+              props.onUncategorizedStateChangeRequest?.(
+                props.uncategorized == FilteredTagsState.ACTIVE
+                  ? FilteredTagsState.DISABLED
+                  : FilteredTagsState.ACTIVE
+              )
+            }
+          >
+            <Tag
+              name="uncategorized"
+              color="lightgray"
+              symbol={getDataForTagType(props.type).symbol}
+              compact
+            />
+          </button>
+        )}
       </div>
       <div className={classnames("tag-input", { visible: props.editable })}>
         <Input
@@ -144,7 +168,8 @@ export interface DisplayTagsFilterProps {
     name: string;
     state: FilteredTagsState;
   }) => void;
-  onClearTagsFilterRequests?: () => void;
+  uncategorized?: FilteredTagsState;
+  onUncategorizedStateChangeRequest?: (state: FilteredTagsState) => void;
 }
 
 export interface EditableTagsFilterProps {
@@ -156,4 +181,4 @@ export interface EditableTagsFilterProps {
 
 export type TagsFilterProps = DisplayTagsFilterProps | EditableTagsFilterProps;
 
-export default TagsFilterSection;
+export default TagsFilter;

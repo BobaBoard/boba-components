@@ -2,18 +2,28 @@ import React from "react";
 
 import classnames from "classnames";
 import Input, { InputStyle } from "../common/Input";
-import CategoryFilter from "../common/CategoryFilter";
 import Button from "../common/Button";
 
 import debug from "debug";
+import TagsFilter, { FilteredTagsState } from "../tags/TagsFilter";
+import { TagType } from "types";
 // @ts-ignore
 const log = debug("bobaui:boards:CategoryFilterSection");
 
-const CategoryFilterSection: React.FC<CategoryFilterSectionProps> = (props) => {
+const TagsFilterSection: React.FC<TagsFilterSectionProps> = (props) => {
   const [newCategory, setNewCategory] = React.useState("");
 
+  const { onUncategorizedStateChangeRequest = undefined } =
+    "uncategorized" in props ? props : {};
+  const onUncategorizedStateChangeRequestCallback = React.useCallback(
+    (state: FilteredTagsState) => {
+      onUncategorizedStateChangeRequest?.(state == FilteredTagsState.ACTIVE);
+    },
+    [onUncategorizedStateChangeRequest]
+  );
+
   const allCategoriesActive =
-    props.editable || !props.categories.some((category) => !category.active);
+    props.editable || !props.tags.some((category) => !category.active);
   return (
     <div
       className={classnames("sidebar-section", { editable: props.editable })}
@@ -33,18 +43,17 @@ const CategoryFilterSection: React.FC<CategoryFilterSectionProps> = (props) => {
         ) : (
           <>
             <div className="title">{props.title}</div>
-            <a
+            <button
               className={classnames("clear-filters", {
                 visible: !allCategoriesActive,
               })}
-              href="#"
               onClick={(e) => {
                 e.preventDefault();
                 props.onClearFilterRequests();
               }}
             >
               Clear filters
-            </a>
+            </button>
           </>
         )}
       </div>
@@ -55,18 +64,39 @@ const CategoryFilterSection: React.FC<CategoryFilterSectionProps> = (props) => {
             editable: props.editable,
           })}
         >
-          <CategoryFilter
-            categories={
+          <TagsFilter
+            tags={
               !props.editable
-                ? props.categories
-                : props.categories?.map((c) => ({ name: c, active: true }))
+                ? props.tags.map((c) => ({
+                    name: c.name,
+                    state: c.active
+                      ? FilteredTagsState.ACTIVE
+                      : FilteredTagsState.DISABLED,
+                  }))
+                : props.tags?.map((c) => ({
+                    name: c,
+                    state: FilteredTagsState.ACTIVE,
+                  }))
             }
-            onCategoryStateChangeRequest={(updatedCategory) => {
+            onTagStateChangeRequest={(updatedTag) => {
               if (props.editable) {
                 return;
               }
-              props.onCategoryStateChangeRequest(updatedCategory);
+              props.onTagsStateChangeRequest(updatedTag.name);
             }}
+            type={props.type}
+            uncategorized={
+              "uncategorized" in props
+                ? props.uncategorized
+                  ? FilteredTagsState.ACTIVE
+                  : FilteredTagsState.DISABLED
+                : undefined
+            }
+            onUncategorizedStateChangeRequest={
+              "uncategorized" in props
+                ? onUncategorizedStateChangeRequestCallback
+                : undefined
+            }
           />
         </div>
         {props.editable && (
@@ -81,7 +111,7 @@ const CategoryFilterSection: React.FC<CategoryFilterSectionProps> = (props) => {
             />
             <Button
               onClick={() => {
-                props.onCategoriesChange?.([...props.categories, newCategory]);
+                props.onTagsChange?.([...props.tags, newCategory]);
                 setNewCategory("");
               }}
             >
@@ -110,10 +140,22 @@ const CategoryFilterSection: React.FC<CategoryFilterSectionProps> = (props) => {
         }
         .clear-filters {
           color: white;
-          font-size: smaller;
+          font-size: small;
           display: block;
           margin-top: 5px;
           visibility: hidden;
+          background-color: transparent;
+          border: 0;
+          text-decoration: underline;
+        }
+        .clear-filters:hover {
+          cursor: pointer;
+        }
+        .clear-filters:focus {
+          outline: none;
+        }
+        .clear-filters:focus-visible {
+          outline: auto;
         }
         .clear-filters.visible {
           visibility: visible;
@@ -128,22 +170,26 @@ const CategoryFilterSection: React.FC<CategoryFilterSectionProps> = (props) => {
 
 export interface DisplayCategoryFilterSectionProps {
   title: string;
-  categories: { name: string; active: boolean }[];
+  tags: { name: string; active: boolean }[];
   editable?: false;
-  onCategoryStateChangeRequest: (name: string) => void;
+  type: TagType;
+  onTagsStateChangeRequest: (name: string) => void;
   onClearFilterRequests: () => void;
+  uncategorized?: boolean;
+  onUncategorizedStateChangeRequest?: (state: boolean) => void;
 }
 
 export interface EditableCategoryFilterSectionProps {
   title: string;
-  categories: string[];
+  tags: string[];
   editable: true;
+  type: TagType;
   onTitleChange: (title: string) => void;
-  onCategoriesChange: (categories: string[]) => void;
+  onTagsChange: (tags: string[]) => void;
 }
 
-export type CategoryFilterSectionProps =
+export type TagsFilterSectionProps =
   | DisplayCategoryFilterSectionProps
   | EditableCategoryFilterSectionProps;
 
-export default CategoryFilterSection;
+export default TagsFilterSection;
