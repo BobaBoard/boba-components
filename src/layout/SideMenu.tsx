@@ -1,7 +1,7 @@
 import React, { Children } from "react";
 import { BoardType } from "types";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import { faEllipsisV } from "@fortawesome/free-solid-svg-icons";
+import { faEllipsisV, faSearch } from "@fortawesome/free-solid-svg-icons";
 
 import PinnedBoardsMenu from "../common/PinnedBoardsMenu";
 import BoardsMenuSection, {
@@ -39,6 +39,9 @@ const SideMenu: React.FC<SideMenuProps> & CompoundComponents = ({
       </div>
       <div className="board-menus">
         <div className="board-filter">
+          <div className="icon">
+            <FontAwesomeIcon icon={faSearch} />
+          </div>
           <input
             placeholder="Filter boards"
             onChange={(e) => onFilterChange?.(e.target.value)}
@@ -92,6 +95,11 @@ const SideMenu: React.FC<SideMenuProps> & CompoundComponents = ({
             display: flex;
             flex-direction: column;
             overflow-x: hidden;
+          }
+          .icon {
+            color: #bfbfbf;
+            align-self: center;
+            margin-right: 10px;
           }
           .pinned-boards-container {
             display: none;
