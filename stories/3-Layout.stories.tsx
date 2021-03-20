@@ -338,7 +338,6 @@ export const SideMenuPreview = () => {
           pinnedBoards={[...PINNED_BOARDS, ...PINNED_BOARDS]}
           currentBoardSlug="anime"
           showPinned={showPinned}
-          {...menuOptions}
           ref={menuRef}
         >
           <SideMenu.BoardsMenuSection

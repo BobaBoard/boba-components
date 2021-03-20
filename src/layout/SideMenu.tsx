@@ -55,7 +55,11 @@ const SideMenu = React.forwardRef<SideMenuHandler, SideMenuProps>(
           />
         </div>
         <div className="board-menus">
-          <div className="board-filter">
+          <div
+            className={classnames("board-filter", {
+              "with-options": menuOptions && menuOptions.length > 0,
+            })}
+          >
             <div className="icon">
               <FontAwesomeIcon icon={faSearch} />
             </div>
@@ -69,11 +73,7 @@ const SideMenu = React.forwardRef<SideMenuHandler, SideMenuProps>(
               style={DropdownStyle.DARK}
               zIndex={101}
             >
-              <div
-                className={classnames("board-filter-options", {
-                  visible: menuOptions && menuOptions.length > 0,
-                })}
-              >
+              <div className={classnames("board-filter-options")}>
                 <FontAwesomeIcon icon={faEllipsisV} />
               </div>
             </DropdownMenu>
@@ -114,11 +114,6 @@ const SideMenu = React.forwardRef<SideMenuHandler, SideMenuProps>(
               flex-direction: column;
               overflow-x: hidden;
             }
-            .icon {
-              color: #bfbfbf;
-              align-self: center;
-              margin-right: 10px;
-            }
             .pinned-boards-container {
               display: none;
             }
@@ -141,6 +136,17 @@ const SideMenu = React.forwardRef<SideMenuHandler, SideMenuProps>(
               justify-content: space-between;
               box-sizing: border-box;
             }
+            .board-filter.with-options {
+              margin-right: 10px;
+            }
+            .board-filter .icon {
+              color: #bfbfbf;
+              position: absolute;
+              font-size: 14px;
+              left: 20px;
+              top: 50%;
+              transform: translateY(-50%);
+            }
             .board-filter input {
               background: #2e2e30;
               color: #fff;
@@ -150,7 +156,8 @@ const SideMenu = React.forwardRef<SideMenuHandler, SideMenuProps>(
               width: 100%;
               border: 1px solid transparent;
               border-radius: 15px;
-              margin-right: 10px;
+              border: 1px rgba(255, 255, 255, 0.2) solid;
+              padding-left: 32px;
             }
             .board-filter input:focus {
               outline: none;
@@ -169,16 +176,8 @@ const SideMenu = React.forwardRef<SideMenuHandler, SideMenuProps>(
             .board-filter-options:hover {
               cursor: pointer;
             }
-            .board-filter-options.visible {
+            .board-filter.with-options .board-filter-options {
               display: flex;
-            }
-            @media only screen and (max-width: 575px) {
-              .board-filter {
-                border-top: 2px solid #131518;
-              }
-              .board-menus {
-                flex-direction: column-reverse;
-              }
             }
           `}
         </style>

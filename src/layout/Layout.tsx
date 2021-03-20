@@ -195,8 +195,8 @@ const Layout = React.forwardRef<{ closeSideMenu: () => void }, LayoutProps>(
             className={classnames("side-menu", { visible: showSideMenu })}
             ref={sideMenuRef}
           >
-            <div className="side-menu-content">{sideMenuContent}</div>
             <div className="side-bottom-menu">{menuBar}</div>
+            <div className="side-menu-content">{sideMenuContent}</div>
           </div>
           <div
             className={classnames("layout-body", {
@@ -592,13 +592,16 @@ const Layout = React.forwardRef<{ closeSideMenu: () => void }, LayoutProps>(
               .header {
                 justify-content: space-between;
               }
+              .side-menu {
+                background-color: ${Theme.LAYOUT_BOARD_SIDEBAR_BACKGROUND_COLOR};
+              }
               .side-menu-content {
                 height: calc(100% - 60px);
-                transition: height 0.3s ease-out;
+                margin-top: 60px;
               }
               .side-bottom-menu {
                 position: absolute;
-                bottom: 0;
+                top: 0;
                 left: 0;
                 right: 0;
                 height: 0px;
@@ -606,7 +609,6 @@ const Layout = React.forwardRef<{ closeSideMenu: () => void }, LayoutProps>(
                 display: block;
                 width: calc(100vw - 100px);
                 max-width: var(--side-menu-width);
-                transition: height 0.3s ease-out;
                 overflow: hidden;
                 z-index: 10;
               }
