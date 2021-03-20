@@ -98,4 +98,5 @@ export {
 import type { TagsType } from "./types";
 import type { PostHandler } from "./post/Post";
 import type { CommentHandler } from "./post/Comment";
-export type { TagsType, PostHandler, CommentHandler };
+import type { SideMenuHandler } from "./layout/SideMenu";
+export type { TagsType, PostHandler, CommentHandler, SideMenuHandler };

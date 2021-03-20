@@ -49,6 +49,7 @@ const Layout = React.forwardRef<{ closeSideMenu: () => void }, LayoutProps>(
       loggedInMenuOptions,
       forceHideIdentity,
       onSideMenuButtonClick,
+      onSideMenuFullyOpen,
       onCompassClick,
     },
     ref
@@ -148,6 +149,7 @@ const Layout = React.forwardRef<{ closeSideMenu: () => void }, LayoutProps>(
           // close so we can remove all styles from the body.
           sideMenuRef.current?.classList.remove("opening");
           sideMenuRef.current?.classList.add("opened");
+          onSideMenuFullyOpen?.();
           return;
         }
         sideMenuRef.current.classList.remove("closing");
@@ -167,7 +169,7 @@ const Layout = React.forwardRef<{ closeSideMenu: () => void }, LayoutProps>(
         "transitionend",
         transitionEndListener
       );
-    }, [showSideMenu]);
+    }, [showSideMenu, onSideMenuFullyOpen]);
 
     const menuBar = (
       <MemoizedMenuBar
@@ -672,6 +674,7 @@ export interface LayoutProps {
     link: LinkWithAction;
   }[];
   onSideMenuButtonClick?: () => void;
+  onSideMenuFullyOpen?: () => void;
   forceHideIdentity?: boolean;
 }
 

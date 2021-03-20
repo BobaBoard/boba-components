@@ -1,6 +1,6 @@
 import React from "react";
 import Layout from "../src/layout/Layout";
-import SideMenu from "../src/layout/SideMenu";
+import SideMenu, { SideMenuHandler } from "../src/layout/SideMenu";
 import FeedWithMenu from "../src/layout/FeedWithMenu";
 import PostingActionButton from "../src/board/PostingActionButton";
 import CycleNewButton from "../src/board/CycleNewButton";
@@ -312,20 +312,26 @@ LoadingLayout.args = {
 export const SideMenuPreview = () => {
   const [showPinned, setShowPinned] = React.useState(true);
   const [loading, setLoading] = React.useState(true);
+  const menuRef = React.useRef<SideMenuHandler>(null);
   return (
     <div>
       <div
         style={{
           position: "absolute",
           right: 0,
-          top: 0,
+          bottom: "0",
           zIndex: 2000,
+          display: "flex",
+          flexDirection: "column",
         }}
       >
         <button onClick={() => setShowPinned(!showPinned)}>
           Toggle Pinned
         </button>
         <button onClick={() => setLoading(!loading)}>Toggle Loading</button>
+        <button onClick={() => menuRef.current?.focusBoardFilter()}>
+          Focus
+        </button>
       </div>
       <div style={{ maxWidth: "500px", backgroundColor: "red" }}>
         <SideMenu
@@ -333,6 +339,7 @@ export const SideMenuPreview = () => {
           currentBoardSlug="anime"
           showPinned={showPinned}
           {...menuOptions}
+          ref={menuRef}
         >
           <SideMenu.BoardsMenuSection
             title="recent unreads"
