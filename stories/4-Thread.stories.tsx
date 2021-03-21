@@ -1478,6 +1478,7 @@ export const CommentsThread = () => {
 
 export const MultipleCommentsThread = () => {
   const [threads, setAdditionalThreads] = React.useState([{}]);
+  const [disableMotionEffect, setDisableMotionEffect] = React.useState(false);
   return (
     <div>
       <div style={{ display: "flex" }}>
@@ -1498,7 +1499,10 @@ export const MultipleCommentsThread = () => {
             This Div simulates Boba's sticky header
           </div>
           {threads.map((_, index) => (
-            <NewCommentsThread key={index}>
+            <NewCommentsThread
+              key={index}
+              disableMotionEffect={disableMotionEffect}
+            >
               {(setBoundaryElement) => (
                 <>
                   <div style={{ paddingTop: "15px", maxWidth: "550px" }}>
@@ -1731,6 +1735,9 @@ export const MultipleCommentsThread = () => {
         <div style={{ position: "sticky", top: 0, alignSelf: "flex-start" }}>
           <button onClick={() => setAdditionalThreads([...threads, {}])}>
             Add Thread
+          </button>
+          <button onClick={() => setDisableMotionEffect(!disableMotionEffect)}>
+            Toggle Motion
           </button>
           {/* <button
             onClick={() => threads.pop()}

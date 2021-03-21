@@ -60,6 +60,7 @@ class CommentChain extends PureComponent<CommentChainProps> {
   }
 
   render() {
+    const hasMotionEffect = this.props.disableMotionEffect !== true;
     return (
       <div className="comment-chain" ref={this.editorRef}>
         <div className="header" ref={this.headerRef}>
@@ -118,8 +119,8 @@ class CommentChain extends PureComponent<CommentChainProps> {
           }
           .header {
             cursor: pointer;
-            position: sticky;
-            top: ${Theme.HEADER_HEIGHT_PX + 2}px;
+            position: ${hasMotionEffect ? "sticky" : "relative"};
+            top: ${hasMotionEffect ? `${Theme.HEADER_HEIGHT_PX + 2}px` : "0"};
           }
           .editor.chainable {
             margin-bottom: 15px;
@@ -161,6 +162,7 @@ export interface CommentChainProps {
   options?: CommentProps["options"];
   accessory?: AvatarProps["accessory"];
   onExtraAction?: () => void;
+  disableMotionEffect?: boolean;
   ref?: React.Ref<CommentHandler>;
 }
 

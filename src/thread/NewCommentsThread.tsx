@@ -32,6 +32,7 @@ interface ThreadContext extends ThreadProps {
     levelElement: HTMLElement;
     boundaryElement: BoundaryElement;
   }[];
+  hasMotionEffect: boolean;
 }
 
 const ThreadContext = React.createContext<ThreadContext | null>(null);
@@ -39,6 +40,7 @@ const ThreadLevel = React.createContext<number>(0);
 
 interface ThreadProps {
   resizeSpy?: React.RefObject<HTMLElement>;
+  disableMotionEffect?: boolean;
 }
 
 const isIndentElement = (
@@ -216,6 +218,7 @@ const Thread: React.FC<ThreadProps & ChildrenWithRenderProps> & {
           registerItemBoundary,
           unregisterItemBoundary,
           getNextLevelBoundaries,
+          hasMotionEffect: props.disableMotionEffect !== true,
         }),
         [
           props,
@@ -533,10 +536,12 @@ const Item: React.FC<ChildrenWithRenderProps> = (props) => {
           pointer-events: all;
         }
         .level-stem {
-          position: sticky;
-          width: var(--level-stem-width, 0);
-          top: ${Theme.HEADER_HEIGHT_PX + 2}px;
+          position: ${threadContext?.hasMotionEffect ? "sticky" : "absolute"};
+          top: ${threadContext?.hasMotionEffect
+            ? `${Theme.HEADER_HEIGHT_PX + 2}px`
+            : "0"};
           height: var(--level-stem-height, 0);
+          width: var(--level-stem-width, 0);
           margin-bottom: var(--level-stem-margin-bottom, 0);
           border-left: ${STEM_WIDTH_PX}px solid ${stemColor};
           border-bottom: ${STEM_WIDTH_PX}px solid ${stemColor};
@@ -545,7 +550,8 @@ const Item: React.FC<ChildrenWithRenderProps> = (props) => {
           opacity: ${DEBUG ? "0.5" : "1"};
         }
         .level-mask {
-          position: sticky;
+          position: "sticky";
+          visibility: ${threadContext?.hasMotionEffect ? "visible" : "hidden"};
           width: var(--level-stem-mask-width, 0);
           height: var(--level-stem-mask-height, 0);
           background-color: ${DEBUG
