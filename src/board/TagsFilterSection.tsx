@@ -23,7 +23,9 @@ const TagsFilterSection: React.FC<TagsFilterSectionProps> = (props) => {
   );
 
   const allCategoriesActive =
-    props.editable || !props.tags.some((category) => !category.active);
+    props.editable ||
+    (!props.tags.some((category) => !category.active) &&
+      props.uncategorized !== false);
   return (
     <div
       className={classnames("sidebar-section", { editable: props.editable })}
