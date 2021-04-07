@@ -51,10 +51,10 @@ const Avatar = React.forwardRef<HTMLDivElement, AvatarProps>((props, ref) => {
           width: 40px;
           height: 40px;
           display: block;
-          background: url("${currentAvatar}");
+          background: url("${secretAvatar}");
           background-size: cover;
           border-radius: 50%;
-          margin-right: 10px;
+          margin-right: 5px;
         }
         .avatar:not(.with-secret) {
         }
@@ -90,7 +90,7 @@ const Avatar = React.forwardRef<HTMLDivElement, AvatarProps>((props, ref) => {
           width: 22px;
           height: 22px;
           display: none;
-          background: url("${secretAvatar}");
+          background: url("${currentAvatar}");
           background-size: cover;
           border-radius: 50%;
         }

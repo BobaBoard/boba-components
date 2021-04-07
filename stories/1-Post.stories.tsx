@@ -276,16 +276,37 @@ WithUserIdentityForceHideCompact.args = {
   forceHide: true,
 };
 
+const WithSelectIdentity = HeaderTemplate.bind({});
+WithSelectIdentity.args = {
+  ...WithUserIdentity.args,
+  additionalIdentities: [
+    { id: "id1", name: "Tuxedo Mask", avatar: `/${tuxedoAvatar}` },
+    { id: "id2", name: "Mega Mod", avatar: `/${tuxedoAvatar}` },
+  ],
+};
+const WithSelectIdentityCompact = HeaderTemplate.bind({});
+WithSelectIdentityCompact.args = {
+  ...WithSelectIdentity.args,
+  size: HeaderStyle.COMPACT,
+};
+
 export const HeaderStory = () => (
   <div>
+    <h3>Regular</h3>
     <RegularHeader {...RegularHeader.args} />
     <CompactHeader {...CompactHeader.args} />
+    <h3>With User Identity</h3>
     <WithUserIdentity {...WithUserIdentity.args} />
     <WithUserIdentityCompact {...WithUserIdentityCompact.args} />
+    <h3>With Force-Hide Identity</h3>
     <WithUserIdentityForceHide {...WithUserIdentityForceHide.args} />
     <WithUserIdentityForceHideCompact
       {...WithUserIdentityForceHideCompact.args}
     />
+    <h3>With Identity Selection</h3>
+    <WithSelectIdentity {...WithSelectIdentity.args} />
+    <WithSelectIdentityCompact {...WithSelectIdentityCompact.args} />
+    <h3>Compact Space</h3>
     <div style={{ width: "200px", backgroundColor: "green" }}>
       <WithUserIdentity {...WithUserIdentity.args} />
     </div>

@@ -11,8 +11,15 @@ import Avatar, { AvatarProps } from "./Avatar";
 import DefaultTheme from "../theme/default";
 import DropdownListMenu, { DropdownProps } from "../common/DropdownListMenu";
 import ActionLink from "../common/ActionLink";
+import css from "styled-jsx/css";
 //const log = debug("bobaui:header-log");
 const info = debug("bobaui:header-info");
+
+const { className: timestampClassname, styles: timestampStyles } = css.resolve`
+  a:hover {
+    text-decoration: underline;
+  }
+`;
 
 export enum HeaderStyle {
   REGULAR = "REGULAR",
@@ -20,9 +27,6 @@ export enum HeaderStyle {
 }
 
 const Metadata: React.FC<PostHeaderProps> = (props) => {
-  const ref = React.useRef<HTMLDivElement>(null);
-  const nicknameRef = React.useRef(null);
-
   const { onSelectIdentity } = props;
   const identityOptions = React.useMemo(
     () => [
@@ -51,45 +55,41 @@ const Metadata: React.FC<PostHeaderProps> = (props) => {
           compact: HeaderStyle.COMPACT == props.size,
           "with-options": identityOptions.length > 0,
         })}
-        ref={ref}
       >
         <div className="metadata">
           <div className="metadata-identity">
-            <div className="nickname" ref={nicknameRef}>
-              {hasUserIdentity && !props.forceHide
-                ? props.userIdentity?.name
-                : props.secretIdentity?.name || "Random Identity"}
-            </div>
+            {props.additionalIdentities?.length ? (
+              <div>
+                <DropdownListMenu zIndex={200} options={identityOptions}>
+                  <div>
+                    <div className="identities-dropdown">
+                      <div className="nickname">
+                        {props.secretIdentity?.name || "Random Identity"}
+                      </div>
+                      <FontAwesomeIcon icon={faCaretDown} />
+                    </div>
+                  </div>
+                </DropdownListMenu>
+              </div>
+            ) : (
+              <div className="nickname">
+                {props.secretIdentity?.name || "Random Identity"}
+              </div>
+            )}
             {hasUserIdentity && !props.forceHide && (
               <>
-                {props.additionalIdentities &&
-                props.additionalIdentities.length > 0 ? (
-                  <div>
-                    <DropdownListMenu zIndex={200} options={identityOptions}>
-                      <div>
-                        <div className="identities-dropdown">
-                          <div className="secret-identity">
-                            as:{" "}
-                            {props.secretIdentity?.name || "Random Identity"}
-                          </div>
-                          <FontAwesomeIcon icon={faCaretDown} />
-                        </div>
-                      </div>
-                    </DropdownListMenu>
+                <div className="secret-identity">
+                  @{props.userIdentity?.name || "Random Identity"}
+                </div>
+                {props.createdMessage && (
+                  <div className="timestamp">
+                    <ActionLink
+                      link={props.createdMessageLink}
+                      className={timestampClassname}
+                    >
+                      {props.createdMessage}
+                    </ActionLink>
                   </div>
-                ) : (
-                  <>
-                    <div className="secret-identity">
-                      as: {props.secretIdentity?.name || "Random Identity"}
-                    </div>
-                    {props.createdMessage && (
-                      <div className="timestamp">
-                        <ActionLink link={props.createdMessageLink}>
-                          {props.createdMessage}
-                        </ActionLink>
-                      </div>
-                    )}
-                  </>
                 )}
               </>
             )}
@@ -106,11 +106,12 @@ const Metadata: React.FC<PostHeaderProps> = (props) => {
       <style jsx>
         {`
           .nickname {
-            font-size: 20px;
+            font-size: 18px;
             white-space: nowrap;
             text-overflow: ellipsis;
             overflow: hidden;
             max-width: 100%;
+            padding-left: 5px;
           }
           .timestamp,
           .secret-identity {
@@ -120,10 +121,7 @@ const Metadata: React.FC<PostHeaderProps> = (props) => {
             white-space: nowrap;
             text-overflow: ellipsis;
             overflow: hidden;
-          }
-          .timestamp a {
-            color: ${DefaultTheme.TEXT_MUTED};
-            text-decoration: none;
+            padding-left: 5px;
           }
           .container {
             min-width: 0;
@@ -141,15 +139,13 @@ const Metadata: React.FC<PostHeaderProps> = (props) => {
           }
           .identities-dropdown {
             display: inline-flex;
-            color: #575757;
             border-radius: 10px;
-            padding: 3px 6px;
-            margin-left: -6px;
-            margin-top: -3px;
+            padding: 1px 5px;
             max-width: 100%;
           }
-          .identities-dropdown .secret-identity {
+          .identities-dropdown .nickname {
             margin-right: 5px;
+            padding-left: 0;
           }
           .identities-dropdown:hover {
             cursor: pointer;
@@ -165,6 +161,7 @@ const Metadata: React.FC<PostHeaderProps> = (props) => {
           }
         `}
       </style>
+      {timestampStyles}
     </>
   );
   return (
