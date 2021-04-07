@@ -5,7 +5,7 @@ import Theme from "../theme/default";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faComment } from "@fortawesome/free-solid-svg-icons";
 import { DropdownProps } from "../common/DropdownListMenu";
-import { AvatarProps } from "./Avatar";
+import { SecretIdentityType } from "types";
 
 class Comment extends PureComponent<CommentProps> {
   editorRef = createRef<HTMLDivElement>();
@@ -167,10 +167,7 @@ export interface CommentProps {
   id: string;
   focus?: boolean;
   initialText: string;
-  secretIdentity: {
-    avatar: string;
-    name: string;
-  };
+  secretIdentity: SecretIdentityType;
   userIdentity?: {
     avatar: string;
     name: string;
@@ -180,7 +177,6 @@ export interface CommentProps {
   paddingTop?: string;
   onExtraAction?: () => void;
   options?: DropdownProps["options"];
-  accessory?: AvatarProps["accessory"];
   ref?: RefObject<CommentHandler> | undefined | null;
 }
 

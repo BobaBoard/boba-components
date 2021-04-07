@@ -6,8 +6,10 @@ import Button from "../common/Button";
 import { faCross, faCheck } from "@fortawesome/free-solid-svg-icons";
 import useDimensions from "react-cool-dimensions";
 import Spinner from "../common/Spinner";
+import questionMark from "../images/question_mark.png";
 import { prepareContentSubmission } from "../utils";
 import { ImageUploaderContext } from "../index";
+import { SecretIdentityType } from "types";
 
 export const modes = {
   VIEW: "VIEW",
@@ -141,6 +143,7 @@ const Comment = React.forwardRef<EditorRef, CommentProps>((props, ref) => {
         ? [
             {
               name: "Random Identity",
+              icon: questionMark,
               link: {
                 onClick: () => onSelectIdentity?.(undefined),
               },
@@ -148,6 +151,7 @@ const Comment = React.forwardRef<EditorRef, CommentProps>((props, ref) => {
             ...(props.additionalIdentities || []).map((identity) => ({
               name: identity.name,
               icon: identity.avatar,
+              color: identity.color,
               link: {
                 onClick: () => onSelectIdentity?.(identity),
               },
@@ -296,28 +300,13 @@ export interface EditorRef {
 }
 
 export interface CommentProps {
-  secretIdentity?: {
-    avatar: string;
-    name: string;
-  };
+  secretIdentity?: SecretIdentityType;
   userIdentity?: {
     avatar: string;
     name: string;
   };
-  additionalIdentities?: {
-    id: string;
-    avatar: string;
-    name: string;
-  }[];
-  onSelectIdentity?: (
-    identity:
-      | {
-          avatar: string;
-          name: string;
-          id: string;
-        }
-      | undefined
-  ) => void;
+  additionalIdentities?: SecretIdentityType[];
+  onSelectIdentity?: (identity: SecretIdentityType | undefined) => void;
   initialText?: string;
   onCancel: () => void;
   onSubmit: (commentPromise: Promise<{ text: string }>) => void;

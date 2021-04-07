@@ -9,6 +9,7 @@ import { prepareContentSubmission } from "../utils";
 
 import debug from "debug";
 import { useHotkeys } from "react-hotkeys-hook";
+import { SecretIdentityType } from "types";
 const log = debug("bobaui:CommentChainEditor-log");
 
 const isValidSubmitState = (chainComments: Comment[]) => {
@@ -138,7 +139,7 @@ const CommentChainEditor = React.forwardRef<
       ),
       identityId: additionalIdentities?.find(
         (id) => id.name == selectedIdentity
-      )?.id,
+      )?.name,
     };
     onSubmit(textsPromises);
   }, [
@@ -323,20 +324,13 @@ export interface CommentChainEditorProps {
     texts: Promise<string[]>;
     identityId?: string;
   }) => void;
-  secretIdentity?: {
-    avatar: string;
-    name: string;
-  };
+  secretIdentity?: SecretIdentityType;
   loading?: boolean;
   userIdentity?: {
     avatar: string;
     name: string;
   };
-  additionalIdentities?: {
-    id: string;
-    avatar: string;
-    name: string;
-  }[];
+  additionalIdentities?: SecretIdentityType[];
 }
 
 CommentChainEditor.displayName = "CommentChainEditorForwardRef";

@@ -1,15 +1,14 @@
 import React from "react";
 import classnames from "classnames";
+import { SecretIdentityType } from "types";
+import questionMark from "../images/question_mark.png";
 
 const Avatar = React.forwardRef<HTMLDivElement, AvatarProps>((props, ref) => {
-  const visibleSecretAvatar =
-    !props.forceHide &&
-    props.userIdentity?.avatar &&
-    props.secretIdentity?.avatar;
+  const visibleSecretAvatar = !props.forceHide && props.userIdentity?.avatar;
   const currentAvatar = props.forceHide
     ? props.secretIdentity?.avatar
     : props.userIdentity?.avatar || props.secretIdentity?.avatar;
-  const secretAvatar = props.secretIdentity?.avatar || "";
+  const secretAvatar = props.secretIdentity?.avatar || questionMark;
 
   return (
     <div
@@ -24,7 +23,9 @@ const Avatar = React.forwardRef<HTMLDivElement, AvatarProps>((props, ref) => {
           })}
           ref={ref}
         />
-        {props.accessory && <img src={props.accessory} className="accessory" />}
+        {props.secretIdentity?.accessory && (
+          <img src={props.secretIdentity?.accessory} className="accessory" />
+        )}
         <div
           className={classnames("secret-avatar", {
             visible: visibleSecretAvatar,
@@ -110,18 +111,13 @@ const Avatar = React.forwardRef<HTMLDivElement, AvatarProps>((props, ref) => {
 
 Avatar.displayName = "Avatar";
 export interface AvatarProps {
-  secretIdentity?: {
-    avatar: string;
-    name: string;
-    color: string;
-  };
+  secretIdentity?: SecretIdentityType;
   userIdentity?: {
     avatar: string;
     name: string;
   };
   forceHide?: boolean;
   compact?: boolean;
-  accessory?: string;
 }
 
 export default Avatar;

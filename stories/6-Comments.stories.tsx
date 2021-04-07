@@ -11,6 +11,7 @@ import mamoruAvatar from "./images/mamoru.png";
 import oncelerAvatar from "./images/oncie.jpg";
 import reindeerEars from "./images/reindeer-ears.png";
 import wreath from "./images/wreath.png";
+import crown from "./images/crown.png";
 import {
   faBellSlash,
   faMapPin,
@@ -42,7 +43,13 @@ export const Editable = () => (
         onCancel={() => console.log("click!")}
         additionalIdentities={[
           { id: "id1", name: "Tuxedo Mask", avatar: `/${tuxedoAvatar}` },
-          { id: "id2", name: "Mega Mod", avatar: `/${oncelerAvatar}` },
+          {
+            id: "id2",
+            name: "Mega Mod",
+            avatar: `/${oncelerAvatar}`,
+            color: "red",
+            accessory: crown,
+          },
         ]}
       />
     </div>
@@ -55,7 +62,13 @@ export const Editable = () => (
         onCancel={() => console.log("click!")}
         additionalIdentities={[
           { id: "id1", name: "Tuxedo Mask", avatar: `/${tuxedoAvatar}` },
-          { id: "id2", name: "Mega Mod", avatar: `/${oncelerAvatar}` },
+          {
+            id: "id2",
+            name: "Mega Mod",
+            avatar: `/${oncelerAvatar}`,
+            color: "red",
+            accessory: crown,
+          },
         ]}
       />
     </div>
@@ -200,7 +213,13 @@ export const CommentChainEditorStory = () => {
         onCancel={() => {}}
         additionalIdentities={[
           { id: "id1", name: "Tuxedo Mask", avatar: `/${tuxedoAvatar}` },
-          { id: "id2", name: "Mega Mod", avatar: `/${oncelerAvatar}` },
+          {
+            id: "id2",
+            name: "Mega Mod",
+            avatar: `/${oncelerAvatar}`,
+            color: "red",
+            accessory: crown,
+          },
         ]}
       />
     </ImageUploaderContext.Provider>
@@ -263,6 +282,8 @@ export const CommentChainStory = () => {
           secretIdentity={{
             name: "Tuxedo Mask",
             avatar: `/${tuxedoAvatar}`,
+            color: "red",
+            accessory: crown,
           }}
           userIdentity={{ name: "SexyDaddy69", avatar: `/${mamoruAvatar}` }}
           onExtraAction={action("extra")}
@@ -304,9 +325,9 @@ export const CommentChainAccessoryStory = () => {
         secretIdentity={{
           name: "Tuxedo Mask",
           avatar: `/${tuxedoAvatar}`,
+          accessory: currentAccessory,
         }}
         userIdentity={{ name: "SexyDaddy69", avatar: `/${mamoruAvatar}` }}
-        accessory={currentAccessory}
       />
       <div style={{ marginTop: "20px" }}>
         <button onClick={() => setCurrentAccessory(undefined)}>None</button>

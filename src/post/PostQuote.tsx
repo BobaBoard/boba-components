@@ -3,7 +3,7 @@ import Editor from "@bobaboard/boba-editor";
 import Theme from "../theme/default";
 import Avatar from "./Avatar";
 import ActionLink from "../common/ActionLink";
-import { LinkWithAction } from "types";
+import { LinkWithAction, SecretIdentityType } from "types";
 import css from "styled-jsx/css";
 
 const parseText = (text: string) => {
@@ -104,10 +104,7 @@ export interface PostQuoteProps {
   createdTime: string;
   createdTimeLink?: LinkWithAction;
   text: string;
-  secretIdentity: {
-    avatar: string;
-    name: string;
-  };
+  secretIdentity: SecretIdentityType;
   userIdentity?: {
     avatar: string;
     name: string;

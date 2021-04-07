@@ -15,8 +15,7 @@ import TagsFactory from "../tags/TagsFactory";
 
 import Theme from "../theme/default";
 import debug from "debug";
-import { LinkWithAction, TagsType } from "types";
-import { AvatarProps } from "./Avatar";
+import { LinkWithAction, SecretIdentityType, TagsType } from "types";
 
 const log = debug("bobaui:post-log");
 
@@ -194,7 +193,6 @@ const Post = React.forwardRef<PostHandler, PostProps>((props, ref) => {
                     size={HeaderStyle.REGULAR}
                     backgroundColor={props.muted ? "#dcdcdc" : undefined}
                     forceHide={props.forceHideIdentity}
-                    accessory={props.accessory}
                   />
                 </div>
                 {props.menuOptions && (
@@ -397,10 +395,7 @@ export interface PostProps {
   text: string;
   createdTime: string;
   createdTimeLink: LinkWithAction;
-  secretIdentity: {
-    avatar: string;
-    name: string;
-  };
+  secretIdentity: SecretIdentityType;
   userIdentity?: {
     avatar: string;
     name: string;
@@ -441,5 +436,4 @@ export interface PostProps {
   hideFooter?: boolean;
   hideUpdates?: boolean;
   backgroundColor?: string;
-  accessory?: AvatarProps["accessory"];
 }

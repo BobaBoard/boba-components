@@ -637,6 +637,7 @@ const DropdownMenu: React.FC<DropdownProps> = (props) => {
           border: none;
           padding: 0;
           text-align: inherit;
+          max-width: 100%;
         }
         .button-wrapper:focus {
           outline: none;

@@ -1,9 +1,9 @@
 import React, { PureComponent, createRef } from "react";
-import { AvatarProps } from "./Avatar";
 import Comment, { CommentHandler, CommentProps } from "./Comment";
 import Header, { HeaderStyle } from "./Header";
 import Theme from "../theme/default";
 import debug from "debug";
+import { SecretIdentityType } from "types";
 const log = debug("bobaui:comment-log");
 
 const MemoizedComment = React.memo(Comment);
@@ -69,7 +69,6 @@ class CommentChain extends PureComponent<CommentChainProps> {
             secretIdentity={this.props.secretIdentity}
             userIdentity={this.props.userIdentity}
             avatarOptions={this.props.options}
-            accessory={this.props.accessory}
             createdMessage={this.props.createdTime}
             forceHide={this.props.forceHideIdentity}
             ref={(ref) => {
@@ -102,7 +101,6 @@ class CommentChain extends PureComponent<CommentChainProps> {
               }
               createdTime={this.props.createdTime}
               options={this.props.options}
-              accessory={this.props.accessory}
             />
           ))}
         </div>
@@ -148,10 +146,7 @@ class CommentChain extends PureComponent<CommentChainProps> {
 
 export interface CommentChainProps {
   comments: { id: string; text: string }[];
-  secretIdentity: {
-    avatar: string;
-    name: string;
-  };
+  secretIdentity: SecretIdentityType;
   userIdentity?: {
     avatar: string;
     name: string;
@@ -160,7 +155,6 @@ export interface CommentChainProps {
   createdTime: string;
   muted?: boolean;
   options?: CommentProps["options"];
-  accessory?: AvatarProps["accessory"];
   onExtraAction?: () => void;
   disableMotionEffect?: boolean;
   ref?: React.Ref<CommentHandler>;

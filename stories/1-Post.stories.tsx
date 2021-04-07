@@ -502,7 +502,15 @@ export const SwitchIdentityPost = () => {
       <button onClick={() => setIdentityHidden(!identityHidden)}>
         {identityHidden ? "Show" : "Hide"} identity
       </button>
-      <Post {...BoardPost.args} forceHide={identityHidden} />
+      <Post
+        {...BoardPost.args}
+        secretIdentity={{
+          ...BoardPost.args.secretIdentity,
+          color: "#f30cb5",
+          accessory: crown,
+        }}
+        forceHideIdentity={identityHidden}
+      />
     </div>
   );
 };
@@ -529,8 +537,8 @@ export const AccessoryPost = () => {
           name:
             "Tuxedo Mask askldjaksldjaskld askdjaskldjaskldjas daskjdaklsdjaklsdj askdjaskldjaklsdjaskld askdj kasjdaklsdjaklsdjaskldjslk",
           avatar: `/${tuxedoAvatar}`,
+          accessory: currentAccessory,
         }}
-        accessory={currentAccessory}
       />
     </div>
   );
@@ -551,7 +559,12 @@ export const PostQuoteStory = () => {
         text={
           '[{"insert":"Open RP"},{"attributes":{"header":1},"insert":"\\n"},{"insert":{"block-image":"https://cdn.discordapp.com/attachments/443967088118333442/691486081895628830/unknown.png"}}, {"attributes":{"italic":true},"insert":"You have my sword..."}]'
         }
-        secretIdentity={{ name: "Tuxedo Mask", avatar: `/${tuxedoAvatar}` }}
+        secretIdentity={{
+          name: "Tuxedo Mask",
+          avatar: `/${tuxedoAvatar}`,
+          accessory: crown,
+          color: "#f30cb5",
+        }}
         userIdentity={{ name: "SexyDaddy69", avatar: `/${mamoruAvatar}` }}
       />
     </div>

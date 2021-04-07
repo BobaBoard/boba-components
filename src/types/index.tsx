@@ -1,12 +1,16 @@
 import { MouseEvent } from "react";
 
+export interface SecretIdentityType {
+  avatar: string;
+  name: string;
+  color?: string;
+  accessory?: string;
+}
+
 export interface PostDetailsType {
   text: string;
   createdTime: string;
-  secretIdentity: {
-    avatar: string;
-    name: string;
-  };
+  secretIdentity: SecretIdentityType;
   userIdentity?: {
     avatar: string;
     name: string;

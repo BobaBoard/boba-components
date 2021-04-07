@@ -2,16 +2,17 @@ import React from "react";
 
 import classnames from "classnames";
 import debug from "debug";
-import { LinkWithAction } from "types";
+import { LinkWithAction, SecretIdentityType } from "types";
 
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faCaretDown } from "@fortawesome/free-solid-svg-icons";
 
-import Avatar, { AvatarProps } from "./Avatar";
+import Avatar from "./Avatar";
 import DefaultTheme from "../theme/default";
 import DropdownListMenu, { DropdownProps } from "../common/DropdownListMenu";
 import ActionLink from "../common/ActionLink";
 import css from "styled-jsx/css";
+import questionMark from "../images/question_mark.png";
 //const log = debug("bobaui:header-log");
 const info = debug("bobaui:header-info");
 
@@ -32,6 +33,7 @@ const Metadata: React.FC<PostHeaderProps> = (props) => {
     () => [
       {
         name: "Random Identity",
+        icon: questionMark,
         link: {
           onClick: () => onSelectIdentity?.(undefined),
         },
@@ -39,6 +41,7 @@ const Metadata: React.FC<PostHeaderProps> = (props) => {
       ...(props.additionalIdentities || []).map((identity) => ({
         name: identity.name,
         icon: identity.avatar,
+        color: identity.color,
         link: {
           onClick: () => onSelectIdentity?.(identity),
         },
@@ -79,7 +82,7 @@ const Metadata: React.FC<PostHeaderProps> = (props) => {
             {hasUserIdentity && !props.forceHide && (
               <>
                 <div className="secret-identity">
-                  @{props.userIdentity?.name || "Random Identity"}
+                  @{props.userIdentity?.name || "You"}
                 </div>
                 {props.createdMessage && (
                   <div className="timestamp">
@@ -112,7 +115,7 @@ const Metadata: React.FC<PostHeaderProps> = (props) => {
             overflow: hidden;
             max-width: 100%;
             padding-left: 5px;
-            color: ${props.secretIdentity?.color};
+            color: ${props.secretIdentity?.color || "inherit"};
           }
           .timestamp,
           .secret-identity {
@@ -188,7 +191,6 @@ const PostHeader = React.forwardRef<HTMLDivElement, PostHeaderProps>(
           userIdentity={props.userIdentity}
           secretIdentity={props.secretIdentity}
           compact={isCompact}
-          accessory={props.accessory}
         />
         <Metadata {...props} />
         <style jsx>{`
@@ -223,7 +225,6 @@ const PostHeader = React.forwardRef<HTMLDivElement, PostHeaderProps>(
                 userIdentity={props.userIdentity}
                 secretIdentity={props.secretIdentity}
                 compact={isCompact}
-                accessory={props.accessory}
                 ref={avatarRef}
               />
               {!isCompact && <Metadata {...props} />}
@@ -250,6 +251,7 @@ const PostHeader = React.forwardRef<HTMLDivElement, PostHeaderProps>(
             position: relative;
             justify-content: space-between;
             text-align: left;
+            max-width: 100%;
           }
           .post-header.squeezed {
             flex-direction: column;
@@ -275,25 +277,9 @@ export default PostHeader;
 
 export interface PostHeaderProps {
   size?: string;
-  secretIdentity?: {
-    avatar: string;
-    name: string;
-    color: string;
-  };
-  additionalIdentities?: {
-    id: string;
-    avatar: string;
-    name: string;
-  }[];
-  onSelectIdentity?: (
-    identity:
-      | {
-          avatar: string;
-          name: string;
-          id: string;
-        }
-      | undefined
-  ) => void;
+  secretIdentity?: SecretIdentityType;
+  additionalIdentities?: SecretIdentityType[];
+  onSelectIdentity?: (identity: SecretIdentityType | undefined) => void;
   userIdentity?: {
     avatar: string;
     name: string;
@@ -307,5 +293,4 @@ export interface PostHeaderProps {
   backgroundColor?: string;
   avatarOptions?: DropdownProps["options"];
   showMetadata?: boolean;
-  accessory?: AvatarProps["accessory"];
 }

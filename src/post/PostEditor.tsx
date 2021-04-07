@@ -18,7 +18,7 @@ import {
 } from "@fortawesome/free-solid-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import classnames from "classnames";
-import { TagsType } from "../types";
+import { SecretIdentityType, TagsType } from "../types";
 import TagsFactory from "../tags/TagsFactory";
 import noop from "noop-ts";
 import BoardSelector, { BoardSelectorProps } from "../tags/BoardSelector";
@@ -129,7 +129,7 @@ const PostEditor = React.forwardRef<{ focus: () => void }, PostEditorProps>(
                   secretIdentity={
                     props.secretIdentity ||
                     props.additionalIdentities?.find(
-                      (identity) => identity.id == selectedIdentity
+                      (identity) => identity.name == selectedIdentity
                     )
                   }
                   userIdentity={props.userIdentity}
@@ -139,7 +139,7 @@ const PostEditor = React.forwardRef<{ focus: () => void }, PostEditorProps>(
                       : undefined
                   }
                   onSelectIdentity={React.useCallback((identity) => {
-                    setSelectedIdentity(identity?.id);
+                    setSelectedIdentity(identity?.name);
                   }, [])}
                   size={HeaderStyle.REGULAR}
                 />
@@ -262,6 +262,7 @@ const PostEditor = React.forwardRef<{ focus: () => void }, PostEditorProps>(
             display: flex;
             align-items: center;
             justify-content: space-between;
+            max-width: calc(100% - 30px);
           }
           .footer {
             border-top: 1px solid #d2d2d2;
@@ -334,19 +335,12 @@ export interface PostEditorProps {
     whisperTags: string[];
     indexTags: string[];
   };
-  secretIdentity?: {
-    avatar: string;
-    name: string;
-  };
+  secretIdentity?: SecretIdentityType;
   userIdentity: {
     avatar: string;
     name: string;
   };
-  additionalIdentities?: {
-    id: string;
-    avatar: string;
-    name: string;
-  }[];
+  additionalIdentities?: SecretIdentityType[];
   loading?: boolean;
   defaultSize?: PostSizes;
   onSubmit: (
