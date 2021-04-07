@@ -112,6 +112,7 @@ const Metadata: React.FC<PostHeaderProps> = (props) => {
             overflow: hidden;
             max-width: 100%;
             padding-left: 5px;
+            color: ${props.secretIdentity?.color};
           }
           .timestamp,
           .secret-identity {
@@ -277,6 +278,7 @@ export interface PostHeaderProps {
   secretIdentity?: {
     avatar: string;
     name: string;
+    color: string;
   };
   additionalIdentities?: {
     id: string;

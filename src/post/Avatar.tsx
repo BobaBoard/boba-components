@@ -40,21 +40,22 @@ const Avatar = React.forwardRef<HTMLDivElement, AvatarProps>((props, ref) => {
           top: 50%;
           left: 50%;
           /* remove half the margin */
-          transform: translate(calc(-50% - 5px), -50%);
+          transform: translate(calc(-50% - 4px), -50%);
           pointer-events: none;
         }
         .compact .accessory {
-          transform: translate(calc(-50% - 5px), -50%) scale(0.85);
+          transform: translate(calc(-50% - 3px), -50%) scale(0.85);
         }
         .avatar {
           position: relative;
-          width: 40px;
-          height: 40px;
+          width: 36px;
+          height: 36px;
           display: block;
           background: url("${secretAvatar}");
           background-size: cover;
           border-radius: 50%;
           margin-right: 5px;
+          border: 2px solid ${props.secretIdentity?.color || "transparent"};
         }
         .avatar:not(.with-secret) {
         }
@@ -79,8 +80,8 @@ const Avatar = React.forwardRef<HTMLDivElement, AvatarProps>((props, ref) => {
           mask-size: cover;
         }
         .avatar-container.compact .avatar {
-          width: 35px;
-          height: 35px;
+          width: 31px;
+          height: 31px;
         }
         .secret-avatar {
           position: absolute;
@@ -112,6 +113,7 @@ export interface AvatarProps {
   secretIdentity?: {
     avatar: string;
     name: string;
+    color: string;
   };
   userIdentity?: {
     avatar: string;

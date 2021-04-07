@@ -20,6 +20,7 @@ import junkoReaction from "./images/junko-reaction.png";
 import reindeerEars from "./images/reindeer-ears.png";
 import scarf from "./images/scarf.png";
 import snow from "./images/snow.gif";
+import crown from "./images/crown.png";
 import wreath from "./images/wreath.png";
 import Button from "../src/common/Button";
 import { action } from "@storybook/addon-actions";
@@ -276,6 +277,21 @@ WithUserIdentityForceHideCompact.args = {
   forceHide: true,
 };
 
+const WithColorIdentity = HeaderTemplate.bind({});
+WithColorIdentity.args = {
+  ...WithUserIdentity.args,
+  secretIdentity: {
+    ...WithUserIdentity.args.secretIdentity,
+    color: "#f30cb5",
+  },
+  accessory: crown,
+};
+const WithColorIdentityCompact = HeaderTemplate.bind({});
+WithColorIdentityCompact.args = {
+  ...WithColorIdentity.args,
+  size: HeaderStyle.COMPACT,
+};
+
 const WithSelectIdentity = HeaderTemplate.bind({});
 WithSelectIdentity.args = {
   ...WithUserIdentity.args,
@@ -306,6 +322,9 @@ export const HeaderStory = () => (
     <h3>With Identity Selection</h3>
     <WithSelectIdentity {...WithSelectIdentity.args} />
     <WithSelectIdentityCompact {...WithSelectIdentityCompact.args} />
+    <h3>With Color & accessory</h3>
+    <WithColorIdentity {...WithColorIdentity.args} />
+    <WithColorIdentityCompact {...WithColorIdentityCompact.args} />
     <h3>Compact Space</h3>
     <div style={{ width: "200px", backgroundColor: "green" }}>
       <WithUserIdentity {...WithUserIdentity.args} />
