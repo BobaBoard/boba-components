@@ -129,7 +129,7 @@ const PostEditor = React.forwardRef<{ focus: () => void }, PostEditorProps>(
                   secretIdentity={
                     props.secretIdentity ||
                     props.additionalIdentities?.find(
-                      (identity) => identity.name == selectedIdentity
+                      (identity) => identity.id == selectedIdentity
                     )
                   }
                   userIdentity={props.userIdentity}
@@ -139,7 +139,7 @@ const PostEditor = React.forwardRef<{ focus: () => void }, PostEditorProps>(
                       : undefined
                   }
                   onSelectIdentity={React.useCallback((identity) => {
-                    setSelectedIdentity(identity?.name);
+                    setSelectedIdentity(identity?.id);
                   }, [])}
                   size={HeaderStyle.REGULAR}
                 />

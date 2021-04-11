@@ -283,8 +283,8 @@ WithColorIdentity.args = {
   secretIdentity: {
     ...WithUserIdentity.args.secretIdentity,
     color: "#f30cb5",
+    accessory: crown,
   },
-  accessory: crown,
 };
 const WithColorIdentityCompact = HeaderTemplate.bind({});
 WithColorIdentityCompact.args = {
@@ -297,7 +297,13 @@ WithSelectIdentity.args = {
   ...WithUserIdentity.args,
   additionalIdentities: [
     { id: "id1", name: "Tuxedo Mask", avatar: `/${tuxedoAvatar}` },
-    { id: "id2", name: "Mega Mod", avatar: `/${tuxedoAvatar}` },
+    {
+      id: "id2",
+      name: "Mega Mod",
+      avatar: `/${oncelerAvatar}`,
+      color: "#f30cb5",
+      accessory: crown,
+    },
   ],
 };
 const WithSelectIdentityCompact = HeaderTemplate.bind({});
@@ -330,7 +336,7 @@ export const HeaderStory = () => (
       <WithUserIdentity {...WithUserIdentity.args} />
     </div>
     <div style={{ width: "200px", backgroundColor: "yellow" }}>
-      <WithUserIdentity {...WithUserIdentity.args} accessory={reindeerEars} />
+      <WithUserIdentity {...WithUserIdentity.args} />
     </div>
     <style jsx>
       {`

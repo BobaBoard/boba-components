@@ -137,9 +137,8 @@ const CommentChainEditor = React.forwardRef<
             )
         )
       ),
-      identityId: additionalIdentities?.find(
-        (id) => id.name == selectedIdentity
-      )?.name,
+      identityId: additionalIdentities?.find((id) => id.id == selectedIdentity)
+        ?.id,
     };
     onSubmit(textsPromises);
   }, [
@@ -179,7 +178,7 @@ const CommentChainEditor = React.forwardRef<
             secretIdentity={
               props.secretIdentity ||
               props.additionalIdentities?.find(
-                (id) => id.name == selectedIdentity
+                (id) => id.id == selectedIdentity
               )
             }
             muted={focusedChainIndex != index}
@@ -215,7 +214,7 @@ const CommentChainEditor = React.forwardRef<
             canSubmit={canSubmit}
             loading={props.loading}
             additionalIdentities={props.additionalIdentities}
-            onSelectIdentity={(id) => setSelectedIdentity(id?.name)}
+            onSelectIdentity={(id) => setSelectedIdentity(id?.id)}
           />
         </div>
       ))}

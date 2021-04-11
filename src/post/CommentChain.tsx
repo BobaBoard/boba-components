@@ -119,6 +119,7 @@ class CommentChain extends PureComponent<CommentChainProps> {
             cursor: pointer;
             position: ${hasMotionEffect ? "sticky" : "relative"};
             top: ${hasMotionEffect ? `${Theme.HEADER_HEIGHT_PX + 2}px` : "0"};
+            margin-right: 3px;
           }
           .editor.chainable {
             margin-bottom: 15px;

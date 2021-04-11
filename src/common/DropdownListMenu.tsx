@@ -25,12 +25,12 @@ const { className: buttonClass, styles: buttonStyles } = css.resolve`
 
 const { className: popoverIconClass, styles: popoverIconStyles } = css.resolve`
   .popover-icon {
+    box-sizing: border-box;
     margin-right: 10px;
-    width: 20px;
-    height: 20px;
+    width: 22px;
+    height: 22px;
     display: flex;
     justify-content: center;
-    border: 2px solid transparent;
   }
   .popover-icon.with-image {
     background-size: cover;
@@ -138,7 +138,7 @@ const DropdownItem: React.FC<{
                 typeof option.icon === "string"
                   ? `url(${option.icon}`
                   : undefined,
-              borderColor: option.color ? option.color : "transparent",
+              border: option.color ? `2px solid ${option.color}` : "",
             }}
           >
             {typeof option.icon !== "string" && (

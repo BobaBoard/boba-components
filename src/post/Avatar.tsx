@@ -20,6 +20,7 @@ const Avatar = React.forwardRef<HTMLDivElement, AvatarProps>((props, ref) => {
         <div
           className={classnames("avatar", {
             "with-secret": visibleSecretAvatar,
+            "with-border": !!props.secretIdentity?.color,
           })}
           ref={ref}
         />
@@ -33,6 +34,9 @@ const Avatar = React.forwardRef<HTMLDivElement, AvatarProps>((props, ref) => {
         />
       </div>
       <style jsx>{`
+        .avatar-container * {
+          box-sizing: border-box;
+        }
         .avatar-wrapper {
           position: relative;
         }
@@ -49,14 +53,17 @@ const Avatar = React.forwardRef<HTMLDivElement, AvatarProps>((props, ref) => {
         }
         .avatar {
           position: relative;
-          width: 36px;
-          height: 36px;
+          width: 40px;
+          height: 40px;
           display: block;
           background: url("${secretAvatar}");
           background-size: cover;
           border-radius: 50%;
           margin-right: 5px;
-          border: 2px solid ${props.secretIdentity?.color || "transparent"};
+        }
+        .avatar.with-border {
+          border: 2px solid
+            ${props.secretIdentity ? props.secretIdentity.color : "transparent"};
         }
         .avatar:not(.with-secret) {
         }
@@ -81,8 +88,8 @@ const Avatar = React.forwardRef<HTMLDivElement, AvatarProps>((props, ref) => {
           mask-size: cover;
         }
         .avatar-container.compact .avatar {
-          width: 31px;
-          height: 31px;
+          width: 35px;
+          height: 35px;
         }
         .secret-avatar {
           position: absolute;

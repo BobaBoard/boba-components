@@ -1,6 +1,7 @@
 import { MouseEvent } from "react";
 
 export interface SecretIdentityType {
+  id?: string;
   avatar: string;
   name: string;
   color?: string;
