@@ -23,6 +23,8 @@ import MenuBar from "./MenuBar";
 
 import logo from "../images/logo.svg";
 import compactLogo from "../images/logo-compact.svg";
+import ActionLink from "../common/ActionLink";
+import css from "styled-jsx/css";
 
 const log = debug("bobaui:layout-log");
 
@@ -144,6 +146,79 @@ const useSideMenuTransition = (
   return { layoutRef, contentRef, sideMenuRef, setShowSideMenu, showSideMenu };
 };
 
+const getLogoStyle = (accentColor?: string) => css.resolve`
+  .logo {
+    position: relative;
+    height: calc(100% - 30px);
+    cursor: pointer;
+  }
+  .logo > img {
+    height: 100%;
+    z-index: 2;
+    position: relative;
+  }
+  .logo .regular {
+    width: 87px;
+  }
+  .logo .compact {
+    display: none;
+  }
+  .logo::after {
+    content: "";
+    background-color: ${accentColor || "transparent"};
+    mask: url(${logo}) no-repeat;
+    display: block;
+    position: absolute;
+    z-index: 1;
+    mask-size: 100%;
+    top: 2px;
+    left: 3px;
+    width: 100%;
+    height: 100%;
+  }
+  @media only screen and (max-width: 950px) {
+    .logo .regular {
+      display: none;
+    }
+    .logo .compact {
+      display: block;
+      width: 35px;
+      height: 40px;
+    }
+    .logo::after {
+      mask: url(${compactLogo}) no-repeat;
+      width: 35px;
+      height: 40px;
+    }
+  }
+  @media only screen and (max-width: 450px) {
+    .logo {
+      display: none;
+    }
+  }
+`;
+
+const { className: titleClassName, styles: titleStyles } = css.resolve`
+  .title {
+    margin: 0px 35px;
+    margin-left: 25px;
+    color: white;
+    font-size: 24px;
+    font-weight: bold;
+    cursor: pointer;
+    text-decoration: none;
+    min-width: 0;
+  }
+  .title.desktop-hidden {
+    display: none;
+  }
+  @media only screen and (max-width: 950px) {
+    .title.desktop-hidden {
+      display: block;
+    }
+  }
+`;
+
 const MemoizedMenuBar = React.memo(MenuBar);
 const Layout = React.forwardRef<{ closeSideMenu: () => void }, LayoutProps>(
   (
@@ -180,6 +255,9 @@ const Layout = React.forwardRef<{ closeSideMenu: () => void }, LayoutProps>(
       setShowSideMenu,
       showSideMenu,
     } = useSideMenuTransition(onSideMenuFullyOpen);
+    const { className: logoClassName, styles: logoStyles } = getLogoStyle(
+      headerAccent
+    );
 
     React.useImperativeHandle(ref, () => ({
       closeSideMenu: () => {
@@ -233,7 +311,7 @@ const Layout = React.forwardRef<{ closeSideMenu: () => void }, LayoutProps>(
                 setShowSideMenu(false);
               }}
             />
-            <div className="header" ref={headerRef}>
+            <header ref={headerRef}>
               <button
                 className={classnames("sidemenu-button menu", {
                   notification: updates,
@@ -248,39 +326,21 @@ const Layout = React.forwardRef<{ closeSideMenu: () => void }, LayoutProps>(
               >
                 <FontAwesomeIcon icon={faBars} />
               </button>
-              <a
-                className="logo"
-                onClick={React.useCallback(
-                  (e) => {
-                    logoLink?.onClick?.();
-                    if (logoLink?.onClick) {
-                      e.preventDefault();
-                    }
-                  },
-                  [logoLink]
-                )}
-                href={logoLink?.href}
-              >
-                <img src={logo} className="regular" />
-                <img src={compactLogo} className="compact" />
-              </a>
+              <ActionLink className={`${logoClassName} logo`} link={logoLink}>
+                <img src={logo} className={`${logoClassName} regular`} />
+                <img src={compactLogo} className={`${logoClassName} compact`} />
+              </ActionLink>
               {title && (
-                <a
-                  className={classnames("title", {
+                <ActionLink
+                  link={titleLink}
+                  className={classnames([titleClassName, "title"], {
                     "desktop-hidden": forceHideTitle,
                   })}
-                  onClick={(e) => {
-                    titleLink?.onClick?.();
-                    if (titleLink?.onClick) {
-                      e.preventDefault();
-                    }
-                  }}
-                  href={titleLink?.href}
                 >
                   <HighlightedText highlightColor={headerAccent || "#fffff"}>
                     <span className="title-text">{title}</span>
                   </HighlightedText>
-                </a>
+                </ActionLink>
               )}
               <div
                 className={classnames("header-menu-bar", {
@@ -297,7 +357,7 @@ const Layout = React.forwardRef<{ closeSideMenu: () => void }, LayoutProps>(
                 </button>
                 <div className="menu-bar">{menuBar}</div>
               </div>
-            </div>
+            </header>
             <div ref={contentRef} className="content">
               {mainContent}
               {actionButton}
@@ -341,7 +401,7 @@ const Layout = React.forwardRef<{ closeSideMenu: () => void }, LayoutProps>(
               transform: translateX(var(--side-menu-width));
               width: 100%;
             }
-            .header {
+            header {
               background-color: ${Theme.LAYOUT_HEADER_BACKGROUND_COLOR};
               height: ${Theme.HEADER_HEIGHT_PX}px;
               position: fixed;
@@ -355,7 +415,7 @@ const Layout = React.forwardRef<{ closeSideMenu: () => void }, LayoutProps>(
               z-index: 10;
               transition: transform 0.3s ease-out;
             }
-            .layout-body.side-menu-open .header {
+            .layout-body.side-menu-open header {
               transform: translateX(var(--side-menu-width));
             }
             .layout-body.side-menu-open .content {
@@ -469,16 +529,6 @@ const Layout = React.forwardRef<{ closeSideMenu: () => void }, LayoutProps>(
             .side-menu:not(.opened) .side-menu-content {
               overflow: hidden;
             }
-            .title {
-              margin: 0px 35px;
-              margin-left: 25px;
-              color: white;
-              font-size: 24px;
-              font-weight: bold;
-              cursor: pointer;
-              text-decoration: none;
-              min-width: 0;
-            }
             .title-text {
               outline: none;
               display: block;
@@ -498,39 +548,7 @@ const Layout = React.forwardRef<{ closeSideMenu: () => void }, LayoutProps>(
               flex-grow: 1;
               justify-content: flex-end;
             }
-            .logo {
-              position: relative;
-              height: calc(100% - 30px);
-              cursor: pointer;
-            }
-            .logo > img {
-              height: 100%;
-              z-index: 2;
-              position: relative;
-            }
-            .logo .regular {
-              width: 87px;
-            }
-            .logo .compact {
-              display: none;
-            }
-            .logo::after {
-              content: "";
-              background-color: ${headerAccent || "transparent"};
-              mask: url(${logo}) no-repeat;
-              display: block;
-              position: absolute;
-              z-index: 1;
-              mask-size: 100%;
-              top: 2px;
-              left: 3px;
-              width: 100%;
-              height: 100%;
-            }
             .sidemenu-button.compass {
-              display: none;
-            }
-            .title.desktop-hidden {
               display: none;
             }
             @media only screen and (max-width: 950px) {
@@ -538,9 +556,6 @@ const Layout = React.forwardRef<{ closeSideMenu: () => void }, LayoutProps>(
                 display: block;
                 margin-right: 15px;
                 align-self: center;
-              }
-              .title.desktop-hidden {
-                display: block;
               }
               .header-menu-bar.has-compass .menu-bar {
                 padding-left: 10px;
@@ -556,24 +571,8 @@ const Layout = React.forwardRef<{ closeSideMenu: () => void }, LayoutProps>(
                 );
                 border-image-slice: 1;
               }
-              .logo .regular {
-                display: none;
-              }
-              .logo .compact {
-                display: block;
-                width: 35px;
-                height: 40px;
-              }
-              .logo::after {
-                mask: url(${compactLogo}) no-repeat;
-                width: 35px;
-                height: 40px;
-              }
             }
             @media only screen and (max-width: 850px) {
-              .title {
-                font-size: 24px;
-              }
               .layout-body {
                 flex-direction: column;
                 flex-shrink: 1;
@@ -596,12 +595,6 @@ const Layout = React.forwardRef<{ closeSideMenu: () => void }, LayoutProps>(
               .side-menu:not(.opened) .side-menu-content {
                 width: calc(100vw - 100px);
               }
-              .title {
-                display: block;
-              }
-              .title.desktop-hidden {
-                display: block;
-              }
               .side-menu.visible {
                 width: calc(100vw - 100px);
                 max-width: var(--side-menu-width);
@@ -611,7 +604,7 @@ const Layout = React.forwardRef<{ closeSideMenu: () => void }, LayoutProps>(
               .layout {
                 --side-menu-width: calc(100vw - 100px);
               }
-              .header {
+              header {
                 justify-content: space-between;
               }
               .side-menu {
@@ -648,12 +641,6 @@ const Layout = React.forwardRef<{ closeSideMenu: () => void }, LayoutProps>(
               }
             }
             @media only screen and (max-width: 450px) {
-              .logo {
-                display: none;
-              }
-              .header {
-                justify-content: space-between;
-              }
               .header-menu-bar {
                 flex-grow: 0;
               }
@@ -662,6 +649,8 @@ const Layout = React.forwardRef<{ closeSideMenu: () => void }, LayoutProps>(
               }
             }
           `}</style>
+          {titleStyles}
+          {logoStyles}
         </div>
       </div>
     );

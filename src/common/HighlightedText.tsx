@@ -40,6 +40,7 @@ const HighlightedText: React.FC<HighlightedTextProps> = (props) => {
           min-width: 0;
           z-index: 1;
           display: inline-block;
+          max-width: 100%;
         }
         .backgroundDivs {
           background-color: ${props.highlightColor};
