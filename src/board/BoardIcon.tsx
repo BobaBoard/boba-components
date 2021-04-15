@@ -1,7 +1,5 @@
 import React from "react";
 import cx from "classnames";
-import CircleMask from "../images/circle-mask.svg";
-import RectangleMask from "../images/rectangle-mask.svg";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import {
   faMapMarkerAlt,
@@ -9,7 +7,6 @@ import {
 } from "@fortawesome/free-solid-svg-icons";
 import Color from "color";
 
-const CURRENT_BOARD_PIN_MASK = `url(${CircleMask}) 35px 32px / 25px 24px;`;
 const BoardIcon: React.FC<BoardIconProps> = ({
   avatar,
   color,
@@ -45,6 +42,9 @@ const BoardIcon: React.FC<BoardIconProps> = ({
         )}
       </div>
       <style jsx>{`
+        .board-icon * {
+          box-sizing: border-box;
+        }
         .board-icon {
           cursor: pointer;
           position: relative;
@@ -59,32 +59,34 @@ const BoardIcon: React.FC<BoardIconProps> = ({
           box-sizing: border-box;
         }
         .board-icon.large.updates:not(.current) .board-image:not(.current) {
-          mask: url(${RectangleMask}),
-            url(${CircleMask}) -7.5px -7.5px/20px 20px;
-          mask-composite: source-out;
-          mask-repeat: no-repeat;
+          mask: linear-gradient(0deg, rgba(0, 0, 0, 0), rgba(0, 0, 0, 0)), 
+                radial-gradient(21px at left 2px top 2px, transparent 50%, black 55%) 
+                left top;
+}
         }
         .board-icon.small.updates:not(.current) .board-image {
-          mask: url(${RectangleMask}),
-            url(${CircleMask}) -3.5px -3.5px/12px 12px;
-          mask-composite: source-out;
-          mask-repeat: no-repeat;
+          mask: linear-gradient(0deg, rgba(0, 0, 0, 0), rgba(0, 0, 0, 0)), 
+                radial-gradient(16px at left 2px top 2px, transparent 50%, black 54%) 
+                left top;
         }
         .board-icon.large.updates.current .board-image {
-          mask: url(${RectangleMask}),
-            url(${CircleMask}) -7.5px -7.5px/21px 21px,
-            ${CURRENT_BOARD_PIN_MASK};
-          mask-composite: xor;
-          mask-repeat: no-repeat;
+          mask: linear-gradient(0deg, rgba(0, 0, 0, 0), rgba(0, 0, 0, 0)), 
+                radial-gradient(14px at left 0px top 0px, transparent 14px, black 14px, black 45px, transparent 41px),
+                radial-gradient(11px at right 2px bottom 4px, transparent 12px, black 13px, black 45px, transparent 41px) 
+                bottom right;
         }
-        .board-icon.large .board-image {
+        .board-icon.large {
           width: 50px;
           height: 50px;
         }
+        .board-icon .board-image {
+          width: 100%;
+          height: 100%;
+        }
         .board-icon.large.current:not(.updates) .board-image {
-          mask: url(${RectangleMask}), ${CURRENT_BOARD_PIN_MASK};
-          mask-composite: source-out;
-          mask-repeat: no-repeat;
+          mask: linear-gradient(0deg, rgba(0, 0, 0, 0), rgba(0, 0, 0, 0)), 
+                radial-gradient(11px at right 2px bottom 4px, transparent 12px, black 13px) 
+                right bottom;
         }
         .board-icon.small .board-image {
           width: 35px;
@@ -102,7 +104,7 @@ const BoardIcon: React.FC<BoardIconProps> = ({
           left: -5.5px;
         }
         .outdated .board-icon__update {
-          background-color: ${Color(color).darken(0.6).hex()};
+          background-color: ${Color(color?.toLowerCase()).darken(0.6).hex()};
         }
         .board-icon.small .board-icon__update {
           width: 10px;
