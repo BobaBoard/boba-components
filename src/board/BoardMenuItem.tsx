@@ -14,7 +14,6 @@ const { className: containerClassname, styles: containerStyles } = css.resolve`
     display: flex;
     background: #2e2e30;
     border-radius: 15px;
-    height: 35px;
     position: relative;
     text-decoration: none;
     align-items: center;
@@ -34,6 +33,7 @@ const BoardMenuItem: React.FC<
             background: linear-gradient(-90deg, ${color}, #2e2e30);
             background-size: 400% 400%;
             animation: GradientBackground 3s ease-out infinite;
+            height: 35px;
           }
           @keyframes GradientBackground {
             0% {
@@ -96,13 +96,9 @@ const BoardMenuItem: React.FC<
       </div>
       {containerStyles}
       <style jsx>{`
-        .icon {
-          position: absolute;
-        }
         .slug-container {
           max-width: calc(100% - 60px);
-          padding-left: 45px;
-          line-height: 35px;
+          padding-left: 5px;
           display: inline-block;
           position: relative;
           display: flex;
