@@ -7,31 +7,23 @@ import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faMapMarkerAlt } from "@fortawesome/free-solid-svg-icons";
 import css from "styled-jsx/css";
 import Color from "color";
+import ActionLink from "../common/ActionLink";
 
 const { className: containerClassname, styles: containerStyles } = css.resolve`
   .board-menu-item {
-    display: block;
+    display: flex;
     background: #2e2e30;
     border-radius: 15px;
     height: 35px;
     position: relative;
     text-decoration: none;
+    align-items: center;
   }
 `;
 
 const BoardMenuItem: React.FC<
   LoadingBoardMenuItemProps | BoardMenuItemProps
 > = (props) => {
-  const onClick = React.useCallback(
-    (e) => {
-      props.link?.onClick?.();
-      if (props.link?.onClick) {
-        e.preventDefault();
-      }
-    },
-    [props.link]
-  );
-
   if (props.loading) {
     const color = Color(props.accentColor).darken(0.4).hex() || "#bd4faf";
     return (
@@ -43,7 +35,6 @@ const BoardMenuItem: React.FC<
             background-size: 400% 400%;
             animation: GradientBackground 3s ease-out infinite;
           }
-
           @keyframes GradientBackground {
             0% {
               background-position: 30% 50%;
@@ -73,16 +64,15 @@ const BoardMenuItem: React.FC<
     current,
   } = props;
   return (
-    <a
-      onClick={onClick}
-      href={link.href}
-      className={classnames("board-menu-item", {
+    <ActionLink
+      link={link}
+      className={classnames(containerClassname, "board-menu-item", {
         "has-updates": !!updates,
         muted: !!muted,
         outdated: !!outdated,
       })}
     >
-      <div className="board-menu-item-icon">
+      <div className="icon">
         <BoardIcon
           avatar={avatar}
           color={color}
@@ -92,26 +82,24 @@ const BoardMenuItem: React.FC<
           small
         />
       </div>
-      <div className="board-menu-item-slug-container">
-        <span className="board-menu-item-slug">!{slug}</span>
+      <div
+        className={classnames("slug-container", {
+          "has-updates": !!updates,
+          muted: !!muted,
+          outdated: !!outdated,
+        })}
+      >
+        <span className="slug">!{slug}</span>
         <span className={classnames("current", { hidden: !current })}>
           <FontAwesomeIcon icon={faMapMarkerAlt} />
         </span>
       </div>
       {containerStyles}
       <style jsx>{`
-        .board-menu-item {
-          display: block;
-          background: #2e2e30;
-          border-radius: 15px;
-          height: 35px;
-          position: relative;
-          text-decoration: none;
-        }
-        .board-menu-item-icon {
+        .icon {
           position: absolute;
         }
-        .board-menu-item-slug-container {
+        .slug-container {
           max-width: calc(100% - 60px);
           padding-left: 45px;
           line-height: 35px;
@@ -119,7 +107,7 @@ const BoardMenuItem: React.FC<
           position: relative;
           display: flex;
         }
-        .board-menu-item-slug {
+        .slug {
           color: #969696;
           font-size: 18px;
           font-weight: 500;
@@ -128,13 +116,13 @@ const BoardMenuItem: React.FC<
           white-space: nowrap;
           flex-grow: 1;
         }
-        .muted .board-menu-item-slug {
+        .muted .slug {
           text-decoration: line-through;
         }
-        .board-menu-item.has-updates .board-menu-item-slug {
+        .has-updates .slug {
           color: #fff;
         }
-        .board-menu-item.outdated .board-menu-item-slug {
+        .outdated .slug {
           color: #c7c7c7;
         }
         .current {
@@ -145,7 +133,7 @@ const BoardMenuItem: React.FC<
           display: none;
         }
       `}</style>
-    </a>
+    </ActionLink>
   );
 };
 
