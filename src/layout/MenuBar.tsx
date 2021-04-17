@@ -10,8 +10,61 @@ import {
 import { LinkWithAction } from "types";
 import classnames from "classnames";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import CircleMask from "../images/circle-mask.svg";
-import RectangleMask from "../images/rectangle-mask.svg";
+import ActionLink from "../common/ActionLink";
+import css from "styled-jsx/css";
+
+const getIconStyle = ({
+  accentColor,
+  defaultBorderColor,
+}: {
+  accentColor?: string;
+  defaultBorderColor?: string;
+}) => css.resolve`
+  .icon {
+    width: 35px;
+    height: 35px;
+    background-color: #2e2e30;
+    border: 2px solid ${defaultBorderColor || "#2e2e30"};
+    border-radius: 50%;
+    color: #bfbfbf;
+    text-align: center;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+  }
+  .icon.blurred :global(img) {
+    filter: blur(3px) invert(1);
+  }
+  .icon.blurred:hover :global(img) {
+    filter: none;
+  }
+  .icon.dropdown {
+    mask: linear-gradient(0deg, rgba(0, 0, 0, 0), rgba(0, 0, 0, 0)),
+      radial-gradient(18px at right 3px bottom 6px, transparent 50%, black 55%)
+        bottom right;
+  }
+  .icon img {
+    width: 100%;
+    height: 100%;
+    border-radius: 50%;
+  }
+
+  .selected.icon {
+    border-color: ${accentColor || "white"};
+    color: white;
+  }
+  .loading.icon :global(svg) {
+    animation: spin 2s linear infinite;
+  }
+  @keyframes spin {
+    0% {
+      transform: rotateZ(0);
+    }
+    100% {
+      transform: rotateZ(360deg);
+    }
+  }
+`;
 
 const MenuItem: React.FC<{
   id: string;
@@ -34,26 +87,19 @@ const MenuItem: React.FC<{
   withDropdown,
   blurred,
 }) => {
-  // TODO: links should be done using buttons if there's no href
-  const isButton = !link?.href && !!link?.onClick;
-  const isAnchor = !!link?.href;
+  const { className: iconClassName, styles: iconStyle } = getIconStyle({
+    accentColor,
+    defaultBorderColor,
+  });
   return (
-    <div
-      key={id}
-      className={classnames("menu-item", { selected, loading: !!loading })}
-    >
+    <div key={id} className={classnames("menu-item", { selected, loading })}>
       <div className="icon-wrapper">
-        <a
-          href={link?.href || isButton ? "#0" : undefined}
-          role={isButton ? "button" : isAnchor ? "link" : undefined}
-          onClick={(e) => {
-            link?.onClick?.();
-            if (link?.href || isButton) {
-              e.preventDefault();
-            }
-          }}
-          className={classnames("icon", {
+        <ActionLink
+          link={link}
+          className={classnames("icon", iconClassName, {
             dropdown: !!withDropdown,
+            loading,
+            selected,
             blurred,
           })}
         >
@@ -64,7 +110,7 @@ const MenuItem: React.FC<{
           ) : (
             <FontAwesomeIcon icon={icon} />
           )}
-        </a>
+        </ActionLink>
         <div
           className={classnames("dropdown-indicator", {
             visible: !!withDropdown,
@@ -85,11 +131,7 @@ const MenuItem: React.FC<{
         .menu-item:hover {
           cursor: pointer;
         }
-        .menu-item:hover .icon {
-          color: white;
-        }
-        .menu-item.selected .icon {
-          border-color: ${accentColor || "white"};
+        .menu-item:hover :global(.icon) {
           color: white;
         }
         .icon-wrapper {
@@ -117,46 +159,6 @@ const MenuItem: React.FC<{
           left: 50%;
           transform: translate(-50%, -50%);
         }
-        .icon {
-          width: 35px;
-          height: 35px;
-          background-color: #2e2e30;
-          border: 2px solid ${defaultBorderColor || "#2e2e30"};
-          border-radius: 50%;
-          color: #bfbfbf;
-          text-align: center;
-          display: flex;
-          align-items: center;
-          justify-content: center;
-        }
-        .icon.blurred :global(img) {
-          filter: blur(3px) invert(1);
-        }
-        .icon.blurred:hover :global(img) {
-          filter: none;
-        }
-        .icon.dropdown {
-          mask: url(${RectangleMask}), url(${CircleMask}) 26px 23px / 23px 22px;
-          mask-composite: xor;
-          mask-repeat: no-repeat;
-        }
-        .loading .icon :global(svg) {
-          animation: spin 2s linear infinite;
-        }
-
-        @keyframes spin {
-          0% {
-            transform: rotateZ(0);
-          }
-          100% {
-            transform: rotateZ(360deg);
-          }
-        }
-        .icon img {
-          width: 100%;
-          height: 100%;
-          border-radius: 50%;
-        }
         .select-bar {
           height: 3px;
           position: absolute;
@@ -168,6 +170,7 @@ const MenuItem: React.FC<{
           background-color: ${accentColor || "white"};
         }
       `}</style>
+      {iconStyle}
     </div>
   );
 };
