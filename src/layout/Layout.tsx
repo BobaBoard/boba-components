@@ -149,7 +149,6 @@ const useSideMenuTransition = (
 const getLogoStyle = (accentColor?: string) => css.resolve`
   .logo {
     position: relative;
-    height: calc(100% - 30px);
     cursor: pointer;
   }
   .logo > img {
@@ -212,7 +211,7 @@ const { className: titleClassName, styles: titleStyles } = css.resolve`
   .title.desktop-hidden {
     display: none;
   }
-  @media only screen and (max-width: 950px) {
+  @media only screen and (max-width: ${Theme.MOBILE_WIDTH_TRIGGER_PX}px) {
     .title.desktop-hidden {
       display: block;
     }
@@ -365,10 +364,13 @@ const Layout = React.forwardRef<{ closeSideMenu: () => void }, LayoutProps>(
           </div>
           <style jsx>{`
             .layout {
-              background-color: #131518;
+              background-color: ${Theme.LAYOUT_BOARD_BACKGROUND_COLOR};
               display: flex;
               font-family: "Inter", sans-serif;
-              --side-menu-width: 400px;
+              --side-menu-width: min(
+                calc(100vw - 100px),
+                ${Theme.SIDE_MENU_MAX_WIDTH_PX}px
+              );
             }
             .layout-body {
               display: flex;
@@ -380,7 +382,7 @@ const Layout = React.forwardRef<{ closeSideMenu: () => void }, LayoutProps>(
               display: flex;
               flex-grow: 1;
               position: relative;
-              padding-top: 70px;
+              padding-top: ${Theme.HEADER_HEIGHT_PX}px;
               background: ${Theme.LAYOUT_BOARD_BACKGROUND_COLOR};
               transition: transform 0.3s ease-out;
             }
@@ -428,7 +430,7 @@ const Layout = React.forwardRef<{ closeSideMenu: () => void }, LayoutProps>(
               border-radius: 50%;
               border: 0;
               background: transparent;
-              color: rgb(191, 191, 191);
+              color: ${Theme.MENU_ITEM_ICON_COLOR};
               text-align: center;
               display: flex;
               align-items: center;
@@ -451,26 +453,26 @@ const Layout = React.forwardRef<{ closeSideMenu: () => void }, LayoutProps>(
               right: 2px;
               width: 10px;
               height: 10px;
-              background: ${Theme.DEFAULT_ACCENT_COLOR};
+              background: ${Theme.NOTIFICATIONS_NEW_COLOR};
               border-radius: 50%;
               border: 2px solid ${Theme.LAYOUT_HEADER_BACKGROUND_COLOR};
             }
 
             .sidemenu-button.notification.outdated::after {
-              background: white;
+              background: ${Theme.NOTIFICATIONS_OUTDATED_COLOR};
             }
 
             .sidemenu-button.notification:hover::after {
-              border-color: rgb(46, 46, 48);
+              border-color: ${Theme.MENU_ITEM_ICON_BACKGROUND_COLOR};
             }
 
             .sidemenu-button:hover {
               cursor: pointer;
-              background-color: rgb(46, 46, 48);
+              background-color: ${Theme.MENU_ITEM_ICON_BACKGROUND_COLOR};
             }
 
             .sidemenu-button:hover {
-              color: white;
+              color: ${Theme.MENU_ITEM_ICON_HIGHLIGHT_COLOR};
             }
             .sidemenu-button.menu {
               margin-left: -3px;
@@ -489,7 +491,7 @@ const Layout = React.forwardRef<{ closeSideMenu: () => void }, LayoutProps>(
               flex-grow: 1;
             }
             .side-menu {
-              background-color: ${Theme.LAYOUT_SIDEMENU_BACKGROUND_COLOR};
+              background-color: ${Theme.LAYOUT_BOARD_BACKGROUND_COLOR};
               overflow: hidden;
               z-index: 1;
               width: var(--side-menu-width);
@@ -551,7 +553,7 @@ const Layout = React.forwardRef<{ closeSideMenu: () => void }, LayoutProps>(
             .sidemenu-button.compass {
               display: none;
             }
-            @media only screen and (max-width: 950px) {
+            @media only screen and (max-width: ${Theme.MOBILE_WIDTH_TRIGGER_PX}px) {
               .sidemenu-button.compass {
                 display: block;
                 margin-right: 15px;
@@ -580,30 +582,8 @@ const Layout = React.forwardRef<{ closeSideMenu: () => void }, LayoutProps>(
               .sidebar-button {
                 display: inline-block;
               }
-              .side-menu-content {
-                width: calc(100vw - 100px);
-                max-width: var(--side-menu-width);
-              }
-              /* On Android browsers, there's a sidebar when overflow:auto and no sidebar
-               * when overflow:hidden. Therefore, we account for the sidebar width (which
-               * is specified in the body) when the menu is not opened.
-               * This causes a small resize on iOS, which doesn't respect the sidebar width.
-               * The best way to do this would be to somehow calculate the sidebar width at
-               * load time and add the correct value here.
-               * TODO: do this, maybe, one day.
-               */
-              .side-menu:not(.opened) .side-menu-content {
-                width: calc(100vw - 100px);
-              }
-              .side-menu.visible {
-                width: calc(100vw - 100px);
-                max-width: var(--side-menu-width);
-              }
             }
             @media only screen and (max-width: 600px) {
-              .layout {
-                --side-menu-width: calc(100vw - 100px);
-              }
               header {
                 justify-content: space-between;
               }
@@ -620,7 +600,7 @@ const Layout = React.forwardRef<{ closeSideMenu: () => void }, LayoutProps>(
                 left: 0;
                 right: 0;
                 height: 0px;
-                background-color: #131518;
+                background-color: ${Theme.LAYOUT_HEADER_BACKGROUND_COLOR};
                 display: block;
                 width: calc(100vw - 100px);
                 max-width: var(--side-menu-width);

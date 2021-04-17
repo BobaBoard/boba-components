@@ -48,8 +48,7 @@ class CommentChain extends PureComponent<CommentChainProps> {
       if (index != 0) {
         commentRef.editorRef.current.style.borderTopLeftRadius = "0px";
         commentRef.editorRef.current.style.borderTopRightRadius = "0px";
-        commentRef.editorRef.current.style.borderTop =
-          "1px dashed rgba(255, 255, 255, .3)";
+        commentRef.editorRef.current.style.borderTop = `1px dashed ${Theme.COMMENT_BORDER_COLOR}`;
       }
       if (index < this.handlerRefs.size - 1) {
         commentRef.editorRef.current.style.borderBottomLeftRadius = "0px";
@@ -110,7 +109,7 @@ class CommentChain extends PureComponent<CommentChainProps> {
             align-items: start;
             display: flex;
             --comment-container-stacked-radius: 0;
-            max-width: 550px;
+            max-width: ${Theme.POST_WIDTH_PX}px;
             width: 100%;
             margin-bottom: 14px;
             --text-padding: 13px;

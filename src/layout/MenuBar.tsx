@@ -12,6 +12,7 @@ import classnames from "classnames";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import ActionLink from "../common/ActionLink";
 import css from "styled-jsx/css";
+import DefaultTheme from "../theme/default";
 
 const getIconStyle = ({
   accentColor,
@@ -23,10 +24,11 @@ const getIconStyle = ({
   .icon {
     width: 35px;
     height: 35px;
-    background-color: #2e2e30;
-    border: 2px solid ${defaultBorderColor || "#2e2e30"};
+    background-color: ${DefaultTheme.MENU_ITEM_ICON_BACKGROUND_COLOR};
+    border: 2px solid
+      ${defaultBorderColor || DefaultTheme.MENU_ITEM_ICON_BACKGROUND_COLOR};
     border-radius: 50%;
-    color: #bfbfbf;
+    color: ${DefaultTheme.MENU_ITEM_ICON_COLOR};
     text-align: center;
     display: flex;
     align-items: center;
@@ -50,8 +52,8 @@ const getIconStyle = ({
   }
 
   .selected.icon {
-    border-color: ${accentColor || "white"};
-    color: white;
+    border-color: ${accentColor || DefaultTheme.MENU_ITEM_ICON_HIGHLIGHT_COLOR};
+    color: ${DefaultTheme.MENU_ITEM_ICON_HIGHLIGHT_COLOR};
   }
   .loading.icon :global(svg) {
     animation: spin 2s linear infinite;
@@ -132,7 +134,7 @@ const MenuItem: React.FC<{
           cursor: pointer;
         }
         .menu-item:hover :global(.icon) {
-          color: white;
+          color: ${DefaultTheme.MENU_ITEM_ICON_HIGHLIGHT_COLOR}};
         }
         .icon-wrapper {
           position: relative;
@@ -141,8 +143,8 @@ const MenuItem: React.FC<{
           position: absolute;
           right: -3px;
           bottom: 1px;
-          color: rgb(46, 46, 48);
-          background-color: rgb(191, 191, 191);
+          color: ${DefaultTheme.MENU_ITEM_ICON_BACKGROUND_COLOR};
+          background-color: ${DefaultTheme.MENU_ITEM_ICON_COLOR};
           border-radius: 50%;
           width: 10px;
           height: 10px;
@@ -167,7 +169,9 @@ const MenuItem: React.FC<{
           bottom: 0;
           left: 0;
           right: 0;
-          background-color: ${accentColor || "white"};
+          background-color: ${
+            accentColor || DefaultTheme.MENU_ITEM_ICON_HIGHLIGHT_COLOR
+          };
         }
       `}</style>
       {iconStyle}

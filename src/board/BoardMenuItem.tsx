@@ -8,11 +8,12 @@ import { faMapMarkerAlt } from "@fortawesome/free-solid-svg-icons";
 import css from "styled-jsx/css";
 import Color from "color";
 import ActionLink from "../common/ActionLink";
+import DefaultTheme from "../theme/default";
 
 const { className: containerClassname, styles: containerStyles } = css.resolve`
   .board-menu-item {
     display: flex;
-    background: #2e2e30;
+    background: ${DefaultTheme.BOARD_MENU_ITEM_BACKGROUND};
     border-radius: 15px;
     position: relative;
     text-decoration: none;

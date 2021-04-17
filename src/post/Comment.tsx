@@ -63,15 +63,18 @@ class Comment extends PureComponent<CommentProps> {
           }
           .extra-action-icon {
             border-radius: 50%;
-            background-color: #5e5e5f;
-            border: 1px solid rgba(255, 255, 255, 0.3);
+            background-color: ${Theme.COMMENT_BACKGROUND_COLOR};
+            border: 1px solid ${Theme.COMMENT_BORDER_COLOR};
             width: 20px;
             height: 20px;
             margin: 15px;
             margin-right: 0px;
             position: relative;
-            color: rgba(255, 255, 255, 0.6);
             transition: all 0.2s ease-out;
+          }
+          .extra-action-icon :global(svg) {
+            color: ${Theme.COMMENT_TEXT_COLOR};
+            opacity: 0.6;
           }
           .extra-action.visible {
             display: block;
@@ -82,24 +85,26 @@ class Comment extends PureComponent<CommentProps> {
             left: 50%;
             transform: translate(-50%, -50%) scale(0.8);
           }
-          .extra-action:hover .extra-action-icon {
+          .extra-action:hover {
             cursor: pointer;
-            color: white;
-            background-color: #757575;
+          }
+          .extra-action:hover .extra-action-icon :global(svg) {
+            color: ${Theme.COMMENT_TEXT_COLOR};
+            background-color: ${Theme.COMMENT_BACKGROUND_COLOR};
+            opacity: 1;
           }
           .comment-container {
             position: relative;
-            max-width: 550px;
+            max-width: ${Theme.POST_WIDTH_PX}px;
             width: calc(100% - 3px);
           }
           .comment {
             position: relative;
             padding: 0 3px;
-            color: black;
             min-width: 0;
             align-self: flex-end;
-            color: white;
-            background: #5e5e5f;
+            --text-color: ${Theme.COMMENT_TEXT_COLOR};
+            background: ${Theme.COMMENT_BACKGROUND_COLOR};
             border-radius: ${Theme.BORDER_RADIUS_REGULAR};
             min-height: 38px;
             overflow: hidden;
@@ -122,7 +127,7 @@ class Comment extends PureComponent<CommentProps> {
           }
           .comment::after {
             content: "";
-            border: 2px solid rgba(255, 255, 255, 0.2);
+            border: 2px solid ${Theme.COMMENT_BORDER_COLOR};
             border-bottom-width: 0px;
             border-top-width: 0px;
             box-sizing: border-box;

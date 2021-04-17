@@ -1,3 +1,4 @@
+import DefaultTheme from "../theme/default";
 import React from "react";
 
 import { TagsType, TagType } from "../types";
@@ -14,9 +15,9 @@ export const CONTENT_NOTICE_PREFIXES = [
 ];
 export const WHISPER_PREFIX = "»";
 
-export const INDEXABLE_TAG_COLOR = "#FF5A13";
-export const CATEGORY_TAG_COLOR = "#138EFF";
-export const CW_TAG_COLOR = "#FFC700";
+export const INDEXABLE_TAG_COLOR = DefaultTheme.INDEX_TAG_COLOR.toLowerCase();
+export const CATEGORY_TAG_COLOR = DefaultTheme.CATEGORY_FILTER_COLOR.toLowerCase();
+export const CW_TAG_COLOR = DefaultTheme.CONTENT_NOTICE_COLOR.toLowerCase();
 
 const getTagType = (tag: TagsType | TagType) => {
   if (typeof tag === "object") {

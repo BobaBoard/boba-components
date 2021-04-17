@@ -4,6 +4,7 @@ import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faThumbtack } from "@fortawesome/free-solid-svg-icons";
 
 import BoardIcon from "../board/BoardIcon";
+import DefaultTheme from "../theme/default";
 
 const PinnedBoardsMenu: React.FC<PinnedBoardsMenuProps> = ({
   boards,
@@ -41,12 +42,15 @@ const PinnedBoardsMenu: React.FC<PinnedBoardsMenuProps> = ({
       </div>
       <style jsx>{`
         .board-pinned {
-          background: #131518;
-          width: 65px;
+          background: ${DefaultTheme.PINNED_BAR_BACKGROUND};
+          width: ${DefaultTheme.PINNED_BAR_WIDTH_PX}px;
           height: 100%;
           overflow-y: scroll;
           overflow-x: hidden;
           scrollbar-width: none;
+          display: flex;
+          flex-direction: column;
+          align-items: center;
         }
         .board-pinned::-webkit-scrollbar {
           display: none;
@@ -54,7 +58,7 @@ const PinnedBoardsMenu: React.FC<PinnedBoardsMenuProps> = ({
         .pin-icon {
           display: block;
           margin-top: 12px;
-          color: white;
+          color: ${DefaultTheme.PINNED_BAR_TEXT_COLOR};
           text-align: center;
         }
         .pin-icon :global(svg) {

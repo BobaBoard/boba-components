@@ -121,11 +121,14 @@ const Metadata: React.FC<PostHeaderProps> = (props) => {
           .secret-identity {
             font-size: 14px;
             line-height: 17px;
-            color: ${DefaultTheme.TEXT_MUTED};
+            color: ${DefaultTheme.POST_HEADER_DATE_COLOR};
             white-space: nowrap;
             text-overflow: ellipsis;
             overflow: hidden;
             padding-left: 5px;
+          }
+          .secret-identity {
+            color: ${DefaultTheme.POST_HEADER_USERNAME_COLOR};
           }
           .container {
             min-width: 0;

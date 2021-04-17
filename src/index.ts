@@ -15,7 +15,7 @@ import ToastContainer, { toast } from "./common/Toast";
 import Modal from "./common/Modal";
 import ModalWithButtons from "./common/ModalWithButtons";
 import PostEditor from "./post/PostEditor";
-import Post, { PostSizes } from "./post/Post";
+import Post from "./post/Post";
 import Comment from "./post/Comment";
 import CompactThreadIndent, { useIndent } from "./post/CompactThreadIndent";
 import CompactPostThread from "./post/CompactPostThread";
@@ -61,7 +61,6 @@ export {
   UserDetails,
   ModalWithButtons,
   Post,
-  PostSizes,
   PostEditor,
   PostingActionButton,
   Comment,

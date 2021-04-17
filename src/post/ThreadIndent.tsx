@@ -143,7 +143,7 @@ const ThreadIndent: React.FC<ThreadIndentProps> = (props) => {
       <style jsx>{`
         .thread-level {
           position: relative;
-          max-width: 550px;
+          max-width: ${Theme.POST_WIDTH_PX}px;
           width: 100%;
         }
         .thread-level::before {

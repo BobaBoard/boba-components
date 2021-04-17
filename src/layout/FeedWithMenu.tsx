@@ -179,7 +179,9 @@ const FeedWithMenu: React.FC<FeedWithMenuProps> & CompoundComponents = ({
       // matches the previous value
       // See: https://stackoverflow.com/questions/52624612/does-react-re-render-the-component-if-it-receives-the-same-value-in-state
       setCanOpenSidebar(
-        matchMedia("only screen and (max-width: 850px)").matches
+        matchMedia(
+          `only screen and (max-width: ${Theme.MOBILE_WIDTH_TRIGGER_PX}px)`
+        ).matches
       );
     });
 
@@ -293,7 +295,7 @@ const FeedWithMenu: React.FC<FeedWithMenuProps> & CompoundComponents = ({
           .content {
             width: 100%;
             display: flex;
-            min-height: calc(100vh - 70px);
+            min-height: calc(100vh - ${Theme.HEADER_HEIGHT_PX}px);
           }
           .main {
             display: flex;
@@ -308,7 +310,7 @@ const FeedWithMenu: React.FC<FeedWithMenuProps> & CompoundComponents = ({
           }
           .sidebar {
             margin-top: -1px;
-            width: 350px;
+            width: ${Theme.SIDEBAR_WIDTH_PX}px;
             background-color: ${Theme.LAYOUT_BOARD_SIDEBAR_BACKGROUND_COLOR};
             flex-shrink: 0;
             height: auto;
@@ -322,7 +324,7 @@ const FeedWithMenu: React.FC<FeedWithMenuProps> & CompoundComponents = ({
             bottom: 500px;
           }
 
-          @media only screen and (max-width: 950px) {
+          @media only screen and (max-width: ${Theme.MOBILE_WIDTH_TRIGGER_PX}px) {
             .content {
               background-image: none;
             }
@@ -341,7 +343,7 @@ const FeedWithMenu: React.FC<FeedWithMenuProps> & CompoundComponents = ({
               height: 0;
             }
             .sidebar.visible {
-              height: calc(100vh - 70px);
+              height: calc(100vh - ${Theme.HEADER_HEIGHT_PX}px);
               display: block;
               opacity: 1;
               transform: translate(-50%, 0%);

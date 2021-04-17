@@ -321,6 +321,12 @@ const BoardSidebar: React.FC<BoardSidebarProps> = (props) => {
         .vanquished {
           display: none;
         }
+        @media only screen and (max-width: ${Theme.MOBILE_WIDTH_TRIGGER_PX}px) {
+          .sidebar {
+            max-width: 800px;
+            margin: 0 auto;
+          }
+        }
       `}</style>
     </div>
   );

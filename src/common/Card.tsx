@@ -6,7 +6,7 @@ import {
   faAngleDoubleUp,
 } from "@fortawesome/free-solid-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import Theme from "../theme/default";
+import DefaultTheme from "../theme/default";
 
 export interface CardProps {
   footer?: React.ReactNode;
@@ -88,7 +88,8 @@ const Card: React.FC<CardProps> & CompoundComponents = ({
       <style jsx>{`
         /* Dynamic styles */
         .card {
-          background-color: ${backgroundColor || "white"};
+          background-color: ${backgroundColor ||
+          DefaultTheme.POST_BACKGROUND_COLOR};
         }
       `}</style>
       <style jsx>{`
@@ -121,7 +122,7 @@ const Card: React.FC<CardProps> & CompoundComponents = ({
         }
         .card {
           padding: 15px 10px;
-          border-radius: ${Theme.BORDER_RADIUS_REGULAR};
+          border-radius: ${DefaultTheme.BORDER_RADIUS_REGULAR};
           width: 100%;
         }
         .card.with-header {

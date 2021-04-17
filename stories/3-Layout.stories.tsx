@@ -335,7 +335,11 @@ export const SideMenuPreview = () => {
       </div>
       <div style={{ maxWidth: "500px", backgroundColor: "red" }}>
         <SideMenu
-          pinnedBoards={[...PINNED_BOARDS, ...PINNED_BOARDS]}
+          pinnedBoards={[
+            ...PINNED_BOARDS,
+            { ...PINNED_BOARDS[1], updates: 0 },
+            ...PINNED_BOARDS,
+          ]}
           currentBoardSlug="anime"
           showPinned={showPinned}
           ref={menuRef}
@@ -740,10 +744,15 @@ export const Attempt1 = () => {
               <BoardSidebar {...BOARD_INFO} />
             </FeedWithMenu.Sidebar>
             <FeedWithMenu.FeedContent>
-              <div style={{ width: "100%", padding: "10px" }}>
+              <>
                 {POSTS.map((post) => (
                   <div
-                    style={{ marginTop: "20px", marginBottom: "20px" }}
+                    style={{
+                      marginTop: "20px",
+                      marginBottom: "20px",
+                      maxWidth: "100%",
+                      display: "inline-block",
+                    }}
                     key={post.text}
                   >
                     <Post
@@ -769,7 +778,7 @@ export const Attempt1 = () => {
                     />
                   </div>
                 ))}
-              </div>
+              </>
             </FeedWithMenu.FeedContent>
           </FeedWithMenu>
         }
@@ -795,7 +804,28 @@ export const Attempt1 = () => {
                 },
               },
             ]}
-          />
+          >
+            <SideMenu.BoardsMenuSection
+              title="recent unreads"
+              icon={faClock}
+              boards={RECENT_BOARDS}
+              emptyTitle="Congratulations!"
+              emptyDescription="You read 'em all."
+            />
+            <SideMenu.BoardsMenuSection
+              title="empty section"
+              icon={faTrash}
+              emptyTitle="Congratulations!"
+              emptyDescription="You read 'em all."
+            />
+            <SideMenu.BoardsMenuSection
+              title="all boards"
+              icon={faTh}
+              boards={[...PINNED_BOARDS, ...RECENT_BOARDS, ...SEARCH_BOARDS]}
+              emptyTitle="There's no board here."
+              emptyDescription="Somehow, that feels wrong."
+            />
+          </SideMenu>
         }
         actionButton={
           <PostingActionButton

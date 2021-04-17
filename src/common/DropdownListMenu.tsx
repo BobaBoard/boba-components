@@ -79,8 +79,8 @@ const getThemeColors = (style?: DropdownStyle) => {
       : Theme.DROPDOWN_BACKGROUND_COLOR_DARK;
   const hoverBackgroundColor =
     DropdownStyle.DARK == style
-      ? Color(themeColor).lighten(0.85).hex()
-      : Color(themeColor).darken(0.15).hex();
+      ? Color(themeColor.toLowerCase()).lighten(0.85).hex()
+      : Color(themeColor.toLowerCase()).darken(0.15).hex();
 
   return {
     themeColor,

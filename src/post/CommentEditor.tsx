@@ -8,7 +8,7 @@ import useDimensions from "react-cool-dimensions";
 import Spinner from "../common/Spinner";
 import questionMark from "../images/question_mark.png";
 import { prepareContentSubmission } from "../utils";
-import { ImageUploaderContext } from "../index";
+import { DefaultTheme, ImageUploaderContext } from "../index";
 import { SecretIdentityType } from "types";
 
 export const modes = {
@@ -241,7 +241,7 @@ const Comment = React.forwardRef<EditorRef, CommentProps>((props, ref) => {
           align-items: start;
           display: flex;
           position: relative;
-          max-width: 550px;
+          max-width: ${DefaultTheme.POST_WIDTH_PX}px;
         }
         .comment-container.centered {
           margin: 0 auto;
@@ -257,14 +257,15 @@ const Comment = React.forwardRef<EditorRef, CommentProps>((props, ref) => {
         .comment {
           position: relative;
           padding: 5px 10px;
-          color: black;
+          color: ${DefaultTheme.POST_TEXT_COLOR};
           flex-grow: 1;
           min-width: 0;
-          background: white;
+          background: ${DefaultTheme.POST_BACKGROUND_COLOR};
           border-radius: 15px;
         }
         .comment.muted {
-          background: #dcdcdc;
+          background: ${DefaultTheme.POST_BACKGROUND_COLOR};
+          opacity: 0.9;
         }
         .error {
           color: red;

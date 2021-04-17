@@ -235,7 +235,7 @@ const Thread: React.FC<ThreadProps & ChildrenWithRenderProps> & {
         <style jsx>{`
           .thread {
             width: 100%;
-            max-width: 550px;
+            max-width: ${Theme.POST_WIDTH_PX}px;
           }
         `}</style>
       </div>

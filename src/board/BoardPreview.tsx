@@ -6,6 +6,7 @@ import fitty from "fitty";
 import HighlightedText from "../common/HighlightedText";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faVolumeMute } from "@fortawesome/free-solid-svg-icons";
+import DefaultTheme from "../theme/default";
 
 const DEFAULT_COLOR = "#000000";
 
@@ -164,7 +165,7 @@ const Description: React.FC<{
           white-space: normal !important;
         }
         .description-container.regular span {
-          background-color: #2f2f30;
+          background-color: ${DefaultTheme.LAYOUT_BOARD_BACKGROUND_COLOR};
           color: white;
           border-radius: 15px;
           padding: 15px;

@@ -1,7 +1,7 @@
 import React from "react";
 
 import Header, { HeaderStyle } from "./Header";
-import Post, { PostSizes, getPostWidth, PostProps } from "./Post";
+import Post, { PostProps } from "./Post";
 import Card from "../common/Card";
 import Editor from "@bobaboard/boba-editor";
 import classnames from "classnames";
@@ -207,7 +207,7 @@ const CompactThread: React.FC<CompactThreadProps> = (props) => {
         .post-container {
           position: relative;
           max-width: 100%;
-          width: ${getPostWidth(PostSizes.REGULAR)}px;
+          width: ${Theme.POST_WIDTH_PX}px;
         }
         .footer {
           padding: 0;

@@ -12,6 +12,7 @@ import DropdownMenu, {
   DropdownStyle,
 } from "../common/DropdownListMenu";
 import classnames from "classnames";
+import DefaultTheme from "../theme/default";
 
 export interface SideMenuHandler {
   focusBoardFilter: () => void;
@@ -99,7 +100,7 @@ const SideMenu = React.forwardRef<SideMenuHandler, SideMenuProps>(
         <style jsx>
           {`
             .side-menu {
-              background-color: #1c1c1c;
+              background-color: ${DefaultTheme.BOARD_MENU_BACKGROUND};
               top: 0;
               bottom: 0;
               left: 0;
@@ -130,17 +131,18 @@ const SideMenu = React.forwardRef<SideMenuHandler, SideMenuProps>(
             .board-filter {
               padding: 10px;
               position: relative;
-              border-bottom: 2px solid #131518;
+              border-bottom: 2px solid ${DefaultTheme.PINNED_BAR_BACKGROUND};
               display: flex;
               width: 100%;
               justify-content: space-between;
               box-sizing: border-box;
             }
-            .board-filter.with-options {
-              margin-right: 10px;
+            .board-filter.with-options input {
+              margin-right: 5px;
             }
             .board-filter .icon {
-              color: #bfbfbf;
+              color: ${DefaultTheme.BOARD_FILTER_TEXT_COLOR};
+              opacity: 0.8;
               position: absolute;
               font-size: 14px;
               left: 20px;
@@ -148,8 +150,8 @@ const SideMenu = React.forwardRef<SideMenuHandler, SideMenuProps>(
               transform: translateY(-50%);
             }
             .board-filter input {
-              background: #2e2e30;
-              color: #fff;
+              background: ${DefaultTheme.BOARD_FILTER_BACKGROUND};
+              color: ${DefaultTheme.BOARD_FILTER_TEXT_COLOR};
               font-size: 16px;
               line-height: 16px;
               padding: 3px 10px;
@@ -166,7 +168,7 @@ const SideMenu = React.forwardRef<SideMenuHandler, SideMenuProps>(
             .board-filter-options {
               height: 25px;
               width: 25px;
-              background: #2e2e30;
+              background: ${DefaultTheme.BOARD_MENU_ITEM_BACKGROUND};
               border-radius: 15px;
               color: #bfbfbf;
               display: none;

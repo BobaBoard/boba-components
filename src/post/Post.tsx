@@ -24,21 +24,6 @@ export const modes = {
   CREATE: "CREATE",
 };
 
-export enum PostSizes {
-  REGULAR,
-  WIDE,
-}
-
-export const getPostWidth = (size?: PostSizes): number => {
-  switch (size) {
-    case PostSizes.WIDE:
-      return 850;
-    case PostSizes.REGULAR:
-    default:
-      return 550;
-  }
-};
-
 const COLLAPSED_HEIGHT = 150;
 
 const MemoizedHeader = React.memo(Header);
@@ -248,12 +233,6 @@ const Post = React.forwardRef<PostHandler, PostProps>((props, ref) => {
         </div>
       </div>
       <style jsx>{`
-        /*dynamic styles*/
-        .post-container {
-          width: ${getPostWidth(props.size)}px;
-        }
-      `}</style>
-      <style jsx>{`
         /*static styles*/
         .muted {
           opacity: 0.9;
@@ -273,6 +252,7 @@ const Post = React.forwardRef<PostHandler, PostProps>((props, ref) => {
         .post-container {
           position: relative;
           max-width: 100%;
+          width: ${Theme.POST_WIDTH_PX}px;
         }
         .card-container {
           position: relative;
@@ -298,6 +278,9 @@ const Post = React.forwardRef<PostHandler, PostProps>((props, ref) => {
         }
         .footer.with-reactions {
           padding-bottom: 10px;
+        }
+        .content {
+          --text-color: ${Theme.POST_TEXT_COLOR};
         }
         .tags {
           padding: 0 10px;
@@ -410,7 +393,6 @@ export interface PostProps {
     image: string;
     count: number;
   }[];
-  size?: PostSizes;
   newPost?: boolean;
   totalContributions?: number;
   directContributions?: number;

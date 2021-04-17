@@ -59,21 +59,40 @@ const BoardIcon: React.FC<BoardIconProps> = ({
           box-sizing: border-box;
         }
         .board-icon.large.updates:not(.current) .board-image:not(.current) {
-          mask: linear-gradient(0deg, rgba(0, 0, 0, 0), rgba(0, 0, 0, 0)), 
-                radial-gradient(21px at left 2px top 2px, transparent 50%, black 55%) 
-                left top;
-}
+          mask: linear-gradient(0deg, rgba(0, 0, 0, 0), rgba(0, 0, 0, 0)),
+            radial-gradient(
+                21px at left 2px top 2px,
+                transparent 50%,
+                black 55%
+              )
+              left top;
         }
         .board-icon.small.updates:not(.current) .board-image {
-          mask: linear-gradient(0deg, rgba(0, 0, 0, 0), rgba(0, 0, 0, 0)), 
-                radial-gradient(16px at left 2px top 2px, transparent 50%, black 54%) 
-                left top;
+          mask: linear-gradient(0deg, rgba(0, 0, 0, 0), rgba(0, 0, 0, 0)),
+            radial-gradient(
+                16px at left 2px top 2px,
+                transparent 50%,
+                black 54%
+              )
+              left top;
         }
         .board-icon.large.updates.current .board-image {
-          mask: linear-gradient(0deg, rgba(0, 0, 0, 0), rgba(0, 0, 0, 0)), 
-                radial-gradient(14px at left 0px top 0px, transparent 14px, black 14px, black 45px, transparent 41px),
-                radial-gradient(11px at right 2px bottom 4px, transparent 12px, black 13px, black 45px, transparent 41px) 
-                bottom right;
+          mask: linear-gradient(0deg, rgba(0, 0, 0, 0), rgba(0, 0, 0, 0)),
+            radial-gradient(
+              14px at left 0px top 0px,
+              transparent 14px,
+              black 14px,
+              black 45px,
+              transparent 41px
+            ),
+            radial-gradient(
+                11px at right 2px bottom 4px,
+                transparent 12px,
+                black 13px,
+                black 45px,
+                transparent 41px
+              )
+              bottom right;
         }
         .board-icon.large {
           width: 50px;
@@ -84,9 +103,13 @@ const BoardIcon: React.FC<BoardIconProps> = ({
           height: 100%;
         }
         .board-icon.large.current:not(.updates) .board-image {
-          mask: linear-gradient(0deg, rgba(0, 0, 0, 0), rgba(0, 0, 0, 0)), 
-                radial-gradient(11px at right 2px bottom 4px, transparent 12px, black 13px) 
-                right bottom;
+          mask: linear-gradient(0deg, rgba(0, 0, 0, 0), rgba(0, 0, 0, 0)),
+            radial-gradient(
+                11px at right 2px bottom 4px,
+                transparent 12px,
+                black 13px
+              )
+              right bottom;
         }
         .board-icon.small .board-image {
           width: 35px;

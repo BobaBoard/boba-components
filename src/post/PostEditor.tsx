@@ -4,7 +4,6 @@ import Header, { HeaderStyle } from "./Header";
 import EditorFooter from "./EditorFooter";
 import Card from "../common/Card";
 import Tags from "../tags/Tags";
-import { PostSizes, getPostWidth } from "./Post";
 import Spinner from "../common/Spinner";
 import DropdownListMenu from "../common/DropdownListMenu";
 import Editor from "@bobaboard/boba-editor";
@@ -22,7 +21,7 @@ import { SecretIdentityType, TagsType } from "../types";
 import TagsFactory from "../tags/TagsFactory";
 import noop from "noop-ts";
 import BoardSelector, { BoardSelectorProps } from "../tags/BoardSelector";
-import { ImageUploaderContext } from "../index";
+import { DefaultTheme, ImageUploaderContext } from "../index";
 
 const computeTags = (
   tags: TagsType[],
@@ -248,9 +247,7 @@ const PostEditor = React.forwardRef<{ focus: () => void }, PostEditorProps>(
         </div>
         <style jsx>{`
           .post-container {
-            max-width: ${getPostWidth(
-              props.defaultSize || PostSizes.REGULAR
-            )}px;
+            max-width: ${DefaultTheme.POST_WIDTH_PX}px;
           }
           .post-container.centered {
             margin: 0 auto;
@@ -281,7 +278,7 @@ const PostEditor = React.forwardRef<{ focus: () => void }, PostEditorProps>(
           .views-dropdown {
             display: inline-flex;
             color: #1c1c1c;
-            bhjnmorder-radius: 10px;
+            border-radius: 10px;
             padding: 3px 6px;
             align-items: center;
           }
@@ -342,7 +339,6 @@ export interface PostEditorProps {
   };
   additionalIdentities?: SecretIdentityType[];
   loading?: boolean;
-  defaultSize?: PostSizes;
   onSubmit: (
     postPromise: Promise<{
       text: string;

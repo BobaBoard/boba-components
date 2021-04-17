@@ -260,7 +260,7 @@ const CommentChainEditor = React.forwardRef<
         .comment-chain-editor {
           position: relative;
           width: 100%;
-          max-width: 550px;
+          max-width: ${DefaultTheme.POST_WIDTH_PX}px;
         }
         .comment-container {
           opacity: 1;
