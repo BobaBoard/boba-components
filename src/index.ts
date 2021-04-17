@@ -17,12 +17,10 @@ import ModalWithButtons from "./common/ModalWithButtons";
 import PostEditor from "./post/PostEditor";
 import Post from "./post/Post";
 import Comment from "./post/Comment";
-import CompactThreadIndent, { useIndent } from "./post/CompactThreadIndent";
 import CompactPostThread from "./post/CompactPostThread";
 import CommentChain from "./post/CommentChain";
 import CommentChainEditor from "./post/CommentChainEditor";
 import CommentEditor from "./post/CommentEditor";
-import ThreadIndent from "./post/ThreadIndent";
 import NewThread from "./thread/NewThread";
 import NewCommentsThread from "./thread/NewCommentsThread";
 import CollapsedPlaceholder from "./thread/CollapsedPlaceholder";
@@ -66,12 +64,9 @@ export {
   Comment,
   CommentChain,
   CommentChainEditor,
-  CompactThreadIndent,
   CompactPostThread,
-  useIndent,
   CommentEditor,
   CycleNewButton,
-  ThreadIndent,
   FeedWithMenu,
   BoardSidebar,
   BoardsDisplay,
