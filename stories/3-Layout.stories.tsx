@@ -11,7 +11,7 @@ import Input from "../src/common/Input";
 import Post from "../src/post/Post";
 import MasonryView from "../src/layout/MasonryView";
 import { useStateWithCallbackLazy } from "use-state-with-callback";
-import CustomCursor from "../src/layout/useCustomCursor";
+import CustomCursor from "../src/layout/CustomCursor";
 
 import {
   faClock,
@@ -42,6 +42,9 @@ import villains from "./images/villains.png";
 import kinkmeme from "./images/kink-meme.png";
 import art from "./images/art-crit.png";
 import mamoru from "./images/mamoru.png";
+
+import sparkle from "./images/sparkle.gif";
+import wand from "./images/sailor_wand.png";
 
 import debug from "debug";
 const log = debug("bobaui:stories:layout-log");
@@ -732,7 +735,7 @@ export const Attempt1 = () => {
   const [showSidebar, setShowSidebar] = React.useState(false);
   return (
     <>
-      <CustomCursor />
+      <CustomCursor cursorImage={wand} cursorTrail={sparkle} />
       <Layout
         mainContent={
           <FeedWithMenu

@@ -9,12 +9,9 @@ let CURRENT = 0;
 const EVERY = 2;
 let TRAILS: HTMLImageElement[] = [];
 
-import sparkle from "../../stories/images/sparkle.gif";
-import wand from "../../stories/images/sailor_wand.png";
-
-const trail = (x: number, y: number) => {
+const trail = (imgUrl: string, x: number, y: number) => {
   const img = document.createElement("IMG") as HTMLImageElement;
-  img.src = sparkle;
+  img.src = imgUrl;
   img.classList.add("trail");
   img.style.transform = `translate3d(${x}px, ${y}px, 0)`;
   img.addEventListener("animationend", () => {
@@ -31,21 +28,30 @@ const trail = (x: number, y: number) => {
   return img;
 };
 
-export default () => {
+interface CustomCursorProps {
+  cursorImage?: string;
+  cursorTrail?: string;
+  offset?: number;
+}
+
+const CustomCursor: React.FC<CustomCursorProps> = (props) => {
   const imageRef = React.useRef<HTMLImageElement>(null);
   const containerRef = React.useRef<HTMLDivElement>(null);
   React.useEffect(() => {
+    if (!props.cursorTrail) {
+      return;
+    }
     const moveHandler = (e: MouseEvent) => {
       if (!imageRef.current) {
         return;
       }
-      const x = e.x + POSITION_OFFSET;
-      const y = e.y + POSITION_OFFSET;
+      const x = e.x;
+      const y = e.y;
       imageRef.current.style.transform = `translate3d(${x}px, ${y}px, 0)`;
-      if (CURRENT++ % EVERY !== 0) {
+      if (!props.cursorTrail || CURRENT++ % EVERY !== 0) {
         return;
       }
-      const toAppend = trail(x, y);
+      const toAppend = trail(props.cursorTrail, x, y);
       if (toAppend) {
         containerRef.current?.appendChild(toAppend);
       }
@@ -81,14 +87,14 @@ export default () => {
       document.removeEventListener("mouseleave", leaveHandler);
       document.removeEventListener("mouseenter", enterHandler);
     };
-  }, []);
+  }, [props.cursorTrail]);
 
   return ReactDOM.createPortal(
     <div className={classnames("cursor-container")} ref={containerRef}>
-      <img src={sparkle} ref={imageRef} />
+      {props.cursorTrail && <img src={props.cursorTrail} ref={imageRef} />}
       <style jsx>{`
         :global(body) {
-          cursor: url(${wand}), auto;
+          cursor: url(${props.cursorImage}), auto;
         }
         .cursor-container {
           position: fixed;
@@ -101,6 +107,8 @@ export default () => {
         }
         .cursor-container :global(img) {
           position: absolute;
+          top: ${POSITION_OFFSET}px;
+          left: ${POSITION_OFFSET}px;
           max-width: 50px;
           max-height: 50px;
           pointer-events: none;
@@ -127,3 +135,5 @@ export default () => {
     document.body
   );
 };
+
+export default CustomCursor;
