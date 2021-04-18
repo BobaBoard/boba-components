@@ -9,12 +9,12 @@ let CURRENT = 0;
 const EVERY = 2;
 let TRAILS: HTMLImageElement[] = [];
 
-import mamoruAvatar from "../../stories/images/mamoru.png";
+import sparkle from "../../stories/images/sparkle.gif";
 import wand from "../../stories/images/sailor_wand.png";
 
 const trail = (x: number, y: number) => {
   const img = document.createElement("IMG") as HTMLImageElement;
-  img.src = mamoruAvatar;
+  img.src = sparkle;
   img.classList.add("trail");
   img.style.transform = `translate3d(${x}px, ${y}px, 0)`;
   img.addEventListener("animationend", () => {
@@ -85,7 +85,7 @@ export default () => {
 
   return ReactDOM.createPortal(
     <div className={classnames("cursor-container")} ref={containerRef}>
-      <img src={mamoruAvatar} ref={imageRef} />
+      <img src={sparkle} ref={imageRef} />
       <style jsx>{`
         :global(body) {
           cursor: url(${wand}), auto;
