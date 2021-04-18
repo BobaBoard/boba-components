@@ -53,6 +53,7 @@ const DefaultTheme: ThemeProperties = {
   COMMENT_TEXT_COLOR: "#ffffff",
 };
 
+// @ts-ignore
 const FunnyTheme: ThemeProperties = {
   LAYOUT_BOARD_BACKGROUND_COLOR: "red", // #2f2f30
   LAYOUT_HEADER_BACKGROUND_COLOR: "purple", // #131518

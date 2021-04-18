@@ -11,6 +11,7 @@ import Input from "../src/common/Input";
 import Post from "../src/post/Post";
 import MasonryView from "../src/layout/MasonryView";
 import { useStateWithCallbackLazy } from "use-state-with-callback";
+import CustomCursor from "../src/layout/useCustomCursor";
 
 import {
   faClock,
@@ -731,6 +732,7 @@ export const Attempt1 = () => {
   const [showSidebar, setShowSidebar] = React.useState(false);
   return (
     <>
+      <CustomCursor />
       <Layout
         mainContent={
           <FeedWithMenu
