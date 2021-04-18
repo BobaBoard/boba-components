@@ -735,7 +735,14 @@ export const Attempt1 = () => {
   const [showSidebar, setShowSidebar] = React.useState(false);
   return (
     <>
-      <CustomCursor cursorImage={wand} cursorTrail={sparkle} />
+      <CustomCursor
+        cursorImage={wand}
+        cursorTrail={sparkle}
+        offset={{
+          x: 30,
+          y: 40,
+        }}
+      />
       <Layout
         mainContent={
           <FeedWithMenu

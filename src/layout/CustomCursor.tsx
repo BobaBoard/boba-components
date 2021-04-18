@@ -31,7 +31,7 @@ const trail = (imgUrl: string, x: number, y: number) => {
 interface CustomCursorProps {
   cursorImage?: string;
   cursorTrail?: string;
-  offset?: number;
+  offset?: number | { x: number; y: number };
 }
 
 const CustomCursor: React.FC<CustomCursorProps> = (props) => {
@@ -107,8 +107,12 @@ const CustomCursor: React.FC<CustomCursorProps> = (props) => {
         }
         .cursor-container :global(img) {
           position: absolute;
-          top: ${POSITION_OFFSET}px;
-          left: ${POSITION_OFFSET}px;
+          top: ${typeof props.offset == "object"
+            ? props.offset.y
+            : props.offset ?? 0}px;
+          left: ${typeof props.offset == "object"
+            ? props.offset.x
+            : props.offset ?? 0}px;
           max-width: 50px;
           max-height: 50px;
           pointer-events: none;
