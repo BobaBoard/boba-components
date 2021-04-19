@@ -45,7 +45,7 @@ const getIconStyle = ({
       radial-gradient(18px at right 3px bottom 6px, transparent 50%, black 55%)
         bottom right;
   }
-  .icon img {
+  .icon :global(img) {
     width: 100%;
     height: 100%;
     border-radius: 50%;

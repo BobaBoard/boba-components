@@ -8,6 +8,12 @@ export interface SecretIdentityType {
   accessory?: string;
 }
 
+export interface AccessoryType {
+  id?: string;
+  name: string;
+  accessory: string;
+}
+
 export interface PostDetailsType {
   text: string;
   createdTime: string;

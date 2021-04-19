@@ -1,6 +1,6 @@
 import React from "react";
 
-import Header, { HeaderStyle } from "./Header";
+import Header, { HeaderStyle, PostHeaderProps } from "./Header";
 import EditorFooter from "./EditorFooter";
 import Card from "../common/Card";
 import Tags from "../tags/Tags";
@@ -54,12 +54,19 @@ const PostEditor = React.forwardRef<{ focus: () => void }, PostEditorProps>(
       props.viewOptions?.[0]?.name
     );
     const [selectedIdentity, setSelectedIdentity] = React.useState<
+      string | SecretIdentityType | undefined
+    >();
+    const [selectedAccessory, setSelectedAccessory] = React.useState<
       string | undefined
     >();
     const [suggestedCategories, setSuggestedCategories] = React.useState(
       props.suggestedCategories
     );
     const imageUploader = React.useContext(ImageUploaderContext);
+
+    React.useEffect(() => {
+      setSelectedIdentity(props.secretIdentity);
+    }, [props.secretIdentity]);
 
     React.useEffect(() => {
       const currentCategories = tags.filter((tag) => tag.category);
@@ -95,7 +102,11 @@ const PostEditor = React.forwardRef<{ focus: () => void }, PostEditorProps>(
           text: uploadedText,
           tags,
           viewOptionName: selectedView,
-          identityId: selectedIdentity,
+          identityId:
+            typeof selectedIdentity === "object"
+              ? selectedIdentity.id
+              : selectedIdentity,
+          accessoryId: selectedAccessory,
           boardSlug: selectedBoard,
         }))
       );
@@ -105,6 +116,7 @@ const PostEditor = React.forwardRef<{ focus: () => void }, PostEditorProps>(
       imageUploader,
       selectedView,
       selectedIdentity,
+      selectedAccessory,
       onSubmit,
       tags,
       selectedBoard,
@@ -125,12 +137,13 @@ const PostEditor = React.forwardRef<{ focus: () => void }, PostEditorProps>(
             <Card.Header>
               <div className="header">
                 <MemoizedHeader
-                  secretIdentity={
-                    props.secretIdentity ||
-                    props.additionalIdentities?.find(
-                      (identity) => identity.id == selectedIdentity
-                    )
-                  }
+                  secretIdentity={React.useMemo(() => {
+                    return typeof selectedIdentity == "object"
+                      ? selectedIdentity
+                      : props.additionalIdentities?.find(
+                          (identity) => identity.id == selectedIdentity
+                        );
+                  }, [selectedIdentity, props.additionalIdentities])}
                   userIdentity={props.userIdentity}
                   additionalIdentities={
                     !props.editableSections
@@ -139,6 +152,13 @@ const PostEditor = React.forwardRef<{ focus: () => void }, PostEditorProps>(
                   }
                   onSelectIdentity={React.useCallback((identity) => {
                     setSelectedIdentity(identity?.id);
+                  }, [])}
+                  accessories={props.accessories}
+                  accessory={props.accessories?.find(
+                    (accessory) => accessory.id === selectedAccessory
+                  )}
+                  onSelectAccessory={React.useCallback((accessory) => {
+                    setSelectedAccessory(accessory?.id);
                   }, [])}
                   size={HeaderStyle.REGULAR}
                 />
@@ -337,7 +357,8 @@ export interface PostEditorProps {
     avatar: string;
     name: string;
   };
-  additionalIdentities?: SecretIdentityType[];
+  additionalIdentities?: PostHeaderProps["additionalIdentities"];
+  accessories?: PostHeaderProps["accessories"];
   loading?: boolean;
   onSubmit: (
     postPromise: Promise<{
@@ -345,6 +366,7 @@ export interface PostEditorProps {
       tags: TagsType[];
       viewOptionName?: string;
       identityId?: string;
+      accessoryId?: string;
       boardSlug?: string;
     }>
   ) => void;

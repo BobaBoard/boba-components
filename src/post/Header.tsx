@@ -2,10 +2,14 @@ import React from "react";
 
 import classnames from "classnames";
 import debug from "debug";
-import { LinkWithAction, SecretIdentityType } from "types";
+import { AccessoryType, LinkWithAction, SecretIdentityType } from "types";
 
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import { faCaretDown } from "@fortawesome/free-solid-svg-icons";
+import {
+  faCaretDown,
+  faCross,
+  faShieldAlt,
+} from "@fortawesome/free-solid-svg-icons";
 
 import Avatar from "./Avatar";
 import DefaultTheme from "../theme/default";
@@ -22,12 +26,10 @@ const { className: timestampClassname, styles: timestampStyles } = css.resolve`
   }
 `;
 
-export enum HeaderStyle {
-  REGULAR = "REGULAR",
-  COMPACT = "COMPACT",
-}
-
-const Metadata: React.FC<PostHeaderProps> = (props) => {
+const useIdentityOptions = (props: {
+  additionalIdentities: PostHeaderProps["additionalIdentities"];
+  onSelectIdentity: PostHeaderProps["onSelectIdentity"];
+}) => {
   const { onSelectIdentity } = props;
   const identityOptions = React.useMemo(
     () => [
@@ -49,8 +51,67 @@ const Metadata: React.FC<PostHeaderProps> = (props) => {
     ],
     [props.additionalIdentities, onSelectIdentity]
   );
+
+  return identityOptions;
+};
+
+const useAccessoriesOptions = (props: {
+  accessories: PostHeaderProps["accessories"];
+  onSelectAccessory: PostHeaderProps["onSelectAccessory"];
+}) => {
+  const { onSelectAccessory } = props;
+  const accessoryOptions = React.useMemo(
+    () => [
+      {
+        name: "None",
+        icon: faCross,
+        link: {
+          onClick: () => onSelectAccessory?.(undefined),
+        },
+      },
+      ...(props.accessories || []).map((accessory) => ({
+        name: accessory.name,
+        icon: accessory.accessory,
+        link: {
+          onClick: () => onSelectAccessory?.(accessory),
+        },
+      })),
+    ],
+    [props.accessories, onSelectAccessory]
+  );
+
+  if (!props.accessories) {
+    return undefined;
+  }
+  return accessoryOptions;
+};
+
+export enum HeaderStyle {
+  REGULAR = "REGULAR",
+  COMPACT = "COMPACT",
+}
+
+const Metadata: React.FC<PostHeaderProps> = (props) => {
+  const identityOptions = useIdentityOptions({
+    additionalIdentities: props.additionalIdentities,
+    onSelectIdentity: props.onSelectIdentity,
+  });
+  const accessoriesOptions = useAccessoriesOptions({
+    accessories: props.accessories,
+    onSelectAccessory: props.onSelectAccessory,
+  });
   const hasUserIdentity =
     props.userIdentity?.name && props.userIdentity?.avatar;
+  const currentAccessory = props.accessory
+    ? props.accessories?.find(
+        (accessory) => accessory.id == props.accessory?.id
+      )
+    : props.secretIdentity?.accessory
+    ? {
+        name: "Role",
+        accessory: props.secretIdentity?.accessory,
+      }
+    : undefined;
   const metadata = (
     <>
       <div
@@ -81,8 +142,21 @@ const Metadata: React.FC<PostHeaderProps> = (props) => {
             )}
             {hasUserIdentity && !props.forceHide && (
               <>
-                <div className="secret-identity">
-                  @{props.userIdentity?.name || "You"}
+                <div className="secret-identity-container">
+                  <div className="secret-identity">
+                    @{props.userIdentity?.name || "You"}
+                  </div>
+                  {accessoriesOptions?.length && (
+                    <DropdownListMenu zIndex={200} options={accessoriesOptions}>
+                      <button className="equip">
+                        <FontAwesomeIcon icon={faShieldAlt} />
+                        Equip:{" "}
+                        {currentAccessory
+                          ? currentAccessory.name || "Unknown"
+                          : "None"}
+                      </button>
+                    </DropdownListMenu>
+                  )}
                 </div>
                 {props.createdMessage && (
                   <div className="timestamp">
@@ -108,6 +182,25 @@ const Metadata: React.FC<PostHeaderProps> = (props) => {
       </div>
       <style jsx>
         {`
+          .secret-identity-container {
+            display: flex;
+            margin-top: 1px;
+            align-items: center;
+          }
+          .equip :global(svg) {
+            margin-right: 3px;
+          }
+          .equip {
+            border-radius: 15px;
+            border: none;
+            font-size: small;
+            display: flex;
+            align-items: center;
+            color: ${DefaultTheme.POST_HEADER_USERNAME_COLOR};
+          }
+          .equip:hover {
+            cursor: pointer;
+          }
           .nickname {
             font-size: 18px;
             white-space: nowrap;
@@ -129,6 +222,7 @@ const Metadata: React.FC<PostHeaderProps> = (props) => {
           }
           .secret-identity {
             color: ${DefaultTheme.POST_HEADER_USERNAME_COLOR};
+            flex-grow: 1;
           }
           .container {
             min-width: 0;
@@ -210,8 +304,23 @@ const PostHeader = React.forwardRef<HTMLDivElement, PostHeaderProps>(
         `}</style>
       </div>
     );
+
+    const accessoriesOptions = useAccessoriesOptions({
+      accessories: props.accessories,
+      onSelectAccessory: props.onSelectAccessory,
+    });
+    const currentAccessory = props.accessory
+      ? props.accessories?.find(
+          (accessory) => accessory.id == props.accessory?.id
+        )
+      : props.secretIdentity?.accessory
+      ? {
+          name: "Role",
+          accessory: props.secretIdentity?.accessory,
+        }
+      : undefined;
     return (
-      <>
+      <div className={classnames("header-container", { compact: isCompact })}>
         <DropdownListMenu
           options={props.avatarOptions}
           header={
@@ -226,7 +335,18 @@ const PostHeader = React.forwardRef<HTMLDivElement, PostHeaderProps>(
               <Avatar
                 forceHide={props.forceHide}
                 userIdentity={props.userIdentity}
-                secretIdentity={props.secretIdentity}
+                secretIdentity={
+                  props.secretIdentity
+                    ? {
+                        ...props.secretIdentity,
+                        accessory:
+                          currentAccessory?.accessory ||
+                          props.secretIdentity?.accessory,
+                      }
+                    : {
+                        accessory: currentAccessory?.accessory,
+                      }
+                }
                 compact={isCompact}
                 ref={avatarRef}
               />
@@ -234,7 +354,24 @@ const PostHeader = React.forwardRef<HTMLDivElement, PostHeaderProps>(
             </div>
           </div>
         </DropdownListMenu>
+        {isCompact && props.accessories && (
+          <DropdownListMenu zIndex={200} options={accessoriesOptions}>
+            <button
+              className={classnames("equip", { empty: !props.accessory })}
+            >
+              <FontAwesomeIcon icon={faShieldAlt} />
+            </button>
+          </DropdownListMenu>
+        )}
         <style jsx>{`
+          .header-container {
+            max-width: 100%;
+          }
+          .header-container.compact {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+          }
           .identity {
             display: flex;
             max-width: 100%;
@@ -247,6 +384,21 @@ const PostHeader = React.forwardRef<HTMLDivElement, PostHeaderProps>(
             align-self: stretch;
             justify-content: space-evenly;
             margin-right: 15px;
+          }
+          .equip {
+            margin-top: 10px;
+            border-radius: 15px;
+            border: none;
+            font-size: small;
+            display: flex;
+            align-items: center;
+            color: ${DefaultTheme.POST_HEADER_USERNAME_COLOR};
+          }
+          .equip:hover {
+            cursor: pointer;
+          }
+          .equip.empty {
+            opacity: 0.5;
           }
           .post-header {
             display: flex;
@@ -270,7 +422,7 @@ const PostHeader = React.forwardRef<HTMLDivElement, PostHeaderProps>(
             margin-right: 3px;
           }
         `}</style>
-      </>
+      </div>
     );
   }
 );
@@ -282,7 +434,10 @@ export interface PostHeaderProps {
   size?: string;
   secretIdentity?: SecretIdentityType;
   additionalIdentities?: SecretIdentityType[];
+  accessory?: AccessoryType;
+  accessories?: AccessoryType[];
   onSelectIdentity?: (identity: SecretIdentityType | undefined) => void;
+  onSelectAccessory?: (accessory: AccessoryType | undefined) => void;
   userIdentity?: {
     avatar: string;
     name: string;

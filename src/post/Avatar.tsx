@@ -118,7 +118,14 @@ const Avatar = React.forwardRef<HTMLDivElement, AvatarProps>((props, ref) => {
 
 Avatar.displayName = "Avatar";
 export interface AvatarProps {
-  secretIdentity?: SecretIdentityType;
+  secretIdentity?:
+    | SecretIdentityType
+    | {
+        name?: undefined;
+        avatar?: undefined;
+        color?: undefined;
+        accessory?: string;
+      };
   userIdentity?: {
     avatar: string;
     name: string;

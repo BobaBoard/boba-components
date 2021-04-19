@@ -51,6 +51,18 @@ export const Editable = () => (
             accessory: crown,
           },
         ]}
+        accessories={[
+          {
+            id: "ac1",
+            name: "Reindeer",
+            accessory: reindeerEars,
+          },
+          {
+            id: "ac2",
+            name: "Crown",
+            accessory: crown,
+          },
+        ]}
       />
     </div>
 
@@ -67,6 +79,18 @@ export const Editable = () => (
             name: "Mega Mod",
             avatar: `/${oncelerAvatar}`,
             color: "red",
+            accessory: crown,
+          },
+        ]}
+        accessories={[
+          {
+            id: "ac1",
+            name: "Reindeer",
+            accessory: reindeerEars,
+          },
+          {
+            id: "ac2",
+            name: "Crown",
             accessory: crown,
           },
         ]}
@@ -218,6 +242,18 @@ export const CommentChainEditorStory = () => {
             name: "Mega Mod",
             avatar: `/${oncelerAvatar}`,
             color: "red",
+            accessory: crown,
+          },
+        ]}
+        accessories={[
+          {
+            id: "ac1",
+            name: "Reindeer",
+            accessory: reindeerEars,
+          },
+          {
+            id: "ac2",
+            name: "Crown",
             accessory: crown,
           },
         ]}

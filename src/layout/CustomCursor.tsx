@@ -3,7 +3,6 @@ import ReactDOM from "react-dom";
 
 import classnames from "classnames";
 
-const POSITION_OFFSET = 30;
 const MAX_TRAILS = 15;
 let CURRENT = 0;
 const EVERY = 2;

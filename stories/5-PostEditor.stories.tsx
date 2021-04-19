@@ -17,6 +17,8 @@ import oncelerBoard from "./images/onceler-board.png";
 import book from "./images/book.png";
 import kinkmeme from "./images/kink-meme.png";
 
+import reindeerEars from "./images/reindeer-ears.png";
+
 export default {
   title: "Post Editor",
   component: PostEditor,
@@ -179,6 +181,7 @@ export const EditableWithViewSelect = () =>
         {
           id: "id2",
           name: "Mega Mod",
+          avatar: `/${oncelerAvatar}`,
         },
       ]}
       onCancel={action("cancel")}
@@ -213,6 +216,17 @@ export const SmallestViewport = () =>
           { id: "id1", name: "Tuxedo Mask", avatar: `/${tuxedoAvatar}` },
           { id: "id2", name: "Mega Mod", avatar: `/${oncelerAvatar}` },
         ]}
+        accessories={[
+          {
+            id: "ac1",
+            accessory: reindeerEars,
+          },
+          {
+            id: "ac2",
+            name: "Crown",
+            accessory: crown,
+          },
+        ]}
         onCancel={action("cancel")}
         onSubmit={(promise) => {
           promise.then(action("submit"));
@@ -228,7 +242,7 @@ export const SmallestViewport = () =>
       />
     </div>
   );
-
+0;
 SmallestViewport.story = {
   name: "small viewport",
 };
@@ -242,6 +256,18 @@ export const EditableInModal = () =>
         additionalIdentities={[
           { id: "id1", name: "Tuxedo Mask", avatar: `/${tuxedoAvatar}` },
           { id: "id2", name: "Mega Mod", avatar: `/${oncelerAvatar}` },
+        ]}
+        accessories={[
+          {
+            id: "ac1",
+            name: "Reindeer",
+            accessory: reindeerEars,
+          },
+          {
+            id: "ac2",
+            name: "Crown",
+            accessory: crown,
+          },
         ]}
         onCancel={action("cancel")}
         onSubmit={(promise) => {

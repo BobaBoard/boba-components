@@ -10,6 +10,7 @@ import { prepareContentSubmission } from "../utils";
 import debug from "debug";
 import { useHotkeys } from "react-hotkeys-hook";
 import { SecretIdentityType } from "types";
+import { PostHeaderProps } from "./Header";
 const log = debug("bobaui:CommentChainEditor-log");
 
 const isValidSubmitState = (chainComments: Comment[]) => {
@@ -58,6 +59,9 @@ const CommentChainEditor = React.forwardRef<
   const deleteRef = React.useRef<HTMLDivElement>(null);
   const chainEditorRef = React.useRef<HTMLDivElement>(null);
   const [selectedIdentity, setSelectedIdentity] = React.useState<
+    string | undefined
+  >();
+  const [selectedAccessory, setSelectedAccessory] = React.useState<
     string | undefined
   >();
   const imageUploader = React.useContext(ImageUploaderContext);
@@ -139,6 +143,7 @@ const CommentChainEditor = React.forwardRef<
       ),
       identityId: additionalIdentities?.find((id) => id.id == selectedIdentity)
         ?.id,
+      accessoryId: selectedAccessory,
     };
     onSubmit(textsPromises);
   }, [
@@ -147,6 +152,7 @@ const CommentChainEditor = React.forwardRef<
     imageUploader?.onImageUploadRequest,
     additionalIdentities,
     selectedIdentity,
+    selectedAccessory,
   ]);
   useHotkeys(
     "control+enter,command+enter",
@@ -215,6 +221,13 @@ const CommentChainEditor = React.forwardRef<
             loading={props.loading}
             additionalIdentities={props.additionalIdentities}
             onSelectIdentity={(id) => setSelectedIdentity(id?.id)}
+            accessories={props.accessories}
+            accessory={props.accessories?.find(
+              (accessory) => accessory.id == selectedAccessory
+            )}
+            onSelectAccessory={(accessory) =>
+              setSelectedAccessory(accessory?.id)
+            }
           />
         </div>
       ))}
@@ -322,6 +335,7 @@ export interface CommentChainEditorProps {
   onSubmit: (submission: {
     texts: Promise<string[]>;
     identityId?: string;
+    accessoryId?: string;
   }) => void;
   secretIdentity?: SecretIdentityType;
   loading?: boolean;
@@ -330,6 +344,7 @@ export interface CommentChainEditorProps {
     name: string;
   };
   additionalIdentities?: SecretIdentityType[];
+  accessories?: PostHeaderProps["accessories"];
 }
 
 CommentChainEditor.displayName = "CommentChainEditorForwardRef";

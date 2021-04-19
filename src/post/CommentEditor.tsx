@@ -1,7 +1,7 @@
 import React from "react";
 import classNames from "classnames";
 import Editor from "@bobaboard/boba-editor";
-import Header, { HeaderStyle } from "./Header";
+import Header, { HeaderStyle, PostHeaderProps } from "./Header";
 import Button from "../common/Button";
 import { faCross, faCheck } from "@fortawesome/free-solid-svg-icons";
 import useDimensions from "react-cool-dimensions";
@@ -191,6 +191,9 @@ const Comment = React.forwardRef<EditorRef, CommentProps>((props, ref) => {
             userIdentity={props.userIdentity}
             avatarOptions={identityOptions}
             showMetadata={false}
+            accessories={props.accessories}
+            accessory={props.accessory}
+            onSelectAccessory={props.onSelectAccessory}
           />
         </div>
         <div className={classNames("editor")}>
@@ -308,6 +311,9 @@ export interface CommentProps {
   };
   additionalIdentities?: SecretIdentityType[];
   onSelectIdentity?: (identity: SecretIdentityType | undefined) => void;
+  accessories?: PostHeaderProps["accessories"];
+  accessory?: PostHeaderProps["accessory"];
+  onSelectAccessory?: PostHeaderProps["onSelectAccessory"];
   initialText?: string;
   onCancel: () => void;
   onSubmit: (commentPromise: Promise<{ text: string }>) => void;
