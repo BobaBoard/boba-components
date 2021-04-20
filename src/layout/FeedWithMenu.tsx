@@ -327,9 +327,6 @@ const FeedWithMenu: React.FC<FeedWithMenuProps> & CompoundComponents = ({
           }
 
           @media only screen and (max-width: ${Theme.MOBILE_WIDTH_TRIGGER_PX}px) {
-            .content {
-              background-image: none;
-            }
             .sidebar {
               border-radius: ${Theme.BORDER_RADIUS_LARGE}
                 ${Theme.BORDER_RADIUS_LARGE} 0px 0px;

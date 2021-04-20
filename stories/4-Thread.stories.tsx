@@ -73,7 +73,6 @@ export const RegularThread = () => {
             }}
             onNewContribution={() => console.log("click!")}
             onNewComment={() => console.log("click!")}
-            size={PostSizes.WIDE}
             collapsed
           />
         </div>
@@ -869,7 +868,6 @@ export const NewRegularThread = () => {
                         }}
                         onNewContribution={() => console.log("click!")}
                         onNewComment={() => console.log("click!")}
-                        size={PostSizes.WIDE}
                         collapsed
                         ref={(ref) =>
                           setBoundaryElement(ref?.avatarRef?.current || null)
