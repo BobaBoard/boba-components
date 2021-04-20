@@ -219,6 +219,7 @@ export const SmallestViewport = () =>
         accessories={[
           {
             id: "ac1",
+            name: "Reindeer",
             accessory: reindeerEars,
           },
           {
@@ -265,7 +266,7 @@ export const EditableInModal = () =>
           },
           {
             id: "ac2",
-            name: "Crown",
+            name: "The Majestic Crown",
             accessory: crown,
           },
         ]}

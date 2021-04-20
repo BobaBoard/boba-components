@@ -148,13 +148,16 @@ const Metadata: React.FC<PostHeaderProps> = (props) => {
                   </div>
                   {accessoriesOptions?.length && (
                     <DropdownListMenu zIndex={200} options={accessoriesOptions}>
-                      <button className="equip">
+                      <div className="equip">
                         <FontAwesomeIcon icon={faShieldAlt} />
-                        Equip:{" "}
-                        {currentAccessory
-                          ? currentAccessory.name || "Unknown"
-                          : "None"}
-                      </button>
+                        <span className="title">Equip: </span>
+                        <span className="accessory-name">
+                          {currentAccessory
+                            ? currentAccessory.name || "Unknown"
+                            : "None"}
+                        </span>
+                        <FontAwesomeIcon icon={faCaretDown} />
+                      </div>
                     </DropdownListMenu>
                   )}
                 </div>
@@ -197,6 +200,20 @@ const Metadata: React.FC<PostHeaderProps> = (props) => {
             display: flex;
             align-items: center;
             color: ${DefaultTheme.POST_HEADER_USERNAME_COLOR};
+            width: 150px;
+            background-color: #efefef;
+            padding: 2px 3px 2px 8px;
+          }
+          .equip .title {
+            font-weight: bold;
+            margin-right: 5px;
+          }
+          .equip .accessory-name {
+            flex-grow: 1;
+            text-align: left;
+            overflow: hidden;
+            white-space: nowrap;
+            text-overflow: ellipsis;
           }
           .equip:hover {
             cursor: pointer;
@@ -259,6 +276,18 @@ const Metadata: React.FC<PostHeaderProps> = (props) => {
             display: flex;
             flex-direction: column;
             min-width: 0;
+          }
+
+          @media only screen and (max-width: 450px) {
+            .equip .title {
+              display: none;
+            }
+            .equip :global(svg) {
+              margin-right: 5px;
+            }
+            .equip {
+              width: 100px;
+            }
           }
         `}
       </style>
@@ -366,6 +395,7 @@ const PostHeader = React.forwardRef<HTMLDivElement, PostHeaderProps>(
         <style jsx>{`
           .header-container {
             max-width: 100%;
+            width: 100%;
           }
           .header-container.compact {
             display: flex;

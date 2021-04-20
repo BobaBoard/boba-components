@@ -405,6 +405,7 @@ const Layout = React.forwardRef<{ closeSideMenu: () => void }, LayoutProps>(
             }
             header {
               background-color: ${Theme.LAYOUT_HEADER_BACKGROUND_COLOR};
+              background-image: var(--header-background-image);
               height: ${Theme.HEADER_HEIGHT_PX}px;
               position: fixed;
               top: 0;

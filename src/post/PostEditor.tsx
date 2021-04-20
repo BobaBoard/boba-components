@@ -280,6 +280,7 @@ const PostEditor = React.forwardRef<{ focus: () => void }, PostEditorProps>(
             align-items: center;
             justify-content: space-between;
             max-width: calc(100% - 30px);
+            width: 100%;
           }
           .footer {
             border-top: 1px solid #d2d2d2;
