@@ -296,6 +296,7 @@ const FeedWithMenu: React.FC<FeedWithMenuProps> & CompoundComponents = ({
             width: 100%;
             display: flex;
             min-height: calc(100vh - ${Theme.HEADER_HEIGHT_PX}px);
+            background-image: var(--feed-background-image);
           }
           .main {
             display: flex;
@@ -314,6 +315,7 @@ const FeedWithMenu: React.FC<FeedWithMenuProps> & CompoundComponents = ({
             background-color: ${Theme.LAYOUT_BOARD_SIDEBAR_BACKGROUND_COLOR};
             flex-shrink: 0;
             height: auto;
+            background-image: var(--sidebar-background-image);
           }
           .sidebar-content-wrapper {
             overscroll-behavior: contain;
@@ -341,6 +343,7 @@ const FeedWithMenu: React.FC<FeedWithMenuProps> & CompoundComponents = ({
               opacity: 0;
               background: ${Theme.LAYOUT_BOARD_SIDEBAR_BACKGROUND_COLOR};
               height: 0;
+              background-image: var(--sidebar-background-image);
             }
             .sidebar.visible {
               height: calc(100vh - ${Theme.HEADER_HEIGHT_PX}px);

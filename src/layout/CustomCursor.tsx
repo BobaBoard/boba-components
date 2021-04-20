@@ -1,5 +1,4 @@
 import React from "react";
-import ReactDOM from "react-dom";
 
 import classnames from "classnames";
 
@@ -31,6 +30,7 @@ interface CustomCursorProps {
   cursorImage?: string;
   cursorTrail?: string;
   offset?: number | { x: number; y: number };
+  size?: { w: number; h: number };
 }
 
 const CustomCursor: React.FC<CustomCursorProps> = (props) => {
@@ -39,6 +39,9 @@ const CustomCursor: React.FC<CustomCursorProps> = (props) => {
   React.useEffect(() => {
     if (!props.cursorTrail) {
       return;
+    }
+    if (imageRef.current) {
+      imageRef.current.style.display = "none";
     }
     const moveHandler = (e: MouseEvent) => {
       if (!imageRef.current) {
@@ -62,7 +65,7 @@ const CustomCursor: React.FC<CustomCursorProps> = (props) => {
       imageRef.current.style.display = "none";
     };
     const enterHandler = (e: MouseEvent) => {
-      if (!imageRef.current || e.target !== document) {
+      if (!imageRef.current || e.target !== document || e.type !== "click") {
         return;
       }
       CURRENT = 0;
@@ -88,9 +91,18 @@ const CustomCursor: React.FC<CustomCursorProps> = (props) => {
     };
   }, [props.cursorTrail]);
 
-  return ReactDOM.createPortal(
+  return (
     <div className={classnames("cursor-container")} ref={containerRef}>
-      {props.cursorTrail && <img src={props.cursorTrail} ref={imageRef} />}
+      {props.cursorTrail && (
+        <img
+          src={props.cursorTrail}
+          ref={imageRef}
+          style={{
+            width: props.size?.w + "px",
+            height: props.size?.h + "px",
+          }}
+        />
+      )}
       <style jsx>{`
         :global(body) {
           cursor: url(${props.cursorImage}), auto;
@@ -103,6 +115,7 @@ const CustomCursor: React.FC<CustomCursorProps> = (props) => {
           right: 0;
           overflow: hidden;
           pointer-events: none;
+          z-index: 100000;
         }
         .cursor-container :global(img) {
           position: absolute;
@@ -115,6 +128,7 @@ const CustomCursor: React.FC<CustomCursorProps> = (props) => {
           max-width: 50px;
           max-height: 50px;
           pointer-events: none;
+          display: none;
         }
         .cursor-container :global(.trail) {
           opacity: 0;
@@ -133,9 +147,13 @@ const CustomCursor: React.FC<CustomCursorProps> = (props) => {
             opacity: 1;
           }
         }
+        @media (pointer: fine) {
+          .cursor-container :global(img) {
+            display: block;
+          }
+        }
       `}</style>
-    </div>,
-    document.body
+    </div>
   );
 };
 

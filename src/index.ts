@@ -27,6 +27,7 @@ import CollapsedPlaceholder from "./thread/CollapsedPlaceholder";
 import PostingActionButton from "./board/PostingActionButton";
 import CycleNewButton from "./board/CycleNewButton";
 import Layout from "./layout/Layout";
+import CustomCursor from "./layout/CustomCursor";
 import { useCompact } from "./utils";
 import DefaultTheme from "./theme/default";
 import TagsFilterSection from "./board/TagsFilterSection";
@@ -87,6 +88,7 @@ export {
   SegmentedButton,
   NewCommentsThread,
   TagType,
+  CustomCursor,
 };
 
 import type { TagsType } from "./types";
