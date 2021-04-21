@@ -53,7 +53,7 @@ const ColorInput: React.FC<ColorInputProps> = (props) => {
         .color-code::before {
           content: "#";
           color: white;
-          font-size: large;
+          font-size: var(--font-size-large);
           padding-right: 5px;
         }
         .color-picker {

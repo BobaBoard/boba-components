@@ -48,11 +48,11 @@ const TextSection: React.FC<TextSectionProps> = (props) => {
       </div>
       <style jsx>{`
         .content-title {
-          font-size: large;
+          font-size: var(--font-size-large);
         }
         .title {
           font-weight: bold;
-          font-size: 16px;
+          font-size: var(--font-size-regular);
           margin-bottom: 10px;
         }
         .sidebar-section {

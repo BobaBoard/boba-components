@@ -288,7 +288,7 @@ const DropdownContent = React.forwardRef<
           width: 100%;
           text-align: left;
           text-transform: uppercase;
-          font-size: 13px;
+          font-size: var(--font-size-small);
           letter-spacing: 1px;
           padding: 4px 8px;
           color: rgb(87, 87, 87);

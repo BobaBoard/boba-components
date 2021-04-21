@@ -88,7 +88,7 @@ const CommentFooter = (props: {
           margin-left: 5px;
         }
         .characters-remaining {
-          font-size: small;
+          font-size: var(--font-size-small);
           color: gray;
           min-width: 30px;
         }

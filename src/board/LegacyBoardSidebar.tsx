@@ -88,7 +88,7 @@ const BoardSidebar: React.FC<BoardSidebarProps> = (props) => {
       <style jsx>{`
         h2 {
           color: white;
-          font-size: 16px;
+          font-size: var(--font-size-regular);
           font-weight: bold;
         }
         .tag-clouds {

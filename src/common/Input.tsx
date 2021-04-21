@@ -79,7 +79,7 @@ const Input: React.FC<InputProps> = (props) => {
         }
         .input .label {
           color: #fff;
-          font-size: 16px;
+          font-size: var(--font-size-regular);
           padding-bottom: 10px;
         }
         .error .input-field {
@@ -89,7 +89,7 @@ const Input: React.FC<InputProps> = (props) => {
           border-radius: 8px;
           border: 1px solid rgba(255, 255, 255, 0.3);
           color: #fff;
-          font-size: 16px;
+          font-size: var(--font-size-regular);
           padding: 12px;
           background-color: #2f2f30;
           width: 100%;

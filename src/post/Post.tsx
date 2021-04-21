@@ -340,7 +340,7 @@ const Post = React.forwardRef<PostHandler, PostProps>((props, ref) => {
           display: block;
           width: 20px;
           height: 20px;
-          font-size: 16px;
+          font-size: var(--font-size-regular);
           color: rgb(28, 28, 28);
         }
         .post-options-icon:hover {

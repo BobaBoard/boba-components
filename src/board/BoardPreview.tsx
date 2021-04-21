@@ -172,7 +172,7 @@ const Description: React.FC<{
           padding-top: 25px;
           display: block;
           margin-top: 0px;
-          font-size: 18px;
+          font-size: var(--font-size-large);
         }
         .description-container.mini {
           display: none !important;
@@ -369,7 +369,7 @@ const BoardPreview: React.FC<BoardPreviewProps> = ({
           height: 25px;
           line-height: 25px;
           border-width: 3px;
-          font-size: 13px;
+          font-size: var(--font-size-small);
         }
       `}</style>
     </div>

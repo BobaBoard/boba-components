@@ -152,7 +152,7 @@ const SideMenu = React.forwardRef<SideMenuHandler, SideMenuProps>(
             .board-filter input {
               background: ${DefaultTheme.BOARD_FILTER_BACKGROUND};
               color: ${DefaultTheme.BOARD_FILTER_TEXT_COLOR};
-              font-size: 16px;
+              font-size: var(--font-size-regular);
               line-height: 16px;
               padding: 3px 10px;
               width: 100%;

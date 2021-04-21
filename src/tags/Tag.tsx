@@ -131,7 +131,7 @@ const Tag: React.FC<TagProps | DeletableTagProps> = (props) => {
           cursor: pointer;
         }
         .tag.compact {
-          font-size: smaller;
+           font-size: var(--font-size-small);
         }
         .tag.text {
           padding: 0;

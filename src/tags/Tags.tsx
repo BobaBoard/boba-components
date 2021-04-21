@@ -272,7 +272,7 @@ const TagsInput: React.FC<TagsInputProps> = ({
           word-break: normal;
           min-width: 100px;
           padding: 5px 8px;
-          font-size: smaller;
+          font-size: var(--font-size-small);
           border-radius: 8px;
           color: ${color(DefaultTheme.LAYOUT_BOARD_BACKGROUND_COLOR).fade(0.5)};
         }

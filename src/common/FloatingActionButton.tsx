@@ -48,7 +48,7 @@ const FloatingActionButton: React.FC<FloatingActionButtonProps> = (props) => {
           text-align: center;
           width: 56px;
           height: 56px;
-          font-size: 16px;
+          font-size: var(--font-size-regular);
           border-radius: 50%;
           transition: all 0.1s ease-in-out;
           box-shadow: 0 4px 5px 0 rgb(0 0 0 / 14%),
@@ -78,7 +78,7 @@ const FloatingActionButton: React.FC<FloatingActionButtonProps> = (props) => {
           .fab {
             width: 35px;
             height: 35px;
-            font-size: 13px;
+            font-size: var(--font-size-small);
           }
           .fab-clickable-area {
             padding: 10px;

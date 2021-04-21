@@ -262,7 +262,7 @@ const UserDetails: React.FC<UserDetailsProps> = (props) => {
 
         .user-details > section > h3 {
           line-height: 36px;
-          font-size: 16px;
+          font-size: var(--font-size-regular);
           margin: 0;
         }
 

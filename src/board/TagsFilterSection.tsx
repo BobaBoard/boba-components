@@ -124,12 +124,12 @@ const TagsFilterSection: React.FC<TagsFilterSectionProps> = (props) => {
       </div>
       <style jsx>{`
         .content-title {
-          font-size: large;
+          font-size: var(--font-size-large);
           color: white;
         }
         .title {
           font-weight: bold;
-          font-size: 16px;
+          font-size: var(--font-size-regular);
           margin-bottom: 10px;
         }
         .title-container {
@@ -142,7 +142,7 @@ const TagsFilterSection: React.FC<TagsFilterSectionProps> = (props) => {
         }
         .clear-filters {
           color: white;
-          font-size: small;
+          font-size: var(--font-size-small);
           display: block;
           margin-top: 5px;
           visibility: hidden;

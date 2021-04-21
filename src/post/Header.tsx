@@ -196,7 +196,7 @@ const Metadata: React.FC<PostHeaderProps> = (props) => {
           .equip {
             border-radius: 15px;
             border: none;
-            font-size: small;
+            font-size: var(--font-size-small);
             display: flex;
             align-items: center;
             color: ${DefaultTheme.POST_HEADER_USERNAME_COLOR};
@@ -219,7 +219,7 @@ const Metadata: React.FC<PostHeaderProps> = (props) => {
             cursor: pointer;
           }
           .nickname {
-            font-size: 18px;
+            font-size: var(--font-size-large);
             white-space: nowrap;
             text-overflow: ellipsis;
             overflow: hidden;
@@ -246,13 +246,13 @@ const Metadata: React.FC<PostHeaderProps> = (props) => {
             width: 100%;
           }
           .container.compact-names .nickname {
-            font-size: 18px;
+            font-size: var(--font-size-large);
           }
           .container.compact-names .timestamp {
-            font-size: 13px;
+            font-size: var(--font-size-small);
           }
           .container.compact-names .metadata {
-            font-size: 13px;
+            font-size: var(--font-size-small);
             height: auto;
           }
           .identities-dropdown {
@@ -419,7 +419,7 @@ const PostHeader = React.forwardRef<HTMLDivElement, PostHeaderProps>(
             margin-top: 10px;
             border-radius: 15px;
             border: none;
-            font-size: small;
+            font-size: var(--font-size-small);
             display: flex;
             align-items: center;
             color: ${DefaultTheme.POST_HEADER_USERNAME_COLOR};

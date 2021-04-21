@@ -60,14 +60,14 @@ const NotesDisplay: React.FC<{
           padding: 1px 0px;
         }
         .note-count {
-          font-size: large;
+          font-size: var(--font-size-large);
           font-weight: bold;
           vertical-align: middle;
         }
         .note-breakdown {
           opacity: 0.4;
           margin-right: 5px;
-          font-size: large;
+          font-size: var(--font-size-large);
           font-weight: normal;
         }
       `}</style>
@@ -171,7 +171,7 @@ const Footer: React.FC<FooterProps> = ({
           right: 0;
           top: -6px;
           transform: translate(20%, -50%);
-          font-size: smaller;
+          font-size: var(--font-size-small);
         }
         .notes-update :global(svg) {
           height: 12px;

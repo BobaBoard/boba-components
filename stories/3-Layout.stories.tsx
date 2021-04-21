@@ -2,6 +2,7 @@ import React from "react";
 import Layout from "../src/layout/Layout";
 import SideMenu, { SideMenuHandler } from "../src/layout/SideMenu";
 import FeedWithMenu from "../src/layout/FeedWithMenu";
+import TabsGroup from "../src/layout/TabsGroup";
 import PostingActionButton from "../src/board/PostingActionButton";
 import CycleNewButton from "../src/board/CycleNewButton";
 import BoardSidebar from "../src/board/LegacyBoardSidebar";
@@ -391,22 +392,20 @@ export const FeedWithMenuShortPreview = () => {
   return (
     <Layout
       mainContent={
-        <FeedWithMenu
-          sidebarContent={
+        <FeedWithMenu>
+          <FeedWithMenu.Sidebar>
+            {" "}
             <div
               style={{ height: "1500px", width: "50%", backgroundColor: "red" }}
             >
               Sidebar Content!!
             </div>
-          }
-          feedContent={
+          </FeedWithMenu.Sidebar>
+          <FeedWithMenu.FeedContent>
             <div style={{ height: "500px", backgroundColor: "green" }}>
               Feed Content!!
             </div>
-          }
-        >
-          <FeedWithMenu.Sidebar></FeedWithMenu.Sidebar>
-          <FeedWithMenu.FeedContent></FeedWithMenu.FeedContent>
+          </FeedWithMenu.FeedContent>
         </FeedWithMenu>
       }
       sideMenuContent={<div>Side menu side menu!</div>}
@@ -497,6 +496,34 @@ export const FeedWithMenuPreview = () => {
 
 FeedWithMenuPreview.story = {
   name: "feed with menu",
+};
+
+export const SettingsLayout = () => {
+  return (
+    <Layout
+      mainContent={
+        <FeedWithMenu>
+          <FeedWithMenu.Sidebar>
+            <TabsGroup title="User Settings">
+              <TabsGroup.Option>Name</TabsGroup.Option>
+            </TabsGroup>
+          </FeedWithMenu.Sidebar>
+          <FeedWithMenu.FeedContent>
+            <div style={{ height: "500px", backgroundColor: "green" }}>
+              Feed Content!!
+            </div>
+          </FeedWithMenu.FeedContent>
+        </FeedWithMenu>
+      }
+      sideMenuContent={<div>Side menu side menu!</div>}
+      title="test!"
+      headerAccent="purple"
+    />
+  );
+};
+
+SettingsLayout.story = {
+  name: "settings layout",
 };
 
 const POSTS = [

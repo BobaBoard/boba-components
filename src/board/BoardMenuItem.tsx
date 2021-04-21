@@ -106,7 +106,7 @@ const BoardMenuItem: React.FC<
         }
         .slug {
           color: #969696;
-          font-size: 18px;
+          font-size: var(--font-size-large);
           font-weight: 500;
           overflow: hidden;
           text-overflow: ellipsis;

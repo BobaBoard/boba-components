@@ -59,7 +59,7 @@ const BoardSelector: React.FC<BoardSelectorProps> = (props) => {
             }
             .filter input {
               color: #2e2e30;
-              font-size: 16px;
+              font-size: var(--font-size-regular);
               line-height: 16px;
               padding: 3px 10px;
               width: 100%;
@@ -96,7 +96,7 @@ const BoardSelector: React.FC<BoardSelectorProps> = (props) => {
           .board-selector {
             padding-right: 5px;
             border-radius: 5px;
-            font-size: smaller;
+            font-size: var(--font-size-small);
             position: relative;
             border-radius: 15px;
             background-color: #2e2e30;
