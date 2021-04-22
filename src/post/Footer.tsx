@@ -28,16 +28,18 @@ const { className: buttonClassName, styles: buttonStyle } = css.resolve`
     user-select: none;
     white-space: nowrap;
     overflow: hidden;
+    display: flex;
   }
 `;
 
 const NotesDisplay: React.FC<{
+  link?: LinkWithAction;
   totalContributions: number;
   directContributions: number;
   totalComments: number;
-}> = ({ totalContributions, directContributions, totalComments }) => {
+}> = ({ totalContributions, directContributions, totalComments, link }) => {
   return (
-    <>
+    <ActionLink link={link} className={`notes-link ${buttonClassName}`}>
       <span className="note-count contributions">
         {totalContributions || 0}
         <FontAwesomeIcon icon={faPlusSquare} />
@@ -55,6 +57,11 @@ const NotesDisplay: React.FC<{
         <FontAwesomeIcon icon={faComment} />
       </span>
       <style jsx>{`
+        span {
+          display: flex;
+          align-items: center;
+          line-height: calc(var(--font-size-large) - 0.1rem);
+        }
         span :global(svg) {
           height: 15px;
           padding: 1px 0px;
@@ -71,7 +78,8 @@ const NotesDisplay: React.FC<{
           font-weight: normal;
         }
       `}</style>
-    </>
+      {buttonStyle}
+    </ActionLink>
   );
 };
 
@@ -115,16 +123,12 @@ const Footer: React.FC<FooterProps> = ({
           </div>
         )}
         <div className="notes-button">
-          <ActionLink
+          <NotesDisplay
             link={notesLink}
-            className={`notes-link ${buttonClassName}`}
-          >
-            <NotesDisplay
-              directContributions={directContributions || 0}
-              totalContributions={totalContributions || 0}
-              totalComments={totalComments || 0}
-            />
-          </ActionLink>
+            directContributions={directContributions || 0}
+            totalContributions={totalContributions || 0}
+            totalComments={totalComments || 0}
+          />
         </div>
       </div>
       <div
@@ -213,7 +217,6 @@ const Footer: React.FC<FooterProps> = ({
           margin: 0;
         }
       `}</style>
-      {buttonStyle}
     </div>
   );
 };
