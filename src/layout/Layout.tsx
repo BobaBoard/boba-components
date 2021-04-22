@@ -276,7 +276,7 @@ const Layout = React.forwardRef<{ closeSideMenu: () => void }, LayoutProps>(
         selectedOption={selectedMenuOption}
         userMenuOptions={loggedInMenuOptions}
         onLoggedOutUserClick={React.useMemo(
-          () => ({ onClick: onUserBarClick || noop }),
+          () => ({ onClick: onUserBarClick || noop, label: "login" }),
           [onUserBarClick]
         )}
         user={user}
@@ -316,6 +316,7 @@ const Layout = React.forwardRef<{ closeSideMenu: () => void }, LayoutProps>(
                   notification: updates,
                   outdated: outdated,
                 })}
+                aria-label="menu"
                 onClick={React.useCallback(() => {
                   if (!showSideMenu) {
                     onSideMenuButtonClick?.();
@@ -326,8 +327,16 @@ const Layout = React.forwardRef<{ closeSideMenu: () => void }, LayoutProps>(
                 <FontAwesomeIcon icon={faBars} />
               </button>
               <ActionLink className={`${logoClassName} logo`} link={logoLink}>
-                <img src={logo} className={`${logoClassName} regular`} />
-                <img src={compactLogo} className={`${logoClassName} compact`} />
+                <img
+                  alt="logo"
+                  src={logo}
+                  className={`${logoClassName} regular`}
+                />
+                <img
+                  alt="logo"
+                  src={compactLogo}
+                  className={`${logoClassName} compact`}
+                />
               </ActionLink>
               {title && (
                 <ActionLink

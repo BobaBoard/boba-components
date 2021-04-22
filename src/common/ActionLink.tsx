@@ -28,7 +28,11 @@ const ActionLink: React.FC<ActionLinkProps> = ({
   }
   if (link.onClick && !link.href) {
     return (
-      <button className={className} onClick={preventDefaultCallback}>
+      <button
+        className={className}
+        onClick={preventDefaultCallback}
+        aria-label={link?.label}
+      >
         {children}
         <style jsx>{`
           button {

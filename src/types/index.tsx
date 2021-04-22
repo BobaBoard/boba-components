@@ -81,6 +81,7 @@ export type DescriptionType = TextDescriptionType | FilterDescriptionType;
 export interface LinkWithAction {
   href?: string;
   onClick?: (e?: MouseEvent) => void;
+  label?: string;
 }
 
 export interface BoardType {
