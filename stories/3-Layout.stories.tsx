@@ -13,6 +13,7 @@ import Post from "../src/post/Post";
 import MasonryView from "../src/layout/MasonryView";
 import { useStateWithCallbackLazy } from "use-state-with-callback";
 import CustomCursor from "../src/layout/CustomCursor";
+import Checkbox from "../src/common/Checkbox";
 
 import {
   faClock,
@@ -499,6 +500,7 @@ FeedWithMenuPreview.story = {
 };
 
 export const SettingsLayout = () => {
+  const [checked, setChecked] = React.useState(true);
   const link = {
     onClick: () => action("option")(),
     href: "https://www.youtube.com/watch?v=dQw4w9WgXcQ",
@@ -531,9 +533,63 @@ export const SettingsLayout = () => {
             </div>
           </FeedWithMenu.Sidebar>
           <FeedWithMenu.FeedContent>
-            <div style={{ height: "500px", backgroundColor: "green" }}>
-              Feed Content!!
+            <div className="settings-container">
+              <section>
+                <h2>Setting section</h2>
+                <div className="setting">
+                  <div className="label">Actual setting</div>
+                  <div className="control"><Checkbox /></div>
+                </div>
+                <div className="setting">
+                  <div className="label">Actual setting</div>
+                  <div className="control"><Checkbox /></div>
+                </div>
+                <div className="setting">
+                  <div className="label">Actual setting</div>
+                  <div className="control"><Checkbox /></div>
+                  <div className="helper-text">Millions of developers and companies build, ship, and maintain their software on GitHub—the largest and most advanced development platform in the world.</div>
+                </div>
+                </section>
             </div>
+            <style jsx>{`
+            .settings-container {
+              font-size: 1.6rem;
+              color: white;
+              max-width: 100%;
+              width: 600px;
+              padding: 20px 20px 50px 20px;
+            }
+
+            .settings-container section + section {
+              margin-top: 40px;
+            }
+
+            .setting {
+              padding: 20px 0;
+              border-top: 1px solid rgba(255, 255, 255, .15);
+              display: flex;
+              flex-wrap: wrap;
+            }
+            
+            .setting:last-child {
+              border-bottom: 1px solid rgba(255, 255, 255, .15);              
+            }
+
+            .label, .control {
+              flex: 1;
+              margin: auto;
+            }
+
+            .control {
+              display: flex;
+              flex-direction: row-reverse;
+            }
+
+            .helper-text {
+              opacity: .5;
+              margin-top: 10px;
+            }
+            `}</style>
           </FeedWithMenu.FeedContent>
         </FeedWithMenu>
       }
