@@ -499,14 +499,36 @@ FeedWithMenuPreview.story = {
 };
 
 export const SettingsLayout = () => {
+  const link = {
+    onClick: () => action("option")(),
+    href: "https://www.youtube.com/watch?v=dQw4w9WgXcQ",
+  };
   return (
     <Layout
       mainContent={
         <FeedWithMenu>
           <FeedWithMenu.Sidebar>
-            <TabsGroup title="User Settings">
-              <TabsGroup.Option>Name</TabsGroup.Option>
-            </TabsGroup>
+            <div id="a11y-target">
+              <TabsGroup title="User Settings">
+                <TabsGroup.Option link={link}>Name</TabsGroup.Option>
+                <TabsGroup.Option link={link} selected>
+                  Avatar
+                </TabsGroup.Option>
+                <TabsGroup.Option link={link}>Name</TabsGroup.Option>
+              </TabsGroup>
+              <TabsGroup title="Other Settings" icon={faSearch}>
+                <TabsGroup.Option link={link}>Name</TabsGroup.Option>
+                <TabsGroup.Option link={link} selected>
+                  Avatar
+                </TabsGroup.Option>
+                <TabsGroup.Option link={link}>Name</TabsGroup.Option>
+              </TabsGroup>
+              <style jsx>{`
+                #a11y-target {
+                  padding: 20px;
+                }
+              `}</style>
+            </div>
           </FeedWithMenu.Sidebar>
           <FeedWithMenu.FeedContent>
             <div style={{ height: "500px", backgroundColor: "green" }}>
@@ -524,6 +546,9 @@ export const SettingsLayout = () => {
 
 SettingsLayout.story = {
   name: "settings layout",
+  a11y: {
+    element: "#a11y-target",
+  },
 };
 
 const POSTS = [
