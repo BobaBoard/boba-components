@@ -235,6 +235,7 @@ const MenuBar: React.FC<MenuBarProps> = ({
           height: 100%;
           display: flex;
           justify-content: space-around;
+          font-size: var(--font-size-regular);
         }
         .home {
           display: none;

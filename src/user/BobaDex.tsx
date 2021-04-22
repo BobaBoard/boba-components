@@ -65,6 +65,7 @@ const BobaDex: React.FC<BobaDexProps> = (props) => {
           display: grid;
           grid-template-columns: repeat(auto-fill, 100px);
           grid-gap: 20px;
+          font-size: var(--font-size-regular);
         }
 
         .identities::after {

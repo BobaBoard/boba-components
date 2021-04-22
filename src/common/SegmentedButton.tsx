@@ -8,7 +8,11 @@ import Color from "color";
 import classnames from "classnames";
 import css from "styled-jsx/css";
 
-const getOptionsStyle = (settings: {color: string, reverseColor: string, transparent: boolean}) => css.resolve`
+const getOptionsStyle = (settings: {
+  color: string;
+  reverseColor: string;
+  transparent: boolean;
+}) => css.resolve`
   .option {
     display: inline-block;
     text-align: center;
@@ -67,20 +71,12 @@ const SegmentedButtonOption: React.FC<SegmentedButtonOptionProps> = (props) => {
   const { className: optionsClass, styles: optionsStyles } = getOptionsStyle({
     color: props.color || THEME_COLOR,
     reverseColor: REVERSE_THEME_COLOR,
-    transparent: ButtonStyle.TRANSPARENT == props.theme
+    transparent: ButtonStyle.TRANSPARENT == props.theme,
   });
   return (
-    <div
-      className={classnames(
-        'option',
-        optionsClass
-      )}
-    >
+    <div className={classnames("option", optionsClass)}>
       {props.updates && (
-        <div className={classnames(
-          'updates',
-          optionsClass)}
-        >
+        <div className={classnames("updates", optionsClass)}>
           {props.updates === true ? ( // Special case to display faCertificate
             <FontAwesomeIcon icon={faCertificate} />
           ) : props.updates == Infinity ? (
@@ -93,9 +89,10 @@ const SegmentedButtonOption: React.FC<SegmentedButtonOptionProps> = (props) => {
       <ActionLink
         link={props.link}
         className={classnames(
-          'option-link',
+          "option-link",
           { selected: props.isSelected },
-          optionsClass)}
+          optionsClass
+        )}
         allowDefault={!!props.link.href && !props.link.onClick}
       >
         {props.label}
@@ -109,7 +106,7 @@ interface SegmentedButtonOptionProps {
   id: string;
   label: string;
   link: LinkWithAction;
-  isSelected: boolean,
+  isSelected: boolean;
   updates?: number | boolean;
   theme?: ButtonStyle;
   color?: string;
@@ -138,6 +135,7 @@ const SegmentedButton: React.FC<SegmentedButtonProps> = (props) => {
           background-color: ${REVERSE_THEME_COLOR};
           border: 2px solid ${props.color || THEME_COLOR};
           display: flex;
+          font-size: var(--font-size-regular);
         }
       `}</style>
     </div>
@@ -149,7 +147,7 @@ export interface SegmentedButtonProps {
     id: string;
     label: string;
     updates?: number | boolean;
-    link: LinkWithAction,
+    link: LinkWithAction;
   }[];
   selected: string;
   theme?: ButtonStyle;

@@ -94,6 +94,7 @@ class Comment extends PureComponent<CommentProps> {
             opacity: 1;
           }
           .comment-container {
+            font-size: var(--font-size-regular);
             position: relative;
             max-width: ${Theme.POST_WIDTH_PX}px;
             width: calc(100% - 3px);

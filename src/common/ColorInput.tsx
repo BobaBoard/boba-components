@@ -40,6 +40,7 @@ const ColorInput: React.FC<ColorInputProps> = (props) => {
           display: flex;
           max-width: 300px;
           justify-content: space-between;
+          font-size: var(--font-size-regular);
         }
         .color-sample {
           align-self: stretch;

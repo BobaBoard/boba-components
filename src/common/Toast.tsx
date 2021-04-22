@@ -24,6 +24,7 @@ const Toast = (props: ToastContainerProps) => {
         :global(.Toastify__toast) {
           border-radius: 25px;
           padding: 15px;
+          font-size: var(--font-size-regular);
         }
         :global(.Toastify__close-button) {
           align-self: center;

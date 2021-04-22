@@ -620,6 +620,9 @@ const DropdownMenu: React.FC<DropdownProps> = (props) => {
           min-height: 30px;
           transition: all 0.2s ease-out;
         }
+        .content-wrapper {
+          font-size: var(--font-size-regular);
+        }
         .content-wrapper.has-header .options-wrapper {
           // This is a kinda hackish solution to remove the menu
           // padding without having to pass down whether a header exists.
