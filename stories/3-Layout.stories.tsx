@@ -13,7 +13,9 @@ import Post from "../src/post/Post";
 import MasonryView from "../src/layout/MasonryView";
 import { useStateWithCallbackLazy } from "use-state-with-callback";
 import CustomCursor from "../src/layout/CustomCursor";
-import Checkbox from "../src/common/Checkbox";
+import SettingsContainer, {
+  SettingType,
+} from "../src/layout/SettingsContainer";
 
 import {
   faClock,
@@ -500,11 +502,30 @@ FeedWithMenuPreview.story = {
 };
 
 export const SettingsLayout = () => {
-  const [checked, setChecked] = React.useState(true);
   const link = {
     onClick: () => action("option")(),
     href: "https://www.youtube.com/watch?v=dQw4w9WgXcQ",
   };
+  const [globalSettingValue, setGlobalSettingValue] = React.useState<boolean>(
+    true
+  );
+  const [currentSettings, setCurrentSettings] = React.useState<SettingType[]>([
+    {
+      type: "checkbox",
+      name: "cursor",
+      label: "Custom Cursor",
+      currentValue: true,
+    },
+
+    {
+      type: "checkbox",
+      name: "trail",
+      label: "Cursor trail",
+      currentValue: false,
+      helperText: "Whether to show the trail following a custom cursor.",
+    },
+  ]);
+
   return (
     <Layout
       mainContent={
@@ -534,61 +555,44 @@ export const SettingsLayout = () => {
           </FeedWithMenu.Sidebar>
           <FeedWithMenu.FeedContent>
             <div className="settings-container">
-              <section>
-                <h2>Setting section</h2>
-                <div className="setting">
-                  <div className="label">Actual setting</div>
-                  <div className="control"><Checkbox /></div>
-                </div>
-                <div className="setting">
-                  <div className="label">Actual setting</div>
-                  <div className="control"><Checkbox /></div>
-                </div>
-                <div className="setting">
-                  <div className="label">Actual setting</div>
-                  <div className="control"><Checkbox /></div>
-                  <div className="helper-text">Millions of developers and companies build, ship, and maintain their software on GitHub—the largest and most advanced development platform in the world.</div>
-                </div>
-                </section>
+              <SettingsContainer
+                title="Cursor Settings"
+                values={currentSettings}
+                globalValue={globalSettingValue}
+                onGlobaValueChange={(newValue) => {
+                  setCurrentSettings((values) =>
+                    values.map((value) => ({
+                      ...value,
+                      currentValue: newValue,
+                    }))
+                  );
+                  setGlobalSettingValue(newValue);
+                }}
+                onValueChange={(changedValue) => {
+                  const updatedSettingIndex = currentSettings.findIndex(
+                    (el) => el.name == changedValue.name
+                  );
+                  const newSettings = [...currentSettings];
+                  newSettings[updatedSettingIndex] = changedValue;
+                  setCurrentSettings(newSettings);
+                  setGlobalSettingValue(
+                    newSettings.some((value) => value.currentValue)
+                  );
+                }}
+              />
             </div>
             <style jsx>{`
-            .settings-container {
-              font-size: 1.6rem;
-              color: white;
-              max-width: 100%;
-              width: 600px;
-              padding: 20px 20px 50px 20px;
-            }
+              .settings-container {
+                font-size: 1.6rem;
+                color: white;
+                max-width: 100%;
+                width: 600px;
+                padding: 20px 20px 50px 20px;
+              }
 
-            .settings-container section + section {
-              margin-top: 40px;
-            }
-
-            .setting {
-              padding: 20px 0;
-              border-top: 1px solid rgba(255, 255, 255, .15);
-              display: flex;
-              flex-wrap: wrap;
-            }
-            
-            .setting:last-child {
-              border-bottom: 1px solid rgba(255, 255, 255, .15);              
-            }
-
-            .label, .control {
-              flex: 1;
-              margin: auto;
-            }
-
-            .control {
-              display: flex;
-              flex-direction: row-reverse;
-            }
-
-            .helper-text {
-              opacity: .5;
-              margin-top: 10px;
-            }
+              .settings-container :global(section + section) {
+                margin-top: 40px;
+              }
             `}</style>
           </FeedWithMenu.FeedContent>
         </FeedWithMenu>

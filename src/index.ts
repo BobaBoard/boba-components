@@ -39,6 +39,7 @@ import { TagType } from "./types";
 import { EditorContext } from "@bobaboard/boba-editor";
 import SegmentedButton from "./common/SegmentedButton";
 import LoadingBar from "./common/LoadingBar";
+import SettingsContainer from "./layout/SettingsContainer";
 
 import flush from "styled-jsx/server";
 
@@ -89,10 +90,18 @@ export {
   NewCommentsThread,
   TagType,
   CustomCursor,
+  SettingsContainer,
 };
 
 import type { TagsType } from "./types";
 import type { PostHandler } from "./post/Post";
 import type { CommentHandler } from "./post/Comment";
 import type { SideMenuHandler } from "./layout/SideMenu";
-export type { TagsType, PostHandler, CommentHandler, SideMenuHandler };
+import type { SettingType } from "./layout/SettingsContainer";
+export type {
+  TagsType,
+  PostHandler,
+  CommentHandler,
+  SideMenuHandler,
+  SettingType,
+};
