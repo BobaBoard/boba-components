@@ -21,18 +21,21 @@ const Option: CompoundComponents["Option"] = ({ selected, children, link }) => {
         <style jsx>{`
           .option {
             display: flex;
-            background: ${DefaultTheme.BOARD_MENU_ITEM_BACKGROUND};
             border-radius: 15px;
             position: relative;
             text-decoration: none;
             align-items: center;
             font-size: var(--font-size-large);
             padding: 10px 15px;
-            margin-bottom: 3px;
+            margin-bottom: 2px;
             color: #c7c7c7;
           }
           .option.selected {
             color: white;
+            background: ${DefaultTheme.BOARD_MENU_ITEM_BACKGROUND};
+          }
+          .option:hover {
+            background: ${DefaultTheme.BOARD_MENU_ITEM_BACKGROUND};
           }
         `}</style>
       </div>
@@ -48,7 +51,7 @@ interface TabsGroupProps {
 
 const TabsGroup: React.FC<TabsGroupProps> & CompoundComponents = (props) => {
   return (
-    <div>
+    <div className="tab-group">
       <div className="title">
         {props.icon && (
           <div className="icon">
@@ -60,7 +63,7 @@ const TabsGroup: React.FC<TabsGroupProps> & CompoundComponents = (props) => {
       <div>{props.children}</div>
       <style jsx>{`
         .icon {
-          margin-right: 8px;
+          margin-right: 10px;
         }
         .title {
           color: #fff;
@@ -68,9 +71,12 @@ const TabsGroup: React.FC<TabsGroupProps> & CompoundComponents = (props) => {
           font-weight: 600;
           line-height: 15px;
           letter-spacing: 1.5px;
-          margin-bottom: 15px;
+          margin-bottom: 12px;
           text-transform: uppercase;
           display: flex;
+        }
+        .tab-group + .tab-group {
+          margin-top: 30px;
         }
       `}</style>
     </div>
