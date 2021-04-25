@@ -7,15 +7,30 @@ import ActionLink from "../common/ActionLink";
 
 interface CompoundComponents {
   Option: React.FC<{
-    link: LinkWithAction;
+    id?: string;
+    link: LinkWithAction<string | undefined>;
     children: React.ReactNode;
     selected?: boolean;
   }>;
 }
 
-const Option: CompoundComponents["Option"] = ({ selected, children, link }) => {
+const Option: CompoundComponents["Option"] = ({
+  selected,
+  children,
+  link,
+  id,
+}) => {
+  const linkWithId = React.useMemo(() => {
+    if (!id || !link.onClick) {
+      return link;
+    }
+    return {
+      ...link,
+      onClick: () => link.onClick?.(id),
+    };
+  }, [link, id]);
   return (
-    <ActionLink link={link}>
+    <ActionLink link={linkWithId}>
       <div className={classNames("option", { selected })}>
         {children}
         <style jsx>{`
@@ -60,8 +75,12 @@ const TabsGroup: React.FC<TabsGroupProps> & CompoundComponents = (props) => {
         )}
         {props.title}
       </div>
-      <div>{props.children}</div>
+      <div className="tabs">{props.children}</div>
       <style jsx>{`
+        .tabs {
+          display: flex;
+          flex-direction: column;
+        }
         .icon {
           margin-right: 10px;
         }

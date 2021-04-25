@@ -68,7 +68,7 @@ const ActionLink: React.FC<ActionLinkProps> = ({
 };
 
 interface ActionLinkProps {
-  link?: LinkWithAction;
+  link?: LinkWithAction<unknown>;
   className?: string;
   allowDefault?: boolean;
 }

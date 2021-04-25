@@ -78,9 +78,9 @@ export interface FilterDescriptionType {
 
 export type DescriptionType = TextDescriptionType | FilterDescriptionType;
 
-export interface LinkWithAction {
+export interface LinkWithAction<T = MouseEvent> {
   href?: string;
-  onClick?: (e?: MouseEvent) => void;
+  onClick?: (e?: T) => void;
   label?: string;
 }
 

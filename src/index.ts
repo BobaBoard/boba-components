@@ -40,6 +40,7 @@ import { EditorContext } from "@bobaboard/boba-editor";
 import SegmentedButton from "./common/SegmentedButton";
 import LoadingBar from "./common/LoadingBar";
 import SettingsContainer from "./layout/SettingsContainer";
+import TabsGroup from "./layout/TabsGroup";
 
 import flush from "styled-jsx/server";
 
@@ -91,6 +92,7 @@ export {
   TagType,
   CustomCursor,
   SettingsContainer,
+  TabsGroup,
 };
 
 import type { TagsType } from "./types";
