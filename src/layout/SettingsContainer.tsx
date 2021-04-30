@@ -118,6 +118,9 @@ const SettingsContainer: React.FC<SettingsContainerProps> = (props) => {
         />
       ))}
       <style jsx>{`
+        section {
+          font-size: var(--font-size-regular);
+        }
         .title {
           display: flex;
           align-items: center;

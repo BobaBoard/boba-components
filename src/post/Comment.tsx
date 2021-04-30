@@ -31,6 +31,7 @@ class Comment extends PureComponent<CommentProps> {
               initialText={JSON.parse(this.props.initialText)}
               singleLine={true}
               showTooltip={false}
+              forceSSR={true}
             />
           </div>
           <button

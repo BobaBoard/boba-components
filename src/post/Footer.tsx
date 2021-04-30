@@ -173,7 +173,7 @@ const Footer: React.FC<FooterProps> = ({
           padding: 3px 5px;
           position: absolute;
           right: 0;
-          top: -6px;
+          top: 0;
           transform: translate(20%, -50%);
           font-size: var(--font-size-small);
         }

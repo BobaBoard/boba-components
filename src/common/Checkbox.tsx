@@ -22,10 +22,8 @@ const Checkbox: React.FC<CheckboxProps> = (props) => {
 
       <style jsx>{`
         input {
-          position: absolute;
           opacity: 0;
-          left: 0;
-          top: 0;
+          display: none;
           z-index: -1;
         }
 
