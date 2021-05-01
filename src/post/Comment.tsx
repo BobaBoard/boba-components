@@ -147,6 +147,15 @@ class Comment extends PureComponent<CommentProps> {
             );
             pointer-events: none;
           }
+          .comment-container:not(:last-of-type) .comment {
+            border-bottom-left-radius: 0px;
+            border-bottom-right-radius: 0px;
+          }
+          .comment-container:not(:first-of-type) .comment {
+            border-top-left-radius: 0px;
+            border-top-right-radius: 0px;
+            border-top: 1px dashed ${Theme.COMMENT_BORDER_COLOR};
+          }
           .comment-container:first-of-type .comment::after {
             border-top-left-radius: ${Theme.BORDER_RADIUS_REGULAR};
             border-top-right-radius: ${Theme.BORDER_RADIUS_REGULAR};

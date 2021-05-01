@@ -382,39 +382,43 @@ CommentChainAccessoryStory.story = {
 export const ExtraActionStory = () => {
   return (
     <>
-      <CommentChain
-        comments={[
-          {
-            id: "1",
-            text:
-              '[{"insert": "I mean, sure, but you know what also is great?"}]',
-          },
-          {
-            id: "1",
-            text:
-              '[{"attributes": {"inline-spoilers": true}, "insert": "Deze nuts."}]',
-          },
-          {
-            id: "1",
-            text: '[{"insert": "Wait is that how you type it?"}]',
-          },
-        ]}
-        secretIdentity={{
-          name: "Tuxedo Mask",
-          avatar: `/${tuxedoAvatar}`,
-        }}
-        userIdentity={{ name: "SexyDaddy69", avatar: `/${mamoruAvatar}` }}
-        onExtraAction={() => {}}
-      />
-      <Comment
-        id="comment"
-        initialText={
-          '[{"insert":"This card has a really long word: JugemuJugemuGokonoSurikireKaijarisuigyonoSuigyomatsuUnraimatsuFuraimatsuKuNeruTokoroniSumuTokoroYaburaKojinoBuraKojiPaipopaipoPaiponoShuringanShuringannoGurindaiGurindainoPonpokopinoPonpokonanoChokyumeinoChosuke."}]'
-        }
-        secretIdentity={{ name: "Tuxedo Mask", avatar: `/${tuxedoAvatar}` }}
-        userIdentity={{ name: "SexyDaddy69", avatar: `/${mamoruAvatar}` }}
-        onExtraAction={() => {}}
-      />
+      <div>
+        <CommentChain
+          comments={[
+            {
+              id: "1",
+              text:
+                '[{"insert": "I mean, sure, but you know what also is great?"}]',
+            },
+            {
+              id: "1",
+              text:
+                '[{"attributes": {"inline-spoilers": true}, "insert": "Deze nuts."}]',
+            },
+            {
+              id: "1",
+              text: '[{"insert": "Wait is that how you type it?"}]',
+            },
+          ]}
+          secretIdentity={{
+            name: "Tuxedo Mask",
+            avatar: `/${tuxedoAvatar}`,
+          }}
+          userIdentity={{ name: "SexyDaddy69", avatar: `/${mamoruAvatar}` }}
+          onExtraAction={() => {}}
+        />
+      </div>
+      <div>
+        <Comment
+          id="comment"
+          initialText={
+            '[{"insert":"This card has a really long word: JugemuJugemuGokonoSurikireKaijarisuigyonoSuigyomatsuUnraimatsuFuraimatsuKuNeruTokoroniSumuTokoroYaburaKojinoBuraKojiPaipopaipoPaiponoShuringanShuringannoGurindaiGurindainoPonpokopinoPonpokonanoChokyumeinoChosuke."}]'
+          }
+          secretIdentity={{ name: "Tuxedo Mask", avatar: `/${tuxedoAvatar}` }}
+          userIdentity={{ name: "SexyDaddy69", avatar: `/${mamoruAvatar}` }}
+          onExtraAction={() => {}}
+        />
+      </div>
     </>
   );
 };

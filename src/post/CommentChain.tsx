@@ -39,25 +39,6 @@ class CommentChain extends PureComponent<CommentChainProps> {
     );
   };
 
-  componentDidMount() {
-    this.props.comments.forEach((comment, index) => {
-      const commentRef = this.handlerRefs.get(index);
-      if (!commentRef?.editorRef?.current) {
-        return;
-      }
-      if (index != 0) {
-        commentRef.editorRef.current.style.borderTopLeftRadius = "0px";
-        commentRef.editorRef.current.style.borderTopRightRadius = "0px";
-        commentRef.editorRef.current.style.borderTop = `1px dashed ${Theme.COMMENT_BORDER_COLOR}`;
-      }
-      if (index < this.handlerRefs.size - 1) {
-        commentRef.editorRef.current.style.borderBottomLeftRadius = "0px";
-        commentRef.editorRef.current.style.borderBottomRightRadius = "0px";
-        commentRef.editorRef.current.style.borderBottom = "none";
-      }
-    });
-  }
-
   render() {
     const hasMotionEffect = this.props.disableMotionEffect !== true;
     return (
