@@ -4,6 +4,9 @@ import Header, { HeaderStyle } from "./Header";
 import Theme from "../theme/default";
 import debug from "debug";
 import { SecretIdentityType } from "types";
+import classnames from "classnames";
+import Icon from "../common/Icon";
+import { faCertificate } from "@fortawesome/free-solid-svg-icons";
 const log = debug("bobaui:comment-log");
 
 const MemoizedComment = React.memo(Comment);
@@ -62,29 +65,87 @@ class CommentChain extends PureComponent<CommentChainProps> {
         </div>
 
         <div className="comments">
+          <div className={classnames("badges")}>
+            {!!this.props.new && (
+              <div className="new">
+                <Icon icon={faCertificate} />
+                <span>new</span>
+              </div>
+            )}
+          </div>
           <span className="highlight" ref={this.containerRef} />
-          {this.props.comments.map((comment, index) => (
-            <MemoizedComment
-              id={comment.id}
-              key={`comment_${comment.id}`}
-              ref={this.getSaveRefAtIndex(index)}
-              initialText={comment.text}
-              userIdentity={this.props.userIdentity}
-              secretIdentity={this.props.secretIdentity}
-              paddingTop={"0"}
-              muted={this.props.muted}
-              onExtraAction={
-                this.props.onExtraAction &&
-                index == this.props.comments.length - 1
-                  ? this.props.onExtraAction
-                  : undefined
-              }
-              createdTime={this.props.createdTime}
-              options={this.props.options}
-            />
-          ))}
+          <div>
+            {this.props.comments.map((comment, index) => (
+              <MemoizedComment
+                id={comment.id}
+                key={`comment_${comment.id}`}
+                ref={this.getSaveRefAtIndex(index)}
+                initialText={comment.text}
+                userIdentity={this.props.userIdentity}
+                secretIdentity={this.props.secretIdentity}
+                onExtraAction={
+                  this.props.onExtraAction &&
+                  index == this.props.comments.length - 1
+                    ? this.props.onExtraAction
+                    : undefined
+                }
+                createdTime={this.props.createdTime}
+                options={this.props.options}
+              />
+            ))}
+          </div>
         </div>
         <style jsx>{`
+          .badges {
+            display: flex;
+            justify-content: flex-end;
+            padding-right: 15px;
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            z-index: 3;
+            transform: translateY(-50%);
+          }
+          .badges .new {
+            background-image: linear-gradient(
+              135deg,
+              ${Theme.DEFAULT_ACCENT_COLOR} 0%,
+              ${Theme.DEFAULT_ACCENT_COLOR} 10px,
+              rgba(255, 255, 255, 0.3) 15px,
+              rgba(255, 255, 255, 0.3) 18px,
+              ${Theme.DEFAULT_ACCENT_COLOR} 23px,
+              ${Theme.DEFAULT_ACCENT_COLOR} 100%
+            );
+            background-color: ${Theme.DEFAULT_ACCENT_COLOR};
+            background-size: 200% 200%;
+            position: relative;
+            overflow: hidden;
+            font-size: 1.3rem;
+            padding: 2px 4px;
+            border-radius: 15px;
+            line-height: 1.3rem;
+            color: white;
+            background-position-x: 80%;
+            animation: TransitioningBackground 10s ease-out normal infinite;
+            box-shadow: 0 3px 12px 0 rgba(0, 0, 0, 0.15);
+          }
+
+          @keyframes TransitioningBackground {
+            0% {
+              background-position-x: 250%;
+            }
+            12% {
+              background-position-x: 80%;
+            }
+            100% {
+              background-position-x: 80%;
+            }
+          }
+          .badges .new span {
+            margin: 0 2px;
+            margin-bottom: 4px;
+          }
           .comment-chain {
             position: relative;
             align-items: start;
@@ -134,7 +195,7 @@ export interface CommentChainProps {
   };
   forceHideIdentity?: boolean;
   createdTime: string;
-  muted?: boolean;
+  new?: boolean;
   options?: CommentProps["options"];
   onExtraAction?: () => void;
   disableMotionEffect?: boolean;
@@ -142,7 +203,3 @@ export interface CommentChainProps {
 }
 
 export default CommentChain;
-
-// export default React.forwardRef<CommentHandler, CommentChainProps>(
-//   (props, ref) => <CommentChain {...props} innerRef={ref} />
-// );

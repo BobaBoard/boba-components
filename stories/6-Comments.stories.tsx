@@ -531,4 +531,35 @@ export const CommentImageStory = () => {
 CommentImageStory.story = {
   name: "image",
 };
-47;
+
+export const NewComment = () => {
+  return (
+    <div style={{ paddingTop: "15px" }}>
+      <CommentChain
+        comments={[
+          {
+            id: "1",
+            text:
+              '[{"insert": "I mean, sure, but you know what also is great?"}]',
+          },
+          {
+            id: "1",
+            text:
+              '[{"attributes": {"inline-spoilers": true}, "insert": "Deze nuts."}]',
+          },
+          {
+            id: "1",
+            text: '[{"insert": "Wait is that how you type it?"}]',
+          },
+        ]}
+        new={true}
+        createdTime="tomorrow"
+        secretIdentity={{
+          name: "Tuxedo Mask",
+          avatar: `/${tuxedoAvatar}`,
+        }}
+        userIdentity={{ name: "SexyDaddy69", avatar: `/${mamoruAvatar}` }}
+      />
+    </div>
+  );
+};

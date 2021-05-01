@@ -19,9 +19,7 @@ class Comment extends PureComponent<CommentProps> {
       <>
         <div
           className={classNames("comment-container", {
-            muted: this.props.muted,
             "with-extra-action": !!this.props.onExtraAction,
-            "image-only": true,
           })}
         >
           <div className={classNames("comment")} ref={this.editorRef}>
@@ -102,7 +100,7 @@ class Comment extends PureComponent<CommentProps> {
           }
           .comment {
             position: relative;
-            padding: 0 3px;
+            padding: 0px;
             min-width: 0;
             align-self: flex-end;
             --text-color: ${Theme.COMMENT_TEXT_COLOR};
@@ -110,9 +108,6 @@ class Comment extends PureComponent<CommentProps> {
             border-radius: ${Theme.BORDER_RADIUS_REGULAR};
             min-height: 38px;
             overflow: hidden;
-          }
-          .image-only .comment {
-            padding: 0px;
           }
           .comment-container.with-extra-action:last-child .comment {
             mask: linear-gradient(0deg, rgba(0, 0, 0, 0), rgba(0, 0, 0, 0)),
@@ -189,8 +184,6 @@ export interface CommentProps {
     name: string;
   };
   createdTime: string;
-  muted?: boolean;
-  paddingTop?: string;
   onExtraAction?: () => void;
   options?: DropdownProps["options"];
   ref?: RefObject<CommentHandler> | undefined | null;
