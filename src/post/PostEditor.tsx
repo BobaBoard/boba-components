@@ -124,7 +124,7 @@ const PostEditor = React.forwardRef<{ focus: () => void }, PostEditorProps>(
     useHotkeys(
       "control+enter,command+enter",
       onSubmitHandler,
-      { keydown: true },
+      { keydown: true, enableOnTags: ["INPUT"], enableOnContentEditable: true },
       [onSubmitHandler]
     );
 

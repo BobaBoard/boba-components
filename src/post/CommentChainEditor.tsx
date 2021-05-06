@@ -160,7 +160,7 @@ const CommentChainEditor = React.forwardRef<
       onSubmitHandler();
       e.preventDefault();
     },
-    { keydown: true },
+    { keydown: true, enableOnContentEditable: true },
     [onSubmitHandler]
   );
 
