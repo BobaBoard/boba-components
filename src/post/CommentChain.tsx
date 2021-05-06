@@ -99,9 +99,9 @@ class CommentChain extends PureComponent<CommentChainProps> {
           .badges {
             display: flex;
             justify-content: flex-end;
-            padding-right: 15px;
+            padding-right: 25px;
             position: absolute;
-            top: 0;
+            top: 1px;
             left: 0;
             right: 0;
             z-index: 3;
@@ -128,7 +128,7 @@ class CommentChain extends PureComponent<CommentChainProps> {
             color: white;
             background-position-x: 80%;
             animation: TransitioningBackground 10s ease-out normal infinite;
-            box-shadow: 0 3px 12px 0 rgba(0, 0, 0, 0.15);
+            border: 1px solid rgb(255 0 0 / 80%);
           }
 
           @keyframes TransitioningBackground {
