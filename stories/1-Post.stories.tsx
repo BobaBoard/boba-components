@@ -501,6 +501,12 @@ BoardPost.args = {
   },
 };
 
+export const NewPost = PostTemplate.bind({});
+NewPost.args = {
+  ...BoardPost.args,
+  newPost: true,
+};
+
 export const SwitchIdentityPost = () => {
   const [identityHidden, setIdentityHidden] = React.useState(false);
   return (

@@ -10,12 +10,17 @@ import Reaction from "../common/Reaction";
 import Editor from "@bobaboard/boba-editor";
 import classnames from "classnames";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import { faPlus, faEllipsisV } from "@fortawesome/free-solid-svg-icons";
+import {
+  faPlus,
+  faEllipsisV,
+  faCertificate,
+} from "@fortawesome/free-solid-svg-icons";
 import TagsFactory from "../tags/TagsFactory";
 
 import Theme from "../theme/default";
 import debug from "debug";
 import { LinkWithAction, SecretIdentityType, TagsType } from "types";
+import Badge from "./Badge";
 
 const log = debug("bobaui:post-log");
 
@@ -193,6 +198,9 @@ const Post = React.forwardRef<PostHandler, PostProps>((props, ref) => {
                   </div>
                 )}
               </div>
+              <div className={classnames("badges")}>
+                {!!props.newPost && <Badge icon={faCertificate} label="new" />}
+              </div>
               {props.board && (
                 <div
                   className="board-info"
@@ -236,6 +244,17 @@ const Post = React.forwardRef<PostHandler, PostProps>((props, ref) => {
         /*static styles*/
         .muted {
           opacity: 0.9;
+        }
+        .badges {
+          display: flex;
+          justify-content: flex-end;
+          padding-right: 25px;
+          position: absolute;
+          top: 1px;
+          left: 0;
+          right: 0;
+          z-index: 3;
+          transform: translateY(-50%);
         }
         .header {
           border-radius: ${Theme.BORDER_RADIUS_REGULAR}
