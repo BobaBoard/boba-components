@@ -66,7 +66,20 @@ class CommentChain extends PureComponent<CommentChainProps> {
 
         <div className="comments">
           <div className={classnames("badges")}>
-            {!!this.props.new && <Badge icon={faCertificate} label="new" />}
+            {!!this.props.new && (
+              <div className="badge">
+                <Badge
+                  icon={faCertificate}
+                  label="new"
+                  color={Theme.DEFAULT_ACCENT_COLOR}
+                />
+              </div>
+            )}
+            {!!this.props.op && (
+              <div className="badge">
+                <Badge label="OP" color={Theme.OP_BADGE_COLOR} />
+              </div>
+            )}
           </div>
           <span className="highlight" ref={this.containerRef} />
           <div>
@@ -94,13 +107,16 @@ class CommentChain extends PureComponent<CommentChainProps> {
           .badges {
             display: flex;
             justify-content: flex-end;
-            padding-right: 25px;
+            padding-right: 18px;
             position: absolute;
             top: 1px;
             left: 0;
             right: 0;
             z-index: 3;
             transform: translateY(-50%);
+          }
+          .badges .badge + .badge {
+            margin-left: 5px;
           }
           .comment-chain {
             position: relative;
@@ -152,6 +168,7 @@ export interface CommentChainProps {
   forceHideIdentity?: boolean;
   createdTime: string;
   new?: boolean;
+  op?: boolean;
   options?: CommentProps["options"];
   onExtraAction?: () => void;
   disableMotionEffect?: boolean;

@@ -1,27 +1,31 @@
 import React from "react";
-import Theme from "../theme/default";
 import Icon, { IconProps } from "../common/Icon";
+import { darkenColor } from "../utils";
 
 const Badge: React.FC<{
-  icon: IconProps["icon"];
+  icon?: IconProps["icon"];
   label: string;
+  color: string;
 }> = (props) => {
+  const borderColor = darkenColor(props.color, 0.1);
+  console.log(borderColor);
   return (
     <div className="badge">
-      <Icon icon={props.icon} />
-      <span>new</span>
+      {props.icon && <Icon icon={props.icon} />}
+      <span>{props.label}</span>
       <style jsx>{`
         .badge {
+          --badge-color: ${props.color};
           background-image: linear-gradient(
             135deg,
-            ${Theme.DEFAULT_ACCENT_COLOR} 0%,
-            ${Theme.DEFAULT_ACCENT_COLOR} 10px,
+            var(--badge-color) 0%,
+            var(--badge-color) 10px,
             rgba(255, 255, 255, 0.3) 15px,
             rgba(255, 255, 255, 0.3) 18px,
-            ${Theme.DEFAULT_ACCENT_COLOR} 23px,
-            ${Theme.DEFAULT_ACCENT_COLOR} 100%
+            var(--badge-color) 23px,
+            var(--badge-color) 100%
           );
-          background-color: ${Theme.DEFAULT_ACCENT_COLOR};
+          background-color: var(--badge-color);
           background-size: 200% 200%;
           position: relative;
           overflow: hidden;
@@ -32,7 +36,7 @@ const Badge: React.FC<{
           color: white;
           background-position-x: 80%;
           animation: TransitioningBackground 10s ease-out normal infinite;
-          border: 1px solid rgb(255 0 0 / 80%);
+          border: 1px solid ${borderColor};
         }
 
         @keyframes TransitioningBackground {

@@ -199,7 +199,20 @@ const Post = React.forwardRef<PostHandler, PostProps>((props, ref) => {
                 )}
               </div>
               <div className={classnames("badges")}>
-                {!!props.newPost && <Badge icon={faCertificate} label="new" />}
+                {!!props.newPost && (
+                  <div className="badge">
+                    <Badge
+                      icon={faCertificate}
+                      label="new"
+                      color={Theme.DEFAULT_ACCENT_COLOR}
+                    />
+                  </div>
+                )}
+                {!!props.op && (
+                  <div className="badge">
+                    <Badge label="OP" color={Theme.OP_BADGE_COLOR} />
+                  </div>
+                )}
               </div>
               {props.board && (
                 <div
@@ -248,13 +261,16 @@ const Post = React.forwardRef<PostHandler, PostProps>((props, ref) => {
         .badges {
           display: flex;
           justify-content: flex-end;
-          padding-right: 25px;
+          padding-right: 18px;
           position: absolute;
           top: 1px;
           left: 0;
           right: 0;
           z-index: 3;
           transform: translateY(-50%);
+        }
+        .badges .badge + .badge {
+          margin-left: 5px;
         }
         .header {
           border-radius: ${Theme.BORDER_RADIUS_REGULAR}
@@ -413,6 +429,7 @@ export interface PostProps {
     count: number;
   }[];
   newPost?: boolean;
+  op?: boolean;
   totalContributions?: number;
   directContributions?: number;
   newContributions?: number;

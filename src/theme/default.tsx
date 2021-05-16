@@ -47,6 +47,7 @@ const DefaultTheme: ThemeProperties = {
   NOTIFICATIONS_NEW_COLOR: "#ff5252", // DefaultAccentColor
   // POST
   POST_TEXT_COLOR: "#000000",
+  OP_BADGE_COLOR: "#e628d8",
   // COMMENTS
   COMMENT_BACKGROUND_COLOR: "#5e5e5f",
   COMMENT_BORDER_COLOR: "rgba(255, 255, 255, 0.3)",
@@ -166,6 +167,7 @@ export interface PostProperties {
   POST_TEXT_COLOR: string;
   POST_WIDTH_PX: string;
   INDENT_COLORS: string[];
+  OP_BADGE_COLOR: string;
 }
 
 export interface SideMenuProperties {

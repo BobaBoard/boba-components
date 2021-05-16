@@ -281,13 +281,11 @@ export const CommentChainStory = () => {
         comments={[
           {
             id: "1",
-            text:
-              '[{"insert": "I mean, sure, but you know what also is great?"}]',
+            text: '[{"insert": "I mean, sure, but you know what also is great?"}]',
           },
           {
             id: "1",
-            text:
-              '[{"attributes": {"inline-spoilers": true}, "insert": "Deze nuts."}]',
+            text: '[{"attributes": {"inline-spoilers": true}, "insert": "Deze nuts."}]',
           },
           {
             id: "1",
@@ -306,13 +304,11 @@ export const CommentChainStory = () => {
           comments={[
             {
               id: "1",
-              text:
-                '[{"insert": "I\'m a man of simple taste. I see half an ankle and go:"}]',
+              text: '[{"insert": "I\'m a man of simple taste. I see half an ankle and go:"}]',
             },
             {
               id: "1",
-              text:
-                '[{"insert":{"block-image":{"src":"https://media.tenor.com/images/2d4aeafd88c82922635b972e454c07d3/tenor.gif","spoilers":false,"width":320,"height":176}}},{"insert":""}]',
+              text: '[{"insert":{"block-image":{"src":"https://media.tenor.com/images/2d4aeafd88c82922635b972e454c07d3/tenor.gif","spoilers":false,"width":320,"height":176}}},{"insert":""}]',
             },
           ]}
           secretIdentity={{
@@ -336,22 +332,19 @@ CommentChainStory.story = {
 };
 
 export const CommentChainAccessoryStory = () => {
-  const [currentAccessory, setCurrentAccessory] = React.useState<
-    string | undefined
-  >(reindeerEars);
+  const [currentAccessory, setCurrentAccessory] =
+    React.useState<string | undefined>(reindeerEars);
   return (
     <>
       <CommentChain
         comments={[
           {
             id: "1",
-            text:
-              '[{"insert": "I mean, sure, but you know what also is great?"}]',
+            text: '[{"insert": "I mean, sure, but you know what also is great?"}]',
           },
           {
             id: "1",
-            text:
-              '[{"attributes": {"inline-spoilers": true}, "insert": "Deze nuts."}]',
+            text: '[{"attributes": {"inline-spoilers": true}, "insert": "Deze nuts."}]',
           },
           {
             id: "1",
@@ -387,13 +380,11 @@ export const ExtraActionStory = () => {
           comments={[
             {
               id: "1",
-              text:
-                '[{"insert": "I mean, sure, but you know what also is great?"}]',
+              text: '[{"insert": "I mean, sure, but you know what also is great?"}]',
             },
             {
               id: "1",
-              text:
-                '[{"attributes": {"inline-spoilers": true}, "insert": "Deze nuts."}]',
+              text: '[{"attributes": {"inline-spoilers": true}, "insert": "Deze nuts."}]',
             },
             {
               id: "1",
@@ -433,13 +424,11 @@ export const WithOptionsStory = () => {
         comments={[
           {
             id: "1",
-            text:
-              '[{"insert": "I mean, sure, but you know what also is great?"}]',
+            text: '[{"insert": "I mean, sure, but you know what also is great?"}]',
           },
           {
             id: "1",
-            text:
-              '[{"attributes": {"inline-spoilers": true}, "insert": "Deze nuts."}]',
+            text: '[{"attributes": {"inline-spoilers": true}, "insert": "Deze nuts."}]',
           },
           {
             id: "1",
@@ -500,18 +489,15 @@ export const CommentImageStory = () => {
         comments={[
           {
             id: "1",
-            text:
-              '[{"insert": "I mean, sure, but you know what also is great?"}]',
+            text: '[{"insert": "I mean, sure, but you know what also is great?"}]',
           },
           {
             id: "1",
-            text:
-              '[{"insert":{"block-image":"https://cdn.discordapp.com/attachments/443967088118333442/691486081895628830/unknown.png"}}]',
+            text: '[{"insert":{"block-image":"https://cdn.discordapp.com/attachments/443967088118333442/691486081895628830/unknown.png"}}]',
           },
           {
             id: "1",
-            text:
-              '[{"insert":{"block-image":"https://cdn.discordapp.com/attachments/443967088118333442/691486081895628830/unknown.png"}}, {"insert": "Wait is that how you type it?"}]',
+            text: '[{"insert":{"block-image":"https://cdn.discordapp.com/attachments/443967088118333442/691486081895628830/unknown.png"}}, {"insert": "Wait is that how you type it?"}]',
           },
         ]}
         secretIdentity={{
@@ -532,20 +518,18 @@ CommentImageStory.story = {
   name: "image",
 };
 
-export const NewComment = () => {
+export const Badges = () => {
   return (
     <div style={{ paddingTop: "15px" }}>
       <CommentChain
         comments={[
           {
             id: "1",
-            text:
-              '[{"insert": "I mean, sure, but you know what also is great?"}]',
+            text: '[{"insert": "I mean, sure, but you know what also is great?"}]',
           },
           {
             id: "1",
-            text:
-              '[{"attributes": {"inline-spoilers": true}, "insert": "Deze nuts."}]',
+            text: '[{"attributes": {"inline-spoilers": true}, "insert": "Deze nuts."}]',
           },
           {
             id: "1",
@@ -553,6 +537,7 @@ export const NewComment = () => {
           },
         ]}
         new={true}
+        op={true}
         createdTime="tomorrow"
         secretIdentity={{
           name: "Tuxedo Mask",
