@@ -47,7 +47,7 @@ const DefaultTheme: ThemeProperties = {
   NOTIFICATIONS_NEW_COLOR: "#ff5252", // DefaultAccentColor
   // POST
   POST_TEXT_COLOR: "#000000",
-  OP_BADGE_COLOR: "#e628d8",
+  OP_BADGE_COLOR: "#5865f2",
   // COMMENTS
   COMMENT_BACKGROUND_COLOR: "#5e5e5f",
   COMMENT_BORDER_COLOR: "rgba(255, 255, 255, 0.3)",

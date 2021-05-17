@@ -13,9 +13,6 @@ const PinnedBoardsMenu: React.FC<PinnedBoardsMenuProps> = ({
   return (
     <>
       <div className="board-pinned">
-        <div className="pin-icon">
-          <FontAwesomeIcon icon={faThumbtack} />
-        </div>
         {boards?.map((board, index) => (
           <div className="single-board" key={`single-board-${index}`}>
             <a
