@@ -45,7 +45,7 @@ const Slug: React.FC<{
     >
       {displayStyle == DisplayStyle.REGULAR ? (
         <HighlightedText highlightColor={color}>
-          <span>!{name}</span>
+          <span className="slug">!{name}</span>
         </HighlightedText>
       ) : (
         <span ref={ref}>!{name}</span>
@@ -58,6 +58,15 @@ const Slug: React.FC<{
           box-sizing: border-box;
           text-align: center;
           cursor: pointer;
+          max-width: 90%;
+          margin: 0 auto;
+        }
+        .slug {
+          max-width: 100%;
+          text-overflow: ellipsis;
+          display: inline-block;
+          overflow: hidden;
+          box-sizing: border-box;
         }
         .slug-container.compact,
         .slug-container.mini {

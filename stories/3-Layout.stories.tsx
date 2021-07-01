@@ -860,7 +860,7 @@ export const Attempt1 = () => {
             }}
           >
             <FeedWithMenu.Sidebar>
-              <BoardSidebar {...BOARD_INFO} />
+              <BoardSidebar {...BOARD_INFO} slug="goreisthebestweloveit" />
             </FeedWithMenu.Sidebar>
             <FeedWithMenu.FeedContent>
               <>
