@@ -495,7 +495,8 @@ const Layout = React.forwardRef<{ closeSideMenu: () => void }, LayoutProps>(
               top: ${Theme.HEADER_HEIGHT_PX}px;
               left: 0px;
               bottom: 0px;
-              height: 100%;
+              height: calc(100% - ${Theme.HEADER_HEIGHT_PX}px);
+              padding-bottom: 20px;
             }
             .sidemenu-button:focus-visible {
               outline: white auto 1px;
@@ -642,29 +643,6 @@ const Layout = React.forwardRef<{ closeSideMenu: () => void }, LayoutProps>(
               }
             }
             @media only screen and (max-width: 600px) {
-               {
-                /* .layout {
-                --side-menu-width: calc(
-                  min(calc(100vw - 60px), ${Theme.SIDE_MENU_MAX_WIDTH_PX}px) -
-                    ${Theme.PINNED_BAR_WIDTH_PX}px
-                );
-              }
-              .backdrop.visible {
-                transform: translateX(
-                  calc(var(--side-menu-width) + ${Theme.PINNED_BAR_WIDTH_PX}px)
-                );
-              }
-              .layout-body.side-menu-open header {
-                transform: translateX(
-                  calc(var(--side-menu-width) + ${Theme.PINNED_BAR_WIDTH_PX}px)
-                );
-              }
-              .layout-body.side-menu-open .content {
-                transform: translateX(
-                  calc(var(--side-menu-width) + ${Theme.PINNED_BAR_WIDTH_PX}px)
-                );
-              } */
-              }
               header {
                 justify-content: space-between;
               }
@@ -707,6 +685,10 @@ const Layout = React.forwardRef<{ closeSideMenu: () => void }, LayoutProps>(
               }
               .side-menu-open .pinned-boards {
                 display: block;
+                position: fixed;
+              }
+              .layout-body.side-menu-open {
+                margin-left: ${Theme.PINNED_BAR_WIDTH_PX}px;
               }
             }
             @media only screen and (max-width: 450px) {

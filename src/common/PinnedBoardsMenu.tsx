@@ -64,6 +64,9 @@ const PinnedBoardsMenu: React.FC<PinnedBoardsMenuProps> = ({
         .single-board {
           padding: 15px 7px 0;
         }
+        .single-board:last-child {
+          padding-bottom: 15px;
+        }
       `}</style>
     </>
   );
