@@ -25,7 +25,6 @@ import logo from "../images/logo.svg";
 import compactLogo from "../images/logo-compact.svg";
 import ActionLink from "../common/ActionLink";
 import css from "styled-jsx/css";
-import PinnedBoardsMenu from "../common/PinnedBoardsMenu";
 
 const log = debug("bobaui:layout-log");
 
@@ -80,11 +79,12 @@ const useSideMenuTransition = (
     }
     log(`Current sideMenu scrollY: ${sideMenuRef.current.offsetWidth}`);
     log(`Current sideMenu scrollY: ${sideMenuRef.current.clientWidth}`);
+    log(`Show side menu? ${showSideMenu ? "true" : "false"}`);
 
     if (!showSideMenu) {
-      if (sideMenuRef.current.classList.contains("opened")) {
-        sideMenuRef.current.classList.add("closing");
+      if (layoutRef.current.style.overflow == "hidden") {
         sideMenuRef.current.classList.remove("opened");
+        sideMenuRef.current.classList.add("closing");
       } else {
         sideMenuRef.current.classList.add("closed");
       }
@@ -291,7 +291,11 @@ const Layout = React.forwardRef<{ closeSideMenu: () => void }, LayoutProps>(
       <div ref={layoutRef}>
         <LoadingBar loading={loading} accentColor={headerAccent} />
         <div className="layout">
-          <div className={"pinned-bar"}>
+          <div
+            className={classnames("pinned-bar", {
+              "side-menu-open": showSideMenu,
+            })}
+          >
             <div className={"sidemenu-button-container"}>
               <button
                 className={classnames("sidemenu-button menu", {
@@ -437,6 +441,9 @@ const Layout = React.forwardRef<{ closeSideMenu: () => void }, LayoutProps>(
               z-index: 10;
               transition: transform 0.3s ease-out;
             }
+            .layout-body {
+              background-color: ${Theme.LAYOUT_BOARD_SIDEBAR_BACKGROUND_COLOR};
+            }
             .layout-body.side-menu-open header {
               transform: translateX(var(--side-menu-width));
             }
@@ -454,7 +461,7 @@ const Layout = React.forwardRef<{ closeSideMenu: () => void }, LayoutProps>(
               position: fixed;
               top: 0;
               left: 0;
-              z-index: 100;
+              z-index: 101;
             }
             .sidemenu-button {
               width: 35px;
@@ -635,6 +642,29 @@ const Layout = React.forwardRef<{ closeSideMenu: () => void }, LayoutProps>(
               }
             }
             @media only screen and (max-width: 600px) {
+               {
+                /* .layout {
+                --side-menu-width: calc(
+                  min(calc(100vw - 60px), ${Theme.SIDE_MENU_MAX_WIDTH_PX}px) -
+                    ${Theme.PINNED_BAR_WIDTH_PX}px
+                );
+              }
+              .backdrop.visible {
+                transform: translateX(
+                  calc(var(--side-menu-width) + ${Theme.PINNED_BAR_WIDTH_PX}px)
+                );
+              }
+              .layout-body.side-menu-open header {
+                transform: translateX(
+                  calc(var(--side-menu-width) + ${Theme.PINNED_BAR_WIDTH_PX}px)
+                );
+              }
+              .layout-body.side-menu-open .content {
+                transform: translateX(
+                  calc(var(--side-menu-width) + ${Theme.PINNED_BAR_WIDTH_PX}px)
+                );
+              } */
+              }
               header {
                 justify-content: space-between;
               }
@@ -642,8 +672,9 @@ const Layout = React.forwardRef<{ closeSideMenu: () => void }, LayoutProps>(
                 background-color: ${Theme.LAYOUT_BOARD_SIDEBAR_BACKGROUND_COLOR};
               }
               .side-menu-content {
-                height: calc(100% - 60px);
-                margin-top: 60px;
+                height: calc(100% - ${Theme.HEADER_HEIGHT_PX}px);
+                margin-top: ${Theme.HEADER_HEIGHT_PX}px;
+                width: var(--side-menu-width);
               }
               .side-bottom-menu {
                 position: absolute;
@@ -653,10 +684,11 @@ const Layout = React.forwardRef<{ closeSideMenu: () => void }, LayoutProps>(
                 height: 0px;
                 background-color: ${Theme.LAYOUT_HEADER_BACKGROUND_COLOR};
                 display: block;
-                width: calc(100vw - 100px);
+                width: 100%;
                 max-width: var(--side-menu-width);
                 overflow: hidden;
                 z-index: 10;
+                width: var(--side-menu-width);
               }
               .sidemenu-button.compass {
                 margin-right: 0;
@@ -667,8 +699,14 @@ const Layout = React.forwardRef<{ closeSideMenu: () => void }, LayoutProps>(
               .side-menu:not(.visible) .side-menu-content {
                 height: 100%;
               }
-              .side-menu.visible .side-bottom-menu {
-                height: 60px;
+              .side-menu:not(.closed) .side-bottom-menu {
+                height: ${Theme.HEADER_HEIGHT_PX}px;
+              }
+              .pinned-boards {
+                display: none;
+              }
+              .side-menu-open .pinned-boards {
+                display: block;
               }
             }
             @media only screen and (max-width: 450px) {

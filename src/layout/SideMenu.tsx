@@ -137,7 +137,6 @@ const SideMenu = React.forwardRef<SideMenuHandler, SideMenuProps>(
             }
             .board-sections {
               height: 100%;
-              overflow-y: scroll;
               flex-grow: 1;
             }
             .board-sections.collapsed {
