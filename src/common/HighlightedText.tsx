@@ -48,7 +48,7 @@ const HighlightedText: React.FC<HighlightedTextProps> = (props) => {
           position: absolute;
           width: calc(100% + 30px);
           content: "";
-          height: calc(100% - 10px);
+          height: 20px;
           top: 50%;
           transform: translateY(-50%)
             rotate(${INITIAL_ROTATION + rotationAdjustment}deg);

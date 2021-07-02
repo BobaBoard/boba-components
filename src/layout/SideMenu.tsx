@@ -34,6 +34,7 @@ const SideMenu = React.forwardRef<SideMenuHandler, SideMenuProps>(
       onFilterChange,
       currentBoardSlug,
       children,
+      collapse,
     },
     ref
   ) {
@@ -47,7 +48,7 @@ const SideMenu = React.forwardRef<SideMenuHandler, SideMenuProps>(
       <div className="side-menu">
         <div
           className={classnames("pinned-boards-container", {
-            visible: !!showPinned,
+            visible: !!showPinned && !!pinnedBoards?.length,
           })}
         >
           <PinnedBoardsMenu
@@ -79,22 +80,29 @@ const SideMenu = React.forwardRef<SideMenuHandler, SideMenuProps>(
               </div>
             </DropdownMenu>
           </div>
-          <div className="board-sections">
-            {Children.toArray(children).map((child) => {
-              if (
-                !React.isValidElement<BoardsMenuSectionProps>(child) ||
-                child.type !== BoardsMenuSection
-              ) {
-                throw Error(
-                  "SideMenu only accepts BoardsMenuSections as children"
-                );
-              }
-              const menuSection: React.ReactElement<BoardsMenuSectionProps> = child;
-              return React.cloneElement<BoardsMenuSectionProps>(menuSection, {
-                key: menuSection.props.title,
-                currentBoardSlug,
-              });
-            })}
+          <div className="boards">
+            <div
+              className={classnames("board-sections", {
+                collapsed: true,
+              })}
+            >
+              {Children.toArray(children).map((child) => {
+                if (
+                  !React.isValidElement<BoardsMenuSectionProps>(child) ||
+                  child.type !== BoardsMenuSection
+                ) {
+                  throw Error(
+                    "SideMenu only accepts BoardsMenuSections as children"
+                  );
+                }
+                const menuSection: React.ReactElement<BoardsMenuSectionProps> =
+                  child;
+                return React.cloneElement<BoardsMenuSectionProps>(menuSection, {
+                  key: menuSection.props.title,
+                  currentBoardSlug,
+                });
+              })}
+            </div>
           </div>
         </div>
         <style jsx>
@@ -115,6 +123,9 @@ const SideMenu = React.forwardRef<SideMenuHandler, SideMenuProps>(
               flex-direction: column;
               overflow-x: hidden;
             }
+            .boards {
+              display: flex;
+            }
             .pinned-boards-container {
               display: none;
             }
@@ -126,7 +137,10 @@ const SideMenu = React.forwardRef<SideMenuHandler, SideMenuProps>(
             }
             .board-sections {
               height: 100%;
-              overflow-y: scroll;
+              flex-grow: 1;
+            }
+            .board-sections.collapsed {
+              width: 0;
             }
             .board-filter {
               padding: 10px;
@@ -198,4 +212,5 @@ export interface SideMenuProps {
   showPinned?: boolean;
   onFilterChange?: (text: string) => void;
   children: React.ReactNode;
+  collapse?: boolean;
 }
