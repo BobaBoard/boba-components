@@ -3,6 +3,7 @@ import {
   faBars,
   faCompass,
   IconDefinition,
+  faThumbtack,
 } from "@fortawesome/free-solid-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import classnames from "classnames";
@@ -151,6 +152,8 @@ const getLogoStyle = (accentColor?: string) => css.resolve`
   .logo {
     position: relative;
     cursor: pointer;
+    filter: drop-shadow(3px 3px 0px ${accentColor || "transparent"});
+    padding-right: 5px;
   }
   .logo > img {
     height: 100%;
@@ -163,30 +166,12 @@ const getLogoStyle = (accentColor?: string) => css.resolve`
   .logo .compact {
     display: none;
   }
-  .logo::after {
-    content: "";
-    background-color: ${accentColor || "transparent"};
-    mask: url(${logo}) no-repeat;
-    display: block;
-    position: absolute;
-    z-index: 1;
-    mask-size: 100%;
-    top: 2px;
-    left: 3px;
-    width: 100%;
-    height: 100%;
-  }
   @media only screen and (max-width: 950px) {
     .logo .regular {
       display: none;
     }
     .logo .compact {
       display: block;
-      width: 35px;
-      height: 40px;
-    }
-    .logo::after {
-      mask: url(${compactLogo}) no-repeat;
       width: 35px;
       height: 40px;
     }
@@ -314,7 +299,12 @@ const Layout = React.forwardRef<{ closeSideMenu: () => void }, LayoutProps>(
               </button>
             </div>
             <div className="menus-container">
-              <div className="pinned-boards">{pinnedMenuContent}</div>
+              <div className="pinned-boards">
+                <div className="thumbtack">
+                  <FontAwesomeIcon icon={faThumbtack} />
+                </div>
+                {pinnedMenuContent}
+              </div>
               <div
                 className={classnames("side-menu", { visible: showSideMenu })}
                 ref={sideMenuRef}
@@ -461,7 +451,7 @@ const Layout = React.forwardRef<{ closeSideMenu: () => void }, LayoutProps>(
               position: fixed;
               top: 0;
               left: 0;
-              z-index: 101;
+              z-index: 95;
             }
             .sidemenu-button {
               width: 35px;
@@ -486,17 +476,23 @@ const Layout = React.forwardRef<{ closeSideMenu: () => void }, LayoutProps>(
               background-color: ${Theme.LAYOUT_HEADER_BACKGROUND_COLOR};
             }
             .menus-container {
-              height: 100%;
               background-color: ${Theme.LAYOUT_HEADER_BACKGROUND_COLOR};
+              color: white;
+              min-height: 100vh;
+              height: 100%;
+            }
+            .thumbtack {
+              text-align: center;
+              padding-top: 15px;
             }
             .pinned-boards {
+              background-color: ${Theme.LAYOUT_HEADER_BACKGROUND_COLOR};
               position: relative;
-              z-index: 100;
-              top: ${Theme.HEADER_HEIGHT_PX}px;
+              z-index: 94;
+              padding-top: ${Theme.HEADER_HEIGHT_PX}px;
               left: 0px;
               bottom: 0px;
-              height: calc(100% - ${Theme.HEADER_HEIGHT_PX}px);
-              padding-bottom: 20px;
+              min-height: calc(100vh - ${Theme.HEADER_HEIGHT_PX}px);
             }
             .sidemenu-button:focus-visible {
               outline: white auto 1px;
@@ -667,6 +663,12 @@ const Layout = React.forwardRef<{ closeSideMenu: () => void }, LayoutProps>(
                 overflow: hidden;
                 z-index: 10;
                 width: var(--side-menu-width);
+              }
+              .board-pinned {
+                height: 100vh;
+              }
+              .header-menu-bar {
+                flex-grow: 0;
               }
               .sidemenu-button.compass {
                 margin-right: 0;

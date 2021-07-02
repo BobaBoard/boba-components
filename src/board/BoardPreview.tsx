@@ -32,7 +32,7 @@ const Slug: React.FC<{
     fitty(ref.current, {
       maxSize: 70,
     });
-  }, [ref.current]);
+  }, [ref]);
 
   return (
     <div
@@ -58,7 +58,6 @@ const Slug: React.FC<{
           box-sizing: border-box;
           text-align: center;
           cursor: pointer;
-          max-width: 90%;
           margin: 0 auto;
         }
         .slug {
@@ -84,6 +83,7 @@ const Slug: React.FC<{
         .slug-container.regular {
           margin-bottom: -15px;
           font-size: 30px;
+          max-width: 90%;
         }
         .slug-container.mini span {
           display: none !important;

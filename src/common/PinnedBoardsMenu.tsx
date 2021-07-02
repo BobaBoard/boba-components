@@ -1,7 +1,5 @@
 import React from "react";
 import { BoardType } from "types";
-import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import { faThumbtack } from "@fortawesome/free-solid-svg-icons";
 
 import BoardIcon from "../board/BoardIcon";
 import DefaultTheme from "../theme/default";
@@ -66,6 +64,12 @@ const PinnedBoardsMenu: React.FC<PinnedBoardsMenuProps> = ({
         }
         .single-board:last-child {
           padding-bottom: 15px;
+        }
+
+        @media only screen and (max-width: 600px) {
+          .board-pinned {
+            height: 100vh;
+          }
         }
       `}</style>
     </>

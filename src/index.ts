@@ -13,6 +13,7 @@ import Button, { ButtonStyle } from "./common/Button";
 import Input, { InputStyle } from "./common/Input";
 import ToastContainer, { toast } from "./common/Toast";
 import Modal from "./common/Modal";
+import PinnedBoardsMenu from "./common/PinnedBoardsMenu";
 import ModalWithButtons from "./common/ModalWithButtons";
 import PostEditor from "./post/PostEditor";
 import Post from "./post/Post";
@@ -47,9 +48,8 @@ import flush from "styled-jsx/server";
 interface ImageUploaderContextProps {
   onImageUploadRequest: (imgUrl: string) => Promise<string>;
 }
-const ImageUploaderContext = React.createContext<ImageUploaderContextProps | null>(
-  null
-);
+const ImageUploaderContext =
+  React.createContext<ImageUploaderContextProps | null>(null);
 
 export {
   Layout,
@@ -61,6 +61,7 @@ export {
   Modal,
   UserDetails,
   ModalWithButtons,
+  PinnedBoardsMenu,
   Post,
   PostEditor,
   PostingActionButton,
