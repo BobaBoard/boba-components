@@ -40,8 +40,6 @@ const PinnedBoardsMenu: React.FC<PinnedBoardsMenuProps> = ({
           background: ${DefaultTheme.PINNED_BAR_BACKGROUND};
           width: ${DefaultTheme.PINNED_BAR_WIDTH_PX}px;
           height: 100%;
-          overflow-y: scroll;
-          overflow-x: hidden;
           scrollbar-width: none;
           display: flex;
           flex-direction: column;

@@ -202,6 +202,13 @@ const { className: titleClassName, styles: titleStyles } = css.resolve`
       display: block;
     }
   }
+
+  @media only screen and (max-width: 450px) {
+    .title {
+      text-align: center;
+      flex-grow: 1;
+    }
+  }
 `;
 
 const MemoizedMenuBar = React.memo(MenuBar);
@@ -389,6 +396,7 @@ const Layout = React.forwardRef<{ closeSideMenu: () => void }, LayoutProps>(
               flex-direction: column;
               flex-grow: 1;
               position: relative;
+              margin-left: ${Theme.PINNED_BAR_WIDTH_PX}px;
             }
             .content {
               display: flex;
@@ -487,12 +495,22 @@ const Layout = React.forwardRef<{ closeSideMenu: () => void }, LayoutProps>(
             }
             .pinned-boards {
               background-color: ${Theme.LAYOUT_HEADER_BACKGROUND_COLOR};
-              position: relative;
               z-index: 94;
               padding-top: ${Theme.HEADER_HEIGHT_PX}px;
               left: 0px;
               bottom: 0px;
               min-height: calc(100vh - ${Theme.HEADER_HEIGHT_PX}px);
+              width: ${Theme.PINNED_BAR_WIDTH_PX}px;
+              display: block;
+              position: fixed;
+              top: 0;
+              overflow: hidden scroll;
+              overscroll-behavior: contain;
+              scrollbar-width: none;
+            }
+            .pinned-boards::-webkit-scrollbar {
+              width: 0px;
+              background: transparent; /* Chrome/Safari/Webkit */
             }
             .sidemenu-button:focus-visible {
               outline: white auto 1px;
@@ -664,9 +682,6 @@ const Layout = React.forwardRef<{ closeSideMenu: () => void }, LayoutProps>(
                 z-index: 10;
                 width: var(--side-menu-width);
               }
-              .board-pinned {
-                height: 100vh;
-              }
               .header-menu-bar {
                 flex-grow: 0;
               }
@@ -688,6 +703,10 @@ const Layout = React.forwardRef<{ closeSideMenu: () => void }, LayoutProps>(
               .side-menu-open .pinned-boards {
                 display: block;
                 position: fixed;
+                top: 0;
+              }
+              .layout-body {
+                margin-left: 0px;
               }
               .layout-body.side-menu-open {
                 margin-left: ${Theme.PINNED_BAR_WIDTH_PX}px;
