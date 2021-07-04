@@ -130,9 +130,7 @@ const PostEditor = React.forwardRef<{ focus: () => void }, PostEditorProps>(
 
     return (
       <>
-        <div
-          className={classnames("post-container", { centered: props.centered })}
-        >
+        <div className={classnames("post-container")}>
           <Card>
             <Card.Header>
               <div className="header">
@@ -269,9 +267,6 @@ const PostEditor = React.forwardRef<{ focus: () => void }, PostEditorProps>(
           .post-container {
             max-width: ${DefaultTheme.POST_WIDTH_PX}px;
           }
-          .post-container.centered {
-            margin: 0 auto;
-          }
           .header {
             padding: 10px 0;
             margin: 0 10px 5px 10px;
@@ -378,7 +373,6 @@ export interface PostEditorProps {
     name: string;
     iconUrl?: string;
   }[];
-  centered?: boolean;
   accentColor?: string;
   suggestedCategories?: string[];
   editableSections?: {
