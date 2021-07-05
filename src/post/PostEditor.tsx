@@ -266,6 +266,7 @@ const PostEditor = React.forwardRef<{ focus: () => void }, PostEditorProps>(
         <style jsx>{`
           .post-container {
             max-width: ${DefaultTheme.POST_WIDTH_PX}px;
+            width: 100%;
           }
           .header {
             padding: 10px 0;
