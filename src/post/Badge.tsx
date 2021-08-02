@@ -8,7 +8,6 @@ const Badge: React.FC<{
   color: string;
 }> = (props) => {
   const borderColor = darkenColor(props.color, 0.1);
-  console.log(borderColor);
   return (
     <div className="badge">
       {props.icon && <Icon icon={props.icon} />}
