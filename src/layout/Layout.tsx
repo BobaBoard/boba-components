@@ -212,21 +212,57 @@ const { className: titleClassName, styles: titleStyles } = css.resolve`
 `;
 
 const MemoizedMenuBar = React.memo(MenuBar);
-const Layout = React.forwardRef<{ closeSideMenu: () => void }, LayoutProps>(
-  (
+
+export interface LayoutHandler {
+  closeSideMenu: () => void;
+}
+
+function extractCompound<T extends React.ReactNode>(
+  children: React.ReactNode,
+  CompoundType: T
+): T {
+  return React.Children.toArray(children).find(
+    (node) => React.isValidElement(node) && node.type == CompoundType
+  ) as T;
+}
+
+const MainContent = ({ children }: { children: React.ReactChildren }) => {
+  return <>{children}</>;
+};
+const PinnedMenuContent = ({ children }: { children: React.ReactChildren }) => {
+  return <>{children}</>;
+};
+const SideMenuContent = ({ children }: { children: React.ReactChildren }) => {
+  return <>{children}</>;
+};
+const SidebarContent = ({ children }: { children: React.ReactChildren }) => {
+  return <>{children}</>;
+};
+const ActionButton = ({ children }: { children: React.ReactChildren }) => {
+  return <>{children}</>;
+};
+export interface LayoutCompoundComponent
+  extends React.ForwardRefExoticComponent<
+    LayoutProps & React.RefAttributes<LayoutHandler>
+  > {
+  MainContent: React.FC<any>;
+  PinnedMenuContent: React.FC<any>;
+  SideMenuContent: React.FC<any>;
+  SidebarContent: React.FC<any>;
+  ActionButton: React.FC<any>;
+}
+
+const Layout = React.forwardRef<LayoutHandler, LayoutProps>(
+  function LayoutForwardRef(
     {
-      sideMenuContent,
-      mainContent,
       headerAccent,
       title,
       menuOptions,
       selectedMenuOption,
       onUserBarClick,
       titleLink,
-      actionButton,
       userLoading,
       user,
-      pinnedMenuContent,
       loading,
       logoLink,
       updates,
@@ -237,10 +273,16 @@ const Layout = React.forwardRef<{ closeSideMenu: () => void }, LayoutProps>(
       onSideMenuButtonClick,
       onSideMenuFullyOpen,
       onCompassClick,
+      children,
     },
     ref
-  ) => {
+  ) {
     const headerRef = React.useRef<HTMLDivElement>(null);
+    const sideMenuContent = extractCompound(children, SideMenuContent);
+    const mainContent = extractCompound(children, MainContent);
+    const pinnedMenuContent = extractCompound(children, PinnedMenuContent);
+    const actionButton = extractCompound(children, ActionButton);
+
     const {
       layoutRef,
       contentRef,
@@ -727,18 +769,13 @@ const Layout = React.forwardRef<{ closeSideMenu: () => void }, LayoutProps>(
       </div>
     );
   }
-);
+) as LayoutCompoundComponent;
 
 export interface LayoutProps {
-  sidebarContent?: React.ReactNode;
-  mainContent: React.ReactNode;
-  sideMenuContent: React.ReactNode;
-  pinnedMenuContent: React.ReactNode;
   headerAccent?: string;
   title?: string;
   // Force hides the title from desktop
   forceHideTitle?: boolean;
-  actionButton?: React.ReactNode;
   user?: { username: string; avatarUrl?: string };
   logoLink?: LinkWithAction;
   titleLink?: LinkWithAction;
@@ -762,7 +799,13 @@ export interface LayoutProps {
   onSideMenuButtonClick?: () => void;
   onSideMenuFullyOpen?: () => void;
   forceHideIdentity?: boolean;
+  children: JSX.Element[];
 }
 
-Layout.displayName = "LayoutForwardRef";
+Layout.MainContent = MainContent;
+Layout.PinnedMenuContent = PinnedMenuContent;
+Layout.SideMenuContent = SideMenuContent;
+Layout.SidebarContent = SidebarContent;
+Layout.ActionButton = ActionButton;
+
 export default Layout;

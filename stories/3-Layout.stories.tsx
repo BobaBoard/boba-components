@@ -21,9 +21,11 @@ import {
   faClock,
   faHeart,
   faInbox,
+  faLink,
   faSearch,
   faTh,
   faTrash,
+  faUnlink,
   faUpload,
 } from "@fortawesome/free-solid-svg-icons";
 
@@ -200,18 +202,27 @@ const menuOptions = {
   selectedMenuOption: "inbox",
 };
 
-const LayoutTemplate = (args: any) => (
-  <>
-    <Layout {...args} />
-    <style jsx>
-      {`
-        :global(body) {
-          padding: 0 !important;
-        }
-      `}
-    </style>
-  </>
-);
+const LayoutTemplate = (args: any) => {
+  const { mainContent, sideMenuContent, pinnedMenuContent, ...rest } = args;
+  return (
+    <>
+      <Layout {...rest}>
+        <Layout.MainContent>{mainContent}</Layout.MainContent>
+        <Layout.SideMenuContent>{sideMenuContent}</Layout.SideMenuContent>
+        <Layout.PinnedMenuContent>{pinnedMenuContent}</Layout.PinnedMenuContent>
+        <Layout.SidebarContent></Layout.SidebarContent>
+        <Layout.ActionButton></Layout.ActionButton>
+      </Layout>
+      <style jsx>
+        {`
+          :global(body) {
+            padding: 0 !important;
+          }
+        `}
+      </style>
+    </>
+  );
+};
 
 export const SimpleLayout = LayoutTemplate.bind({});
 SimpleLayout.args = {
@@ -317,105 +328,26 @@ LoadingLayout.args = {
   ...menuOptions,
 };
 
-export const SideMenuPreview = () => {
-  const [showPinned, setShowPinned] = React.useState(true);
-  const [loading, setLoading] = React.useState(true);
-  const menuRef = React.useRef<SideMenuHandler>(null);
-  return (
-    <div>
-      <div
-        style={{
-          position: "absolute",
-          right: 0,
-          bottom: "0",
-          zIndex: 2000,
-          display: "flex",
-          flexDirection: "column",
-        }}
-      >
-        <button onClick={() => setShowPinned(!showPinned)}>
-          Toggle Pinned
-        </button>
-        <button onClick={() => setLoading(!loading)}>Toggle Loading</button>
-        <button onClick={() => menuRef.current?.focusBoardFilter()}>
-          Focus
-        </button>
-      </div>
-      <div style={{ maxWidth: "500px", backgroundColor: "red" }}>
-        <SideMenu
-          pinnedBoards={[
-            ...PINNED_BOARDS,
-            { ...PINNED_BOARDS[1], updates: 0 },
-            ...PINNED_BOARDS,
-          ]}
-          currentBoardSlug="anime"
-          showPinned={showPinned}
-          ref={menuRef}
-        >
-          <SideMenu.BoardsMenuSection
-            title="recent unreads"
-            icon={faClock}
-            boards={RECENT_BOARDS}
-            emptyTitle="Congratulations!"
-            emptyDescription="You read 'em all."
-          />
-          <SideMenu.BoardsMenuSection
-            title="loading section"
-            icon={faUpload}
-            emptyTitle="Congratulations!"
-            emptyDescription="You read 'em all."
-            loading={loading}
-            placeholdersHeight={5}
-            accentColor="red"
-          />
-          <SideMenu.BoardsMenuSection
-            title="empty section"
-            icon={faTrash}
-            emptyTitle="Congratulations!"
-            emptyDescription="You read 'em all."
-          />
-          <SideMenu.BoardsMenuSection
-            title="all boards"
-            icon={faTh}
-            boards={[...PINNED_BOARDS, ...RECENT_BOARDS, ...SEARCH_BOARDS]}
-            emptyTitle="There's no board here."
-            emptyDescription="Somehow, that feels wrong."
-          />
-        </SideMenu>
-      </div>
-    </div>
-  );
-};
-
-SideMenuPreview.story = {
-  name: "sidemenu",
-};
-
-export const FeedWithMenuShortPreview = () => {
-  return (
-    <Layout
-      mainContent={
-        <FeedWithMenu>
-          <FeedWithMenu.Sidebar>
-            {" "}
-            <div
-              style={{ height: "1500px", width: "50%", backgroundColor: "red" }}
-            >
-              Sidebar Content!!
-            </div>
-          </FeedWithMenu.Sidebar>
-          <FeedWithMenu.FeedContent>
-            <div style={{ height: "500px", backgroundColor: "green" }}>
-              Feed Content!!
-            </div>
-          </FeedWithMenu.FeedContent>
-        </FeedWithMenu>
-      }
-      sideMenuContent={<div>Side menu side menu!</div>}
-      title="test!"
-      headerAccent="purple"
-    />
-  );
+export const FeedWithMenuShortPreview = LayoutTemplate.bind({});
+FeedWithMenuShortPreview.args = {
+  mainContent: (
+    <FeedWithMenu>
+      <FeedWithMenu.Sidebar>
+        {" "}
+        <div style={{ height: "1500px", width: "50%", backgroundColor: "red" }}>
+          Sidebar Content!!
+        </div>
+      </FeedWithMenu.Sidebar>
+      <FeedWithMenu.FeedContent>
+        <div style={{ height: "500px", backgroundColor: "green" }}>
+          Feed Content!!
+        </div>
+      </FeedWithMenu.FeedContent>
+    </FeedWithMenu>
+  ),
+  sideMenuContent: <div>Side menu side menu!</div>,
+  title: "!test",
+  headerAccent: "purple",
 };
 
 FeedWithMenuShortPreview.story = {
@@ -431,7 +363,18 @@ export const FeedWithMenuPreview = () => {
 
   return (
     <Layout
-      mainContent={
+      title="test!"
+      titleLink={{ onClick: () => setShowSidebar(true) }}
+      headerAccent="purple"
+      loading={loading}
+    >
+      <Layout.ActionButton>
+        <CycleNewButton text="Next New" onNext={() => console.log("hi!")} />
+      </Layout.ActionButton>
+      <Layout.SidebarContent>
+        <div>Side menu side menu!</div>
+      </Layout.SidebarContent>
+      <Layout.MainContent>
         <FeedWithMenu
           showSidebar={showSidebar}
           onCloseSidebar={() => setShowSidebar(false)}
@@ -484,16 +427,8 @@ export const FeedWithMenuPreview = () => {
             ))}
           </FeedWithMenu.FeedContent>
         </FeedWithMenu>
-      }
-      sideMenuContent={<div>Side menu side menu!</div>}
-      title="test!"
-      titleLink={{ onClick: () => setShowSidebar(true) }}
-      headerAccent="purple"
-      loading={loading}
-      actionButton={
-        <CycleNewButton text="Next New" onNext={() => console.log("hi!")} />
-      }
-    />
+      </Layout.MainContent>
+    </Layout>
   );
 };
 
@@ -526,8 +461,9 @@ export const SettingsLayout = () => {
   ]);
 
   return (
-    <Layout
-      mainContent={
+    <Layout title="test!" headerAccent="purple">
+      <Layout.MainContent>
+        {" "}
         <FeedWithMenu>
           <FeedWithMenu.Sidebar>
             <div id="a11y-target">
@@ -595,11 +531,8 @@ export const SettingsLayout = () => {
             `}</style>
           </FeedWithMenu.FeedContent>
         </FeedWithMenu>
-      }
-      sideMenuContent={<div>Side menu side menu!</div>}
-      title="test!"
-      headerAccent="purple"
-    />
+      </Layout.MainContent>
+    </Layout>
   );
 };
 
@@ -851,7 +784,81 @@ export const Attempt1 = () => {
         }}
       />
       <Layout
-        mainContent={
+        headerAccent="#f96680"
+        title="!goreisthebestweloveit"
+        titleLink={{ onClick: () => setShowSidebar(!showSidebar) }}
+        onUserBarClick={() => console.log("userbar click!")}
+        onCompassClick={() => setShowSidebar(!showSidebar)}
+        forceHideTitle={true}
+        updates={true}
+        outdated={true}
+        loggedInMenuOptions={[
+          {
+            name: "no href",
+            icon: faUnlink,
+            link: {
+              onClick: action("noHrefClick"),
+            },
+          },
+          {
+            name: "with href",
+            icon: faLink,
+            link: {
+              onClick: action("withHref"),
+              href: "https://www.youtube.com/watch?v=dQw4w9WgXcQ",
+            },
+          },
+        ]}
+        {...menuOptions}
+      >
+        <Layout.SideMenuContent>
+          <SideMenu
+            allBoards={[...PINNED_BOARDS, ...RECENT_BOARDS, ...SEARCH_BOARDS]}
+            recentBoards={RECENT_BOARDS}
+            showPinned={true}
+            showRecent={true}
+            menuOptions={[
+              {
+                name: "no href",
+                link: {
+                  onClick: action("noHrefClick"),
+                },
+              },
+              {
+                name: "with href",
+                link: {
+                  onClick: action("withHref"),
+                  href: "https://www.youtube.com/watch?v=dQw4w9WgXcQ",
+                },
+              },
+            ]}
+          >
+            <SideMenu.BoardsMenuSection
+              title="recent unreads"
+              icon={faClock}
+              boards={RECENT_BOARDS}
+              emptyTitle="Congratulations!"
+              emptyDescription="You read 'em all."
+            />
+            <SideMenu.BoardsMenuSection
+              title="empty section"
+              icon={faTrash}
+              emptyTitle="Congratulations!"
+              emptyDescription="You read 'em all."
+            />
+            <SideMenu.BoardsMenuSection
+              title="all boards"
+              icon={faTh}
+              boards={[...PINNED_BOARDS, ...RECENT_BOARDS, ...SEARCH_BOARDS]}
+              emptyTitle="There's no board here."
+              emptyDescription="Somehow, that feels wrong."
+            />
+          </SideMenu>
+        </Layout.SideMenuContent>
+        <Layout.PinnedMenuContent>
+          <PinnedBoardsMenu boards={[...PINNED_BOARDS, ...PINNED_BOARDS]} />
+        </Layout.PinnedMenuContent>
+        <Layout.MainContent>
           <FeedWithMenu
             showSidebar={showSidebar}
             onCloseSidebar={() => setShowSidebar(false)}
@@ -900,85 +907,14 @@ export const Attempt1 = () => {
               </>
             </FeedWithMenu.FeedContent>
           </FeedWithMenu>
-        }
-        pinnedMenuContent={
-          <PinnedBoardsMenu boards={[...PINNED_BOARDS, ...PINNED_BOARDS]} />
-        }
-        sideMenuContent={
-          <SideMenu
-            allBoards={[...PINNED_BOARDS, ...RECENT_BOARDS, ...SEARCH_BOARDS]}
-            recentBoards={RECENT_BOARDS}
-            showPinned={true}
-            showRecent={true}
-            menuOptions={[
-              {
-                name: "no href",
-                link: {
-                  onClick: action("noHrefClick"),
-                },
-              },
-              {
-                name: "with href",
-                link: {
-                  onClick: action("withHref"),
-                  href: "https://www.youtube.com/watch?v=dQw4w9WgXcQ",
-                },
-              },
-            ]}
-          >
-            <SideMenu.BoardsMenuSection
-              title="recent unreads"
-              icon={faClock}
-              boards={RECENT_BOARDS}
-              emptyTitle="Congratulations!"
-              emptyDescription="You read 'em all."
-            />
-            <SideMenu.BoardsMenuSection
-              title="empty section"
-              icon={faTrash}
-              emptyTitle="Congratulations!"
-              emptyDescription="You read 'em all."
-            />
-            <SideMenu.BoardsMenuSection
-              title="all boards"
-              icon={faTh}
-              boards={[...PINNED_BOARDS, ...RECENT_BOARDS, ...SEARCH_BOARDS]}
-              emptyTitle="There's no board here."
-              emptyDescription="Somehow, that feels wrong."
-            />
-          </SideMenu>
-        }
-        actionButton={
+        </Layout.MainContent>
+        <Layout.ActionButton>
           <PostingActionButton
             accentColor="#f96680"
             onNewPost={() => console.log("hi!")}
           />
-        }
-        headerAccent="#f96680"
-        title="!goreisthebestweloveit"
-        titleLink={{ onClick: () => setShowSidebar(!showSidebar) }}
-        onUserBarClick={() => console.log("userbar click!")}
-        onCompassClick={() => setShowSidebar(!showSidebar)}
-        forceHideTitle={true}
-        updates={true}
-        outdated={true}
-        loggedInMenuOptions={[
-          {
-            name: "no href",
-            link: {
-              onClick: action("noHrefClick"),
-            },
-          },
-          {
-            name: "with href",
-            link: {
-              onClick: action("withHref"),
-              href: "https://www.youtube.com/watch?v=dQw4w9WgXcQ",
-            },
-          },
-        ]}
-        {...menuOptions}
-      />
+        </Layout.ActionButton>
+      </Layout>
       <style jsx>
         {`
           :global(body) {
@@ -994,37 +930,6 @@ Attempt1.story = {
   name: "there was an attempt",
 };
 
-export const ModalWithButtonsStory = () => {
-  const [username, setUsername] = React.useState("Bobatan");
-  return (
-    <ModalWithButtons
-      isOpen={true}
-      onCloseModal={() => {}}
-      color={"#93b3b0"}
-      primaryText={"Login"}
-      primaryDisabled={username.length == 0}
-      secondaryText={"Cancel"}
-      onSubmit={() => {
-        console.log("tada!");
-      }}
-    >
-      <div>
-        <Input
-          id={"username"}
-          value={username}
-          label={"Username"}
-          onTextChange={(text: string) => setUsername(text)}
-          color={"#93b3b0"}
-        />
-      </div>
-    </ModalWithButtons>
-  );
-};
-
-ModalWithButtonsStory.story = {
-  name: "modal with buttons",
-};
-
 export const MasonryLayout = () => {
   const [showSidebar, setShowSidebar] = React.useState(false);
   const masonryRef = React.useRef<{ reposition: () => void }>(null);
@@ -1034,7 +939,37 @@ export const MasonryLayout = () => {
   return (
     <>
       <Layout
-        mainContent={
+        headerAccent="#f96680"
+        title="!gore"
+        logoLink={{
+          onClick: action("logo!"),
+        }}
+        titleLink={{
+          onClick: () => setShowSidebar(!showSidebar),
+        }}
+        onUserBarClick={() => console.log("userbar click!")}
+        loggedInMenuOptions={[
+          { name: "opt1", link: { onClick: action("optionOne") } },
+          { name: "opt2", link: { onClick: action("option2") } },
+        ]}
+      >
+        <Layout.ActionButton>
+          {" "}
+          <PostingActionButton
+            accentColor="#f96680"
+            onNewPost={() => console.log("hi!")}
+          />
+        </Layout.ActionButton>
+        <Layout.SideMenuContent>
+          <SideMenu
+            pinnedBoards={PINNED_BOARDS}
+            searchBoards={SEARCH_BOARDS}
+            recentBoards={RECENT_BOARDS}
+            showDismissNotifications56
+            onNotificationsDismissRequest={() => {}}
+          />
+        </Layout.SideMenuContent>
+        <Layout.MainContent>
           <FeedWithMenu
             showSidebar={showSidebar}
             onCloseSidebar={closeSidebar}
@@ -1086,40 +1021,117 @@ export const MasonryLayout = () => {
               </MasonryView>
             </FeedWithMenu.FeedContent>
           </FeedWithMenu>
-        }
-        sideMenuContent={
-          <SideMenu
-            pinnedBoards={PINNED_BOARDS}
-            searchBoards={SEARCH_BOARDS}
-            recentBoards={RECENT_BOARDS}
-            showDismissNotifications56
-            onNotificationsDismissRequest={() => {}}
-          />
-        }
-        actionButton={
-          <PostingActionButton
-            accentColor="#f96680"
-            onNewPost={() => console.log("hi!")}
-          />
-        }
-        headerAccent="#f96680"
-        title="!gore"
-        logoLink={{
-          onClick: action("logo!"),
-        }}
-        titleLink={{
-          onClick: () => setShowSidebar(!showSidebar),
-        }}
-        onUserBarClick={() => console.log("userbar click!")}
-        loggedInMenuOptions={[
-          { name: "opt1", link: { onClick: action("optionOne") } },
-          { name: "opt2", link: { onClick: action("option2") } },
-        ]}
-      />
+        </Layout.MainContent>
+      </Layout>
     </>
   );
 };
 
 MasonryLayout.story = {
   name: "masonry layout",
+};
+
+export const ModalWithButtonsStory = () => {
+  const [username, setUsername] = React.useState("Bobatan");
+  return (
+    <ModalWithButtons
+      isOpen={true}
+      onCloseModal={() => {}}
+      color={"#93b3b0"}
+      primaryText={"Login"}
+      primaryDisabled={username.length == 0}
+      secondaryText={"Cancel"}
+      onSubmit={() => {
+        console.log("tada!");
+      }}
+    >
+      <div>
+        <Input
+          id={"username"}
+          value={username}
+          label={"Username"}
+          onTextChange={(text: string) => setUsername(text)}
+          color={"#93b3b0"}
+        />
+      </div>
+    </ModalWithButtons>
+  );
+};
+
+ModalWithButtonsStory.story = {
+  name: "modal with buttons",
+};
+
+export const SideMenuPreview = () => {
+  const [showPinned, setShowPinned] = React.useState(true);
+  const [loading, setLoading] = React.useState(true);
+  const menuRef = React.useRef<SideMenuHandler>(null);
+  return (
+    <div>
+      <div
+        style={{
+          position: "absolute",
+          right: 0,
+          bottom: "0",
+          zIndex: 2000,
+          display: "flex",
+          flexDirection: "column",
+        }}
+      >
+        <button onClick={() => setShowPinned(!showPinned)}>
+          Toggle Pinned
+        </button>
+        <button onClick={() => setLoading(!loading)}>Toggle Loading</button>
+        <button onClick={() => menuRef.current?.focusBoardFilter()}>
+          Focus
+        </button>
+      </div>
+      <div style={{ maxWidth: "500px", backgroundColor: "red" }}>
+        <SideMenu
+          pinnedBoards={[
+            ...PINNED_BOARDS,
+            { ...PINNED_BOARDS[1], updates: 0 },
+            ...PINNED_BOARDS,
+          ]}
+          currentBoardSlug="anime"
+          showPinned={showPinned}
+          ref={menuRef}
+        >
+          <SideMenu.BoardsMenuSection
+            title="recent unreads"
+            icon={faClock}
+            boards={RECENT_BOARDS}
+            emptyTitle="Congratulations!"
+            emptyDescription="You read 'em all."
+          />
+          <SideMenu.BoardsMenuSection
+            title="loading section"
+            icon={faUpload}
+            emptyTitle="Congratulations!"
+            emptyDescription="You read 'em all."
+            loading={loading}
+            placeholdersHeight={5}
+            accentColor="red"
+          />
+          <SideMenu.BoardsMenuSection
+            title="empty section"
+            icon={faTrash}
+            emptyTitle="Congratulations!"
+            emptyDescription="You read 'em all."
+          />
+          <SideMenu.BoardsMenuSection
+            title="all boards"
+            icon={faTh}
+            boards={[...PINNED_BOARDS, ...RECENT_BOARDS, ...SEARCH_BOARDS]}
+            emptyTitle="There's no board here."
+            emptyDescription="Somehow, that feels wrong."
+          />
+        </SideMenu>
+      </div>
+    </div>
+  );
+};
+
+SideMenuPreview.story = {
+  name: "sidemenu",
 };
