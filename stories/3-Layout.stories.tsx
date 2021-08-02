@@ -954,7 +954,6 @@ export const MasonryLayout = () => {
         ]}
       >
         <Layout.ActionButton>
-          {" "}
           <PostingActionButton
             accentColor="#f96680"
             onNewPost={() => console.log("hi!")}

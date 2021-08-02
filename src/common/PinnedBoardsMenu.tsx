@@ -1,3 +1,5 @@
+import { faThumbtack } from "@fortawesome/free-solid-svg-icons";
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import React from "react";
 import { BoardType } from "types";
 
@@ -10,6 +12,9 @@ const PinnedBoardsMenu: React.FC<PinnedBoardsMenuProps> = ({
 }) => {
   return (
     <>
+      <div className="thumbtack">
+        <FontAwesomeIcon icon={faThumbtack} />
+      </div>
       <div className="board-pinned">
         {boards?.map((board, index) => (
           <div className="single-board" key={`single-board-${index}`}>
@@ -47,6 +52,10 @@ const PinnedBoardsMenu: React.FC<PinnedBoardsMenuProps> = ({
         }
         .board-pinned::-webkit-scrollbar {
           display: none;
+        }
+        .thumbtack {
+          text-align: center;
+          padding-top: 15px;
         }
         .pin-icon {
           display: block;

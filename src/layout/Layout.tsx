@@ -3,213 +3,27 @@ import {
   faBars,
   faCompass,
   IconDefinition,
-  faThumbtack,
 } from "@fortawesome/free-solid-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import classnames from "classnames";
-import HighlightedText from "../common/HighlightedText";
 import Theme from "../theme/default";
 import LoadingBar from "../common/LoadingBar";
 import noop from "noop-ts";
-// @ts-ignore
-import type HammerManager from "hammerjs";
 
 import "@bobaboard/boba-editor/dist/main.css";
 
 import "normalize.css";
 
-import debug from "debug";
 import { LinkWithAction } from "types";
 import MenuBar from "./MenuBar";
+import Logo from "./Logo";
+import useSideMenuTransition from "./useSideMenuTransition";
+import BoardTitle from "../board/BoardTitle";
 
-import logo from "../images/logo.svg";
-import compactLogo from "../images/logo-compact.svg";
-import ActionLink from "../common/ActionLink";
-import css from "styled-jsx/css";
+import { CreateBaseCompound, extractCompound } from "../utils/compound-utils";
 
-const log = debug("bobaui:layout-log");
-
-const useSideMenuTransition = (
-  onSideMenuFullyOpen?: () => void
-): {
-  layoutRef: React.RefObject<HTMLDivElement>;
-  contentRef: React.RefObject<HTMLDivElement>;
-  sideMenuRef: React.RefObject<HTMLDivElement>;
-  showSideMenu: boolean;
-  setShowSideMenu: (show: boolean) => void;
-} => {
-  const contentRef = React.useRef<HTMLDivElement>(null);
-  const layoutRef = React.useRef<HTMLDivElement>(null);
-  const sideMenuRef = React.useRef<HTMLDivElement>(null);
-  const swipeHandler = React.useRef<HammerManager>(null);
-
-  const [showSideMenu, setShowSideMenu] = React.useState(false);
-
-  React.useEffect(() => {
-    const Hammer = require("hammerjs") as HammerStatic;
-    if (layoutRef.current && !swipeHandler.current) {
-      // @ts-ignore
-      delete Hammer.defaults.cssProps.userSelect;
-      // @ts-ignore
-      delete Hammer.defaults.cssProps.touchCallout;
-      // @ts-ignore
-      swipeHandler.current = new Hammer(layoutRef.current, {
-        inputClass: Hammer.TouchInput,
-        touchAction: "auto",
-      });
-      swipeHandler.current.get("swipe").set({
-        threshold: 30,
-      });
-      swipeHandler.current.on("swiperight", () => {
-        setShowSideMenu(true);
-      });
-      swipeHandler.current.on("swipeleft", () => {
-        setShowSideMenu(false);
-      });
-    }
-  }, [layoutRef]);
-
-  React.useEffect(() => {
-    log(`${showSideMenu ? "Opening" : "Closing"} side`);
-    const scrollY = document.body.style.top;
-    log(`Current body top position: ${scrollY}`);
-    log(`Current body scrollY: ${window.scrollY}`);
-
-    if (!contentRef.current || !layoutRef.current || !sideMenuRef.current) {
-      return;
-    }
-    log(`Current sideMenu scrollY: ${sideMenuRef.current.offsetWidth}`);
-    log(`Current sideMenu scrollY: ${sideMenuRef.current.clientWidth}`);
-    log(`Show side menu? ${showSideMenu ? "true" : "false"}`);
-
-    if (!showSideMenu) {
-      if (layoutRef.current.style.overflow == "hidden") {
-        sideMenuRef.current.classList.remove("opened");
-        sideMenuRef.current.classList.add("closing");
-      } else {
-        sideMenuRef.current.classList.add("closed");
-      }
-      return;
-    }
-    sideMenuRef.current.classList.add("opening");
-    sideMenuRef.current.classList.remove("closed");
-    // NOTE: body doesn't respect overflow hidden on mobile, so we
-    // move it to layout
-    document.body.style.overflow = "hidden";
-    layoutRef.current.style.overflow = "hidden";
-    contentRef.current.style.overflow = "hidden";
-    // This will be triggered when the animation for either
-    // closing the sidemenu ends.
-    // We attach it when we get the first request for showing
-    // the sidemenu, and then reattach it only once that
-    // transition is finished.
-    const transitionEndListener = (e: TransitionEvent) => {
-      log(`Animation finished...`);
-      if (e.propertyName !== "transform") {
-        // We only listen to this on transform or it might fire multiple
-        // times for the same transition, which makes the logic not work.
-        // This is because we're relying on ".opening" as a condition, since
-        // we don't want to deal with parsing the CSS transform property.
-        return;
-      }
-      if (
-        !contentRef.current ||
-        !layoutRef.current ||
-        !sideMenuRef.current ||
-        sideMenuRef.current.classList.contains("opening")
-      ) {
-        // The menu is open (or the refs are not available).
-        // This means that we're still waiting for the menu to
-        // close so we can remove all styles from the body.
-        sideMenuRef.current?.classList.remove("opening");
-        sideMenuRef.current?.classList.add("opened");
-        onSideMenuFullyOpen?.();
-        return;
-      }
-      sideMenuRef.current.classList.remove("closing");
-      sideMenuRef.current.classList.add("closed");
-
-      log(`...Reactivating!`);
-      sideMenuRef.current?.removeEventListener(
-        "transitionend",
-        transitionEndListener
-      );
-      document.body.style.overflow = "";
-      layoutRef.current.style.overflow = "";
-      contentRef.current.style.overflow = "";
-    };
-    log(`Adding event listener for end of transition...`);
-    sideMenuRef.current.addEventListener(
-      "transitionend",
-      transitionEndListener
-    );
-  }, [showSideMenu, onSideMenuFullyOpen]);
-
-  return { layoutRef, contentRef, sideMenuRef, setShowSideMenu, showSideMenu };
-};
-
-const getLogoStyle = (accentColor?: string) => css.resolve`
-  .logo {
-    position: relative;
-    cursor: pointer;
-    filter: drop-shadow(3px 3px 0px ${accentColor || "transparent"});
-    padding-right: 5px;
-  }
-  .logo > img {
-    height: 100%;
-    z-index: 2;
-    position: relative;
-  }
-  .logo .regular {
-    width: 87px;
-  }
-  .logo .compact {
-    display: none;
-  }
-  @media only screen and (max-width: 950px) {
-    .logo .regular {
-      display: none;
-    }
-    .logo .compact {
-      display: block;
-      width: 35px;
-      height: 40px;
-    }
-  }
-  @media only screen and (max-width: 450px) {
-    .logo {
-      display: none;
-    }
-  }
-`;
-
-const { className: titleClassName, styles: titleStyles } = css.resolve`
-  .title {
-    margin: 0px 35px;
-    margin-left: 25px;
-    color: white;
-    font-size: 24px;
-    font-weight: bold;
-    cursor: pointer;
-    text-decoration: none;
-    min-width: 0;
-  }
-  .title.desktop-hidden {
-    display: none;
-  }
-  @media only screen and (max-width: ${Theme.MOBILE_WIDTH_TRIGGER_PX}px) {
-    .title.desktop-hidden {
-      display: block;
-    }
-  }
-
-  @media only screen and (max-width: 450px) {
-    .title {
-      text-align: center;
-      flex-grow: 1;
-    }
-  }
-`;
+// import debug from "debug";
+// const log = debug("bobaui:layout-log");
 
 const MemoizedMenuBar = React.memo(MenuBar);
 
@@ -217,30 +31,10 @@ export interface LayoutHandler {
   closeSideMenu: () => void;
 }
 
-function extractCompound<T extends React.ReactNode>(
-  children: React.ReactNode,
-  CompoundType: T
-): T {
-  return React.Children.toArray(children).find(
-    (node) => React.isValidElement(node) && node.type == CompoundType
-  ) as T;
-}
-
-const MainContent = ({ children }: { children: React.ReactChildren }) => {
-  return <>{children}</>;
-};
-const PinnedMenuContent = ({ children }: { children: React.ReactChildren }) => {
-  return <>{children}</>;
-};
-const SideMenuContent = ({ children }: { children: React.ReactChildren }) => {
-  return <>{children}</>;
-};
-const SidebarContent = ({ children }: { children: React.ReactChildren }) => {
-  return <>{children}</>;
-};
-const ActionButton = ({ children }: { children: React.ReactChildren }) => {
-  return <>{children}</>;
-};
+const MainContent = CreateBaseCompound("MainContent");
+const PinnedMenuContent = CreateBaseCompound("PinnedMenuContent");
+const SideMenuContent = CreateBaseCompound("SideMenuContent");
+const ActionButton = CreateBaseCompound("ActionButton");
 export interface LayoutCompoundComponent
   extends React.ForwardRefExoticComponent<
     LayoutProps & React.RefAttributes<LayoutHandler>
@@ -248,7 +42,6 @@ export interface LayoutCompoundComponent
   MainContent: React.FC<any>;
   PinnedMenuContent: React.FC<any>;
   SideMenuContent: React.FC<any>;
-  SidebarContent: React.FC<any>;
   ActionButton: React.FC<any>;
 }
 
@@ -290,8 +83,6 @@ const Layout = React.forwardRef<LayoutHandler, LayoutProps>(
       setShowSideMenu,
       showSideMenu,
     } = useSideMenuTransition(onSideMenuFullyOpen);
-    const { className: logoClassName, styles: logoStyles } =
-      getLogoStyle(headerAccent);
 
     React.useImperativeHandle(ref, () => ({
       closeSideMenu: () => {
@@ -348,12 +139,7 @@ const Layout = React.forwardRef<LayoutHandler, LayoutProps>(
               </button>
             </div>
             <div className="menus-container">
-              <div className="pinned-boards">
-                <div className="thumbtack">
-                  <FontAwesomeIcon icon={faThumbtack} />
-                </div>
-                {pinnedMenuContent}
-              </div>
+              <div className="pinned-boards">{pinnedMenuContent}</div>
               <div
                 className={classnames("side-menu", { visible: showSideMenu })}
                 ref={sideMenuRef}
@@ -369,29 +155,13 @@ const Layout = React.forwardRef<LayoutHandler, LayoutProps>(
             })}
           >
             <header ref={headerRef}>
-              <ActionLink className={`${logoClassName} logo`} link={logoLink}>
-                <img
-                  alt="logo"
-                  src={logo}
-                  className={`${logoClassName} regular`}
-                />
-                <img
-                  alt="logo"
-                  src={compactLogo}
-                  className={`${logoClassName} compact`}
-                />
-              </ActionLink>
-              {title && (
-                <ActionLink
+              <Logo accentColor={headerAccent} link={logoLink} />
+              {title && !forceHideTitle && (
+                <BoardTitle
+                  accentColor={headerAccent}
+                  title={title}
                   link={titleLink}
-                  className={classnames([titleClassName, "title"], {
-                    "desktop-hidden": forceHideTitle,
-                  })}
-                >
-                  <HighlightedText highlightColor={headerAccent || "#fffff"}>
-                    <span className="title-text">{title}</span>
-                  </HighlightedText>
-                </ActionLink>
+                />
               )}
               <div
                 className={classnames("header-menu-bar", {
@@ -530,10 +300,6 @@ const Layout = React.forwardRef<LayoutHandler, LayoutProps>(
               color: white;
               min-height: 100vh;
               height: 100%;
-            }
-            .thumbtack {
-              text-align: center;
-              padding-top: 15px;
             }
             .pinned-boards {
               background-color: ${Theme.LAYOUT_HEADER_BACKGROUND_COLOR};
@@ -763,8 +529,6 @@ const Layout = React.forwardRef<LayoutHandler, LayoutProps>(
               }
             }
           `}</style>
-          {titleStyles}
-          {logoStyles}
         </div>
       </div>
     );
@@ -805,7 +569,6 @@ export interface LayoutProps {
 Layout.MainContent = MainContent;
 Layout.PinnedMenuContent = PinnedMenuContent;
 Layout.SideMenuContent = SideMenuContent;
-Layout.SidebarContent = SidebarContent;
 Layout.ActionButton = ActionButton;
 
 export default Layout;
