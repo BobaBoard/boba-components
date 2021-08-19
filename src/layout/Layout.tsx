@@ -156,11 +156,12 @@ const Layout = React.forwardRef<LayoutHandler, LayoutProps>(
           >
             <header ref={headerRef}>
               <Logo accentColor={headerAccent} link={logoLink} />
-              {title && !forceHideTitle && (
+              {title && (
                 <BoardTitle
                   accentColor={headerAccent}
                   title={title}
                   link={titleLink}
+                  hideOnDesktop={forceHideTitle}
                 />
               )}
               <div

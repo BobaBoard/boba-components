@@ -124,8 +124,7 @@ const BoardsMenuSection: React.FC<BoardsMenuSectionProps> = ({
           display: block;
         }
         .boardSection-board-items.hidden {
-          visibility: hidden;
-          display: block;
+          display: none;
           max-width: 0px;
         }
         .boardSection-display {

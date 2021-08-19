@@ -39,13 +39,16 @@ interface BoardTitleProps {
   accentColor?: string;
   title?: string;
   link?: LinkWithAction;
+  hideOnDesktop?: boolean;
 }
 
 export default function BoardTitle(props: BoardTitleProps) {
   return (
     <ActionLink
       link={props.link}
-      className={classnames([titleClassName, "title"])}
+      className={classnames([titleClassName, "title"], {
+        "desktop-hidden": props.hideOnDesktop,
+      })}
     >
       <HighlightedText highlightColor={props.accentColor || "#fffff"}>
         <span className="title-text">{props.title}</span>
