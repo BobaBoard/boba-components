@@ -215,11 +215,6 @@ const Layout = React.forwardRef<LayoutHandler, LayoutProps>(
             .layout-body.side-menu-open .content {
               flex-shrink: 0;
             }
-            .sidemenu-button.menu {
-              margin-left: -3px;
-              margin-right: -3px;
-              font-size: 22px;
-            }
             .content {
               flex-grow: 1;
             }
