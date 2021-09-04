@@ -6,7 +6,7 @@ import classnames from "classnames";
 import IconButton from "./IconButton";
 import { LinkWithAction } from "types";
 
-interface SidebarProps {
+interface QuickAccessBarProps {
   hasNotifications: boolean;
   hasOutdatedNotifications: boolean;
   sideMenuOpen: boolean;
@@ -17,7 +17,10 @@ interface SidebarProps {
   sideMenuContent: React.ReactNode;
 }
 
-const Sidebar: React.ForwardRefRenderFunction<HTMLDivElement, SidebarProps> = (
+const QuickAccessBar: React.ForwardRefRenderFunction<
+  HTMLDivElement,
+  QuickAccessBarProps
+> = (
   {
     hasNotifications,
     hasOutdatedNotifications,
@@ -191,4 +194,4 @@ const Sidebar: React.ForwardRefRenderFunction<HTMLDivElement, SidebarProps> = (
   );
 };
 
-export default React.forwardRef(Sidebar);
+export default React.forwardRef(QuickAccessBar);

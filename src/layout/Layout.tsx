@@ -13,7 +13,7 @@ import { LinkWithAction } from "types";
 import MenuBar from "./MenuBar";
 import useSideMenuTransition from "./useSideMenuTransition";
 import Header from "./Header";
-import Sidebar from "./Sidebar";
+import QuickAccessBar from "./QuickAccessBar";
 
 import { CreateBaseCompound, extractCompound } from "../utils/compound-utils";
 
@@ -127,7 +127,7 @@ const Layout = React.forwardRef<LayoutHandler, LayoutProps>(
       <div ref={layoutRef}>
         <LoadingBar loading={loading} accentColor={headerAccent} />
         <div className="layout">
-          <Sidebar
+          <QuickAccessBar
             hasNotifications={!!hasNotifications}
             hasOutdatedNotifications={!!hasOutdatedNotifications}
             sideMenuOpen={showSideMenu}

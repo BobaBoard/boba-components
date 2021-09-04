@@ -8,7 +8,7 @@ require("intersection-observer");
 import BoardSidebar from "./board/BoardSidebar";
 import BoardsDisplay from "./board/BoardsDisplay";
 import SideMenu from "./layout/SideMenu";
-import FeedWithMenu from "./layout/FeedWithMenu";
+import FeedWithMenu from "./feeds/FeedWithMenu";
 import Button, { ButtonStyle } from "./common/Button";
 import Input, { InputStyle } from "./common/Input";
 import ToastContainer, { toast } from "./common/Toast";
@@ -32,7 +32,7 @@ import CustomCursor from "./layout/CustomCursor";
 import { useCompact } from "./utils";
 import DefaultTheme from "./theme/default";
 import TagsFilterSection from "./board/TagsFilterSection";
-import MasonryView from "./layout/MasonryView";
+import MasonryView from "./feeds/MasonryView";
 import PostQuote from "./post/PostQuote";
 import UserDetails from "./user/UserDetails";
 import BobaDex from "./user/BobaDex";
@@ -48,8 +48,9 @@ import flush from "styled-jsx/server";
 interface ImageUploaderContextProps {
   onImageUploadRequest: (imgUrl: string) => Promise<string>;
 }
-const ImageUploaderContext =
-  React.createContext<ImageUploaderContextProps | null>(null);
+const ImageUploaderContext = React.createContext<ImageUploaderContextProps | null>(
+  null
+);
 
 export {
   Layout,

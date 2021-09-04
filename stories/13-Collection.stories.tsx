@@ -1,7 +1,7 @@
 import React from "react";
 
 import Layout from "../src/layout/Layout";
-import FeedWithMenu from "../src/layout/FeedWithMenu";
+import FeedWithMenu from "../src/feeds/FeedWithMenu";
 import PostingActionButton from "../src/board/PostingActionButton";
 import Post from "../src/post/Post";
 import Tag from "../src/tags/Tag";
