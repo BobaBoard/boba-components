@@ -4,6 +4,7 @@ import { LinkWithAction } from "../types";
 const ActionLink: React.FC<ActionLinkProps> = ({
   children,
   link,
+  label,
   className,
   allowDefault,
 }) => {
@@ -31,7 +32,7 @@ const ActionLink: React.FC<ActionLinkProps> = ({
       <button
         className={className}
         onClick={preventDefaultCallback}
-        aria-label={link?.label}
+        aria-label={link?.label ?? label}
       >
         {children}
         <style jsx>{`
@@ -71,6 +72,7 @@ interface ActionLinkProps {
   link?: LinkWithAction<unknown>;
   className?: string;
   allowDefault?: boolean;
+  label?: string;
 }
 
 export default ActionLink;
