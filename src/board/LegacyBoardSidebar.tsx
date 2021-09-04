@@ -3,7 +3,7 @@ import React from "react";
 import BoardPreview from "./BoardPreview";
 import Tag from "../tags/Tag";
 import { LinkWithAction } from "types";
-import Button, { ButtonStyle } from "../common/Button";
+import Button, { ButtonStyle } from "../buttons/Button";
 import DropdownMenu, { DropdownStyle } from "../common/DropdownListMenu";
 import { faCaretDown } from "@fortawesome/free-solid-svg-icons";
 import classnames from "classnames";

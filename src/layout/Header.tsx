@@ -4,7 +4,7 @@ import classnames from "classnames";
 import Theme from "../theme/default";
 
 import Logo from "./Logo";
-import IconButton from "./IconButton";
+import IconButton from "../buttons/IconButton";
 import BoardTitle from "../board/BoardTitle";
 import { LinkWithAction } from "../types";
 

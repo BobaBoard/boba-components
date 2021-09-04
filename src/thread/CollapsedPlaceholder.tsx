@@ -3,7 +3,7 @@ import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faAngleDown, faAngleUp } from "@fortawesome/free-solid-svg-icons";
 import DefaultTheme from "../theme/default";
 import { lightenColor } from "../utils";
-import ActionLink from "../common/ActionLink";
+import ActionLink from "../buttons/ActionLink";
 import classnames from "classnames";
 import css from "styled-jsx/css";
 import { LinkWithAction } from "types";

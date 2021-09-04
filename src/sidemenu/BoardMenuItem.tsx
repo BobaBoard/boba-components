@@ -7,7 +7,7 @@ import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faMapMarkerAlt } from "@fortawesome/free-solid-svg-icons";
 import css from "styled-jsx/css";
 import Color from "color";
-import ActionLink from "../common/ActionLink";
+import ActionLink from "../buttons/ActionLink";
 import DefaultTheme from "../theme/default";
 
 const { className: containerClassname, styles: containerStyles } = css.resolve`

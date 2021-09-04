@@ -3,7 +3,7 @@ import React from "react";
 import Theme from "../theme/default";
 import { faBars } from "@fortawesome/free-solid-svg-icons";
 import classnames from "classnames";
-import IconButton from "./IconButton";
+import IconButton from "../buttons/IconButton";
 import { LinkWithAction } from "types";
 
 interface QuickAccessBarProps {

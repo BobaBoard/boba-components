@@ -1,7 +1,7 @@
 import React from "react";
 
 import HighlightedText from "../common/HighlightedText";
-import ActionLink from "../common/ActionLink";
+import ActionLink from "../buttons/ActionLink";
 import css from "styled-jsx/css";
 import classnames from "classnames";
 import { LinkWithAction } from "types";

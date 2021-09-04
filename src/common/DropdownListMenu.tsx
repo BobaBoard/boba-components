@@ -13,7 +13,7 @@ import {
   faChevronLeft,
   faChevronRight,
 } from "@fortawesome/free-solid-svg-icons";
-import ActionLink from "./ActionLink";
+import ActionLink from "../buttons/ActionLink";
 import css from "styled-jsx/css";
 
 const { className: buttonClass, styles: buttonStyles } = css.resolve`

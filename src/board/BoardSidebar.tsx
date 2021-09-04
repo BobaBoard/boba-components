@@ -2,7 +2,7 @@ import React from "react";
 
 import BoardPreview from "./BoardPreview";
 import { BoardMetadataType, DescriptionType } from "types";
-import Button, { ButtonStyle } from "../common/Button";
+import Button, { ButtonStyle } from "../buttons/Button";
 import ColorInput from "../common/ColorInput";
 import DropdownMenu, {
   DropdownProps,

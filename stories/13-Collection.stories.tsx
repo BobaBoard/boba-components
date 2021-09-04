@@ -11,7 +11,7 @@ import Editor from "@bobaboard/boba-editor";
 import tuxedoAvatar from "./images/tuxedo-mask.jpg";
 import mamoruAvatar from "./images/mamoru.png";
 
-import Button, { ButtonStyle } from "../src/common/Button";
+import Button, { ButtonStyle } from "../src/buttons/Button";
 
 export default {
   title: "Collections Preview",

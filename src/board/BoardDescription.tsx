@@ -2,7 +2,7 @@ import React from "react";
 
 import TextSection from "./TextSection";
 import TagsFilterSection from "./TagsFilterSection";
-import Button, { ButtonStyle } from "../common/Button";
+import Button, { ButtonStyle } from "../buttons/Button";
 import { faFont, faPlus, faTags } from "@fortawesome/free-solid-svg-icons";
 
 import classnames from "classnames";

@@ -22,7 +22,7 @@ import scarf from "./images/scarf.png";
 import snow from "./images/snow.gif";
 import crown from "./images/crown.png";
 import wreath from "./images/wreath.png";
-import Button from "../src/common/Button";
+import Button from "../src/buttons/Button";
 import { action } from "@storybook/addon-actions";
 
 export default {
@@ -365,7 +365,8 @@ NonEditable.story = {
 
 NonEditable.args = {
   createdTime: "2019/05/14 at 7:34pm",
-  text: '[{"insert":"Open RP"},{"attributes":{"header":1},"insert":"\\n"},{"insert":{"block-image":"https://cdn.discordapp.com/attachments/443967088118333442/691486081895628830/unknown.png"}}, {"attributes":{"italic":true},"insert":"You have my sword..."}]',
+  text:
+    '[{"insert":"Open RP"},{"attributes":{"header":1},"insert":"\\n"},{"insert":{"block-image":"https://cdn.discordapp.com/attachments/443967088118333442/691486081895628830/unknown.png"}}, {"attributes":{"italic":true},"insert":"You have my sword..."}]',
   secretIdentity: { name: "Tuxedo Mask", avatar: `/${tuxedoAvatar}` },
   userIdentity: { name: "SexyDaddy69", avatar: `/${mamoruAvatar}` },
   onNewContribution: () => action("newContribution"),
@@ -531,8 +532,9 @@ SwitchIdentityPost.story = {
 };
 
 export const AccessoryPost = () => {
-  const [currentAccessory, setCurrentAccessory] =
-    React.useState<string | undefined>(reindeerEars);
+  const [currentAccessory, setCurrentAccessory] = React.useState<
+    string | undefined
+  >(reindeerEars);
   return (
     <div>
       <button onClick={() => setCurrentAccessory(undefined)}>None</button>
@@ -545,7 +547,8 @@ export const AccessoryPost = () => {
       <Post
         {...BoardPost.args}
         secretIdentity={{
-          name: "Tuxedo Mask askldjaksldjaskld askdjaskldjaskldjas daskjdaklsdjaklsdj askdjaskldjaklsdjaskld askdj kasjdaklsdjaklsdjaskldjslk",
+          name:
+            "Tuxedo Mask askldjaksldjaskld askdjaskldjaskldjas daskjdaklsdjaklsdj askdjaskldjaklsdjaskld askdj kasjdaklsdjaklsdjaskldjslk",
           avatar: `/${tuxedoAvatar}`,
           accessory: currentAccessory,
         }}

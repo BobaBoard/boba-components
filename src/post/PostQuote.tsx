@@ -2,7 +2,7 @@ import React from "react";
 import Editor from "@bobaboard/boba-editor";
 import Theme from "../theme/default";
 import Avatar from "./Avatar";
-import ActionLink from "../common/ActionLink";
+import ActionLink from "../buttons/ActionLink";
 import { LinkWithAction, SecretIdentityType } from "types";
 import css from "styled-jsx/css";
 

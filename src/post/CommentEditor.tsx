@@ -2,7 +2,7 @@ import React from "react";
 import classNames from "classnames";
 import Editor from "@bobaboard/boba-editor";
 import Header, { HeaderStyle, PostHeaderProps } from "./Header";
-import Button from "../common/Button";
+import Button from "../buttons/Button";
 import { faCross, faCheck } from "@fortawesome/free-solid-svg-icons";
 import useDimensions from "react-cool-dimensions";
 import Spinner from "../common/Spinner";

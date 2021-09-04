@@ -1,6 +1,6 @@
 import React from "react";
 
-import ActionLink from "../common/ActionLink";
+import ActionLink from "./ActionLink";
 import Theme from "../theme/default";
 
 import { IconDefinition } from "@fortawesome/free-solid-svg-icons";

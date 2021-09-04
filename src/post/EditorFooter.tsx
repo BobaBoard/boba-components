@@ -1,6 +1,6 @@
 import React from "react";
 
-import Button from "../common/Button";
+import Button from "../buttons/Button";
 import classNames from "classnames";
 import { faCross, faCheck } from "@fortawesome/free-solid-svg-icons";
 

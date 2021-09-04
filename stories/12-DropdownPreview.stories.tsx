@@ -1,7 +1,7 @@
 import React from "react";
 import DropdownListMenu from "../src/common/DropdownListMenu";
-import PopupButtons from "../src/common/PopupButtons";
-import Button from "../src/common/Button";
+import PopupButtons from "../src/buttons/PopupButtons";
+import Button from "../src/buttons/Button";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import {
   faCaretDown,

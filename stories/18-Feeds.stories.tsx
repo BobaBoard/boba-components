@@ -5,7 +5,7 @@ import FeedWithMenu from "../src/feeds/FeedWithMenu";
 import PostingActionButton from "../src/board/PostingActionButton";
 import CycleNewButton from "../src/board/CycleNewButton";
 import BoardSidebar from "../src/board/LegacyBoardSidebar";
-import Button from "../src/common/Button";
+import Button from "../src/buttons/Button";
 import Post from "../src/post/Post";
 import MasonryView from "../src/feeds/MasonryView";
 import { useStateWithCallbackLazy } from "use-state-with-callback";
