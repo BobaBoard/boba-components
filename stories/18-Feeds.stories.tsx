@@ -1,6 +1,6 @@
 import React from "react";
 import Layout from "../src/layout/Layout";
-import SideMenu from "../src/layout/SideMenu";
+import SideMenu from "../src/sidemenu/SideMenu";
 import FeedWithMenu from "../src/feeds/FeedWithMenu";
 import PostingActionButton from "../src/board/PostingActionButton";
 import CycleNewButton from "../src/board/CycleNewButton";
@@ -44,7 +44,7 @@ import sparkle from "./images/sparkle.gif";
 import wand from "./images/sailor_wand.png";
 
 import debug from "debug";
-import PinnedBoardsMenu from "../src/common/PinnedBoardsMenu";
+import PinnedBoardsMenu from "../src/sidemenu/PinnedBoardsMenu";
 const log = debug("bobaui:stories:layout-log");
 
 const PINNED_BOARDS = [

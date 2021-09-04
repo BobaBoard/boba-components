@@ -1,5 +1,5 @@
 import React from "react";
-import SideMenu, { SideMenuHandler } from "../src/layout/SideMenu";
+import SideMenu, { SideMenuHandler } from "../src/sidemenu/SideMenu";
 
 import {
   faClock,

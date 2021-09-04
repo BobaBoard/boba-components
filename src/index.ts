@@ -7,13 +7,13 @@ require("intersection-observer");
 
 import BoardSidebar from "./board/BoardSidebar";
 import BoardsDisplay from "./board/BoardsDisplay";
-import SideMenu from "./layout/SideMenu";
+import SideMenu from "./sidemenu/SideMenu";
 import FeedWithMenu from "./feeds/FeedWithMenu";
 import Button, { ButtonStyle } from "./common/Button";
 import Input, { InputStyle } from "./common/Input";
 import ToastContainer, { toast } from "./common/Toast";
 import Modal from "./common/Modal";
-import PinnedBoardsMenu from "./common/PinnedBoardsMenu";
+import PinnedBoardsMenu from "./sidemenu/PinnedBoardsMenu";
 import ModalWithButtons from "./common/ModalWithButtons";
 import PostEditor from "./post/PostEditor";
 import Post from "./post/Post";
@@ -100,7 +100,7 @@ export {
 import type { TagsType } from "./types";
 import type { PostHandler } from "./post/Post";
 import type { CommentHandler } from "./post/Comment";
-import type { SideMenuHandler } from "./layout/SideMenu";
+import type { SideMenuHandler } from "./sidemenu/SideMenu";
 import type { SettingType } from "./layout/SettingsContainer";
 export type {
   TagsType,

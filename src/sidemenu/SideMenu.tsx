@@ -3,10 +3,8 @@ import { BoardType } from "types";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faEllipsisV, faSearch } from "@fortawesome/free-solid-svg-icons";
 
-import PinnedBoardsMenu from "../common/PinnedBoardsMenu";
-import BoardsMenuSection, {
-  BoardsMenuSectionProps,
-} from "../board/BoardsMenuSection";
+import PinnedBoardsMenu from "./PinnedBoardsMenu";
+import BoardsMenuSection, { BoardsMenuSectionProps } from "./BoardsMenuSection";
 import DropdownMenu, {
   DropdownProps,
   DropdownStyle,
@@ -95,8 +93,7 @@ const SideMenu = React.forwardRef<SideMenuHandler, SideMenuProps>(
                     "SideMenu only accepts BoardsMenuSections as children"
                   );
                 }
-                const menuSection: React.ReactElement<BoardsMenuSectionProps> =
-                  child;
+                const menuSection: React.ReactElement<BoardsMenuSectionProps> = child;
                 return React.cloneElement<BoardsMenuSectionProps>(menuSection, {
                   key: menuSection.props.title,
                   currentBoardSlug,
