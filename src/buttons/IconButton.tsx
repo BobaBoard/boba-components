@@ -3,13 +3,12 @@ import React from "react";
 import ActionLink from "./ActionLink";
 import Theme from "../theme/default";
 
-import { IconDefinition } from "@fortawesome/free-solid-svg-icons";
-import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { LinkWithAction } from "../types";
 import classnames from "classnames";
+import Icon, { IconProps } from "../common/Icon";
 
 interface IconButtonProps {
-  icon: IconDefinition;
+  icon: IconProps["icon"];
   label?: string;
   link?: LinkWithAction;
   dotColor?: string;
@@ -23,7 +22,7 @@ const IconButton: React.FC<IconButtonProps> = (props) => {
           "has-dot": !!props.dotColor,
         })}
       >
-        <FontAwesomeIcon icon={props.icon} />
+        <Icon icon={props.icon} />
       </div>
       <style jsx>{`
         .sidemenu-button.notification::after {
