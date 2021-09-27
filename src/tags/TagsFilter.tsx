@@ -2,13 +2,13 @@ import React from "react";
 
 import classnames from "classnames";
 import Input, { InputStyle } from "../common/Input";
-import Button from "../common/Button";
+import Button from "../buttons/Button";
 
 import debug from "debug";
 import TagsFactory, { getDataForTagType } from "./TagsFactory";
 import Tag from "../tags/Tag";
 import { TagType } from "../types";
-import { ButtonStyle } from "../common/Button";
+import { ButtonStyle } from "../buttons/Button";
 import { faPlus } from "@fortawesome/free-solid-svg-icons";
 // @ts-ignore
 const log = debug("bobaui:common:TagsFilter");

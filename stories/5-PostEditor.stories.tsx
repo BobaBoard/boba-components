@@ -3,7 +3,7 @@ import React from "react";
 import PostEditor from "../src/post/PostEditor";
 import { ImageUploaderContext, EditorContext } from "../src/index";
 import Modal from "../src/common/Modal";
-import Button from "../src/common/Button";
+import Button from "../src/buttons/Button";
 
 import tuxedoAvatar from "./images/tuxedo-mask.jpg";
 import mamoruAvatar from "./images/mamoru.png";

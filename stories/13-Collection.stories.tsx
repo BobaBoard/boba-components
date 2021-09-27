@@ -1,7 +1,7 @@
 import React from "react";
 
 import Layout from "../src/layout/Layout";
-import FeedWithMenu from "../src/layout/FeedWithMenu";
+import FeedWithMenu from "../src/feeds/FeedWithMenu";
 import PostingActionButton from "../src/board/PostingActionButton";
 import Post from "../src/post/Post";
 import Tag from "../src/tags/Tag";
@@ -11,7 +11,7 @@ import Editor from "@bobaboard/boba-editor";
 import tuxedoAvatar from "./images/tuxedo-mask.jpg";
 import mamoruAvatar from "./images/mamoru.png";
 
-import Button, { ButtonStyle } from "../src/common/Button";
+import Button, { ButtonStyle } from "../src/buttons/Button";
 
 export default {
   title: "Collections Preview",

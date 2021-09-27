@@ -10,7 +10,7 @@ import Editor from "@bobaboard/boba-editor";
 import { prepareContentSubmission } from "../utils";
 import { useHotkeys } from "react-hotkeys-hook";
 
-import Button from "../common/Button";
+import Button from "../buttons/Button";
 import {
   faCompressArrowsAlt,
   faCaretDown,

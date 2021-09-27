@@ -56,6 +56,7 @@ const PinnedBoardsMenu: React.FC<PinnedBoardsMenuProps> = ({
         .thumbtack {
           text-align: center;
           padding-top: 15px;
+          color: white;
         }
         .pin-icon {
           display: block;

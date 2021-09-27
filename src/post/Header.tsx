@@ -14,7 +14,7 @@ import {
 import Avatar from "./Avatar";
 import DefaultTheme from "../theme/default";
 import DropdownListMenu, { DropdownProps } from "../common/DropdownListMenu";
-import ActionLink from "../common/ActionLink";
+import ActionLink from "../buttons/ActionLink";
 import css from "styled-jsx/css";
 import questionMark from "../images/question_mark.png";
 //const log = debug("bobaui:header-log");

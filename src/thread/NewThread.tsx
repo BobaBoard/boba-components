@@ -4,7 +4,7 @@ import Theme from "../theme/default";
 import CollapsedPlaceholder from "./CollapsedPlaceholder";
 import classnames from "classnames";
 import { lightenColor } from "../utils";
-import PopupButtons, { PopupButtonsProps } from "../common/PopupButtons";
+import PopupButtons, { PopupButtonsProps } from "../buttons/PopupButtons";
 
 import debug from "debug";
 const info = debug("bobaui:NewThread-info");

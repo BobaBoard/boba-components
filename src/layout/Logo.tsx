@@ -1,6 +1,6 @@
 import React from "react";
 
-import ActionLink from "../common/ActionLink";
+import ActionLink from "../buttons/ActionLink";
 import logo from "../images/logo.svg";
 import compactLogo from "../images/logo-compact.svg";
 import { LinkWithAction } from "../types";

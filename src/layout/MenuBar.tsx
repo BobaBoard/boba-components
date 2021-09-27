@@ -10,7 +10,7 @@ import {
 import { LinkWithAction } from "types";
 import classnames from "classnames";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import ActionLink from "../common/ActionLink";
+import ActionLink from "../buttons/ActionLink";
 import css from "styled-jsx/css";
 import DefaultTheme from "../theme/default";
 

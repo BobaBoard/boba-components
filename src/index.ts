@@ -7,13 +7,13 @@ require("intersection-observer");
 
 import BoardSidebar from "./board/BoardSidebar";
 import BoardsDisplay from "./board/BoardsDisplay";
-import SideMenu from "./layout/SideMenu";
-import FeedWithMenu from "./layout/FeedWithMenu";
-import Button, { ButtonStyle } from "./common/Button";
+import SideMenu from "./sidemenu/SideMenu";
+import FeedWithMenu from "./feeds/FeedWithMenu";
+import Button, { ButtonStyle } from "./buttons/Button";
 import Input, { InputStyle } from "./common/Input";
 import ToastContainer, { toast } from "./common/Toast";
 import Modal from "./common/Modal";
-import PinnedBoardsMenu from "./common/PinnedBoardsMenu";
+import PinnedBoardsMenu from "./sidemenu/PinnedBoardsMenu";
 import ModalWithButtons from "./common/ModalWithButtons";
 import PostEditor from "./post/PostEditor";
 import Post from "./post/Post";
@@ -32,13 +32,13 @@ import CustomCursor from "./layout/CustomCursor";
 import { useCompact } from "./utils";
 import DefaultTheme from "./theme/default";
 import TagsFilterSection from "./board/TagsFilterSection";
-import MasonryView from "./layout/MasonryView";
+import MasonryView from "./feeds/MasonryView";
 import PostQuote from "./post/PostQuote";
 import UserDetails from "./user/UserDetails";
 import BobaDex from "./user/BobaDex";
 import { TagType } from "./types";
 import { EditorContext } from "@bobaboard/boba-editor";
-import SegmentedButton from "./common/SegmentedButton";
+import SegmentedButton from "./buttons/SegmentedButton";
 import LoadingBar from "./common/LoadingBar";
 import SettingsContainer from "./layout/SettingsContainer";
 import TabsGroup from "./layout/TabsGroup";
@@ -48,8 +48,9 @@ import flush from "styled-jsx/server";
 interface ImageUploaderContextProps {
   onImageUploadRequest: (imgUrl: string) => Promise<string>;
 }
-const ImageUploaderContext =
-  React.createContext<ImageUploaderContextProps | null>(null);
+const ImageUploaderContext = React.createContext<ImageUploaderContextProps | null>(
+  null
+);
 
 export {
   Layout,
@@ -99,7 +100,7 @@ export {
 import type { TagsType } from "./types";
 import type { PostHandler } from "./post/Post";
 import type { CommentHandler } from "./post/Comment";
-import type { SideMenuHandler } from "./layout/SideMenu";
+import type { SideMenuHandler } from "./sidemenu/SideMenu";
 import type { SettingType } from "./layout/SettingsContainer";
 export type {
   TagsType,

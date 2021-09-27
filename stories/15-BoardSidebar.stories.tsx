@@ -5,7 +5,7 @@ import LegacyBoardSidebar from "../src/board/LegacyBoardSidebar";
 import TextSection from "../src/board/TextSection";
 import TagsFilterSection from "../src/board/TagsFilterSection";
 import BoardDescription from "../src/board/BoardDescription";
-import Button from "../src/common/Button";
+import Button from "../src/buttons/Button";
 
 import goreBackground from "./images/gore.png";
 

@@ -3,7 +3,7 @@ import DefaultTheme from "../theme/default";
 import Icon, { IconProps } from "../common/Icon";
 import { LinkWithAction } from "types";
 import classNames from "classnames";
-import ActionLink from "../common/ActionLink";
+import ActionLink from "../buttons/ActionLink";
 
 interface CompoundComponents {
   Option: React.FC<{

@@ -2,7 +2,7 @@ import React from "react";
 
 import classnames from "classnames";
 import Input, { InputStyle } from "../common/Input";
-import Button from "../common/Button";
+import Button from "../buttons/Button";
 
 import debug from "debug";
 import TagsFilter, { FilteredTagsState } from "../tags/TagsFilter";

@@ -1,6 +1,6 @@
 import React from "react";
 import Modal from "./Modal";
-import Button, { ButtonStyle } from "./Button";
+import Button, { ButtonStyle } from "../buttons/Button";
 import classnames from "classnames";
 
 const ModalWithButtons: React.FC<ModalWithButtonsProps> = (props) => {

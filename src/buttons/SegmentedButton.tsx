@@ -1,6 +1,10 @@
 import React from "react";
-import { ButtonStyle, getThemeColor, getReverseThemeColor } from "./Button";
-import ActionLink from "./ActionLink";
+import {
+  ButtonStyle,
+  getThemeColor,
+  getReverseThemeColor,
+} from "../buttons/Button";
+import ActionLink from "../buttons/ActionLink";
 import { LinkWithAction } from "../types";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faCertificate } from "@fortawesome/free-solid-svg-icons";

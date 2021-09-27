@@ -1,5 +1,5 @@
 import React from "react";
-import Button, { ButtonStyle } from "../common/Button";
+import Button, { ButtonStyle } from "../buttons/Button";
 import DropdownListMenu, { DropdownStyle } from "../common/DropdownListMenu";
 import { faUser } from "@fortawesome/free-solid-svg-icons";
 import { LinkWithAction } from "types";

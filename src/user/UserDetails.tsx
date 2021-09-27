@@ -2,7 +2,7 @@
 import React from "react";
 
 import Theme from "../theme/default";
-import Button, { ButtonStyle } from "../common/Button";
+import Button, { ButtonStyle } from "../buttons/Button";
 import Input, { InputStyle } from "../common/Input";
 import Cropper from "react-easy-crop";
 import Pica from "pica";

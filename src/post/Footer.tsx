@@ -1,6 +1,6 @@
 import React from "react";
 
-import Button, { ButtonStyle } from "../common/Button";
+import Button, { ButtonStyle } from "../buttons/Button";
 import classnames from "classnames";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 
@@ -9,7 +9,7 @@ import { faComment, faPlusSquare } from "@fortawesome/free-regular-svg-icons";
 import { faCodeBranch } from "@fortawesome/free-solid-svg-icons";
 import { LinkWithAction } from "types";
 import useDimensions from "react-cool-dimensions";
-import ActionLink from "../common/ActionLink";
+import ActionLink from "../buttons/ActionLink";
 import css from "styled-jsx/css";
 
 const COMPACT_FOOTER_TRIGGER_SIZE = 450;

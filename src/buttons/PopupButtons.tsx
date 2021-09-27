@@ -1,9 +1,9 @@
 import React from "react";
 
 import { IconDefinition } from "@fortawesome/fontawesome-common-types";
-import { LinkWithAction } from "types";
+import { LinkWithAction } from "../types";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import ActionLink from "./ActionLink";
+import ActionLink from "../buttons/ActionLink";
 import css from "styled-jsx/css";
 import DefaultTheme from "../theme/default";
 import classnames from "classnames";
@@ -147,7 +147,7 @@ const PopupButtons: React.FC<PopupButtonsProps> = (props) => {
           position: absolute;
           top: 0;
           left: 0;
-          z-index: 100;
+          z-index: 80;
         }
         .center {
            {

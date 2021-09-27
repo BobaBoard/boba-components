@@ -1,5 +1,5 @@
 import React from "react";
-import FloatingActionButton from "../common/FloatingActionButton";
+import FloatingActionButton from "../buttons/FloatingActionButton";
 import { faCertificate, faSpinner } from "@fortawesome/free-solid-svg-icons";
 
 export interface CycleNewButtonProps {
