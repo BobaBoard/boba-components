@@ -13,9 +13,9 @@ export default {
   title: "Button Preview",
   component: Button,
   parameters: {
-    // actions: {
-    //   handles: ["click .option", "click button"],
-    // },
+    actions: {
+      handles: ["click .option", "click button"],
+    },
   },
   decorators: [
     (Story: Story) => (
