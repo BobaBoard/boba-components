@@ -7,7 +7,7 @@ import { LinkWithAction } from "../types";
 import classnames from "classnames";
 import Icon, { IconProps } from "../common/Icon";
 
-interface IconButtonProps {
+export interface IconButtonProps {
   icon: IconProps["icon"];
   label?: string;
   link?: LinkWithAction;

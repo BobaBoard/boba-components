@@ -1,6 +1,5 @@
 import React from "react";
 import DropdownListMenu from "../src/common/DropdownListMenu";
-import PopupButtons from "../src/buttons/PopupButtons";
 import Button from "../src/buttons/Button";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import {
@@ -11,7 +10,6 @@ import {
   faPaintBrush,
 } from "@fortawesome/free-solid-svg-icons";
 import { action } from "@storybook/addon-actions";
-import DefaultTheme from "../src/theme/default";
 
 export default {
   title: "Dropdown Preview",
@@ -282,62 +280,4 @@ export const WithHeader = () => {
 
 WithHeader.story = {
   name: "with header",
-};
-
-export const PopupButtonsStory = () => {
-  const [show, setShow] = React.useState(false);
-  return (
-    <>
-      <button onClick={() => setShow(!show)}>Toggle visibility</button>
-      <PopupButtons
-        onCloseRequest={() => setShow(false)}
-        options={[
-          {
-            name: "Href Only",
-            color: DefaultTheme.INDENT_COLORS[0],
-            icon: faBellSlash,
-            link: {
-              href: "#href",
-            },
-          },
-          {
-            name: "Both",
-            color: DefaultTheme.INDENT_COLORS[1],
-            icon: faPaintBrush,
-            link: {
-              href: "#href",
-              onClick: action("noHrefClick"),
-            },
-          },
-          {
-            name: "Pin board",
-            icon: faMapPin,
-            link: {
-              onClick: action("noHrefClick"),
-            },
-          },
-          {
-            name: "Href Only",
-            color: DefaultTheme.INDENT_COLORS[0],
-            icon: faBellSlash,
-            link: {
-              href: "#href",
-            },
-          },
-          {
-            name: "Both",
-            color: DefaultTheme.INDENT_COLORS[1],
-            icon: faPaintBrush,
-            link: {
-              href: "#href",
-              onClick: action("noHrefClick"),
-            },
-          },
-        ]}
-        show={show}
-        centerTop={"100px"}
-        centerLeft={"100px"}
-      />
-    </>
-  );
 };

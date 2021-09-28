@@ -21,6 +21,7 @@ export interface PopupButtonsProps {
   centerTop: string;
   centerLeft: string;
   defaultColor?: string;
+  container?: React.MutableRefObject<HTMLElement>;
 }
 
 const BUTTONS_SIZE = 35;
@@ -137,6 +138,12 @@ const PopupButtons: React.FC<PopupButtonsProps> = (props) => {
       document.removeEventListener("click", listener);
     };
   }, [show, onCloseRequest]);
+  const [portalContainer, setPortalContainer] = React.useState(
+    props.container?.current || document.body
+  );
+  React.useEffect(() => {
+    setPortalContainer(props.container?.current || document.body);
+  }, [props.container]);
 
   return ReactDOM.createPortal(
     <div className="options-container">
@@ -161,7 +168,7 @@ const PopupButtons: React.FC<PopupButtonsProps> = (props) => {
         }
       `}</style>
     </div>,
-    document.body
+    portalContainer
   );
 };
 
