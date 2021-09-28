@@ -1,13 +1,11 @@
-import "@trendmicro/react-buttons/dist/react-buttons.css";
+import React from "react";
+
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import { IconDefinition } from "@fortawesome/fontawesome-common-types";
 import { faCertificate } from "@fortawesome/free-solid-svg-icons";
 import classnames from "classnames";
 import DefaultTheme from "../theme/default";
-
-import React from "react";
-// @ts-ignore
-import { Button as LibraryButton } from "@trendmicro/react-buttons";
+import Icon, { IconProps } from "../common/Icon";
+import css from "styled-jsx/css";
 
 export enum ButtonStyle {
   LIGHT = "LIGHT",
@@ -39,6 +37,26 @@ export const getReverseThemeColor = (style: ButtonStyle | undefined) => {
   }
 };
 
+const { className: iconClassName, styles: iconStyles } = css.resolve`
+  .icon {
+    display: inline-block;
+    margin-right: 5px;
+  }
+  .image {
+    width: 20px;
+    height: 20px;
+    border-radius: 50%;
+    margin-right: 5px;
+  }
+  .compact.image {
+    margin-left: 0px;
+    margin-right: 0px;
+  }
+  .compact.icon {
+    margin-right: 0px;
+  }
+`;
+
 const Button: React.FC<ButtonProps> = ({
   onClick,
   icon,
@@ -48,14 +66,20 @@ const Button: React.FC<ButtonProps> = ({
   theme,
   disabled,
   updates,
-  imageUrl,
+  label,
 }) => {
   const THEME_COLOR = getThemeColor(theme);
   const REVERSE_THEME_COLOR = getReverseThemeColor(theme);
   const transparent = ButtonStyle.TRANSPARENT == theme;
   return (
     <>
-      <div className={classnames("button", { compact }, { disabled })}>
+      <div
+        className={classnames("button", {
+          compact,
+          disabled,
+          "with-image": typeof icon == "string",
+        })}
+      >
         {updates && (
           <div className="updates">
             {updates === true ? (
@@ -67,66 +91,67 @@ const Button: React.FC<ButtonProps> = ({
             )}
           </div>
         )}
-        <LibraryButton btnStyle="flat" onClick={onClick} disabled={disabled}>
+        <button onClick={onClick} disabled={disabled} aria-label={label}>
           {icon && (
-            <div className="icon">
-              <FontAwesomeIcon icon={icon} />
-            </div>
+            <Icon
+              icon={icon}
+              className={classnames(iconClassName, { compact })}
+            />
           )}
-          {imageUrl && <img className="image" src={imageUrl} />}
           {/* if the button is compact then don't display the text, unless there's no icon or image.*/}
-          {(!compact || (!icon && !imageUrl)) && children}
-        </LibraryButton>
+          {(!compact || !icon) && <div className="content">{children}</div>}
+        </button>
       </div>
+      {iconStyles}
       <style jsx>{`
         .button {
           display: inline-block;
           position: relative;
+          font-size: 13px;
+          line-height: 115%;
         }
-        .button > :global(button) {
+        .button button {
           border-radius: 25px;
           background-image: none;
           border: 2px solid ${color || REVERSE_THEME_COLOR};
           color: ${color || REVERSE_THEME_COLOR};
           background-color: ${THEME_COLOR};
+          padding: 8px 12px;
+          display: flex;
+          align-items: center;
         }
-        .button:not(.disabled) > :global(button):hover {
+        .button.with-image button {
+          padding: 5px 12px;
+        }
+        .button:not(.disabled) button:hover {
+          background-color: ${REVERSE_THEME_COLOR};
+          border: 2px solid ${color || THEME_COLOR};
+          color: ${color || (transparent ? "white" : THEME_COLOR)};
+          cursor: pointer;
+        }
+        .button:not(.disabled) button:active:focus {
           background-color: ${REVERSE_THEME_COLOR};
           border: 2px solid ${color || THEME_COLOR};
           color: ${color || (transparent ? "white" : THEME_COLOR)};
         }
-        .button:not(.disabled) > :global(button):active:focus {
-          background-color: ${REVERSE_THEME_COLOR};
-          border: 2px solid ${color || THEME_COLOR};
+        .button:not(.disabled) button:hover .icon {
           color: ${color || (transparent ? "white" : THEME_COLOR)};
         }
-        .button:not(.disabled) > :global(button):hover .icon {
-          color: ${color || (transparent ? "white" : THEME_COLOR)};
-        }
-        .button.disabled > :global(button:hover) {
+        .button.disabled button:hover {
           background-image: none;
           background-color: ${THEME_COLOR};
           border-color: ${color || REVERSE_THEME_COLOR};
         }
+        .button button:focus {
+          outline: none;
+        }
+        .button button:focus-visible {
+          outline: none;
+          box-shadow: blue 0px 0px 0px 3px;
+        }
+
         .disabled .updates {
           opacity: 0.8;
-        }
-        .icon {
-          display: inline-block;
-          margin-right: 5px;
-        }
-        .image {
-          margin-right: 5px;
-          vertical-align: middle;
-          width: 20px;
-          height: auto;
-          margin-top: -3px;
-          margin-left: -3px;
-          border-radius: 50%;
-        }
-        .compact .image {
-          margin-left: 0px;
-          margin-right: 0px;
         }
         .updates {
           background-color: ${color || REVERSE_THEME_COLOR};
@@ -142,16 +167,14 @@ const Button: React.FC<ButtonProps> = ({
           line-height: 20px;
           font-weight: bold;
         }
-        .compact > :global(button) {
+        .compact button {
           min-width: 25px;
           max-width: 60px;
+        }
+        .compact button .content {
           white-space: nowrap;
           overflow: hidden;
           text-overflow: ellipsis;
-        }
-        .compact .icon {
-          margin-right: 0px;
-          color: ${color || REVERSE_THEME_COLOR};
         }
       `}</style>
     </>
@@ -162,12 +185,12 @@ export default React.memo(Button);
 
 export interface ButtonProps {
   children: string | React.ReactNode;
-  icon?: IconDefinition;
-  imageUrl?: string;
+  icon?: IconProps["icon"];
   compact?: boolean;
   onClick?: () => void;
   disabled?: boolean;
   color?: string;
   theme?: ButtonStyle;
   updates?: number | boolean;
+  label?: string;
 }

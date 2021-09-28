@@ -14,8 +14,7 @@ const UserBar: React.FC<UserBarProps> = ({
 }) => {
   const indicator = (
     <Button
-      icon={user?.avatarUrl ? undefined : faUser}
-      imageUrl={user?.avatarUrl}
+      icon={user?.avatarUrl || faUser}
       onClick={onClick}
       color={color}
       theme={ButtonStyle.DARK}
