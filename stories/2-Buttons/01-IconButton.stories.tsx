@@ -1,6 +1,5 @@
 import React from "react";
 import { Story, Meta } from "@storybook/react";
-0;
 import IconButtonComponent, {
   IconButtonProps,
 } from "../../src/buttons/IconButton";
@@ -11,7 +10,7 @@ export default {
   component: IconButtonComponent,
   parameters: {
     actions: {
-      handles: ["click .option", "click button"],
+      handles: ["click button"],
     },
   },
   decorators: [
@@ -40,4 +39,20 @@ const ButtonTemplate: Story<IconButtonProps> = (args) => {
 export const IconButton = ButtonTemplate.bind({});
 IconButton.args = {
   icon: faCoffee,
+  link: {
+    onClick: () => {
+      // This is already handled by the config parameters above
+    },
+  },
+};
+
+export const WithNotifications = ButtonTemplate.bind({});
+WithNotifications.args = {
+  icon: faCoffee,
+  link: {
+    onClick: () => {
+      // This is already handled by the config parameters above
+    },
+  },
+  dotColor: "red",
 };

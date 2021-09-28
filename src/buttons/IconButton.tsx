@@ -18,7 +18,7 @@ export interface IconButtonProps {
   label?: string;
   link?: LinkWithAction;
   /**
-   * The color of the dot
+   * The color of the notification dot.
    */
   dotColor?: string;
 }
@@ -27,19 +27,19 @@ const IconButton: React.FC<IconButtonProps> = (props) => {
   return (
     <ActionLink label={props.label} link={props.link}>
       <div
-        className={classnames("sidemenu-button", {
+        className={classnames("icon-button", {
           "has-dot": !!props.dotColor,
         })}
       >
         <Icon icon={props.icon} />
       </div>
       <style jsx>{`
-        .sidemenu-button.notification::after {
+        .icon-button.notification::after {
           background-color: ${props.dotColor};
         }
       `}</style>
       <style jsx>{`
-        .sidemenu-button {
+        .icon-button {
           width: 35px;
           height: 35px;
           border-radius: 50%;
@@ -55,20 +55,18 @@ const IconButton: React.FC<IconButtonProps> = (props) => {
           font-size: 20px;
           padding: 0;
         }
-        .sidemenu-button:focus {
+        .icon-button:focus {
           outline: none;
         }
-        .sidemenu-button:focus-visible {
-          outline: white auto 1px;
+        .icon-button:focus-visible {
+          box-shadow: ${Theme.MENU_ITEM_ICON_COLOR} 0px 0px 0px 3px;
         }
-        .sidemenu-button:hover {
+        .icon-button:hover {
           cursor: pointer;
           background-color: ${Theme.MENU_ITEM_ICON_BACKGROUND_COLOR};
-        }
-        .sidemenu-button:hover {
           color: ${Theme.MENU_ITEM_ICON_HIGHLIGHT_COLOR};
         }
-        .sidemenu-button.has-dot::after {
+        .icon-button.has-dot::after {
           content: "";
           position: absolute;
           top: 2px;
@@ -79,7 +77,7 @@ const IconButton: React.FC<IconButtonProps> = (props) => {
           border-radius: 50%;
           border: 2px solid ${Theme.LAYOUT_HEADER_BACKGROUND_COLOR};
         }
-        .sidemenu-button..has-dot:hover::after {
+        .icon-button.has-dot:hover::after {
           border-color: ${Theme.MENU_ITEM_ICON_BACKGROUND_COLOR};
         }
       `}</style>
