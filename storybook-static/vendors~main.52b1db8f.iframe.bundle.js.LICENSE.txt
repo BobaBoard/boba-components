@@ -29,8 +29,15 @@ object-assign
  */
 
 /*!
- * Font Awesome Free 5.15.3 by @fontawesome - https://fontawesome.com
+ * Font Awesome Free 5.15.4 by @fontawesome - https://fontawesome.com
  * License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License)
+ */
+
+/*!
+ * The buffer module from node.js, for the browser.
+ *
+ * @author   Feross Aboukhadijeh <feross@feross.org> <http://feross.org>
+ * @license  MIT
  */
 
 /*!
@@ -41,7 +48,7 @@ object-assign
  */
 
 /*!
- * hotkeys-js v3.8.3
+ * hotkeys-js v3.8.7
  * A simple micro-library for defining and dispatching keyboard shortcuts. It has no dependencies.
  * 
  * Copyright (c) 2021 kenny wong <wowohoo@qq.com>
@@ -64,6 +71,13 @@ object-assign
  * see https://github.com/paulmillr/es6-shim/blob/0.35.3/LICENSE
  * Details and documentation:
  * https://github.com/paulmillr/es6-shim/
+ */
+
+/*!
+ * is-plain-object <https://github.com/jonschlinkert/is-plain-object>
+ *
+ * Copyright (c) 2014-2017, Jon Schlinkert.
+ * Released under the MIT License.
  */
 
 /*!
@@ -94,7 +108,7 @@ PERFORMANCE OF THIS SOFTWARE.
  * Copyright (c) 2016 Jorik Tangelder;
  * Licensed under the MIT license */
 
-/*! axe v4.1.4
+/*! axe v4.3.3
  * Copyright (c) 2021 Deque Systems, Inc.
  *
  * Your use of this Source Code Form is subject to the terms of the Mozilla Public
@@ -107,8 +121,6 @@ PERFORMANCE OF THIS SOFTWARE.
  */
 
 /*! ieee754. BSD-3-Clause License. Feross Aboukhadijeh <https://feross.org/opensource> */
-
-/*! react-buttons v1.3.1 | (c) 2018 Trend Micro Inc. | MIT | https://github.com/trendmicro-frontend/react-buttons */
 
 /*! safe-buffer. MIT License. Feross Aboukhadijeh <https://feross.org/opensource> */
 
@@ -193,7 +205,7 @@ PERFORMANCE OF THIS SOFTWARE.
  * LICENSE file in the root directory of this source tree.
  */
 
-/** @license React v16.14.0
+/** @license React v16.13.1
  * react-dom.production.min.js
  *
  * Copyright (c) Facebook, Inc. and its affiliates.
@@ -202,7 +214,16 @@ PERFORMANCE OF THIS SOFTWARE.
  * LICENSE file in the root directory of this source tree.
  */
 
-/** @license React v16.14.0
+/** @license React v16.13.1
+ * react-is.production.min.js
+ *
+ * Copyright (c) Facebook, Inc. and its affiliates.
+ *
+ * This source code is licensed under the MIT license found in the
+ * LICENSE file in the root directory of this source tree.
+ */
+
+/** @license React v16.13.1
  * react.production.min.js
  *
  * Copyright (c) Facebook, Inc. and its affiliates.
