@@ -7,10 +7,19 @@ import { LinkWithAction } from "../types";
 import classnames from "classnames";
 import Icon, { IconProps } from "../common/Icon";
 
+/**
+ * A button made of a single icon.
+ */
 export interface IconButtonProps {
   icon: IconProps["icon"];
+  /**
+   * The aria-label associated with the icon.
+   */
   label?: string;
   link?: LinkWithAction;
+  /**
+   * The color of the dot
+   */
   dotColor?: string;
 }
 

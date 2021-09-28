@@ -18,9 +18,9 @@ export default {
     },
   },
   decorators: [
-    (Story: Story) => (
+    (Story) => (
       <div className="story">
-        <Story />
+        {Story()}
         <style jsx>{`
           .story {
             display: flex;
