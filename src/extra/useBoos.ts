@@ -115,7 +115,7 @@ const moveGhost = (ghost: HTMLElement, onRemoveCallback?: () => void) => {
   }
   if (
     nextY < BOUNDARY ||
-    nextY + BOUNDARY > pageYOffset + innerHeight - BOUNDARY
+    nextY > pageYOffset + innerHeight - GHOST_SIZE
   ) {
     nextY = currentY - deltaY;
   }
