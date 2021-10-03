@@ -137,6 +137,30 @@ const BoardsMenuSection: React.FC<BoardsMenuSectionProps> = ({
 
 export default BoardsMenuSection;
 
+// TODO: use this typing rather than the one we have now
+// export type BoardsMenuSectionProps =
+//   | BoardsSectionProps
+//   | EmptySectionProps
+//   | LoadingSectionProps;
+
+// export interface BaseSectionProps {
+//   title: string;
+//   icon: string | IconDefinition;
+// }
+// export interface BoardsSectionProps extends BaseSectionProps {
+//   boards: BoardType[];
+//   currentBoardSlug?: string | null;
+// }
+// export interface EmptySectionProps extends BaseSectionProps {
+//   emptyTitle: string;
+//   emptyDescription: string;
+// }
+// export interface LoadingSectionProps extends BaseSectionProps {
+//   loading: boolean;
+//   placeholdersCount: number;
+//   accentColor: string;
+// }
+
 export interface BoardsMenuSectionProps {
   boards?: BoardType[];
   title: string;

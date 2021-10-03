@@ -1,5 +1,5 @@
 import React from "react";
-import SideMenu, { SideMenuHandler } from "../src/sidemenu/SideMenu";
+import SideMenu, { SideMenuHandler } from "../../src/sidemenu/SideMenu";
 
 import {
   faClock,
@@ -10,16 +10,16 @@ import {
 
 import { action } from "@storybook/addon-actions";
 
-import goreBackground from "./images/gore.png";
+import goreBackground from "../images/gore.png";
 
-import anime from "./images/anime.png";
-import crack from "./images/crack.png";
-import oncelerBoard from "./images/onceler-board.png";
-import meta from "./images/meta.png";
-import book from "./images/book.png";
-import villains from "./images/villains.png";
-import kinkmeme from "./images/kink-meme.png";
-import art from "./images/art-crit.png";
+import anime from "../images/anime.png";
+import crack from "../images/crack.png";
+import oncelerBoard from "../images/onceler-board.png";
+import meta from "../images/meta.png";
+import book from "../images/book.png";
+import villains from "../images/villains.png";
+import kinkmeme from "../images/kink-meme.png";
+import art from "../images/art-crit.png";
 
 const PINNED_BOARDS = [
   {
@@ -130,7 +130,7 @@ const RECENT_BOARDS = [
 ];
 
 export default {
-  title: "SideMenu Preview",
+  title: "Side Menu/SideMenu Preview",
   component: SideMenu,
 };
 
