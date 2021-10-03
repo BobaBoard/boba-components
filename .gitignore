@@ -108,3 +108,5 @@ dist
 
 # MacOS cache
 *.DS_Store
+
+.github
