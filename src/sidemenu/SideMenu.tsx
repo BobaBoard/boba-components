@@ -50,7 +50,7 @@ const SideMenu = React.forwardRef<SideMenuHandler, SideMenuProps>(
           })}
         >
           <PinnedBoardsMenu
-            boards={pinnedBoards}
+            boards={pinnedBoards || []}
             currentBoardSlug={currentBoardSlug}
           />
         </div>

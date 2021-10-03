@@ -7,13 +7,14 @@ import BoardIcon from "../board/BoardIcon";
 import DefaultTheme from "../theme/default";
 import LoadingPlaceholder from "../common/LoadingPlaceholder";
 
-const PinnedBoardsMenu: React.FC<PinnedBoardsMenuProps> = ({
-  boards,
-  currentBoardSlug,
-  loading,
-  loadingAccentColor,
-  loadingElementsCount,
-}) => {
+const PinnedBoardsMenu: React.FC<PinnedBoardsMenuProps> = (props) => {
+  const { boards, currentBoardSlug } = props as WithPinnedBoardsMenuProps;
+  const {
+    loading,
+    loadingAccentColor,
+    loadingElementsCount,
+  } = props as LoadingPinnedBoardsMenuProps;
+
   return (
     <>
       <div className="thumbtack">
@@ -113,13 +114,9 @@ export interface WithPinnedBoardsMenuProps {
   boards: BoardType[];
   currentBoardSlug?: string | null;
   loading?: false;
-  loadingElementsCount?: never;
-  loadingAccentColor?: never;
 }
 
 export interface LoadingPinnedBoardsMenuProps {
-  boards?: never;
-  currentBoardSlug?: never;
   loading: true;
   loadingElementsCount: number;
   loadingAccentColor: string;
