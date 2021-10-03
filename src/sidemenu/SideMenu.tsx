@@ -3,7 +3,7 @@ import { BoardType } from "types";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faEllipsisV, faSearch } from "@fortawesome/free-solid-svg-icons";
 
-import PinnedBoardsMenu from "./PinnedBoardsMenu";
+import PinnedMenu from "./PinnedMenu";
 import BoardsMenuSection, { BoardsMenuSectionProps } from "./BoardsMenuSection";
 import DropdownMenu, {
   DropdownProps,
@@ -49,7 +49,7 @@ const SideMenu = React.forwardRef<SideMenuHandler, SideMenuProps>(
             visible: !!showPinned && !!pinnedBoards?.length,
           })}
         >
-          <PinnedBoardsMenu
+          <PinnedMenu
             boards={pinnedBoards || []}
             currentBoardSlug={currentBoardSlug}
           />

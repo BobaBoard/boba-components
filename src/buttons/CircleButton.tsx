@@ -12,6 +12,11 @@ import css from "styled-jsx/css";
 import DefaultTheme from "../theme/default";
 import Icon from "../common/Icon";
 
+export enum SelectLightPosition {
+  BOTTOM = "BOTTOM",
+  LEFT = "LEFT",
+}
+
 const getIconStyle = ({
   accentColor,
   defaultBorderColor,
@@ -71,6 +76,7 @@ export interface CircleButtonProps {
   loading?: boolean;
   icon: IconDefinition | string;
   selected?: boolean;
+  selectLightPosition?: SelectLightPosition;
   link?: LinkWithAction;
   /**
    * The color to use to highlight the button when selected or hovered.
@@ -106,6 +112,7 @@ const CircleButton: React.FC<CircleButtonProps> = ({
   icon,
   label,
   selected,
+  selectLightPosition,
   link,
   accentColor,
   defaultBorderColor,
@@ -147,7 +154,13 @@ const CircleButton: React.FC<CircleButtonProps> = ({
           <FontAwesomeIcon icon={faChevronCircleDown} />
         </div>
       </div>
-      {selected && <div className="select-bar" />}
+      {selected && (
+        <div
+          className={classnames("select-bar", {
+            left: selectLightPosition === SelectLightPosition.LEFT,
+          })}
+        />
+      )}
       <style jsx>{`
         .circle-button {
           display: flex;
@@ -161,9 +174,11 @@ const CircleButton: React.FC<CircleButtonProps> = ({
         }
         .circle-button:hover :global(.icon) {
           color: ${DefaultTheme.MENU_ITEM_ICON_HIGHLIGHT_COLOR};
-          border-color: ${accentColor ||
-          defaultBorderColor ||
-          DefaultTheme.MENU_ITEM_ICON_BACKGROUND_COLOR};
+          border-color: ${
+            accentColor ||
+            defaultBorderColor ||
+            DefaultTheme.MENU_ITEM_ICON_BACKGROUND_COLOR
+          };
         }
         .icon-wrapper {
           position: relative;
@@ -178,16 +193,20 @@ const CircleButton: React.FC<CircleButtonProps> = ({
           background: ${DefaultTheme.NOTIFICATIONS_NEW_COLOR};
           border-radius: 50%;
           border: 2px solid
-            ${selected
-              ? accentColor
-              : defaultBorderColor ||
-                DefaultTheme.MENU_ITEM_ICON_BACKGROUND_COLOR};
+            ${
+              selected
+                ? accentColor
+                : defaultBorderColor ||
+                  DefaultTheme.MENU_ITEM_ICON_BACKGROUND_COLOR
+            };
           transform: translate(-3px, 3px);
         }
         .circle-button.has-dot:hover::after {
-          border-color: ${accentColor ||
-          defaultBorderColor ||
-          DefaultTheme.MENU_ITEM_ICON_BACKGROUND_COLOR};
+          border-color: ${
+            accentColor ||
+            defaultBorderColor ||
+            DefaultTheme.MENU_ITEM_ICON_BACKGROUND_COLOR
+          };
         }
         .dropdown-indicator {
           position: absolute;
@@ -220,16 +239,28 @@ const CircleButton: React.FC<CircleButtonProps> = ({
           box-shadow: blue 0px 0px 0px 3px;
         }
         .select-bar {
-          height: 3px;
           position: absolute;
           border-top-left-radius: 15px;
           border-top-right-radius: 15px;
+          height: 3px;
           bottom: 0;
           left: 0;
           right: 0;
-          background-color: ${accentColor ||
-          DefaultTheme.MENU_ITEM_ICON_HIGHLIGHT_COLOR};
+          background-color: ${
+            accentColor || DefaultTheme.MENU_ITEM_ICON_HIGHLIGHT_COLOR
+          };
         }
+        .select-bar.left {
+          position: absolute;
+          border-top-left-radius: 15px;
+          border-top-right-radius: 15px;
+          width: 3px;
+          height: 100%;
+          left: 0;
+          top: 0;
+          background-color: ${
+            accentColor || DefaultTheme.MENU_ITEM_ICON_HIGHLIGHT_COLOR
+          };
       `}</style>
       {iconStyle}
     </div>

@@ -44,7 +44,7 @@ import sparkle from "./images/sparkle.gif";
 import wand from "./images/sailor_wand.png";
 
 import debug from "debug";
-import PinnedBoardsMenu from "../src/sidemenu/PinnedBoardsMenu";
+import PinnedMenu from "../src/sidemenu/PinnedMenu";
 const log = debug("bobaui:stories:layout-log");
 
 const PINNED_BOARDS = [
@@ -636,7 +636,7 @@ export const Attempt1 = () => {
           </SideMenu>
         </Layout.SideMenuContent>
         <Layout.PinnedMenuContent>
-          <PinnedBoardsMenu boards={[...PINNED_BOARDS, ...PINNED_BOARDS]} />
+          <PinnedMenu boards={[...PINNED_BOARDS, ...PINNED_BOARDS]} />
         </Layout.PinnedMenuContent>
         <Layout.MainContent>
           <FeedWithMenu

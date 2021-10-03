@@ -13,7 +13,7 @@ import Button, { ButtonStyle } from "./buttons/Button";
 import Input, { InputStyle } from "./common/Input";
 import ToastContainer, { toast } from "./common/Toast";
 import Modal from "./common/Modal";
-import PinnedBoardsMenu from "./sidemenu/PinnedBoardsMenu";
+import PinnedMenu from "./sidemenu/PinnedMenu";
 import ModalWithButtons from "./common/ModalWithButtons";
 import PostEditor from "./post/PostEditor";
 import Post from "./post/Post";
@@ -62,7 +62,7 @@ export {
   Modal,
   UserDetails,
   ModalWithButtons,
-  PinnedBoardsMenu,
+  PinnedMenu as PinnedBoardsMenu,
   Post,
   PostEditor,
   PostingActionButton,

@@ -28,7 +28,8 @@
       "styled-jsx",
       "node",
       "resize-observer-browser"
-    ]
+    ],
+    "strictBindCallApply": true
   },
   "include": ["/**/*"],
   "exclude": ["node_modules", "build", "scripts", "dist"]

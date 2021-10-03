@@ -1,12 +1,14 @@
 import React from "react";
-import PinnedBoardsMenu, {
-  PinnedBoardsMenuProps,
-} from "../../src/sidemenu/PinnedBoardsMenu";
+import PinnedMenu, { PinnedMenuProps } from "../../src/sidemenu/PinnedMenu";
 
 import {
-  faBatteryEmpty,
-  faClock,
-  faTh,
+  faCoffee,
+  faHeart,
+  faInbox,
+  faInfoCircle,
+  faRssSquare,
+  faStar,
+  faThumbtack,
   faTrash,
   faUpload,
 } from "@fortawesome/free-solid-svg-icons";
@@ -15,6 +17,7 @@ import { action } from "@storybook/addon-actions";
 
 import goreBackground from "../images/gore.png";
 
+import mamoru from "../images/mamoru.png";
 import anime from "../images/anime.png";
 import crack from "../images/crack.png";
 import oncelerBoard from "../images/onceler-board.png";
@@ -134,28 +137,58 @@ const RECENT_BOARDS = [
 
 export default {
   title: "Side Menu/PinnedBoardsMenu",
-  component: PinnedBoardsMenu,
+  component: PinnedMenu,
 };
 
-const BoardsMenuSectionTemplate = (args: PinnedBoardsMenuProps) => {
-  return <PinnedBoardsMenu {...args} />;
+const BoardsMenuSectionTemplate = (args: PinnedMenuProps) => {
+  return <PinnedMenu {...args} />;
 };
 
 export const Regular = BoardsMenuSectionTemplate.bind({});
 Regular.args = {
-  boards: RECENT_BOARDS,
-  currentBoardSlug: "kink-memes",
+  icon: faThumbtack,
+  items: RECENT_BOARDS,
+  currentItemId: "kink-memes",
 };
 
 export const Long = BoardsMenuSectionTemplate.bind({});
 Long.args = {
-  boards: [...RECENT_BOARDS, ...PINNED_BOARDS, ...PINNED_BOARDS],
-  currentBoardSlug: "kink-memes",
+  icon: faTrash,
+  items: [...RECENT_BOARDS, ...PINNED_BOARDS, ...PINNED_BOARDS],
+  currentItemId: "kink-memes",
 };
 
 export const Loading = BoardsMenuSectionTemplate.bind({});
 Loading.args = {
+  icon: faUpload,
   loading: true,
   loadingElementsCount: 7,
   loadingAccentColor: "green",
+};
+
+export const Icons = BoardsMenuSectionTemplate.bind({});
+Icons.args = {
+  icon: faRssSquare,
+  items: [
+    {
+      id: "star",
+      icon: faStar,
+      accentColor: "red",
+    },
+    {
+      icon: faInbox,
+      accentColor: "red",
+      withNotification: true,
+    },
+    {
+      icon: mamoru,
+      accentColor: "red",
+      withDropdown: true,
+    },
+    {
+      icon: faHeart,
+      accentColor: "red",
+    },
+  ],
+  currentItemId: "star",
 };
