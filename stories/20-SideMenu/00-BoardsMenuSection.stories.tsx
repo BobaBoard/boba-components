@@ -175,5 +175,5 @@ export const Loading = BoardsMenuSectionTemplate.bind({});
 Loading.args = {
   loading: true,
   accentColor: "red",
-  placeholdersHeight: 4,
+  placeholdersCount: 4,
 };

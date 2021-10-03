@@ -8,17 +8,14 @@ import BoardMenuItem from "./BoardMenuItem";
 import LoadingPlaceholder from "../common/LoadingPlaceholder";
 import DefaultTheme from "../theme/default";
 
-const BoardsMenuSection: React.FC<BoardsMenuSectionProps> = ({
-  boards,
-  title,
-  icon,
-  emptyTitle,
-  emptyDescription,
-  currentBoardSlug,
-  loading,
-  placeholdersHeight,
-  accentColor,
-}) => {
+const BoardsMenuSection: React.FC<BoardsMenuSectionProps> = (props) => {
+  const { boards, title, icon, currentBoardSlug } = props as BoardsSectionProps;
+  const { emptyTitle, emptyDescription } = props as EmptySectionProps;
+  const {
+    loading,
+    placeholdersCount,
+    accentColor,
+  } = props as LoadingSectionProps;
   const isEmpty = !loading && (!boards || boards.length == 0);
   return (
     <div className="boardSection">
@@ -61,7 +58,7 @@ const BoardsMenuSection: React.FC<BoardsMenuSectionProps> = ({
           })}
           key="loading-items-section"
         >
-          {Array.from({ length: placeholdersHeight || 0 }).map((_, index) => (
+          {Array.from({ length: placeholdersCount || 0 }).map((_, index) => (
             <div className="boardItem" key={`board-item-${index}`}>
               <LoadingPlaceholder
                 key={index}
@@ -143,38 +140,25 @@ const BoardsMenuSection: React.FC<BoardsMenuSectionProps> = ({
 
 export default BoardsMenuSection;
 
-// TODO: use this typing rather than the one we have now
-// export type BoardsMenuSectionProps =
-//   | BoardsSectionProps
-//   | EmptySectionProps
-//   | LoadingSectionProps;
+export type BoardsMenuSectionProps =
+  | BoardsSectionProps
+  | EmptySectionProps
+  | LoadingSectionProps;
 
-// export interface BaseSectionProps {
-//   title: string;
-//   icon: string | IconDefinition;
-// }
-// export interface BoardsSectionProps extends BaseSectionProps {
-//   boards: BoardType[];
-//   currentBoardSlug?: string | null;
-// }
-// export interface EmptySectionProps extends BaseSectionProps {
-//   emptyTitle: string;
-//   emptyDescription: string;
-// }
-// export interface LoadingSectionProps extends BaseSectionProps {
-//   loading: boolean;
-//   placeholdersCount: number;
-//   accentColor: string;
-// }
-
-export interface BoardsMenuSectionProps {
-  boards?: BoardType[];
+export interface BaseSectionProps {
   title: string;
   icon: string | IconDefinition;
-  emptyTitle?: string;
-  emptyDescription?: string;
+}
+export interface BoardsSectionProps extends BaseSectionProps {
+  boards: BoardType[];
   currentBoardSlug?: string | null;
-  loading?: boolean;
-  placeholdersHeight?: number;
-  accentColor?: string;
+}
+export interface EmptySectionProps extends BaseSectionProps {
+  emptyTitle: string;
+  emptyDescription: string;
+}
+export interface LoadingSectionProps extends BaseSectionProps {
+  loading: boolean;
+  placeholdersCount: number;
+  accentColor: string;
 }
