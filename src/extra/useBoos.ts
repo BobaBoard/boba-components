@@ -74,7 +74,85 @@ let MAX_GHOSTS = 5;
 let GHOST_CHANCE = 3;
 let GHOST_INTERVAL = 1000;
 let currentGhosts = 0;
-const newGhost = (callback: () => void) => {
+
+const moveGhost = (ghost: HTMLElement, onRemoveCallback?: () => void) => {
+  if (ghost.classList.contains("popout")) {
+    // The ghost is being cleared and can't move anymore.
+    return;
+  }
+  if (!ghost.parentNode) {
+    return;
+  }
+  if (ghost.style.opacity === "0" && ghost.parentNode) {
+    // The ghost now has no opacity, but it's still attached to the page.
+    // We remove it, and call the remove callback.
+    ghost.parentNode?.removeChild(ghost);
+    // info(`removing ghost ${ghost.dataset.index}`);
+    // info(currentGhosts);
+    onRemoveCallback?.();
+    return;
+  }
+  if (
+    parseInt(ghost.dataset.moves || "0") >
+    parseInt(ghost.dataset.lifespan || "0")
+  ) {
+    // The ghost has made more moves than its lifespan allowed. We slowly
+    // transition the opacity out.
+    ghost.style.opacity = "0";
+  }
+
+  // Figure out the next position of the ghost
+  const deltaX = getRandomInt(2) % 2 ? 100 : -100;
+  const deltaY = getRandomInt(2) % 2 ? 100 : -100;
+  const currentX = ghost.getBoundingClientRect().left;
+  const currentY =
+    ghost.getBoundingClientRect().top -
+    (ghost.offsetParent?.getBoundingClientRect().top || 0);
+  let nextX = currentX + deltaX;
+  let nextY = currentY + deltaY;
+  if (nextX < 0 || nextX + BOUNDARY > innerWidth) {
+    nextX = currentX - deltaX;
+  }
+  if (
+    nextY < BOUNDARY ||
+    nextY + BOUNDARY > pageYOffset + innerHeight - BOUNDARY
+  ) {
+    nextY = currentY - deltaY;
+  }
+  // Make the ghost face the right direction
+  ghost.classList.toggle("left", nextX < currentX);
+  ghost.classList.toggle("right", nextX > currentX);
+  // info(`${currentX} ${currentY}`);
+  // info(`${deltaX} ${deltaY}`);
+  // info(`translate(${nextX}px, ${nextY}px)`);
+  ghost.style.transform = `translate(${nextX}px, ${nextY}px)`;
+  ghost.dataset.moves = "" + (parseInt(ghost.dataset.moves || "0") + 1);
+};
+
+const clearGhost = (ghost: HTMLElement, onRemoveCallback?: () => void) => {
+  const currentX = ghost.getBoundingClientRect().left;
+  const currentY =
+    ghost.getBoundingClientRect().top -
+    (ghost.offsetParent?.getBoundingClientRect().top || 0);
+  requestAnimationFrame(() => {
+    ghost.classList.toggle("popout", true);
+  });
+  // Remove all styles tied up to moving transform, since the disappearing animation
+  // will override them, and instead just fix the ghost div to the current X/Y.
+  // If you don't remove the transition timings, Safari will do the (for once)
+  // right thing and the element will just slowly translate to its new (0, 0) position,
+  // and will not be where you expect it to.
+  ghost.style.top = `${currentY}px`;
+  ghost.style.left = `${currentX}px`;
+  ghost.style.transition = ``;
+  ghost.style.transform = `translate(0, 0)`;
+  setTimeout(() => {
+    ghost.parentNode?.removeChild(ghost);
+    onRemoveCallback?.();
+  }, 300);
+};
+
+const newGhost = (onRemoveCallback: () => void) => {
   info("Hello");
   const newGhost = document.createElement("div");
   newGhost.classList.add(className);
@@ -85,85 +163,27 @@ const newGhost = (callback: () => void) => {
   newGhost.dataset.lifespan = "" + (4 + getRandomInt(4));
   info(`New ghost at ${newGhost.style.transform}`);
 
-  const moveGhost = (ghost: HTMLElement) => {
-    if (ghost.classList.contains("popout")) {
-      return;
-    }
-    if (!ghost.parentNode) {
-      return;
-    }
-    if (ghost.style.opacity === "0" && ghost.parentNode) {
-      ghost.parentNode?.removeChild(ghost);
-      // info(`removing ghost ${ghost.dataset.index}`);
-      // info(currentGhosts);
-      callback();
-      return;
-    }
-    if (
-      parseInt(ghost.dataset.moves || "0") >
-      parseInt(newGhost.dataset.lifespan || "0")
-    ) {
-      ghost.style.opacity = "0";
-    }
-    const deltaX = getRandomInt(2) % 2 ? 100 : -100;
-    const deltaY = getRandomInt(2) % 2 ? 100 : -100;
-    const currentX = ghost.getBoundingClientRect().left;
-    const currentY =
-      ghost.getBoundingClientRect().top -
-      (ghost.offsetParent?.getBoundingClientRect().top || 0);
-    let nextX = currentX + deltaX;
-    let nextY = currentY + deltaY;
-    if (nextX < 0 || nextX + BOUNDARY > innerWidth) {
-      nextX = currentX - deltaX;
-    }
-    if (
-      nextY < BOUNDARY ||
-      nextY + BOUNDARY > pageYOffset + innerHeight - BOUNDARY
-    ) {
-      nextY = currentY - deltaY;
-    }
-    ghost.classList.toggle("left", nextX < currentX);
-    ghost.classList.toggle("right", nextX > currentX);
-    // info(`${currentX} ${currentY}`);
-    // info(`${deltaX} ${deltaY}`);
-    // info(`translate(${nextX}px, ${nextY}px)`);
-    ghost.style.transform = `translate(${nextX}px, ${nextY}px)`;
-    ghost.dataset.moves = "" + (parseInt(ghost.dataset.moves || "0") + 1);
-  };
+  // Whenever a ghost is done moving (its transition is finished),
+  // queue up a new transition.
   newGhost.addEventListener("transitionend", () => {
     // let currentX = newGhost.getBoundingClientRect().x;
     // let currentY = newGhost.getBoundingClientRect().y;
     // // info(`${currentX} ${currentY}`);
-    moveGhost(newGhost);
+    moveGhost(newGhost, onRemoveCallback);
   });
   newGhost.addEventListener("click", (e) => {
-    let currentX = newGhost.getBoundingClientRect().left;
-    let currentY =
-      newGhost.getBoundingClientRect().top -
-      (newGhost.offsetParent?.getBoundingClientRect().top || 0);
-    requestAnimationFrame(() => {
-      newGhost.classList.toggle("popout", true);
-    });
-    // Remove all styles tied up to transition since the animation
-    // will override them. Given that we can't then use
-    //
-    // If you don't remove the timing of transition
-    // safari will do the (for once) right thing and the element will just
-    // slowly translate to its new (0, 0) position, which means its position
-    // overall will be wrong.
-    newGhost.style.top = `${currentY}px`;
-    newGhost.style.left = `${currentX}px`;
-    newGhost.style.transition = ``;
-    newGhost.style.transform = `translate(0, 0)`;
-    setTimeout(() => {
-      newGhost.parentNode?.removeChild(newGhost);
-      callback();
-    }, 300);
+    clearGhost(newGhost, onRemoveCallback);
     e.stopPropagation();
   });
+
+  // Rather than immediately adding the opacity/position transition to the new ghost,
+  // we wait for a very tiny amount of time so that the browser has already attached
+  // the element to the page.
+  // If we don't do this, the browser will attach the element to the (0, 0) position,
+  // and then the CSS transition will sloooooowly move it to its real starting place.
+  // TODO: at least I think this is why this thing is here. I admit I should have
+  // documented it when I first wrote it.
   setTimeout(() => {
-    // Add transform here after you have set the starting position so it
-    // won't just gradually move there
     newGhost.style.transition = `transform 2.5s linear, opacity 2.5s linear`;
     newGhost.style.opacity = "1";
     newGhost.dataset.index = "" + currentGhosts;
