@@ -5,6 +5,8 @@ import { BoardType } from "../types";
 import classnames from "classnames";
 
 import BoardMenuItem from "./BoardMenuItem";
+import LoadingPlaceholder from "../common/LoadingPlaceholder";
+import DefaultTheme from "../theme/default";
 
 const BoardsMenuSection: React.FC<BoardsMenuSectionProps> = ({
   boards,
@@ -61,7 +63,11 @@ const BoardsMenuSection: React.FC<BoardsMenuSectionProps> = ({
         >
           {Array.from({ length: placeholdersHeight || 0 }).map((_, index) => (
             <div className="boardItem" key={`board-item-${index}`}>
-              <BoardMenuItem key={index} loading accentColor={accentColor} />
+              <LoadingPlaceholder
+                key={index}
+                accentColor={accentColor || DefaultTheme.DEFAULT_ACCENT_COLOR}
+                height="35px"
+              />
             </div>
           ))}
         </div>

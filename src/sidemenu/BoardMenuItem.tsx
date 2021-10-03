@@ -6,7 +6,6 @@ import { LinkWithAction } from "../types";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faMapMarkerAlt } from "@fortawesome/free-solid-svg-icons";
 import css from "styled-jsx/css";
-import Color from "color";
 import ActionLink from "../buttons/ActionLink";
 import DefaultTheme from "../theme/default";
 
@@ -21,39 +20,7 @@ const { className: containerClassname, styles: containerStyles } = css.resolve`
   }
 `;
 
-const BoardMenuItem: React.FC<
-  LoadingBoardMenuItemProps | BoardMenuItemProps
-> = (props) => {
-  if (props.loading) {
-    const color = Color(props.accentColor).darken(0.4).hex() || "#bd4faf";
-    return (
-      <div className={`${containerClassname} board-menu-item`}>
-        {containerStyles}
-        <style jsx>{`
-          .board-menu-item {
-            background: linear-gradient(-90deg, ${color}, #2e2e30);
-            background-size: 400% 400%;
-            animation: GradientBackground 3s ease-out infinite;
-            height: 35px;
-          }
-          @keyframes GradientBackground {
-            0% {
-              background-position: 30% 50%;
-            }
-
-            50% {
-              background-position: 80% 50%;
-            }
-
-            100% {
-              background-position: 30% 50%;
-            }
-          }
-        `}</style>
-      </div>
-    );
-  }
-
+const BoardMenuItem: React.FC<BoardMenuItemProps> = (props) => {
   const {
     avatar,
     color,
@@ -136,13 +103,6 @@ const BoardMenuItem: React.FC<
 };
 
 export default BoardMenuItem;
-
-export interface LoadingBoardMenuItemProps {
-  loading: true;
-  accentColor?: string;
-  readonly link?: undefined;
-}
-
 export interface BoardMenuItemProps {
   avatar: string;
   color: string;

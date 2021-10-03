@@ -5,10 +5,14 @@ import { BoardType } from "types";
 
 import BoardIcon from "../board/BoardIcon";
 import DefaultTheme from "../theme/default";
+import LoadingPlaceholder from "../common/LoadingPlaceholder";
 
 const PinnedBoardsMenu: React.FC<PinnedBoardsMenuProps> = ({
   boards,
   currentBoardSlug,
+  loading,
+  loadingAccentColor,
+  loadingElementsCount,
 }) => {
   return (
     <>
@@ -16,6 +20,18 @@ const PinnedBoardsMenu: React.FC<PinnedBoardsMenuProps> = ({
         <FontAwesomeIcon icon={faThumbtack} />
       </div>
       <div className="board-pinned">
+        {loading &&
+          Array.from({ length: loadingElementsCount || 0 }).map((_, index) => (
+            <div className="single-board" key={`single-board-${index}`}>
+              <LoadingPlaceholder
+                key={index}
+                accentColor={
+                  loadingAccentColor || DefaultTheme.DEFAULT_ACCENT_COLOR
+                }
+                height="50px"
+              />
+            </div>
+          ))}
         {boards?.map((board, index) => (
           <div className="single-board" key={`single-board-${index}`}>
             <a
@@ -54,6 +70,8 @@ const PinnedBoardsMenu: React.FC<PinnedBoardsMenuProps> = ({
           display: none;
         }
         .thumbtack {
+          background: ${DefaultTheme.PINNED_BAR_BACKGROUND};
+          width: ${DefaultTheme.PINNED_BAR_WIDTH_PX}px;
           text-align: center;
           padding-top: 15px;
           color: white;
@@ -69,6 +87,8 @@ const PinnedBoardsMenu: React.FC<PinnedBoardsMenuProps> = ({
         }
         .single-board {
           padding: 15px 7px 0;
+          width: 50px;
+          height: 50px;
         }
         .single-board:last-child {
           padding-bottom: 15px;
@@ -86,7 +106,21 @@ const PinnedBoardsMenu: React.FC<PinnedBoardsMenuProps> = ({
 
 export default PinnedBoardsMenu;
 
-export interface PinnedBoardsMenuProps {
-  boards?: BoardType[];
+export type PinnedBoardsMenuProps =
+  | WithPinnedBoardsMenuProps
+  | LoadingPinnedBoardsMenuProps;
+export interface WithPinnedBoardsMenuProps {
+  boards: BoardType[];
   currentBoardSlug?: string | null;
+  loading?: false;
+  loadingElementsCount?: never;
+  loadingAccentColor?: never;
+}
+
+export interface LoadingPinnedBoardsMenuProps {
+  boards?: never;
+  currentBoardSlug?: never;
+  loading: true;
+  loadingElementsCount: number;
+  loadingAccentColor: string;
 }
