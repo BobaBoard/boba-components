@@ -13,7 +13,7 @@ const BobaDex: React.FC<BobaDexProps> = (props) => {
         {matchingID ? (
           <>
             <figure className="portrait">
-              <img src={matchingID.avatarUrl} alt={matchingID.name}></img>
+              <img src={matchingID.avatar} alt={matchingID.name}></img>
             </figure>
             <div className="info">{matchingID.name}</div>
           </>
@@ -37,6 +37,11 @@ const BobaDex: React.FC<BobaDexProps> = (props) => {
             border-radius: 50%;
             background: #333;
             overflow: hidden;
+          }
+
+          .portrait img {
+            width: 100px;
+            height: 100px;
           }
 
           .info {
@@ -82,8 +87,7 @@ export interface BobaDexProps {
   revealedIdentities: {
     index: number;
     name: string;
-    avatarUrl: string;
-    caughtOn: string;
+    avatar: string;
   }[];
 }
 

@@ -34,7 +34,7 @@ const IconButton: React.FC<IconButtonProps> = (props) => {
         <Icon icon={props.icon} />
       </div>
       <style jsx>{`
-        .icon-button.notification::after {
+        .icon-button.has-dot::after {
           background-color: ${props.dotColor};
         }
       `}</style>
@@ -73,7 +73,6 @@ const IconButton: React.FC<IconButtonProps> = (props) => {
           right: 2px;
           width: 10px;
           height: 10px;
-          background: ${Theme.NOTIFICATIONS_NEW_COLOR};
           border-radius: 50%;
           border: 2px solid ${Theme.LAYOUT_HEADER_BACKGROUND_COLOR};
         }

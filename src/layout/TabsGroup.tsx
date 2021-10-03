@@ -40,7 +40,7 @@ const Option: CompoundComponents["Option"] = ({
             position: relative;
             text-decoration: none;
             align-items: center;
-            font-size: var(--font-size-large);
+            font-size: var(--font-size-regular);
             padding: 10px 15px;
             margin-bottom: 2px;
             color: #c7c7c7;
