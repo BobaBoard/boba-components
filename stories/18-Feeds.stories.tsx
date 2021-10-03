@@ -1,6 +1,7 @@
 import React from "react";
 import Layout from "../src/layout/Layout";
 import SideMenu from "../src/sidemenu/SideMenu";
+import useBoos from "../src/extra/useBoos";
 import FeedWithMenu from "../src/feeds/FeedWithMenu";
 import PostingActionButton from "../src/board/PostingActionButton";
 import CycleNewButton from "../src/board/CycleNewButton";
@@ -553,6 +554,7 @@ const BOARD_INFO = {
 
 export const Attempt1 = () => {
   const [showSidebar, setShowSidebar] = React.useState(false);
+  const { styles } = useBoos({ startActive: true });
   return (
     <>
       <CustomCursor
@@ -695,10 +697,11 @@ export const Attempt1 = () => {
           />
         </Layout.ActionButton>
       </Layout>
+      {styles}
       <style jsx>
         {`
           :global(body) {
-            paddi ng: 0 !important;
+            padding: 0 !important;
           }
         `}
       </style>
