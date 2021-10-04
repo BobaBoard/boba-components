@@ -216,12 +216,16 @@ Mixed.args = {
   currentItemId: "star",
 };
 
-export const MultipleSections = () => {
+const MultipleSectionsTemplate = ({ items, args }) => {
   return (
-    <PinnedMenu>
-      <PinnedMenu.Section {...Mixed.args} />
-      <PinnedMenu.Section {...Loading.args} />
-      <PinnedMenu.Section {...Regular.args} />
+    <PinnedMenu {...args}>
+      {items.map((item, index) => (
+        <PinnedMenu.Section key={index} {...item} />
+      ))}
     </PinnedMenu>
   );
+};
+export const MultipleSections = MultipleSectionsTemplate.bind({});
+MultipleSections.args = {
+  items: [Mixed.args, Loading.args, Regular.args],
 };

@@ -17,7 +17,7 @@ export interface SideMenuHandler {
   focusBoardFilter: () => void;
 }
 
-interface SideMenuCompoundComponent
+export interface SideMenuCompoundComponent
   extends React.ForwardRefExoticComponent<
     SideMenuProps & React.RefAttributes<SideMenuHandler>
   > {

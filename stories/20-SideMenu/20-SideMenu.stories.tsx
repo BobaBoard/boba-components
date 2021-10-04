@@ -1,5 +1,8 @@
 import React from "react";
-import SideMenu, { SideMenuHandler } from "../../src/sidemenu/SideMenu";
+import SideMenu, {
+  SideMenuHandler,
+  SideMenuProps,
+} from "../../src/sidemenu/SideMenu";
 
 import {
   faClock,
@@ -25,6 +28,7 @@ import book from "../images/book.png";
 import villains from "../images/villains.png";
 import kinkmeme from "../images/kink-meme.png";
 import art from "../images/art-crit.png";
+import { Story } from "@storybook/react";
 
 const PINNED_BOARDS = [
   {
@@ -135,102 +139,107 @@ const RECENT_BOARDS = [
 ];
 
 export default {
-  title: "Side Menu/SideMenu Preview",
+  title: "Side Menu/Side Menu",
   component: SideMenu,
 };
 
-export const SideMenuPreview = () => {
-  const [showPinned, setShowPinned] = React.useState(true);
-  const [loading, setLoading] = React.useState(true);
-  const menuRef = React.useRef<SideMenuHandler>(null);
+const SideMenuPreviewTemplate: Story<SideMenuProps> = (args, context) => {
+  console.log(context);
   return (
-    <div>
-      <div
-        style={{
-          position: "absolute",
-          right: 0,
-          bottom: "0",
-          zIndex: 2000,
-          display: "flex",
-          flexDirection: "column",
-        }}
-      >
-        <button onClick={() => setShowPinned(!showPinned)}>
-          Toggle Pinned
-        </button>
-        <button onClick={() => setLoading(!loading)}>Toggle Loading</button>
-        <button onClick={() => menuRef.current?.focusBoardFilter()}>
-          Focus
-        </button>
-      </div>
-      <div style={{ maxWidth: "500px", backgroundColor: "red" }}>
-        <SideMenu showPinned={showPinned} ref={menuRef}>
-          <SideMenu.PinnedMenuSection
-            icon={faRssSquare}
-            items={[
-              {
-                id: "star",
-                icon: faStar,
-                accentColor: "red",
-              },
-              {
-                id: "inbox",
-                icon: faInbox,
-                accentColor: "red",
-                withNotification: true,
-              },
-              {
-                id: "heart",
-                icon: faHeart,
-                accentColor: "red",
-              },
-            ]}
-            currentItemId={"star"}
-          />
-          <SideMenu.PinnedMenuSection
-            icon={faThumbtack}
-            items={[
-              ...PINNED_BOARDS,
-              { ...PINNED_BOARDS[1], updates: 0 },
-              ...PINNED_BOARDS,
-            ]}
-            currentItemId={"anime"}
-          />
-          <SideMenu.BoardsMenuSection
-            title="recent unreads"
-            icon={faClock}
-            boards={RECENT_BOARDS}
-            emptyTitle="Congratulations!"
-            emptyDescription="You read 'em all."
-          />
-          <SideMenu.BoardsMenuSection
-            title="loading section"
-            icon={faUpload}
-            emptyTitle="Congratulations!"
-            emptyDescription="You read 'em all."
-            loading={loading}
-            placeholdersCount={5}
-            accentColor="red"
-          />
-          <SideMenu.BoardsMenuSection
-            title="empty section"
-            icon={faTrash}
-            emptyTitle="Congratulations!"
-            emptyDescription="You read 'em all."
-          />
-          <SideMenu.BoardsMenuSection
-            title="all boards"
-            icon={faTh}
-            boards={[...PINNED_BOARDS, ...RECENT_BOARDS, ...SEARCH_BOARDS]}
-            emptyTitle="There's no board here."
-            emptyDescription="Somehow, that feels wrong."
-          />
-        </SideMenu>
-      </div>
-    </div>
+    <SideMenu showPinned={context?.showPinned} ref={context?.menuRef}>
+      <SideMenu.PinnedMenuSection
+        icon={faRssSquare}
+        items={[
+          {
+            id: "star",
+            icon: faStar,
+            accentColor: "red",
+          },
+          {
+            id: "inbox",
+            icon: faInbox,
+            accentColor: "red",
+            withNotification: true,
+          },
+          {
+            id: "heart",
+            icon: faHeart,
+            accentColor: "red",
+          },
+        ]}
+        currentItemId={"star"}
+      />
+      <SideMenu.PinnedMenuSection
+        icon={faThumbtack}
+        items={[
+          ...PINNED_BOARDS,
+          { ...PINNED_BOARDS[1], updates: 0 },
+          ...PINNED_BOARDS,
+        ]}
+        currentItemId={"anime"}
+      />
+      <SideMenu.BoardsMenuSection
+        title="recent unreads"
+        icon={faClock}
+        boards={RECENT_BOARDS}
+        emptyTitle="Congratulations!"
+        emptyDescription="You read 'em all."
+      />
+      <SideMenu.BoardsMenuSection
+        title="loading section"
+        icon={faUpload}
+        emptyTitle="Congratulations!"
+        emptyDescription="You read 'em all."
+        loading={context?.loading}
+        placeholdersCount={5}
+        accentColor="red"
+      />
+      <SideMenu.BoardsMenuSection
+        title="empty section"
+        icon={faTrash}
+        emptyTitle="Congratulations!"
+        emptyDescription="You read 'em all."
+      />
+      <SideMenu.BoardsMenuSection
+        title="all boards"
+        icon={faTh}
+        boards={[...PINNED_BOARDS, ...RECENT_BOARDS, ...SEARCH_BOARDS]}
+        emptyTitle="There's no board here."
+        emptyDescription="Somehow, that feels wrong."
+      />
+    </SideMenu>
   );
 };
 
-SideMenuPreview.story = {
-  name: "SideMenu",
-};
+export const SideMenuPreview = SideMenuPreviewTemplate.bind({});
+SideMenuPreview.args = {};
+SideMenuPreview.decorators = [
+  (Story) => {
+    const [showPinned, setShowPinned] = React.useState(true);
+    const [loading, setLoading] = React.useState(true);
+    const menuRef = React.useRef<SideMenuHandler>(null);
+    return (
+      <div>
+        <div
+          style={{
+            position: "absolute",
+            right: 0,
+            bottom: 0,
+            zIndex: 2000,
+            display: "flex",
+            flexDirection: "column",
+          }}
+        >
+          <button onClick={() => setShowPinned(!showPinned)}>
+            Toggle Pinned
+          </button>
+          <button onClick={() => setLoading(!loading)}>Toggle Loading</button>
+          <button onClick={() => menuRef.current?.focusBoardFilter()}>
+            Focus
+          </button>
+        </div>
+        <Story showPinned={showPinned} loading={loading} menuRef={menuRef} />
+      </div>
+    );
+  },
+];

@@ -162,6 +162,7 @@ const SegmentedTemplate = (args: Partial<SegmentedButtonProps>) => {
   );
 };
 
+// TODO: refactor this story so it's its separate file, with separate expamples
 export const Segmented = () => {
   const [selected, setSelected] = useState(SegmentedButtonOptions.LEFT);
   return (
