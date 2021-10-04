@@ -136,29 +136,29 @@ const RECENT_BOARDS = [
 ];
 
 export default {
-  title: "Side Menu/PinnedBoardsMenu",
+  title: "Side Menu/Pinned Menu",
   component: PinnedMenu,
 };
 
-const BoardsMenuSectionTemplate = (args: PinnedMenuProps) => {
-  return <PinnedMenu {...args} />;
+const PinnedSectionTemplate = (args: PinnedMenuProps) => {
+  return <PinnedMenu.Section {...args} />;
 };
 
-export const Regular = BoardsMenuSectionTemplate.bind({});
+export const Regular = PinnedSectionTemplate.bind({});
 Regular.args = {
   icon: faThumbtack,
   items: RECENT_BOARDS,
   currentItemId: "kink-memes",
 };
 
-export const Long = BoardsMenuSectionTemplate.bind({});
+export const Long = PinnedSectionTemplate.bind({});
 Long.args = {
   icon: faTrash,
   items: [...RECENT_BOARDS, ...PINNED_BOARDS, ...PINNED_BOARDS],
   currentItemId: "kink-memes",
 };
 
-export const Loading = BoardsMenuSectionTemplate.bind({});
+export const Loading = PinnedSectionTemplate.bind({});
 Loading.args = {
   icon: faUpload,
   loading: true,
@@ -166,7 +166,7 @@ Loading.args = {
   loadingAccentColor: "green",
 };
 
-export const Icons = BoardsMenuSectionTemplate.bind({});
+export const Icons = PinnedSectionTemplate.bind({});
 Icons.args = {
   icon: faRssSquare,
   items: [
@@ -191,4 +191,38 @@ Icons.args = {
     },
   ],
   currentItemId: "star",
+};
+
+export const Mixed = PinnedSectionTemplate.bind({});
+Mixed.args = {
+  icon: faRssSquare,
+  items: [
+    {
+      id: "star",
+      icon: faStar,
+      accentColor: "red",
+    },
+    PINNED_BOARDS[0],
+    {
+      icon: mamoru,
+      accentColor: "red",
+      withDropdown: true,
+    },
+    PINNED_BOARDS[2],
+    {
+      icon: faHeart,
+      accentColor: "red",
+    },
+  ],
+  currentItemId: "star",
+};
+
+export const MultipleSections = () => {
+  return (
+    <PinnedMenu>
+      <PinnedMenu.Section {...Mixed.args} />
+      <PinnedMenu.Section {...Loading.args} />
+      <PinnedMenu.Section {...Regular.args} />
+    </PinnedMenu>
+  );
 };

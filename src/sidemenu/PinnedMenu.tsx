@@ -11,6 +11,8 @@ import CircleButton, {
 } from "../buttons/CircleButton";
 import ActionLink from "../buttons/ActionLink";
 
+import { extractCompounds } from "../utils/compound-utils";
+
 interface PinnedMenuItemProps {
   item: BoardType | CircleButtonProps;
   current: boolean;
@@ -61,7 +63,7 @@ const PinnedMenuItem: React.FC<
   );
 };
 
-const PinnedMenu: React.FC<PinnedMenuProps> = (props) => {
+const Section: React.FC<PinnedMenuProps> = (props) => {
   const { icon } = props as BaseBoardsMenuProps;
   const {
     items,
@@ -125,6 +127,15 @@ const PinnedMenu: React.FC<PinnedMenuProps> = (props) => {
     </>
   );
 };
+
+const PinnedMenu: React.FC<{ children: React.ReactNode }> & {
+  Section: typeof Section;
+} = ({ children }) => {
+  const sections = extractCompounds(children, Section);
+  return <>{sections}</>;
+};
+
+PinnedMenu.Section = Section;
 
 export default PinnedMenu;
 
