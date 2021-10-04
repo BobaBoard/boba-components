@@ -1,21 +1,21 @@
 import React from "react";
 
-export function extractCompound<T extends React.ReactNode>(
+export function extractCompound<T>(
   children: React.ReactNode,
-  CompoundType: T
-): T {
+  CompoundType: React.FC<T>
+): React.ReactElement<T> | undefined {
   return React.Children.toArray(children).find(
     (node) => React.isValidElement(node) && node.type == CompoundType
-  ) as T;
+  ) as React.ReactElement<T>;
 }
 
-export function extractCompounds<T extends React.ReactNode>(
+export function extractCompounds<T>(
   children: React.ReactNode,
-  CompoundType: T
-): T[] {
+  CompoundType: React.FC<T>
+): React.ReactElement<T>[] {
   return React.Children.toArray(children).filter(
     (node) => React.isValidElement(node) && node.type == CompoundType
-  ) as T[];
+  ) as React.ReactElement<T>[];
 }
 
 export function CreateBaseCompound(displayName: string) {

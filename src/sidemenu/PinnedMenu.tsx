@@ -63,17 +63,17 @@ const PinnedMenuItem: React.FC<
   );
 };
 
-const Section: React.FC<PinnedMenuProps> = (props) => {
-  const { icon } = props as BaseBoardsMenuProps;
+const Section: React.FC<PinnedMenuSectionProps> = (props) => {
+  const { icon } = props as BasePinnedSectionProps;
   const {
     items,
     currentItemId: currentItemSlug,
-  } = props as WithPinnedMenuProps;
+  } = props as WithPinnedSectionProps;
   const {
     loading,
     loadingAccentColor,
     loadingElementsCount,
-  } = props as LoadingPinnedMenuProps;
+  } = props as LoadingPinnedSectionProps;
 
   return (
     <>
@@ -99,10 +99,6 @@ const Section: React.FC<PinnedMenuProps> = (props) => {
       </div>
       <style jsx>{`
         .board-pinned {
-          background: ${DefaultTheme.PINNED_BAR_BACKGROUND};
-          width: ${DefaultTheme.PINNED_BAR_WIDTH_PX}px;
-          height: 100%;
-          scrollbar-width: none;
           display: flex;
           flex-direction: column;
           align-items: center;
@@ -111,17 +107,10 @@ const Section: React.FC<PinnedMenuProps> = (props) => {
           display: none;
         }
         .icon {
-          background: ${DefaultTheme.PINNED_BAR_BACKGROUND};
           width: ${DefaultTheme.PINNED_BAR_WIDTH_PX}px;
           text-align: center;
           padding-top: 15px;
           color: white;
-        }
-
-        @media only screen and (max-width: 600px) {
-          .board-pinned {
-            height: 100vh;
-          }
         }
       `}</style>
     </>
@@ -132,26 +121,47 @@ const PinnedMenu: React.FC<{ children: React.ReactNode }> & {
   Section: typeof Section;
 } = ({ children }) => {
   const sections = extractCompounds(children, Section);
-  return <>{sections}</>;
+  return (
+    <div className="board-container">
+      {sections}
+      <style jsx>{`
+        .board-container {
+          background: ${DefaultTheme.PINNED_BAR_BACKGROUND};
+          width: ${DefaultTheme.PINNED_BAR_WIDTH_PX}px;
+          height: 100%;
+          scrollbar-width: none;
+        }
+        .board-pinned::-webkit-scrollbar {
+          display: none;
+        }
+
+        @media only screen and (max-width: 600px) {
+          .board-container {
+            height: 100vh;
+          }
+        }
+      `}</style>
+    </div>
+  );
 };
 
 PinnedMenu.Section = Section;
 
 export default PinnedMenu;
 
-export type PinnedMenuProps = BaseBoardsMenuProps &
-  (WithPinnedMenuProps | LoadingPinnedMenuProps);
+export type PinnedMenuSectionProps = BasePinnedSectionProps &
+  (WithPinnedSectionProps | LoadingPinnedSectionProps);
 
-export interface BaseBoardsMenuProps {
+export interface BasePinnedSectionProps {
   icon: IconProps["icon"];
 }
-export interface WithPinnedMenuProps {
+export interface WithPinnedSectionProps {
   items: (BoardType | CircleButtonProps)[];
   currentItemId?: string | null;
   loading?: false;
 }
 
-export interface LoadingPinnedMenuProps {
+export interface LoadingPinnedSectionProps {
   loading: true;
   loadingElementsCount: number;
   loadingAccentColor: string;

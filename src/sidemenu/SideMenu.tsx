@@ -1,9 +1,9 @@
-import React, { Children } from "react";
+import React from "react";
 import { BoardType } from "types";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faEllipsisV, faSearch } from "@fortawesome/free-solid-svg-icons";
 
-import PinnedMenu from "./PinnedMenu";
+import PinnedMenu, { PinnedMenuSectionProps } from "./PinnedMenu";
 import BoardsMenuSection, { BoardsMenuSectionProps } from "./BoardsMenuSection";
 import DropdownMenu, {
   DropdownProps,
@@ -11,6 +11,7 @@ import DropdownMenu, {
 } from "../common/DropdownListMenu";
 import classnames from "classnames";
 import DefaultTheme from "../theme/default";
+import { extractCompounds } from "../utils/compound-utils";
 
 export interface SideMenuHandler {
   focusBoardFilter: () => void;
@@ -21,19 +22,12 @@ interface SideMenuCompoundComponent
     SideMenuProps & React.RefAttributes<SideMenuHandler>
   > {
   BoardsMenuSection: React.FC<BoardsMenuSectionProps>;
+  PinnedMenuSection: React.FC<PinnedMenuSectionProps>;
 }
 //
 const SideMenu = React.forwardRef<SideMenuHandler, SideMenuProps>(
   function SideMenuForwardRef(
-    {
-      pinnedBoards,
-      menuOptions,
-      showPinned,
-      onFilterChange,
-      currentBoardSlug,
-      children,
-      collapse,
-    },
+    { menuOptions, showPinned, onFilterChange, currentBoardSlug, children },
     ref
   ) {
     const boardFilterRef = React.useRef<HTMLInputElement>(null);
@@ -42,17 +36,17 @@ const SideMenu = React.forwardRef<SideMenuHandler, SideMenuProps>(
         boardFilterRef.current?.focus();
       },
     }));
+
+    const boardSections = extractCompounds(children, BoardsMenuSection);
+    const pinnedSections = extractCompounds(children, PinnedMenu.Section);
     return (
       <div className="side-menu">
         <div
           className={classnames("pinned-boards-container", {
-            visible: !!showPinned && !!pinnedBoards?.length,
+            visible: !!showPinned && !!pinnedSections?.length,
           })}
         >
-          <PinnedMenu
-            boards={pinnedBoards || []}
-            currentBoardSlug={currentBoardSlug}
-          />
+          <PinnedMenu>{pinnedSections}</PinnedMenu>
         </div>
         <div className="board-menus">
           <div
@@ -84,21 +78,12 @@ const SideMenu = React.forwardRef<SideMenuHandler, SideMenuProps>(
                 collapsed: true,
               })}
             >
-              {Children.toArray(children).map((child) => {
-                if (
-                  !React.isValidElement<BoardsMenuSectionProps>(child) ||
-                  child.type !== BoardsMenuSection
-                ) {
-                  throw Error(
-                    "SideMenu only accepts BoardsMenuSections as children"
-                  );
-                }
-                const menuSection: React.ReactElement<BoardsMenuSectionProps> = child;
-                return React.cloneElement<BoardsMenuSectionProps>(menuSection, {
-                  key: menuSection.props.title,
+              {boardSections.map((section) =>
+                React.cloneElement(section, {
+                  key: section.props.title,
                   currentBoardSlug,
-                });
-              })}
+                })
+              )}
             </div>
           </div>
         </div>
@@ -200,6 +185,7 @@ const SideMenu = React.forwardRef<SideMenuHandler, SideMenuProps>(
 ) as SideMenuCompoundComponent;
 
 SideMenu.BoardsMenuSection = BoardsMenuSection;
+SideMenu.PinnedMenuSection = PinnedMenu.Section;
 export default SideMenu;
 
 export interface SideMenuProps {
@@ -209,5 +195,4 @@ export interface SideMenuProps {
   showPinned?: boolean;
   onFilterChange?: (text: string) => void;
   children: React.ReactNode;
-  collapse?: boolean;
 }

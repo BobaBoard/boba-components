@@ -3,7 +3,12 @@ import SideMenu, { SideMenuHandler } from "../../src/sidemenu/SideMenu";
 
 import {
   faClock,
+  faHeart,
+  faInbox,
+  faRssSquare,
+  faStar,
   faTh,
+  faThumbtack,
   faTrash,
   faUpload,
 } from "@fortawesome/free-solid-svg-icons";
@@ -159,16 +164,38 @@ export const SideMenuPreview = () => {
         </button>
       </div>
       <div style={{ maxWidth: "500px", backgroundColor: "red" }}>
-        <SideMenu
-          pinnedBoards={[
-            ...PINNED_BOARDS,
-            { ...PINNED_BOARDS[1], updates: 0 },
-            ...PINNED_BOARDS,
-          ]}
-          currentBoardSlug="anime"
-          showPinned={showPinned}
-          ref={menuRef}
-        >
+        <SideMenu showPinned={showPinned} ref={menuRef}>
+          <SideMenu.PinnedMenuSection
+            icon={faRssSquare}
+            items={[
+              {
+                id: "star",
+                icon: faStar,
+                accentColor: "red",
+              },
+              {
+                id: "inbox",
+                icon: faInbox,
+                accentColor: "red",
+                withNotification: true,
+              },
+              {
+                id: "heart",
+                icon: faHeart,
+                accentColor: "red",
+              },
+            ]}
+            currentItemId={"star"}
+          />
+          <SideMenu.PinnedMenuSection
+            icon={faThumbtack}
+            items={[
+              ...PINNED_BOARDS,
+              { ...PINNED_BOARDS[1], updates: 0 },
+              ...PINNED_BOARDS,
+            ]}
+            currentItemId={"anime"}
+          />
           <SideMenu.BoardsMenuSection
             title="recent unreads"
             icon={faClock}
@@ -182,7 +209,7 @@ export const SideMenuPreview = () => {
             emptyTitle="Congratulations!"
             emptyDescription="You read 'em all."
             loading={loading}
-            placeholdersHeight={5}
+            placeholdersCount={5}
             accentColor="red"
           />
           <SideMenu.BoardsMenuSection

@@ -1,5 +1,7 @@
 import React from "react";
-import PinnedMenu, { PinnedMenuProps } from "../../src/sidemenu/PinnedMenu";
+import PinnedMenu, {
+  PinnedMenuSectionProps,
+} from "../../src/sidemenu/PinnedMenu";
 
 import {
   faCoffee,
@@ -140,7 +142,7 @@ export default {
   component: PinnedMenu,
 };
 
-const PinnedSectionTemplate = (args: PinnedMenuProps) => {
+const PinnedSectionTemplate = (args: PinnedMenuSectionProps) => {
   return <PinnedMenu.Section {...args} />;
 };
 
