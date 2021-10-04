@@ -93,7 +93,7 @@ const Section: React.FC<PinnedMenuSectionProps> = (props) => {
       <div className="icon">
         <Icon icon={icon} />
       </div>
-      <div>
+      <div className="items-container">
         {loading &&
           Array.from({ length: loadingElementsCount || 0 }).map((_, index) => (
             <PinnedMenuItem
@@ -125,6 +125,10 @@ const Section: React.FC<PinnedMenuSectionProps> = (props) => {
           padding-top: 5px;
           color: white;
           opacity: 45%;
+        }
+
+        .items-container {
+          width: 100%;
         }
         .pinned-section:first-child {
           padding-top: 15px;

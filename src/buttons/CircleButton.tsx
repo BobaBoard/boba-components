@@ -36,6 +36,7 @@ const getIconStyle = ({
     display: flex;
     align-items: center;
     justify-content: center;
+    position: relative;
   }
   .icon.blurred :global(img) {
     filter: blur(3px) invert(1);
@@ -183,11 +184,11 @@ const CircleButton: React.FC<CircleButtonProps> = ({
         .icon-wrapper {
           position: relative;
         }
-        .circle-button.has-dot::after {
+        .circle-button.has-dot :global(.icon)::after {
           content: "";
           position: absolute;
-          top: 0;
-          right: 0;
+          top: -6px;
+          right: -7px;
           width: 10px;
           height: 10px;
           background: ${DefaultTheme.NOTIFICATIONS_NEW_COLOR};
@@ -201,7 +202,7 @@ const CircleButton: React.FC<CircleButtonProps> = ({
             };
           transform: translate(-3px, 3px);
         }
-        .circle-button.has-dot:hover::after {
+        .circle-button.has-dot:hover :global(.icon)::after {
           border-color: ${
             accentColor ||
             defaultBorderColor ||

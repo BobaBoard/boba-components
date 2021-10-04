@@ -143,10 +143,13 @@ export default {
   component: SideMenu,
 };
 
-const SideMenuPreviewTemplate: Story<SideMenuProps> = (args, context) => {
-  console.log(context);
+const SideMenuPreviewTemplate: Story<
+  SideMenuProps & {
+    loading: boolean;
+  }
+> = (args, context) => {
   return (
-    <SideMenu showPinned={context?.showPinned} ref={context?.menuRef}>
+    <SideMenu showPinned={args.showPinned} ref={context?.menuRef}>
       <SideMenu.PinnedMenuSection
         icon={faRssSquare}
         items={[
@@ -190,7 +193,7 @@ const SideMenuPreviewTemplate: Story<SideMenuProps> = (args, context) => {
         icon={faUpload}
         emptyTitle="Congratulations!"
         emptyDescription="You read 'em all."
-        loading={context?.loading}
+        loading={args.loading}
         placeholdersCount={5}
         accentColor="red"
       />
@@ -212,11 +215,12 @@ const SideMenuPreviewTemplate: Story<SideMenuProps> = (args, context) => {
 };
 
 export const SideMenuPreview = SideMenuPreviewTemplate.bind({});
-SideMenuPreview.args = {};
+SideMenuPreview.args = {
+  showPinned: true,
+  loading: true,
+};
 SideMenuPreview.decorators = [
   (Story) => {
-    const [showPinned, setShowPinned] = React.useState(true);
-    const [loading, setLoading] = React.useState(true);
     const menuRef = React.useRef<SideMenuHandler>(null);
     return (
       <div>
@@ -230,15 +234,12 @@ SideMenuPreview.decorators = [
             flexDirection: "column",
           }}
         >
-          <button onClick={() => setShowPinned(!showPinned)}>
-            Toggle Pinned
-          </button>
-          <button onClick={() => setLoading(!loading)}>Toggle Loading</button>
           <button onClick={() => menuRef.current?.focusBoardFilter()}>
             Focus
           </button>
         </div>
-        <Story showPinned={showPinned} loading={loading} menuRef={menuRef} />
+        {/* @ts-ignore */}
+        <Story menuRef={menuRef} />
       </div>
     );
   },
