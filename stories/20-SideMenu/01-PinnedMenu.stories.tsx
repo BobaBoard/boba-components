@@ -143,20 +143,17 @@ export default {
 };
 
 const PinnedSectionTemplate = (args: PinnedMenuSectionProps) => {
-  return <PinnedMenu.Section {...args} />;
+  return (
+    <PinnedMenu>
+      <PinnedMenu.Section {...args} />
+    </PinnedMenu>
+  );
 };
 
 export const Regular = PinnedSectionTemplate.bind({});
 Regular.args = {
   icon: faThumbtack,
   items: RECENT_BOARDS,
-  currentItemId: "kink-memes",
-};
-
-export const Long = PinnedSectionTemplate.bind({});
-Long.args = {
-  icon: faTrash,
-  items: [...RECENT_BOARDS, ...PINNED_BOARDS, ...PINNED_BOARDS],
   currentItemId: "kink-memes",
 };
 
