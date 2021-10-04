@@ -34,30 +34,33 @@ const MenuBar: React.FC<MenuBarProps> = ({
         </div>
       )}
       {menuOptions?.map((option) => (
-        <CircleButton
-          key={option.id}
-          id={option.id}
-          icon={option.icon}
-          link={option.link}
-          selected={selectedOption == option.id}
-          accentColor={accentColor}
-        />
+        <div className="menu-item" key={option.id}>
+          <CircleButton
+            id={option.id}
+            icon={option.icon}
+            link={option.link}
+            selected={selectedOption == option.id}
+            accentColor={accentColor}
+          />
+        </div>
       ))}
       <DropdownListMenu
         options={isLoggedIn ? userMenuOptions : undefined}
         style={DropdownStyle.DARK}
         accentColor={accentColor}
       >
-        <CircleButton
-          id={"login"}
-          icon={user?.avatarUrl ? user?.avatarUrl : faUser}
-          link={!loading && !isLoggedIn ? onLoggedOutUserClick : undefined}
-          accentColor={accentColor}
-          defaultBorderColor={isLoggedIn ? "green" : undefined}
-          loading={loading}
-          withDropdown={!!isLoggedIn && !!userMenuOptions?.length}
-          blurred={forceHideIdentity}
-        />
+        <div className="menu-item">
+          <CircleButton
+            id={"login"}
+            icon={user?.avatarUrl ? user?.avatarUrl : faUser}
+            link={!loading && !isLoggedIn ? onLoggedOutUserClick : undefined}
+            accentColor={accentColor}
+            defaultBorderColor={isLoggedIn ? "green" : undefined}
+            loading={loading}
+            withDropdown={!!isLoggedIn && !!userMenuOptions?.length}
+            blurred={forceHideIdentity}
+          />
+        </div>
       </DropdownListMenu>
       <style jsx>{`
         .container {
@@ -68,6 +71,12 @@ const MenuBar: React.FC<MenuBarProps> = ({
         }
         .home {
           display: none;
+        }
+        .menu-item {
+          padding: 0 10px;
+        }
+        .menu-item:last-child {
+          padding-right: 0px;
         }
         @media only screen and (max-width: 450px) {
           .home {

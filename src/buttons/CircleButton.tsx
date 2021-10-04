@@ -166,7 +166,7 @@ const CircleButton: React.FC<CircleButtonProps> = ({
           display: flex;
           align-items: center;
           height: 100%;
-          padding: 0px 10px;
+          justify-content: center;
           position: relative;
         }
         .circle-button:hover {
