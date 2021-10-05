@@ -113,10 +113,7 @@ const moveGhost = (ghost: HTMLElement, onRemoveCallback?: () => void) => {
   if (nextX < 0 || nextX + BOUNDARY > innerWidth) {
     nextX = currentX - deltaX;
   }
-  if (
-    nextY < BOUNDARY ||
-    nextY > pageYOffset + innerHeight - GHOST_SIZE
-  ) {
+  if (nextY < BOUNDARY || nextY > pageYOffset + innerHeight - GHOST_SIZE) {
     nextY = currentY - deltaY;
   }
   // Make the ghost face the right direction
@@ -202,8 +199,8 @@ const useBoos = ({ startActive }: { startActive: boolean }) => {
     GHOST_CHANCE = 5;
     MAX_GHOSTS = 15;
     GHOST_INTERVAL = 1500;
-    setActive(true);
-  }, []);
+    setActive(active);
+  }, [active]);
 
   React.useEffect(() => {
     if (!active) {

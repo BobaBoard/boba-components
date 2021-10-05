@@ -42,6 +42,7 @@ import SegmentedButton from "./buttons/SegmentedButton";
 import LoadingBar from "./common/LoadingBar";
 import SettingsContainer from "./layout/SettingsContainer";
 import TabsGroup from "./layout/TabsGroup";
+import useBoos from "./extra/useBoos";
 
 import flush from "styled-jsx/server";
 
@@ -95,6 +96,7 @@ export {
   CustomCursor,
   SettingsContainer,
   TabsGroup,
+  useBoos,
 };
 
 import type { TagsType } from "./types";
