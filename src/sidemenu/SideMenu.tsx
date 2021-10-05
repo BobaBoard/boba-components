@@ -16,6 +16,13 @@ import { extractCompounds } from "../utils/compound-utils";
 export interface SideMenuHandler {
   focusBoardFilter: () => void;
 }
+
+export interface SideMenuCompoundComponent
+  extends React.ForwardRefExoticComponent<
+    SideMenuProps & React.RefAttributes<SideMenuHandler>
+  > {
+  BoardsMenuSection: typeof BoardsMenuSection;
+}
 //
 const SideMenu = React.forwardRef<SideMenuHandler, SideMenuProps>(
   function SideMenuForwardRef(
@@ -174,7 +181,9 @@ const SideMenu = React.forwardRef<SideMenuHandler, SideMenuProps>(
       </div>
     );
   }
-);
+) as SideMenuCompoundComponent;
+
+SideMenu.BoardsMenuSection = BoardsMenuSection;
 
 export default SideMenu;
 

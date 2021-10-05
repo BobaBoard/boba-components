@@ -62,7 +62,7 @@ export {
   Modal,
   UserDetails,
   ModalWithButtons,
-  PinnedMenu as PinnedBoardsMenu,
+  PinnedMenu,
   Post,
   PostEditor,
   PostingActionButton,
