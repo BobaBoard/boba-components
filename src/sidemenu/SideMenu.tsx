@@ -3,8 +3,8 @@ import { BoardType } from "types";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faEllipsisV, faSearch } from "@fortawesome/free-solid-svg-icons";
 
-import PinnedMenu, { PinnedMenuSectionProps } from "./PinnedMenu";
-import BoardsMenuSection, { BoardsMenuSectionProps } from "./BoardsMenuSection";
+import PinnedMenu from "./PinnedMenu";
+import BoardsMenuSection from "./BoardsMenuSection";
 import DropdownMenu, {
   DropdownProps,
   DropdownStyle,
@@ -21,8 +21,8 @@ export interface SideMenuCompoundComponent
   extends React.ForwardRefExoticComponent<
     SideMenuProps & React.RefAttributes<SideMenuHandler>
   > {
-  BoardsMenuSection: React.FC<BoardsMenuSectionProps>;
-  PinnedMenuSection: React.FC<PinnedMenuSectionProps>;
+  BoardsMenuSection: typeof BoardsMenuSection;
+  PinnedMenu: typeof PinnedMenu;
 }
 //
 const SideMenu = React.forwardRef<SideMenuHandler, SideMenuProps>(
@@ -38,7 +38,7 @@ const SideMenu = React.forwardRef<SideMenuHandler, SideMenuProps>(
     }));
 
     const boardSections = extractCompounds(children, BoardsMenuSection);
-    const pinnedSections = extractCompounds(children, PinnedMenu.Section);
+    const pinnedSections = extractCompounds(children, PinnedMenu);
     return (
       <div className="side-menu">
         <div
@@ -46,7 +46,7 @@ const SideMenu = React.forwardRef<SideMenuHandler, SideMenuProps>(
             visible: !!showPinned && !!pinnedSections?.length,
           })}
         >
-          <PinnedMenu>{pinnedSections}</PinnedMenu>
+          {pinnedSections}
         </div>
         <div className="board-menus">
           <div
@@ -185,7 +185,7 @@ const SideMenu = React.forwardRef<SideMenuHandler, SideMenuProps>(
 ) as SideMenuCompoundComponent;
 
 SideMenu.BoardsMenuSection = BoardsMenuSection;
-SideMenu.PinnedMenuSection = PinnedMenu.Section;
+SideMenu.PinnedMenu = PinnedMenu;
 export default SideMenu;
 
 export interface SideMenuProps {

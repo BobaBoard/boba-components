@@ -6,9 +6,8 @@ import BoardsMenuSection, {
 import {
   faBatteryEmpty,
   faClock,
+  faSpinner,
   faTh,
-  faTrash,
-  faUpload,
 } from "@fortawesome/free-solid-svg-icons";
 
 import { action } from "@storybook/addon-actions";
@@ -23,6 +22,7 @@ import book from "../images/book.png";
 import villains from "../images/villains.png";
 import kinkmeme from "../images/kink-meme.png";
 import art from "../images/art-crit.png";
+import { Meta, Story } from "@storybook/react";
 
 const PINNED_BOARDS = [
   {
@@ -148,9 +148,11 @@ export default {
       </div>
     ),
   ],
-};
+} as Meta;
 
-const BoardsMenuSectionTemplate = (args: BoardsMenuSectionProps) => {
+const BoardsMenuSectionTemplate: Story<BoardsMenuSectionProps> = (
+  args: BoardsMenuSectionProps
+) => {
   return <BoardsMenuSection {...args} />;
 };
 
@@ -173,7 +175,18 @@ Empty.args = {
 
 export const Loading = BoardsMenuSectionTemplate.bind({});
 Loading.args = {
+  ...Empty.args,
+  title: "A loading section",
+  icon: faSpinner,
   loading: true,
   accentColor: "red",
   placeholdersCount: 4,
+};
+
+export const Long = BoardsMenuSectionTemplate.bind({});
+Long.args = {
+  boards: [...RECENT_BOARDS, ...PINNED_BOARDS, ...SEARCH_BOARDS],
+  icon: faTh,
+  title: "All boards",
+  currentBoardSlug: "kink-memes",
 };

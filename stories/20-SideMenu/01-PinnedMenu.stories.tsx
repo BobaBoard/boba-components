@@ -4,14 +4,11 @@ import PinnedMenu, {
 } from "../../src/sidemenu/PinnedMenu";
 
 import {
-  faCoffee,
   faHeart,
   faInbox,
-  faInfoCircle,
   faRssSquare,
   faStar,
   faThumbtack,
-  faTrash,
   faUpload,
 } from "@fortawesome/free-solid-svg-icons";
 
@@ -28,6 +25,7 @@ import book from "../images/book.png";
 import villains from "../images/villains.png";
 import kinkmeme from "../images/kink-meme.png";
 import art from "../images/art-crit.png";
+import { Story } from "@storybook/react";
 
 const PINNED_BOARDS = [
   {
@@ -70,22 +68,6 @@ const PINNED_BOARDS = [
     avatar: "/" + meta,
     description: "In My TiMeS wE CaLlEd It WaNk",
     color: "#f9e066",
-    link: { href: "#slug", onClick: action("#slug") },
-  },
-];
-const SEARCH_BOARDS = [
-  {
-    slug: "villain-thirst",
-    avatar: "/" + villains,
-    description: "Love to love 'em.",
-    color: "#e22b4b",
-    link: { href: "#slug", onClick: action("#slug") },
-  },
-  {
-    slug: "art-crit",
-    avatar: "/" + art,
-    description: "Let's learn together!",
-    color: "#27caba",
     link: { href: "#slug", onClick: action("#slug") },
   },
 ];
@@ -142,7 +124,7 @@ export default {
   component: PinnedMenu,
 };
 
-const PinnedSectionTemplate = (args: PinnedMenuSectionProps) => {
+const PinnedSectionTemplate: Story<PinnedMenuSectionProps> = (args) => {
   return (
     <PinnedMenu>
       <PinnedMenu.Section {...args} />
@@ -150,8 +132,8 @@ const PinnedSectionTemplate = (args: PinnedMenuSectionProps) => {
   );
 };
 
-export const Regular = PinnedSectionTemplate.bind({});
-Regular.args = {
+export const Boards = PinnedSectionTemplate.bind({});
+Boards.args = {
   icon: faThumbtack,
   items: RECENT_BOARDS,
   currentItemId: "kink-memes",
@@ -175,16 +157,14 @@ Icons.args = {
       accentColor: "red",
     },
     {
+      id: "inbox",
       icon: faInbox,
       accentColor: "red",
       withNotification: true,
     },
+    { id: "image", icon: mamoru, accentColor: "red", withDropdown: true },
     {
-      icon: mamoru,
-      accentColor: "red",
-      withDropdown: true,
-    },
-    {
+      id: "heart",
       icon: faHeart,
       accentColor: "red",
     },
@@ -202,21 +182,17 @@ Mixed.args = {
       accentColor: "red",
     },
     PINNED_BOARDS[0],
-    {
-      icon: mamoru,
-      accentColor: "red",
-      withDropdown: true,
-    },
+    { id: "image", icon: mamoru, accentColor: "red", withDropdown: true },
     PINNED_BOARDS[2],
-    {
-      icon: faHeart,
-      accentColor: "red",
-    },
+    { id: "heart", icon: faHeart, accentColor: "red" },
   ],
   currentItemId: "star",
 };
 
-const MultipleSectionsTemplate = ({ items, args }) => {
+const MultipleSectionsTemplate: Story<{
+  items: PinnedMenuSectionProps[];
+  args: typeof PinnedMenu;
+}> = ({ items, args }) => {
   return (
     <PinnedMenu {...args}>
       {items.map((item, index) => (
@@ -227,5 +203,6 @@ const MultipleSectionsTemplate = ({ items, args }) => {
 };
 export const MultipleSections = MultipleSectionsTemplate.bind({});
 MultipleSections.args = {
-  items: [Mixed.args, Loading.args, Regular.args],
+  // @ts-expect-error (see: https://github.com/storybookjs/storybook/issues/13747)
+  items: [Mixed.args, Loading.args, Boards.args],
 };
