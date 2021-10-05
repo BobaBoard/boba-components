@@ -9,6 +9,9 @@ import { Icons, Boards } from "./01-PinnedMenu.stories";
 
 import { Story } from "@storybook/react";
 
+import PinnedMenu from "../../src/sidemenu/PinnedMenu";
+import BoardsMenuSection from "../../src/sidemenu/BoardsMenuSection";
+
 export default {
   title: "Side Menu/Side Menu",
   component: SideMenu,
@@ -21,20 +24,20 @@ const SideMenuPreviewTemplate: Story<
 > = (args, context) => {
   return (
     <SideMenu showPinned={args.showPinned} ref={context?.menuRef}>
-      <SideMenu.PinnedMenu>
+      <PinnedMenu>
         {/* @ts-expect-error (see: https://github.com/storybookjs/storybook/issues/13747) */}
-        <SideMenu.PinnedMenu.Section {...Icons.args} />
+        <PinnedMenu.Section {...Icons.args} />
         {/* @ts-expect-error (see: https://github.com/storybookjs/storybook/issues/13747) */}
-        <SideMenu.PinnedMenu.Section {...Boards.args} />
-      </SideMenu.PinnedMenu>{" "}
+        <PinnedMenu.Section {...Boards.args} />
+      </PinnedMenu>
       {/* @ts-expect-error (see: https://github.com/storybookjs/storybook/issues/13747) */}
-      <SideMenu.BoardsMenuSection {...Regular.args} />
+      <BoardsMenuSection {...Regular.args} />
       {/* @ts-expect-error (see: https://github.com/storybookjs/storybook/issues/13747) */}
-      <SideMenu.BoardsMenuSection {...Loading.args} loading={args.loading} />
+      <BoardsMenuSection {...Loading.args} loading={args.loading} />
       {/* @ts-expect-error (see: https://github.com/storybookjs/storybook/issues/13747) */}
-      <SideMenu.BoardsMenuSection {...Empty.args} />
+      <BoardsMenuSection {...Empty.args} />
       {/* @ts-expect-error (see: https://github.com/storybookjs/storybook/issues/13747) */}
-      <SideMenu.BoardsMenuSection {...Long.args} />
+      <BoardsMenuSection {...Long.args} />
     </SideMenu>
   );
 };
