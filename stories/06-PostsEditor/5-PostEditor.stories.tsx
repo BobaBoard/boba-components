@@ -66,10 +66,6 @@ const embedFetchers = {
   },
 };
 
-const withContextProviders = (component: React.ReactNode): React.ReactNode => {
-  return component;
-};
-
 const RECENT_BOARDS = [
   {
     slug: "gore",
