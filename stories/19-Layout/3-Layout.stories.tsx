@@ -14,6 +14,7 @@ export default {
   component: Layout,
   args: {
     sideMenuContent: <div>Get a load of this menu content!</div>,
+    // @ts-expect-error
     pinnedMenuContent: <MultipleSections {...MultipleSections.args} />,
     mainContent: (
       <div
@@ -104,12 +105,10 @@ LoggedInLayout.args = {
     username: "SexyDaddy69",
     avatarUrl: mamoru,
   },
-  onUserbarClick: {
-    href: "https://www.youtube.com/watch?v=dQw4w9WgXcQ",
-    onClick: action("userbarClick"),
-  },
+  onUserBarClick: action("userbarClick"),
   loggedInMenuOptions: [
     {
+      icon: faSearch,
       name: "opt1",
       link: {
         onClick: action("opt1"),
@@ -131,6 +130,6 @@ LoadingLayout.args = {
   ...LoggedInLayout.args,
   loading: true,
   userLoading: true,
-  updates: true,
+  hasNotifications: true,
   headerAccent: "red",
 };

@@ -22,9 +22,7 @@ import crack from "../images/crack.png";
 import oncelerBoard from "../images/onceler-board.png";
 import meta from "../images/meta.png";
 import book from "../images/book.png";
-import villains from "../images/villains.png";
 import kinkmeme from "../images/kink-meme.png";
-import art from "../images/art-crit.png";
 import { Story } from "@storybook/react";
 
 const PINNED_BOARDS = [

@@ -21,7 +21,7 @@ export interface PopupButtonsProps {
   centerTop: string;
   centerLeft: string;
   defaultColor?: string;
-  container?: React.MutableRefObject<HTMLElement>;
+  container?: React.MutableRefObject<HTMLElement | null>;
 }
 
 const BUTTONS_SIZE = 35;

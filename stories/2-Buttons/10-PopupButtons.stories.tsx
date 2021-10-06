@@ -1,5 +1,7 @@
 import React from "react";
-import PopupButtonsComponent from "../../src/buttons/PopupButtons";
+import PopupButtonsComponent, {
+  PopupButtonsProps,
+} from "../../src/buttons/PopupButtons";
 import DefaultTheme from "../../src/theme/default";
 import {
   faMapPin,
@@ -7,14 +9,18 @@ import {
   faPaintBrush,
 } from "@fortawesome/free-solid-svg-icons";
 import { action } from "@storybook/addon-actions";
-import { Meta } from "@storybook/react";
+import { Meta, Story } from "@storybook/react";
 
 export default {
   title: "Buttons/Popup Buttons",
   component: PopupButtonsComponent,
 } as Meta;
 
-export const PopupButtons = ({ show, setShow, container }) => {
+export const PopupButtons: Story<
+  PopupButtonsProps & {
+    setShow: (show: boolean) => void;
+  }
+> = ({ show, setShow, container }) => {
   return (
     <PopupButtonsComponent
       onCloseRequest={() => setShow(false)}
@@ -70,11 +76,12 @@ export const PopupButtons = ({ show, setShow, container }) => {
 };
 PopupButtons.decorators = [
   (Story, props) => {
-    const container = React.useRef<HTMLDivElement>();
+    const container = React.useRef<HTMLDivElement>(null);
     const [show, setShow] = React.useState(true);
     return (
       <div className="story" ref={container}>
         <button onClick={() => setShow(!show)}>Toggle visibility</button>
+        {/* @ts-expect-error (TODO: figure this out)*/}
         {Story({
           args: {
             show,

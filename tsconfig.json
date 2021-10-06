@@ -9,7 +9,6 @@
     "jsx": "preserve",
     "moduleResolution": "node",
     "rootDirs": ["src", "stories"],
-    "baseUrl": "src",
     "forceConsistentCasingInFileNames": true,
     "noImplicitReturns": true,
     "noImplicitThis": true,
