@@ -222,7 +222,7 @@ const Footer: React.FC<FooterProps> = ({
 };
 export default Footer;
 
-interface FooterProps {
+export interface FooterProps {
   onComment?: () => void;
   onContribution?: () => void;
   compact?: boolean;

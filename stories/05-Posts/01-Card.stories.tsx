@@ -69,6 +69,6 @@ WithFixedHeight.args = {
 export const WithHeaderAndFooter = CardTemplate.bind({});
 WithHeaderAndFooter.args = {
   editorText: EDITOR_TEXT_VALUES.WITH_IMAGE,
-  header: <div style={{ backgroundColor: "pink" }}>This is a header</div>,
+  header: <div style={{ backgroundColor: "lightgreen" }}>This is a header</div>,
   footer: <div style={{ backgroundColor: "red" }}>This is a footer</div>,
 };
