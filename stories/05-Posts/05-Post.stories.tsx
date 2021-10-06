@@ -1,6 +1,5 @@
 import React from "react";
-import Post, { PostProps } from "../../src/post/Post";
-import PostQuote from "../../src/post/PostQuote";
+import Post, { PostHandler, PostProps } from "../../src/post/Post";
 
 import tuxedoAvatar from "../images/tuxedo-mask.jpg";
 import mamoruAvatar from "../images/mamoru.png";
@@ -12,7 +11,6 @@ import junkoReaction from "../images/junko-reaction.png";
 import reindeerEars from "../images/reindeer-ears.png";
 import scarf from "../images/scarf.png";
 import snow from "../images/snow.gif";
-import crown from "../images/crown.png";
 import wreath from "../images/wreath.png";
 import Button from "../../src/buttons/Button";
 import { action } from "@storybook/addon-actions";
@@ -39,16 +37,21 @@ export default {
 
 const PostTemplate: Story<
   PostProps & { text: EditorControlsType["editorText"] } // Override type of text to be able to use text controls
-> = (args) => <Post {...args} text={getInitialTextString(args.text)} />;
+> = (args, context) => (
+  <Post
+    {...args}
+    text={getInitialTextString(args.text)}
+    ref={context?.postRef}
+  />
+);
 
-export const NonEditable = PostTemplate.bind({});
-NonEditable.args = {
+export const Base = PostTemplate.bind({});
+Base.args = {
   createdTime: "2019/05/14 at 7:34pm",
   secretIdentity: { name: "Tuxedo Mask", avatar: `/${tuxedoAvatar}` },
   userIdentity: { name: "SexyDaddy69", avatar: `/${mamoruAvatar}` },
   onNewContribution: () => action("newContribution"),
   onNewComment: () => action("newComment"),
-  onNotesClick: () => console.log("click"),
   createdTimeLink: {
     onClick: action("createdTime"),
     href: "https://www.youtube.com/watch?v=dQw4w9WgXcQ",
@@ -59,9 +62,9 @@ NonEditable.args = {
   },
 };
 
-export const UpdatedPost = PostTemplate.bind({});
-UpdatedPost.args = {
-  ...NonEditable.args,
+export const Updated = PostTemplate.bind({});
+Updated.args = {
+  ...Base.args,
   totalContributions: 15,
   directContributions: 3,
   totalComments: 5,
@@ -69,15 +72,15 @@ UpdatedPost.args = {
   newContributions: 5,
 };
 
-export const AnswerablePost = PostTemplate.bind({});
-AnswerablePost.args = {
-  ...UpdatedPost.args,
+export const Answerable = PostTemplate.bind({});
+Answerable.args = {
+  ...Updated.args,
   answerable: true,
 };
 
-export const TaggedPost = PostTemplate.bind({});
-TaggedPost.args = {
-  ...AnswerablePost.args,
+export const Tagged = PostTemplate.bind({});
+Tagged.args = {
+  ...Answerable.args,
   tags: {
     indexTags: ["indexable"],
     categoryTags: ["category"],
@@ -98,9 +101,9 @@ TaggedPost.args = {
   answerable: true,
 };
 
-export const ReactablePost = PostTemplate.bind({});
-ReactablePost.args = {
-  ...TaggedPost.args,
+export const Reactable = PostTemplate.bind({});
+Reactable.args = {
+  ...Tagged.args,
   reactable: true,
   reactions: [
     { image: oncieReaction, count: 3 },
@@ -109,14 +112,22 @@ ReactablePost.args = {
     { image: junkoReaction, count: 20 },
   ],
   tags: {
-    ...TaggedPost.args.tags,
+    indexTags: ["indexable"],
+    categoryTags: ["category"],
+    whisperTags: [
+      "tag1",
+      "tag2",
+      "a long tag",
+      "a very very very very very long tag with many words",
+      "JugemuJugemuGokonoSurikireKaijarisuigyonoSuigyomatsuUnraimatsuFuraimatsuKuNeruTokoroniSumuTokoroYaburaKojinoBuraKojiPaipopaipoPaiponoShuringanShuringannoGurindaiGurindainoPonpokopinoPonpokonanoChokyumeinoChosuke",
+    ],
     contentWarnings: ["this has just one warning!"],
   },
 };
 
-export const ActionPost = PostTemplate.bind({});
-ActionPost.args = {
-  ...TaggedPost.args,
+export const WithDropdownAction = PostTemplate.bind({});
+WithDropdownAction.args = {
+  ...Tagged.args,
   menuOptions: [
     {
       name: "Copy Link",
@@ -128,107 +139,95 @@ ActionPost.args = {
   ],
 };
 
-export const HighlightPost = () => {
-  const postRef = React.createRef<any>();
-  return (
-    <div>
-      <Post {...TaggedPost.args} ref={postRef} />
-      <div style={{ marginTop: "20px" }}>
-        <Button
-          onClick={() => {
-            action("highlight")(postRef.current);
-            postRef.current.highlight("red");
-          }}
-        >
-          Highlight!
-        </Button>
-      </div>
-    </div>
-  );
-};
-
-export const BoardPost = PostTemplate.bind({});
-BoardPost.args = {
-  ...ActionPost.args,
+export const WithBoard = PostTemplate.bind({});
+WithBoard.args = {
+  ...WithDropdownAction.args,
   board: {
     slug: "!gore",
     accentColor: "purple",
   },
 };
 
-export const Badges = PostTemplate.bind({});
-Badges.args = {
-  ...BoardPost.args,
+export const WithBadges = PostTemplate.bind({});
+WithBadges.args = {
+  ...WithBoard.args,
   newPost: true,
   op: true,
 };
 
-export const SwitchIdentityPost = () => {
-  const [identityHidden, setIdentityHidden] = React.useState(false);
-  return (
-    <div>
-      <button onClick={() => setIdentityHidden(!identityHidden)}>
-        {identityHidden ? "Show" : "Hide"} identity
-      </button>
-      <Post
-        {...BoardPost.args}
-        secretIdentity={{
-          ...BoardPost.args.secretIdentity,
-          color: "#f30cb5",
-          accessory: crown,
-        }}
-        forceHideIdentity={identityHidden}
-      />
-    </div>
-  );
+export const ForceHideIdentity = PostTemplate.bind({});
+ForceHideIdentity.args = {
+  ...WithBadges.args,
+  forceHideIdentity: true,
 };
 
-export const AccessoryPost = () => {
-  const [currentAccessory, setCurrentAccessory] = React.useState<
-    string | undefined
-  >(reindeerEars);
-  return (
-    <div>
-      <button onClick={() => setCurrentAccessory(undefined)}>None</button>
-      <button onClick={() => setCurrentAccessory(reindeerEars)}>
-        Reindeer
-      </button>
-      <button onClick={() => setCurrentAccessory(wreath)}>Wreath</button>
-      <button onClick={() => setCurrentAccessory(scarf)}>Scarf</button>
-      <button onClick={() => setCurrentAccessory(snow)}>Snow</button>
-      <Post
-        {...BoardPost.args}
-        secretIdentity={{
-          name:
-            "Tuxedo Mask askldjaksldjaskld askdjaskldjaskldjas daskjdaklsdjaklsdj askdjaskldjaklsdjaskld askdj kasjdaklsdjaklsdjaskldjslk",
-          avatar: `/${tuxedoAvatar}`,
-          accessory: currentAccessory,
-        }}
-      />
-    </div>
-  );
+export const WithLongIdentityName = PostTemplate.bind({});
+WithDropdownAction.args = {
+  ...Tagged.args,
+  secretIdentity: {
+    name:
+      "Tuxedo Mask askldjaksldjaskld askdjaskldjaskldjas daskjdaklsdjaklsdj askdjaskldjaklsdjaskld askdj kasjdaklsdjaklsdjaskldjslk",
+    avatar: `/${tuxedoAvatar}`,
+  },
 };
 
-export const PostQuoteStory = () => {
-  return (
-    <div style={{ width: "300px" }}>
-      <PostQuote
-        createdTime="yesterday"
-        createdTimeLink={{
-          href: "#test-link",
-          onClick: action("clickity-click"),
-        }}
-        text={
-          '[{"insert":"Open RP"},{"attributes":{"header":1},"insert":"\\n"},{"insert":{"block-image":"https://cdn.discordapp.com/attachments/443967088118333442/691486081895628830/unknown.png"}}, {"attributes":{"italic":true},"insert":"You have my sword..."}]'
-        }
-        secretIdentity={{
-          name: "Tuxedo Mask",
-          avatar: `/${tuxedoAvatar}`,
-          accessory: crown,
-          color: "#f30cb5",
-        }}
-        userIdentity={{ name: "SexyDaddy69", avatar: `/${mamoruAvatar}` }}
-      />
-    </div>
-  );
-};
+export const WithAccessories = PostTemplate.bind({});
+WithAccessories.args = Tagged.args;
+WithAccessories.decorators = [
+  (Story, stuff) => {
+    const [currentAccessory, setCurrentAccessory] = React.useState<
+      string | undefined
+    >(reindeerEars);
+    stuff.args.secretIdentity = {
+      ...stuff.args.secretIdentity,
+      accessory: currentAccessory,
+    };
+    return (
+      <div style={{ marginLeft: "20px" }}>
+        {/* @ts-ignore */}
+        <Story />
+        <div
+          style={{
+            position: "absolute",
+            right: 0,
+            bottom: 0,
+            zIndex: 2000,
+            display: "flex",
+            flexDirection: "column",
+          }}
+        >
+          <button onClick={() => setCurrentAccessory(undefined)}>None</button>
+          <button onClick={() => setCurrentAccessory(reindeerEars)}>
+            Reindeer
+          </button>
+          <button onClick={() => setCurrentAccessory(wreath)}>Wreath</button>
+          <button onClick={() => setCurrentAccessory(scarf)}>Scarf</button>
+          <button onClick={() => setCurrentAccessory(snow)}>Snow</button>
+        </div>
+      </div>
+    );
+  },
+];
+export const TestHighlight = PostTemplate.bind({});
+TestHighlight.args = Tagged.args;
+TestHighlight.decorators = [
+  (Story) => {
+    const postRef = React.createRef<PostHandler>();
+    return (
+      <div style={{ marginLeft: "20px" }}>
+        {/* @ts-ignore */}
+        <Story postRef={postRef} />
+        <div style={{ marginTop: "20px" }}>
+          <Button
+            onClick={() => {
+              action("highlight")(postRef.current);
+              postRef.current?.highlight("red");
+            }}
+          >
+            Highlight!
+          </Button>
+        </div>
+      </div>
+    );
+  },
+];
