@@ -15,4 +15,9 @@ addParameters({
       excludeDecorators: true,
     },
   },
+  controls: {
+    matchers: {
+      color: /(background|color)$/i,
+    },
+  },
 });

@@ -1,28 +1,26 @@
 import React from "react";
-//import { linkTo } from "@storybook/addon-links";
-import Card from "../src/common/Card";
-import Header, { HeaderStyle } from "../src/post/Header";
-import Footer from "../src/post/Footer";
-import EditorFooter from "../src/post/EditorFooter";
-import Post from "../src/post/Post";
-import PostQuote from "../src/post/PostQuote";
-// @ts-ignore
+import Card from "../../src/common/Card";
+import Header, { HeaderStyle } from "../../src/post/Header";
+import Footer from "../../src/post/Footer";
+import EditorFooter from "../../src/post/EditorFooter";
+import Post from "../../src/post/Post";
+import PostQuote from "../../src/post/PostQuote";
 import Editor from "@bobaboard/boba-editor";
 
-import oncelerAvatar from "./images/oncie.jpg";
-import tuxedoAvatar from "./images/tuxedo-mask.jpg";
-import mamoruAvatar from "./images/mamoru.png";
+import oncelerAvatar from "../images/oncie.jpg";
+import tuxedoAvatar from "../images/tuxedo-mask.jpg";
+import mamoruAvatar from "../images/mamoru.png";
 
-import oncieReaction from "./images/oncie-reaction.png";
-import sportacusReaction from "./images/sportacus-reaction.png";
-import luigiReaction from "./images/luigi-reaction.png";
-import junkoReaction from "./images/junko-reaction.png";
-import reindeerEars from "./images/reindeer-ears.png";
-import scarf from "./images/scarf.png";
-import snow from "./images/snow.gif";
-import crown from "./images/crown.png";
-import wreath from "./images/wreath.png";
-import Button from "../src/buttons/Button";
+import oncieReaction from "../images/oncie-reaction.png";
+import sportacusReaction from "../images/sportacus-reaction.png";
+import luigiReaction from "../images/luigi-reaction.png";
+import junkoReaction from "../images/junko-reaction.png";
+import reindeerEars from "../images/reindeer-ears.png";
+import scarf from "../images/scarf.png";
+import snow from "../images/snow.gif";
+import crown from "../images/crown.png";
+import wreath from "../images/wreath.png";
+import Button from "../../src/buttons/Button";
 import { action } from "@storybook/addon-actions";
 
 export default {

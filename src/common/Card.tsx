@@ -7,10 +7,10 @@ import {
 } from "@fortawesome/free-solid-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import DefaultTheme from "../theme/default";
+import Color from "color";
+import { CreateBaseCompound, extractCompound } from "../utils/compound-utils";
 
 export interface CardProps {
-  footer?: React.ReactNode;
-  header?: React.ReactNode;
   height?: number;
   backgroundColor?: string;
 }
@@ -20,29 +20,8 @@ interface CompoundComponents {
   Header: React.FC<{ children: React.ReactNode }>;
 }
 
-const Footer: CompoundComponents["Footer"] = (props) => {
-  return <>{props.children}</>;
-};
-
-const Header: CompoundComponents["Header"] = (props) => {
-  return <>{props.children}</>;
-};
-
-const extractFooter = (
-  children: React.ReactNode
-): typeof Footer | undefined => {
-  return React.Children.toArray(children).find(
-    (node) => React.isValidElement(node) && node.type == Footer
-  ) as typeof Footer;
-};
-
-const extractHeader = (
-  children: React.ReactNode
-): typeof Header | undefined => {
-  return React.Children.toArray(children).find(
-    (node) => React.isValidElement(node) && node.type == Header
-  ) as typeof Header;
-};
+const Footer = CreateBaseCompound("Footer");
+const Header = CreateBaseCompound("Header");
 
 const Card: React.FC<CardProps> & CompoundComponents = ({
   children,
@@ -50,12 +29,16 @@ const Card: React.FC<CardProps> & CompoundComponents = ({
   backgroundColor,
 }) => {
   const [isExpanded, setExpanded] = React.useState(!height);
-  const footer = extractFooter(children);
-  const header = extractHeader(children);
+  const footer = extractCompound(children, Footer);
+  const header = extractCompound(children, Header);
   const rest = React.Children.toArray(children).filter(
     (child) =>
       !React.isValidElement(child) ||
       (child.type != Footer && child.type != Header)
+  );
+
+  const processedColor = Color(
+    backgroundColor || DefaultTheme.POST_BACKGROUND_COLOR
   );
   return (
     <>
@@ -88,8 +71,14 @@ const Card: React.FC<CardProps> & CompoundComponents = ({
       <style jsx>{`
         /* Dynamic styles */
         .card {
-          background-color: ${backgroundColor ||
-          DefaultTheme.POST_BACKGROUND_COLOR};
+          background-color: ${processedColor.toString()};
+        }
+        .expand-overlay {
+          background: linear-gradient(
+            ${processedColor.alpha(0.0001).toString()} 10%,
+            ${processedColor.toString()} 30%,
+            ${processedColor.toString()}
+          );
         }
       `}</style>
       <style jsx>{`
@@ -107,11 +96,6 @@ const Card: React.FC<CardProps> & CompoundComponents = ({
           height: 40px;
           left: 0;
           right: 0;
-          background: linear-gradient(
-            rgba(255, 255, 255, 0.001) 10%,
-            #ffffff 30%,
-            #ffffff
-          );
           bottom: 0;
           cursor: pointer;
           text-align: center;
