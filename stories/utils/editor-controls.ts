@@ -4,17 +4,17 @@ export enum EDITOR_TEXT_VALUES {
 }
 
 export const getInitialText = (textValue: EDITOR_TEXT_VALUES) => {
+  return JSON.parse(getInitialTextString(textValue));
+};
+
+export const getInitialTextString = (textValue: EDITOR_TEXT_VALUES) => {
   switch (textValue) {
     case EDITOR_TEXT_VALUES.LONG_WORD:
-      return JSON.parse(
-        '[{"insert":"This card has a really long word: JugemuJugemuGokonoSurikireKaijarisuigyonoSuigyomatsuUnraimatsuFuraimatsuKuNeruTokoroniSumuTokoroYaburaKojinoBuraKojiPaipopaipoPaiponoShuringanShuringannoGurindaiGurindainoPonpokopinoPonpokonanoChokyumeinoChosuke."}]'
-      );
+      return '[{"insert":"This card has a really long word: JugemuJugemuGokonoSurikireKaijarisuigyonoSuigyomatsuUnraimatsuFuraimatsuKuNeruTokoroniSumuTokoroYaburaKojinoBuraKojiPaipopaipoPaiponoShuringanShuringannoGurindaiGurindainoPonpokopinoPonpokonanoChokyumeinoChosuke."}]';
     case EDITOR_TEXT_VALUES.WITH_IMAGE:
-      return JSON.parse(
-        '[{"insert":"Open RP"},{"attributes":{"header":1},"insert":"\\n"},{"insert":{"block-image":"https://cdn.discordapp.com/attachments/443967088118333442/691486081895628830/unknown.png"}}, {"attributes":{"italic":true},"insert":"You have my sword..."}]'
-      );
+      return '[{"insert":"Open RP"},{"attributes":{"header":1},"insert":"\\n"},{"insert":{"block-image":"https://cdn.discordapp.com/attachments/443967088118333442/691486081895628830/unknown.png"}}, {"attributes":{"italic":true},"insert":"You have my sword..."}]';
     default:
-      return [];
+      return "[]";
   }
 };
 
