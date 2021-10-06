@@ -174,12 +174,12 @@ WithDropdownAction.args = {
 export const WithAccessories = PostTemplate.bind({});
 WithAccessories.args = Tagged.args;
 WithAccessories.decorators = [
-  (Story, stuff) => {
+  (Story, storyArgs) => {
     const [currentAccessory, setCurrentAccessory] = React.useState<
       string | undefined
     >(reindeerEars);
-    stuff.args.secretIdentity = {
-      ...stuff.args.secretIdentity,
+    storyArgs.args.secretIdentity = {
+      ...storyArgs.args.secretIdentity,
       accessory: currentAccessory,
     };
     return (
@@ -208,6 +208,7 @@ WithAccessories.decorators = [
     );
   },
 ];
+
 export const TestHighlight = PostTemplate.bind({});
 TestHighlight.args = Tagged.args;
 TestHighlight.decorators = [

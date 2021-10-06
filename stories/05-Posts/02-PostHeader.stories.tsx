@@ -2,7 +2,7 @@ import React from "react";
 import Header, { HeaderStyle, PostHeaderProps } from "../../src/post/Header";
 
 import { action } from "@storybook/addon-actions";
-import { Story } from "@storybook/react";
+import { Meta, Story } from "@storybook/react";
 
 import oncelerAvatar from "../images/oncie.jpg";
 import tuxedoAvatar from "../images/tuxedo-mask.jpg";
@@ -39,7 +39,7 @@ export default {
       </div>
     ),
   ],
-};
+} as Meta;
 
 const HeaderTemplate: Story<PostHeaderProps> = (args) => <Header {...args} />;
 

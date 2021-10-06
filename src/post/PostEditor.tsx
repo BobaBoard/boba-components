@@ -36,9 +36,13 @@ const computeTags = (
   return TagsFactory.orderTags(tags);
 };
 
+export interface PostEditorHandler {
+  focus: () => void;
+}
+
 const MemoizedTags = React.memo(Tags);
 const MemoizedHeader = React.memo(Header);
-const PostEditor = React.forwardRef<{ focus: () => void }, PostEditorProps>(
+const PostEditor = React.forwardRef<PostEditorHandler, PostEditorProps>(
   (props, ref) => {
     const editorRef = React.useRef<Editor>(null);
     const [isEmpty, setIsEmpty] = React.useState(true);
@@ -82,6 +86,7 @@ const PostEditor = React.forwardRef<{ focus: () => void }, PostEditorProps>(
 
     React.useImperativeHandle(ref, () => ({
       focus: () => {
+        // TODO: why does this not work?
         editorRef.current?.focus();
       },
     }));
