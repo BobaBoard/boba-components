@@ -2,7 +2,7 @@ import React from "react";
 
 import classnames from "classnames";
 import debug from "debug";
-import { AccessoryType, LinkWithAction, SecretIdentityType } from "types";
+import { AccessoryType, LinkWithAction, SecretIdentityType } from "../types";
 
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import {
@@ -12,11 +12,13 @@ import {
 } from "@fortawesome/free-solid-svg-icons";
 
 import Avatar from "./Avatar";
+import AccessorySelector from "./AccessorySelector";
 import DefaultTheme from "../theme/default";
 import DropdownListMenu, { DropdownProps } from "../common/DropdownListMenu";
 import ActionLink from "../buttons/ActionLink";
 import css from "styled-jsx/css";
 import questionMark from "../images/question_mark.png";
+import Icon from "../common/Icon";
 //const log = debug("bobaui:header-log");
 const info = debug("bobaui:header-info");
 
@@ -55,37 +57,6 @@ const useIdentityOptions = (props: {
   return identityOptions;
 };
 
-const useAccessoriesOptions = (props: {
-  accessories: PostHeaderProps["accessories"];
-  onSelectAccessory: PostHeaderProps["onSelectAccessory"];
-}) => {
-  const { onSelectAccessory } = props;
-  const accessoryOptions = React.useMemo(
-    () => [
-      {
-        name: "None",
-        icon: faCross,
-        link: {
-          onClick: () => onSelectAccessory?.(undefined),
-        },
-      },
-      ...(props.accessories || []).map((accessory) => ({
-        name: accessory.name,
-        icon: accessory.accessory,
-        link: {
-          onClick: () => onSelectAccessory?.(accessory),
-        },
-      })),
-    ],
-    [props.accessories, onSelectAccessory]
-  );
-
-  if (!props.accessories) {
-    return undefined;
-  }
-  return accessoryOptions;
-};
-
 export enum HeaderStyle {
   REGULAR = "REGULAR",
   COMPACT = "COMPACT",
@@ -96,12 +67,9 @@ const Metadata: React.FC<PostHeaderProps> = (props) => {
     additionalIdentities: props.additionalIdentities,
     onSelectIdentity: props.onSelectIdentity,
   });
-  const accessoriesOptions = useAccessoriesOptions({
-    accessories: props.accessories,
-    onSelectAccessory: props.onSelectAccessory,
-  });
   const hasUserIdentity =
     props.userIdentity?.name && props.userIdentity?.avatar;
+
   const currentAccessory = props.accessory
     ? props.accessories?.find(
         (accessory) => accessory.id == props.accessory?.id
@@ -146,20 +114,12 @@ const Metadata: React.FC<PostHeaderProps> = (props) => {
                   <div className="secret-identity">
                     @{props.userIdentity?.name || "You"}
                   </div>
-                  {accessoriesOptions?.length && (
-                    <DropdownListMenu zIndex={200} options={accessoriesOptions}>
-                      <div className="equip">
-                        <FontAwesomeIcon icon={faShieldAlt} />
-                        <span className="title">Equip: </span>
-                        <span className="accessory-name">
-                          {currentAccessory
-                            ? currentAccessory.name || "Unknown"
-                            : "None"}
-                        </span>
-                        <FontAwesomeIcon icon={faCaretDown} />
-                      </div>
-                    </DropdownListMenu>
-                  )}
+                  <AccessorySelector
+                    currentAccessory={currentAccessory}
+                    accessories={props.accessories}
+                    onSelectAccessory={props.onSelectAccessory}
+                    size={props.size || HeaderStyle.REGULAR}
+                  />
                 </div>
                 {props.createdMessage && (
                   <div className="timestamp">
@@ -190,34 +150,6 @@ const Metadata: React.FC<PostHeaderProps> = (props) => {
             margin-top: 1px;
             align-items: center;
           }
-          .equip :global(svg) {
-            margin-right: 3px;
-          }
-          .equip {
-            border-radius: 15px;
-            border: none;
-            font-size: var(--font-size-small);
-            display: flex;
-            align-items: center;
-            color: ${DefaultTheme.POST_HEADER_USERNAME_COLOR};
-            width: 150px;
-            background-color: #efefef;
-            padding: 2px 3px 2px 8px;
-          }
-          .equip .title {
-            font-weight: bold;
-            margin-right: 5px;
-          }
-          .equip .accessory-name {
-            flex-grow: 1;
-            text-align: left;
-            overflow: hidden;
-            white-space: nowrap;
-            text-overflow: ellipsis;
-          }
-          .equip:hover {
-            cursor: pointer;
-          }
           .nickname {
             font-size: var(--font-size-large);
             white-space: nowrap;
@@ -240,6 +172,7 @@ const Metadata: React.FC<PostHeaderProps> = (props) => {
           .secret-identity {
             color: ${DefaultTheme.POST_HEADER_USERNAME_COLOR};
             flex-grow: 1;
+            min-width: 50px;
           }
           .container {
             min-width: 0;
@@ -276,18 +209,6 @@ const Metadata: React.FC<PostHeaderProps> = (props) => {
             display: flex;
             flex-direction: column;
             min-width: 0;
-          }
-
-          @media only screen and (max-width: 450px) {
-            .equip .title {
-              display: none;
-            }
-            .equip :global(svg) {
-              margin-right: 5px;
-            }
-            .equip {
-              width: 100px;
-            }
           }
         `}
       </style>
@@ -333,11 +254,6 @@ const PostHeader = React.forwardRef<HTMLDivElement, PostHeaderProps>(
         `}</style>
       </div>
     );
-
-    const accessoriesOptions = useAccessoriesOptions({
-      accessories: props.accessories,
-      onSelectAccessory: props.onSelectAccessory,
-    });
     const currentAccessory = props.accessory
       ? props.accessories?.find(
           (accessory) => accessory.id == props.accessory?.id
@@ -348,8 +264,14 @@ const PostHeader = React.forwardRef<HTMLDivElement, PostHeaderProps>(
           accessory: props.secretIdentity?.accessory,
         }
       : undefined;
+
     return (
-      <div className={classnames("header-container", { compact: isCompact })}>
+      <div
+        className={classnames("header-container", {
+          compact: isCompact,
+          "with-accessory-select": !!props.accessories?.length,
+        })}
+      >
         <DropdownListMenu
           options={props.avatarOptions}
           header={
@@ -383,14 +305,13 @@ const PostHeader = React.forwardRef<HTMLDivElement, PostHeaderProps>(
             </div>
           </div>
         </DropdownListMenu>
-        {isCompact && props.accessories && (
-          <DropdownListMenu zIndex={200} options={accessoriesOptions}>
-            <button
-              className={classnames("equip", { empty: !props.accessory })}
-            >
-              <FontAwesomeIcon icon={faShieldAlt} />
-            </button>
-          </DropdownListMenu>
+        {isCompact && (
+          <AccessorySelector
+            currentAccessory={currentAccessory}
+            accessories={props.accessories}
+            onSelectAccessory={props.onSelectAccessory}
+            size={props.size || HeaderStyle.REGULAR}
+          />
         )}
         <style jsx>{`
           .header-container {
@@ -415,21 +336,6 @@ const PostHeader = React.forwardRef<HTMLDivElement, PostHeaderProps>(
             justify-content: space-evenly;
             margin-right: 15px;
           }
-          .equip {
-            margin-top: 10px;
-            border-radius: 15px;
-            border: none;
-            font-size: var(--font-size-small);
-            display: flex;
-            align-items: center;
-            color: ${DefaultTheme.POST_HEADER_USERNAME_COLOR};
-          }
-          .equip:hover {
-            cursor: pointer;
-          }
-          .equip.empty {
-            opacity: 0.5;
-          }
           .post-header {
             display: flex;
             align-items: center;
@@ -437,6 +343,9 @@ const PostHeader = React.forwardRef<HTMLDivElement, PostHeaderProps>(
             justify-content: space-between;
             text-align: left;
             max-width: 100%;
+          }
+          .header-container.compact.with-accessory-select .post-header {
+            margin-bottom: 7px;
           }
           .post-header.squeezed {
             flex-direction: column;
@@ -461,7 +370,7 @@ PostHeader.displayName = "PostHeader";
 export default PostHeader;
 
 export interface PostHeaderProps {
-  size?: string;
+  size?: HeaderStyle;
   secretIdentity?: SecretIdentityType;
   additionalIdentities?: SecretIdentityType[];
   accessory?: AccessoryType;

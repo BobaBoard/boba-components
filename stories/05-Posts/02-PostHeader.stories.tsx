@@ -8,6 +8,8 @@ import oncelerAvatar from "../images/oncie.jpg";
 import tuxedoAvatar from "../images/tuxedo-mask.jpg";
 import mamoruAvatar from "../images/mamoru.png";
 import crown from "../images/crown.png";
+import reindeerEars from "../images/reindeer-ears.png";
+import { AccessoryType, SecretIdentityType } from "../types";
 
 export default {
   title: "Posts/Header",
@@ -74,7 +76,7 @@ export const WithColorAndAccessory = HeaderTemplate.bind({});
 WithColorAndAccessory.args = {
   ...WithUserIdentity.args,
   secretIdentity: {
-    ...WithUserIdentity.args.secretIdentity,
+    ...(WithUserIdentity.args.secretIdentity as SecretIdentityType),
     color: "#f30cb5",
     accessory: crown,
   },
@@ -102,6 +104,38 @@ WithIdentitySelector.args = {
     },
   ],
 };
+
+export const WithAccessorySelector = HeaderTemplate.bind({});
+WithAccessorySelector.args = {
+  ...WithUserIdentity.args,
+  secretIdentity: {
+    name: "Tuxedo Mask, the one and only",
+    avatar: `/${tuxedoAvatar}`,
+  },
+  accessories: [
+    {
+      id: "ac1",
+      name: "Reindeer",
+      accessory: reindeerEars,
+    },
+    {
+      id: "ac2",
+      name: "Crown",
+      accessory: crown,
+    },
+  ],
+};
+WithAccessorySelector.decorators = [
+  (Story, storyArgs) => {
+    const [currentAccessory, setCurrentAccessory] = React.useState<
+      AccessoryType | undefined
+    >(reindeerEars);
+
+    (storyArgs.args as PostHeaderProps).onSelectAccessory = setCurrentAccessory;
+    (storyArgs.args as PostHeaderProps).accessory = currentAccessory;
+    return <Story />;
+  },
+];
 
 export const CompactHeader = HeaderTemplate.bind({});
 CompactHeader.args = {
@@ -131,3 +165,10 @@ CompactWithIdentitySelector.args = {
   ...WithIdentitySelector.args,
   size: HeaderStyle.COMPACT,
 };
+
+export const CompactWithAccessorySelector = HeaderTemplate.bind({});
+CompactWithAccessorySelector.args = {
+  ...WithAccessorySelector.args,
+  size: HeaderStyle.COMPACT,
+};
+CompactWithAccessorySelector.decorators = WithAccessorySelector.decorators;
