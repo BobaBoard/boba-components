@@ -8,7 +8,11 @@ import {
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import DefaultTheme from "../theme/default";
 import Color from "color";
-import { CreateBaseCompound, extractCompound } from "../utils/compound-utils";
+import {
+  CreateBaseCompound,
+  extractCompound,
+  extractRest,
+} from "../utils/compound-utils";
 
 export interface CardProps {
   height?: number;
@@ -31,11 +35,7 @@ const Card: React.FC<CardProps> & CompoundComponents = ({
   const [isExpanded, setExpanded] = React.useState(!height);
   const footer = extractCompound(children, Footer);
   const header = extractCompound(children, Header);
-  const rest = React.Children.toArray(children).filter(
-    (child) =>
-      !React.isValidElement(child) ||
-      (child.type != Footer && child.type != Header)
-  );
+  const rest = extractRest(children, [Footer, Header]);
 
   const processedColor = Color(
     backgroundColor || DefaultTheme.POST_BACKGROUND_COLOR

@@ -187,10 +187,10 @@ const Post = React.forwardRef<PostHandler, PostProps>((props, ref) => {
                 </div>
                 {props.menuOptions && (
                   <div className="post-options">
-                    <DropdownListMenu
-                      options={props.menuOptions}
-                      header={props.menuOptionsHeader}
-                    >
+                    <DropdownListMenu options={props.menuOptions}>
+                      <DropdownListMenu.Header>
+                        {props.menuOptionsHeader}
+                      </DropdownListMenu.Header>
                       <span className="post-options-icon">
                         <FontAwesomeIcon icon={faEllipsisV} />
                       </span>
@@ -443,7 +443,7 @@ export interface PostProps {
   centered?: boolean;
   reactable?: boolean;
   menuOptions?: DropdownProps["options"];
-  menuOptionsHeader?: DropdownProps["header"];
+  menuOptionsHeader?: React.ReactNode;
   onEmbedLoaded?: () => void;
   board?: {
     slug: string;

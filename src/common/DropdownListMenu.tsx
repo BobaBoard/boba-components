@@ -2,7 +2,7 @@ import React from "react";
 import classnames from "classnames";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { IconDefinition } from "@fortawesome/fontawesome-common-types";
-import { LinkWithAction } from "types";
+import { LinkWithAction } from "../types";
 import { useBackdrop } from "../utils";
 
 import Tooltip from "./Tooltip";
@@ -15,6 +15,11 @@ import {
 } from "@fortawesome/free-solid-svg-icons";
 import ActionLink from "../buttons/ActionLink";
 import css from "styled-jsx/css";
+import {
+  CreateBaseCompound,
+  extractCompound,
+  extractRest,
+} from "../utils/compound-utils";
 
 const { className: buttonClass, styles: buttonStyles } = css.resolve`
   button {
@@ -48,7 +53,7 @@ export enum DropdownStyle {
 }
 
 export interface DropdownProps {
-  children: React.ReactElement;
+  children: React.ReactNode;
   // If Options are empty, children is simply returned.
   options?: ({
     name: string;
@@ -57,7 +62,6 @@ export interface DropdownProps {
   } & ({ link: LinkWithAction } | { options: DropdownProps["options"] }))[];
   style?: DropdownStyle;
   accentColor?: string;
-  header?: React.ReactElement;
   zIndex?: number;
   onOpen?: () => void;
 }
@@ -354,7 +358,11 @@ interface OptionInfo {
   options: DropdownProps["options"];
 }
 const TOOLTIP_BORDER = { width: "2px", radius: "10px" };
-const DropdownMenu: React.FC<DropdownProps> = (props) => {
+
+const DropdownHeader = CreateBaseCompound("DropdownHeader");
+const DropdownMenu: React.FC<DropdownProps> & {
+  Header: React.FC<{ children: React.ReactNode }>;
+} = (props) => {
   const [isOpen, setOpen] = React.useState(false);
   const close = React.useCallback(() => setOpen(false), [setOpen]);
   const { setOpen: setBackdropOpen } = useBackdrop({
@@ -529,8 +537,11 @@ const DropdownMenu: React.FC<DropdownProps> = (props) => {
     ]
   );
 
-  if (!props.options && !props.header) {
-    return props.children;
+  const header = extractCompound(props.children, DropdownHeader);
+  const rest = extractRest(props.children, [DropdownHeader]);
+
+  if (!props.options && !header) {
+    return <>{props.children}</>;
   }
 
   return (
@@ -544,10 +555,10 @@ const DropdownMenu: React.FC<DropdownProps> = (props) => {
               ref={(ref) => setContentWrapper(ref)}
               className={classnames("content-wrapper", {
                 "has-options": !!props.options,
-                "has-header": !!props.header,
+                "has-header": !!header,
               })}
             >
-              {props.header}
+              {header}
               <div
                 className="options-wrapper"
                 ref={(ref) => setOptionsWrapper(ref)}
@@ -573,12 +584,12 @@ const DropdownMenu: React.FC<DropdownProps> = (props) => {
         <button
           className={classnames("button-wrapper", {
             "with-options": props.options,
-            "with-header": props.header,
+            "with-header": header,
           })}
           tabIndex={0}
           onClick={() => setOpen(!isOpen)}
         >
-          {props.children}
+          {rest}
         </button>
       </Tooltip>
       {isSmallScreen() &&
@@ -586,10 +597,10 @@ const DropdownMenu: React.FC<DropdownProps> = (props) => {
           <div
             className={classnames("portal-content", {
               visible: isOpen,
-              "has-header": props.header,
+              "has-header": header,
             })}
           >
-            <div className="header-wrapper">{props.header}</div>
+            <div className="header-wrapper">{header}</div>
             <div
               className="options-wrapper"
               ref={(ref) => setOptionsWrapper(ref)}
@@ -699,5 +710,7 @@ const DropdownMenu: React.FC<DropdownProps> = (props) => {
     </>
   );
 };
+
+DropdownMenu.Header = DropdownHeader;
 
 export default DropdownMenu;

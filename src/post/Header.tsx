@@ -5,11 +5,7 @@ import debug from "debug";
 import { AccessoryType, LinkWithAction, SecretIdentityType } from "../types";
 
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import {
-  faCaretDown,
-  faCross,
-  faShieldAlt,
-} from "@fortawesome/free-solid-svg-icons";
+import { faCaretDown } from "@fortawesome/free-solid-svg-icons";
 
 import Avatar from "./Avatar";
 import AccessorySelector from "./AccessorySelector";
@@ -18,7 +14,7 @@ import DropdownListMenu, { DropdownProps } from "../common/DropdownListMenu";
 import ActionLink from "../buttons/ActionLink";
 import css from "styled-jsx/css";
 import questionMark from "../images/question_mark.png";
-import Icon from "../common/Icon";
+// import Icon from "../common/Icon";
 //const log = debug("bobaui:header-log");
 const info = debug("bobaui:header-info");
 
@@ -272,15 +268,13 @@ const PostHeader = React.forwardRef<HTMLDivElement, PostHeaderProps>(
           "with-accessory-select": !!props.accessories?.length,
         })}
       >
-        <DropdownListMenu
-          options={props.avatarOptions}
-          header={
-            props.showMetadata !== false && (props.avatarOptions || isCompact)
-              ? dropdownMetadata
-              : undefined
-          }
-          zIndex={200}
-        >
+        <DropdownListMenu options={props.avatarOptions} zIndex={200}>
+          {props.showMetadata !== false &&
+            (props.avatarOptions || isCompact) && (
+              <DropdownListMenu.Header>
+                {dropdownMetadata}
+              </DropdownListMenu.Header>
+            )}
           <div className={classnames("post-header")}>
             <div className="identity">
               <Avatar

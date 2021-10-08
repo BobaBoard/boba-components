@@ -194,11 +194,6 @@ export const WithHeader = () => {
   return (
     <div style={{ width: "500px", backgroundColor: "white", padding: "15px" }}>
       <DropdownListMenu
-        header={
-          <div style={{ backgroundColor: "red" }}>
-            This is a header, this is a header, a beautiful header
-          </div>
-        }
         options={[
           {
             name: "OnClick Only",
@@ -272,6 +267,11 @@ export const WithHeader = () => {
         ]}
         zIndex={51}
       >
+        <DropdownListMenu.Header>
+          <div style={{ backgroundColor: "red" }}>
+            This is a header, this is a header, a beautiful header
+          </div>
+        </DropdownListMenu.Header>
         <FontAwesomeIcon icon={faCaretDown} />
       </DropdownListMenu>
     </div>

@@ -18,6 +18,17 @@ export function extractCompounds<T>(
   ) as React.ReactElement<T>[];
 }
 
+export function extractRest(
+  children: React.ReactNode,
+  excludedCompoundTypes: React.FC<unknown>[]
+) {
+  return React.Children.toArray(children).filter(
+    (child) =>
+      !React.isValidElement(child) ||
+      !excludedCompoundTypes.find((compoundType) => child.type == compoundType)
+  );
+}
+
 export function CreateBaseCompound(displayName: string) {
   const newComponent = ({ children }: { children: React.ReactChildren }) => {
     return <>{children}</>;

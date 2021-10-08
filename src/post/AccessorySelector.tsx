@@ -43,9 +43,9 @@ const useAccessoriesOptions = (props: {
   return accessoryOptions;
 };
 
-const getCurrentAccessory = () => {
-  return undefined;
-};
+// const getCurrentAccessory = () => {
+//   return undefined;
+// };
 
 interface AccessorySelectorProps {
   accessories: PostHeaderProps["accessories"];

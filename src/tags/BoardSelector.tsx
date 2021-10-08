@@ -39,7 +39,9 @@ const BoardSelector: React.FC<BoardSelectorProps> = (props) => {
       onOpen={() => {
         inputRef.current?.focus();
       }}
-      header={
+      zIndex={200}
+    >
+      <DropdownMenu.Header>
         <div className="filter">
           <input
             placeholder="Filter boards"
@@ -71,9 +73,7 @@ const BoardSelector: React.FC<BoardSelectorProps> = (props) => {
             }
           `}</style>
         </div>
-      }
-      zIndex={200}
-    >
+      </DropdownMenu.Header>
       <div className="board-selector">
         <span
           className="symbol"
