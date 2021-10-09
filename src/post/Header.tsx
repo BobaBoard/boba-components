@@ -16,7 +16,7 @@ export enum HeaderStyle {
   COMPACT = "COMPACT",
 }
 
-const getCurrentAccessory = ({
+const getSelectedAccessory = ({
   secretIdentity,
   accessories,
   currentAccessory,
@@ -54,7 +54,7 @@ const mergeIdentityWithAccessory = ({
       };
 };
 
-const useIdentityOptions = (props: {
+const useIdentitySelectionOptions = (props: {
   additionalIdentities: PostHeaderProps["additionalIdentities"];
   onSelectIdentity: PostHeaderProps["onSelectIdentity"];
 }) => {
@@ -87,16 +87,16 @@ const PostHeader = React.forwardRef<HTMLDivElement, PostHeaderProps>(
   (props, avatarRef) => {
     info(`Rendering post header`);
     const isCompact = props.size == HeaderStyle.COMPACT;
-    const currentAccessory = getCurrentAccessory({
+    const selectedAccessory = getSelectedAccessory({
       secretIdentity: props.secretIdentity,
       accessories: props.accessories,
       currentAccessory: props.accessory,
     });
     const secretIdentity = mergeIdentityWithAccessory({
       secretIdentity: props.secretIdentity,
-      currentAccessory,
+      currentAccessory: selectedAccessory,
     });
-    const identityOptions = useIdentityOptions({
+    const identityOptions = useIdentitySelectionOptions({
       additionalIdentities: props.additionalIdentities,
       onSelectIdentity: props.onSelectIdentity,
     });
@@ -124,7 +124,7 @@ const PostHeader = React.forwardRef<HTMLDivElement, PostHeaderProps>(
           }
           createdMessage={props.createdMessage}
           createdMessageLink={props.createdMessageLink}
-          selectedAccessory={currentAccessory}
+          selectedAccessory={selectedAccessory}
           accessories={props.accessories}
           onSelectAccessory={props.onSelectAccessory}
           identityOptions={
