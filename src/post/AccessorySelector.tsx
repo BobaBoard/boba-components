@@ -1,20 +1,20 @@
-import React from "react";
-
-import classnames from "classnames";
 import {
   faCaretDown,
   faCross,
   faShieldAlt,
 } from "@fortawesome/free-solid-svg-icons";
 
+import { AccessoryType } from "../types";
 import DefaultTheme from "../theme/default";
 import DropdownListMenu from "../common/DropdownListMenu";
 import Icon from "../common/Icon";
-import { HeaderStyle, PostHeaderProps } from "./Header";
+import React from "react";
+import { UserMetadataStyle } from "./UserMetadata";
+import classnames from "classnames";
 
 const useAccessoriesOptions = (props: {
-  accessories: PostHeaderProps["accessories"];
-  onSelectAccessory: PostHeaderProps["onSelectAccessory"];
+  accessories?: AccessoryType[];
+  onSelectAccessory?: (accessory: AccessoryType | undefined) => void;
 }) => {
   const { onSelectAccessory } = props;
   const accessoryOptions = React.useMemo(
@@ -48,10 +48,10 @@ const useAccessoriesOptions = (props: {
 // };
 
 interface AccessorySelectorProps {
-  accessories: PostHeaderProps["accessories"];
-  onSelectAccessory: PostHeaderProps["onSelectAccessory"];
-  currentAccessory: PostHeaderProps["accessory"];
-  size: HeaderStyle;
+  accessories: AccessoryType[];
+  onSelectAccessory: (accessory: AccessoryType | undefined) => void;
+  currentAccessory?: AccessoryType | string;
+  size: UserMetadataStyle;
 }
 
 const AccessorySelector: React.FC<AccessorySelectorProps> = (props) => {
@@ -63,23 +63,27 @@ const AccessorySelector: React.FC<AccessorySelectorProps> = (props) => {
   if (!props.accessories) {
     return null;
   }
+
+  const currentAccessoryDisplayName = props.currentAccessory
+    ? typeof props.currentAccessory == "string"
+      ? "Unknown"
+      : props.currentAccessory.name
+    : "None";
   return (
     <DropdownListMenu zIndex={200} options={accessoriesOptions}>
       <>
         <div
           className={classnames("equip", {
             empty: !props.currentAccessory,
-            compact: props.size == HeaderStyle.COMPACT,
+            compact: props.size == UserMetadataStyle.COMPACT,
           })}
         >
           <Icon icon={faShieldAlt} />
-          {props.size !== HeaderStyle.COMPACT && (
+          {props.size !== UserMetadataStyle.COMPACT && (
             <>
               <span className="title">Equip: </span>
               <span className="accessory-name">
-                {props.currentAccessory
-                  ? props.currentAccessory.name || "Unknown"
-                  : "None"}
+                {currentAccessoryDisplayName}
               </span>
               <Icon icon={faCaretDown} />
             </>

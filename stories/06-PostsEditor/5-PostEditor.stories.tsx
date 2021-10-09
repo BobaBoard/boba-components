@@ -1,31 +1,29 @@
-import React from "react";
+import {
+  EDITOR_TEXT_VALUES,
+  getInitialTextString,
+} from "../utils/editor-controls";
+import { EditorContext, ImageUploaderContext } from "../../src/index";
+import { Meta, Story } from "@storybook/react";
 //import { linkTo } from "@storybook/addon-links";
 import PostEditor, {
   PostEditorHandler,
   PostEditorProps,
 } from "../../src/post/PostEditor";
-import { ImageUploaderContext, EditorContext } from "../../src/index";
-import Modal from "../../src/common/Modal";
-import Button from "../../src/buttons/Button";
-import {
-  EDITOR_TEXT_VALUES,
-  getInitialTextString,
-} from "../utils/editor-controls";
 
-import tuxedoAvatar from "../images/tuxedo-mask.jpg";
+import Button from "../../src/buttons/Button";
+import Modal from "../../src/common/Modal";
+import React from "react";
+import { action } from "@storybook/addon-actions";
+import book from "../images/book.png";
+import crack from "../images/crack.png";
+import crown from "../images/crown.png";
+import goreBackground from "../images/gore.png";
+import kinkmeme from "../images/kink-meme.png";
 import mamoruAvatar from "../images/mamoru.png";
 import oncelerAvatar from "../images/oncie.jpg";
-import crown from "../images/crown.png";
-import { action } from "@storybook/addon-actions";
-
-import goreBackground from "../images/gore.png";
-import crack from "../images/crack.png";
 import oncelerBoard from "../images/onceler-board.png";
-import book from "../images/book.png";
-import kinkmeme from "../images/kink-meme.png";
-
 import reindeerEars from "../images/reindeer-ears.png";
-import { Meta, Story } from "@storybook/react";
+import tuxedoAvatar from "../images/tuxedo-mask.jpg";
 
 export default {
   title: "Editors / Post Editor",

@@ -8,6 +8,11 @@ export interface SecretIdentityType {
   accessory?: string;
 }
 
+export interface UserIdentityType {
+  avatar: string;
+  name: string;
+}
+
 export interface AccessoryType {
   id?: string;
   name: string;
@@ -18,10 +23,7 @@ export interface PostDetailsType {
   text: string;
   createdTime: string;
   secretIdentity: SecretIdentityType;
-  userIdentity?: {
-    avatar: string;
-    name: string;
-  };
+  userIdentity?: UserIdentityType;
   newPost?: boolean;
   newComments?: number;
   newContributions?: number;

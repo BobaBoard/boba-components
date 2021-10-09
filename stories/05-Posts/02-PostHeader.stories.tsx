@@ -1,15 +1,14 @@
-import React from "react";
+import { AccessoryType, SecretIdentityType } from "../types";
 import Header, { HeaderStyle, PostHeaderProps } from "../../src/post/Header";
-
-import { action } from "@storybook/addon-actions";
 import { Meta, Story } from "@storybook/react";
 
-import oncelerAvatar from "../images/oncie.jpg";
-import tuxedoAvatar from "../images/tuxedo-mask.jpg";
-import mamoruAvatar from "../images/mamoru.png";
+import React from "react";
+import { action } from "@storybook/addon-actions";
 import crown from "../images/crown.png";
+import mamoruAvatar from "../images/mamoru.png";
+import oncelerAvatar from "../images/oncie.jpg";
 import reindeerEars from "../images/reindeer-ears.png";
-import { AccessoryType, SecretIdentityType } from "../types";
+import tuxedoAvatar from "../images/tuxedo-mask.jpg";
 
 export default {
   title: "Posts/Header",
@@ -104,6 +103,20 @@ WithIdentitySelector.args = {
     },
   ],
 };
+WithIdentitySelector.decorators = [
+  (Story, storyArgs) => {
+    const [secretIdentity, onSelectIdentity] = React.useState<
+      SecretIdentityType | undefined
+    >({
+      name: "Tuxedo Mask, the one and only",
+      avatar: `/${tuxedoAvatar}`,
+    });
+
+    (storyArgs.args as PostHeaderProps).onSelectIdentity = onSelectIdentity;
+    (storyArgs.args as PostHeaderProps).secretIdentity = secretIdentity;
+    return <Story />;
+  },
+];
 
 export const WithAccessorySelector = HeaderTemplate.bind({});
 WithAccessorySelector.args = {
@@ -165,6 +178,7 @@ CompactWithIdentitySelector.args = {
   ...WithIdentitySelector.args,
   size: HeaderStyle.COMPACT,
 };
+CompactWithIdentitySelector.decorators = WithIdentitySelector.decorators;
 
 export const CompactWithAccessorySelector = HeaderTemplate.bind({});
 CompactWithAccessorySelector.args = {

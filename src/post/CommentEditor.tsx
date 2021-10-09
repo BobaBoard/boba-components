@@ -1,15 +1,15 @@
-import React from "react";
-import classNames from "classnames";
-import Editor from "@bobaboard/boba-editor";
-import Header, { HeaderStyle, PostHeaderProps } from "./Header";
-import Button from "../buttons/Button";
-import { faCross, faCheck } from "@fortawesome/free-solid-svg-icons";
-import useDimensions from "react-cool-dimensions";
-import Spinner from "../common/Spinner";
-import questionMark from "../images/question_mark.png";
-import { prepareContentSubmission } from "../utils";
 import { DefaultTheme, ImageUploaderContext } from "../index";
-import { SecretIdentityType } from "types";
+import Header, { HeaderStyle, PostHeaderProps } from "./Header";
+import { faCheck, faCross } from "@fortawesome/free-solid-svg-icons";
+
+import Button from "../buttons/Button";
+import Editor from "@bobaboard/boba-editor";
+import React from "react";
+import { SecretIdentityType } from "../types";
+import Spinner from "../common/Spinner";
+import classNames from "classnames";
+import { prepareContentSubmission } from "../utils";
+import useDimensions from "react-cool-dimensions";
 
 export const modes = {
   VIEW: "VIEW",
@@ -136,31 +136,6 @@ const Comment = React.forwardRef<EditorRef, CommentProps>((props, ref) => {
       props.loading
     );
 
-  const { onSelectIdentity } = props;
-  const identityOptions = React.useMemo(
-    () =>
-      props.additionalIdentities
-        ? [
-            {
-              name: "Random Identity",
-              icon: questionMark,
-              link: {
-                onClick: () => onSelectIdentity?.(undefined),
-              },
-            },
-            ...(props.additionalIdentities || []).map((identity) => ({
-              name: identity.name,
-              icon: identity.avatar,
-              color: identity.color,
-              link: {
-                onClick: () => onSelectIdentity?.(identity),
-              },
-            })),
-          ]
-        : undefined,
-    [props.additionalIdentities, onSelectIdentity]
-  );
-
   const { onSubmit, prepareSubmission } = props;
   const onSubmitHandler = React.useCallback(() => {
     if (!imageUploader?.onImageUploadRequest) {
@@ -189,8 +164,7 @@ const Comment = React.forwardRef<EditorRef, CommentProps>((props, ref) => {
             size={HeaderStyle.COMPACT}
             secretIdentity={props.secretIdentity}
             userIdentity={props.userIdentity}
-            avatarOptions={identityOptions}
-            showMetadata={false}
+            additionalIdentities={props.additionalIdentities}
             accessories={props.accessories}
             accessory={props.accessory}
             onSelectAccessory={props.onSelectAccessory}

@@ -1,25 +1,25 @@
-import React from "react";
-import classnames from "classnames";
-import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import { IconDefinition } from "@fortawesome/fontawesome-common-types";
-import { LinkWithAction } from "../types";
-import { useBackdrop } from "../utils";
-
-import Tooltip from "./Tooltip";
-import Theme from "../theme/default";
-import ReactDOM from "react-dom";
-import Color from "color";
-import {
-  faChevronLeft,
-  faChevronRight,
-} from "@fortawesome/free-solid-svg-icons";
-import ActionLink from "../buttons/ActionLink";
-import css from "styled-jsx/css";
 import {
   CreateBaseCompound,
   extractCompound,
   extractRest,
 } from "../utils/compound-utils";
+import {
+  faChevronLeft,
+  faChevronRight,
+} from "@fortawesome/free-solid-svg-icons";
+
+import ActionLink from "../buttons/ActionLink";
+import Color from "color";
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import { IconDefinition } from "@fortawesome/fontawesome-common-types";
+import { LinkWithAction } from "../types";
+import React from "react";
+import ReactDOM from "react-dom";
+import Theme from "../theme/default";
+import Tooltip from "./Tooltip";
+import classnames from "classnames";
+import css from "styled-jsx/css";
+import { useBackdrop } from "../utils";
 
 const { className: buttonClass, styles: buttonStyles } = css.resolve`
   button {
@@ -540,7 +540,7 @@ const DropdownMenu: React.FC<DropdownProps> & {
   const header = extractCompound(props.children, DropdownHeader);
   const rest = extractRest(props.children, [DropdownHeader]);
 
-  if (!props.options && !header) {
+  if (!props.options?.length && !header) {
     return <>{props.children}</>;
   }
 
@@ -554,7 +554,7 @@ const DropdownMenu: React.FC<DropdownProps> & {
             <div
               ref={(ref) => setContentWrapper(ref)}
               className={classnames("content-wrapper", {
-                "has-options": !!props.options,
+                "has-options": props.options?.length,
                 "has-header": !!header,
               })}
             >
@@ -583,7 +583,7 @@ const DropdownMenu: React.FC<DropdownProps> & {
       >
         <button
           className={classnames("button-wrapper", {
-            "with-options": props.options,
+            "with-options": props.options?.length,
             "with-header": header,
           })}
           tabIndex={0}
@@ -598,6 +598,7 @@ const DropdownMenu: React.FC<DropdownProps> & {
             className={classnames("portal-content", {
               visible: isOpen,
               "has-header": header,
+              "has-options": props.options?.length,
             })}
           >
             <div className="header-wrapper">{header}</div>
@@ -623,6 +624,9 @@ const DropdownMenu: React.FC<DropdownProps> & {
           display: block;
         }
         .content-wrapper:not(.has-options) .options-wrapper {
+          display: none;
+        }
+        .portal-content:not(.has-options) .options-wrapper {
           display: none;
         }
         .options-wrapper {
