@@ -34,6 +34,7 @@ const Avatar = React.forwardRef<HTMLDivElement, AvatarProps>((props, ref) => {
           className={classnames("secret-avatar", {
             visible: visibleSecretAvatar,
           })}
+          aria-label="The avatar of the user identity"
         />
       </div>
       <style jsx>{`
