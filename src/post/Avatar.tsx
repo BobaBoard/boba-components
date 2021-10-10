@@ -1,6 +1,6 @@
 import React from "react";
-import classnames from "classnames";
 import { SecretIdentityType } from "types";
+import classnames from "classnames";
 import questionMark from "../images/question_mark.png";
 
 const Avatar = React.forwardRef<HTMLDivElement, AvatarProps>((props, ref) => {
@@ -23,6 +23,9 @@ const Avatar = React.forwardRef<HTMLDivElement, AvatarProps>((props, ref) => {
             "with-border": !!props.secretIdentity?.color,
           })}
           ref={ref}
+          role="img"
+          aria-label="The avatar of the secret identity"
+          data-testid="secret-identity-avatar"
         />
         {props.secretIdentity?.accessory && (
           <img src={props.secretIdentity?.accessory} className="accessory" />

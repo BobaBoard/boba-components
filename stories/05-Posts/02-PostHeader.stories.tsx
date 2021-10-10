@@ -19,12 +19,14 @@ export default {
         <h2>Large container</h2>
         <div
           style={{ width: "100%", maxWidth: "500px", backgroundColor: "white" }}
+          data-testid="large-container"
         >
           {Story()}
         </div>
         <h2>Small container</h2>
         <div
           style={{ width: "100%", maxWidth: "200px", backgroundColor: "white" }}
+          data-testid="small-container"
         >
           {Story()}
         </div>

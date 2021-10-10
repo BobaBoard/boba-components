@@ -26,7 +26,9 @@
       "react-dom",
       "styled-jsx",
       "node",
-      "resize-observer-browser"
+      "resize-observer-browser",
+      "jest",
+      "@testing-library/jest-dom"
     ],
     "strictBindCallApply": true
   },
