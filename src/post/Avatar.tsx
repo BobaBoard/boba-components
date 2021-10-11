@@ -56,12 +56,12 @@ const Avatar = React.forwardRef<HTMLDivElement, AvatarProps>((props, ref) => {
         }
         .avatar {
           position: relative;
-          width: 40px;
-          height: 40px;
+          width: 100px;
+          height: 100px;
           display: block;
           background: url("${secretAvatar}");
           background-size: cover;
-          border-radius: 50%;
+          border-radius: 15%;
           margin-right: 5px;
         }
         .avatar.with-border {
