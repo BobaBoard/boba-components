@@ -1,5 +1,5 @@
 import React from "react";
-import { SecretIdentityType } from "types";
+import { SecretIdentityType } from "../types";
 import classnames from "classnames";
 import questionMark from "../images/question_mark.png";
 
@@ -28,7 +28,11 @@ const Avatar = React.forwardRef<HTMLDivElement, AvatarProps>((props, ref) => {
           data-testid="secret-identity-avatar"
         />
         {props.secretIdentity?.accessory && (
-          <img src={props.secretIdentity?.accessory} className="accessory" />
+          <img
+            src={props.secretIdentity?.accessory}
+            className="accessory"
+            aria-label="The secret identity accessory"
+          />
         )}
         <div
           className={classnames("secret-avatar", {

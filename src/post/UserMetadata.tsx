@@ -205,7 +205,12 @@ const UserMetadata = React.forwardRef<
         <div className="metadata">
           <IdentityMetadata {...props} />
           <div className="timestamp">
-            <ActionLink link={createdMessageLink}>{createdMessage}</ActionLink>
+            <ActionLink
+              link={createdMessageLink}
+              label="The timestamp of the post"
+            >
+              {createdMessage}
+            </ActionLink>
           </div>
         </div>
       )}
