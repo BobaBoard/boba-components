@@ -260,6 +260,7 @@ const UserMetadata = React.forwardRef<
             flex-grow: 1;
             overflow: hidden;
             padding-right: 5px;
+            text-align: left;
           }
           .accessory-selector {
             margin-top: 5px;
