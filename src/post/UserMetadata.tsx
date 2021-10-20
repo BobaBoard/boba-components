@@ -26,6 +26,7 @@ export interface UserMetadataProps {
   forceHideIdentity?: boolean;
   withDropdownMetadata?: boolean;
   avatarDropdownOptions?: DropdownProps["options"];
+  avatarDropdownLabel?: string;
   identityOptions?: DropdownProps["options"];
   createdMessage?: string;
   createdMessageLink?: LinkWithAction;
@@ -50,6 +51,7 @@ const IdentityMetadata: React.FC<
     accessories,
     onSelectAccessory,
     identityOptions,
+    avatarDropdownLabel,
   } = props;
 
   const hasUserIdentity = !!(userIdentity?.name && userIdentity?.avatar);
@@ -58,7 +60,11 @@ const IdentityMetadata: React.FC<
     <div className="metadata-identity">
       {/* This wrapper div makes the dropdown popup appear where expected. */}
       <div>
-        <DropdownListMenu zIndex={200} options={identityOptions}>
+        <DropdownListMenu
+          zIndex={200}
+          options={identityOptions}
+          label={avatarDropdownLabel}
+        >
           <div
             className={classnames("identity-container", {
               "with-selector": !!identityOptions?.length,
@@ -158,6 +164,7 @@ const UserMetadata = React.forwardRef<
     userIdentity,
     forceHideIdentity,
     avatarDropdownOptions,
+    avatarDropdownLabel,
     withDropdownMetadata = true,
     createdMessage,
     createdMessageLink,
@@ -174,7 +181,11 @@ const UserMetadata = React.forwardRef<
         compact: UserMetadataStyle.COMPACT == size,
       })}
     >
-      <DropdownListMenu options={avatarDropdownOptions} zIndex={200}>
+      <DropdownListMenu
+        options={avatarDropdownOptions}
+        zIndex={200}
+        label={avatarDropdownLabel}
+      >
         {withDropdownMetadata && (
           <DropdownListMenu.Header>
             <div

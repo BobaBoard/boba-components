@@ -71,6 +71,12 @@ WithLoadingState.args = {
   loading: true,
 };
 
+export const WithDefaultSecretIdentity = CommentChainEditorTemplate.bind({});
+WithDefaultSecretIdentity.args = {
+  ...Base.args,
+  secretIdentity: { name: "Tuxedo Mask", avatar: `/${tuxedoAvatar}` },
+};
+
 export const WithIdentitySelector = CommentChainEditorTemplate.bind({});
 WithIdentitySelector.args = {
   ...Base.args,

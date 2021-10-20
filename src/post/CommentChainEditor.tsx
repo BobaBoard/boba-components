@@ -165,6 +165,10 @@ const CommentChainEditor = React.forwardRef<
     [onSubmitHandler]
   );
 
+  const selectedIdentityData = props.additionalIdentities?.find(
+    (id) => id.id == selectedIdentity
+  );
+
   return (
     <div className="comment-chain-editor" ref={chainEditorRef}>
       {chainComments.map((comment, index) => (
@@ -182,11 +186,7 @@ const CommentChainEditor = React.forwardRef<
             ref={(ref: EditorRef) => editorRefs.current.set(index, ref)}
             initialText={comment.text}
             userIdentity={props.userIdentity}
-            secretIdentity={
-              props.additionalIdentities?.find(
-                (id) => id.id == selectedIdentity
-              ) || props.secretIdentity
-            }
+            secretIdentity={selectedIdentityData || props.secretIdentity}
             muted={focusedChainIndex != index}
             onSubmit={onSubmitHandler}
             // We add this to avoid double upload

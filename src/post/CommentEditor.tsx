@@ -250,6 +250,7 @@ const Comment = React.forwardRef<EditorRef, CommentProps>((props, ref) => {
         }
         .editor {
           position: relative;
+          min-height: 45px;
         }
         .comment-container.loading .editor div:not(.spinner) {
           opacity: 0.5;

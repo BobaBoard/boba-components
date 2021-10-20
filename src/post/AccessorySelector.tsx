@@ -43,10 +43,6 @@ const useAccessoriesOptions = (props: {
   return accessoryOptions;
 };
 
-// const getCurrentAccessory = () => {
-//   return undefined;
-// };
-
 interface AccessorySelectorProps {
   accessories: AccessoryType[];
   onSelectAccessory: (accessory: AccessoryType | undefined) => void;
@@ -70,7 +66,11 @@ const AccessorySelector: React.FC<AccessorySelectorProps> = (props) => {
       : props.currentAccessory.name
     : "None";
   return (
-    <DropdownListMenu zIndex={200} options={accessoriesOptions}>
+    <DropdownListMenu
+      zIndex={200}
+      options={accessoriesOptions}
+      label="Select accessory"
+    >
       <>
         <div
           className={classnames("equip", {

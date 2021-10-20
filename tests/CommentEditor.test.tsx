@@ -3,103 +3,130 @@ import "@testing-library/jest-dom/extend-expect";
 import * as stories from "../stories/06-Editors/02-CommentEditor.stories";
 
 import {
-  RenderResult,
   fireEvent,
   getByLabelText,
-  getByText,
-  queryByText,
+  queryByLabelText,
   render,
   screen,
   waitFor,
 } from "@testing-library/react";
 
 import React from "react";
-import { Story } from "@storybook/react";
-import { action } from "@storybook/addon-actions";
 import { composeStories } from "@storybook/testing-react";
 
 jest.mock("@storybook/addon-actions");
 
 const {
   Base,
-  WithLoadingState,
+  WithDefaultSecretIdentity,
   WithIdentitySelector,
   WithAccessorySelector,
 } = composeStories(stories);
 
 const getContainer = () => screen.getByTestId("large-container");
 
-test("Renders header with avatar and secret identity", () => {
-  const result = render(<WithIdentitySelector />);
-  const secretIdentityAvatar = getByLabelText(
-    getContainer(),
-    "The avatar of the secret identity"
-  );
+test("Renders user identity", () => {
+  render(<Base />);
   const userIdentityAvatar = getByLabelText(
     getContainer(),
     "The avatar of the user identity"
   );
   expect(userIdentityAvatar).toHaveStyle(
-    `background-image: url(${WithIdentitySelector.args!.userIdentity!.avatar})`
+    `background-image: url(${Base.args!.userIdentity!.avatar})`
   );
 });
 
-// test("Renders header with user identity", () => {
-//   const result = render(<WithUserIdentity />);
-//   verifySecretIdentity(result, WithUserIdentity);
-//   verifyUserIdentity(result, WithUserIdentity);
-// });
+test("Renders default secret identity", () => {
+  render(<WithDefaultSecretIdentity />);
+  const secretIdentityAvatar = getByLabelText(
+    getContainer(),
+    "The avatar of the secret identity"
+  );
+  expect(secretIdentityAvatar).toHaveStyle(
+    `background-image: url(${
+      WithDefaultSecretIdentity.args!.secretIdentity!.avatar
+    })`
+  );
+});
 
-// test("Renders header with date", () => {
-//   render(<WithUserIdentity />);
-//   const timestamp = getByLabelText(getContainer(), "The timestamp of the post");
-//   expect(timestamp).toHaveTextContent(WithUserIdentity.args!.createdMessage!);
-//   expect(timestamp).toHaveAttribute(
-//     "href",
-//     WithUserIdentity.args!.createdMessageLink!.href!
-//   );
-//   fireEvent.click(timestamp);
-//   waitFor(() => {
-//     expect(action).toBeCalledWith("withHref");
-//   });
-// });
+test("Renders alternative identities and allows their selection", async () => {
+  render(<WithIdentitySelector />);
+  const identitySelector = getByLabelText(
+    getContainer(),
+    "Select visible identity"
+  );
+  fireEvent.click(identitySelector);
 
-// test("Tests for force hide", () => {
-//   const result = render(<WithForceHideUserIdentity />);
-//   verifySecretIdentity(result, WithForceHideUserIdentity);
+  await waitFor(() => {
+    // Note: the dropdown is not rendered within the element itself. We can simply
+    // query the whole screen because we're guaranteed to only have one.
+    expect(screen.getByText("Random Identity")).toBeInTheDocument();
+    expect(
+      screen.getByText(WithIdentitySelector.args!.additionalIdentities![0].name)
+    ).toBeInTheDocument();
+    expect(
+      screen.getByText(WithIdentitySelector.args!.additionalIdentities![1].name)
+    ).toBeInTheDocument();
+  });
 
-//   const userIdentityElement = queryByText(
-//     getContainer(),
-//     "@" + WithForceHideUserIdentity.args!.userIdentity!.name
-//   );
-//   const userIdentityAvatar = getByLabelText(
-//     getContainer(),
-//     "The avatar of the user identity"
-//   );
-//   expect(userIdentityElement).toBeNull();
-//   expect(userIdentityAvatar).not.toBeVisible();
-// });
+  fireEvent.click(
+    screen.getByText(WithIdentitySelector.args!.additionalIdentities![1].name)
+  );
 
-// test("Renders color and accessory", () => {
-//   const result = render(<WithColorAndAccessory />);
-//   const { secretIdentityElement, secretIdentityAvatar } = verifySecretIdentity(
-//     result,
-//     WithColorAndAccessory
-//   );
-//   verifyUserIdentity(result, WithUserIdentity);
-//   const accessory = getByLabelText(
-//     getContainer(),
-//     "The secret identity accessory"
-//   );
+  await waitFor(() => {
+    const secretIdentityAvatar = getByLabelText(
+      getContainer(),
+      "The avatar of the secret identity"
+    );
+    expect(secretIdentityAvatar).toHaveStyle(
+      `background-image: url(${
+        WithIdentitySelector.args!.additionalIdentities![1].avatar
+      })`
+    );
+    expect(
+      getByLabelText(getContainer(), "The secret identity accessory")
+    ).toHaveAttribute(
+      "src",
+      WithIdentitySelector.args!.additionalIdentities![1].accessory
+    );
+  });
+});
 
-//   expect(secretIdentityElement).toHaveStyle(
-//     `color: ${WithColorAndAccessory.args!.secretIdentity!.color}`
-//   );
-//   expect(secretIdentityAvatar).toHaveStyle(
-//     `border-color: ${WithColorAndAccessory.args!.secretIdentity!.color}`
-//   );
-//   expect(accessory).toHaveAttribute(
-//     "src",
-//     WithColorAndAccessory.args!.secretIdentity!.accessory
-//   );
-// });
+test("Doesn't render accessory selector when no accessory is given", async () => {
+  render(<Base />);
+  expect(
+    queryByLabelText(getContainer(), "Select accessory")
+  ).not.toBeInTheDocument();
+});
+
+test("Renders accessory selector and allows selecting an accessory", async () => {
+  render(<WithAccessorySelector />);
+
+  const accessorySelector = getByLabelText(getContainer(), "Select accessory");
+  fireEvent.click(accessorySelector);
+
+  await waitFor(() => {
+    // Note: the dropdown is not rendered within the element itself. We can simply
+    // query the whole screen because we're guaranteed to only have one.
+    expect(screen.getByText("None")).toBeInTheDocument();
+    expect(
+      screen.getByText(WithAccessorySelector.args!.accessories![0].name)
+    ).toBeInTheDocument();
+    expect(
+      screen.getByText(WithAccessorySelector.args!.accessories![1].name)
+    ).toBeInTheDocument();
+  });
+
+  fireEvent.click(
+    screen.getByText(WithAccessorySelector.args!.accessories![0].name)
+  );
+
+  await waitFor(() => {
+    expect(
+      getByLabelText(getContainer(), "The secret identity accessory")
+    ).toHaveAttribute(
+      "src",
+      WithAccessorySelector.args!.accessories![0].accessory
+    );
+  });
+});

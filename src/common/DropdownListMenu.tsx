@@ -64,6 +64,7 @@ export interface DropdownProps {
   accentColor?: string;
   zIndex?: number;
   onOpen?: () => void;
+  label?: string;
 }
 
 const isSmallScreen = () => {
@@ -588,6 +589,7 @@ const DropdownMenu: React.FC<DropdownProps> & {
           })}
           tabIndex={0}
           onClick={() => setOpen(!isOpen)}
+          aria-label={props.label}
         >
           {rest}
         </button>
