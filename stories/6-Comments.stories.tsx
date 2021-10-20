@@ -1,106 +1,25 @@
-import React from "react";
-//import { linkTo } from "@storybook/addon-links";
-import Comment from "../src/post/Comment";
-import CommentEditor from "../src/post/CommentEditor";
-import CommentChain from "../src/post/CommentChain";
-import CommentChainEditor from "../src/post/CommentChainEditor";
-import Button from "../src/buttons/Button";
-
-import tuxedoAvatar from "./images/tuxedo-mask.jpg";
-import mamoruAvatar from "./images/mamoru.png";
-import oncelerAvatar from "./images/oncie.jpg";
-import reindeerEars from "./images/reindeer-ears.png";
-import wreath from "./images/wreath.png";
-import crown from "./images/crown.png";
 import {
   faBellSlash,
   faMapPin,
   faPaintBrush,
   faVolumeMute,
 } from "@fortawesome/free-solid-svg-icons";
+
+import Button from "../src/buttons/Button";
+//import { linkTo } from "@storybook/addon-links";
+import Comment from "../src/post/Comment";
+import CommentChain from "../src/post/CommentChain";
+import React from "react";
 import { action } from "@storybook/addon-actions";
-import { ImageUploaderContext } from "../src/index";
+import crown from "./images/crown.png";
+import mamoruAvatar from "./images/mamoru.png";
+import reindeerEars from "./images/reindeer-ears.png";
+import tuxedoAvatar from "./images/tuxedo-mask.jpg";
+import wreath from "./images/wreath.png";
 
 export default {
   title: "Comments",
   component: Comment,
-};
-
-export const Editable = () => (
-  <ImageUploaderContext.Provider
-    value={{
-      onImageUploadRequest: async (url) => {
-        action("imageUpload")(url);
-        return Promise.resolve(`uploaded: ${url}`);
-      },
-    }}
-  >
-    <div style={{}}>
-      <CommentEditor
-        secretIdentity={{ name: "Tuxedo Mask", avatar: `/${tuxedoAvatar}` }}
-        userIdentity={{ name: "SexyDaddy69", avatar: `/${mamoruAvatar}` }}
-        onSubmit={(text) => console.log(text)}
-        onCancel={() => console.log("click!")}
-        additionalIdentities={[
-          { id: "id1", name: "Tuxedo Mask", avatar: `/${tuxedoAvatar}` },
-          {
-            id: "id2",
-            name: "Mega Mod",
-            avatar: `/${oncelerAvatar}`,
-            color: "red",
-            accessory: crown,
-          },
-        ]}
-        accessories={[
-          {
-            id: "ac1",
-            name: "Reindeer",
-            accessory: reindeerEars,
-          },
-          {
-            id: "ac2",
-            name: "Crown",
-            accessory: crown,
-          },
-        ]}
-      />
-    </div>
-
-    <div style={{ width: "250px" }}>
-      <CommentEditor
-        secretIdentity={{ name: "Tuxedo Mask", avatar: `/${tuxedoAvatar}` }}
-        userIdentity={{ name: "SexyDaddy69", avatar: `/${mamoruAvatar}` }}
-        onSubmit={(text) => console.log(text)}
-        onCancel={() => console.log("click!")}
-        additionalIdentities={[
-          { id: "id1", name: "Tuxedo Mask", avatar: `/${tuxedoAvatar}` },
-          {
-            id: "id2",
-            name: "Mega Mod",
-            avatar: `/${oncelerAvatar}`,
-            color: "red",
-            accessory: crown,
-          },
-        ]}
-        accessories={[
-          {
-            id: "ac1",
-            name: "Reindeer",
-            accessory: reindeerEars,
-          },
-          {
-            id: "ac2",
-            name: "Crown",
-            accessory: crown,
-          },
-        ]}
-      />
-    </div>
-  </ImageUploaderContext.Provider>
-);
-
-Editable.story = {
-  name: "editable",
 };
 
 export const NonEditable = () => (
@@ -155,40 +74,6 @@ NonEditable.story = {
   name: "non editable",
 };
 
-export const LoadingState = () => {
-  const [loading, setLoading] = React.useState(true);
-  return (
-    <>
-      <div style={{}}>
-        <CommentEditor
-          initialText={'[{ "insert": "Text text text" }]'}
-          secretIdentity={{ name: "Tuxedo Mask", avatar: `/${tuxedoAvatar}` }}
-          userIdentity={{ name: "SexyDaddy69", avatar: `/${mamoruAvatar}` }}
-          onSubmit={(text) => console.log(text)}
-          onCancel={() => console.log("click!")}
-          loading={loading}
-        />
-      </div>
-
-      <div style={{ width: "250px" }}>
-        <CommentEditor
-          initialText={'[{ "insert": "Text text text" }]'}
-          secretIdentity={{ name: "Tuxedo Mask", avatar: `/${tuxedoAvatar}` }}
-          userIdentity={{ name: "SexyDaddy69", avatar: `/${mamoruAvatar}` }}
-          onSubmit={(text) => console.log(text)}
-          onCancel={() => console.log("click!")}
-          loading={loading}
-        />
-      </div>
-      <Button onClick={() => setLoading(!loading)}>Change Load State</Button>
-    </>
-  );
-};
-
-LoadingState.story = {
-  name: "loading",
-};
-
 export const Highlight = () => {
   const commentRef = React.createRef<any>();
   return (
@@ -217,53 +102,6 @@ export const Highlight = () => {
 
 Highlight.story = {
   name: "highlight",
-};
-
-export const CommentChainEditorStory = () => {
-  return (
-    <ImageUploaderContext.Provider
-      value={{
-        onImageUploadRequest: async (url) => {
-          action("imageUpload")(url);
-          return Promise.resolve(`uploaded: ${url}`);
-        },
-      }}
-    >
-      <CommentChainEditor
-        onSubmit={(submit) => {
-          submit.texts.then(action("submit"));
-        }}
-        userIdentity={{ name: "SexyDaddy69", avatar: `/${mamoruAvatar}` }}
-        onCancel={() => {}}
-        additionalIdentities={[
-          { id: "id1", name: "Tuxedo Mask", avatar: `/${tuxedoAvatar}` },
-          {
-            id: "id2",
-            name: "Mega Mod",
-            avatar: `/${oncelerAvatar}`,
-            color: "red",
-            accessory: crown,
-          },
-        ]}
-        accessories={[
-          {
-            id: "ac1",
-            name: "Reindeer",
-            accessory: reindeerEars,
-          },
-          {
-            id: "ac2",
-            name: "Crown",
-            accessory: crown,
-          },
-        ]}
-      />
-    </ImageUploaderContext.Provider>
-  );
-};
-
-CommentChainEditorStory.story = {
-  name: "chained (editable)",
 };
 
 export const CommentChainStory = () => {

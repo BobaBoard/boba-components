@@ -168,6 +168,7 @@ const Comment = React.forwardRef<EditorRef, CommentProps>((props, ref) => {
             accessories={props.accessories}
             accessory={props.accessory}
             onSelectAccessory={props.onSelectAccessory}
+            onSelectIdentity={props.onSelectIdentity}
           />
         </div>
         <div className={classNames("editor")}>
