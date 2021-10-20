@@ -1,10 +1,10 @@
 import CommentChainEditor, {
   CommentChainEditorProps,
 } from "../../src/post/CommentChainEditor";
+import { Meta, Story } from "@storybook/react";
 
 import { ImageUploaderContext } from "../../src/index";
 import React from "react";
-import { Story } from "@storybook/react";
 import { action } from "@storybook/addon-actions";
 import crown from "../images/crown.png";
 import mamoruAvatar from "../images/mamoru.png";
@@ -14,7 +14,7 @@ import tuxedoAvatar from "../images/tuxedo-mask.jpg";
 
 export default {
   title: "Editors / Comment Editor",
-  component: Comment,
+  component: CommentChainEditor,
   decorators: [
     (Story) => (
       <div className="story">
@@ -53,7 +53,7 @@ export default {
       </div>
     ),
   ],
-};
+} as Meta;
 
 const CommentChainEditorTemplate: Story<CommentChainEditorProps> = (args) => (
   <CommentChainEditor {...args} />
