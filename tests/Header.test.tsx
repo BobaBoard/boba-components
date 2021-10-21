@@ -74,7 +74,7 @@ test("Renders header with user identity", () => {
   verifyUserIdentity(result, WithUserIdentity);
 });
 
-test("Renders header with date", () => {
+test("Renders header with date", async () => {
   render(<WithUserIdentity />);
   const timestamp = getByLabelText(getContainer(), "The timestamp of the post");
   expect(timestamp).toHaveTextContent(WithUserIdentity.args!.createdMessage!);
@@ -83,7 +83,7 @@ test("Renders header with date", () => {
     WithUserIdentity.args!.createdMessageLink!.href!
   );
   fireEvent.click(timestamp);
-  waitFor(() => {
+  await waitFor(() => {
     expect(action).toBeCalledWith("withHref");
   });
 });

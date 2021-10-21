@@ -1,8 +1,8 @@
-import React from "react";
+import { faCheck, faCross } from "@fortawesome/free-solid-svg-icons";
 
 import Button from "../buttons/Button";
+import React from "react";
 import classNames from "classnames";
-import { faCross, faCheck } from "@fortawesome/free-solid-svg-icons";
 
 const EditorFooter: React.FC<FooterProps> = ({
   onCancel,
@@ -17,6 +17,7 @@ const EditorFooter: React.FC<FooterProps> = ({
           icon={faCross}
           onClick={onCancel}
           disabled={cancellable === false}
+          label="Cancel"
         >
           Cancel
         </Button>
@@ -24,6 +25,7 @@ const EditorFooter: React.FC<FooterProps> = ({
           icon={faCheck}
           onClick={onSubmit}
           disabled={submittable === false}
+          label="Submit"
         >
           Post
         </Button>

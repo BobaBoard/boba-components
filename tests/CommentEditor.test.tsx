@@ -9,10 +9,14 @@ import {
   render,
   screen,
   waitFor,
+  within,
 } from "@testing-library/react";
 
 import React from "react";
+import { action } from "@storybook/addon-actions";
 import { composeStories } from "@storybook/testing-react";
+import { mocked } from "ts-jest/utils";
+import userEvent from "@testing-library/user-event";
 
 jest.mock("@storybook/addon-actions");
 
@@ -129,4 +133,49 @@ test("Renders accessory selector and allows selecting an accessory", async () =>
       WithAccessorySelector.args!.accessories![0].accessory
     );
   });
+});
+
+test("Propagates selected accessory and identity on submit", async () => {
+  render(<WithAccessorySelector />);
+
+  fireEvent.click(getByLabelText(getContainer(), "Select accessory"));
+  fireEvent.click(
+    screen.getByText(WithAccessorySelector.args!.accessories![0].name)
+  );
+
+  fireEvent.click(getByLabelText(getContainer(), "Select visible identity"));
+  fireEvent.click(
+    screen.getByText(WithAccessorySelector.args!.additionalIdentities![1].name)
+  );
+
+  const editorContainer = getContainer().querySelector(".ql-editor");
+  expect(editorContainer).toBeInTheDocument;
+  userEvent.type(editorContainer!, "bar");
+  //fireEvent.blur(editorContainer!);
+
+  await waitFor(
+    () => {
+      expect(
+        within(getContainer()).getByLabelText("Submit")
+      ).not.toBeDisabled();
+    },
+    {
+      timeout: 5000,
+    }
+  );
+
+  const actionReturn = jest.fn();
+  mocked(action).mockReturnValue(actionReturn);
+  fireEvent.click(within(getContainer()).getByLabelText("Submit"));
+  await waitFor(() => {
+    expect(action).toBeCalledWith("submit");
+    expect(actionReturn).toBeCalledWith({
+      accessoryId: WithAccessorySelector.args!.accessories![0].id,
+      identityId: WithAccessorySelector.args!.additionalIdentities![1].id,
+      texts: expect.any(Promise),
+    });
+  });
+  expect(await actionReturn.mock.calls[0][0].texts).toEqual([
+    '[{"insert":"bar"}]',
+  ]);
 });

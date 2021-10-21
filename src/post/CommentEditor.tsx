@@ -60,6 +60,7 @@ const CommentFooter = (props: {
             icon={faCross}
             compact={size === SIZES.COMPACT}
             disabled={props.loading}
+            label="Cancel"
           >
             Cancel
           </Button>
@@ -68,6 +69,7 @@ const CommentFooter = (props: {
             disabled={!props.canSubmit}
             icon={faCheck}
             compact={size === SIZES.COMPACT}
+            label="Submit"
           >
             Submit
           </Button>

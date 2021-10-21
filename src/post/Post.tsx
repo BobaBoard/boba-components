@@ -1,26 +1,26 @@
-import React from "react";
-
-import UpdatesHeader from "./UpdatesHeader";
-import Header, { HeaderStyle } from "./Header";
-import Footer from "./Footer";
-import Tags from "../tags/Tags";
 import DropdownListMenu, { DropdownProps } from "../common/DropdownListMenu";
-import Card from "../common/Card";
-import Reaction from "../common/Reaction";
-import Editor from "@bobaboard/boba-editor";
-import classnames from "classnames";
-import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import {
-  faPlus,
-  faEllipsisV,
-  faCertificate,
-} from "@fortawesome/free-solid-svg-icons";
-import TagsFactory from "../tags/TagsFactory";
-
-import Theme from "../theme/default";
-import debug from "debug";
+import Header, { HeaderStyle } from "./Header";
 import { LinkWithAction, SecretIdentityType, TagsType } from "types";
+import {
+  faCertificate,
+  faCrown,
+  faEllipsisV,
+  faPlus,
+} from "@fortawesome/free-solid-svg-icons";
+
 import Badge from "./Badge";
+import Card from "../common/Card";
+import Editor from "@bobaboard/boba-editor";
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import Footer from "./Footer";
+import React from "react";
+import Reaction from "../common/Reaction";
+import Tags from "../tags/Tags";
+import TagsFactory from "../tags/TagsFactory";
+import Theme from "../theme/default";
+import UpdatesHeader from "./UpdatesHeader";
+import classnames from "classnames";
+import debug from "debug";
 
 const log = debug("bobaui:post-log");
 
@@ -210,7 +210,11 @@ const Post = React.forwardRef<PostHandler, PostProps>((props, ref) => {
                 )}
                 {!!props.op && (
                   <div className="badge">
-                    <Badge label="OP" color={Theme.OP_BADGE_COLOR} />
+                    <Badge
+                      label="OP"
+                      color={Theme.OP_BADGE_COLOR}
+                      icon={faCrown}
+                    />
                   </div>
                 )}
               </div>
