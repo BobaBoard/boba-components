@@ -2,6 +2,7 @@ import {
   CreateBaseCompound,
   extractCompound,
   extractRest,
+  hasChildren,
 } from "../utils/compound-utils";
 import {
   faChevronLeft,
@@ -556,7 +557,7 @@ const DropdownMenu: React.FC<DropdownProps> & {
               ref={(ref) => setContentWrapper(ref)}
               className={classnames("content-wrapper", {
                 "has-options": props.options?.length,
-                "has-header": !!header,
+                "has-header": hasChildren(header),
               })}
             >
               {header}

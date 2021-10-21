@@ -1,14 +1,15 @@
-import React from "react";
-import DropdownListMenu from "../src/common/DropdownListMenu";
-import Button from "../src/buttons/Button";
-import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import {
+  faBellSlash,
   faCaretDown,
   faMapPin,
-  faVolumeMute,
-  faBellSlash,
   faPaintBrush,
+  faVolumeMute,
 } from "@fortawesome/free-solid-svg-icons";
+
+import Button from "../src/buttons/Button";
+import DropdownListMenu from "../src/common/DropdownListMenu";
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import React from "react";
 import { action } from "@storybook/addon-actions";
 
 export default {
@@ -95,6 +96,7 @@ export const IconDropwdownStory = () => {
         zIndex={51}
       >
         <FontAwesomeIcon icon={faCaretDown} />
+        <DropdownListMenu.Header></DropdownListMenu.Header>
       </DropdownListMenu>
     </div>
   );

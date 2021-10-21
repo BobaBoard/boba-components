@@ -36,3 +36,7 @@ export function CreateBaseCompound(displayName: string) {
   newComponent.displayName = displayName;
   return newComponent;
 }
+
+export function hasChildren(component: React.ReactNode) {
+  return React.isValidElement(component) && !!component.props.children;
+}
