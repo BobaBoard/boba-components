@@ -30,7 +30,7 @@ const Badge: React.FC<{
           position: relative;
           overflow: hidden;
           font-size: 1.3rem;
-          padding: 2px 4px;
+          padding: 1px 4px;
           border-radius: 15px;
           line-height: 1.3rem;
           color: white;
