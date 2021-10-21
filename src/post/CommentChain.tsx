@@ -1,12 +1,13 @@
-import React, { PureComponent, createRef } from "react";
 import Comment, { CommentHandler, CommentProps } from "./Comment";
 import Header, { HeaderStyle } from "./Header";
-import Theme from "../theme/default";
-import debug from "debug";
-import { SecretIdentityType } from "types";
-import classnames from "classnames";
+import React, { PureComponent, createRef } from "react";
+import { faCertificate, faCrown } from "@fortawesome/free-solid-svg-icons";
+
 import Badge from "./Badge";
-import { faCertificate } from "@fortawesome/free-solid-svg-icons";
+import { SecretIdentityType } from "types";
+import Theme from "../theme/default";
+import classnames from "classnames";
+import debug from "debug";
 const log = debug("bobaui:comment-log");
 
 const MemoizedComment = React.memo(Comment);
@@ -77,7 +78,7 @@ class CommentChain extends PureComponent<CommentChainProps> {
             )}
             {!!this.props.op && (
               <div className="badge">
-                <Badge label="OP" color={Theme.OP_BADGE_COLOR} />
+                <Badge label="OP" color={Theme.OP_BADGE_COLOR} icon={faCrown} />
               </div>
             )}
           </div>
