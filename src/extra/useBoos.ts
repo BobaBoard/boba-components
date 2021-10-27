@@ -35,9 +35,9 @@ const { className, styles } = css.resolve`
   .right {
   }
   .popout {
-    animation: popout 0.4s ease;
+    animation: popout 1.5s ease;
     animation-name: popout;
-    animation-duration: 0.4s;
+    animation-duration: 1.5s;
     animation-timing-function: ease;
     transform-origin: 50% 50%;
     background-image: url(${booShy});
@@ -146,7 +146,7 @@ const clearGhost = (ghost: HTMLElement, onRemoveCallback?: () => void) => {
   setTimeout(() => {
     ghost.parentNode?.removeChild(ghost);
     onRemoveCallback?.();
-  }, 300);
+  }, 1400);
 };
 
 const newGhost = (onRemoveCallback: () => void) => {
