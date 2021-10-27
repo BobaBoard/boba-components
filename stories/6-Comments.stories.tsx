@@ -402,3 +402,39 @@ export const Badges = () => {
     </div>
   );
 };
+
+export const CommentHyperlinkAtTopStory = () => {
+  return (
+    <div style={{ paddingTop: "15px" }}>
+      <CommentChain
+        comments={[
+          {
+            id: "1",
+            text:
+              '[{"insert": "I mean, "},{"attributes":{"link":"www.goojdkajdslaksdjaklsdjaklsdjaskldjaskldjaslkdjaskldjaskl…kdjalskdjaksldjaslkdjalksdjalksdjaslkdjalskdjaslkdjlkgle.com"},"insert":"sure"},{"insert":", but you know what also is great?"}]',
+          },
+          {
+            id: "1",
+            text:
+              '[{"attributes": {"inline-spoilers": true}, "insert": "Deze nuts."}]',
+          },
+          {
+            id: "1",
+            text: '[{"insert": "Wait is that how you type it?"}]',
+          },
+        ]}
+        new={true}
+        op={true}
+        createdTime="tomorrow"
+        secretIdentity={{
+          name: "Tuxedo Mask",
+          avatar: `/${tuxedoAvatar}`,
+        }}
+        userIdentity={{ name: "SexyDaddy69", avatar: `/${mamoruAvatar}` }}
+      />
+    </div>
+  );
+};
+CommentHyperlinkAtTopStory.story = {
+  name: "hyperlink at top",
+};

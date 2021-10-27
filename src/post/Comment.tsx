@@ -107,7 +107,6 @@ class Comment extends PureComponent<CommentProps> {
             background: ${Theme.COMMENT_BACKGROUND_COLOR};
             border-radius: ${Theme.BORDER_RADIUS_REGULAR};
             min-height: 38px;
-            overflow: hidden;
           }
           .comment-container.with-extra-action:last-child .comment {
             mask: linear-gradient(0deg, rgba(0, 0, 0, 0), rgba(0, 0, 0, 0)),
@@ -133,7 +132,7 @@ class Comment extends PureComponent<CommentProps> {
             left: 0px;
             right: 0px;
             position: absolute;
-            z-index: 2;
+            z-index: 0;
             width: 100%;
             height: 100%;
             border-radius: var(
