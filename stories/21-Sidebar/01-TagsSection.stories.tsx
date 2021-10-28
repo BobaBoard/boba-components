@@ -17,7 +17,7 @@ export default {
   component: TagsFilterSection,
   parameters: {
     actions: {
-      handles: ["click .option", "click button"],
+      handles: ["click .tag", "click button"],
     },
   },
   decorators: [
@@ -45,7 +45,7 @@ export const Regular = TagsFilterSectionTemplate.bind({});
 Regular.args = {
   title: "A regular tags filter section",
   tags: [
-    { name: "test", active: true },
+    { name: "test1", active: true },
     { name: "test2", active: true },
     { name: "test3", active: true },
     { name: "test4", active: true },
@@ -58,25 +58,15 @@ Regular.args = {
     { name: "test11", active: true },
   ],
   type: TagType.CONTENT_WARNING,
+  onTagsStateChangeRequest: (...args) => action("tagChange")(args),
   uncategorized: true,
+  onUncategorizedStateChangeRequest: (...args) => action("uncategorized")(args),
 };
 
 export const Editable = TagsFilterSectionTemplate.bind({});
 Editable.args = {
-  title: "An editable button",
-  tags: [
-    { name: "test", active: true },
-    { name: "test2", active: true },
-    { name: "test3", active: true },
-    { name: "test4", active: true },
-    { name: "test5", active: true },
-    { name: "test6", active: true },
-    { name: "test7", active: true },
-    { name: "test8", active: true },
-    { name: "test9", active: true },
-    { name: "test10", active: true },
-    { name: "test11", active: true },
-  ],
-  type: TagType.CONTENT_WARNING,
-  uncategorized: true,
+  ...Regular.args,
+  tags: Regular.args.tags.map((tag) => tag.name),
+  editable: true,
+  onTagsChange: (...args) => action("tagChange")(args),
 };

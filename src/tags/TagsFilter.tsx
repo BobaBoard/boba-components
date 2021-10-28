@@ -1,15 +1,15 @@
-import React from "react";
-
-import classnames from "classnames";
 import Input, { InputStyle } from "../common/Input";
-import Button from "../buttons/Button";
-
-import debug from "debug";
 import TagsFactory, { getDataForTagType } from "./TagsFactory";
+
+import Button from "../buttons/Button";
+import { ButtonStyle } from "../buttons/Button";
+import React from "react";
 import Tag from "../tags/Tag";
 import { TagType } from "../types";
-import { ButtonStyle } from "../buttons/Button";
+import classnames from "classnames";
+import debug from "debug";
 import { faPlus } from "@fortawesome/free-solid-svg-icons";
+
 // @ts-ignore
 const log = debug("bobaui:common:TagsFilter");
 
@@ -19,43 +19,40 @@ const TagsFilter: React.FC<TagsFilterProps> = (props) => {
   return (
     <div className="filter-section">
       <div className="filter-container">
-        {
-          // @ts-ignore
-          props.tags.map((tag: TagsFilterProps["tags"][0]) => (
-            <button
-              key={tag.name}
-              className={classnames("tag", {
-                disabled: tag["state"] == FilteredTagsState.DISABLED,
-              })}
-              onClick={() =>
-                !props.editable &&
-                props.onTagStateChangeRequest?.({
+        {props.tags.map((tag: TagsFilterProps["tags"][0]) => (
+          <button
+            key={tag.name}
+            className={classnames("tag", {
+              disabled: tag["state"] == FilteredTagsState.DISABLED,
+            })}
+            onClick={() =>
+              !props.editable &&
+              props.onTagStateChangeRequest?.({
+                name: tag.name,
+                state:
+                  tag["state"] == FilteredTagsState.ACTIVE
+                    ? FilteredTagsState.DISABLED
+                    : FilteredTagsState.ACTIVE,
+              })
+            }
+          >
+            {
+              <Tag
+                {...TagsFactory.createProps({
                   name: tag.name,
-                  state:
-                    tag["state"] == FilteredTagsState.ACTIVE
-                      ? FilteredTagsState.DISABLED
-                      : FilteredTagsState.ACTIVE,
-                })
-              }
-            >
-              {
-                <Tag
-                  {...TagsFactory.createProps({
-                    name: tag.name,
-                    type: props.type,
-                  })}
-                  deletable={props.editable}
-                  onDeleteTag={() => {
-                    props.editable &&
-                      props.onTagsChange?.(
-                        props.tags.filter((oldTag) => oldTag != tag)
-                      );
-                  }}
-                />
-              }
-            </button>
-          ))
-        }
+                  type: props.type,
+                })}
+                deletable={props.editable}
+                onDeleteTag={() => {
+                  props.editable &&
+                    props.onTagsChange?.(
+                      props.tags.filter((oldTag) => oldTag != tag)
+                    );
+                }}
+              />
+            }
+          </button>
+        ))}
         {!props.editable && typeof props.uncategorized !== "undefined" && (
           <button
             key={"uncategorized"}
@@ -84,7 +81,7 @@ const TagsFilter: React.FC<TagsFilterProps> = (props) => {
         <Input
           key="new"
           id="category"
-          label="Add new"
+          label="Add new tag"
           value={newTag}
           onTextChange={setNewTag}
           theme={InputStyle.DARK}
@@ -105,6 +102,7 @@ const TagsFilter: React.FC<TagsFilterProps> = (props) => {
             }}
             theme={ButtonStyle.DARK}
             icon={faPlus}
+            label="Add tag button"
             compact
           >
             Add New

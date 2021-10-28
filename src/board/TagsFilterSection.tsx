@@ -67,6 +67,7 @@ const TagsFilterSection: React.FC<TagsFilterSectionProps> = (props) => {
           })}
         >
           <TagsFilter
+            editable={!!props.editable}
             tags={
               !props.editable
                 ? props.tags.map((c) => ({
@@ -86,6 +87,7 @@ const TagsFilterSection: React.FC<TagsFilterSectionProps> = (props) => {
               }
               props.onTagsStateChangeRequest(updatedTag.name);
             }}
+            onTagsChange={props.onTagsChange}
             type={props.type}
             uncategorized={
               "uncategorized" in props
@@ -101,7 +103,7 @@ const TagsFilterSection: React.FC<TagsFilterSectionProps> = (props) => {
             }
           />
         </div>
-        {props.editable && (
+        {/* {props.editable && (
           <div className={"add-category"}>
             <Input
               key="new"
@@ -120,7 +122,7 @@ const TagsFilterSection: React.FC<TagsFilterSectionProps> = (props) => {
               Add New
             </Button>
           </div>
-        )}
+        )} */}
       </div>
       <style jsx>{`
         .content-title {

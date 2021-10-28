@@ -3,7 +3,7 @@ import { Meta, Story } from "@storybook/react";
 import React, { useState } from "react";
 
 import DefaultTheme from "../../src/theme/default";
-import { Regular } from "./10-TagsSection.stories";
+import { Regular } from "./01-TagsSection.stories";
 import { TagType } from "../../src/types";
 import { Regular as TextRegular } from "./02-TextSection.stories";
 import { action } from "@storybook/addon-actions";
