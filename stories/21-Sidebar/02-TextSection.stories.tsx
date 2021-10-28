@@ -1,18 +1,8 @@
 import { Meta, Story } from "@storybook/react";
-import React, { useState } from "react";
-import SegmentedButton, {
-  SegmentedButtonProps,
-} from "../../src/buttons/SegmentedButton";
-import TagsFilterSection, {
-  TagsFilterSectionProps,
-} from "../../src/board/TagsFilterSection";
 import TextSection, { TextSectionProps } from "../../src/board/TextSection";
 
 import DefaultTheme from "../../src/theme/default";
-import { TagType } from "../../src/types";
-import { action } from "@storybook/addon-actions";
-import { faCoffee } from "@fortawesome/free-solid-svg-icons";
-import mamoru from "../images/mamoru.png";
+import React from "react";
 
 export default {
   title: "Sidebar/Text Section",
@@ -56,4 +46,7 @@ Regular.args = {
 };
 
 export const Editable = TextSectionTemplate.bind({});
-Editable.args = { editable: true };
+Editable.args = { ...Regular.args, editable: true };
+
+export const EmptyEditable = TextSectionTemplate.bind({});
+EmptyEditable.args = { ...Editable.args, description: undefined };

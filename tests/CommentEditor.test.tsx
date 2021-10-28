@@ -149,7 +149,7 @@ test("Propagates selected accessory and identity on submit", async () => {
   );
 
   const editorContainer = getContainer().querySelector(".ql-editor");
-  expect(editorContainer).toBeInTheDocument;
+  expect(editorContainer).toBeInTheDocument();
   userEvent.type(editorContainer!, "bar");
   //fireEvent.blur(editorContainer!);
 

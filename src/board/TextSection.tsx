@@ -1,6 +1,5 @@
 import Input, { InputStyle } from "../common/Input";
 
-// @ts-ignore
 import Editor from "@bobaboard/boba-editor";
 import React from "react";
 import classnames from "classnames";
@@ -30,7 +29,6 @@ const TextSection: React.FC<TextSectionProps> = (props) => {
         )}
       </div> */}
       <div className="description">
-        {props.editable && <div className="content-title">Content</div>}
         <div
           className={classnames("content-editor", {
             editing: props.editable,
