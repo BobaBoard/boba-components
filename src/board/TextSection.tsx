@@ -1,12 +1,12 @@
-import React from "react";
-
-import classnames from "classnames";
 import Input, { InputStyle } from "../common/Input";
-import noop from "noop-ts";
+
 // @ts-ignore
 import Editor from "@bobaboard/boba-editor";
-
+import React from "react";
+import classnames from "classnames";
 import debug from "debug";
+import noop from "noop-ts";
+
 // @ts-ignore
 const log = debug("bobaui:boards:sidebarSection");
 
@@ -15,7 +15,7 @@ const TextSection: React.FC<TextSectionProps> = (props) => {
     <div
       className={classnames("sidebar-section", { editable: props.editable })}
     >
-      <div className="title">
+      {/* <div className="title">
         {props.editable ? (
           <Input
             id="title"
@@ -28,7 +28,7 @@ const TextSection: React.FC<TextSectionProps> = (props) => {
         ) : (
           <div className="title">{props.title}</div>
         )}
-      </div>
+      </div> */}
       <div className="description">
         {props.editable && <div className="content-title">Content</div>}
         <div
@@ -47,7 +47,8 @@ const TextSection: React.FC<TextSectionProps> = (props) => {
         </div>
       </div>
       <style jsx>{`
-        .content-title {
+         {
+          /* .content-title {
           font-size: var(--font-size-large);
         }
         .title {
@@ -59,6 +60,7 @@ const TextSection: React.FC<TextSectionProps> = (props) => {
           color: white;
           -webkit-font-smoothing: antialiased;
           -moz-osx-font-smoothing: grayscale;
+        } */
         }
         .content-editor.editing {
           border: 1px solid rgba(255, 255, 255, 0.3);

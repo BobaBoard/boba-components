@@ -54,15 +54,18 @@ const SectionContainer: React.FC<SidebarSectionProps> = (props) => {
     <div className="section">
       <div className="title">{props.title}</div>
       <div className="description">{props.description}</div>
-      <div>{props.children}</div>
+      <div className="content">{props.children}</div>
       <style jsx>{`
         .title {
           font-weight: bold;
           font-size: var(--font-size-regular);
-          margin-bottom: 10px;
+          margin-top: 20px;
         }
         .section {
           color: white;
+        }
+        .content {
+          margin-top: 10px;
         }
       `}</style>
     </div>

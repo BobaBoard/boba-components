@@ -1,12 +1,12 @@
-import React from "react";
-
-import classnames from "classnames";
 import Input, { InputStyle } from "../common/Input";
-import Button from "../buttons/Button";
-
-import debug from "debug";
 import TagsFilter, { FilteredTagsState } from "../tags/TagsFilter";
+
+import Button from "../buttons/Button";
+import React from "react";
 import { TagType } from "types";
+import classnames from "classnames";
+import debug from "debug";
+
 // @ts-ignore
 const log = debug("bobaui:boards:CategoryFilterSection");
 
@@ -30,7 +30,7 @@ const TagsFilterSection: React.FC<TagsFilterSectionProps> = (props) => {
     <div
       className={classnames("sidebar-section", { editable: props.editable })}
     >
-      <div className="title-container">
+      {/* <div className="title-container">
         {props.editable ? (
           <Input
             id="title"
@@ -58,7 +58,7 @@ const TagsFilterSection: React.FC<TagsFilterSectionProps> = (props) => {
             </button>
           </>
         )}
-      </div>
+      </div> */}
       <div className="description">
         {props.editable && <div className="content-title">Categories</div>}
         <div
