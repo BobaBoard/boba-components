@@ -3,7 +3,9 @@ import { Meta, Story } from "@storybook/react";
 import React, { useState } from "react";
 
 import DefaultTheme from "../../src/theme/default";
+import { Regular } from "./10-TagsSection.stories";
 import { TagType } from "../../src/types";
+import { Regular as TextRegular } from "./02-TextSection.stories";
 import { action } from "@storybook/addon-actions";
 import { faCoffee } from "@fortawesome/free-solid-svg-icons";
 import goreBackground from "../images/gore.png";
@@ -36,7 +38,13 @@ export default {
 } as Meta;
 
 const BoardSidebarPreviewTemplate: Story<BoardSidebarProps> = (args) => (
-  <BoardSidebar {...args} />
+  <BoardSidebar {...args}>
+    {args.sidebarSections.map((section) => (
+      <BoardSidebar.SidebarSection {...section.args}>
+        {section.children}
+      </BoardSidebar.SidebarSection>
+    ))}
+  </BoardSidebar>
 );
 
 export const BoardSidebarPreview = BoardSidebarPreviewTemplate.bind({});
@@ -49,7 +57,20 @@ BoardSidebarPreview.args = {
     { name: "opt1", link: { onClick: action("optionOne") } },
     { name: "opt2", link: { onClick: action("option2") } },
   ],
-  descriptions: [
+  sidebarSections: [
+    { args: { title: "hello" }, children: <Regular {...Regular.args} /> },
+    {
+      args: { title: "hello" },
+      children: <TextRegular {...TextRegular.args} />,
+    },
+  ],
+  muted: false,
+  activeCategory: "acido muriatico!!!!",
+  onCategoriesStateChange: action("categoryChange"),
+};
+
+/**
+ * descriptions: [
     {
       id: 1,
       index: 1,
@@ -75,7 +96,4 @@ BoardSidebarPreview.args = {
       type: "text",
     },
   ],
-  muted: false,
-  activeCategory: "acido muriatico!!!!",
-  onCategoriesStateChange: action("categoryChange"),
-};
+ */

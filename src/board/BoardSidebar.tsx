@@ -1,37 +1,93 @@
-import React from "react";
-
-import BoardPreview from "./BoardPreview";
-import { BoardMetadataType, DescriptionType } from "types";
+import { BoardMetadataType, DescriptionType } from "../types";
 import Button, { ButtonStyle } from "../buttons/Button";
-import ColorInput from "../common/ColorInput";
+import { CreateBaseCompound, extractCompounds } from "../utils/compound-utils";
 import DropdownMenu, {
   DropdownProps,
   DropdownStyle,
 } from "../common/DropdownListMenu";
+import Input, { InputStyle } from "../common/Input";
 import {
-  faCaretDown,
   faArrowLeft,
+  faCaretDown,
   faCheck,
 } from "@fortawesome/free-solid-svg-icons";
+
+import BoardDescription from "./BoardDescription";
+import BoardPreview from "./BoardPreview";
+import ColorInput from "../common/ColorInput";
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import React from "react";
+import Theme from "../theme/default";
 import classnames from "classnames";
 import { v4 as uuidv4 } from "uuid";
 
-import BoardDescription from "./BoardDescription";
-import Input, { InputStyle } from "../common/Input";
-import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import Theme from "../theme/default";
+interface SidebarSectionProps {
+  title: string;
+  description?: string;
+}
+const SidebarSection = CreateBaseCompound<SidebarSectionProps>(
+  "SidebarSection"
+);
 
-const BoardSidebar: React.FC<BoardSidebarProps> = (props) => {
+interface EditableBoardSidebarProps {
+  children: React.FC<SidebarSectionProps>;
+  editing: true;
+  onCancelEditing: () => void;
+  onUpdateMetadata: (metadata: BoardMetadataType) => void;
+}
+
+interface DisplayBoardSidebarProps {
+  children: React.FC<SidebarSectionProps>;
+  editing?: false;
+  previewOptions?: DropdownProps["options"];
+  activeCategory: string | null;
+  onCategoriesStateChange: (
+    categories: { name: string; active: boolean }[]
+  ) => void;
+}
+
+export type BoardSidebarProps = BoardMetadataType &
+  (DisplayBoardSidebarProps | EditableBoardSidebarProps);
+
+const SectionContainer: React.FC<SidebarSectionProps> = (props) => {
+  return (
+    <div className="section">
+      <div className="title">{props.title}</div>
+      <div className="description">{props.description}</div>
+      <div>{props.children}</div>
+      <style jsx>{`
+        .title {
+          font-weight: bold;
+          font-size: var(--font-size-regular);
+          margin-bottom: 10px;
+        }
+        .section {
+          color: white;
+        }
+      `}</style>
+    </div>
+  );
+};
+
+const BoardSidebar: React.FC<BoardSidebarProps> & {
+  SidebarSection: React.FC<unknown>;
+} = (props) => {
   const [editingSection, setEditingSection] = React.useState<{
     id: string;
     current: DescriptionType;
     new: boolean;
   }>();
-  const [currentDescriptions, setCurrentDescriptions] = React.useState(
-    props.descriptions.sort((c1, c2) => c1.index - c2.index)
-  );
+  // const [currentDescriptions, setCurrentDescriptions] = React.useState(
+  //   props.descriptions.sort((c1, c2) => c1.index - c2.index)
+  // );
   const [currentAccent, setCurrentAccent] = React.useState(props.accentColor);
   const [currentTagline, setCurrentTagline] = React.useState(props.tagline);
+
+  console.log(props.children);
+  const sections = extractCompounds<SidebarSectionProps>(
+    props.children,
+    SidebarSection
+  );
 
   React.useEffect(() => {
     setCurrentAccent(props.accentColor);
@@ -41,20 +97,21 @@ const BoardSidebar: React.FC<BoardSidebarProps> = (props) => {
     setCurrentTagline(props.tagline);
   }, [props.tagline, props.editing]);
 
-  React.useEffect(() => {
-    setCurrentDescriptions(
-      props.descriptions
-        .sort((c1, c2) => c1.index - c2.index)
-        .map((description, index) => ({
-          ...description,
-          index: index + 1,
-        }))
-    );
-  }, [props.descriptions, props.editing]);
+  // React.useEffect(() => {
+  //   setCurrentDescriptions(
+  //     props.descriptions
+  //       .sort((c1, c2) => c1.index - c2.index)
+  //       .map((description, index) => ({
+  //         ...description,
+  //         index: index + 1,
+  //       }))
+  //   );
+  // }, [props.descriptions, props.editing]);
 
+  console.log(sections);
   return (
     <div className="sidebar">
-      <div
+      {/* <div
         className={classnames("buttons", {
           hidden: !props.editing,
         })}
@@ -111,7 +168,7 @@ const BoardSidebar: React.FC<BoardSidebarProps> = (props) => {
         >
           Save
         </Button>
-      </div>
+      </div> */}
       <div className="board-details">
         <div
           className={classnames("board-preview", {
@@ -171,7 +228,10 @@ const BoardSidebar: React.FC<BoardSidebarProps> = (props) => {
         >
           Description Sections
         </h2>
-        <BoardDescription
+        {sections.map((section) => (
+          <SectionContainer key={section.props.title} {...section.props} />
+        ))}
+        {/* <BoardDescription
           descriptions={currentDescriptions || []}
           onClearFilterRequests={() => {
             if (props.editing) {
@@ -256,7 +316,7 @@ const BoardSidebar: React.FC<BoardSidebarProps> = (props) => {
             );
             setEditingSection(undefined);
           }}
-        />
+        /> */}
       </div>
       <style jsx>{`
         h2 {
@@ -332,22 +392,6 @@ const BoardSidebar: React.FC<BoardSidebarProps> = (props) => {
   );
 };
 
+BoardSidebar.SidebarSection = SidebarSection;
+
 export default BoardSidebar;
-
-interface EditableBoardSidebarProps {
-  editing: true;
-  onCancelEditing: () => void;
-  onUpdateMetadata: (metadata: BoardMetadataType) => void;
-}
-
-interface DisplayBoardSidebarProps {
-  editing?: false;
-  previewOptions?: DropdownProps["options"];
-  activeCategory: string | null;
-  onCategoriesStateChange: (
-    categories: { name: string; active: boolean }[]
-  ) => void;
-}
-
-export type BoardSidebarProps = BoardMetadataType &
-  (DisplayBoardSidebarProps | EditableBoardSidebarProps);
