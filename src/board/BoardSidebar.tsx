@@ -86,7 +86,6 @@ const BoardSidebar: React.FC<BoardSidebarProps> & {
   const [currentAccent, setCurrentAccent] = React.useState(props.accentColor);
   const [currentTagline, setCurrentTagline] = React.useState(props.tagline);
 
-  console.log(props.children);
   const sections = extractCompounds<SidebarSectionProps>(
     props.children,
     SidebarSection
@@ -111,7 +110,6 @@ const BoardSidebar: React.FC<BoardSidebarProps> & {
   //   );
   // }, [props.descriptions, props.editing]);
 
-  console.log(sections);
   return (
     <div className="sidebar">
       {/* <div
