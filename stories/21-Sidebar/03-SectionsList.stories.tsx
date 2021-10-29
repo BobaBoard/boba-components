@@ -1,5 +1,5 @@
 import { Meta, Story } from "@storybook/react";
-import SectionsList, { SectionsListProps } from "../../src/board/SectionsList";
+import SectionsList, { SectionsListProps } from "../../src/sidebar/SectionsList";
 
 import DefaultTheme from "../../src/theme/default";
 import React from "react";

@@ -1,5 +1,5 @@
 import { Meta, Story } from "@storybook/react";
-import TextSection, { TextSectionProps } from "../../src/board/TextSection";
+import TextSection, { TextSectionProps } from "../../src/sidebar/TextSection";
 
 import DefaultTheme from "../../src/theme/default";
 import React from "react";

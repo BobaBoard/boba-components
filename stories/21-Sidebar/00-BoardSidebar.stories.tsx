@@ -1,4 +1,4 @@
-import BoardSidebar, { BoardSidebarProps } from "../../src/board/BoardSidebar";
+import BoardSidebar, { BoardSidebarProps } from "../../src/sidebar/BoardSidebar";
 import { Meta, Story } from "@storybook/react";
 import React, { useState } from "react";
 

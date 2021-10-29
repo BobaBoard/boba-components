@@ -13,7 +13,7 @@ import {
 } from "@fortawesome/free-solid-svg-icons";
 
 import BoardDescription from "./BoardDescription";
-import BoardPreview from "./BoardPreview";
+import BoardPreview from "../board/BoardPreview";
 import ColorInput from "../common/ColorInput";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import React from "react";

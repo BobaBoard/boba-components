@@ -5,7 +5,7 @@ import SegmentedButton, {
 } from "../../src/buttons/SegmentedButton";
 import TagsFilterSection, {
   TagsFilterSectionProps,
-} from "../../src/board/TagsFilterSection";
+} from "../../src/sidebar/TagsFilterSection";
 
 import { TagType } from "../../src/types";
 import { action } from "@storybook/addon-actions";
