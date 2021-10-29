@@ -17,13 +17,18 @@ import BoardPreview from "./BoardPreview";
 import ColorInput from "../common/ColorInput";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import React from "react";
+import SectionsList from "./SectionsList";
+import TagsFilterSection from "./TagsFilterSection";
+import TextSection from "./TextSection";
 import Theme from "../theme/default";
 import classnames from "classnames";
 import { v4 as uuidv4 } from "uuid";
 
 interface SidebarSectionProps {
+  id: string;
   title: string;
   description?: string;
+  children: typeof TagsFilterSection | typeof TextSection;
 }
 const SidebarSection = CreateBaseCompound<SidebarSectionProps>(
   "SidebarSection"
@@ -229,9 +234,25 @@ const BoardSidebar: React.FC<BoardSidebarProps> & {
         >
           Description Sections
         </h2>
-        {sections.map((section) => (
-          <SectionContainer key={section.props.title} {...section.props} />
-        ))}
+        {!props.editing &&
+          sections.map((section) => (
+            <SectionContainer key={section.props.title} {...section.props} />
+          ))}
+        {props.editing && (
+          <SectionsList
+            sections={sections.map((section) => ({
+              id: section.props.id,
+              title: section.props.title,
+              // @ts-expect-error
+              type: section.props.children.props.tags
+                ? "category_filter"
+                : "text",
+            }))}
+            onSelectSection={() => {}}
+            onDeleteSection={() => {}}
+            onAddSection={() => {}}
+          />
+        )}
         {/* <BoardDescription
           descriptions={currentDescriptions || []}
           onClearFilterRequests={() => {

@@ -37,7 +37,7 @@ export default {
   ],
 } as Meta;
 
-const BoardSidebarPreviewTemplate: Story<BoardSidebarProps> = (args) => (
+const BoardSidebarTemplate: Story<BoardSidebarProps> = (args) => (
   <BoardSidebar {...args}>
     {args.sidebarSections.map((section) => (
       <BoardSidebar.SidebarSection {...section.args}>
@@ -47,8 +47,8 @@ const BoardSidebarPreviewTemplate: Story<BoardSidebarProps> = (args) => (
   </BoardSidebar>
 );
 
-export const BoardSidebarPreview = BoardSidebarPreviewTemplate.bind({});
-BoardSidebarPreview.args = {
+export const RegularBoardSidebar = BoardSidebarTemplate.bind({});
+RegularBoardSidebar.args = {
   slug: "gore",
   avatarUrl: `/${goreBackground}`,
   accentColor: "#24d282",
@@ -67,6 +67,12 @@ BoardSidebarPreview.args = {
   muted: false,
   activeCategory: "acido muriatico!!!!",
   onCategoriesStateChange: action("categoryChange"),
+};
+
+export const EditableBoardSidebar = BoardSidebarTemplate.bind({});
+EditableBoardSidebar.args = {
+  ...RegularBoardSidebar.args,
+  editing: true,
 };
 
 /**
