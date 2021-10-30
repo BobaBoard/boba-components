@@ -13,46 +13,12 @@ const TagsFilterSection: React.FC<TagsFilterSectionProps> = (props) => {
   const {
     uncategorized,
     onUncategorizedStateChangeRequest,
-  } = props as DisplayCategoryFilterSectionProps;
-  const allCategoriesActive =
-    props.editable ||
-    (props.tags.every(
-      (category) => category.state === FilteredTagsState.ACTIVE
-    ) &&
-      props.uncategorized !== FilteredTagsState.DISABLED);
+  } = props as DisplayTagsFilterSectionProps;
+
   return (
     <div
       className={classnames("sidebar-section", { editable: props.editable })}
     >
-      {/* <div className="title-container">
-        {props.editable ? (
-          <Input
-            id="title"
-            label="title"
-            value={props.title}
-            onTextChange={(title) => {
-              props.onTitleChange?.(title);
-            }}
-            theme={InputStyle.DARK}
-            disabled={!props.editable}
-          />
-        ) : (
-          <>
-            <div className="title">{props.title}</div>
-            <button
-              className={classnames("clear-filters", {
-                visible: !allCategoriesActive,
-              })}
-              onClick={(e) => {
-                e.preventDefault();
-                props.onClearFilterRequests();
-              }}
-            >
-              Clear filters
-            </button>
-          </>
-        )}
-      </div> */}
       <div className="description">
         {props.editable && <div className="content-title">Categories</div>}
         <div
@@ -103,28 +69,6 @@ const TagsFilterSection: React.FC<TagsFilterSectionProps> = (props) => {
         .sidebar-section {
           color: white;
         }
-        .clear-filters {
-          color: white;
-          font-size: var(--font-size-small);
-          display: block;
-          margin-top: 5px;
-          visibility: hidden;
-          background-color: transparent;
-          border: 0;
-          text-decoration: underline;
-        }
-        .clear-filters:hover {
-          cursor: pointer;
-        }
-        .clear-filters:focus {
-          outline: none;
-        }
-        .clear-filters:focus-visible {
-          outline: auto;
-        }
-        .clear-filters.visible {
-          visibility: visible;
-        }
         .add-category {
           text-align: center;
         }
@@ -133,7 +77,7 @@ const TagsFilterSection: React.FC<TagsFilterSectionProps> = (props) => {
   );
 };
 
-export interface DisplayCategoryFilterSectionProps {
+export interface DisplayTagsFilterSectionProps {
   tags: { name: string; state: FilteredTagsState }[];
   editable?: false;
   type: TagType;
@@ -143,15 +87,16 @@ export interface DisplayCategoryFilterSectionProps {
   onUncategorizedStateChangeRequest?: (state: FilteredTagsState) => void;
 }
 
-export interface EditableCategoryFilterSectionProps {
-  tags: { name: string }[];
+export interface EditableTagsFilterSectionProps {
+  tags: { name: string; state?: FilteredTagsState }[];
   editable: true;
   type: TagType;
+  uncategorized?: FilteredTagsState;
   onTagsChange: (tags: { name: string }[]) => void;
 }
 
 export type TagsFilterSectionProps =
-  | DisplayCategoryFilterSectionProps
-  | EditableCategoryFilterSectionProps;
+  | DisplayTagsFilterSectionProps
+  | EditableTagsFilterSectionProps;
 
 export default TagsFilterSection;

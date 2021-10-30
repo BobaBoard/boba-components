@@ -6,6 +6,7 @@ import SidebarSection, {
   SidebarSectionProps,
 } from "../../src/sidebar/SidebarSection";
 import TagsFilterSection, {
+  DisplayTagsFilterSectionProps,
   TagsFilterSectionProps,
 } from "../../src/sidebar/TagsFilterSection";
 import TextSection, { TextSectionProps } from "../../src/sidebar/TextSection";
@@ -55,6 +56,19 @@ TagsFilterRegular.args = {
     title: "A tags filter section",
   },
   tagsFilterProps: TagsFilterStories.Regular.args as TagsFilterSectionProps,
+};
+
+export const TagsFilterInactive = TagsFilterSidebarSectionTemplate.bind({});
+TagsFilterInactive.args = {
+  sidebarSectionProps: {
+    id: "id1",
+    index: 1,
+    title: "A tags filter section",
+  },
+  tagsFilterProps: {
+    ...(TagsFilterStories.Inactive.args as DisplayTagsFilterSectionProps),
+    onClearFilterRequests: (...args) => action("clearFilter")(args),
+  },
 };
 
 export const TagsFilterEditable = TagsFilterSidebarSectionTemplate.bind({});

@@ -103,6 +103,18 @@ describe("Inactive", () => {
     expect(uncategorizedTag.getAttribute("aria-checked")).toBe("false");
     expect(uncategorizedTag).toHaveStyle(`opacity: 0.7`);
   });
+
+  test("Triggers uncategorized click", async () => {
+    render(<Inactive />);
+
+    const disableActionReturn = jest.fn();
+    mocked(action).mockReturnValue(disableActionReturn);
+    fireEvent.click(screen.getByText(TagMatcher(`cn:uncategorized`)));
+    await waitFor(() => {
+      expect(action).toHaveBeenCalledWith("tagChange");
+      expect(disableActionReturn).toBeCalledWith([FilteredTagsState.ACTIVE]);
+    });
+  });
 });
 
 describe("Editable", () => {

@@ -183,7 +183,7 @@ export interface DisplayTagsFilterProps {
 }
 
 export interface EditableTagsFilterProps {
-  tags: { name: string; state: undefined }[];
+  tags: { name: string; state?: FilteredTagsState }[];
   type: TagType;
   editable: true;
   onTagsChange: (tags: { name: string }[]) => void;

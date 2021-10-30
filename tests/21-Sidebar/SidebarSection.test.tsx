@@ -19,6 +19,7 @@ suppressConsoleErrors(["Warning: validateDOMNesting(...)"]);
 
 const {
   TagsFilterRegular,
+  TagsFilterInactive,
   TagsFilterEditable,
   TextRegular,
   TextEditable,
@@ -45,6 +46,26 @@ describe("Tags Filter", () => {
 
     test("Does not render edit buttons", () => {
       render(<TagsFilterRegular />);
+
+      // TODO: fill this
+    });
+  });
+
+  describe("Inactive", () => {
+    test("Renders clear filter", () => {
+      render(<TagsFilterInactive />);
+
+      // TODO: fill this
+    });
+
+    test("Activates clear filter option", () => {
+      render(<TagsFilterInactive />);
+
+      // TODO: fill this
+    });
+
+    test("Triggers clear filters action", () => {
+      render(<TagsFilterInactive />);
 
       // TODO: fill this
     });

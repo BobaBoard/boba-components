@@ -13,6 +13,12 @@ type SidebarSectionChild = React.ReactElement<
   TextSectionProps | TagsFilterSectionProps
 >;
 
+const isCategoryFilterSection = (
+  section: SidebarSectionChild
+): section is React.ReactElement<TagsFilterSectionProps> => {
+  return getType(section) == "category_filter";
+};
+
 /**
  * Get the type of a valid child element of a SidebarSection.
  */
@@ -149,6 +155,13 @@ export interface SidebarSectionProps {
   onDeleteSection?: (sectionId: string) => void;
 }
 const SidebarSection: React.FC<SidebarSectionProps> = (props) => {
+  const allCategoriesActive =
+    isCategoryFilterSection(props.children) &&
+    props.children.props.tags.every(
+      (category) => category.state === FilteredTagsState.ACTIVE
+    ) &&
+    props.children.props.uncategorized !== FilteredTagsState.DISABLED;
+
   return (
     <div className="section">
       <div className="title">
@@ -162,6 +175,20 @@ const SidebarSection: React.FC<SidebarSectionProps> = (props) => {
             onTextChange={props.onChangeTitle || noop}
             theme={InputStyle.DARK}
           />
+        )}
+        {isCategoryFilterSection(props.children) && !allCategoriesActive && (
+          <button
+            className={"clear-filters"}
+            onClick={() => {
+              // TODO: this is a bit hackish, and the reason for it is that
+              // this button is only used by TagsFilterSections and so it's
+              // easy to special case. Get rid of the special case once we
+              // have more section types that require an extra action.
+              props.children.props.onClearFilterRequests();
+            }}
+          >
+            Clear filters
+          </button>
         )}
       </div>
       <div className="content">
@@ -186,6 +213,8 @@ const SidebarSection: React.FC<SidebarSectionProps> = (props) => {
           font-weight: bold;
           font-size: var(--font-size-regular);
           margin-top: 20px;
+          display: flex;
+          align-items: baseline;
         }
         .section {
           color: white;
@@ -195,6 +224,28 @@ const SidebarSection: React.FC<SidebarSectionProps> = (props) => {
         }
         .delete {
           margin-top: 10px;
+        }
+        .clear-filters {
+          color: white;
+          font-size: var(--font-size-small);
+          display: block;
+          margin-top: 5px;
+          background-color: transparent;
+          border: 0;
+          text-decoration: underline;
+          margin-left: auto;
+        }
+        .clear-filters:hover {
+          cursor: pointer;
+        }
+        .clear-filters:focus {
+          outline: none;
+        }
+        .clear-filters:focus-visible {
+          outline: auto;
+        }
+        .clear-filters.visible {
+          visibility: visible;
         }
       `}</style>
     </div>
