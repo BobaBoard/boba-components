@@ -1,7 +1,14 @@
+import * as TagsFilterStories from "./01-TagsSection.stories";
+import * as TextSectionStories from "./02-TextSection.stories";
+
 import { Meta, Story } from "@storybook/react";
 import SidebarSection, {
   SidebarSectionProps,
 } from "../../src/sidebar/SidebarSection";
+import TagsFilterSection, {
+  TagsFilterSectionProps,
+} from "../../src/sidebar/TagsFilterSection";
+import TextSection, { TextSectionProps } from "../../src/sidebar/TextSection";
 
 import DefaultTheme from "../../src/theme/default";
 import React from "react";
@@ -29,25 +36,68 @@ export default {
   ],
 } as Meta;
 
-const SidebarSectionTemplate: Story<SidebarSectionProps> = (args) => {
-  return <SidebarSection {...args} />;
+const TagsFilterSidebarSectionTemplate: Story<{
+  sidebarSectionProps: Omit<SidebarSectionProps, "children">;
+  tagsFilterProps: TagsFilterSectionProps;
+}> = ({ sidebarSectionProps, tagsFilterProps }) => {
+  return (
+    <SidebarSection {...sidebarSectionProps}>
+      <TagsFilterSection {...tagsFilterProps} />
+    </SidebarSection>
+  );
 };
 
-export const Regular = SidebarSectionTemplate.bind({});
-Regular.args = {
-  sections: [
-    {
-      id: "test1",
-      title: "test1",
-      type: "category_filter",
-    },
-    {
-      id: "test2",
-      title: "test2",
-      type: "text",
-    },
-  ],
-  onSelectSection: (...args) => action("select")(args),
-  onAddSection: (...args) => action("add")(args),
+export const TagsFilterRegular = TagsFilterSidebarSectionTemplate.bind({});
+TagsFilterRegular.args = {
+  sidebarSectionProps: {
+    id: "id1",
+    index: 1,
+    title: "A tags filter section",
+  },
+  tagsFilterProps: TagsFilterStories.Regular.args as TagsFilterSectionProps,
 };
-Regular.storyName = "Sections List";
+
+export const TagsFilterEditable = TagsFilterSidebarSectionTemplate.bind({});
+TagsFilterEditable.args = {
+  ...TagsFilterRegular.args,
+  sidebarSectionProps: {
+    ...TagsFilterRegular.args.sidebarSectionProps!,
+    editable: true,
+    onChangeTitle: (...args) => action("changeTitle")(args),
+    onChangeData: (...args) => action("changeData")(args),
+    onDeleteSection: (...args) => action("deleteSection")(args),
+  },
+};
+
+const TextSidebarSectionTemplate: Story<{
+  sidebarSectionProps: Omit<SidebarSectionProps, "children">;
+  textSectionProps: TextSectionProps;
+}> = ({ sidebarSectionProps, textSectionProps }) => {
+  return (
+    <SidebarSection {...sidebarSectionProps}>
+      <TextSection {...textSectionProps} />
+    </SidebarSection>
+  );
+};
+
+export const TextRegular = TextSidebarSectionTemplate.bind({});
+TextRegular.args = {
+  sidebarSectionProps: {
+    id: "id1",
+    index: 1,
+    title: "A text section",
+  },
+  textSectionProps: TextSectionStories.Regular.args as TextSectionProps,
+};
+
+export const TextEditable = TextSidebarSectionTemplate.bind({});
+TextEditable.args = {
+  ...TextRegular.args,
+  sidebarSectionProps: {
+    ...TextRegular.args!.sidebarSectionProps!,
+    editable: true,
+    onChangeTitle: (...args) => action("changeTitle")(args),
+    onChangeData: (...args) => action("changeData")(args),
+    onDeleteSection: (...args) => action("deleteSection")(args),
+  },
+};

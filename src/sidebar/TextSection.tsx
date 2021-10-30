@@ -7,6 +7,11 @@ import debug from "debug";
 const log = debug("bobaui:boards:sidebarSection");
 
 const TextSection: React.FC<TextSectionProps> = (props) => {
+  // For some reason, two description changes are triggered automatically
+  // when the component is first mounted (likely this is a Editor thing).
+  // To avoid surprising behavior, we simply swallow them.
+  // TODO: this hack should be investigated and potentially removed.
+  const swallowInitialDescriptionChange = React.useRef<number>(2);
   return (
     <div
       className={classnames("sidebar-section", { editable: props.editable })}
@@ -20,10 +25,14 @@ const TextSection: React.FC<TextSectionProps> = (props) => {
           <Editor
             initialText={props.description ? JSON.parse(props.description) : {}}
             editable={props.editable || false}
-            onTextChange={(text) =>
+            onTextChange={(text) => {
+              if (swallowInitialDescriptionChange.current) {
+                swallowInitialDescriptionChange.current--;
+                return;
+              }
               props.editable &&
-              props.onDescriptionChange?.(JSON.stringify(text.ops))
-            }
+                props.onDescriptionChange?.(JSON.stringify(text.ops));
+            }}
           />
         </div>
       </div>

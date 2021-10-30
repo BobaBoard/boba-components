@@ -1,10 +1,10 @@
 import LegacyBoardSidebar, {
   BoardSidebarProps,
 } from "../../src/board/LegacyBoardSidebar";
+import { Meta, Story } from "@storybook/react";
 
 import Button from "../../src/buttons/Button";
 import DefaultTheme from "../../src/theme/default";
-import { Meta } from "@storybook/react";
 import React from "react";
 import { action } from "@storybook/addon-actions";
 import goreBackground from "../images/gore.png";
@@ -31,7 +31,7 @@ export default {
   ],
 } as Meta;
 
-const LegacyBoardSidebarPreviewTemplate = (args: BoardSidebarProps) => {
+const LegacyBoardSidebarPreviewTemplate: Story<BoardSidebarProps> = (args) => {
   const [color, setColor] = React.useState("#f96680");
   return (
     <div style={{ maxWidth: "500px", backgroundColor: "#1C1C1C" }}>
