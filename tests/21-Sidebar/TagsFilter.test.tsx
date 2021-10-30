@@ -4,6 +4,7 @@ import * as tagStories from "../../stories/21-Sidebar/01-TagsSection.stories";
 
 import {
   fireEvent,
+  prettyDOM,
   render,
   screen,
   waitFor,
@@ -24,7 +25,7 @@ jest.mock("@storybook/addon-actions");
 // TODO: get rid of this error.
 suppressConsoleErrors(["Warning: validateDOMNesting(...)"]);
 
-const { Regular, Editable } = composeStories(tagStories);
+const { Regular, Editable, Inactive } = composeStories(tagStories);
 
 describe("Regular", () => {
   test("Renders content notices", () => {
@@ -75,6 +76,32 @@ describe("Regular", () => {
     const deleteButton = within(tag).queryByLabelText("delete tag");
 
     expect(deleteButton).not.toBeInTheDocument();
+  });
+});
+
+describe("Inactive", () => {
+  test("Renders active tag", () => {
+    render(<Inactive />);
+
+    const activeTag = screen.getByText(TagMatcher(`cn:active8`));
+    expect(activeTag.getAttribute("aria-checked")).toBe("true");
+    expect(activeTag).not.toHaveStyle(`opacity: 0.7`);
+  });
+
+  test("Renders inactive tag", () => {
+    render(<Inactive />);
+
+    const inactiveTag = screen.getByText(TagMatcher(`cn:disabled6`));
+    expect(inactiveTag.getAttribute("aria-checked")).toBe("false");
+    expect(inactiveTag).toHaveStyle(`opacity: 0.7`);
+  });
+
+  test("Renders inactive uncategorized", () => {
+    render(<Inactive />);
+
+    const uncategorizedTag = screen.getByText(TagMatcher(`cn:uncategorized`));
+    expect(uncategorizedTag.getAttribute("aria-checked")).toBe("false");
+    expect(uncategorizedTag).toHaveStyle(`opacity: 0.7`);
   });
 });
 

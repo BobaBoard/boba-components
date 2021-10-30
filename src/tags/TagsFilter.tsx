@@ -20,17 +20,19 @@ const TagsFilter: React.FC<TagsFilterProps> = (props) => {
     <div className="filter-section">
       <div className="filter-container">
         {props.tags.map((tag) => (
-          <button
+          <div
             key={tag.name}
             className={classnames("tag", {
-              disabled: tag["state"] == FilteredTagsState.DISABLED,
+              disabled: tag.state === FilteredTagsState.DISABLED,
             })}
+            role="switch"
+            aria-checked={tag.state !== FilteredTagsState.DISABLED}
             onClick={() =>
               !props.editable &&
               props.onTagStateChangeRequest?.({
                 name: tag.name,
                 state:
-                  tag["state"] == FilteredTagsState.ACTIVE
+                  tag.state == FilteredTagsState.ACTIVE
                     ? FilteredTagsState.DISABLED
                     : FilteredTagsState.ACTIVE,
               })
@@ -53,14 +55,16 @@ const TagsFilter: React.FC<TagsFilterProps> = (props) => {
                 }}
               />
             }
-          </button>
+          </div>
         ))}
         {!props.editable && typeof props.uncategorized !== "undefined" && (
-          <button
+          <div
             key={"uncategorized"}
             className={classnames("tag", {
               disabled: props.uncategorized === FilteredTagsState.DISABLED,
             })}
+            role="switch"
+            aria-checked={props.uncategorized !== FilteredTagsState.DISABLED}
             onClick={() =>
               !props.editable &&
               props.onUncategorizedStateChangeRequest?.(
@@ -76,7 +80,7 @@ const TagsFilter: React.FC<TagsFilterProps> = (props) => {
               symbol={getDataForTagType(props.type).symbol}
               compact
             />
-          </button>
+          </div>
         )}
       </div>
       <div className={classnames("tag-input", { visible: props.editable })}>
@@ -179,7 +183,7 @@ export interface DisplayTagsFilterProps {
 }
 
 export interface EditableTagsFilterProps {
-  tags: { name: string }[];
+  tags: { name: string; state: undefined }[];
   type: TagType;
   editable: true;
   onTagsChange: (tags: { name: string }[]) => void;

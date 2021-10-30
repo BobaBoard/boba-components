@@ -55,23 +55,21 @@ Regular.args = {
 
 export const Inactive = TagsFilterSectionTemplate.bind({});
 Inactive.args = {
+  ...Regular.args,
   tags: [
-    { name: "test1", state: FilteredTagsState.ACTIVE },
-    { name: "disabled1", state: FilteredTagsState.DISABLED },
-    { name: "test3", state: FilteredTagsState.ACTIVE },
-    { name: "test4", state: FilteredTagsState.ACTIVE },
-    { name: "test5", state: FilteredTagsState.ACTIVE },
+    { name: "active1", state: FilteredTagsState.ACTIVE },
     { name: "disabled2", state: FilteredTagsState.DISABLED },
-    { name: "test7", state: FilteredTagsState.ACTIVE },
-    { name: "test8", state: FilteredTagsState.ACTIVE },
-    { name: "test9", state: FilteredTagsState.ACTIVE },
-    { name: "disabled3", state: FilteredTagsState.DISABLED },
-    { name: "test11", state: FilteredTagsState.ACTIVE },
+    { name: "active3", state: FilteredTagsState.ACTIVE },
+    { name: "active4", state: FilteredTagsState.ACTIVE },
+    { name: "active5", state: FilteredTagsState.ACTIVE },
+    { name: "disabled6", state: FilteredTagsState.DISABLED },
+    { name: "active7", state: FilteredTagsState.ACTIVE },
+    { name: "active8", state: FilteredTagsState.ACTIVE },
+    { name: "active9", state: FilteredTagsState.ACTIVE },
+    { name: "disabled10", state: FilteredTagsState.DISABLED },
+    { name: "active11", state: FilteredTagsState.ACTIVE },
   ],
-  type: TagType.CONTENT_WARNING,
-  onTagsStateChangeRequest: (...args) => action("tagChange")(args),
   uncategorized: FilteredTagsState.DISABLED,
-  onUncategorizedStateChangeRequest: (...args) => action("uncategorized")(args),
 };
 
 export const Editable = TagsFilterSectionTemplate.bind({});
