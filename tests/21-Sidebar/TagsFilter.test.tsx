@@ -14,6 +14,7 @@ import React from "react";
 import { action } from "@storybook/addon-actions";
 import { composeStories } from "@storybook/testing-react";
 import { mocked } from "ts-jest/utils";
+import { suppressConsoleErrors } from "../utils/testUtils";
 import userEvent from "@testing-library/user-event";
 
 jest.mock("@storybook/addon-actions");
@@ -21,12 +22,15 @@ jest.mock("@storybook/addon-actions");
 const { Regular, Editable } = composeStories(tagStories);
 
 const TagMatcher = (tagText: string) => {
-  return (_, node) => {
+  return (_: string, node: HTMLElement) => {
     return (
       node.tagName.toLowerCase() === "button" && node.textContent === tagText
     );
   };
 };
+
+// TODO: get rid of this error.
+suppressConsoleErrors(["Warning: validateDOMNesting(...)"]);
 
 test("Renders content notices", () => {
   render(<Regular />);
