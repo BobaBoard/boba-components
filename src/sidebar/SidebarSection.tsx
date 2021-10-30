@@ -4,6 +4,7 @@ import TagsFilterSection, { TagsFilterSectionProps } from "./TagsFilterSection";
 import TextSection, { TextSectionProps } from "./TextSection";
 
 import Button from "../buttons/Button";
+import { FilteredTagsState } from "../tags/TagsFilter";
 import React from "react";
 import { faCross } from "@fortawesome/free-solid-svg-icons";
 import noop from "noop-ts";
@@ -108,7 +109,7 @@ const makeSidebarChild = (
         <TagsFilterSection
           tags={description.categories.map((categoryName) => ({
             name: categoryName,
-            active: true,
+            state: FilteredTagsState.ACTIVE,
           }))}
           type={TagType.CATEGORY}
           onTagsStateChangeRequest={noop}

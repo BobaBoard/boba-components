@@ -1,7 +1,7 @@
 import TagsFilter, { FilteredTagsState } from "../tags/TagsFilter";
 
 import React from "react";
-import { TagType } from "types";
+import { TagType } from "../types";
 import classnames from "classnames";
 import debug from "debug";
 import noop from "noop-ts";
@@ -10,21 +10,16 @@ import noop from "noop-ts";
 const log = debug("bobaui:boards:CategoryFilterSection");
 
 const TagsFilterSection: React.FC<TagsFilterSectionProps> = (props) => {
-  const [newCategory, setNewCategory] = React.useState("");
-
-  const { onUncategorizedStateChangeRequest = undefined } =
-    "uncategorized" in props ? props : {};
-  const onUncategorizedStateChangeRequestCallback = React.useCallback(
-    (state: FilteredTagsState) => {
-      onUncategorizedStateChangeRequest?.(state == FilteredTagsState.ACTIVE);
-    },
-    [onUncategorizedStateChangeRequest]
-  );
-
+  const {
+    uncategorized,
+    onUncategorizedStateChangeRequest,
+  } = props as DisplayCategoryFilterSectionProps;
   const allCategoriesActive =
     props.editable ||
-    (!props.tags.some((category) => !category.active) &&
-      props.uncategorized !== false);
+    (props.tags.every(
+      (category) => category.state === FilteredTagsState.ACTIVE
+    ) &&
+      props.uncategorized !== FilteredTagsState.DISABLED);
   return (
     <div
       className={classnames("sidebar-section", { editable: props.editable })}
@@ -69,12 +64,7 @@ const TagsFilterSection: React.FC<TagsFilterSectionProps> = (props) => {
             editable={!!props.editable}
             tags={
               !props.editable
-                ? props.tags.map((c) => ({
-                    name: c.name,
-                    state: c.active
-                      ? FilteredTagsState.ACTIVE
-                      : FilteredTagsState.DISABLED,
-                  }))
+                ? props.tags
                 : props.tags?.map((c) => ({
                     name: c.name,
                     state: FilteredTagsState.ACTIVE,
@@ -88,17 +78,9 @@ const TagsFilterSection: React.FC<TagsFilterSectionProps> = (props) => {
             }}
             onTagsChange={props.editable ? props.onTagsChange : noop}
             type={props.type}
-            uncategorized={
-              "uncategorized" in props
-                ? props.uncategorized
-                  ? FilteredTagsState.ACTIVE
-                  : FilteredTagsState.DISABLED
-                : undefined
-            }
+            uncategorized={uncategorized}
             onUncategorizedStateChangeRequest={
-              "uncategorized" in props
-                ? onUncategorizedStateChangeRequestCallback
-                : undefined
+              onUncategorizedStateChangeRequest
             }
           />
         </div>
@@ -152,13 +134,13 @@ const TagsFilterSection: React.FC<TagsFilterSectionProps> = (props) => {
 };
 
 export interface DisplayCategoryFilterSectionProps {
-  tags: { name: string; active: boolean }[];
+  tags: { name: string; state: FilteredTagsState }[];
   editable?: false;
   type: TagType;
   onTagsStateChangeRequest: (name: string) => void;
   onClearFilterRequests: () => void;
-  uncategorized?: boolean;
-  onUncategorizedStateChangeRequest?: (state: boolean) => void;
+  uncategorized?: FilteredTagsState;
+  onUncategorizedStateChangeRequest?: (state: FilteredTagsState) => void;
 }
 
 export interface EditableCategoryFilterSectionProps {

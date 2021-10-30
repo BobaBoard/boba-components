@@ -175,7 +175,7 @@ export interface DisplayTagsFilterProps {
     state: FilteredTagsState;
   }) => void;
   uncategorized?: FilteredTagsState;
-  onUncategorizedStateChangeRequest?: (state: FilteredTagsState) => void;
+  onUncategorizedStateChangeRequest?: (nextState: FilteredTagsState) => void;
 }
 
 export interface EditableTagsFilterProps {

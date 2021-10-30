@@ -10,6 +10,7 @@ import {
   within,
 } from "@testing-library/react";
 
+import { FilteredTagsState } from "../../src/tags/TagsFilter";
 import React from "react";
 import { TagMatcher } from "../utils/matchers";
 import { action } from "@storybook/addon-actions";
@@ -63,19 +64,7 @@ describe("Regular", () => {
     fireEvent.click(screen.getByText(TagMatcher(`cn:uncategorized`)));
     await waitFor(() => {
       expect(action).toHaveBeenCalledWith("tagChange");
-      expect(disableActionReturn).toBeCalledWith([false]);
-    });
-  });
-
-  test("Shows clear filter", async () => {
-    render(<Regular />);
-
-    const disableActionReturn = jest.fn();
-    mocked(action).mockReturnValue(disableActionReturn);
-    fireEvent.click(screen.getByText(TagMatcher(`cn:uncategorized`)));
-    await waitFor(() => {
-      expect(action).toHaveBeenCalledWith("tagChange");
-      expect(disableActionReturn).toBeCalledWith([false]);
+      expect(disableActionReturn).toBeCalledWith([FilteredTagsState.DISABLED]);
     });
   });
 
