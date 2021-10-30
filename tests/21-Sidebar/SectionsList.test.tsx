@@ -36,19 +36,6 @@ test("Selects section", async () => {
   });
 });
 
-test("Deletes section", async () => {
-  render(<Regular />);
-
-  const actionFunction = jest.fn();
-  mocked(action).mockReturnValue(actionFunction);
-  fireEvent.click(screen.getByLabelText("Delete test1"));
-
-  await waitFor(() => {
-    expect(action).toHaveBeenCalledWith("delete");
-    expect(actionFunction).toBeCalledWith(["test1"]);
-  });
-});
-
 test("Adds text section", async () => {
   render(<Regular />);
 

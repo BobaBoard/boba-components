@@ -91,7 +91,7 @@ test("Does not display delete button in non-editable mode", async () => {
 test("Editable shows tags", async () => {
   render(<Editable />);
 
-  const tagsDisplayText = Editable.args?.tags?.map((tag) => `cn:${tag}`);
+  const tagsDisplayText = Editable.args?.tags?.map((tag) => `cn:${tag.name}`);
 
   // TODO: maybe add a checkbox for this
   tagsDisplayText?.forEach((tagText) => {
@@ -113,11 +113,8 @@ test("Editable remove tag", async () => {
     expect(action).toHaveBeenCalledWith("tagChange");
     expect(removeTagMethod).toBeCalledWith([
       Editable.args?.tags
-        ?.filter((tag) => tag != "test4")
-        .map((tag) => ({
-          name: tag,
-          state: 0,
-        })),
+        ?.filter((tag) => tag.name != "test4")
+        .map((tag) => ({ name: tag.name })),
     ]);
   });
 });
@@ -133,13 +130,12 @@ test("Editable add new tag", async () => {
   fireEvent.click(screen.getByLabelText("Add tag button"));
 
   await waitFor(() => {
-    const existingTags =
-      Editable.args?.tags?.map((tag) => ({
-        name: tag,
-        state: 0,
-      })) || [];
-    existingTags.push({ name: "bar" });
     expect(action).toHaveBeenCalledWith("tagChange");
-    expect(addTagMethod).toBeCalledWith([existingTags]);
+    expect(addTagMethod).toBeCalledWith([
+      [
+        ...Editable.args!.tags!.map((tag) => ({ name: tag.name })),
+        { name: "bar" },
+      ],
+    ]);
   });
 });

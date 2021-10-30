@@ -19,7 +19,7 @@ const TagsFilter: React.FC<TagsFilterProps> = (props) => {
   return (
     <div className="filter-section">
       <div className="filter-container">
-        {props.tags.map((tag: TagsFilterProps["tags"][0]) => (
+        {props.tags.map((tag) => (
           <button
             key={tag.name}
             className={classnames("tag", {
@@ -46,7 +46,9 @@ const TagsFilter: React.FC<TagsFilterProps> = (props) => {
                 onDeleteTag={() => {
                   props.editable &&
                     props.onTagsChange?.(
-                      props.tags.filter((oldTag) => oldTag != tag)
+                      props.tags
+                        .filter((oldTag) => oldTag.name != tag.name)
+                        .map((tag) => ({ name: tag.name }))
                     );
                 }}
               />
@@ -88,7 +90,10 @@ const TagsFilter: React.FC<TagsFilterProps> = (props) => {
           onEnter={(e) => {
             // TODO: check if tag is effectively submittable
             props.editable &&
-              props.onTagsChange?.([...props.tags, { name: newTag }]);
+              props.onTagsChange?.([
+                ...props.tags.map((tag) => ({ name: tag.name })),
+                { name: newTag },
+              ]);
             setNewTag("");
             e.preventDefault();
           }}
@@ -97,7 +102,10 @@ const TagsFilter: React.FC<TagsFilterProps> = (props) => {
           <Button
             onClick={() => {
               props.editable &&
-                props.onTagsChange?.([...props.tags, { name: newTag }]);
+                props.onTagsChange?.([
+                  ...props.tags.map((tag) => ({ name: tag.name })),
+                  { name: newTag },
+                ]);
               setNewTag("");
             }}
             theme={ButtonStyle.DARK}

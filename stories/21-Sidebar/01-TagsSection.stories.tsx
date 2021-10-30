@@ -1,16 +1,11 @@
 import { Meta, Story } from "@storybook/react";
-import React, { useState } from "react";
-import SegmentedButton, {
-  SegmentedButtonProps,
-} from "../../src/buttons/SegmentedButton";
 import TagsFilterSection, {
   TagsFilterSectionProps,
 } from "../../src/sidebar/TagsFilterSection";
 
+import React from "react";
 import { TagType } from "../../src/types";
 import { action } from "@storybook/addon-actions";
-import { faCoffee } from "@fortawesome/free-solid-svg-icons";
-import mamoru from "../images/mamoru.png";
 
 export default {
   title: "Sidebar/Tags Filter",
@@ -43,7 +38,6 @@ const TagsFilterSectionTemplate: Story<TagsFilterSectionProps> = (args) => {
 
 export const Regular = TagsFilterSectionTemplate.bind({});
 Regular.args = {
-  title: "A regular tags filter section",
   tags: [
     { name: "test1", active: true },
     { name: "test2", active: true },
@@ -66,7 +60,6 @@ Regular.args = {
 export const Editable = TagsFilterSectionTemplate.bind({});
 Editable.args = {
   ...Regular.args,
-  tags: Regular.args.tags.map((tag) => tag.name),
   editable: true,
   onTagsChange: (...args) => action("tagChange")(args),
 };

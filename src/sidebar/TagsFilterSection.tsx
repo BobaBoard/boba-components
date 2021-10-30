@@ -162,10 +162,10 @@ export interface DisplayCategoryFilterSectionProps {
 }
 
 export interface EditableCategoryFilterSectionProps {
-  tags: { name: string; active: boolean }[];
+  tags: { name: string }[];
   editable: true;
   type: TagType;
-  onTagsChange: (tags: string[]) => void;
+  onTagsChange: (tags: { name: string }[]) => void;
 }
 
 export type TagsFilterSectionProps =

@@ -41,13 +41,13 @@ const makeEditableChild = (
         description,
       });
     },
-    onTagsChange: (categories: string[]) => {
+    onTagsChange: (categories: { name: string }[]) => {
       props.onChangeData?.({
         id: props.id,
         index: props.index,
         title: props.title,
         type: "category_filter",
-        categories,
+        categories: categories.map((category) => category.name),
       });
     },
   });
