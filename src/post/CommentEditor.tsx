@@ -184,7 +184,7 @@ const Comment = React.forwardRef<EditorRef, CommentProps>((props, ref) => {
               </div>
               <div>
                 <Editor
-                  key={"comment_editor"}
+                  key="comment_editor"
                   editable={!props.loading}
                   initialText={JSON.parse(text)}
                   onTextChange={(text) => {

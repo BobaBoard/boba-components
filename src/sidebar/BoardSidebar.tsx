@@ -6,6 +6,8 @@ import DropdownMenu, {
   DropdownStyle,
 } from "../common/DropdownListMenu";
 import Input, { InputStyle } from "../common/Input";
+import TagsFilterSection, { TagsFilterSectionProps } from "./TagsFilterSection";
+import TextSection, { TextSectionProps } from "./TextSection";
 import {
   faArrowLeft,
   faCaretDown,
@@ -16,33 +18,32 @@ import BoardDescription from "./BoardDescription";
 import BoardPreview from "../board/BoardPreview";
 import ColorInput from "../common/ColorInput";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import PreviewEditor from "./PreviewEditor";
 import React from "react";
 import SectionsList from "./SectionsList";
-import TagsFilterSection from "./TagsFilterSection";
-import TextSection from "./TextSection";
 import Theme from "../theme/default";
 import classnames from "classnames";
 import { v4 as uuidv4 } from "uuid";
 
-interface SidebarSectionProps {
+export interface SidebarSectionProps {
   id: string;
   title: string;
   description?: string;
-  children: typeof TagsFilterSection | typeof TextSection;
+  children: React.ReactElement<TextSectionProps | TagsFilterSectionProps>;
 }
 const SidebarSection = CreateBaseCompound<SidebarSectionProps>(
   "SidebarSection"
 );
 
 interface EditableBoardSidebarProps {
-  children: React.FC<SidebarSectionProps>;
+  children: React.ReactElement<SidebarSectionProps>[];
   editing: true;
   onCancelEditing: () => void;
   onUpdateMetadata: (metadata: BoardMetadataType) => void;
 }
 
 interface DisplayBoardSidebarProps {
-  children: React.FC<SidebarSectionProps>;
+  children: React.ReactElement<SidebarSectionProps>[];
   editing?: false;
   previewOptions?: DropdownProps["options"];
   activeCategory: string | null;
@@ -77,8 +78,122 @@ const SectionContainer: React.FC<SidebarSectionProps> = (props) => {
   );
 };
 
+const BoardOptionsDropdown: React.FC<{
+  accentColor: string;
+  previewOptions: DropdownProps["options"];
+}> = ({ accentColor, previewOptions }) => {
+  return (
+    <div className={classnames("preview-options")}>
+      <DropdownMenu
+        options={previewOptions}
+        style={DropdownStyle.DARK}
+        accentColor={accentColor}
+        zIndex={200}
+        label="Board options"
+      >
+        <span className="options-button">
+          <FontAwesomeIcon icon={faCaretDown} />
+        </span>
+      </DropdownMenu>
+      <style jsx>{`
+        .preview-options {
+          position: absolute;
+          top: 8px;
+          right: 8px;
+        }
+        .options-button {
+          display: block;
+          width: 30px;
+          height: 30px;
+          background-color: ${Theme.BUTTON_BACKGROUND_COLOR_DARK};
+          border-radius: 50%;
+          border: 2px solid ${accentColor};
+          color: ${accentColor};
+          postion: relative;
+        }
+        .options-button:hover {
+          background-color: ${Theme.BUTTON_ACCENT_COLOR_DARK};
+        }
+        .options-button :global(svg) {
+          position: absolute;
+          top: calc(50% - 2px);
+          left: 50%;
+          transform: translate(-50%, -50%);
+        }
+      `}</style>
+    </div>
+  );
+};
+
+// () => {
+//   if (!props.editing) {
+//     return;
+//   }
+//   if (editingSection) {
+//     // If the section was new, filter it out. Else, leave it be.
+//     setCurrentDescriptions(
+//       editingSection.new
+//         ? currentDescriptions.filter(
+//             (description) => description.id !== editingSection.id
+//           )
+//         : currentDescriptions
+//     );
+//     setEditingSection(undefined);
+//   }
+//   props.onCancelEditing();
+// }
+
+// () => {
+//   if (!props.editing) {
+//     return;
+//   }
+//   if (editingSection) {
+//     setCurrentDescriptions(
+//       currentDescriptions.map((description) =>
+//         description.id == editingSection.id
+//           ? editingSection.current
+//           : description
+//       )
+//     );
+//     setEditingSection(undefined);
+//     return;
+//   }
+//   props.onUpdateMetadata({
+//     slug: props.slug,
+//     avatarUrl: props.avatarUrl,
+//     tagline: currentTagline,
+//     accentColor: currentAccent,
+//     descriptions: currentDescriptions,
+//   });
+// }
+const EditHeader: React.FC<{
+  onBack: () => void;
+  onSubmit: () => void;
+}> = (props) => {
+  return (
+    <div className={classnames("buttons")}>
+      <Button
+        icon={faArrowLeft}
+        onClick={props.onBack}
+        theme={ButtonStyle.DARK}
+      >
+        Back
+      </Button>
+      <Button icon={faCheck} onClick={props.onSubmit} theme={ButtonStyle.DARK}>
+        Save
+      </Button>
+      <style jsx>{`
+        .buttons {
+          display: flex;
+          justify-content: space-between;
+        }
+      `}</style>
+    </div>
+  );
+};
+
 const BoardSidebar: React.FC<BoardSidebarProps> & {
-  SidebarSection: React.FC<unknown>;
+  SidebarSection: React.FC<SidebarSectionProps>;
 } = (props) => {
   const [editingSection, setEditingSection] = React.useState<{
     id: string;
@@ -96,14 +211,6 @@ const BoardSidebar: React.FC<BoardSidebarProps> & {
     SidebarSection
   );
 
-  React.useEffect(() => {
-    setCurrentAccent(props.accentColor);
-  }, [props.accentColor, props.editing]);
-
-  React.useEffect(() => {
-    setCurrentTagline(props.tagline);
-  }, [props.tagline, props.editing]);
-
   // React.useEffect(() => {
   //   setCurrentDescriptions(
   //     props.descriptions
@@ -117,64 +224,7 @@ const BoardSidebar: React.FC<BoardSidebarProps> & {
 
   return (
     <div className="sidebar">
-      {/* <div
-        className={classnames("buttons", {
-          hidden: !props.editing,
-        })}
-      >
-        <Button
-          icon={faArrowLeft}
-          onClick={() => {
-            if (!props.editing) {
-              return;
-            }
-            if (editingSection) {
-              // If the section was new, filter it out. Else, leave it be.
-              setCurrentDescriptions(
-                editingSection.new
-                  ? currentDescriptions.filter(
-                      (description) => description.id !== editingSection.id
-                    )
-                  : currentDescriptions
-              );
-              setEditingSection(undefined);
-            }
-            props.onCancelEditing();
-          }}
-          theme={ButtonStyle.DARK}
-        >
-          Back
-        </Button>
-        <Button
-          icon={faCheck}
-          onClick={() => {
-            if (!props.editing) {
-              return;
-            }
-            if (editingSection) {
-              setCurrentDescriptions(
-                currentDescriptions.map((description) =>
-                  description.id == editingSection.id
-                    ? editingSection.current
-                    : description
-                )
-              );
-              setEditingSection(undefined);
-              return;
-            }
-            props.onUpdateMetadata({
-              slug: props.slug,
-              avatarUrl: props.avatarUrl,
-              tagline: currentTagline,
-              accentColor: currentAccent,
-              descriptions: currentDescriptions,
-            });
-          }}
-          theme={ButtonStyle.DARK}
-        >
-          Save
-        </Button>
-      </div> */}
+      {props.editing && <EditHeader />}
       <div className="board-details">
         <div
           className={classnames("board-preview", {
@@ -188,45 +238,21 @@ const BoardSidebar: React.FC<BoardSidebarProps> & {
             color={currentAccent}
             muted={props.muted}
           />
-          <div
-            className={classnames("preview-options", {
-              visible: !props.editing && !!props.previewOptions,
-            })}
-          >
-            {!props.editing && (
-              <DropdownMenu
-                options={props.previewOptions || []}
-                style={DropdownStyle.DARK}
-                accentColor={currentAccent}
-                zIndex={200}
-              >
-                <span className="options-button">
-                  <FontAwesomeIcon icon={faCaretDown} />
-                </span>
-              </DropdownMenu>
-            )}
-          </div>
-        </div>
-        <div
-          className={classnames("preview-editor", {
-            vanquished: !props.editing || editingSection,
-          })}
-        >
-          <h2>Preview</h2>
-          <Input
-            id="tagline"
-            label="tagline"
-            value={currentTagline}
-            onTextChange={setCurrentTagline}
-            theme={InputStyle.DARK}
-          />
-          <div className={classnames("color-picker")}>
-            <ColorInput
-              currentColor={currentAccent}
-              onColorChange={setCurrentAccent}
+          {!props.editing && (
+            <BoardOptionsDropdown
+              accentColor={currentAccent}
+              previewOptions={props.previewOptions}
             />
-          </div>
+          )}
         </div>
+        {props.editing && (
+          <PreviewEditor
+            tagline={currentTagline}
+            onSetTagline={setCurrentTagline}
+            accentColor={currentAccent}
+            onSetAccentColor={setCurrentAccent}
+          />
+        )}
         <h2
           className={classnames("descriptions-title", {
             vanquished: !props.editing || editingSection,
@@ -341,36 +367,13 @@ const BoardSidebar: React.FC<BoardSidebarProps> & {
         /> */}
       </div>
       <style jsx>{`
+        .sidebar {
+          padding: 20px;
+        }
         h2 {
           color: white;
           font-size: var(--font-size-regular);
           font-weight: bold;
-        }
-        .sidebar {
-          padding: 20px;
-        }
-        .buttons {
-          display: flex;
-          justify-content: space-between;
-        }
-        .options-button {
-          display: block;
-          width: 30px;
-          height: 30px;
-          background-color: ${Theme.BUTTON_BACKGROUND_COLOR_DARK};
-          border-radius: 50%;
-          border: 2px solid ${props.accentColor};
-          color: ${props.accentColor};
-          postion: relative;
-        }
-        .options-button:hover {
-          background-color: ${Theme.BUTTON_ACCENT_COLOR_DARK};
-        }
-        .options-button :global(svg) {
-          position: absolute;
-          top: calc(50% - 2px);
-          left: 50%;
-          transform: translate(-50%, -50%);
         }
         .board-details {
           margin-top: 10px;
@@ -379,23 +382,8 @@ const BoardSidebar: React.FC<BoardSidebarProps> & {
           text-align: center;
           position: relative;
         }
-        .preview-editor {
-          margin: 30px 0;
-        }
-        .color-picker {
-          margin-top: 15px;
-        }
         .board-preview.editing-section {
           display: none;
-        }
-        .preview-options {
-          display: none;
-          position: absolute;
-          top: 8px;
-          right: 8px;
-        }
-        .preview-options.visible {
-          display: block;
         }
         .hidden {
           visibility: hidden;

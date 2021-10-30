@@ -4,8 +4,6 @@ import * as tagStories from "../../stories/21-Sidebar/01-TagsSection.stories";
 
 import {
   fireEvent,
-  getByLabelText,
-  queryByLabelText,
   render,
   screen,
   waitFor,
@@ -33,7 +31,7 @@ const TagMatcher = (tagText: string) => {
 test("Renders content notices", () => {
   render(<Regular />);
 
-  const tagsDisplayText = Regular.args.tags.map((tag) => `cn:${tag.name}`);
+  const tagsDisplayText = Regular.args!.tags!.map((tag) => `cn:${tag.name}`);
   tagsDisplayText.forEach((tagText) => {
     expect(screen.getByText(TagMatcher(tagText))).toBeInTheDocument();
   });
@@ -93,10 +91,10 @@ test("Does not display delete button in non-editable mode", async () => {
 test("Editable shows tags", async () => {
   render(<Editable />);
 
-  const tagsDisplayText = Editable.args.tags.map((tag) => `cn:${tag}`);
+  const tagsDisplayText = Editable.args?.tags?.map((tag) => `cn:${tag}`);
 
   // TODO: maybe add a checkbox for this
-  tagsDisplayText.forEach((tagText) => {
+  tagsDisplayText?.forEach((tagText) => {
     expect(screen.getByText(TagMatcher(tagText))).toBeInTheDocument();
   });
 });
@@ -114,9 +112,12 @@ test("Editable remove tag", async () => {
   await waitFor(() => {
     expect(action).toHaveBeenCalledWith("tagChange");
     expect(removeTagMethod).toBeCalledWith([
-      Editable.args.tags
-        .filter((tag) => tag != "test4")
-        .map((tag) => ({ name: tag, state: 0 })),
+      Editable.args?.tags
+        ?.filter((tag) => tag != "test4")
+        .map((tag) => ({
+          name: tag,
+          state: 0,
+        })),
     ]);
   });
 });
@@ -132,10 +133,11 @@ test("Editable add new tag", async () => {
   fireEvent.click(screen.getByLabelText("Add tag button"));
 
   await waitFor(() => {
-    const existingTags = Editable.args.tags.map((tag) => ({
-      name: tag,
-      state: 0,
-    }));
+    const existingTags =
+      Editable.args?.tags?.map((tag) => ({
+        name: tag,
+        state: 0,
+      })) || [];
     existingTags.push({ name: "bar" });
     expect(action).toHaveBeenCalledWith("tagChange");
     expect(addTagMethod).toBeCalledWith([existingTags]);

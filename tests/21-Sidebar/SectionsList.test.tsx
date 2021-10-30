@@ -17,10 +17,10 @@ test("Displays correct section type", async () => {
   render(<Regular />);
 
   const tagsSection = screen.getByText("test1");
-  expect(tagsSection.parentElement.querySelector(".fa-tags")).not.toBeNull();
+  expect(tagsSection.parentElement?.querySelector(".fa-tags")).not.toBeNull();
 
   const textSection = screen.getByText("test2");
-  expect(textSection.parentElement.querySelector(".fa-font")).not.toBeNull();
+  expect(textSection.parentElement?.querySelector(".fa-font")).not.toBeNull();
 });
 
 test("Selects section", async () => {

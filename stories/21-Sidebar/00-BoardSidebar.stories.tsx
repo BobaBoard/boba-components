@@ -1,24 +1,23 @@
-import BoardSidebar, { BoardSidebarProps } from "../../src/sidebar/BoardSidebar";
+import BoardSidebar, {
+  BoardSidebarProps,
+  SidebarSectionProps,
+} from "../../src/sidebar/BoardSidebar";
 import { Meta, Story } from "@storybook/react";
-import React, { useState } from "react";
+import TagsFilterSection, {
+  TagsFilterSectionProps,
+} from "../../src/sidebar/TagsFilterSection";
+import TextSection, { TextSectionProps } from "../../src/sidebar/TextSection";
 
 import DefaultTheme from "../../src/theme/default";
-import { Regular } from "./01-TagsSection.stories";
-import { TagType } from "../../src/types";
+import React from "react";
+import { Regular as TagsRegular } from "./01-TagsSection.stories";
 import { Regular as TextRegular } from "./02-TextSection.stories";
 import { action } from "@storybook/addon-actions";
-import { faCoffee } from "@fortawesome/free-solid-svg-icons";
 import goreBackground from "../images/gore.png";
-import mamoru from "../images/mamoru.png";
 
 export default {
   title: "Sidebar/Board Sidebar",
   component: BoardSidebar,
-  parameters: {
-    actions: {
-      handles: ["click .option", "click button"],
-    },
-  },
   decorators: [
     (Story) => (
       <div className="story">
@@ -37,11 +36,15 @@ export default {
   ],
 } as Meta;
 
-const BoardSidebarTemplate: Story<BoardSidebarProps> = (args) => (
+const BoardSidebarTemplate: Story<
+  BoardSidebarProps & {
+    sidebarSections: SidebarSectionProps[];
+  }
+> = ({ sidebarSections, ...args }) => (
   <BoardSidebar {...args}>
-    {args.sidebarSections.map((section) => (
-      <BoardSidebar.SidebarSection {...section.args}>
-        {section.children}
+    {sidebarSections.map(({ children, ...props }) => (
+      <BoardSidebar.SidebarSection key={props.id} {...props}>
+        {children}
       </BoardSidebar.SidebarSection>
     ))}
   </BoardSidebar>
@@ -54,14 +57,27 @@ RegularBoardSidebar.args = {
   accentColor: "#24d282",
   tagline: "Love me some bruised bois (and more).",
   previewOptions: [
-    { name: "opt1", link: { onClick: action("optionOne") } },
-    { name: "opt2", link: { onClick: action("option2") } },
+    {
+      name: "opt1",
+      link: { onClick: () => action("boardOption1")() },
+    },
+    {
+      name: "opt2",
+      link: { onClick: () => action("boardOption2")() },
+    },
   ],
   sidebarSections: [
-    { args: { title: "hello" }, children: <Regular {...Regular.args} /> },
     {
-      args: { title: "hello" },
-      children: <TextRegular {...TextRegular.args} />,
+      id: "board_content_notices",
+      title: "Board content notices",
+      children: (
+        <TagsFilterSection {...(TagsRegular.args as TagsFilterSectionProps)} />
+      ),
+    },
+    {
+      id: "rules",
+      title: "Rules",
+      children: <TextSection {...(TextRegular.args as TextSectionProps)} />,
     },
   ],
   muted: false,

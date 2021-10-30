@@ -1,10 +1,10 @@
 import React from "react";
 
-import BoardSidebar from "../src/board/BoardSidebar";
+import BoardSidebar from "../src/sidebar/BoardSidebar";
 import LegacyBoardSidebar from "../src/board/LegacyBoardSidebar";
-import TextSection from "../src/board/TextSection";
-import TagsFilterSection from "../src/board/TagsFilterSection";
-import BoardDescription from "../src/board/BoardDescription";
+import TextSection from "../src/sidebar/TextSection";
+import TagsFilterSection from "../src/sidebar/TagsFilterSection";
+import BoardDescription from "../src/sidebar/BoardDescription";
 import Button from "../src/buttons/Button";
 
 import goreBackground from "./images/gore.png";
