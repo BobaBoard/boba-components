@@ -32,6 +32,6 @@
     ],
     "strictBindCallApply": true
   },
-  "include": ["/**/*"],
+  "include": ["/**/*", "index.d.ts"],
   "exclude": ["node_modules", "build", "scripts", "dist"]
 }
