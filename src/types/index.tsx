@@ -70,7 +70,7 @@ export interface TextDescriptionType {
   description: string;
 }
 
-export interface FilterDescriptionType {
+export interface CategoryFilterDescriptionType {
   id: string;
   index: number;
   title: string;
@@ -78,7 +78,9 @@ export interface FilterDescriptionType {
   categories: string[];
 }
 
-export type DescriptionType = TextDescriptionType | FilterDescriptionType;
+export type DescriptionType =
+  | TextDescriptionType
+  | CategoryFilterDescriptionType;
 
 export interface LinkWithAction<T = MouseEvent> {
   href?: string;

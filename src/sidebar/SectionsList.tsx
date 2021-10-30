@@ -99,7 +99,6 @@ export interface SectionsListProps {
     type: "category_filter" | "text";
   }[];
   onSelectSection: (id: string) => void;
-  onDeleteSection: (id: string) => void;
   onAddSection: (type: "category_filter" | "text") => void;
 }
 
@@ -108,26 +107,14 @@ const SectionsList: React.FC<SectionsListProps> = (props) => {
     <div className={classnames("edit-container")}>
       {props.sections.map((section) => (
         <div className={classnames("section")} key={section.id}>
-          <div className="title">
-            <Button
-              icon={section.type == "text" ? faFont : faTags}
-              onClick={() => props.onSelectSection(section.id)}
-              theme={ButtonStyle.DARK}
-              full
-            >
-              {section.title}
-            </Button>
-          </div>
-          <div className="delete">
-            <Button
-              icon={faCross}
-              compact
-              onClick={() => props.onDeleteSection(section.id)}
-              label={`Delete ${section.title}`}
-            >
-              Delete section
-            </Button>
-          </div>
+          <Button
+            icon={section.type == "text" ? faFont : faTags}
+            onClick={() => props.onSelectSection(section.id)}
+            theme={ButtonStyle.DARK}
+            full
+          >
+            {section.title}
+          </Button>
         </div>
       ))}
       <div className="options-add">
@@ -147,7 +134,6 @@ const SectionsList: React.FC<SectionsListProps> = (props) => {
         </Button>
       </div>
       <style jsx>{`
-        .options-delete,
         .options-add {
           margin-top: 10px;
           text-align: center;
@@ -160,14 +146,6 @@ const SectionsList: React.FC<SectionsListProps> = (props) => {
         }
         .section {
           margin-bottom: 10px;
-          display: flex;
-        }
-        .section .title {
-          flex-grow: 1;
-          width: 100%;
-        }
-        .section .delete {
-          margin-left: auto;
         }
       `}</style>
     </div>

@@ -66,6 +66,7 @@ const Button: React.FC<ButtonProps> = ({
   theme,
   disabled,
   full,
+  center,
   updates,
   label,
 }) => {
@@ -78,6 +79,7 @@ const Button: React.FC<ButtonProps> = ({
         className={classnames("button", {
           compact,
           full,
+          center,
           disabled,
           "with-image": typeof icon == "string",
         })}
@@ -181,6 +183,9 @@ const Button: React.FC<ButtonProps> = ({
         .full {
           width: 100%;
         }
+        .center {
+          justify-content: center;
+        }
         .full button {
           width: 100%;
         }
@@ -202,4 +207,5 @@ export interface ButtonProps {
   updates?: number | boolean;
   label?: string;
   full?: boolean;
+  center?: boolean;
 }

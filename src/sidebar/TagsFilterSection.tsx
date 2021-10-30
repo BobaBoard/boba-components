@@ -1,11 +1,10 @@
-import Input, { InputStyle } from "../common/Input";
 import TagsFilter, { FilteredTagsState } from "../tags/TagsFilter";
 
-import Button from "../buttons/Button";
 import React from "react";
 import { TagType } from "types";
 import classnames from "classnames";
 import debug from "debug";
+import noop from "noop-ts";
 
 // @ts-ignore
 const log = debug("bobaui:boards:CategoryFilterSection");
@@ -77,7 +76,7 @@ const TagsFilterSection: React.FC<TagsFilterSectionProps> = (props) => {
                       : FilteredTagsState.DISABLED,
                   }))
                 : props.tags?.map((c) => ({
-                    name: c,
+                    name: c.name,
                     state: FilteredTagsState.ACTIVE,
                   }))
             }
@@ -87,7 +86,7 @@ const TagsFilterSection: React.FC<TagsFilterSectionProps> = (props) => {
               }
               props.onTagsStateChangeRequest(updatedTag.name);
             }}
-            onTagsChange={props.onTagsChange}
+            onTagsChange={props.editable ? props.onTagsChange : noop}
             type={props.type}
             uncategorized={
               "uncategorized" in props
@@ -103,26 +102,6 @@ const TagsFilterSection: React.FC<TagsFilterSectionProps> = (props) => {
             }
           />
         </div>
-        {/* {props.editable && (
-          <div className={"add-category"}>
-            <Input
-              key="new"
-              id="category"
-              label="New Category"
-              value={newCategory}
-              onTextChange={setNewCategory}
-              theme={InputStyle.DARK}
-            />
-            <Button
-              onClick={() => {
-                props.onTagsChange?.([...props.tags, newCategory]);
-                setNewCategory("");
-              }}
-            >
-              Add New
-            </Button>
-          </div>
-        )} */}
       </div>
       <style jsx>{`
         .content-title {
@@ -173,7 +152,6 @@ const TagsFilterSection: React.FC<TagsFilterSectionProps> = (props) => {
 };
 
 export interface DisplayCategoryFilterSectionProps {
-  title: string;
   tags: { name: string; active: boolean }[];
   editable?: false;
   type: TagType;
@@ -184,11 +162,9 @@ export interface DisplayCategoryFilterSectionProps {
 }
 
 export interface EditableCategoryFilterSectionProps {
-  title: string;
-  tags: string[];
+  tags: { name: string; active: boolean }[];
   editable: true;
   type: TagType;
-  onTitleChange: (title: string) => void;
   onTagsChange: (tags: string[]) => void;
 }
 
