@@ -1,5 +1,7 @@
 import { Meta, Story } from "@storybook/react";
-import SectionsList, { SectionsListProps } from "../../src/sidebar/SectionsList";
+import SectionsList, {
+  SectionsListProps,
+} from "../../src/sidebar/SectionsList";
 
 import DefaultTheme from "../../src/theme/default";
 import React from "react";
@@ -46,7 +48,6 @@ Regular.args = {
     },
   ],
   onSelectSection: (...args) => action("select")(args),
-  onDeleteSection: (...args) => action("delete")(args),
   onAddSection: (...args) => action("add")(args),
 };
 Regular.storyName = "Sections List";

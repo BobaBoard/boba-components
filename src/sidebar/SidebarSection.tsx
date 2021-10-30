@@ -8,9 +8,14 @@ import React from "react";
 import { faCross } from "@fortawesome/free-solid-svg-icons";
 import noop from "noop-ts";
 
-const getType = (
-  child: React.ReactElement<TextSectionProps | TagsFilterSectionProps>
-) => {
+type SidebarSectionChild = React.ReactElement<
+  TextSectionProps | TagsFilterSectionProps
+>;
+
+/**
+ * Get the type of a valid child element of a SidebarSection.
+ */
+const getType = (child: SidebarSectionChild) => {
   if (child.type == TagsFilterSection) {
     return "category_filter";
   } else if (child.type == TextSection) {
@@ -20,8 +25,12 @@ const getType = (
   }
 };
 
+/**
+ * Given a valid child element of a SidebarSection, make a copy of it
+ * that is editable.
+ */
 const makeEditableChild = (
-  child: React.ReactElement<TextSectionProps | TagsFilterSectionProps>,
+  child: SidebarSectionChild,
   props: {
     id: string;
     index: number;
@@ -53,6 +62,9 @@ const makeEditableChild = (
   });
 };
 
+/**
+ * Given a valid child element of a SidebarSection, get its description data.
+ */
 export const getSectionData = (
   section?: React.ReactElement<SidebarSectionProps>
 ): DescriptionType | null => {
@@ -84,45 +96,57 @@ export const getSectionData = (
   }
 };
 
-export interface SidebarSectionProps {
-  id: string;
-  index: number;
-  title: string;
-  children: React.ReactElement<TextSectionProps | TagsFilterSectionProps>;
-  editable?: boolean;
-  onChangeTitle?: (title: string) => void;
-  onChangeData?: (data: DescriptionType) => void;
-  onDeleteSection?: (sectionId: string) => void;
-}
+/**
+ * Return the appropriate child of a SidebarSection given a DescriptionType.
+ */
+const makeSidebarChild = (
+  description: DescriptionType
+): SidebarSectionChild => {
+  switch (description.type) {
+    case "category_filter":
+      return (
+        <TagsFilterSection
+          tags={description.categories.map((categoryName) => ({
+            name: categoryName,
+            active: true,
+          }))}
+          type={TagType.CATEGORY}
+          onTagsStateChangeRequest={noop}
+          onClearFilterRequests={noop}
+        />
+      );
+    case "text":
+      return <TextSection description={description.description} />;
+  }
+};
 
+/**
+ * Return a SidebarSection given a DescriptionType.
+ */
 export const makeSidebarSection = (
   description: DescriptionType
 ): React.ReactElement<SidebarSectionProps> => {
-  const child =
-    description.type == "category_filter" ? (
-      <TagsFilterSection
-        tags={description.categories.map((categoryName) => ({
-          name: categoryName,
-          active: true,
-        }))}
-        type={TagType.CATEGORY}
-        onTagsStateChangeRequest={noop}
-        onClearFilterRequests={noop}
-      />
-    ) : (
-      <TextSection description={description.description} />
-    );
   return (
     <SidebarSection
       id={description.id}
       index={description.index}
       title={description.title}
     >
-      {child}
+      {makeSidebarChild(description)}
     </SidebarSection>
   );
 };
 
+export interface SidebarSectionProps {
+  id: string;
+  index: number;
+  title: string;
+  children: SidebarSectionChild;
+  editable?: boolean;
+  onChangeTitle?: (title: string) => void;
+  onChangeData?: (data: DescriptionType) => void;
+  onDeleteSection?: (sectionId: string) => void;
+}
 const SidebarSection: React.FC<SidebarSectionProps> = (props) => {
   return (
     <div className="section">
