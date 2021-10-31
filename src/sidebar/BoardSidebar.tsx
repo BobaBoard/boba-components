@@ -210,7 +210,13 @@ const BoardSidebar: React.FC<BoardSidebarProps> & {
                 avatarUrl: props.avatarUrl,
                 tagline: currentTagline,
                 accentColor: currentAccent,
-                descriptions: currentSectionsData,
+                // We update the index of the descriptions
+                descriptions: currentSectionsData
+                  .sort((s1, s2) => s1.index - s2.index)
+                  .map((data, index) => ({
+                    ...data,
+                    index: index + 1,
+                  })),
               });
               return;
             }

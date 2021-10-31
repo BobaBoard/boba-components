@@ -50,6 +50,39 @@ const fillTextSection = async (
   });
 };
 
+const addTextSection = async (
+  screen: Screen,
+  texts: { titleText: string; editorText: string }
+) => {
+  // Add text section
+  fireEvent.click(screen.getByText("Add Text Section"));
+  await waitFor(() => {
+    expect(screen.getByLabelText("Title")).toBeInTheDocument();
+  });
+
+  await fillTextSection(screen, texts);
+
+  // Submits
+  fireEvent.click(screen.getByText("Save"));
+  await waitFor(() => {
+    expect(screen.getByText("Add Text Section")).toBeInTheDocument();
+  });
+};
+
+const deleteSection = async (screen: Screen, sectionTitle: string) => {
+  // Add text section
+  fireEvent.click(screen.getByText(sectionTitle));
+  await waitFor(() => {
+    expect(screen.getByLabelText("Title")).toBeInTheDocument();
+  });
+
+  // Submits
+  fireEvent.click(screen.getByText("Delete section"));
+  await waitFor(() => {
+    expect(screen.getByText("Add Text Section")).toBeInTheDocument();
+  });
+};
+
 const hasDescriptionMatcher = (
   description: Partial<DescriptionType>,
   options?: { matches: boolean }
@@ -57,6 +90,16 @@ const hasDescriptionMatcher = (
   const matchingFunction = options?.matches ?? true ? expect : expect.not;
   return matchingFunction.objectContaining({
     descriptions: expect.arrayContaining([description]),
+  });
+};
+
+const hasDescriptionsMatcher = (
+  descriptions: Partial<DescriptionType>[],
+  options?: { matches: boolean }
+) => {
+  const matchingFunction = options?.matches ?? true ? expect : expect.not;
+  return matchingFunction.objectContaining({
+    descriptions,
   });
 };
 
@@ -145,22 +188,12 @@ describe("Editable", () => {
 
   test("Correctly adds text section", async () => {
     render(<EditableBoardSidebar />);
-    mocked(v4).mockReturnValue("this_is_a_uuid");
+    mocked(v4).mockReturnValueOnce("this_is_a_uuid");
 
-    // Add a text section
-    fireEvent.click(screen.getByText("Add Text Section"));
-    await waitFor(() => {
-      expect(screen.getByLabelText("Title")).toBeInTheDocument();
-    });
-
-    // Fill the text section
-    await fillTextSection(screen, {
+    await addTextSection(screen, {
       titleText: "A section title",
       editorText: "The editor content",
     });
-
-    // Submits
-    fireEvent.click(screen.getByText("Save"));
 
     // Try to submit. New section should be in the updated metadata.
     await submitAndCheckValue(
@@ -226,6 +259,67 @@ describe("Editable", () => {
         }),
         { matches: false }
       )
+    );
+  });
+
+  test("Correctly orders sections on submit (complex edit)", async () => {
+    render(<EditableBoardSidebar />);
+
+    // Add a first text section
+    mocked(v4).mockReturnValueOnce("ts1");
+    await addTextSection(screen, {
+      titleText: "First section",
+      editorText: "The editor content",
+    });
+
+    // Add a second text section
+    mocked(v4).mockReturnValueOnce("ts2");
+    await addTextSection(screen, {
+      titleText: "Second section",
+      editorText: "The editor content",
+    });
+
+    // Delete Rules section
+    await deleteSection(screen, "Rules");
+
+    // Add a third text section
+    mocked(v4).mockReturnValueOnce("ts3");
+    await addTextSection(screen, {
+      titleText: "Third section",
+      editorText: "The editor content",
+    });
+
+    // Delete second section
+    await deleteSection(screen, "Second section");
+
+    // Add fourth section
+    mocked(v4).mockReturnValueOnce("ts4");
+    await addTextSection(screen, {
+      titleText: "Fourth section",
+      editorText: "The editor content",
+    });
+
+    // Submit
+    await submitAndCheckValue(
+      screen,
+      hasDescriptionsMatcher([
+        expect.objectContaining({
+          title: "Board content notices",
+          index: 1,
+        }),
+        expect.objectContaining({
+          title: "First section",
+          index: 2,
+        }),
+        expect.objectContaining({
+          title: "Third section",
+          index: 3,
+        }),
+        expect.objectContaining({
+          title: "Fourth section",
+          index: 4,
+        }),
+      ])
     );
   });
 });
