@@ -45,6 +45,12 @@ const makeEditableChild = (
     onChangeData?: (data: DescriptionType) => void;
   }
 ) => {
+  if (getType(child) !== "category_filter" && getType(child) !== "text") {
+    // If this method throws, there is a new type of child.
+    // In that case, the props passed to the clone element below need to be
+    // updated to support the update method of the new type of child.
+    throw new Error("Found unknown child of SidebarSection");
+  }
   return React.cloneElement(child, {
     ...child.props,
     editable: true,

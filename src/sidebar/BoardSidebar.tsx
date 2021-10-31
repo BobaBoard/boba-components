@@ -140,6 +140,19 @@ const createBlankSection = (
       };
 };
 
+const getNextIndex = (sectionsData: {
+  sections: React.ReactElement<SidebarSectionProps>[];
+  newSections: DescriptionType[];
+}) => {
+  return (
+    Math.max(
+      0,
+      ...sectionsData.sections.map(getSectionData).map((data) => data!.index),
+      ...sectionsData.newSections.map((data) => data.index)
+    ) + 1
+  );
+};
+
 const BoardSidebar: React.FC<BoardSidebarProps> & {
   SidebarSection: React.FC<SidebarSectionProps>;
 } = (props) => {
@@ -270,7 +283,10 @@ const BoardSidebar: React.FC<BoardSidebarProps> & {
               }}
               onAddSection={(type) => {
                 setEditingSection(
-                  createBlankSection(type, sections.length + newSections.length)
+                  createBlankSection(
+                    type,
+                    getNextIndex({ sections, newSections })
+                  )
                 );
               }}
             />
