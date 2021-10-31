@@ -23,6 +23,10 @@ test("Displays correct section type", async () => {
   expect(textSection.parentElement?.querySelector(".fa-font")).not.toBeNull();
 });
 
+test("Displays sections in correct order", () => {
+  // TODO: fill this
+});
+
 test("Selects section", async () => {
   render(<Regular />);
 

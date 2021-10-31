@@ -2,12 +2,22 @@ import "@testing-library/jest-dom/extend-expect";
 
 import * as sectionStories from "../../stories/21-Sidebar/04-SidebarSection.stories";
 
+import SidebarSection, {
+  SidebarSectionProps,
+  getSectionData,
+} from "../../src/sidebar/SidebarSection";
+import TagsFilterSection, {
+  TagsFilterSectionProps,
+} from "../../src/sidebar/TagsFilterSection";
+import TextSection, { TextSectionProps } from "../../src/sidebar/TextSection";
 import { fireEvent, render, screen, waitFor } from "@testing-library/react";
 
+import { DescriptionType } from "../../src/types";
 import React from "react";
 import { TagMatcher } from "../utils/matchers";
 import { action } from "@storybook/addon-actions";
 import { composeStories } from "@storybook/testing-react";
+import { findRenderedComponentWithType } from "react-dom/test-utils";
 import { mocked } from "ts-jest/utils";
 import { suppressConsoleErrors } from "../utils/testUtils";
 import userEvent from "@testing-library/user-event";
@@ -132,8 +142,6 @@ describe("Text Section", () => {
 
   describe("Editable", () => {
     test("Triggers title change action", () => {
-      render(<TextEditable />);
-
       // TODO: fill this
     });
 
@@ -147,6 +155,45 @@ describe("Text Section", () => {
       render(<TextEditable />);
 
       // TODO: fill this
+    });
+  });
+});
+
+describe("Utilities", () => {
+  test("Correctly extracts text section data", () => {
+    const sidebarProps = TextRegular.args!
+      .sidebarSectionProps as SidebarSectionProps;
+    const textProps = TextRegular.args!.textSectionProps as TextSectionProps;
+    const section = (
+      <SidebarSection {...sidebarProps}>
+        <TextSection {...textProps} />
+      </SidebarSection>
+    );
+    expect(getSectionData(section)).toEqual<DescriptionType>({
+      id: sidebarProps.id,
+      index: sidebarProps.index,
+      title: sidebarProps.title,
+      description: textProps.description,
+      type: "text",
+    });
+  });
+
+  test("Correctly extracts tag filter section data", () => {
+    const sidebarProps = TagsFilterRegular.args!
+      .sidebarSectionProps as SidebarSectionProps;
+    const tagsFilterProps = TagsFilterRegular.args!
+      .tagsFilterProps as TagsFilterSectionProps;
+    const section = (
+      <SidebarSection {...sidebarProps}>
+        <TagsFilterSection {...tagsFilterProps} />
+      </SidebarSection>
+    );
+    expect(getSectionData(section)).toEqual<DescriptionType>({
+      id: sidebarProps.id,
+      index: sidebarProps.index,
+      title: sidebarProps.title,
+      categories: tagsFilterProps.tags.map((tag) => tag.name),
+      type: "category_filter",
     });
   });
 });

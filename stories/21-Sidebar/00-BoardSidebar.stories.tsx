@@ -1,6 +1,5 @@
 import BoardSidebar, {
   BoardSidebarProps,
-  SidebarSectionProps,
 } from "../../src/sidebar/BoardSidebar";
 import { Meta, Story } from "@storybook/react";
 import TagsFilterSection, {
@@ -10,6 +9,7 @@ import TextSection, { TextSectionProps } from "../../src/sidebar/TextSection";
 
 import DefaultTheme from "../../src/theme/default";
 import React from "react";
+import { SidebarSectionProps } from "../../src/sidebar/SidebarSection";
 import { Regular as TagsRegular } from "./01-TagsSection.stories";
 import { Regular as TextRegular } from "./02-TextSection.stories";
 import { action } from "@storybook/addon-actions";
@@ -68,16 +68,18 @@ RegularBoardSidebar.args = {
   ],
   sidebarSections: [
     {
+      id: "rules",
+      index: 2,
+      title: "Rules",
+      children: <TextSection {...(TextRegular.args as TextSectionProps)} />,
+    },
+    {
       id: "board_content_notices",
+      index: 1,
       title: "Board content notices",
       children: (
         <TagsFilterSection {...(TagsRegular.args as TagsFilterSectionProps)} />
       ),
-    },
-    {
-      id: "rules",
-      title: "Rules",
-      children: <TextSection {...(TextRegular.args as TextSectionProps)} />,
     },
   ],
   muted: false,
@@ -89,33 +91,6 @@ export const EditableBoardSidebar = BoardSidebarTemplate.bind({});
 EditableBoardSidebar.args = {
   ...RegularBoardSidebar.args,
   editing: true,
+  onCancelEditing: (...args) => action("cancel")(args),
+  onUpdateMetadata: (...args) => action("save")(args),
 };
-
-/**
- * descriptions: [
-    {
-      id: 1,
-      index: 1,
-      title: "Gore Categories",
-      description: null,
-      type: "category_filter",
-      categories: ["sangue!!!!", "acido muriatico!!!!"],
-    },
-    {
-      id: 5,
-      index: 3,
-      title: "Gore Categories2",
-      description: null,
-      type: "category_filter",
-      categories: ["set1", "set2"],
-    },
-    {
-      id: 2,
-      index: 2,
-      title: "A test",
-      description:
-        '[{"insert":"Hello!\\nThis is a board description. In this description we have:\\nRule 1."},{"attributes":{"list":"bullet"},"insert":"\\n"},{"insert":"Rule 2, which is very "},{"attributes":{"bold":true},"insert":"important"},{"insert":"."},{"attributes":{"list":"bullet"},"insert":"\\n"},{"insert":"Rule 3, which has "},{"attributes":{"link":"https://www.youtube.com/watch?v=oHg5SJYRHA0"},"insert":"a link"},{"insert":"!"},{"attributes":{"list":"bullet"},"insert":"\\n"},{"insert":"Have fun and love each other.\\n"},{"insert":{"block-image":{"src":"https://media.tenor.com/images/fad319336910209546dc6ee1fe6cab5a/tenor.gif","spoilers":false,"width":300,"height":224}}},{"insert":"\\n"}]',
-      type: "text",
-    },
-  ],
- */

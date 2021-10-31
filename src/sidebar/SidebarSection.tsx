@@ -163,7 +163,7 @@ const SidebarSection: React.FC<SidebarSectionProps> = (props) => {
     props.children.props.uncategorized !== FilteredTagsState.DISABLED;
 
   return (
-    <div className="section">
+    <section>
       <div className="title">
         {!props.editable ? (
           props.title
@@ -216,7 +216,7 @@ const SidebarSection: React.FC<SidebarSectionProps> = (props) => {
           display: flex;
           align-items: baseline;
         }
-        .section {
+        section {
           color: white;
         }
         .content {
@@ -248,7 +248,7 @@ const SidebarSection: React.FC<SidebarSectionProps> = (props) => {
           visibility: visible;
         }
       `}</style>
-    </div>
+    </section>
   );
 };
 
