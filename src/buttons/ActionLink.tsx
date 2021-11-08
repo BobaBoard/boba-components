@@ -22,7 +22,9 @@ const ActionLink: React.FC<ActionLinkProps> = ({
   );
   if (!link) {
     return className ? (
-      <span className={className}>{children}</span>
+      <span className={className} aria-label={label}>
+        {children}
+      </span>
     ) : (
       <>{children}</>
     );

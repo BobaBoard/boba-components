@@ -1,21 +1,18 @@
-import React from "react";
-import { IconDefinition } from "@fortawesome/free-solid-svg-icons";
-import classnames from "classnames";
-import Theme from "../theme/default";
-import LoadingBar from "../common/LoadingBar";
-import noop from "noop-ts";
-
 import "@bobaboard/boba-editor/dist/main.css";
-
 import "normalize.css";
 
-import { LinkWithAction } from "types";
-import MenuBar from "./MenuBar";
-import useSideMenuTransition from "./useSideMenuTransition";
-import Header from "./Header";
-import QuickAccessBar from "./QuickAccessBar";
-
 import { CreateBaseCompound, extractCompound } from "../utils/compound-utils";
+
+import Header from "./Header";
+import { IconDefinition } from "@fortawesome/free-solid-svg-icons";
+import { LinkWithAction } from "types";
+import LoadingBar from "../common/LoadingBar";
+import MenuBar from "./MenuBar";
+import QuickAccessBar from "./QuickAccessBar";
+import React from "react";
+import Theme from "../theme/default";
+import classnames from "classnames";
+import useSideMenuTransition from "./useSideMenuTransition";
 
 // import debug from "debug";
 // const log = debug("bobaui:layout-log");
@@ -112,10 +109,7 @@ const Layout = React.forwardRef<LayoutHandler, LayoutProps>(
         menuOptions={menuOptions}
         selectedOption={selectedMenuOption}
         userMenuOptions={loggedInMenuOptions}
-        onLoggedOutUserClick={React.useMemo(
-          () => ({ onClick: onUserBarClick || noop, label: "login" }),
-          [onUserBarClick]
-        )}
+        onLoggedOutUserClick={onUserBarClick}
         user={user}
         accentColor={headerAccent}
         loading={userLoading}
@@ -254,7 +248,7 @@ export interface LayoutProps {
   user?: { username: string; avatarUrl?: string };
   logoLink?: LinkWithAction;
   titleLink?: LinkWithAction;
-  onUserBarClick?: () => void;
+  onUserBarClick: LinkWithAction;
   onCompassClick?: () => void;
   loading?: boolean;
   userLoading?: boolean;
