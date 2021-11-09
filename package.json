@@ -9,7 +9,7 @@
     "build": "rm -rf dist && tsc -p tsconfig.export.json --emitDeclarationOnly && webpack --mode production --config webpack.config.cjs --display-error-details",
     "build:dev": "rm -rf dist && tsc -p tsconfig.export.json --emitDeclarationOnly && webpack --mode development --config webpack.config.cjs --display-error-details",
     "build:force-dev": "rm -rf dist && webpack --mode development",
-    "test": "jest tests",
+    "test": "jest --roots tests",
     "test:watch": "yarn run test --watch",
     "storybook": "start-storybook -p 6006",
     "build-storybook": "build-storybook",

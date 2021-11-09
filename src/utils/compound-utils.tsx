@@ -29,8 +29,12 @@ export function extractRest(
   );
 }
 
-export function CreateBaseCompound(displayName: string) {
-  const newComponent = ({ children }: { children: React.ReactChildren }) => {
+export function CreateBaseCompound<T>(displayName: string) {
+  const newComponent: React.FC<T> = ({
+    children,
+  }: {
+    children?: React.ReactNode;
+  }) => {
     return <>{children}</>;
   };
   newComponent.displayName = displayName;

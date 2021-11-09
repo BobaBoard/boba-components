@@ -1,65 +1,42 @@
-import React from "react";
-
-import classnames from "classnames";
-import Input, { InputStyle } from "../common/Input";
-import noop from "noop-ts";
-// @ts-ignore
 import Editor from "@bobaboard/boba-editor";
-
+import React from "react";
+import classnames from "classnames";
 import debug from "debug";
+
 // @ts-ignore
 const log = debug("bobaui:boards:sidebarSection");
 
 const TextSection: React.FC<TextSectionProps> = (props) => {
+  // For some reason, two description changes are triggered automatically
+  // when the component is first mounted (likely this is a Editor thing).
+  // To avoid surprising behavior, we simply swallow them.
+  // TODO: this hack should be investigated and potentially removed.
+  const swallowInitialDescriptionChange = React.useRef<number>(2);
   return (
     <div
       className={classnames("sidebar-section", { editable: props.editable })}
     >
-      <div className="title">
-        {props.editable ? (
-          <Input
-            id="title"
-            label="title"
-            value={props.title}
-            onTextChange={props.onTitleChange || noop}
-            theme={InputStyle.DARK}
-            disabled={!props.editable}
-          />
-        ) : (
-          <div className="title">{props.title}</div>
-        )}
-      </div>
       <div className="description">
-        {props.editable && <div className="content-title">Content</div>}
         <div
           className={classnames("content-editor", {
             editing: props.editable,
           })}
         >
           <Editor
-            initialText={props.description ? JSON.parse(props.description) : ""}
+            initialText={props.description ? JSON.parse(props.description) : {}}
             editable={props.editable || false}
-            onTextChange={(text) =>
+            onTextChange={(text) => {
+              if (swallowInitialDescriptionChange.current) {
+                swallowInitialDescriptionChange.current--;
+                return;
+              }
               props.editable &&
-              props.onDescriptionChange?.(JSON.stringify(text.ops))
-            }
+                props.onDescriptionChange?.(JSON.stringify(text.ops));
+            }}
           />
         </div>
       </div>
       <style jsx>{`
-        .content-title {
-          font-size: var(--font-size-large);
-        }
-        .title {
-          font-weight: bold;
-          font-size: var(--font-size-regular);
-          margin-bottom: 10px;
-        }
-        .sidebar-section {
-          color: white;
-          -webkit-font-smoothing: antialiased;
-          -moz-osx-font-smoothing: grayscale;
-        }
         .content-editor.editing {
           border: 1px solid rgba(255, 255, 255, 0.3);
           min-height: 300px;
@@ -89,16 +66,13 @@ const TextSection: React.FC<TextSectionProps> = (props) => {
 };
 
 export interface DisplayTextSectionProps {
-  title: string;
   description: string;
   editable?: false;
 }
 
 export interface EditableTextSectionProps {
-  title: string;
   description: string;
   editable: true;
-  onTitleChange?: (title: string) => void;
   onDescriptionChange?: (description: string) => void;
 }
 

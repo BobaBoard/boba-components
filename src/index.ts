@@ -7,7 +7,7 @@ import { EditorContext, getDeltaSummary } from "@bobaboard/boba-editor";
 import Input, { InputStyle } from "./common/Input";
 import ToastContainer, { toast } from "./common/Toast";
 
-import BoardSidebar from "./board/BoardSidebar";
+import BoardSidebar from "./sidebar/BoardSidebar";
 import BoardsDisplay from "./board/BoardsDisplay";
 import BobaDex from "./user/BobaDex";
 import CollapsedPlaceholder from "./thread/CollapsedPlaceholder";
@@ -42,7 +42,7 @@ import SideMenu from "./sidemenu/SideMenu";
 import type { SideMenuHandler } from "./sidemenu/SideMenu";
 import TabsGroup from "./layout/TabsGroup";
 import { TagType } from "./types";
-import TagsFilterSection from "./board/TagsFilterSection";
+import TagsFilterSection from "./sidebar/TagsFilterSection";
 import type { TagsType } from "./types";
 import UserDetails from "./user/UserDetails";
 import flush from "styled-jsx/server";
