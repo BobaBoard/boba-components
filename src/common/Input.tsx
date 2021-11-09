@@ -1,5 +1,4 @@
 import React from "react";
-
 import classnames from "classnames";
 
 export enum InputStyle {
@@ -36,7 +35,9 @@ const Input: React.FC<InputProps> = (props) => {
         disabled: props.disabled,
       })}
     >
-      <div className="label">{props.label}</div>
+      <label htmlFor={props.id} className="label">
+        {props.label}
+      </label>
       <input
         className={classnames("input-field", {
           focused,
