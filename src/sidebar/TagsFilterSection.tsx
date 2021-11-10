@@ -9,7 +9,9 @@ import noop from "noop-ts";
 // @ts-ignore
 const log = debug("bobaui:boards:CategoryFilterSection");
 
-const TagsFilterSection: React.FC<TagsFilterSectionProps> = (props) => {
+const TagsFilterSection: React.FC<TagsFilterSectionProps> & {
+  FilteredTagsState: typeof FilteredTagsState;
+} = (props) => {
   const {
     uncategorized,
     onUncategorizedStateChangeRequest,
@@ -76,6 +78,8 @@ const TagsFilterSection: React.FC<TagsFilterSectionProps> = (props) => {
     </div>
   );
 };
+
+TagsFilterSection.FilteredTagsState = FilteredTagsState;
 
 export interface DisplayTagsFilterSectionProps {
   tags: { name: string; state: FilteredTagsState }[];

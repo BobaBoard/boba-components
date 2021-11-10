@@ -20,20 +20,28 @@ import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import PreviewEditor from "./PreviewEditor";
 import React from "react";
 import SectionsList from "./SectionsList";
+import TagsFilterSection from "./TagsFilterSection";
+import TextSection from "./TextSection";
 import Theme from "../theme/default";
 import classnames from "classnames";
 import { extractCompounds } from "../utils/compound-utils";
 import { v4 as uuidv4 } from "uuid";
 
 interface EditableBoardSidebarProps {
-  children: React.ReactElement<SidebarSectionProps>[];
+  children:
+    | React.ReactElement<SidebarSectionProps>[]
+    | React.ReactElement<SidebarSectionProps>
+    | undefined;
   editing: true;
   onCancelEditing: () => void;
   onUpdateMetadata: (metadata: BoardMetadataType) => void;
 }
 
 interface DisplayBoardSidebarProps {
-  children: React.ReactElement<SidebarSectionProps>[];
+  children:
+    | React.ReactElement<SidebarSectionProps>[]
+    | React.ReactElement<SidebarSectionProps>
+    | undefined;
   editing?: false;
   previewOptions?: DropdownProps["options"];
   activeCategory: string | null;
@@ -155,6 +163,8 @@ const getNextIndex = (sectionsData: {
 
 const BoardSidebar: React.FC<BoardSidebarProps> & {
   SidebarSection: React.FC<SidebarSectionProps>;
+  TextSection: typeof TextSection;
+  TagsFilterSection: typeof TagsFilterSection;
 } = (props) => {
   const [currentAccent, setCurrentAccent] = React.useState(props.accentColor);
   const [currentTagline, setCurrentTagline] = React.useState(props.tagline);
@@ -170,6 +180,13 @@ const BoardSidebar: React.FC<BoardSidebarProps> & {
   );
   // This contains the id of all the deleted sections (including the ones in new)
   const [deletedSections, setDeletedSections] = React.useState<string[]>([]);
+
+  React.useEffect(() => {
+    setCurrentAccent(props.accentColor);
+  }, [props.accentColor]);
+  React.useEffect(() => {
+    setCurrentTagline(props.tagline);
+  }, [props.tagline]);
 
   const sections = extractCompounds<SidebarSectionProps>(
     props.children,
@@ -356,5 +373,7 @@ const BoardSidebar: React.FC<BoardSidebarProps> & {
 };
 
 BoardSidebar.SidebarSection = SidebarSection;
+BoardSidebar.TextSection = TextSection;
+BoardSidebar.TagsFilterSection = TagsFilterSection;
 
 export default BoardSidebar;
