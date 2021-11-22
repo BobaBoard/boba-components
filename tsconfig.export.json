@@ -32,7 +32,7 @@
     ],
     "paths": {
       "types/*": ["types/*"],
-      "stories/*": ["./stories/*"]
+      "stories/*": ["./../stories/*"]
     }
   },
   "include": ["src/**/*", "index.d.ts"],
