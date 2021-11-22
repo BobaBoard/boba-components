@@ -1,18 +1,18 @@
 import "@testing-library/jest-dom/extend-expect";
 
-import * as sectionStories from "../../stories/21-Sidebar/04-SidebarSection.stories";
+import * as sectionStories from "stories/21-Sidebar/04-SidebarSection.stories";
 
 import SidebarSection, {
   SidebarSectionProps,
   getSectionData,
-} from "../../src/sidebar/SidebarSection";
+} from "sidebar/SidebarSection";
 import TagsFilterSection, {
   TagsFilterSectionProps,
-} from "../../src/sidebar/TagsFilterSection";
-import TextSection, { TextSectionProps } from "../../src/sidebar/TextSection";
+} from "sidebar/TagsFilterSection";
+import TextSection, { TextSectionProps } from "sidebar/TextSection";
 import { fireEvent, render, screen, waitFor } from "@testing-library/react";
 
-import { DescriptionType } from "../../src/types";
+import { DescriptionType } from "types";
 import React from "react";
 import { TagMatcher } from "../utils/matchers";
 import { action } from "@storybook/addon-actions";

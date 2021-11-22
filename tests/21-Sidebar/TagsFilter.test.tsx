@@ -1,6 +1,6 @@
 import "@testing-library/jest-dom/extend-expect";
 
-import * as tagStories from "../../stories/21-Sidebar/01-TagsSection.stories";
+import * as tagStories from "stories/21-Sidebar/01-TagsSection.stories";
 
 import {
   fireEvent,
@@ -11,7 +11,7 @@ import {
   within,
 } from "@testing-library/react";
 
-import { FilteredTagsState } from "../../src/tags/TagsFilter";
+import { FilteredTagsState } from "tags/TagsFilter";
 import React from "react";
 import { TagMatcher } from "../utils/matchers";
 import { action } from "@storybook/addon-actions";

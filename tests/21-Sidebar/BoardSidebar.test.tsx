@@ -1,6 +1,6 @@
 import "@testing-library/jest-dom/extend-expect";
 
-import * as stories from "../../stories/21-Sidebar/00-BoardSidebar.stories";
+import * as stories from "stories/21-Sidebar/00-BoardSidebar.stories";
 
 import {
   Screen,
