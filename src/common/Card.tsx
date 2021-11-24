@@ -1,18 +1,18 @@
-import React from "react";
-
-import classnames from "classnames";
-import {
-  faAngleDoubleDown,
-  faAngleDoubleUp,
-} from "@fortawesome/free-solid-svg-icons";
-import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import DefaultTheme from "../theme/default";
-import Color from "color";
 import {
   CreateBaseCompound,
   extractCompound,
   extractRest,
 } from "../utils/compound-utils";
+import {
+  faAngleDoubleDown,
+  faAngleDoubleUp,
+} from "@fortawesome/free-solid-svg-icons";
+
+import Color from "color";
+import DefaultTheme from "../theme/default";
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import React from "react";
+import classnames from "classnames";
 
 export interface CardProps {
   height?: number;
@@ -49,8 +49,8 @@ const Card: React.FC<CardProps> & CompoundComponents = ({
           expanded: isExpanded,
         })}
       >
-        {<div className="header">{header}</div>}
-        <div className="content">
+        {<header>{header}</header>}
+        <section className="content">
           {rest}
           {height && (
             <div
@@ -64,7 +64,7 @@ const Card: React.FC<CardProps> & CompoundComponents = ({
               />
             </div>
           )}
-        </div>
+        </section>
 
         {<div className="footer">{footer}</div>}
       </div>

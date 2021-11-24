@@ -140,123 +140,120 @@ const Post = React.forwardRef<PostHandler, PostProps>((props, ref) => {
     !!props.tags?.indexTags?.length ||
     !!props.tags?.whisperTags?.length;
   return (
-    <>
+    <article>
+      {hasUpdate && !props.hideUpdates && (
+        <UpdatesHeader
+          newPost={props.newPost}
+          newComments={props.newComments}
+          newContributions={props.newContributions}
+        />
+      )}
       <div
-        className={classnames("post-container", { centered: props.centered })}
+        className={classnames("tags content-warnings", {
+          hidden: !props.tags?.contentWarnings?.length,
+        })}
       >
-        {hasUpdate && !props.hideUpdates && (
-          <UpdatesHeader
-            newPost={props.newPost}
-            newComments={props.newComments}
-            newContributions={props.newContributions}
-          />
-        )}
-        <div
-          className={classnames("tags content-warnings", {
-            hidden: !props.tags?.contentWarnings?.length,
+        <Tags
+          tags={TagsFactory.getTagsFromTagObject({
+            indexTags: [],
+            categoryTags: [],
+            whisperTags: [],
+            contentWarnings: props.tags?.contentWarnings || [],
           })}
+          getOptionsForTag={props.getOptionsForTag}
+          packBottom
+        />
+      </div>
+      <div className="card-container" ref={containerRef}>
+        <Card
+          height={props.collapsed ? COLLAPSED_HEIGHT : undefined}
+          backgroundColor={props.muted ? "#dcdcdc" : props.backgroundColor}
         >
-          <Tags
-            tags={TagsFactory.getTagsFromTagObject({
-              indexTags: [],
-              categoryTags: [],
-              whisperTags: [],
-              contentWarnings: props.tags?.contentWarnings || [],
-            })}
-            getOptionsForTag={props.getOptionsForTag}
-            packBottom
-          />
-        </div>
-        <div className="card-container" ref={containerRef}>
-          <Card
-            height={props.collapsed ? COLLAPSED_HEIGHT : undefined}
-            backgroundColor={props.muted ? "#dcdcdc" : props.backgroundColor}
-          >
-            <Card.Header>
-              <div className={classnames("header", { muted: props.muted })}>
-                <div className="header-container" ref={avatarRef}>
-                  <MemoizedHeader
-                    secretIdentity={props.secretIdentity}
-                    userIdentity={props.userIdentity}
-                    createdMessage={props.createdTime}
-                    createdMessageLink={props.createdTimeLink}
-                    size={HeaderStyle.REGULAR}
-                    backgroundColor={props.muted ? "#dcdcdc" : undefined}
-                    forceHide={props.forceHideIdentity}
-                  />
-                </div>
-                {props.menuOptions && (
-                  <div className="post-options">
-                    <DropdownListMenu options={props.menuOptions}>
-                      <DropdownListMenu.Header>
-                        {props.menuOptionsHeader}
-                      </DropdownListMenu.Header>
-                      <span className="post-options-icon">
-                        <FontAwesomeIcon icon={faEllipsisV} />
-                      </span>
-                    </DropdownListMenu>
-                  </div>
-                )}
-              </div>
-              <div className={classnames("badges")}>
-                {!!props.newPost && (
-                  <div className="badge">
-                    <Badge
-                      icon={faCertificate}
-                      label="new"
-                      color={Theme.DEFAULT_ACCENT_COLOR}
-                    />
-                  </div>
-                )}
-                {!!props.op && (
-                  <div className="badge">
-                    <Badge
-                      label="OP"
-                      color={Theme.OP_BADGE_COLOR}
-                      icon={faCrown}
-                    />
-                  </div>
-                )}
-              </div>
-              {props.board && (
-                <div
-                  className="board-info"
-                  style={{ backgroundColor: props.board.accentColor }}
-                >
-                  {props.board.slug}
-                </div>
-              )}
-            </Card.Header>
-            <div className={classnames("content", { muted: props.muted })}>
-              <MemoizedEditor
-                initialText={JSON.parse(props.text)}
-                editable={false}
-                onEmbedLoaded={props.onEmbedLoaded}
-              />
-              <div
-                className={classnames("tags", {
-                  hidden: !props.tags || (props.hideFooter && !hasFooterTags),
-                })}
-              >
-                <Tags
-                  tags={
-                    props.tags
-                      ? TagsFactory.getTagsFromTagObject({
-                          ...props.tags,
-                          contentWarnings: [],
-                        })
-                      : []
-                  }
-                  getOptionsForTag={props.getOptionsForTag}
+          <Card.Header>
+            <div className={classnames("header", { muted: props.muted })}>
+              <div className="header-container" ref={avatarRef}>
+                <MemoizedHeader
+                  secretIdentity={props.secretIdentity}
+                  userIdentity={props.userIdentity}
+                  createdMessage={props.createdTime}
+                  createdMessageLink={props.createdTimeLink}
+                  size={HeaderStyle.REGULAR}
+                  backgroundColor={props.muted ? "#dcdcdc" : undefined}
+                  forceHide={props.forceHideIdentity}
                 />
               </div>
+              {props.menuOptions && (
+                <div className="post-options">
+                  <DropdownListMenu options={props.menuOptions}>
+                    <DropdownListMenu.Header>
+                      {props.menuOptionsHeader}
+                    </DropdownListMenu.Header>
+                    <span className="post-options-icon">
+                      <FontAwesomeIcon icon={faEllipsisV} />
+                    </span>
+                  </DropdownListMenu>
+                </div>
+              )}
             </div>
-            <Card.Footer>
-              <MemoizedFooter {...props} />
-            </Card.Footer>
-          </Card>
-        </div>
+            <div className={classnames("badges")}>
+              {!!props.newPost && (
+                <div className="badge">
+                  <Badge
+                    icon={faCertificate}
+                    label="new"
+                    color={Theme.DEFAULT_ACCENT_COLOR}
+                  />
+                </div>
+              )}
+              {!!props.op && (
+                <div className="badge">
+                  <Badge
+                    label="OP"
+                    color={Theme.OP_BADGE_COLOR}
+                    icon={faCrown}
+                  />
+                </div>
+              )}
+            </div>
+            {props.board && (
+              <div
+                className="board-info"
+                style={{ backgroundColor: props.board.accentColor }}
+              >
+                {props.board.slug}
+              </div>
+            )}
+          </Card.Header>
+          <div className={classnames("content", { muted: props.muted })}>
+            <MemoizedEditor
+              initialText={JSON.parse(props.text)}
+              editable={false}
+              onEmbedLoaded={props.onEmbedLoaded}
+            />
+            <div
+              className={classnames("tags", {
+                hidden: !props.tags || (props.hideFooter && !hasFooterTags),
+              })}
+            >
+              <Tags
+                tags={
+                  props.tags
+                    ? TagsFactory.getTagsFromTagObject({
+                        ...props.tags,
+                        contentWarnings: [],
+                      })
+                    : []
+                }
+                getOptionsForTag={props.getOptionsForTag}
+              />
+            </div>
+          </div>
+          <Card.Footer>
+            <MemoizedFooter {...props} />
+          </Card.Footer>
+        </Card>
       </div>
+
       <style jsx>{`
         /*static styles*/
         .muted {
@@ -288,7 +285,7 @@ const Post = React.forwardRef<PostHandler, PostProps>((props, ref) => {
         .header-container {
           max-width: calc(100% - 20px);
         }
-        .post-container {
+        article {
           position: relative;
           max-width: 100%;
           width: ${Theme.POST_WIDTH_PX}px;
@@ -397,7 +394,7 @@ const Post = React.forwardRef<PostHandler, PostProps>((props, ref) => {
           display: none;
         }
       `}</style>
-    </>
+    </article>
   );
 });
 
@@ -444,7 +441,6 @@ export interface PostProps {
   collapsed?: boolean;
   muted?: boolean;
   notesLink: LinkWithAction;
-  centered?: boolean;
   reactable?: boolean;
   menuOptions?: DropdownProps["options"];
   menuOptionsHeader?: React.ReactNode;

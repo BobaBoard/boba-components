@@ -1,27 +1,26 @@
-import React from "react";
-
-import Header, { HeaderStyle, PostHeaderProps } from "./Header";
-import EditorFooter from "./EditorFooter";
-import Card from "../common/Card";
-import Tags from "../tags/Tags";
-import Spinner from "../common/Spinner";
-import DropdownListMenu from "../common/DropdownListMenu";
-import Editor from "@bobaboard/boba-editor";
-import { prepareContentSubmission } from "../utils";
-import { useHotkeys } from "react-hotkeys-hook";
-
-import Button from "../buttons/Button";
-import {
-  faCompressArrowsAlt,
-  faCaretDown,
-} from "@fortawesome/free-solid-svg-icons";
-import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import classnames from "classnames";
-import { SecretIdentityType, TagsType } from "../types";
-import TagsFactory from "../tags/TagsFactory";
-import noop from "noop-ts";
 import BoardSelector, { BoardSelectorProps } from "../tags/BoardSelector";
 import { DefaultTheme, ImageUploaderContext } from "../index";
+import Header, { HeaderStyle, PostHeaderProps } from "./Header";
+import { SecretIdentityType, TagsType } from "../types";
+import {
+  faCaretDown,
+  faCompressArrowsAlt,
+} from "@fortawesome/free-solid-svg-icons";
+
+import Button from "../buttons/Button";
+import Card from "../common/Card";
+import DropdownListMenu from "../common/DropdownListMenu";
+import Editor from "@bobaboard/boba-editor";
+import EditorFooter from "./EditorFooter";
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import React from "react";
+import Spinner from "../common/Spinner";
+import Tags from "../tags/Tags";
+import TagsFactory from "../tags/TagsFactory";
+import classnames from "classnames";
+import noop from "noop-ts";
+import { prepareContentSubmission } from "../utils";
+import { useHotkeys } from "react-hotkeys-hook";
 
 const computeTags = (
   tags: TagsType[],
@@ -219,7 +218,6 @@ const PostEditor = React.forwardRef<PostEditorHandler, PostEditorProps>(
                     [tags]
                   )}
                   editable
-                  accentColor={props.accentColor}
                   suggestedCategories={suggestedCategories}
                 >
                   {props.availableBoards && selectedBoard && (

@@ -158,7 +158,6 @@ const Comment = React.forwardRef<EditorRef, CommentProps>((props, ref) => {
       <div
         className={classNames("comment-container", {
           loading: props.loading,
-          centered: props.centered,
         })}
       >
         <div className="header">
@@ -222,9 +221,6 @@ const Comment = React.forwardRef<EditorRef, CommentProps>((props, ref) => {
           display: flex;
           position: relative;
           max-width: ${DefaultTheme.POST_WIDTH_PX}px;
-        }
-        .comment-container.centered {
-          margin: 0 auto;
         }
         .header {
           margin-right: 10px;
@@ -300,7 +296,6 @@ export interface CommentProps {
   onCanSubmitChange?: (canSubmit: boolean) => void;
   onIsEmptyChange?: (empty: boolean) => void;
   loading?: boolean;
-  centered?: boolean;
   withActions?: boolean;
   canSubmit?: boolean;
   muted?: boolean;
