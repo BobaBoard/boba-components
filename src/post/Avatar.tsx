@@ -1,5 +1,6 @@
 import React from "react";
 import { SecretIdentityType } from "types";
+import Theme from "../theme/default";
 import classnames from "classnames";
 import questionMark from "../images/question_mark.png";
 
@@ -42,6 +43,8 @@ const Avatar = React.forwardRef<HTMLDivElement, AvatarProps>((props, ref) => {
         }
         .avatar-wrapper {
           position: relative;
+          margin-top: -15px;
+          border: 1px solid red;
         }
         .accessory {
           position: absolute;
@@ -56,13 +59,12 @@ const Avatar = React.forwardRef<HTMLDivElement, AvatarProps>((props, ref) => {
         }
         .avatar {
           position: relative;
-          width: 100px;
-          height: 100px;
+          width: 65px;
+          height: 65px;
           display: block;
           background: url("${secretAvatar}");
           background-size: cover;
           border-radius: 15%;
-          margin-right: 5px;
         }
         .avatar.with-border {
           border: 2px solid
@@ -94,22 +96,20 @@ const Avatar = React.forwardRef<HTMLDivElement, AvatarProps>((props, ref) => {
           width: 35px;
           height: 35px;
         }
+        .avatar-container.compact .avatar-wrapper{
+          margin-top: 0px;
+        }
         .secret-avatar {
           position: absolute;
-          top: 100%;
-          bottom: 0;
-          transform: translate(22px, -20px);
-          width: 22px;
-          height: 22px;
+          top: 68%;
+          left: 70%
+          width: 37%;
+          height: 37%;
           display: none;
           background: url("${currentAvatar}");
           background-size: cover;
           border-radius: 50%;
-        }
-        .avatar-container.compact .secret-avatar {
-          width: 20px;
-          height: 20px;
-          transform: translate(19px, -17px);
+          border: 3px solid white;
         }
         .secret-avatar.visible {
           display: block;
