@@ -3,6 +3,7 @@ import Header, { HeaderStyle } from "./Header";
 import { LinkWithAction, SecretIdentityType, TagsType } from "types";
 import {
   faCertificate,
+  faCrown,
   faEllipsisV,
   faPlus,
 } from "@fortawesome/free-solid-svg-icons";
@@ -209,7 +210,11 @@ const Post = React.forwardRef<PostHandler, PostProps>((props, ref) => {
                 )}
                 {!!props.op && (
                   <div className="badge">
-                    <Badge label="OP" color={Theme.OP_BADGE_COLOR} />
+                    <Badge
+                      label="OP"
+                      color={Theme.OP_BADGE_COLOR}
+                      icon={faCrown}
+                    />
                   </div>
                 )}
               </div>

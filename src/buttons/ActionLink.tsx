@@ -1,5 +1,5 @@
-import React from "react";
 import { LinkWithAction } from "../types";
+import React from "react";
 
 const ActionLink: React.FC<ActionLinkProps> = ({
   children,
@@ -22,7 +22,9 @@ const ActionLink: React.FC<ActionLinkProps> = ({
   );
   if (!link) {
     return className ? (
-      <span className={className}>{children}</span>
+      <span className={className} aria-label={label}>
+        {children}
+      </span>
     ) : (
       <>{children}</>
     );
@@ -56,7 +58,12 @@ const ActionLink: React.FC<ActionLinkProps> = ({
     );
   }
   return (
-    <a className={className} href={link.href} onClick={preventDefaultCallback}>
+    <a
+      className={className}
+      href={link.href}
+      onClick={preventDefaultCallback}
+      aria-label={link?.label ?? label}
+    >
       {children}
       <style jsx>{`
         a {

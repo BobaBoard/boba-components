@@ -1,11 +1,11 @@
-import React from "react";
-
-import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import { faCertificate } from "@fortawesome/free-solid-svg-icons";
-import classnames from "classnames";
-import DefaultTheme from "../theme/default";
 import Icon, { IconProps } from "../common/Icon";
+
+import DefaultTheme from "../theme/default";
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import React from "react";
+import classnames from "classnames";
 import css from "styled-jsx/css";
+import { faCertificate } from "@fortawesome/free-solid-svg-icons";
 
 export enum ButtonStyle {
   LIGHT = "LIGHT",
@@ -65,6 +65,8 @@ const Button: React.FC<ButtonProps> = ({
   color,
   theme,
   disabled,
+  full,
+  center,
   updates,
   label,
 }) => {
@@ -76,6 +78,8 @@ const Button: React.FC<ButtonProps> = ({
       <div
         className={classnames("button", {
           compact,
+          full,
+          center,
           disabled,
           "with-image": typeof icon == "string",
         })}
@@ -176,6 +180,15 @@ const Button: React.FC<ButtonProps> = ({
           overflow: hidden;
           text-overflow: ellipsis;
         }
+        .full {
+          width: 100%;
+        }
+        .center {
+          justify-content: center;
+        }
+        .full button {
+          width: 100%;
+        }
       `}</style>
     </>
   );
@@ -193,4 +206,6 @@ export interface ButtonProps {
   theme?: ButtonStyle;
   updates?: number | boolean;
   label?: string;
+  full?: boolean;
+  center?: boolean;
 }

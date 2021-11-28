@@ -1,16 +1,17 @@
-import React from "react";
 import {
+  IconDefinition,
   faChevronCircleDown,
   faSpinner,
-  IconDefinition,
 } from "@fortawesome/free-solid-svg-icons";
-import { LinkWithAction } from "types";
-import classnames from "classnames";
-import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+
 import ActionLink from "../buttons/ActionLink";
-import css from "styled-jsx/css";
 import DefaultTheme from "../theme/default";
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import Icon from "../common/Icon";
+import { LinkWithAction } from "types";
+import React from "react";
+import classnames from "classnames";
+import css from "styled-jsx/css";
 
 export enum SelectLightPosition {
   BOTTOM = "BOTTOM",
@@ -73,7 +74,6 @@ const getIconStyle = ({
 `;
 
 export interface CircleButtonProps {
-  id: string;
   loading?: boolean;
   icon: IconDefinition | string;
   selected?: boolean;
@@ -108,7 +108,6 @@ export interface CircleButtonProps {
 }
 
 const CircleButton: React.FC<CircleButtonProps> = ({
-  id,
   loading,
   icon,
   label,
@@ -127,7 +126,6 @@ const CircleButton: React.FC<CircleButtonProps> = ({
   });
   return (
     <div
-      key={id}
       className={classnames("circle-button", {
         selected,
         loading,

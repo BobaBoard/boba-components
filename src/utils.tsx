@@ -1,15 +1,16 @@
-import React from "react";
 import {
   faAngleDoubleDown,
   faAngleDoubleUp,
 } from "@fortawesome/free-solid-svg-icons";
-import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import Theme from "./theme/default";
 import {
   getAllImages,
-  replaceImages,
   removeTrailingWhitespace,
+  replaceImages,
 } from "@bobaboard/boba-editor";
+
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import React from "react";
+import Theme from "./theme/default";
 import chroma from "chroma-js";
 
 export const hex2rgba = (hex: string, alpha = 1) => {

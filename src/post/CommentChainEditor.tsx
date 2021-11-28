@@ -1,16 +1,17 @@
-import React from "react";
 import CommentEditor, { EditorRef } from "./CommentEditor";
-import classnames from "classnames";
+import { faPlus, faTimes } from "@fortawesome/free-solid-svg-icons";
+
 import DefaultTheme from "../theme/default";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import { faPlus, faTimes } from "@fortawesome/free-solid-svg-icons";
 import { ImageUploaderContext } from "../index";
-import { prepareContentSubmission } from "../utils";
-
-import debug from "debug";
-import { useHotkeys } from "react-hotkeys-hook";
-import { SecretIdentityType } from "types";
 import { PostHeaderProps } from "./Header";
+import React from "react";
+import { SecretIdentityType } from "types";
+import classnames from "classnames";
+import debug from "debug";
+import { prepareContentSubmission } from "../utils";
+import { useHotkeys } from "react-hotkeys-hook";
+
 const log = debug("bobaui:CommentChainEditor-log");
 
 const isValidSubmitState = (chainComments: Comment[]) => {
@@ -164,6 +165,10 @@ const CommentChainEditor = React.forwardRef<
     [onSubmitHandler]
   );
 
+  const selectedIdentityData = props.additionalIdentities?.find(
+    (id) => id.id == selectedIdentity
+  );
+
   return (
     <div className="comment-chain-editor" ref={chainEditorRef}>
       {chainComments.map((comment, index) => (
@@ -181,12 +186,7 @@ const CommentChainEditor = React.forwardRef<
             ref={(ref: EditorRef) => editorRefs.current.set(index, ref)}
             initialText={comment.text}
             userIdentity={props.userIdentity}
-            secretIdentity={
-              props.secretIdentity ||
-              props.additionalIdentities?.find(
-                (id) => id.id == selectedIdentity
-              )
-            }
+            secretIdentity={selectedIdentityData || props.secretIdentity}
             muted={focusedChainIndex != index}
             onSubmit={onSubmitHandler}
             // We add this to avoid double upload

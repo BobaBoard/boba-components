@@ -100,6 +100,10 @@ const PostHeader = React.forwardRef<HTMLDivElement, PostHeaderProps>(
       additionalIdentities: props.additionalIdentities,
       onSelectIdentity: props.onSelectIdentity,
     });
+    const hasIdentitySelector =
+      !props.avatarOptions &&
+      props.size === HeaderStyle.COMPACT &&
+      props.additionalIdentities?.length;
 
     return (
       <div
@@ -116,11 +120,10 @@ const PostHeader = React.forwardRef<HTMLDivElement, PostHeaderProps>(
             props.size === HeaderStyle.COMPACT && !props.additionalIdentities
           }
           avatarDropdownOptions={
-            props.avatarOptions
-              ? props.avatarOptions
-              : props.size === HeaderStyle.COMPACT && props.additionalIdentities
-              ? identityOptions
-              : []
+            hasIdentitySelector ? identityOptions : props.avatarOptions
+          }
+          avatarDropdownLabel={
+            hasIdentitySelector ? "Select visible identity" : undefined
           }
           createdMessage={props.createdMessage}
           createdMessageLink={props.createdMessageLink}

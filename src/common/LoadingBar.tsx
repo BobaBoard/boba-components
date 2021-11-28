@@ -1,19 +1,11 @@
+import LibraryLoadingBar, { LoadingBarRef } from "react-top-loading-bar";
+
 import Color from "color";
 import React from "react";
-import LibraryLoadingBar from "react-top-loading-bar";
-
-// From: https://github.com/klendi/react-top-loading-bar/issues/41
-type LoadingBarRef = {
-  add(value: number): void;
-  decrease(value: number): void;
-  continuousStart(startingValue?: number, refreshRate?: number): void;
-  staticStart(startingValue: number): void;
-  complete(): void;
-};
 
 const HEIGHT = 1;
 const LoadingBar = (props: LoadingBarProps) => {
-  const barRef = React.useRef<LoadingBarRef>();
+  const barRef = React.useRef<LoadingBarRef>(null);
 
   const barColor = props.accentColor || "#ffffff";
   const lighterColor = Color(barColor).darken(0.5);
@@ -31,6 +23,7 @@ const LoadingBar = (props: LoadingBarProps) => {
       return;
     }
     if (props.loading) {
+      // @ts-expect-error
       barRef.current.continuousStart();
     } else {
       barRef.current.complete();

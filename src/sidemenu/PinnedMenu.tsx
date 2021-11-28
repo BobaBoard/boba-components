@@ -1,18 +1,17 @@
-import React from "react";
-import { BoardType } from "types";
-
-import BoardIcon from "../board/BoardIcon";
-import DefaultTheme from "../theme/default";
-import LoadingPlaceholder from "../common/LoadingPlaceholder";
-import Icon, { IconProps } from "../common/Icon";
 import CircleButton, {
   CircleButtonProps,
   SelectLightPosition,
 } from "../buttons/CircleButton";
-import ActionLink from "../buttons/ActionLink";
+import Icon, { IconProps } from "../common/Icon";
 
-import { extractCompounds } from "../utils/compound-utils";
+import ActionLink from "../buttons/ActionLink";
+import BoardIcon from "../board/BoardIcon";
+import { BoardType } from "../types";
+import DefaultTheme from "../theme/default";
+import LoadingPlaceholder from "../common/LoadingPlaceholder";
+import React from "react";
 import classNames from "classnames";
+import { extractCompounds } from "../utils/compound-utils";
 
 interface PinnedMenuItemProps {
   item: BoardType | CircleButtonProps;
@@ -102,11 +101,11 @@ const Section: React.FC<PinnedMenuSectionProps> = (props) => {
               loadingAccentColor={loadingAccentColor}
             />
           ))}
-        {items?.map((board, index) => (
+        {items?.map((item, index) => (
           <PinnedMenuItem
             key={index}
-            item={board}
-            current={currentItemSlug == ("id" in board ? board.id : board.slug)}
+            item={item}
+            current={currentItemSlug == ("slug" in item ? item.slug : item.id)}
           />
         ))}
       </div>
@@ -194,7 +193,7 @@ export interface BasePinnedSectionProps {
   icon: IconProps["icon"];
 }
 export interface WithPinnedSectionProps {
-  items: (BoardType | CircleButtonProps)[];
+  items: (BoardType | (CircleButtonProps & { id: string }))[];
   currentItemId?: string | null;
   loading?: false;
 }

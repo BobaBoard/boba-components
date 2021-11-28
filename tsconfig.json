@@ -8,6 +8,7 @@
     "allowJs": false,
     "jsx": "preserve",
     "moduleResolution": "node",
+    "baseUrl": "src",
     "rootDirs": ["src", "stories"],
     "forceConsistentCasingInFileNames": true,
     "noImplicitReturns": true,
@@ -30,8 +31,12 @@
       "jest",
       "@testing-library/jest-dom"
     ],
-    "strictBindCallApply": true
+    "strictBindCallApply": true,
+    "paths": {
+      "stories/*": ["../stories/*"],
+      "types/*": ["./types/*"]
+    }
   },
-  "include": ["/**/*"],
+  "include": ["/**/*", "index.d.ts"],
   "exclude": ["node_modules", "build", "scripts", "dist"]
 }

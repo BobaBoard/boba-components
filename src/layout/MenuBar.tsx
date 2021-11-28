@@ -1,12 +1,13 @@
-import React from "react";
 import DropdownListMenu, { DropdownStyle } from "../common/DropdownListMenu";
-import CircleButton from "../buttons/CircleButton";
 import {
+  IconDefinition,
   faHome,
   faUser,
-  IconDefinition,
 } from "@fortawesome/free-solid-svg-icons";
+
+import CircleButton from "../buttons/CircleButton";
 import { LinkWithAction } from "types";
+import React from "react";
 
 const MenuBar: React.FC<MenuBarProps> = ({
   user,
@@ -25,7 +26,6 @@ const MenuBar: React.FC<MenuBarProps> = ({
       {onHomeMenuClick && (
         <div className="home">
           <CircleButton
-            id={"home"}
             icon={faHome}
             link={onHomeMenuClick}
             accentColor={accentColor}
@@ -36,7 +36,6 @@ const MenuBar: React.FC<MenuBarProps> = ({
       {menuOptions?.map((option) => (
         <div className="menu-item" key={option.id}>
           <CircleButton
-            id={option.id}
             icon={option.icon}
             link={option.link}
             selected={selectedOption == option.id}
@@ -51,7 +50,6 @@ const MenuBar: React.FC<MenuBarProps> = ({
       >
         <div className="menu-item">
           <CircleButton
-            id={"login"}
             icon={user?.avatarUrl ? user?.avatarUrl : faUser}
             link={!loading && !isLoggedIn ? onLoggedOutUserClick : undefined}
             accentColor={accentColor}
@@ -59,6 +57,7 @@ const MenuBar: React.FC<MenuBarProps> = ({
             loading={loading}
             withDropdown={!!isLoggedIn && !!userMenuOptions?.length}
             blurred={forceHideIdentity}
+            label={!loading && !isLoggedIn ? "login" : "user-menu"}
           />
         </div>
       </DropdownListMenu>

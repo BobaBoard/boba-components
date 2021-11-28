@@ -1,6 +1,6 @@
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import React from "react";
 import classnames from "classnames";
-import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faTimesCircle } from "@fortawesome/free-solid-svg-icons";
 
 export interface TagProps {
@@ -38,6 +38,7 @@ const Tag: React.FC<TagProps | DeletableTagProps> = (props) => {
           <button
             onClick={() => props.onDeleteTag?.(props.name)}
             className={classnames("delete")}
+            aria-label="delete tag"
           >
             <FontAwesomeIcon icon={faTimesCircle} />
           </button>
@@ -131,7 +132,7 @@ const Tag: React.FC<TagProps | DeletableTagProps> = (props) => {
           cursor: pointer;
         }
         .tag.compact {
-           font-size: var(--font-size-small);
+          font-size: var(--font-size-small);
         }
         .tag.text {
           padding: 0;

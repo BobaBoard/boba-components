@@ -1,5 +1,6 @@
-import React from "react";
 import Icon, { IconProps } from "../common/Icon";
+
+import React from "react";
 import { darkenColor } from "../utils";
 
 const Badge: React.FC<{
@@ -11,7 +12,7 @@ const Badge: React.FC<{
   return (
     <div className="badge">
       {props.icon && <Icon icon={props.icon} />}
-      <span>{props.label}</span>
+      <div>{props.label}</div>
       <style jsx>{`
         .badge {
           --badge-color: ${props.color};
@@ -29,13 +30,20 @@ const Badge: React.FC<{
           position: relative;
           overflow: hidden;
           font-size: 1.3rem;
-          padding: 2px 4px;
+          padding: 1px 4px;
           border-radius: 15px;
           line-height: 1.3rem;
           color: white;
           background-position-x: 80%;
           animation: TransitioningBackground 10s ease-out normal infinite;
           border: 1px solid ${borderColor};
+          display: flex;
+          align-items: center;
+        }
+
+        .badge :global(svg) {
+          width: 1em;
+          padding: 1px;
         }
 
         @keyframes TransitioningBackground {
@@ -49,9 +57,10 @@ const Badge: React.FC<{
             background-position-x: 80%;
           }
         }
-        span {
+        .badge div {
           margin: 0 2px;
-          margin-bottom: 4px;
+          letter-spacing: 1px;
+          text-transform: capitalize;
         }
       `}</style>
     </div>

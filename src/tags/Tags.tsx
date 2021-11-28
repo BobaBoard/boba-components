@@ -1,20 +1,20 @@
-import React from "react";
-
+import { TagType, TagsType } from "../types";
 import TagsFactory, {
-  INDEXABLE_TAG_COLOR,
-  CATEGORY_TAG_COLOR,
-  CW_TAG_COLOR,
-  CONTENT_NOTICE_DEFAULT_PREFIX,
-  INDEXABLE_PREFIX,
   CATEGORY_PREFIX,
+  CATEGORY_TAG_COLOR,
+  CONTENT_NOTICE_DEFAULT_PREFIX,
+  CW_TAG_COLOR,
+  INDEXABLE_PREFIX,
+  INDEXABLE_TAG_COLOR,
 } from "./TagsFactory";
-import { DropdownProps } from "../common/DropdownListMenu";
-import classnames from "classnames";
-import debug from "debug";
-import { TagsType, TagType } from "../types";
+
 import DefaultTheme from "../theme/default";
+import { DropdownProps } from "../common/DropdownListMenu";
+import React from "react";
 import TagsDisplay from "./TagsDisplay";
+import classnames from "classnames";
 import color from "color";
+import debug from "debug";
 
 const log = debug("bobaui:tagsinput-log");
 
@@ -55,7 +55,6 @@ const TagsInput: React.FC<TagsInputProps> = ({
   onTagsAdd,
   onTagsDelete,
   editable,
-  accentColor,
   suggestedCategories,
   getOptionsForTag,
   packBottom,
@@ -72,59 +71,56 @@ const TagsInput: React.FC<TagsInputProps> = ({
     }
   }, [tags]);
 
+  const showTagsHint =
+    isFocused && tags.length == 0 && tagInputState == TagInputState.EMPTY;
+  const showCategoriesHint =
+    isFocused &&
+    suggestedCategories &&
+    suggestedCategories.length > 0 &&
+    tagInputState == TagInputState.CATEGORY;
   return (
     <>
       <div className={classnames("container", { editable })}>
-        <div
-          className={classnames("suggestions-container how-to", {
-            visible:
-              isFocused &&
-              tags.length == 0 &&
-              tagInputState == TagInputState.EMPTY,
-          })}
-        >
-          Start a tag with <strong>{INDEXABLE_PREFIX}</strong> to make it
-          searchable, <strong>{CATEGORY_PREFIX}</strong> for a filterable
-          category, or <strong>{CONTENT_NOTICE_DEFAULT_PREFIX}</strong> for
-          content notices. Tags are separated by new line.
-        </div>
-        <div
-          className={classnames(
-            "suggestions-container categories-suggestions",
-            {
-              visible:
-                isFocused &&
-                suggestedCategories &&
-                suggestedCategories.length > 0 &&
-                tagInputState == TagInputState.CATEGORY,
-            }
-          )}
-        >
-          {suggestedCategories?.map((category) => (
-            <button
-              key={category}
-              className={classnames("tag-container")}
-              // We use mouse down rather than on click because this runs
-              // before the blur event.
-              onMouseDown={(e) => {
-                onTagsAdd?.({
+        {showTagsHint && (
+          <div className={classnames("suggestions-container how-to")}>
+            Start a tag with <strong>{INDEXABLE_PREFIX}</strong> to make it
+            searchable, <strong>{CATEGORY_PREFIX}</strong> for a filterable
+            category, or <strong>{CONTENT_NOTICE_DEFAULT_PREFIX}</strong> for
+            content notices. Tags are separated by new line.
+          </div>
+        )}
+        {showCategoriesHint && (
+          <div
+            className={classnames(
+              "suggestions-container categories-suggestions"
+            )}
+          >
+            {suggestedCategories?.map((category) => (
+              <button
+                key={category}
+                className={classnames("tag-container")}
+                // We use mouse down rather than on click because this runs
+                // before the blur event.
+                onMouseDown={(e) => {
+                  onTagsAdd?.({
+                    name: category,
+                    accentColor: "white",
+                    category: true,
+                    type: TagType.CATEGORY,
+                  });
+                  e.preventDefault();
+                }}
+              >
+                {TagsFactory.create({
                   name: category,
                   accentColor: "white",
                   category: true,
                   type: TagType.CATEGORY,
-                });
-                e.preventDefault();
-              }}
-            >
-              {TagsFactory.create({
-                name: category,
-                accentColor: "white",
-                category: true,
-                type: TagType.CATEGORY,
-              })}
-            </button>
-          ))}
-        </div>
+                })}
+              </button>
+            ))}
+          </div>
+        )}
         {children && <div className="extra">{children}</div>}
         <TagsDisplay
           editable={editable}
@@ -282,18 +278,16 @@ const TagsInput: React.FC<TagsInputProps> = ({
           box-shadow: 0 0 0 1px rgba(0, 0, 0, 0.3), 0 0 0 4px rgba(0, 0, 0, 0.1);
         }
         .tag-input.indexable:focus {
-          box-shadow: 0 0 0 1px
-              ${color(accentColor || INDEXABLE_TAG_COLOR).fade(0)},
-            0 0 0 4px ${color(accentColor || INDEXABLE_TAG_COLOR).fade(0.7)};
+          box-shadow: 0 0 0 1px ${color(INDEXABLE_TAG_COLOR).fade(0)},
+            0 0 0 4px ${color(INDEXABLE_TAG_COLOR).fade(0.7)};
         }
         .tag-input.content-warning:focus {
-          box-shadow: 0 0 0 1px ${color(accentColor || CW_TAG_COLOR).fade(0)},
-            0 0 0 4px ${color(accentColor || CW_TAG_COLOR).fade(0.7)};
+          box-shadow: 0 0 0 1px ${color(CW_TAG_COLOR).fade(0)},
+            0 0 0 4px ${color(CW_TAG_COLOR).fade(0.7)};
         }
         .tag-input.category:focus {
-          box-shadow: 0 0 0 1px
-              ${color(accentColor || CATEGORY_TAG_COLOR).fade(0)},
-            0 0 0 4px ${color(accentColor || CATEGORY_TAG_COLOR).fade(0.7)};
+          box-shadow: 0 0 0 1px ${color(CATEGORY_TAG_COLOR).fade(0)},
+            0 0 0 4px ${color(CATEGORY_TAG_COLOR).fade(0.7)};
         }
         .container {
           padding-bottom: 5px;
@@ -324,11 +318,7 @@ const TagsInput: React.FC<TagsInputProps> = ({
           border-radius: 10px 10px 0 0;
           background-color: white;
           font-size: 14px;
-          display: none;
           color: rgb(87, 87, 87);
-        }
-        .suggestions-container.visible {
-          display: block;
         }
         .categories-suggestions .tag-container {
           margin-top: 3px;
@@ -357,7 +347,6 @@ export interface TagsInputProps {
   onTagsAdd?: (newTag: TagsType) => void;
   onTagClick?: (clickedTag: TagsType) => void;
   editable?: boolean;
-  accentColor?: string;
   suggestedCategories?: string[];
   getOptionsForTag?: (tag: TagsType) => DropdownProps["options"];
   // Make the tags be packed on the bottom of the display, so single

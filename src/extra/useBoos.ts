@@ -3,10 +3,10 @@ import css from "styled-jsx/css";
 import debug from "debug";
 import React from "react";
 
-import booAwake from "../images/boo_awake.png";
-import booAwakeFlipped from "../images/boo_awake_flipped.png";
-import booShy from "../images/boo_shy.png";
-import booShyFlipped from "../images/boo_shy_flipped.png";
+import booAwake from "../images/xmas_boo_awake.png";
+import booAwakeFlipped from "../images/xmas_boo_awake_flipped.png";
+import booShy from "../images/xmas_boo_shy.png";
+import booShyFlipped from "../images/xmas_boo_shy_flipped.png";
 
 const info = debug("bobafrontend:index-info");
 
@@ -35,9 +35,9 @@ const { className, styles } = css.resolve`
   .right {
   }
   .popout {
-    animation: popout 0.4s ease;
+    animation: popout 1.5s ease;
     animation-name: popout;
-    animation-duration: 0.4s;
+    animation-duration: 1.5s;
     animation-timing-function: ease;
     transform-origin: 50% 50%;
     background-image: url(${booShy});
@@ -113,7 +113,7 @@ const moveGhost = (ghost: HTMLElement, onRemoveCallback?: () => void) => {
   if (nextX < 0 || nextX + BOUNDARY > innerWidth) {
     nextX = currentX - deltaX;
   }
-  if (nextY < BOUNDARY || nextY > pageYOffset + innerHeight - GHOST_SIZE) {
+  if (nextY < pageYOffset || nextY > pageYOffset + innerHeight - GHOST_SIZE) {
     nextY = currentY - deltaY;
   }
   // Make the ghost face the right direction
@@ -146,7 +146,7 @@ const clearGhost = (ghost: HTMLElement, onRemoveCallback?: () => void) => {
   setTimeout(() => {
     ghost.parentNode?.removeChild(ghost);
     onRemoveCallback?.();
-  }, 300);
+  }, 1400);
 };
 
 const newGhost = (onRemoveCallback: () => void) => {

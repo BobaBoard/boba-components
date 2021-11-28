@@ -60,6 +60,7 @@ const CommentFooter = (props: {
             icon={faCross}
             compact={size === SIZES.COMPACT}
             disabled={props.loading}
+            label="Cancel"
           >
             Cancel
           </Button>
@@ -68,6 +69,7 @@ const CommentFooter = (props: {
             disabled={!props.canSubmit}
             icon={faCheck}
             compact={size === SIZES.COMPACT}
+            label="Submit"
           >
             Submit
           </Button>
@@ -168,6 +170,7 @@ const Comment = React.forwardRef<EditorRef, CommentProps>((props, ref) => {
             accessories={props.accessories}
             accessory={props.accessory}
             onSelectAccessory={props.onSelectAccessory}
+            onSelectIdentity={props.onSelectIdentity}
           />
         </div>
         <div className={classNames("editor")}>
@@ -181,7 +184,7 @@ const Comment = React.forwardRef<EditorRef, CommentProps>((props, ref) => {
               </div>
               <div>
                 <Editor
-                  key={"comment_editor"}
+                  key="comment_editor"
                   editable={!props.loading}
                   initialText={JSON.parse(text)}
                   onTextChange={(text) => {
@@ -249,6 +252,7 @@ const Comment = React.forwardRef<EditorRef, CommentProps>((props, ref) => {
         }
         .editor {
           position: relative;
+          min-height: 45px;
         }
         .comment-container.loading .editor div:not(.spinner) {
           opacity: 0.5;

@@ -29,7 +29,11 @@
       "node",
       "resize-observer-browser",
       "styled-jsx"
-    ]
+    ],
+    "paths": {
+      "types/*": ["types/*"],
+      "stories/*": ["./../stories/*"]
+    }
   },
   "include": ["src/**/*", "index.d.ts"],
   "exclude": ["node_modules", "build", "scripts"]

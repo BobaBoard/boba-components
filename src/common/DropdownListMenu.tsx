@@ -2,6 +2,7 @@ import {
   CreateBaseCompound,
   extractCompound,
   extractRest,
+  hasChildren,
 } from "../utils/compound-utils";
 import {
   faChevronLeft,
@@ -64,6 +65,7 @@ export interface DropdownProps {
   accentColor?: string;
   zIndex?: number;
   onOpen?: () => void;
+  label?: string;
 }
 
 const isSmallScreen = () => {
@@ -555,7 +557,7 @@ const DropdownMenu: React.FC<DropdownProps> & {
               ref={(ref) => setContentWrapper(ref)}
               className={classnames("content-wrapper", {
                 "has-options": props.options?.length,
-                "has-header": !!header,
+                "has-header": hasChildren(header),
               })}
             >
               {header}
@@ -588,6 +590,7 @@ const DropdownMenu: React.FC<DropdownProps> & {
           })}
           tabIndex={0}
           onClick={() => setOpen(!isOpen)}
+          aria-label={props.label}
         >
           {rest}
         </button>
