@@ -279,7 +279,7 @@ const Post = React.forwardRef<PostHandler, PostProps>((props, ref) => {
         .header {
           border-radius: ${Theme.BORDER_RADIUS_REGULAR}
             ${Theme.BORDER_RADIUS_REGULAR} 0px 0px;
-          padding: 0px 15px 15px;
+          padding: 0px 8px 11px 15px;
           display: flex;
           border-bottom: 1px dotted rgba(0, 0, 0, 0.3);
           max-width: 100%;
@@ -296,7 +296,7 @@ const Post = React.forwardRef<PostHandler, PostProps>((props, ref) => {
         .card-container {
           position: relative;
           pointer-events: all;
-          margin-top: 20px;
+          margin-top: 18px;
         }
         .card-container::after {
           content: "";
@@ -374,7 +374,7 @@ const Post = React.forwardRef<PostHandler, PostProps>((props, ref) => {
           height: 25px;
           text-align: center;
           line-height: 1em;
-          margin: 2px -2px 0 0;
+          margin: 12px -2px 0 0;
         }
         .post-options-icon {
           display: block;

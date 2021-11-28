@@ -247,7 +247,8 @@ const UserMetadata = React.forwardRef<
           .metadata-container.compact {
             flex-direction: column;
           }
-          {/* .timestamp {
+           {
+            /* .timestamp {
             font-size: 14px;
             line-height: 17px;
             color: ${DefaultTheme.POST_HEADER_DATE_COLOR};
@@ -258,7 +259,8 @@ const UserMetadata = React.forwardRef<
           }
           .timestamp :global(a):hover {
             text-decoration: underline;
-          } */}
+          } */
+          }
           .dropdown-metadata {
             padding: 15px;
           }
@@ -271,11 +273,8 @@ const UserMetadata = React.forwardRef<
             flex-grow: 1;
             overflow: hidden;
             padding-right: 5px;
-<<<<<<< HEAD
-            margin: auto 0px 0px 15px;
-=======
+            margin: auto 0px 0px 10px;
             text-align: left;
->>>>>>> cbf78ebb77aee926c4e15b93c2edb165ab00d728
           }
           .accessory-selector {
             margin-top: 5px;

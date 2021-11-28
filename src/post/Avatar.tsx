@@ -47,15 +47,14 @@ const Avatar = React.forwardRef<HTMLDivElement, AvatarProps>((props, ref) => {
         }
         .avatar-wrapper {
           position: relative;
-          margin-top: -15px;
-          border: 1px solid red;
+          margin-top: -12px;
         }
         .accessory {
           position: absolute;
           top: 50%;
           left: 50%;
           /* remove half the margin */
-          transform: translate(calc(-50% - 4px), -50%);
+          transform: translate(calc(-50% - 0px), -50%) scale(1.625);
           pointer-events: none;
         }
         .compact .accessory {
@@ -72,48 +71,58 @@ const Avatar = React.forwardRef<HTMLDivElement, AvatarProps>((props, ref) => {
         }
         .avatar.with-border {
           border: 2px solid
-            ${props.secretIdentity ? props.secretIdentity.color : "transparent"};
+            ${
+              props.secretIdentity ? props.secretIdentity.color : "transparent"
+            };
         }
         .avatar:not(.with-secret) {
         }
         .avatar.with-secret {
-          mask: linear-gradient(0deg, rgba(0, 0, 0, 0), rgba(0, 0, 0, 0)),
+        /*  mask: linear-gradient(0deg, rgba(0, 0, 0, 0), rgba(0, 0, 0, 0)),
             radial-gradient(
                 26px circle at bottom 9px right 7px,
                 transparent 50%,
                 black 51%
               )
               bottom right;
-          mask-size: cover;
+          mask-size: cover;*/
         }
         .avatar-container.compact .avatar.with-secret {
-          mask: linear-gradient(0deg, rgba(0, 0, 0, 0), rgba(0, 0, 0, 0)),
+          /*mask: linear-gradient(0deg, rgba(0, 0, 0, 0), rgba(0, 0, 0, 0)),
             radial-gradient(
                 24px circle at bottom 7px right 6px,
                 transparent 50%,
                 black 51%
               )
               bottom right;
-          mask-size: cover;
+          mask-size: cover;*/
         }
         .avatar-container.compact .avatar {
           width: 35px;
           height: 35px;
+          margin-right: 5px;
         }
         .avatar-container.compact .avatar-wrapper{
           margin-top: 0px;
         }
         .secret-avatar {
           position: absolute;
-          top: 68%;
-          left: 70%
-          width: 37%;
-          height: 37%;
+          top: 66%;
+          left: 70%;
+          width: 43%;
+          min-width: 20px;
+          height: 43%;
+          min-height: 20px;
           display: none;
           background: url("${currentAvatar}");
           background-size: cover;
           border-radius: 50%;
-          border: 3px solid white;
+          border: 2px solid rgba(255, 255, 255, 1); 
+        }
+        .avatar-container.compact .secret-avatar{
+          top: 61%;
+          left: 54%;  
+          border: 2px solid rgba(44, 44, 44, 0.986);
         }
         .secret-avatar.visible {
           display: block;
