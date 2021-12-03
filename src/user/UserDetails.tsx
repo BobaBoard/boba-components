@@ -1,21 +1,19 @@
-// @ts-nocheck
-import React from "react";
-
-import Theme from "../theme/default";
+import { Area, MediaSize } from "react-easy-crop/types";
 import Button, { ButtonStyle } from "../buttons/Button";
 import Input, { InputStyle } from "../common/Input";
+import {
+  faCheck,
+  faCross,
+  faPencilAlt,
+} from "@fortawesome/free-solid-svg-icons";
+
 import Cropper from "react-easy-crop";
 import Pica from "pica";
+import React from "react";
 import Spinner from "../common/Spinner";
-import {
-  faPencilAlt,
-  faCross,
-  faCheck,
-} from "@fortawesome/free-solid-svg-icons";
-import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import classnames from "classnames";
-
 import debug from "debug";
+
 const log = debug("bobaui:userDetails-log");
 
 const AREA_SIZE_PX = 100;
@@ -37,10 +35,15 @@ const UserDetails: React.FC<UserDetailsProps> = (props) => {
   const [crop, setCrop] = React.useState({ x: 0, y: 0 });
   const [zoom, setZoom] = React.useState(1);
   const [username, setUsername] = React.useState(props.username);
-  const [mediaSize, setMediaSize] = React.useState(null);
+  const [mediaSize, setMediaSize] = React.useState<MediaSize | null>(null);
   const uploadRef = React.createRef<HTMLInputElement>();
-  const [newImage, setNewImage] = React.useState(null);
-  const [croppedAreaPixels, setCroppedAreaPixels] = React.useState(null);
+  const [newImage, setNewImage] = React.useState<string | null>(null);
+  const [croppedAreaPixels, setCroppedAreaPixels] = React.useState<Area>({
+    width: AREA_SIZE_PX,
+    height: AREA_SIZE_PX,
+    x: 0,
+    y: 0,
+  });
 
   React.useEffect(() => {
     setUsername(props.username);
@@ -61,7 +64,7 @@ const UserDetails: React.FC<UserDetailsProps> = (props) => {
             icon={faPencilAlt}
             onClick={() => {
               setAvatarEdited(false);
-              props.onEdit();
+              props.onEdit?.();
             }}
           >
             Edit information
@@ -73,7 +76,7 @@ const UserDetails: React.FC<UserDetailsProps> = (props) => {
             theme={ButtonStyle.DARK}
             icon={faCross}
             onClick={() => {
-              props.onCancel();
+              props.onCancel?.();
             }}
           >
             Cancel
@@ -86,12 +89,12 @@ const UserDetails: React.FC<UserDetailsProps> = (props) => {
             icon={faCheck}
             onClick={() => {
               log(avatarEdited);
-              props.onSubmit(
+              props.onSubmit?.(
                 new Promise((resolve) => {
                   if (avatarEdited) {
                     getCroppedImg(
                       newImage || props.imageUrl,
-                      croppedAreaPixels
+                      croppedAreaPixels!
                     ).then((result) => {
                       resolve({
                         editedImg: result,
@@ -120,13 +123,16 @@ const UserDetails: React.FC<UserDetailsProps> = (props) => {
             <Input
               id={"username"}
               value={username}
-              onTextChange={(text: string) => setUsername(text)}
               theme={InputStyle.DARK}
               disabled={!props.editing || props.loading}
               onTextChange={setUsername}
+              label="Your new username"
+              hideLabel
             />
           ) : (
-            <div className="username-text">{props.username}</div>
+            <div className="username-text" aria-label="Your current username">
+              {props.username}
+            </div>
           )}
         </div>
       </section>
@@ -138,6 +144,7 @@ const UserDetails: React.FC<UserDetailsProps> = (props) => {
             editable: !props.editable,
             loading: props.loading,
           })}
+          aria-label="Your current avatar"
         >
           {props.editing && (
             <>
@@ -148,6 +155,7 @@ const UserDetails: React.FC<UserDetailsProps> = (props) => {
                 className={classnames("avatar-editor", {
                   loading: props.loading,
                 })}
+                aria-label="Your new avatar"
               >
                 <Cropper
                   image={newImage || props.imageUrl}
@@ -164,7 +172,7 @@ const UserDetails: React.FC<UserDetailsProps> = (props) => {
                     setCrop(crop);
                   }}
                   onZoomChange={(zoom) => {
-                    if (props.loading) {
+                    if (props.loading || !mediaSize) {
                       return;
                     }
                     const currentWidth = mediaSize.width * zoom;
@@ -201,12 +209,11 @@ const UserDetails: React.FC<UserDetailsProps> = (props) => {
               </div>
               <div className="upload">
                 <Button
-                  onClick={(e) => {
-                    e.preventDefault();
+                  onClick={() => {
                     if (props.loading) {
                       return;
                     }
-                    uploadRef.current.click();
+                    uploadRef.current?.click();
                   }}
                 >
                   Upload new
@@ -214,6 +221,7 @@ const UserDetails: React.FC<UserDetailsProps> = (props) => {
               </div>
               <input
                 type="file"
+                aria-label="Upload new avatar"
                 style={{ display: "none" }}
                 ref={uploadRef}
                 accept="image/png, image/gif, image/jpeg, image/bmp, image/x-icon"
@@ -225,7 +233,7 @@ const UserDetails: React.FC<UserDetailsProps> = (props) => {
                       if (!e.target?.result) {
                         return;
                       }
-                      setNewImage(e.target.result);
+                      setNewImage(e.target.result.toString());
                       setAvatarEdited(true);
                       fileInput.value = "";
                     };
@@ -365,17 +373,17 @@ export interface UserDetailsProps {
 export default UserDetails;
 
 function getObjectFitSize(
-  contains /* true = contain, false = cover */,
-  containerWidth,
-  containerHeight,
-  width,
-  height
+  contains: boolean /* true = contain, false = cover */,
+  containerWidth: number,
+  containerHeight: number,
+  width: number,
+  height: number
 ) {
-  var doRatio = width / height;
-  var cRatio = containerWidth / containerHeight;
-  var targetWidth = 0;
-  var targetHeight = 0;
-  var test = contains ? doRatio > cRatio : doRatio < cRatio;
+  const doRatio = width / height;
+  const cRatio = containerWidth / containerHeight;
+  let targetWidth = 0;
+  let targetHeight = 0;
+  const test = contains ? doRatio > cRatio : doRatio < cRatio;
 
   if (test) {
     targetWidth = containerWidth;
@@ -393,24 +401,27 @@ function getObjectFitSize(
   };
 }
 
-const createImage = (url) =>
+const createImage = (url: string) =>
   new Promise((resolve, reject) => {
     const image = new Image();
-    image.addEventListener("load", () => resolve(image));
+    image.addEventListener("load", () => {
+      resolve(image);
+    });
     image.addEventListener("error", (error) => reject(error));
     image.setAttribute("crossOrigin", "anonymous"); // needed to avoid cross-origin issues on CodeSandbox
     image.src = url;
   });
+
 /**
  * This function was adapted from the one in the ReadMe of https://github.com/DominicTobias/react-image-crop
  * @param {File} image - Image File url
  * @param {Object} pixelCrop - pixelCrop Object provided by react-easy-crop
  * @param {number} rotation - optional rotation parameter
  */
-async function getCroppedImg(imageSrc, pixelCrop, rotation = 0) {
+async function getCroppedImg(imageSrc: string, pixelCrop: Area) {
   const image = (await createImage(imageSrc)) as HTMLImageElement;
   const canvas = document.createElement("canvas");
-  const ctx = canvas.getContext("2d");
+  const ctx = canvas.getContext("2d") as CanvasRenderingContext2D;
 
   const maxSize = Math.max(image.width, image.height);
   const safeArea = 2 * ((maxSize / 2) * Math.sqrt(2));

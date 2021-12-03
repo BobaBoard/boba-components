@@ -57,7 +57,7 @@ const MenuBar: React.FC<MenuBarProps> = ({
             loading={loading}
             withDropdown={!!isLoggedIn && !!userMenuOptions?.length}
             blurred={forceHideIdentity}
-            label={!loading && !isLoggedIn ? "login" : "user-menu"}
+            label={!loading && !isLoggedIn ? "login" : "User menu"}
           />
         </div>
       </DropdownListMenu>

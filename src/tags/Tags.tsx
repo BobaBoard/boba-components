@@ -137,6 +137,8 @@ const TagsInput: React.FC<TagsInputProps> = ({
               category: tagInputState == TagInputState.CATEGORY,
               "content-warning": tagInputState == TagInputState.CONTENT_NOTICE,
             })}
+            role="textbox"
+            aria-label="The tags input area"
             ref={spanRef}
             onKeyDown={(e) => {
               const inputValue = (e.target as HTMLSpanElement).textContent;

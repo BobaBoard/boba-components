@@ -184,7 +184,10 @@ const Post = React.forwardRef<PostHandler, PostProps>((props, ref) => {
               </div>
               {props.menuOptions && (
                 <div className="post-options">
-                  <DropdownListMenu options={props.menuOptions}>
+                  <DropdownListMenu
+                    options={props.menuOptions}
+                    label="Post options"
+                  >
                     <DropdownListMenu.Header>
                       {props.menuOptionsHeader}
                     </DropdownListMenu.Header>
