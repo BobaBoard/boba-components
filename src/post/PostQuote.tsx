@@ -1,9 +1,10 @@
-import React from "react";
-import Editor from "@bobaboard/boba-editor";
-import Theme from "../theme/default";
-import Avatar from "./Avatar";
-import ActionLink from "../buttons/ActionLink";
 import { LinkWithAction, SecretIdentityType } from "types";
+
+import ActionLink from "../buttons/ActionLink";
+import Avatar from "./Avatar";
+import Editor from "@bobaboard/boba-editor";
+import React from "react";
+import Theme from "../theme/default";
 import css from "styled-jsx/css";
 
 const parseText = (text: string) => {
@@ -40,6 +41,7 @@ const PostQuote: React.FC<PostQuoteProps> = (props) => {
             secretIdentity={props.secretIdentity}
             userIdentity={props.userIdentity}
             forceHide={props.forceHideIdentity}
+            compact={true}
           />
         </div>
         <div className="creation-time">
@@ -82,9 +84,9 @@ const PostQuote: React.FC<PostQuoteProps> = (props) => {
         .avatar-container {
           bottom: 0;
           right: 0;
-          transform: translate(40%, 40%);
-          width: 50px;
-          height: 50px;
+          transform: translate(30%, 42%);
+          width: 35px;
+          height: 35px;
           position: absolute;
         }
         .creation-time {

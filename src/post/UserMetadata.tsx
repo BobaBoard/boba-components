@@ -247,7 +247,7 @@ const UserMetadata = React.forwardRef<
           .metadata-container.compact {
             flex-direction: column;
           }
-           {
+          {
             /* .timestamp {
             font-size: 14px;
             line-height: 17px;

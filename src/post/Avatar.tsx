@@ -120,8 +120,8 @@ const Avatar = React.forwardRef<HTMLDivElement, AvatarProps>((props, ref) => {
           border: 2px solid rgba(255, 255, 255, 1); 
         }
         .avatar-container.compact .secret-avatar{
-          top: 61%;
-          left: 54%;  
+          top: 21px;
+          left: 22px;  
           border: 2px solid rgba(44, 44, 44, 0.986);
         }
         .secret-avatar.visible {
