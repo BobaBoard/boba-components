@@ -1,26 +1,25 @@
-import React from "react";
-import Post, { PostHandler, PostProps } from "../../src/post/Post";
-
-import tuxedoAvatar from "../images/tuxedo-mask.jpg";
-import mamoruAvatar from "../images/mamoru.png";
-
-import oncieReaction from "../images/oncie-reaction.png";
-import sportacusReaction from "../images/sportacus-reaction.png";
-import luigiReaction from "../images/luigi-reaction.png";
-import junkoReaction from "../images/junko-reaction.png";
-import reindeerEars from "../images/reindeer-ears.png";
-import scarf from "../images/scarf.png";
-import snow from "../images/snow.gif";
-import wreath from "../images/wreath.png";
-import Button from "../../src/buttons/Button";
-import { action } from "@storybook/addon-actions";
 import {
-  editorArgTypes,
-  EditorControlsType,
   EDITOR_TEXT_VALUES,
+  EditorControlsType,
+  editorArgTypes,
   getInitialTextString,
 } from "../utils/editor-controls";
 import { Meta, Story } from "@storybook/react";
+import Post, { PostHandler, PostProps } from "../../src/post/Post";
+
+import Button from "../../src/buttons/Button";
+import React from "react";
+import { action } from "@storybook/addon-actions";
+import junkoReaction from "../images/junko-reaction.png";
+import luigiReaction from "../images/luigi-reaction.png";
+import mamoruAvatar from "../images/mamoru.png";
+import oncieReaction from "../images/oncie-reaction.png";
+import reindeerEars from "../images/reindeer-ears.png";
+import scarf from "../images/scarf.png";
+import snow from "../images/snow.gif";
+import sportacusReaction from "../images/sportacus-reaction.png";
+import tuxedoAvatar from "../images/tuxedo-mask.jpg";
+import wreath from "../images/wreath.png";
 
 export default {
   title: "Posts / Post",
@@ -47,7 +46,7 @@ const PostTemplate: Story<
 
 export const Base = PostTemplate.bind({});
 Base.args = {
-  createdTime: "2019/05/14 at 7:34pm",
+  createdTime: "3 months ago [updated 45 minutes ago]",
   secretIdentity: { name: "Tuxedo Mask", avatar: `/${tuxedoAvatar}` },
   userIdentity: { name: "SexyDaddy69", avatar: `/${mamoruAvatar}` },
   onNewContribution: () => action("newContribution"),

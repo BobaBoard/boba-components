@@ -7,7 +7,6 @@ import {
 import DropdownListMenu, { DropdownProps } from "../common/DropdownListMenu";
 
 import AccessorySelector from "./AccessorySelector";
-import ActionLink from "../buttons/ActionLink";
 import Avatar from "./Avatar";
 import DefaultTheme from "../theme/default";
 import Icon from "../common/Icon";
@@ -167,7 +166,6 @@ const UserMetadata = React.forwardRef<
     avatarDropdownLabel,
     withDropdownMetadata = true,
     createdMessage,
-    createdMessageLink,
     accessories,
     onSelectAccessory,
     selectedAccessory,
@@ -216,12 +214,7 @@ const UserMetadata = React.forwardRef<
         <div className="metadata">
           <IdentityMetadata {...props} />
           <div className="timestamp">
-            <ActionLink
-              link={createdMessageLink}
-              label="The timestamp of the post"
-            >
-              {createdMessage}
-            </ActionLink>
+            {createdMessage}
           </div> 
         </div>
       )}
@@ -249,7 +242,6 @@ const UserMetadata = React.forwardRef<
             --avatar-backdrop-color: ${DefaultTheme.LAYOUT_BOARD_BACKGROUND_COLOR};
             flex-direction: column;
           }
-          {
           .timestamp {
             display: none;
             font-size: 14px;
@@ -259,10 +251,6 @@ const UserMetadata = React.forwardRef<
             text-overflow: ellipsis;
             overflow: hidden;
             padding-left: 8px;
-          }
-          .timestamp :global(a):hover {
-            text-decoration: underline;
-          } 
           }
           .dropdown-metadata {
             padding: 20px 15px 10px;

@@ -8,6 +8,7 @@ import {
   faPlus,
 } from "@fortawesome/free-solid-svg-icons";
 
+import ActionLink from "../buttons/ActionLink";
 import Badge from "./Badge";
 import Card from "../common/Card";
 import Editor from "@bobaboard/boba-editor";
@@ -167,6 +168,14 @@ const Post = React.forwardRef<PostHandler, PostProps>((props, ref) => {
             packBottom
           />
         </div>
+        <div className="timestamp">
+            <ActionLink
+              link={props.createdTimeLink}
+              label="The timestamp of the post"
+            >
+              {props.createdTime}
+            </ActionLink>
+        </div>
         <div className="card-container" ref={containerRef}>
           <Card
             height={props.collapsed ? COLLAPSED_HEIGHT : undefined}
@@ -276,6 +285,20 @@ const Post = React.forwardRef<PostHandler, PostProps>((props, ref) => {
         .badges .badge + .badge {
           margin-left: 5px;
         }
+        .timestamp {
+          font-size: 13px;
+          line-height: 16px;
+          font-weight: 600;
+          color: #ffffff;
+          opacity: 0.7;
+          white-space: nowrap;
+          text-overflow: ellipsis;
+          overflow: hidden;
+          margin: 0 77px 2px 87px;
+        }
+        .timestamp :global(a):hover {
+          text-decoration: underline;
+        } 
         .header {
           border-radius: ${Theme.BORDER_RADIUS_REGULAR}
             ${Theme.BORDER_RADIUS_REGULAR} 0px 0px;
@@ -296,7 +319,6 @@ const Post = React.forwardRef<PostHandler, PostProps>((props, ref) => {
         .card-container {
           position: relative;
           pointer-events: all;
-          margin-top: 18px;
         }
         .card-container::after {
           content: "";

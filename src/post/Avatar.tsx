@@ -48,7 +48,7 @@ const Avatar = React.forwardRef<HTMLDivElement, AvatarProps>((props, ref) => {
         }
         .avatar-wrapper {
           position: relative;
-          margin-top: -12px;
+          margin-top: -13px;
         }
         .accessory {
           position: absolute;
