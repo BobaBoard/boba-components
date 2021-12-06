@@ -288,7 +288,7 @@ const Post = React.forwardRef<PostHandler, PostProps>((props, ref) => {
         .timestamp {
           font-size: 13px;
           line-height: 16px;
-          font-weight: 600;
+          font-weight: 400;
           color: #ffffff;
           opacity: 0.7;
           white-space: nowrap;
