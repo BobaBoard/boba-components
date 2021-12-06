@@ -125,6 +125,7 @@ const PostHeader = React.forwardRef<HTMLDivElement, PostHeaderProps>(
           avatarDropdownLabel={
             hasIdentitySelector ? "Select visible identity" : undefined
           }
+          identityDropdownLabel="Select visible identity"
           createdMessage={props.createdMessage}
           createdMessageLink={props.createdMessageLink}
           selectedAccessory={selectedAccessory}

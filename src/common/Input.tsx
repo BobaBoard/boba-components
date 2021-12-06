@@ -20,6 +20,7 @@ export interface InputProps {
   theme?: InputStyle;
   color?: string;
   password?: boolean;
+  hideLabel?: boolean;
 }
 
 const Input: React.FC<InputProps> = (props) => {
@@ -35,7 +36,10 @@ const Input: React.FC<InputProps> = (props) => {
         disabled: props.disabled,
       })}
     >
-      <label htmlFor={props.id} className="label">
+      <label
+        htmlFor={props.id}
+        className={classnames("label", { hidden: props.hideLabel })}
+      >
         {props.label}
       </label>
       <input
@@ -114,6 +118,9 @@ const Input: React.FC<InputProps> = (props) => {
         }
         .input.error .input__bottom-text {
           color: #d61313;
+        }
+        .hidden {
+          display: none;
         }
       `}</style>
     </div>

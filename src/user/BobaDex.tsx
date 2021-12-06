@@ -1,5 +1,4 @@
 import React from "react";
-
 import classnames from "classnames";
 
 const BobaDex: React.FC<BobaDexProps> = (props) => {
@@ -9,7 +8,7 @@ const BobaDex: React.FC<BobaDexProps> = (props) => {
     const matchingID = props.revealedIdentities.find((el) => el.index == i);
 
     identityCircles.push(
-      <div className="bobamon">
+      <div className="bobamon" key={matchingID?.id || i}>
         {matchingID ? (
           <>
             <figure className="portrait">
@@ -85,6 +84,7 @@ const BobaDex: React.FC<BobaDexProps> = (props) => {
 export interface BobaDexProps {
   totalIdentities: number;
   revealedIdentities: {
+    id: string;
     index: number;
     name: string;
     avatar: string;

@@ -218,7 +218,6 @@ const PostEditor = React.forwardRef<PostEditorHandler, PostEditorProps>(
                     [tags]
                   )}
                   editable
-                  accentColor={props.accentColor}
                   suggestedCategories={suggestedCategories}
                 >
                   {props.availableBoards && selectedBoard && (

@@ -26,6 +26,7 @@ export interface UserMetadataProps {
   withDropdownMetadata?: boolean;
   avatarDropdownOptions?: DropdownProps["options"];
   avatarDropdownLabel?: string;
+  identityDropdownLabel?: string;
   identityOptions?: DropdownProps["options"];
   createdMessage?: string;
   createdMessageLink?: LinkWithAction;
@@ -50,6 +51,7 @@ const IdentityMetadata: React.FC<
     accessories,
     onSelectAccessory,
     identityOptions,
+    identityDropdownLabel,
     avatarDropdownLabel,
   } = props;
 
@@ -62,7 +64,7 @@ const IdentityMetadata: React.FC<
         <DropdownListMenu
           zIndex={200}
           options={identityOptions}
-          label={avatarDropdownLabel}
+          label={identityDropdownLabel || avatarDropdownLabel}
         >
           <div
             className={classnames("identity-container", {
