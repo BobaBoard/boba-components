@@ -238,6 +238,7 @@ const UserMetadata = React.forwardRef<
       <style jsx>
         {`
           .metadata-container {
+            --avatar-backdrop-color: ${DefaultTheme.POST_BACKGROUND_COLOR};
             min-width: 0;
             width: 100%;
             display: flex;
@@ -245,6 +246,7 @@ const UserMetadata = React.forwardRef<
             align-items: flex-start;
           }
           .metadata-container.compact {
+            --avatar-backdrop-color: ${DefaultTheme.LAYOUT_BOARD_BACKGROUND_COLOR};
             flex-direction: column;
           }
           {

@@ -1,5 +1,6 @@
 import React from "react";
 import { SecretIdentityType } from "../types";
+import Theme from "../theme/default";
 import classnames from "classnames";
 import questionMark from "../images/question_mark.png";
 
@@ -77,26 +78,6 @@ const Avatar = React.forwardRef<HTMLDivElement, AvatarProps>((props, ref) => {
         }
         .avatar:not(.with-secret) {
         }
-        .avatar.with-secret {
-        /*  mask: linear-gradient(0deg, rgba(0, 0, 0, 0), rgba(0, 0, 0, 0)),
-            radial-gradient(
-                26px circle at bottom 9px right 7px,
-                transparent 50%,
-                black 51%
-              )
-              bottom right;
-          mask-size: cover;*/
-        }
-        .avatar-container.compact .avatar.with-secret {
-          /*mask: linear-gradient(0deg, rgba(0, 0, 0, 0), rgba(0, 0, 0, 0)),
-            radial-gradient(
-                24px circle at bottom 7px right 6px,
-                transparent 50%,
-                black 51%
-              )
-              bottom right;
-          mask-size: cover;*/
-        }
         .avatar-container.compact .avatar {
           width: 35px;
           height: 35px;
@@ -106,6 +87,7 @@ const Avatar = React.forwardRef<HTMLDivElement, AvatarProps>((props, ref) => {
           margin-top: 0px;
         }
         .secret-avatar {
+          --avatar-backdrop-color;
           position: absolute;
           top: 66%;
           left: 70%;
@@ -117,12 +99,11 @@ const Avatar = React.forwardRef<HTMLDivElement, AvatarProps>((props, ref) => {
           background: url("${currentAvatar}");
           background-size: cover;
           border-radius: 50%;
-          border: 2px solid rgba(255, 255, 255, 1); 
+          border: 2px solid var(--avatar-backdrop-color, white); 
         }
         .avatar-container.compact .secret-avatar{
           top: 21px;
           left: 22px;  
-          border: 2px solid rgba(44, 44, 44, 0.986);
         }
         .secret-avatar.visible {
           display: block;

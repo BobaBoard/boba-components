@@ -82,6 +82,7 @@ const PostQuote: React.FC<PostQuoteProps> = (props) => {
           margin-bottom: 15px;
         }
         .avatar-container {
+          --avatar-backdrop-color: ${Theme.LAYOUT_BOARD_SIDEBAR_BACKGROUND_COLOR};
           bottom: 0;
           right: 0;
           transform: translate(30%, 42%);
