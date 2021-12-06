@@ -215,14 +215,14 @@ const UserMetadata = React.forwardRef<
       {!isCompact && (
         <div className="metadata">
           <IdentityMetadata {...props} />
-          {/* <div className="timestamp">
+          <div className="timestamp">
             <ActionLink
               link={createdMessageLink}
               label="The timestamp of the post"
             >
               {createdMessage}
             </ActionLink>
-          </div> */}
+          </div> 
         </div>
       )}
       {isCompact && accessories?.length && onSelectAccessory && (
@@ -250,7 +250,8 @@ const UserMetadata = React.forwardRef<
             flex-direction: column;
           }
           {
-            /* .timestamp {
+          .timestamp {
+            display: none;
             font-size: 14px;
             line-height: 17px;
             color: ${DefaultTheme.POST_HEADER_DATE_COLOR};
@@ -261,15 +262,18 @@ const UserMetadata = React.forwardRef<
           }
           .timestamp :global(a):hover {
             text-decoration: underline;
-          } */
+          } 
           }
           .dropdown-metadata {
-            padding: 15px;
+            padding: 20px 15px 10px;
           }
           .dropdown-metadata.with-options {
             padding-bottom: 10px;
             margin-bottom: 5px;
             border-bottom: 1px dashed black;
+          }
+          .dropdown-metadata .timestamp {
+            display: block;
           }
           .metadata {
             flex-grow: 1;
@@ -279,7 +283,7 @@ const UserMetadata = React.forwardRef<
             text-align: left;
           }
           .accessory-selector {
-            margin-top: 5px;
+            margin-top: 7px;
           }
         `}
       </style>

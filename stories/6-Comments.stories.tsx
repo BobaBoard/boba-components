@@ -137,6 +137,7 @@ export const CommentChainStory = () => {
           avatar: `/${tuxedoAvatar}`,
         }}
         userIdentity={{ name: "SexyDaddy69", avatar: `/${mamoruAvatar}` }}
+        createdTime="69 days ago."
       />
       <div style={{ width: "320px" }}>
         <CommentChain
