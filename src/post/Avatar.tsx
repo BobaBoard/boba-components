@@ -1,6 +1,5 @@
 import React from "react";
 import { SecretIdentityType } from "../types";
-import Theme from "../theme/default";
 import classnames from "classnames";
 import questionMark from "../images/question_mark.png";
 

@@ -7,6 +7,7 @@ import {
 import DropdownListMenu, { DropdownProps } from "../common/DropdownListMenu";
 
 import AccessorySelector from "./AccessorySelector";
+import ActionLink from "../buttons/ActionLink";
 import Avatar from "./Avatar";
 import DefaultTheme from "../theme/default";
 import Icon from "../common/Icon";
@@ -168,6 +169,7 @@ const UserMetadata = React.forwardRef<
     avatarDropdownLabel,
     withDropdownMetadata = true,
     createdMessage,
+    createdMessageLink,
     accessories,
     onSelectAccessory,
     selectedAccessory,
@@ -216,8 +218,13 @@ const UserMetadata = React.forwardRef<
         <div className="metadata">
           <IdentityMetadata {...props} />
           <div className="timestamp">
-            {createdMessage}
-          </div> 
+            <ActionLink
+              link={createdMessageLink}
+              label="The timestamp of the post"
+            >
+              {createdMessage}
+            </ActionLink>
+          </div>
         </div>
       )}
       {isCompact && accessories?.length && onSelectAccessory && (
@@ -245,14 +252,18 @@ const UserMetadata = React.forwardRef<
             flex-direction: column;
           }
           .timestamp {
-            display: none;
+            /* Uncomment to switch to timestamp above Post */ 
+            /* display: none; */
             font-size: 14px;
             line-height: 17px;
             color: ${DefaultTheme.POST_HEADER_DATE_COLOR};
             white-space: nowrap;
             text-overflow: ellipsis;
             overflow: hidden;
-            padding-left: 8px;
+            padding-left: 6px; 
+          }
+          .timestamp :global(a):hover {
+          text-decoration: underline;
           }
           .dropdown-metadata {
             padding: 20px 15px 10px;
@@ -262,13 +273,15 @@ const UserMetadata = React.forwardRef<
             margin-bottom: 5px;
             border-bottom: 1px dashed black;
           }
-          .dropdown-metadata .timestamp {
+          /* Uncomment to switch to timestamp above Post*/
+          /* .dropdown-metadata .timestamp {
             display: block;
-          }
+          } */
           .metadata {
             flex-grow: 1;
             overflow: hidden;
             padding-right: 5px;
+            padding-top: 5px;
             margin: auto 0px 0px 10px;
             text-align: left;
           }

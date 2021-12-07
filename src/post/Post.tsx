@@ -165,14 +165,15 @@ const Post = React.forwardRef<PostHandler, PostProps>((props, ref) => {
           packBottom
         />
       </div>
-      <div className="timestamp">
+      {/* Uncomment to switch to timestamp above Post */}
+      {/* <div className="timestamp">
             <ActionLink
               link={props.createdTimeLink}
               label="The timestamp of the post"
             >
               {props.createdTime}
             </ActionLink>
-        </div>
+        </div> */}
       <div className="card-container" ref={containerRef}>
         <Card
           height={props.collapsed ? COLLAPSED_HEIGHT : undefined}
@@ -285,7 +286,8 @@ const Post = React.forwardRef<PostHandler, PostProps>((props, ref) => {
         .badges .badge + .badge {
           margin-left: 5px;
         }
-        .timestamp {
+        /* Uncomment to switch to timestamp above Post */
+        /* .timestamp {
           font-size: 13px;
           line-height: 16px;
           font-weight: 400;
@@ -298,11 +300,11 @@ const Post = React.forwardRef<PostHandler, PostProps>((props, ref) => {
         }
         .timestamp :global(a):hover {
           text-decoration: underline;
-        } 
+        } */
         .header {
           border-radius: ${Theme.BORDER_RADIUS_REGULAR}
             ${Theme.BORDER_RADIUS_REGULAR} 0px 0px;
-          padding: 0px 8px 11px 15px;
+          padding: 0px 8px 9px 15px;
           display: flex;
           border-bottom: 1px dotted rgba(0, 0, 0, 0.3);
           max-width: 100%;
@@ -319,6 +321,8 @@ const Post = React.forwardRef<PostHandler, PostProps>((props, ref) => {
         .card-container {
           position: relative;
           pointer-events: all;
+          /* Comment this out if putting timestamp above post */
+          margin-top: 17px;
         }
         .card-container::after {
           content: "";

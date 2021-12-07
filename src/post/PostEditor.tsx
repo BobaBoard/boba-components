@@ -272,7 +272,7 @@ const PostEditor = React.forwardRef<PostEditorHandler, PostEditorProps>(
             width: 100%;
           }
           .header {
-            padding: 0 0 10px 5px;
+            padding: 0 0 9px 5px;
             margin: 0 10px 5px 10px;
             border-bottom: 1px solid #d2d2d2;
             display: flex;
