@@ -75,6 +75,7 @@ const LoadingBar = (props: LoadingBarProps) => {
       aria-valuemin={0}
       aria-valuemax={100}
       aria-hidden={!props.loading}
+      aria-label={props.label}
     >
       <div className="bar" ref={barRef} />
       <style jsx>{`
@@ -118,6 +119,7 @@ const LoadingBar = (props: LoadingBarProps) => {
 export default LoadingBar;
 
 export interface LoadingBarProps {
+  label: string;
   accentColor?: string;
   loading?: boolean;
   className?: string;

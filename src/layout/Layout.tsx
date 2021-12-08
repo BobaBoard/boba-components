@@ -117,10 +117,13 @@ const Layout = React.forwardRef<LayoutHandler, LayoutProps>(
         forceHideIdentity={forceHideIdentity}
       />
     );
-    console.log(loading);
     return (
       <div ref={layoutRef}>
-        <LoadingBar loading={loading} accentColor={headerAccent} />
+        <LoadingBar
+          loading={loading}
+          accentColor={headerAccent}
+          label="header loading bar"
+        />
         <div className="layout">
           <QuickAccessBar
             hasNotifications={!!hasNotifications}
