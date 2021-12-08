@@ -117,6 +117,7 @@ const Layout = React.forwardRef<LayoutHandler, LayoutProps>(
         forceHideIdentity={forceHideIdentity}
       />
     );
+    console.log(loading);
     return (
       <div ref={layoutRef}>
         <LoadingBar loading={loading} accentColor={headerAccent} />

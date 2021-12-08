@@ -1,12 +1,10 @@
-import React from "react";
 import Layout, { LayoutProps } from "../../src/layout/Layout";
-
 import { faInbox, faSearch, faTh } from "@fortawesome/free-solid-svg-icons";
 
+import { MultipleSections } from "../20-SideMenu/01-PinnedMenu.stories";
+import React from "react";
 import { Story } from "@storybook/react";
 import { action } from "@storybook/addon-actions";
-import { MultipleSections } from "../20-SideMenu/01-PinnedMenu.stories";
-
 import mamoru from "../images/mamoru.png";
 
 export default {
@@ -105,7 +103,9 @@ LoggedInLayout.args = {
     username: "SexyDaddy69",
     avatarUrl: mamoru,
   },
-  onUserBarClick: action("userbarClick"),
+  onUserBarClick: {
+    onClick: action("userbarClick"),
+  },
   loggedInMenuOptions: [
     {
       icon: faSearch,
@@ -133,3 +133,40 @@ LoadingLayout.args = {
   hasNotifications: true,
   headerAccent: "red",
 };
+LoadingLayout.decorators = [
+  (Story, storyArgs) => {
+    const [loading, setLoading] = React.useState(storyArgs.args.loading);
+    const newStoryContenxt: typeof storyArgs = {
+      ...storyArgs,
+      args: {
+        ...storyArgs.args,
+        loading: loading,
+      },
+    };
+
+    return (
+      <div
+        style={{
+          width: "100%",
+          height: "100%",
+          position: "relative",
+        }}
+      >
+        {/* @ts-expect-error */}
+        <Story {...newStoryContenxt} />
+        <button
+          style={{
+            position: "absolute",
+            top: "300px",
+            left: "50%",
+            padding: "10px",
+            zIndex: 1000,
+          }}
+          onClick={() => setLoading(!loading)}
+        >
+          {loading ? "Stop loading bar" : "Start loading bar"}
+        </button>
+      </div>
+    );
+  },
+];

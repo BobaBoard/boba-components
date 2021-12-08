@@ -108,7 +108,7 @@ const CommentFooter = (props: {
   );
 };
 
-const MAX_CHARACTERS = 300;
+const MAX_CHARACTERS = 421;
 const Comment = React.forwardRef<EditorRef, CommentProps>((props, ref) => {
   const headerRef = React.useRef<HTMLDivElement>(null);
   const editorRef = React.useRef<HTMLDivElement>(null);
