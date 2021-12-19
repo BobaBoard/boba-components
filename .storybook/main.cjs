@@ -1,5 +1,6 @@
 const ReactDocgenTypescriptPlugin = require("react-docgen-typescript-plugin")
   .default;
+const TsconfigPathsPlugin = require("tsconfig-paths-webpack-plugin");
 
 module.exports = {
   stories: ["../stories/**/*.stories.tsx"],
@@ -12,4 +13,13 @@ module.exports = {
     // Will default to loading your root tsconfig.json
     new ReactDocgenTypescriptPlugin(),
   ],
+  webpackFinal: async (config, { configType }) => {
+    config.resolve.plugins.push(
+      new TsconfigPathsPlugin({
+        configFile: "./tsconfig.json",
+      })
+    );
+
+    return config;
+  },
 };
