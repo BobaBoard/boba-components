@@ -110,3 +110,4 @@ dist
 *.DS_Store
 
 .github
+stats.json
