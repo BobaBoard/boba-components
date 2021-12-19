@@ -64,7 +64,10 @@ CompactTextComment.decorators = [WRAP_COMPACT_DECORATOR];
 export const CompactTextWithAction = CommentTemplate.bind({});
 CompactTextWithAction.args = {
   ...CompactTextComment.args,
-  onExtraAction: () => action("click")(),
+  onExtraAction: {
+    onClick: () => action("click")(),
+    label: "onExtraAction trigger",
+  },
 };
 CompactTextWithAction.decorators = [WRAP_COMPACT_DECORATOR];
 
@@ -89,7 +92,10 @@ CompactImageComment.decorators = [WRAP_COMPACT_DECORATOR];
 export const CompactImageCommentWithAction = CommentTemplate.bind({});
 CompactImageCommentWithAction.args = {
   ...ImageComment.args,
-  onExtraAction: () => action("click")(),
+  onExtraAction: {
+    onClick: () => action("click")(),
+    label: "onExtraAction trigger",
+  },
 };
 CompactImageCommentWithAction.decorators = [WRAP_COMPACT_DECORATOR];
 

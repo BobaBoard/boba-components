@@ -67,7 +67,10 @@ const COMMENT_ARGS: CommentProps = {
     avatar: `/${mamoruAvatar}`,
   },
   createdTime: "At some point",
-  onExtraAction: () => action("extra")(),
+  onExtraAction: {
+    onClick: () => action("click")(),
+    label: "onExtraAction trigger",
+  },
 };
 
 export const SingleThread = () => {

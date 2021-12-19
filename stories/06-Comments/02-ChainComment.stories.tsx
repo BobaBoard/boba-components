@@ -48,9 +48,15 @@ export const ChainComment = CommentTemplate.bind({});
 ChainComment.args = {
   comments: [
     {
+      id: "48d487fc-078c-45c7-b24a-e118f069a8a6",
+      text: `[{"insert":"I shall not stand for "},
+              {"attributes":{"link":"https://www.reddit.com/r/shittymoviedetails/comments/dkzq56/in_the_hunchback_of_notre_dame_judge_claude/"},"insert":"this slander"},
+              {"insert":"!\\n"}]`,
+    },
+    {
       id: "689c6467-4dfd-4434-8bca-a8f1b04bc1e8",
       text:
-        '[{"insert": "I\'m a man of simple taste. I see half an ankle and go:"}]',
+        '[{"insert": "I\'m just a man of simple taste. I see half an ankle and go:"}]',
     },
     {
       id: "91648c92-d86b-4e31-86c8-5f0e3b7a04a7",
@@ -70,7 +76,10 @@ CompactChainComment.decorators = [WRAP_COMPACT_DECORATOR];
 export const CompactChainCommentWithAction = CommentTemplate.bind({});
 CompactChainCommentWithAction.args = {
   ...CompactChainComment.args,
-  onExtraAction: () => action("click")(),
+  onExtraAction: {
+    onClick: () => action("click")(),
+    label: "onExtraAction trigger",
+  },
 };
 CompactChainCommentWithAction.decorators = [WRAP_COMPACT_DECORATOR];
 
