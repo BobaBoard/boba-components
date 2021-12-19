@@ -2,24 +2,13 @@ import "@testing-library/jest-dom/extend-expect";
 
 import * as stories from "stories/06-Comments/02-ChainComment.stories";
 
-import {
-  Screen,
-  fireEvent,
-  render,
-  screen,
-  waitFor,
-  within,
-} from "@testing-library/react";
+import { render, screen, waitFor } from "@testing-library/react";
 
 import { DeltaMatcher } from "../utils/matchers";
-import { DescriptionType } from "types";
 import React from "react";
 import { action } from "@storybook/addon-actions";
 import { composeStories } from "@storybook/testing-react";
-import { getDeltaSummary } from "@bobaboard/boba-editor";
 import { mocked } from "ts-jest/utils";
-import userEvent from "@testing-library/user-event";
-import { v4 } from "uuid";
 
 jest.mock("@storybook/addon-actions");
 
