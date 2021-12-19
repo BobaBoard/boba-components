@@ -1,26 +1,22 @@
-import React from "react";
-import Post, { PostHandler, PostProps } from "../../src/post/Post";
-
-import tuxedoAvatar from "../images/tuxedo-mask.jpg";
-import mamoruAvatar from "../images/mamoru.png";
-
-import oncieReaction from "../images/oncie-reaction.png";
-import sportacusReaction from "../images/sportacus-reaction.png";
-import luigiReaction from "../images/luigi-reaction.png";
-import junkoReaction from "../images/junko-reaction.png";
-import reindeerEars from "../images/reindeer-ears.png";
-import scarf from "../images/scarf.png";
-import snow from "../images/snow.gif";
-import wreath from "../images/wreath.png";
-import Button from "../../src/buttons/Button";
-import { action } from "@storybook/addon-actions";
 import {
-  editorArgTypes,
-  EditorControlsType,
   EDITOR_TEXT_VALUES,
+  EditorControlsType,
+  editorArgTypes,
   getInitialTextString,
 } from "../utils/editor-controls";
 import { Meta, Story } from "@storybook/react";
+import Post, { PostHandler, PostProps } from "../../src/post/Post";
+
+import Button from "../../src/buttons/Button";
+import React from "react";
+import { WITH_ACCESSORIES_DECORATOR } from "../utils/decorators";
+import { action } from "@storybook/addon-actions";
+import junkoReaction from "../images/junko-reaction.png";
+import luigiReaction from "../images/luigi-reaction.png";
+import mamoruAvatar from "../images/mamoru.png";
+import oncieReaction from "../images/oncie-reaction.png";
+import sportacusReaction from "../images/sportacus-reaction.png";
+import tuxedoAvatar from "../images/tuxedo-mask.jpg";
 
 export default {
   title: "Posts / Post",
@@ -173,41 +169,7 @@ WithDropdownAction.args = {
 
 export const WithAccessories = PostTemplate.bind({});
 WithAccessories.args = Tagged.args;
-WithAccessories.decorators = [
-  (Story, storyArgs) => {
-    const [currentAccessory, setCurrentAccessory] = React.useState<
-      string | undefined
-    >(reindeerEars);
-    storyArgs.args.secretIdentity = {
-      ...storyArgs.args.secretIdentity,
-      accessory: currentAccessory,
-    };
-    return (
-      <div style={{ marginLeft: "20px" }}>
-        {/* @ts-ignore */}
-        <Story />
-        <div
-          style={{
-            position: "absolute",
-            right: 0,
-            bottom: 0,
-            zIndex: 2000,
-            display: "flex",
-            flexDirection: "column",
-          }}
-        >
-          <button onClick={() => setCurrentAccessory(undefined)}>None</button>
-          <button onClick={() => setCurrentAccessory(reindeerEars)}>
-            Reindeer
-          </button>
-          <button onClick={() => setCurrentAccessory(wreath)}>Wreath</button>
-          <button onClick={() => setCurrentAccessory(scarf)}>Scarf</button>
-          <button onClick={() => setCurrentAccessory(snow)}>Snow</button>
-        </div>
-      </div>
-    );
-  },
-];
+WithAccessories.decorators = [WITH_ACCESSORIES_DECORATOR];
 
 export const TestHighlight = PostTemplate.bind({});
 TestHighlight.args = Tagged.args;

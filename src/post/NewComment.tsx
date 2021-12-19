@@ -56,6 +56,7 @@ const Comment = React.forwardRef<CommentHandler, CommentProps>(
         );
       },
       avatarRef,
+      headerRef,
     }));
 
     return (
@@ -254,7 +255,6 @@ Comment.displayName = "Comment";
 
 export interface CommentHandler {
   highlight: (color: string) => void;
-  editorRef?: React.RefObject<HTMLDivElement>;
   avatarRef?: React.RefObject<HTMLDivElement>;
   headerRef?: React.RefObject<HTMLDivElement>;
 }

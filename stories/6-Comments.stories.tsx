@@ -426,6 +426,7 @@ export const CommentHyperlinkAtTopStory = () => {
         new={true}
         op={true}
         createdTime="tomorrow"
+        onExtraAction={() => {}}
         secretIdentity={{
           name: "Tuxedo Mask",
           avatar: `/${tuxedoAvatar}`,

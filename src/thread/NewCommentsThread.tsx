@@ -1,6 +1,7 @@
 import React, { Children } from "react";
 
 import Theme from "../theme/default";
+import { debug } from "console";
 import { lightenColor } from "../utils";
 
 const INDENT_WIDTH_PX = 25;

@@ -21,7 +21,7 @@ import mamoruAvatar from "../images/mamoru.png";
 import tuxedoAvatar from "../images/tuxedo-mask.jpg";
 
 export default {
-  title: "Comment/Single Comment",
+  title: "Comment/Chained Comments",
   component: NewComment,
   argTypes: {
     ...editorArgTypes,
@@ -47,35 +47,16 @@ const CommentTemplate: Story<CommentProps> = (args) => {
   return <NewComment {...args} ref={args.ref || undefined} />;
 };
 
-export const TextComment = CommentTemplate.bind({});
-TextComment.args = {
+export const ChainComment = CommentTemplate.bind({});
+ChainComment.args = {
   comments: [
     {
-      id: "first_comment",
+      id: "689c6467-4dfd-4434-8bca-a8f1b04bc1e8",
       text:
-        '[{"insert":"This card has a really long word: JugemuJugemuGokonoSurikireKaijarisuigyonoSuigyomatsuUnraimatsuFuraimatsuKuNeruTokoroniSumuTokoroYaburaKojinoBuraKojiPaipopaipoPaiponoShuringanShuringannoGurindaiGurindainoPonpokopinoPonpokonanoChokyumeinoChosuke."}]',
+        '[{"insert": "I\'m a man of simple taste. I see half an ankle and go:"}]',
     },
-  ],
-  secretIdentity: { name: "Tuxedo Mask", avatar: `/${tuxedoAvatar}` },
-  userIdentity: { name: "SexyDaddy69", avatar: `/${mamoruAvatar}` },
-};
-
-export const CompactTextComment = CommentTemplate.bind({});
-CompactTextComment.args = TextComment.args;
-CompactTextComment.decorators = [WRAP_COMPACT_DECORATOR];
-
-export const CompactTextWithAction = CommentTemplate.bind({});
-CompactTextWithAction.args = {
-  ...CompactTextComment.args,
-  onExtraAction: () => action("click")(),
-};
-CompactTextWithAction.decorators = [WRAP_COMPACT_DECORATOR];
-
-export const ImageComment = CommentTemplate.bind({});
-ImageComment.args = {
-  comments: [
     {
-      id: "first_comment",
+      id: "91648c92-d86b-4e31-86c8-5f0e3b7a04a7",
       text:
         '[{"insert":{"block-image":{"src":"https://media.tenor.com/images/2d4aeafd88c82922635b972e454c07d3/tenor.gif","spoilers":false,"width":320,"height":176}}},{"insert":""}]',
     },
@@ -85,35 +66,35 @@ ImageComment.args = {
   createdTime: "At some point.",
 };
 
-export const CompactImageComment = CommentTemplate.bind({});
-CompactImageComment.args = ImageComment.args;
-CompactImageComment.decorators = [WRAP_COMPACT_DECORATOR];
+export const CompactChainComment = CommentTemplate.bind({});
+CompactChainComment.args = ChainComment.args;
+CompactChainComment.decorators = [WRAP_COMPACT_DECORATOR];
 
-export const CompactImageCommentWithAction = CommentTemplate.bind({});
-CompactImageCommentWithAction.args = {
-  ...ImageComment.args,
+export const CompactChainCommentWithAction = CommentTemplate.bind({});
+CompactChainCommentWithAction.args = {
+  ...CompactChainComment.args,
   onExtraAction: () => action("click")(),
 };
-CompactImageCommentWithAction.decorators = [WRAP_COMPACT_DECORATOR];
+CompactChainCommentWithAction.decorators = [WRAP_COMPACT_DECORATOR];
 
-export const CompactImageCommentWithBadges = CommentTemplate.bind({});
-CompactImageCommentWithBadges.args = {
-  ...CompactImageCommentWithAction.args,
+export const CompactChainCommentWithBadges = CommentTemplate.bind({});
+CompactChainCommentWithBadges.args = {
+  ...CompactChainCommentWithAction.args,
   op: true,
   new: true,
 };
-CompactImageCommentWithAction.decorators = [WRAP_COMPACT_DECORATOR];
+CompactChainCommentWithBadges.decorators = [WRAP_COMPACT_DECORATOR];
 
-export const CompactImageCommentWithHiddenIdentity = CommentTemplate.bind({});
-CompactImageCommentWithHiddenIdentity.args = {
-  ...CompactImageCommentWithBadges.args,
+export const CompactChainCommentWithHiddenIdentity = CommentTemplate.bind({});
+CompactChainCommentWithHiddenIdentity.args = {
+  ...CompactChainCommentWithBadges.args,
   forceHideIdentity: true,
 };
-CompactImageCommentWithHiddenIdentity.decorators = [WRAP_COMPACT_DECORATOR];
+CompactChainCommentWithHiddenIdentity.decorators = [WRAP_COMPACT_DECORATOR];
 
-export const CompactImageCommentWithOptions = CommentTemplate.bind({});
-CompactImageCommentWithOptions.args = {
-  ...CompactImageCommentWithBadges.args,
+export const CompactChainCommentWithOptions = CommentTemplate.bind({});
+CompactChainCommentWithOptions.args = {
+  ...CompactChainCommentWithBadges.args,
   options: [
     {
       name: "Pin board",
@@ -145,13 +126,13 @@ CompactImageCommentWithOptions.args = {
     },
   ],
 };
-CompactImageCommentWithOptions.decorators = [WRAP_COMPACT_DECORATOR];
+CompactChainCommentWithOptions.decorators = [WRAP_COMPACT_DECORATOR];
 
-export const CompactImageCommentWithHighlight = CommentTemplate.bind({});
-CompactImageCommentWithHighlight.args = {
-  ...CompactImageCommentWithAction.args,
+export const CompactChainCommentWithHighlight = CommentTemplate.bind({});
+CompactChainCommentWithHighlight.args = {
+  ...CompactChainCommentWithBadges.args,
 };
-CompactImageCommentWithHighlight.decorators = [
+CompactChainCommentWithHighlight.decorators = [
   WRAP_COMPACT_DECORATOR,
   (Story, storyArgs) => {
     const commentRef = React.createRef<CommentHandler>();
@@ -172,11 +153,11 @@ CompactImageCommentWithHighlight.decorators = [
   },
 ];
 
-export const CompactImageCommentWithAccessories = CommentTemplate.bind({});
-CompactImageCommentWithAccessories.args = {
-  ...CompactImageCommentWithBadges.args,
+export const CompactChainCommentWithAccessories = CommentTemplate.bind({});
+CompactChainCommentWithAccessories.args = {
+  ...CompactChainCommentWithBadges.args,
 };
-CompactImageCommentWithAccessories.decorators = [
+CompactChainCommentWithAccessories.decorators = [
   WRAP_COMPACT_DECORATOR,
   WITH_ACCESSORIES_DECORATOR,
 ];
