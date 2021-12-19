@@ -8,6 +8,7 @@ module.exports = {
     "@storybook/addon-links",
     "@storybook/addon-a11y",
     "@storybook/addon-essentials",
+    "storybook-addon-pseudo-states",
   ],
   plugins: [
     // Will default to loading your root tsconfig.json
