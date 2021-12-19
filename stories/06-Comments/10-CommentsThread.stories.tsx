@@ -1,9 +1,6 @@
-import { Meta, Story } from "@storybook/react";
-import NewComment, {
-  CommentHandler,
-  CommentProps,
-} from "../../src/post/NewComment";
+import NewComment, { CommentProps } from "../../src/post/NewComment";
 
+import { Meta } from "@storybook/react";
 import NewCommentsThread from "../../src/thread/NewCommentsThread";
 import React from "react";
 import Theme from "../../src/theme/default";

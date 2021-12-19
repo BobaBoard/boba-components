@@ -11,11 +11,10 @@ import BoardSidebar from "./sidebar/BoardSidebar";
 import BoardsDisplay from "./board/BoardsDisplay";
 import BobaDex from "./user/BobaDex";
 import CollapsedPlaceholder from "./thread/CollapsedPlaceholder";
-import Comment from "./post/Comment";
-import CommentChain from "./post/CommentChain";
+import Comment from "./post/NewComment";
 import CommentChainEditor from "./post/CommentChainEditor";
 import CommentEditor from "./post/CommentEditor";
-import type { CommentHandler } from "./post/Comment";
+import type { CommentHandler } from "./post/NewComment";
 import CompactPostThread from "./post/CompactPostThread";
 import CustomCursor from "./layout/CustomCursor";
 import CycleNewButton from "./board/CycleNewButton";
@@ -73,7 +72,6 @@ export {
   PostEditor,
   PostingActionButton,
   Comment,
-  CommentChain,
   CommentChainEditor,
   CompactPostThread,
   CommentEditor,

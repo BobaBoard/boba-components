@@ -1,23 +1,9 @@
-import React from "react";
-import ThreadIndent from "../src/post/ThreadIndent";
-import CollapsedPlaceholder from "../src/thread/CollapsedPlaceholder";
-import Thread, { CollapseGroup } from "../src/thread/NewThread";
-import NewCommentsThread from "../src/thread/NewCommentsThread";
+import Comment, { CommentHandler } from "../src/post/NewComment";
 import CompactThreadIndent, {
   useIndent,
 } from "../src/post/CompactThreadIndent";
 import Post, { PostSizes } from "../src/post/Post";
-
-import Theme from "../src/theme/default";
-
-import oncelerAvatar from "./images/oncie.jpg";
-import greedlerAvatar from "./images/greedler.jpg";
-import tuxedoAvatar from "./images/tuxedo-mask.jpg";
-import mamoruAvatar from "./images/mamoru.png";
-import hannibalAvatar from "./images/hannibal.png";
-import CommentChain from "../src/post/CommentChain";
-import { CommentHandler } from "index";
-import { action } from "@storybook/addon-actions";
+import Thread, { CollapseGroup } from "../src/thread/NewThread";
 import {
   faAngleDoubleUp,
   faBellSlash,
@@ -26,6 +12,16 @@ import {
   faPaintBrush,
   faPlusSquare,
 } from "@fortawesome/free-solid-svg-icons";
+
+import CollapsedPlaceholder from "../src/thread/CollapsedPlaceholder";
+import React from "react";
+import Theme from "../src/theme/default";
+import ThreadIndent from "../src/post/ThreadIndent";
+import { action } from "@storybook/addon-actions";
+import greedlerAvatar from "./images/greedler.jpg";
+import hannibalAvatar from "./images/hannibal.png";
+import mamoruAvatar from "./images/mamoru.png";
+import tuxedoAvatar from "./images/tuxedo-mask.jpg";
 
 export default {
   title: "Thread Preview",
@@ -246,7 +242,7 @@ export const ThreadedComments = () => {
     >
       <CompactThreadIndent level={0} startsFromViewport={lvl0Indent.bounds}>
         <div style={{ paddingTop: "15px", maxWidth: "550px" }}>
-          <CommentChain
+          <Comment
             ref={(ref) => lvl0Indent.setHandler(ref)}
             comments={[
               {
@@ -272,7 +268,7 @@ export const ThreadedComments = () => {
         </div>
         <CompactThreadIndent level={1} startsFromViewport={lvl1Indent.bounds}>
           <div style={{ paddingTop: "15px", opacity: 1 }}>
-            <CommentChain
+            <Comment
               ref={(ref) => lvl1Indent.setHandler(ref)}
               comments={[
                 {
@@ -295,7 +291,7 @@ export const ThreadedComments = () => {
               }}
               userIdentity={{ name: "SexyDaddy69", avatar: `/${mamoruAvatar}` }}
             />
-            <CommentChain
+            <Comment
               ref={(ref) => lvl1p2Indent.setHandler(ref)}
               comments={[
                 {
@@ -321,7 +317,7 @@ export const ThreadedComments = () => {
           </div>{" "}
           <CompactThreadIndent level={2} startsFromViewport={lvl2Indent.bounds}>
             <div style={{ paddingTop: "15px", opacity: 1 }}>
-              <CommentChain
+              <Comment
                 ref={(ref) => lvl2Indent.setHandler(ref)}
                 comments={[
                   {
@@ -352,7 +348,7 @@ export const ThreadedComments = () => {
               level={3}
               startsFromViewport={lvl3Indent.bounds}
             >
-              <CommentChain
+              <Comment
                 ref={(ref: CommentHandler | null) => lvl3Indent.setHandler(ref)}
                 comments={[
                   {
@@ -384,7 +380,7 @@ export const ThreadedComments = () => {
 
         <CompactThreadIndent level={1} startsFromViewport={lvl1p3Indent.bounds}>
           <div style={{ paddingTop: "15px", opacity: 1 }}>
-            <CommentChain
+            <Comment
               ref={(ref) => lvl1p3Indent.setHandler(ref)}
               comments={[
                 {
@@ -435,7 +431,7 @@ export const SingleThreadedComments = () => {
     >
       <CompactThreadIndent level={0} startsFromViewport={lvl0Indent.bounds}>
         <div style={{ paddingTop: "15px", maxWidth: "550px" }}>
-          <CommentChain
+          <Comment
             ref={(ref) => lvl0Indent.setHandler(ref)}
             comments={React.useMemo(
               () => [
@@ -888,7 +884,7 @@ export const NewRegularThread = () => {
                             level={0}
                             startsFromViewport={lvl0Indent.bounds}
                           >
-                            <CommentChain
+                            <Comment
                               ref={(ref) => lvl0Indent.setHandler(ref)}
                               comments={React.useMemo(
                                 () => [
@@ -1048,702 +1044,6 @@ export const NewRegularThread = () => {
           </>
         )}
       </Thread>
-    </div>
-  );
-};
-
-export const CommentsThread = () => {
-  const [additionalComments, setAdditionalComments] = React.useState(0);
-  return (
-    <div>
-      <div style={{ display: "flex" }}>
-        <div
-          style={{
-            marginLeft: "100px",
-            backgroundColor: "Theme.LAYOUT_BOARD_BACKGROUND_COLOR",
-          }}
-        >
-          <div
-            style={{
-              height: "70px",
-              backgroundColor: "red",
-              position: "sticky",
-              top: 0,
-            }}
-          >
-            This Div simulates Boba's sticky header
-          </div>
-          <NewCommentsThread>
-            {(setBoundaryElement) => (
-              <>
-                <div style={{ paddingTop: "15px", maxWidth: "550px" }}>
-                  <CommentChain
-                    ref={(ref) =>
-                      setBoundaryElement(ref?.avatarRef?.current || null)
-                    }
-                    comments={[
-                      {
-                        id: "1",
-                        text:
-                          '[{"insert": "[LVL 0] I mean, sure, but you know what also is great?"}]',
-                      },
-                      {
-                        id: "2",
-                        text: '[{"insert": "Deze nuts."}]',
-                      },
-                      {
-                        id: "3",
-                        text: '[{"insert": "Wait is that how you type it?"}]',
-                      },
-                    ]}
-                    secretIdentity={{
-                      name: "Tuxedo Mask",
-                      avatar: `/${tuxedoAvatar}`,
-                    }}
-                    userIdentity={{
-                      name: "SexyDaddy69",
-                      avatar: `/${mamoruAvatar}`,
-                    }}
-                  />
-                </div>
-                <NewCommentsThread.Indent>
-                  <NewCommentsThread.Item>
-                    {(setBoundaryElement) => (
-                      <CommentChain
-                        ref={(ref) =>
-                          setBoundaryElement(ref?.avatarRef?.current || null)
-                        }
-                        comments={[
-                          {
-                            id: "1",
-                            text:
-                              '[{"insert": "[LVL 1]I mean, sure, but you know what also is great?"}]',
-                          },
-                          {
-                            id: "2",
-                            text: '[{"insert": "Deze nuts."}]',
-                          },
-                          {
-                            id: "3",
-                            text:
-                              '[{"insert": "Wait is that how you type it?"}]',
-                          },
-                        ]}
-                        secretIdentity={{
-                          name: "Tuxedo Mask",
-                          avatar: `/${tuxedoAvatar}`,
-                        }}
-                        userIdentity={{
-                          name: "SexyDaddy69",
-                          avatar: `/${mamoruAvatar}`,
-                        }}
-                        onExtraAction={action("extra")}
-                      />
-                    )}
-                  </NewCommentsThread.Item>
-                  {additionalComments > 0 && (
-                    <NewCommentsThread.Item>
-                      {(setBoundaryElement) => (
-                        <>
-                          <CommentChain
-                            ref={(ref) =>
-                              setBoundaryElement(
-                                ref?.avatarRef?.current || null
-                              )
-                            }
-                            comments={[
-                              {
-                                id: "1",
-                                text:
-                                  '[{"insert": "[ADDITIONAL 1]I mean, sure, but you know what also is great?"}]',
-                              },
-                              {
-                                id: "2",
-                                text: '[{"insert": "Deze nuts."}]',
-                              },
-                              {
-                                id: "3",
-                                text:
-                                  '[{"insert": "Wait is that how you type it?"}]',
-                              },
-                            ]}
-                            secretIdentity={{
-                              name: "Tuxedo Mask",
-                              avatar: `/${tuxedoAvatar}`,
-                            }}
-                            userIdentity={{
-                              name: "SexyDaddy69",
-                              avatar: `/${mamoruAvatar}`,
-                            }}
-                          />
-                          {additionalComments > 1 && (
-                            <NewCommentsThread.Indent>
-                              <NewCommentsThread.Item>
-                                {(setBoundaryElement) => (
-                                  <>
-                                    <CommentChain
-                                      ref={(ref) =>
-                                        setBoundaryElement(
-                                          ref?.avatarRef?.current || null
-                                        )
-                                      }
-                                      comments={[
-                                        {
-                                          id: "1",
-                                          text:
-                                            '[{"insert": "[ADDITIONAL 2] I mean, sure, but you know what also is great?"}]',
-                                        },
-                                        {
-                                          id: "2",
-                                          text: '[{"insert": "Deze nuts."}]',
-                                        },
-                                        {
-                                          id: "3",
-                                          text:
-                                            '[{"insert": "Wait is that how you type it?"}]',
-                                        },
-                                      ]}
-                                      secretIdentity={{
-                                        name: "Tuxedo Mask",
-                                        avatar: `/${tuxedoAvatar}`,
-                                      }}
-                                      userIdentity={{
-                                        name: "SexyDaddy69",
-                                        avatar: `/${mamoruAvatar}`,
-                                      }}
-                                    />
-                                    <NewCommentsThread.Indent>
-                                      <NewCommentsThread.Item>
-                                        {(setBoundaryElement) => (
-                                          <CommentChain
-                                            ref={(ref) =>
-                                              setBoundaryElement(
-                                                ref?.avatarRef?.current || null
-                                              )
-                                            }
-                                            comments={[
-                                              {
-                                                id: "1",
-                                                text:
-                                                  '[{"insert": "[ADDITIONAL 2] I mean, sure, but you know what also is great?"}]',
-                                              },
-                                              {
-                                                id: "2",
-                                                text:
-                                                  '[{"insert": "Deze nuts."}]',
-                                              },
-                                              {
-                                                id: "3",
-                                                text:
-                                                  '[{"insert": "Wait is that how you type it?"}]',
-                                              },
-                                            ]}
-                                            secretIdentity={{
-                                              name: "Tuxedo Mask",
-                                              avatar: `/${tuxedoAvatar}`,
-                                            }}
-                                            userIdentity={{
-                                              name: "SexyDaddy69",
-                                              avatar: `/${mamoruAvatar}`,
-                                            }}
-                                            onExtraAction={action("extra")}
-                                          />
-                                        )}
-                                      </NewCommentsThread.Item>
-                                    </NewCommentsThread.Indent>
-                                  </>
-                                )}
-                              </NewCommentsThread.Item>
-                            </NewCommentsThread.Indent>
-                          )}
-                        </>
-                      )}
-                    </NewCommentsThread.Item>
-                  )}
-                  <NewCommentsThread.Item>
-                    {(setBoundaryElement) => (
-                      <>
-                        <CommentChain
-                          ref={(ref) =>
-                            setBoundaryElement(ref?.avatarRef?.current || null)
-                          }
-                          comments={[
-                            {
-                              id: "1",
-                              text:
-                                '[{"insert": "[LVL 1]I mean, sure, but you know what also is great?"}]',
-                            },
-                            {
-                              id: "2",
-                              text: '[{"insert": "Deze nuts."}]',
-                            },
-                            {
-                              id: "3",
-                              text:
-                                '[{"insert": "Wait is that how you type it?"}]',
-                            },
-                          ]}
-                          secretIdentity={{
-                            name: "Tuxedo Mask",
-                            avatar: `/${tuxedoAvatar}`,
-                          }}
-                          userIdentity={{
-                            name: "SexyDaddy69",
-                            avatar: `/${mamoruAvatar}`,
-                          }}
-                        />
-                        <NewCommentsThread.Indent>
-                          <NewCommentsThread.Item>
-                            {(setBoundaryElement) => (
-                              <>
-                                <CommentChain
-                                  ref={(ref) =>
-                                    setBoundaryElement(
-                                      ref?.avatarRef?.current || null
-                                    )
-                                  }
-                                  comments={[
-                                    {
-                                      id: "1",
-                                      text:
-                                        '[{"insert": "[LVL2] I mean, sure, but you know what also is great?"}]',
-                                    },
-                                    {
-                                      id: "2",
-                                      text: '[{"insert": "Deze nuts."}]',
-                                    },
-                                    {
-                                      id: "3",
-                                      text:
-                                        '[{"insert": "Wait is that how you type it?"}]',
-                                    },
-                                  ]}
-                                  secretIdentity={{
-                                    name: "Tuxedo Mask",
-                                    avatar: `/${tuxedoAvatar}`,
-                                  }}
-                                  userIdentity={{
-                                    name: "SexyDaddy69",
-                                    avatar: `/${mamoruAvatar}`,
-                                  }}
-                                />
-                                <NewCommentsThread.Indent>
-                                  <NewCommentsThread.Item>
-                                    {(setBoundaryElement) => (
-                                      <>
-                                        <CommentChain
-                                          ref={(ref) =>
-                                            setBoundaryElement(
-                                              ref?.avatarRef?.current || null
-                                            )
-                                          }
-                                          comments={[
-                                            {
-                                              id: "1",
-                                              text:
-                                                '[{"insert": "[LVL3] I mean, sure, but you know what also is great?"}]',
-                                            },
-                                            {
-                                              id: "2",
-                                              text:
-                                                '[{"insert": "Deze nuts."}]',
-                                            },
-                                            {
-                                              id: "3",
-                                              text:
-                                                '[{"insert": "Wait is that how you type it?"}]',
-                                            },
-                                          ]}
-                                          secretIdentity={{
-                                            name: "Tuxedo Mask",
-                                            avatar: `/${tuxedoAvatar}`,
-                                          }}
-                                          userIdentity={{
-                                            name: "SexyDaddy69",
-                                            avatar: `/${mamoruAvatar}`,
-                                          }}
-                                        />
-                                        {additionalComments > 2 && (
-                                          <NewCommentsThread.Indent>
-                                            <NewCommentsThread.Item>
-                                              {(setBoundaryElement) => (
-                                                <CommentChain
-                                                  ref={(ref) =>
-                                                    setBoundaryElement(
-                                                      ref?.avatarRef?.current ||
-                                                        null
-                                                    )
-                                                  }
-                                                  comments={[
-                                                    {
-                                                      id: "1",
-                                                      text:
-                                                        '[{"insert": "[ADDITIONAL 3] I mean, sure, but you know what also is great?"}]',
-                                                    },
-                                                    {
-                                                      id: "2",
-                                                      text:
-                                                        '[{"insert": "Deze nuts."}]',
-                                                    },
-                                                    {
-                                                      id: "3",
-                                                      text:
-                                                        '[{"insert": "Wait is that how you type it?"}]',
-                                                    },
-                                                  ]}
-                                                  secretIdentity={{
-                                                    name: "Tuxedo Mask",
-                                                    avatar: `/${tuxedoAvatar}`,
-                                                  }}
-                                                  userIdentity={{
-                                                    name: "SexyDaddy69",
-                                                    avatar: `/${mamoruAvatar}`,
-                                                  }}
-                                                  onExtraAction={action(
-                                                    "extra"
-                                                  )}
-                                                />
-                                              )}
-                                            </NewCommentsThread.Item>
-                                          </NewCommentsThread.Indent>
-                                        )}
-                                      </>
-                                    )}
-                                  </NewCommentsThread.Item>
-                                </NewCommentsThread.Indent>
-                              </>
-                            )}
-                          </NewCommentsThread.Item>
-                        </NewCommentsThread.Indent>
-                      </>
-                    )}
-                  </NewCommentsThread.Item>
-                  <NewCommentsThread.Item>
-                    {(setBoundaryElement) => (
-                      <CommentChain
-                        ref={(ref) =>
-                          setBoundaryElement(ref?.avatarRef?.current || null)
-                        }
-                        comments={[
-                          {
-                            id: "1",
-                            text:
-                              '[{"insert": "[LVL1] I mean, sure, but you know what also is great?"}]',
-                          },
-                          {
-                            id: "2",
-                            text: '[{"insert": "Deze nuts."}]',
-                          },
-                          {
-                            id: "3",
-                            text:
-                              '[{"insert": "Wait is that how you type it?"}]',
-                          },
-                        ]}
-                        secretIdentity={{
-                          name: "Tuxedo Mask",
-                          avatar: `/${tuxedoAvatar}`,
-                        }}
-                        userIdentity={{
-                          name: "SexyDaddy69",
-                          avatar: `/${mamoruAvatar}`,
-                        }}
-                        onExtraAction={action("extra")}
-                      />
-                    )}
-                  </NewCommentsThread.Item>
-                </NewCommentsThread.Indent>
-              </>
-            )}
-          </NewCommentsThread>
-        </div>
-        <div style={{ position: "sticky", top: 0, alignSelf: "flex-start" }}>
-          <button
-            onClick={() => setAdditionalComments((comments) => comments + 1)}
-          >
-            Add Comments
-          </button>
-          <button
-            onClick={() => setAdditionalComments((comments) => comments - 1)}
-          >
-            Remove Comments
-          </button>
-        </div>
-      </div>
-    </div>
-  );
-};
-
-export const MultipleCommentsThread = () => {
-  const [threads, setAdditionalThreads] = React.useState([{}]);
-  const [disableMotionEffect, setDisableMotionEffect] = React.useState(false);
-  return (
-    <div>
-      <div style={{ display: "flex" }}>
-        <div
-          style={{
-            marginLeft: "100px",
-            backgroundColor: "Theme.LAYOUT_BOARD_BACKGROUND_COLOR",
-          }}
-        >
-          <div
-            style={{
-              height: "70px",
-              backgroundColor: "red",
-              position: "sticky",
-              top: 0,
-            }}
-          >
-            This Div simulates Boba's sticky header
-          </div>
-          {threads.map((_, index) => (
-            <NewCommentsThread
-              key={index}
-              disableMotionEffect={disableMotionEffect}
-            >
-              {(setBoundaryElement) => (
-                <>
-                  <div style={{ paddingTop: "15px", maxWidth: "550px" }}>
-                    <CommentChain
-                      ref={(ref) =>
-                        setBoundaryElement({
-                          positionX: ref?.avatarRef?.current || undefined,
-                          positionY: ref?.headerRef?.current || undefined,
-                        })
-                      }
-                      comments={[
-                        {
-                          id: "1",
-                          text:
-                            '[{"insert": "[LVL 0] I mean, sure, but you know what also is great?"}]',
-                        },
-                        {
-                          id: "2",
-                          text: '[{"insert": "Deze nuts."}]',
-                        },
-                        {
-                          id: "3",
-                          text: '[{"insert": "Wait is that how you type it?"}]',
-                        },
-                      ]}
-                      secretIdentity={{
-                        name: "Tuxedo Mask",
-                        avatar: `/${tuxedoAvatar}`,
-                      }}
-                      userIdentity={{
-                        name: "SexyDaddy69",
-                        avatar: `/${mamoruAvatar}`,
-                      }}
-                    />
-                  </div>
-                  <NewCommentsThread.Indent>
-                    <NewCommentsThread.Item>
-                      {(setBoundaryElement) => (
-                        <CommentChain
-                          ref={(ref) =>
-                            setBoundaryElement({
-                              positionX: ref?.avatarRef?.current || undefined,
-                              positionY: ref?.headerRef?.current || undefined,
-                            })
-                          }
-                          comments={[
-                            {
-                              id: "1",
-                              text:
-                                '[{"insert": "[LVL 1]I mean, sure, but you know what also is great?"}]',
-                            },
-                            {
-                              id: "2",
-                              text: '[{"insert": "Deze nuts."}]',
-                            },
-                            {
-                              id: "3",
-                              text:
-                                '[{"insert": "Wait is that how you type it?"}]',
-                            },
-                          ]}
-                          secretIdentity={{
-                            name: "Tuxedo Mask",
-                            avatar: `/${tuxedoAvatar}`,
-                          }}
-                          onExtraAction={action("extra")}
-                        />
-                      )}
-                    </NewCommentsThread.Item>
-                    <NewCommentsThread.Item>
-                      {(setBoundaryElement) => (
-                        <>
-                          <CommentChain
-                            ref={(ref) =>
-                              setBoundaryElement({
-                                positionX: ref?.avatarRef?.current || undefined,
-                                positionY: ref?.headerRef?.current || undefined,
-                              })
-                            }
-                            comments={[
-                              {
-                                id: "1",
-                                text:
-                                  '[{"insert": "[LVL 1]I mean, sure, but you know what also is great?"}]',
-                              },
-                              {
-                                id: "2",
-                                text: '[{"insert": "Deze nuts."}]',
-                              },
-                              {
-                                id: "3",
-                                text:
-                                  '[{"insert": "Wait is that how you type it?"}]',
-                              },
-                            ]}
-                            secretIdentity={{
-                              name: "Tuxedo Mask",
-                              avatar: `/${tuxedoAvatar}`,
-                            }}
-                          />
-                          <NewCommentsThread.Indent>
-                            <NewCommentsThread.Item>
-                              {(setBoundaryElement) => (
-                                <>
-                                  <CommentChain
-                                    ref={(ref) =>
-                                      setBoundaryElement({
-                                        positionX:
-                                          ref?.avatarRef?.current || undefined,
-                                        positionY:
-                                          ref?.headerRef?.current || undefined,
-                                      })
-                                    }
-                                    comments={[
-                                      {
-                                        id: "1",
-                                        text:
-                                          '[{"insert": "[LVL2] I mean, sure, but you know what also is great?"}]',
-                                      },
-                                      {
-                                        id: "2",
-                                        text: '[{"insert": "Deze nuts."}]',
-                                      },
-                                      {
-                                        id: "3",
-                                        text:
-                                          '[{"insert": "Wait is that how you type it?"}]',
-                                      },
-                                    ]}
-                                    secretIdentity={{
-                                      name: "Tuxedo Mask",
-                                      avatar: `/${tuxedoAvatar}`,
-                                    }}
-                                  />
-                                  <NewCommentsThread.Indent>
-                                    <NewCommentsThread.Item>
-                                      {(setBoundaryElement) => (
-                                        <>
-                                          <CommentChain
-                                            ref={(ref) =>
-                                              setBoundaryElement({
-                                                positionX:
-                                                  ref?.avatarRef?.current ||
-                                                  undefined,
-                                                positionY:
-                                                  ref?.headerRef?.current ||
-                                                  undefined,
-                                              })
-                                            }
-                                            comments={[
-                                              {
-                                                id: "1",
-                                                text:
-                                                  '[{"insert": "[LVL3] I mean, sure, but you know what also is great?"}]',
-                                              },
-                                              {
-                                                id: "2",
-                                                text:
-                                                  '[{"insert": "Deze nuts."}]',
-                                              },
-                                              {
-                                                id: "3",
-                                                text:
-                                                  '[{"insert": "Wait is that how you type it?"}]',
-                                              },
-                                            ]}
-                                            secretIdentity={{
-                                              name: "Tuxedo Mask",
-                                              avatar: `/${tuxedoAvatar}`,
-                                            }}
-                                            userIdentity={{
-                                              name: "SexyDaddy69",
-                                              avatar: `/${mamoruAvatar}`,
-                                            }}
-                                          />
-                                        </>
-                                      )}
-                                    </NewCommentsThread.Item>
-                                  </NewCommentsThread.Indent>
-                                </>
-                              )}
-                            </NewCommentsThread.Item>
-                          </NewCommentsThread.Indent>
-                        </>
-                      )}
-                    </NewCommentsThread.Item>
-                    <NewCommentsThread.Item>
-                      {(setBoundaryElement) => (
-                        <CommentChain
-                          ref={(ref) =>
-                            setBoundaryElement({
-                              positionX: ref?.avatarRef?.current || undefined,
-                              positionY: ref?.headerRef?.current || undefined,
-                            })
-                          }
-                          comments={[
-                            {
-                              id: "1",
-                              text:
-                                '[{"insert": "[LVL1] I mean, sure, but you know what also is great?"}]',
-                            },
-                            {
-                              id: "2",
-                              text: '[{"insert": "Deze nuts."}]',
-                            },
-                            {
-                              id: "3",
-                              text:
-                                '[{"insert": "Wait is that how you type it?"}]',
-                            },
-                          ]}
-                          secretIdentity={{
-                            name: "Tuxedo Mask",
-                            avatar: `/${tuxedoAvatar}`,
-                          }}
-                          userIdentity={{
-                            name: "SexyDaddy69",
-                            avatar: `/${mamoruAvatar}`,
-                          }}
-                          onExtraAction={action("extra")}
-                        />
-                      )}
-                    </NewCommentsThread.Item>
-                  </NewCommentsThread.Indent>
-                </>
-              )}
-            </NewCommentsThread>
-          ))}
-        </div>
-        <div style={{ position: "sticky", top: 0, alignSelf: "flex-start" }}>
-          <button onClick={() => setAdditionalThreads([...threads, {}])}>
-            Add Thread
-          </button>
-          <button onClick={() => setDisableMotionEffect(!disableMotionEffect)}>
-            Toggle Motion
-          </button>
-          {/* <button
-            onClick={() => threads.pop()}
-          >
-            Remove Thread
-          </button> */}
-        </div>
-      </div>
     </div>
   );
 };

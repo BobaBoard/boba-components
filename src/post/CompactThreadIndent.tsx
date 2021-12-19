@@ -1,7 +1,6 @@
+import { CommentHandler } from "./NewComment";
 import React from "react";
-
 import Theme from "../theme/default";
-import { CommentHandler } from "./Comment";
 
 const STEM_WIDTH_PX = 5;
 
