@@ -33,6 +33,22 @@
     ],
     "strictBindCallApply": true,
     "paths": {
+      "board/*": ["../src/board/*"],
+      "common/*": ["../src/common/*"],
+      "feeds/*": ["../src/feeds/*"],
+      "post/*": ["../src/post/*"],
+      "sidemenu/*": ["../src/sidemenu/*"],
+      "theme/*": ["../src/theme/*"],
+      "utils/*": ["../src/utils/*"],
+      "buttons/*": ["../src/buttons/*"],
+      "extra/*": ["../src/extra/*"],
+      "images/*": ["../src/images/*"],
+      "layout/*": ["../src/layout/*"],
+      "sidebar/*": ["../src/sidebar/*"],
+      "tags/*": ["../src/tags/*"],
+      "thread/*": ["../src/thread/*"],
+      "user/*": ["../src/user/*"],
+      "src/*": ["../src/*"],
       "stories/*": ["../stories/*"],
       "types/*": ["./types/*"]
     }

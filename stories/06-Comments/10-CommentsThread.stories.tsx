@@ -1,4 +1,4 @@
-import NewComment, { CommentProps } from "../../src/post/NewComment";
+import Comment, { CommentProps } from "post/Comment";
 
 import { Meta } from "@storybook/react";
 import NewCommentsThread from "../../src/thread/NewCommentsThread";
@@ -97,7 +97,7 @@ export const SingleThread = () => {
         {(setBoundaryElement) => (
           <>
             <div style={{ paddingTop: "15px", maxWidth: "550px" }}>
-              <NewComment
+              <Comment
                 ref={(ref) =>
                   setBoundaryElement(ref?.avatarRef?.current || null)
                 }
@@ -107,7 +107,7 @@ export const SingleThread = () => {
             <NewCommentsThread.Indent id="b38feb96-97f9-4cd0-81e6-5ab8d85e91a7">
               <NewCommentsThread.Item>
                 {(setBoundaryElement) => (
-                  <NewComment
+                  <Comment
                     ref={(ref) =>
                       setBoundaryElement(ref?.avatarRef?.current || null)
                     }
@@ -119,7 +119,7 @@ export const SingleThread = () => {
                 <NewCommentsThread.Item>
                   {(setBoundaryElement) => (
                     <>
-                      <NewComment
+                      <Comment
                         ref={(ref) =>
                           setBoundaryElement(ref?.avatarRef?.current || null)
                         }
@@ -130,7 +130,7 @@ export const SingleThread = () => {
                           <NewCommentsThread.Item>
                             {(setBoundaryElement) => (
                               <>
-                                <NewComment
+                                <Comment
                                   ref={(ref) =>
                                     setBoundaryElement(
                                       ref?.avatarRef?.current || null
@@ -141,7 +141,7 @@ export const SingleThread = () => {
                                 <NewCommentsThread.Indent id="1cf9d71f-fd9f-4288-a5a5-319fff983899">
                                   <NewCommentsThread.Item>
                                     {(setBoundaryElement) => (
-                                      <NewComment
+                                      <Comment
                                         ref={(ref) =>
                                           setBoundaryElement(
                                             ref?.avatarRef?.current || null
@@ -164,7 +164,7 @@ export const SingleThread = () => {
               <NewCommentsThread.Item>
                 {(setBoundaryElement) => (
                   <>
-                    <NewComment
+                    <Comment
                       ref={(ref) =>
                         setBoundaryElement(ref?.avatarRef?.current || null)
                       }
@@ -174,7 +174,7 @@ export const SingleThread = () => {
                       <NewCommentsThread.Item>
                         {(setBoundaryElement) => (
                           <>
-                            <NewComment
+                            <Comment
                               ref={(ref) =>
                                 setBoundaryElement(
                                   ref?.avatarRef?.current || null
@@ -186,7 +186,7 @@ export const SingleThread = () => {
                               <NewCommentsThread.Item>
                                 {(setBoundaryElement) => (
                                   <>
-                                    <NewComment
+                                    <Comment
                                       ref={(ref) =>
                                         setBoundaryElement(
                                           ref?.avatarRef?.current || null
@@ -198,7 +198,7 @@ export const SingleThread = () => {
                                       <NewCommentsThread.Indent id="ccfd32e1-b09a-4627-947c-a301e91a0d2b">
                                         <NewCommentsThread.Item>
                                           {(setBoundaryElement) => (
-                                            <NewComment
+                                            <Comment
                                               ref={(ref) =>
                                                 setBoundaryElement(
                                                   ref?.avatarRef?.current ||
@@ -224,7 +224,7 @@ export const SingleThread = () => {
               </NewCommentsThread.Item>
               <NewCommentsThread.Item>
                 {(setBoundaryElement) => (
-                  <NewComment
+                  <Comment
                     ref={(ref) =>
                       setBoundaryElement(ref?.avatarRef?.current || null)
                     }
@@ -268,7 +268,7 @@ export const MultipleThreads = () => {
           {(setBoundaryElement) => (
             <>
               <div style={{ paddingTop: "15px", maxWidth: "550px" }}>
-                <NewComment
+                <Comment
                   ref={(ref) =>
                     setBoundaryElement({
                       positionX: ref?.avatarRef?.current || undefined,
@@ -281,7 +281,7 @@ export const MultipleThreads = () => {
               <NewCommentsThread.Indent id="33593297-1904-4e21-ad89-d799491f177b">
                 <NewCommentsThread.Item>
                   {(setBoundaryElement) => (
-                    <NewComment
+                    <Comment
                       ref={(ref) =>
                         setBoundaryElement({
                           positionX: ref?.avatarRef?.current || undefined,
@@ -295,7 +295,7 @@ export const MultipleThreads = () => {
                 <NewCommentsThread.Item>
                   {(setBoundaryElement) => (
                     <>
-                      <NewComment
+                      <Comment
                         ref={(ref) =>
                           setBoundaryElement({
                             positionX: ref?.avatarRef?.current || undefined,
@@ -308,7 +308,7 @@ export const MultipleThreads = () => {
                         <NewCommentsThread.Item>
                           {(setBoundaryElement) => (
                             <>
-                              <NewComment
+                              <Comment
                                 ref={(ref) =>
                                   setBoundaryElement({
                                     positionX:
@@ -323,7 +323,7 @@ export const MultipleThreads = () => {
                                 <NewCommentsThread.Item>
                                   {(setBoundaryElement) => (
                                     <>
-                                      <NewComment
+                                      <Comment
                                         ref={(ref) =>
                                           setBoundaryElement({
                                             positionX:
@@ -349,7 +349,7 @@ export const MultipleThreads = () => {
                 </NewCommentsThread.Item>
                 <NewCommentsThread.Item>
                   {(setBoundaryElement) => (
-                    <NewComment
+                    <Comment
                       ref={(ref) =>
                         setBoundaryElement({
                           positionX: ref?.avatarRef?.current || undefined,

@@ -1,4 +1,4 @@
-import Comment, { CommentHandler } from "../src/post/NewComment";
+import Comment, { CommentHandler } from "post/Comment";
 import CompactThreadIndent, {
   useIndent,
 } from "../src/post/CompactThreadIndent";

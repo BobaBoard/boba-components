@@ -1,4 +1,4 @@
-import { CommentHandler } from "./NewComment";
+import { CommentHandler } from "./Comment";
 import React from "react";
 import Theme from "../theme/default";
 

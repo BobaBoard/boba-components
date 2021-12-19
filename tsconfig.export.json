@@ -32,7 +32,22 @@
     ],
     "paths": {
       "types/*": ["types/*"],
-      "stories/*": ["./../stories/*"]
+      "stories/*": ["./../stories/*"],
+      "board/*": ["./board/*"],
+      "common/*": ["./common/*"],
+      "feeds/*": ["./feeds/*"],
+      "post/*": ["./post/*"],
+      "sidemenu/*": ["./sidemenu/*"],
+      "theme/*": ["./theme/*"],
+      "utils/*": ["./utils/*"],
+      "buttons/*": ["./buttons/*"],
+      "extra/*": ["./extra/*"],
+      "images/*": ["./images/*"],
+      "layout/*": ["./layout/*"],
+      "sidebar/*": ["./sidebar/*"],
+      "tags/*": ["./tags/*"],
+      "thread/*": ["./thread/*"],
+      "user/*": ["./user/*"]
     }
   },
   "include": ["src/**/*", "index.d.ts"],

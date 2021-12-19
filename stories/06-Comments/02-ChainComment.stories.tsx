@@ -1,8 +1,5 @@
+import Comment, { CommentHandler, CommentProps } from "post/Comment";
 import { Meta, Story } from "@storybook/react";
-import NewComment, {
-  CommentHandler,
-  CommentProps,
-} from "../../src/post/NewComment";
 import {
   WITH_ACCESSORIES_DECORATOR,
   WRAP_COMPACT_DECORATOR,
@@ -22,7 +19,7 @@ import tuxedoAvatar from "../images/tuxedo-mask.jpg";
 
 export default {
   title: "Comment/Chained Comments",
-  component: NewComment,
+  component: Comment,
   argTypes: {
     ...editorArgTypes,
   },
@@ -44,7 +41,7 @@ export default {
 } as Meta;
 
 const CommentTemplate: Story<CommentProps> = (args) => {
-  return <NewComment {...args} ref={args.ref || undefined} />;
+  return <Comment {...args} ref={args.ref || undefined} />;
 };
 
 export const ChainComment = CommentTemplate.bind({});
