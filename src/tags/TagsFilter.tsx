@@ -1,11 +1,11 @@
 import Input, { InputStyle } from "../common/Input";
 import TagsFactory, { getDataForTagType } from "./TagsFactory";
 
-import Button from "../buttons/Button";
-import { ButtonStyle } from "../buttons/Button";
+import Button from "buttons/Button";
+import { ButtonStyle } from "buttons/Button";
 import React from "react";
-import Tag from "../tags/Tag";
-import { TagType } from "../types";
+import Tag from "tags/Tag";
+import { TagType } from "types";
 import classnames from "classnames";
 import debug from "debug";
 import { faPlus } from "@fortawesome/free-solid-svg-icons";

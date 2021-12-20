@@ -1,6 +1,7 @@
 import Color from "color";
 import React from "react";
 import classnames from "classnames";
+import useLayoutEffect from "use-isomorphic-layout-effect";
 
 const HEIGHT = 1;
 const INCREASE_INTERVAL = 700;
@@ -19,7 +20,7 @@ const LoadingBar = (props: LoadingBarProps) => {
   const progressTimeout = React.useRef<NodeJS.Timeout>();
   const barRef = React.useRef<HTMLDivElement>(null);
 
-  React.useLayoutEffect(() => {
+  useLayoutEffect(() => {
     if (!props.loading) {
       if (progressTimeout.current && barRef.current) {
         clearTimeout(progressTimeout.current);
@@ -75,6 +76,7 @@ const LoadingBar = (props: LoadingBarProps) => {
       aria-valuemin={0}
       aria-valuemax={100}
       aria-hidden={!props.loading}
+      aria-label={props.label}
     >
       <div className="bar" ref={barRef} />
       <style jsx>{`
@@ -118,6 +120,7 @@ const LoadingBar = (props: LoadingBarProps) => {
 export default LoadingBar;
 
 export interface LoadingBarProps {
+  label: string;
   accentColor?: string;
   loading?: boolean;
   className?: string;
