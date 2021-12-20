@@ -1,10 +1,12 @@
 const path = require("path");
 const MiniCssExtractPlugin = require("mini-css-extract-plugin");
+const TsconfigPathsPlugin = require("tsconfig-paths-webpack-plugin");
 
 module.exports = {
   // Currently we need to add '.ts' to the resolve.extensions array.
   resolve: {
     extensions: [".ts", ".tsx", ".js", ".jsx"],
+    plugins: [new TsconfigPathsPlugin()],
   },
   plugins: [new MiniCssExtractPlugin()],
   target: "node",
@@ -35,7 +37,6 @@ module.exports = {
   },
   // Source maps support ('inline-source-map' also works)
   devtool: "source-map",
-
   module: {
     rules: [
       {

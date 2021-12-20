@@ -2,52 +2,51 @@ import "resize-observer-polyfill";
 import "@fortawesome/fontawesome-svg-core/styles.css";
 import "react-loader-spinner/dist/loader/css/react-spinner-loader.css";
 
-import Button, { ButtonStyle } from "./buttons/Button";
+import Button, { ButtonStyle } from "buttons/Button";
 import { EditorContext, getDeltaSummary } from "@bobaboard/boba-editor";
-import Input, { InputStyle } from "./common/Input";
-import ToastContainer, { toast } from "./common/Toast";
+import Input, { InputStyle } from "common/Input";
+import ToastContainer, { toast } from "common/Toast";
 
-import BoardSidebar from "./sidebar/BoardSidebar";
-import BoardsDisplay from "./board/BoardsDisplay";
-import BobaDex from "./user/BobaDex";
-import CollapsedPlaceholder from "./thread/CollapsedPlaceholder";
-import Comment from "./post/Comment";
-import CommentChain from "./post/CommentChain";
-import CommentChainEditor from "./post/CommentChainEditor";
-import CommentEditor from "./post/CommentEditor";
-import type { CommentHandler } from "./post/Comment";
-import CompactPostThread from "./post/CompactPostThread";
-import CustomCursor from "./layout/CustomCursor";
-import CycleNewButton from "./board/CycleNewButton";
-import DefaultTheme from "./theme/default";
-import FeedWithMenu from "./feeds/FeedWithMenu";
-import Layout from "./layout/Layout";
-import LoadingBar from "./common/LoadingBar";
-import MasonryView from "./feeds/MasonryView";
-import Modal from "./common/Modal";
-import ModalWithButtons from "./common/ModalWithButtons";
-import NewCommentsThread from "./thread/NewCommentsThread";
-import NewThread from "./thread/NewThread";
-import PinnedMenu from "./sidemenu/PinnedMenu";
-import Post from "./post/Post";
-import PostEditor from "./post/PostEditor";
-import type { PostHandler } from "./post/Post";
-import PostQuote from "./post/PostQuote";
-import PostingActionButton from "./board/PostingActionButton";
+import BoardSidebar from "sidebar/BoardSidebar";
+import BoardsDisplay from "board/BoardsDisplay";
+import BobaDex from "user/BobaDex";
+import CollapsedPlaceholder from "thread/CollapsedPlaceholder";
+import Comment from "post/Comment";
+import CommentChainEditor from "post/CommentChainEditor";
+import CommentEditor from "post/CommentEditor";
+import type { CommentHandler } from "post/Comment";
+import CompactPostThread from "post/CompactPostThread";
+import CustomCursor from "layout/CustomCursor";
+import CycleNewButton from "board/CycleNewButton";
+import DefaultTheme from "theme/default";
+import FeedWithMenu from "feeds/FeedWithMenu";
+import Layout from "layout/Layout";
+import LoadingBar from "common/LoadingBar";
+import MasonryView from "feeds/MasonryView";
+import Modal from "common/Modal";
+import ModalWithButtons from "common/ModalWithButtons";
+import NewCommentsThread from "thread/NewCommentsThread";
+import NewThread from "thread/NewThread";
+import PinnedMenu from "sidemenu/PinnedMenu";
+import Post from "post/Post";
+import PostEditor from "post/PostEditor";
+import type { PostHandler } from "post/Post";
+import PostQuote from "post/PostQuote";
+import PostingActionButton from "board/PostingActionButton";
 import React from "react";
-import SegmentedButton from "./buttons/SegmentedButton";
-import type { SettingType } from "./layout/SettingsContainer";
-import SettingsContainer from "./layout/SettingsContainer";
-import SideMenu from "./sidemenu/SideMenu";
-import type { SideMenuHandler } from "./sidemenu/SideMenu";
-import TabsGroup from "./layout/TabsGroup";
-import { TagType } from "./types";
-import TagsFilterSection from "./sidebar/TagsFilterSection";
-import type { TagsType } from "./types";
-import UserDetails from "./user/UserDetails";
+import SegmentedButton from "buttons/SegmentedButton";
+import type { SettingType } from "layout/SettingsContainer";
+import SettingsContainer from "layout/SettingsContainer";
+import SideMenu from "sidemenu/SideMenu";
+import type { SideMenuHandler } from "sidemenu/SideMenu";
+import TabsGroup from "layout/TabsGroup";
+import { TagType } from "types";
+import TagsFilterSection from "sidebar/TagsFilterSection";
+import type { TagsType } from "types";
+import UserDetails from "user/UserDetails";
 import flush from "styled-jsx/server";
-import useBoos from "./extra/useBoos";
-import { useCompact } from "./utils";
+import useBoos from "extra/useBoos";
+import { useCompact } from "utils";
 
 require("intersection-observer");
 
@@ -73,7 +72,6 @@ export {
   PostEditor,
   PostingActionButton,
   Comment,
-  CommentChain,
   CommentChainEditor,
   CompactPostThread,
   CommentEditor,

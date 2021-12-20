@@ -5,7 +5,6 @@ import * as stories from "stories/21-Sidebar/00-BoardSidebar.stories";
 import {
   Screen,
   fireEvent,
-  getByLabelText,
   render,
   screen,
   waitFor,
