@@ -31,7 +31,7 @@
       "styled-jsx"
     ],
     "paths": {
-      "types/*": ["types/*"],
+      "types/*": ["./types/*"],
       "stories/*": ["./../stories/*"],
       "board/*": ["./board/*"],
       "common/*": ["./common/*"],
