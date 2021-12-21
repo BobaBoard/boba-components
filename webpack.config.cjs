@@ -12,7 +12,6 @@ module.exports = {
           __dirname,
           `src/${tsconfig.compilerOptions.paths[aliasName][0].replace("*", "")}`
         );
-        console.log(aliases);
         return aliases;
       },
       {}
