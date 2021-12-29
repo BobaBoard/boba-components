@@ -24,8 +24,8 @@ const extractSanitizedTag = (inputValue: string | null) => {
 };
 
 const isDeletingPrevious = (e: KeyboardEvent<HTMLElement>) => {
-  const inputValue = e.currentTarget.textContent;
-  return !inputValue && e.key == "Backspace";
+  const previousValue = e.currentTarget.getAttribute("data-previous");
+  return !previousValue && e.key == "Backspace";
 };
 const isSubmissionAttempt = (e: KeyboardEvent<HTMLElement>) => {
   return e.key === "Enter";
@@ -65,7 +65,7 @@ const resetInputState = (div: HTMLDivElement | null, forceReset = false) => {
   const hasFocus = div == document.activeElement;
   log(`Resetting input element.`);
   log(`Input element focused: ${hasFocus}`);
-  div.parentElement!.classList.toggle("with-hint", forceReset || !hasFocus);
+  //div.parentElement!.classList.toggle("with-hint", forceReset || !hasFocus);
   div.textContent = "";
   div.parentElement!.classList.remove("multiline");
 };
@@ -92,6 +92,7 @@ const TagInput: React.FC<TagInputProps> = (props) => {
       props.onTagSubmit(currentTag);
     }
     resetInputState(div, forceReset);
+    props.onTagChange("");
   };
 
   return (
@@ -103,6 +104,10 @@ const TagInput: React.FC<TagInputProps> = (props) => {
         aria-label="The tags input area"
         ref={divRef}
         onKeyDown={(e) => {
+          e.currentTarget.setAttribute(
+            "data-previous",
+            e.currentTarget.textContent || ""
+          );
           if (isDeletingPrevious(e)) {
             log(`Received backspace on empty tag`);
             log(`Deleting previous tag`);
@@ -121,7 +126,7 @@ const TagInput: React.FC<TagInputProps> = (props) => {
         onPaste={sanitizeForPasting}
         onFocus={(e) => {
           props.onFocusChange(true);
-          e.currentTarget.parentElement!.classList.remove("with-hint");
+          // e.currentTarget.parentElement!.classList.remove("with-hint");
         }}
         onBlur={(e) => {
           props.onFocusChange(false);
@@ -174,11 +179,15 @@ const TagInput: React.FC<TagInputProps> = (props) => {
           font-size: var(--font-size-small);
           color: ${LIGHT_BOARD_BACKGROUND_COLOR};
           box-sizing: border-box;
-          display: none;
+           {
+            /* display: none; */
+          }
         }
 
-        .tag-input-container.with-hint .shadow-text {
+         {
+          /* .tag-input-container.with-hint .shadow-text {
           display: block;
+        } */
         }
 
         .tag-input {

@@ -9,6 +9,7 @@ import DefaultTheme from "../theme/default";
 import { DropdownProps } from "../common/DropdownListMenu";
 import React from "react";
 import TagInput from "./TagInput";
+import TagSuggestions from "./TagSuggestions";
 import TagsDisplay from "./TagsDisplay";
 import classnames from "classnames";
 import color from "color";
@@ -17,12 +18,12 @@ import debug from "debug";
 const log = debug("bobaui:tagsinput-log");
 
 enum TagInputState {
-  CONTENT_NOTICE,
-  INDEXABLE,
-  CATEGORY,
-  WHISPER,
-  EMPTY,
-  DELETE,
+  CONTENT_NOTICE = "CONTENT_NOTICE",
+  INDEXABLE = "INDEXABLE",
+  CATEGORY = "CATEGORY",
+  WHISPER = "WHISPER",
+  EMPTY = "EMPTY",
+  DELETE = "DELETE",
 }
 
 const getHighlightVariable = (inputState: TagInputState) => {
@@ -44,71 +45,40 @@ const getHighlightVariable = (inputState: TagInputState) => {
   return color(highlighColor).rgb().array().join(", ");
 };
 
-interface SuggestionContainerProps {
-  title: string;
-  description: string;
-  tags: string[];
-  onSelectTag: (tag: string) => void;
-}
-const SuggestionContainer: React.FC<SuggestionContainerProps> = (props) => {
-  return (
-    <div className={classnames("suggestions-container categories-suggestions")}>
-      <div>{props.title}</div>
-      <div>{props.description}</div>
-      {props.tags?.map((category) => (
-        <button
-          key={category}
-          className={classnames("tag-container")}
-          // We use mouse down rather than on click because this runs
-          // before the blur event.
-          onMouseDown={(e) => {
-            props.onSelectTag(category);
-            e.preventDefault();
-          }}
-        >
-          {TagsFactory.create({
-            name: category,
-            accentColor: "white",
-            category: true,
-            type: TagType.CATEGORY,
-          })}
-        </button>
-      ))}
-      <style jsx>{`
-        .tag-container {
-          margin: 5px 5px 0 0;
-          align-items: center;
-          word-break: break-word;
-          display: inline-flex;
-          position: relative;
-          border: 0;
-          background: none;
-          padding: 0;
-        }
-        .suggestions-container {
-          position: absolute;
-          top: 0;
-          right: 0;
-          left: 0;
-          transform: translateY(-100%);
-          padding: 10px 15px;
-          box-shadow: 0 0 0 1px #d2d2d2;
-          border-radius: 10px 10px 0 0;
-          background-color: white;
-          font-size: 14px;
-          color: rgb(87, 87, 87);
-        }
-        .categories-suggestions .tag-container {
-          margin-top: 3px;
-          margin-bottom: 3px;
-          margin-right: 10px;
-        }
-        .categories-suggestions .tag-container:hover {
-          cursor: pointer;
-        }
-      `}</style>
-    </div>
-  );
+const getInputMessage = ({
+  tagInputState,
+  currentTag,
+  isFocused,
+}: {
+  tagInputState: TagInputState;
+  currentTag: string | null;
+  isFocused: boolean;
+}) => {
+  if (!isFocused) {
+    return "Add a tag...";
+  }
+  if (tagInputState == TagInputState.EMPTY || !currentTag?.length) {
+    return (
+      <>
+        Try prefixing tags with <strong>{INDEXABLE_PREFIX}</strong>,{" "}
+        <strong>{CONTENT_NOTICE_DEFAULT_PREFIX}</strong>, or{" "}
+        <strong>{CATEGORY_PREFIX}</strong>. Enter to submit.
+      </>
+    );
+  }
+  if (currentTag.length == 1 && tagInputState == TagInputState.CATEGORY) {
+    return `${currentTag} category tags can be used to filter posts across threads or boards.`;
+  }
+  // TODO: this needs to account for all the possible lengths of CN prefixes.
+  if (currentTag.length == 3 && tagInputState == TagInputState.CONTENT_NOTICE) {
+    return `${currentTag} content notices help others avoid unwanted topics.`;
+  }
+
+  // TODO: this needs to account for all the possible lengths of CN prefixes.
+  if (currentTag.length == 1 && tagInputState == TagInputState.INDEXABLE) {
+    return `${currentTag} index tags can be searched across the realm.`;
+  }
+  return "";
 };
 
 const TagsInput: React.FC<TagsInputProps> = ({
@@ -122,11 +92,10 @@ const TagsInput: React.FC<TagsInputProps> = ({
   children,
 }) => {
   const [tagInputState, setTagInputState] = React.useState(TagInputState.EMPTY);
+  const [currentTag, setCurrentTag] = React.useState<string | null>(null);
   const [isFocused, setFocused] = React.useState(false);
   const [isPromptingDelete, setPromptingDelete] = React.useState(false);
 
-  const showTagsHint =
-    isFocused && tags.length == 0 && tagInputState == TagInputState.EMPTY;
   const showCategoriesHint =
     isFocused &&
     suggestedCategories &&
@@ -144,7 +113,7 @@ const TagsInput: React.FC<TagsInputProps> = ({
           </div>
         )} */}
         {showCategoriesHint && (
-          <SuggestionContainer
+          <TagSuggestions
             title="Category tags"
             description="Category tags can be used to filter posts across threads or boards."
             tags={suggestedCategories}
@@ -179,8 +148,12 @@ const TagsInput: React.FC<TagsInputProps> = ({
             }}
             onTagChange={(value) => {
               setPromptingDelete(false);
+              setCurrentTag(value);
               const currentTag = TagsFactory.getTagDataFromString(value);
-              console.log(currentTag);
+              if (value.length == 0 && currentTag.type == TagType.WHISPER) {
+                setTagInputState(TagInputState.EMPTY);
+                return;
+              }
               log(`Current tag type: ${currentTag.type}`);
               switch (currentTag.type) {
                 case TagType.INDEXABLE:
@@ -209,9 +182,11 @@ const TagsInput: React.FC<TagsInputProps> = ({
               }
             }}
           >
-            Add a tag! Try starting one with <strong>{INDEXABLE_PREFIX}</strong>
-            , <strong>{CONTENT_NOTICE_DEFAULT_PREFIX}</strong>, or{" "}
-            <strong>{CATEGORY_PREFIX}</strong>.
+            {getInputMessage({
+              tagInputState,
+              currentTag,
+              isFocused,
+            })}
           </TagInput>
         )}
       </div>
