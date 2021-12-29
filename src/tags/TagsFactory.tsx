@@ -20,7 +20,6 @@ export const CATEGORY_TAG_COLOR = DefaultTheme.CATEGORY_FILTER_COLOR.toLowerCase
 export const CW_TAG_COLOR = DefaultTheme.CONTENT_NOTICE_COLOR.toLowerCase();
 
 const getTagType = (tag: TagsType | TagType) => {
-  console.log(tag);
   if (typeof tag === "object") {
     if (tag.type) {
       return tag.type;
@@ -78,9 +77,7 @@ export class TagsFactory {
   }
 
   static createProps(tag: TagsType) {
-    console.log(tag);
     const tagData = getDataForTagType(tag);
-    console.log(tagData);
 
     return {
       name: tag.name,
