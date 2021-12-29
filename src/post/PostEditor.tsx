@@ -39,6 +39,8 @@ export interface PostEditorHandler {
   focus: () => void;
 }
 
+const BOARD_SELECTOR_IN_HEADER_BREAKPOINT = 450;
+
 const MemoizedTags = React.memo(Tags);
 const MemoizedHeader = React.memo(Header);
 const PostEditor = React.forwardRef<PostEditorHandler, PostEditorProps>(
@@ -66,6 +68,28 @@ const PostEditor = React.forwardRef<PostEditorHandler, PostEditorProps>(
       props.suggestedCategories
     );
     const imageUploader = React.useContext(ImageUploaderContext);
+    const [boardSelectorInHeader, setBoardSelectorInHeader] = React.useState(
+      false
+    );
+
+    React.useEffect(() => {
+      if (
+        !props.availableBoards ||
+        !editorRef.current ||
+        !editorRef.current.editorContainer.current
+      ) {
+        return;
+      }
+      const containerObserver = new ResizeObserver((entries) => {
+        setBoardSelectorInHeader(
+          entries[0].contentRect.width < BOARD_SELECTOR_IN_HEADER_BREAKPOINT
+        );
+      });
+      containerObserver.observe(editorRef.current.editorContainer.current);
+      return () => {
+        containerObserver.disconnect();
+      };
+    }, [props.availableBoards]);
 
     React.useEffect(() => {
       setSelectedIdentity(props.secretIdentity);
@@ -174,6 +198,16 @@ const PostEditor = React.forwardRef<PostEditorHandler, PostEditorProps>(
                   </Button>
                 ) : undefined}
               </div>
+              {props.availableBoards && boardSelectorInHeader && selectedBoard && (
+                <div className="header-board">
+                  Posting in:{" "}
+                  <BoardSelector
+                    availableBoards={props.availableBoards}
+                    onBoardSelected={setSelectedBoard}
+                    selectedBoard={selectedBoard}
+                  />
+                </div>
+              )}
             </Card.Header>
             <div
               className={classnames("editor-container", {
@@ -220,13 +254,15 @@ const PostEditor = React.forwardRef<PostEditorHandler, PostEditorProps>(
                   editable
                   suggestedCategories={suggestedCategories}
                 >
-                  {props.availableBoards && selectedBoard && (
-                    <BoardSelector
-                      availableBoards={props.availableBoards}
-                      onBoardSelected={setSelectedBoard}
-                      selectedBoard={selectedBoard}
-                    />
-                  )}
+                  {props.availableBoards &&
+                    !boardSelectorInHeader &&
+                    selectedBoard && (
+                      <BoardSelector
+                        availableBoards={props.availableBoards}
+                        onBoardSelected={setSelectedBoard}
+                        selectedBoard={selectedBoard}
+                      />
+                    )}
                 </MemoizedTags>
                 <div
                   className={classnames("footer-actions", {
@@ -279,6 +315,27 @@ const PostEditor = React.forwardRef<PostEditorHandler, PostEditorProps>(
             align-items: center;
             justify-content: space-between;
             max-width: calc(100% - 30px);
+            width: 100%;
+          }
+          .header-board {
+            padding-bottom: 5px;
+            margin: 0px 10px 5px;
+            border-bottom: 1px solid rgb(210, 210, 210);
+            display: flex;
+            align-content: center;
+            align-items: center;
+            font-size: var(--font-size-small);
+            max-width: calc(100% - 30px);
+          }
+
+           {
+            /** TODO: don't use global */
+          }
+          .header-board :global(button) {
+            width: calc(100% - 80px);
+            margin-left: 5px;
+          }
+          .header-board :global(button .board-selector) {
             width: 100%;
           }
           .footer {
