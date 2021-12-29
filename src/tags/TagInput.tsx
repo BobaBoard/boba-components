@@ -139,6 +139,8 @@ const TagInput = React.forwardRef<TagInputRef, TagInputProps>((props, ref) => {
           maybeSubmitTag(divRef.current, true);
         }}
         onKeyUp={(e) => {
+          // TODO: if the user holds the button down (e.g. when deleting),
+          // then key up behaves weirdly.
           const target = e.target as HTMLDivElement;
           if (target.getBoundingClientRect().height > HEIGHT_TRIGGER) {
             log(`Multiline detected. Switching to full line.`);

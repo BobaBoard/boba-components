@@ -109,8 +109,12 @@ const TagsInput: React.FC<TagsInputProps> = ({
           <div className={classnames("suggestions-container")}>
             <TagSuggestions
               type={TagType.CATEGORY}
-              title="Category tags"
-              description="Category tags can be used to filter posts across threads or boards."
+              description={
+                <>
+                  <strong>Category tags</strong> can be used to filter posts
+                  across threads or boards.
+                </>
+              }
               tags={suggestedCategories}
               onSelectTag={(tag) => {
                 onTagsAdd?.({
@@ -121,7 +125,6 @@ const TagsInput: React.FC<TagsInputProps> = ({
                 });
                 setTagInputState(TagInputState.EMPTY);
                 inputRef.current?.clear();
-                // TODO: here we must clear the input
               }}
             />
           </div>
@@ -215,7 +218,7 @@ const TagsInput: React.FC<TagsInputProps> = ({
           right: 0;
           left: 0;
           transform: translateY(-100%);
-          padding: 10px 15px;
+          padding: 10px 12px 7px;
           box-shadow: 0 0 0 1px #d2d2d2;
           border-radius: 10px 10px 0 0;
           background-color: white;

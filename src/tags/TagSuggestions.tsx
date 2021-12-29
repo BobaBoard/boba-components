@@ -5,8 +5,7 @@ import TagsFactory from "./TagsFactory";
 import classnames from "classnames";
 
 export interface TagSuggestionsProps {
-  title: string;
-  description: string;
+  description: React.ReactNode;
   tags: string[];
   onSelectTag: (tag: string) => void;
   type: TagType;
@@ -15,7 +14,6 @@ export interface TagSuggestionsProps {
 const TagSuggestions: React.FC<TagSuggestionsProps> = (props) => {
   return (
     <div className={classnames("tags-suggestions")}>
-      <div className="title">{props.title}</div>
       <div className="description">{props.description}</div>
       <div className="tags-container">
         {props.tags?.map((category) => (
@@ -48,20 +46,13 @@ const TagSuggestions: React.FC<TagSuggestionsProps> = (props) => {
           background: none;
           padding: 0;
         }
-        .title {
-          font-weight: bold;
-          font-size: var(--font-size-regular);
-          display: flex;
-          -webkit-box-align: baseline;
-          align-items: baseline;
-        }
+
         .description {
           font-size: var(--font-size-small);
         }
         .tags-container {
-          margin-top: 5px;
+          margin-top: 2px;
           padding-top: 4px;
-          border-top: 1px dashed rgba(0, 0, 0, 0.3);
         }
 
         .tags-suggestions .tag-container {
