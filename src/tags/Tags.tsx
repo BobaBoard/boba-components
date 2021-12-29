@@ -1,45 +1,20 @@
 import { TagType, TagsType } from "../types";
 import TagsFactory, {
   CATEGORY_PREFIX,
-  CATEGORY_TAG_COLOR,
   CONTENT_NOTICE_DEFAULT_PREFIX,
-  CW_TAG_COLOR,
   INDEXABLE_PREFIX,
-  INDEXABLE_TAG_COLOR,
 } from "./TagsFactory";
 
 import DefaultTheme from "../theme/default";
 import { DropdownProps } from "../common/DropdownListMenu";
 import React from "react";
+import TagInput from "./TagInput";
 import TagsDisplay from "./TagsDisplay";
 import classnames from "classnames";
 import color from "color";
 import debug from "debug";
 
 const log = debug("bobaui:tagsinput-log");
-
-const TAG_LENGTH_LIMIT = 200;
-const ADD_A_TAG_STRING = "Add a tag...";
-// This is a horrible hack. If the higher of the input span grows
-// beyond this number of pixel, we "detect" a two-line input and
-// bring the tag input to a new line.
-const HEIGHT_TRIGGER = 30;
-
-const extractSanitizedTag = (inputValue: string | null) => {
-  if (!inputValue) {
-    return "";
-  }
-  return inputValue.replace(/\n/g, " ").trim().substr(0, TAG_LENGTH_LIMIT);
-};
-
-const resetInputState = (span: HTMLSpanElement, forceAdd = false) => {
-  const hasFocus = span == document.activeElement;
-  log(`Resetting input element.`);
-  log(`Input element focused: ${hasFocus}`);
-  span.textContent = !forceAdd && hasFocus ? "" : ADD_A_TAG_STRING;
-  span.style.width = "auto";
-  span.style.flex = "1";
-};
 
 enum TagInputState {
   CONTENT_NOTICE,
@@ -49,6 +24,25 @@ enum TagInputState {
   EMPTY,
   DELETE,
 }
+
+const getHighlightVariable = (inputState: TagInputState) => {
+  let highlighColor = "#898989";
+  switch (inputState) {
+    case TagInputState.CONTENT_NOTICE: {
+      highlighColor = DefaultTheme.CONTENT_NOTICE_COLOR;
+      break;
+    }
+    case TagInputState.CATEGORY: {
+      highlighColor = DefaultTheme.CATEGORY_FILTER_COLOR;
+      break;
+    }
+    case TagInputState.INDEXABLE: {
+      highlighColor = DefaultTheme.INDEX_TAG_COLOR;
+      break;
+    }
+  }
+  return color(highlighColor).rgb().array().join(", ");
+};
 
 const TagsInput: React.FC<TagsInputProps> = ({
   tags,
@@ -62,14 +56,7 @@ const TagsInput: React.FC<TagsInputProps> = ({
 }) => {
   const [tagInputState, setTagInputState] = React.useState(TagInputState.EMPTY);
   const [isFocused, setFocused] = React.useState(false);
-  const spanRef = React.useRef<HTMLSpanElement>(null);
-
-  React.useEffect(() => {
-    if (spanRef.current) {
-      resetInputState(spanRef.current);
-      setTagInputState(TagInputState.EMPTY);
-    }
-  }, [tags]);
+  const [isPromptingDelete, setPromptingDelete] = React.useState(false);
 
   const showTagsHint =
     isFocused && tags.length == 0 && tagInputState == TagInputState.EMPTY;
@@ -125,124 +112,18 @@ const TagsInput: React.FC<TagsInputProps> = ({
         <TagsDisplay
           editable={editable}
           tags={tags}
-          deleting={tagInputState == TagInputState.DELETE}
+          deleting={isPromptingDelete}
           getOptionsForTag={getOptionsForTag}
           packBottom={packBottom}
           onTagsDelete={onTagsDelete}
         />
         {!!editable && (
-          <span
-            className={classnames("tag-input", {
-              indexable: tagInputState == TagInputState.INDEXABLE,
-              category: tagInputState == TagInputState.CATEGORY,
-              "content-warning": tagInputState == TagInputState.CONTENT_NOTICE,
-            })}
-            role="textbox"
-            aria-label="The tags input area"
-            ref={spanRef}
-            onKeyDown={(e) => {
-              const inputValue = (e.target as HTMLSpanElement).textContent;
-              const isDeletingPrevious = !inputValue && e.key == "Backspace";
-              const isTagEnterAttempt = e.key === "Enter";
-              if (isDeletingPrevious) {
-                log(`Received backspace on empty tag`);
-                if (tagInputState != TagInputState.DELETE) {
-                  log(`Entering delete state for previous tag`);
-                  setTagInputState(TagInputState.DELETE);
-                  return;
-                }
-                log(`Deleting previous tag`);
-                setTagInputState(TagInputState.EMPTY);
-                onTagsDelete?.(tags[tags.length - 1]);
-                return;
-              }
-              if (tagInputState == TagInputState.DELETE) {
-                setTagInputState(TagInputState.EMPTY);
-              }
-              // TODO: move this to tag utils
-              const currentTag = extractSanitizedTag(inputValue);
-              const isSubmittable = TagsFactory.isTagValid(currentTag);
-              if (isTagEnterAttempt) {
-                log(`Attempting to enter tag ${inputValue}`);
-                e.preventDefault();
-                if (!isSubmittable) {
-                  return;
-                }
-                onTagsAdd?.(TagsFactory.getTagDataFromString(currentTag));
-                if (spanRef.current) {
-                  // Remove inner text here so it doesn't trigger flickering.
-                  spanRef.current.textContent = "";
-                }
-              }
-            }}
-            onBeforeInput={(e) => {
-              const target = e.target as HTMLSpanElement;
-              const inputValue = target.textContent || "";
-              if (inputValue.length >= TAG_LENGTH_LIMIT) {
-                log("Tag Limit Reached Cannot Insert new Value");
-                e.preventDefault();
-              }
-              log(inputValue == "\n");
-              if (/[\n]/g.test(inputValue)) {
-                log("Found New Line Blocking");
-                e.preventDefault();
-              }
-            }}
-            onPaste={(e) => {
-              log(`Pasting text!`);
-              e.preventDefault();
-              const text = extractSanitizedTag(
-                e.clipboardData.getData("text/plain")
-              );
-              if (document.queryCommandSupported("insertText")) {
-                document.execCommand("insertText", false, text);
-              } else {
-                document.execCommand("paste", false, text);
-              }
-            }}
-            onFocus={(e) => {
-              setFocused(true);
-              const value = (e.target as HTMLSpanElement).textContent;
-              if (value === ADD_A_TAG_STRING) {
-                log('Focused: Removing "add a tag..."');
-                if (spanRef.current) {
-                  spanRef.current.textContent = "";
-                }
-              } else {
-                log("Focused: Found text not removing anything");
-              }
-            }}
-            onBlur={(e) => {
-              setFocused(false);
-              if (!spanRef.current) {
-                return;
-              }
-              const currentTag = extractSanitizedTag(
-                spanRef.current.textContent
-              );
-              const isSubmittable = TagsFactory.isTagValid(currentTag);
-              if (isSubmittable) {
-                onTagsAdd?.(TagsFactory.getTagDataFromString(currentTag));
-              }
-              resetInputState(spanRef.current, true);
-              setTagInputState(TagInputState.EMPTY);
-            }}
-            onKeyUp={(e) => {
-              const target = e.target as HTMLSpanElement;
-              if (target.textContent?.trim().length == 0) {
-                if (tagInputState != TagInputState.DELETE) {
-                  setTagInputState(TagInputState.EMPTY);
-                }
-                return;
-              }
-              const currentTag = TagsFactory.getTagDataFromString(
-                extractSanitizedTag(target.textContent)
-              );
-              if (target.getBoundingClientRect().height > HEIGHT_TRIGGER) {
-                log(`Multiline detected. Switching to full line.`);
-                target.style.width = "100%";
-                target.style.flex = "auto";
-              }
+          <TagInput
+            onFocusChange={setFocused}
+            onTagChange={(value) => {
+              setPromptingDelete(false);
+              const currentTag = TagsFactory.getTagDataFromString(value);
+              console.log(currentTag);
               log(`Current tag type: ${currentTag.type}`);
               switch (currentTag.type) {
                 case TagType.INDEXABLE:
@@ -259,38 +140,26 @@ const TagsInput: React.FC<TagsInputProps> = ({
                   setTagInputState(TagInputState.WHISPER);
               }
             }}
-            contentEditable={true}
+            onTagSubmit={(value) => {
+              onTagsAdd?.(TagsFactory.getTagDataFromString(value));
+            }}
+            onDeletePrevious={() => {
+              if (isPromptingDelete) {
+                onTagsDelete?.(tags[tags.length - 1]);
+                setPromptingDelete(false);
+              } else {
+                setPromptingDelete(true);
+              }
+            }}
           />
         )}
       </div>
       <style jsx>{`
-        .tag-input {
-          margin: 5px 0 0 0;
-          flex: 1;
-          word-break: normal;
-          min-width: 100px;
-          padding: 5px 8px;
-          font-size: var(--font-size-small);
-          border-radius: 8px;
-          color: ${color(DefaultTheme.LAYOUT_BOARD_BACKGROUND_COLOR).fade(0.5)};
+        .container {
+          --highlight-color: ${getHighlightVariable(tagInputState)};
         }
-        .tag-input:focus {
-          outline: none;
-          color: ${DefaultTheme.LAYOUT_BOARD_BACKGROUND_COLOR};
-          box-shadow: 0 0 0 1px rgba(0, 0, 0, 0.3), 0 0 0 4px rgba(0, 0, 0, 0.1);
-        }
-        .tag-input.indexable:focus {
-          box-shadow: 0 0 0 1px ${color(INDEXABLE_TAG_COLOR).fade(0)},
-            0 0 0 4px ${color(INDEXABLE_TAG_COLOR).fade(0.7)};
-        }
-        .tag-input.content-warning:focus {
-          box-shadow: 0 0 0 1px ${color(CW_TAG_COLOR).fade(0)},
-            0 0 0 4px ${color(CW_TAG_COLOR).fade(0.7)};
-        }
-        .tag-input.category:focus {
-          box-shadow: 0 0 0 1px ${color(CATEGORY_TAG_COLOR).fade(0)},
-            0 0 0 4px ${color(CATEGORY_TAG_COLOR).fade(0.7)};
-        }
+      `}</style>
+      <style jsx>{`
         .container {
           padding-bottom: 5px;
           display: flex;
