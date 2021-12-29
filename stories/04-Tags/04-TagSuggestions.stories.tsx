@@ -4,6 +4,7 @@ import TagSuggestions, {
 } from "../../src/tags/TagSuggestions";
 
 import React from "react";
+import { TagType } from "../../src/types";
 import { action } from "@storybook/addon-actions";
 
 export default {
@@ -40,5 +41,6 @@ Editable.args = {
   title: "A title",
   description: "A title",
   tags: ["A title"],
+  type: TagType.CATEGORY,
   onSelectTag: action("selected tag"),
 };

@@ -74,7 +74,7 @@ const LIGHT_BOARD_BACKGROUND_COLOR = color(
   DefaultTheme.LAYOUT_BOARD_BACKGROUND_COLOR
 ).fade(0.5);
 
-const TagInput: React.FC<TagInputProps> = (props) => {
+const TagInput = React.forwardRef<TagInputRef, TagInputProps>((props, ref) => {
   const divRef = React.useRef<HTMLDivElement>(null);
 
   React.useEffect(() => {
@@ -82,6 +82,14 @@ const TagInput: React.FC<TagInputProps> = (props) => {
       resetInputState(divRef.current);
     }
   }, [divRef]);
+
+  React.useImperativeHandle(
+    ref,
+    () => ({
+      clear: () => resetInputState(divRef.current),
+    }),
+    [divRef]
+  );
 
   const maybeSubmitTag = (div: HTMLDivElement | null, forceReset?: boolean) => {
     if (!div) {
@@ -115,9 +123,7 @@ const TagInput: React.FC<TagInputProps> = (props) => {
             return;
           }
 
-          const currentTag = extractSanitizedTag(e.currentTarget.textContent);
           if (isSubmissionAttempt(e)) {
-            log(`Attempting to enter tag ${currentTag}`);
             e.preventDefault();
             maybeSubmitTag(e.currentTarget);
           }
@@ -142,8 +148,10 @@ const TagInput: React.FC<TagInputProps> = (props) => {
           // We give the tag change input when the key is up because that's the
           // moment when the value of textContent has stabilized.
           if (!isDeletingPrevious(e)) {
-            const currentTag = extractSanitizedTag(e.currentTarget.textContent);
-            props.onTagChange(currentTag);
+            // TODO: we don't return the sanitized value here because we want
+            // to be able to know the real length of the input in the
+            // tag editor.
+            props.onTagChange(e.currentTarget.textContent || "");
           }
         }}
         contentEditable={true}
@@ -209,13 +217,18 @@ const TagInput: React.FC<TagInputProps> = (props) => {
       `}</style>
     </div>
   );
-};
+});
+TagInput.displayName = "TagInput";
 
+export interface TagInputRef {
+  clear: () => void;
+}
 export interface TagInputProps {
   onTagChange: (value: string) => void;
   onTagSubmit: (value: string) => void;
   onDeletePrevious: () => void;
   onFocusChange: (focused: boolean) => void;
+  children?: React.ReactNode;
 }
 
 export default TagInput;

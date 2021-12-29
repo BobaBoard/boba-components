@@ -1,3 +1,4 @@
+import TagInput, { TagInputRef } from "./TagInput";
 import { TagType, TagsType } from "../types";
 import TagsFactory, {
   CATEGORY_PREFIX,
@@ -8,7 +9,6 @@ import TagsFactory, {
 import DefaultTheme from "../theme/default";
 import { DropdownProps } from "../common/DropdownListMenu";
 import React from "react";
-import TagInput from "./TagInput";
 import TagSuggestions from "./TagSuggestions";
 import TagsDisplay from "./TagsDisplay";
 import classnames from "classnames";
@@ -95,6 +95,7 @@ const TagsInput: React.FC<TagsInputProps> = ({
   const [currentTag, setCurrentTag] = React.useState<string | null>(null);
   const [isFocused, setFocused] = React.useState(false);
   const [isPromptingDelete, setPromptingDelete] = React.useState(false);
+  const inputRef = React.useRef<TagInputRef>(null);
 
   const showCategoriesHint =
     isFocused &&
@@ -104,30 +105,26 @@ const TagsInput: React.FC<TagsInputProps> = ({
   return (
     <>
       <div className={classnames("container", { editable })}>
-        {/* {showTagsHint && (
-          <div className={classnames("suggestions-container how-to")}>
-            Start a tag with <strong>{INDEXABLE_PREFIX}</strong> to make it
-            searchable, <strong>{CATEGORY_PREFIX}</strong> for a filterable
-            category, or <strong>{CONTENT_NOTICE_DEFAULT_PREFIX}</strong> for
-            content notices. Tags are separated by new line.
-          </div>
-        )} */}
         {showCategoriesHint && (
-          <TagSuggestions
-            title="Category tags"
-            description="Category tags can be used to filter posts across threads or boards."
-            tags={suggestedCategories}
-            onSelectTag={(tag) => {
-              onTagsAdd?.({
-                name: tag,
-                accentColor: "white",
-                category: true,
-                type: TagType.CATEGORY,
-              });
-              setTagInputState(TagInputState.EMPTY);
-              // TODO: here we must clear the input
-            }}
-          />
+          <div className={classnames("suggestions-container")}>
+            <TagSuggestions
+              type={TagType.CATEGORY}
+              title="Category tags"
+              description="Category tags can be used to filter posts across threads or boards."
+              tags={suggestedCategories}
+              onSelectTag={(tag) => {
+                onTagsAdd?.({
+                  name: tag,
+                  accentColor: "white",
+                  category: true,
+                  type: TagType.CATEGORY,
+                });
+                setTagInputState(TagInputState.EMPTY);
+                inputRef.current?.clear();
+                // TODO: here we must clear the input
+              }}
+            />
+          </div>
         )}
         {children && <div className="extra">{children}</div>}
         <TagsDisplay
@@ -140,6 +137,7 @@ const TagsInput: React.FC<TagsInputProps> = ({
         />
         {!!editable && (
           <TagInput
+            ref={inputRef}
             onFocusChange={(focused) => {
               setFocused(focused);
               if (!focused) {
@@ -209,6 +207,20 @@ const TagsInput: React.FC<TagsInputProps> = ({
           margin-top: 5px;
           padding-right: 5px;
           margin-right: 5px;
+        }
+
+        .suggestions-container {
+          position: absolute;
+          top: 0;
+          right: 0;
+          left: 0;
+          transform: translateY(-100%);
+          padding: 10px 15px;
+          box-shadow: 0 0 0 1px #d2d2d2;
+          border-radius: 10px 10px 0 0;
+          background-color: white;
+          font-size: 14px;
+          color: rgb(87, 87, 87);
         }
       `}</style>
     </>

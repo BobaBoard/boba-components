@@ -1,3 +1,4 @@
+import DefaultTheme from "../theme/default";
 import React from "react";
 import { TagType } from "../types";
 import TagsFactory from "./TagsFactory";
@@ -8,32 +9,34 @@ export interface TagSuggestionsProps {
   description: string;
   tags: string[];
   onSelectTag: (tag: string) => void;
+  type: TagType;
 }
 
 const TagSuggestions: React.FC<TagSuggestionsProps> = (props) => {
   return (
-    <div className={classnames("suggestions-container categories-suggestions")}>
+    <div className={classnames("tags-suggestions")}>
       <div className="title">{props.title}</div>
-      <div>{props.description}</div>
-      {props.tags?.map((category) => (
-        <button
-          key={category}
-          className={classnames("tag-container")}
-          // We use mouse down rather than on click because this runs
-          // before the blur event.
-          onMouseDown={(e) => {
-            props.onSelectTag(category);
-            e.preventDefault();
-          }}
-        >
-          {TagsFactory.create({
-            name: category,
-            accentColor: "white",
-            category: true,
-            type: TagType.CATEGORY,
-          })}
-        </button>
-      ))}
+      <div className="description">{props.description}</div>
+      <div className="tags-container">
+        {props.tags?.map((category) => (
+          <button
+            key={category}
+            className={classnames("tag-container")}
+            // We use mouse down rather than on click because this runs
+            // before the blur event.
+            onMouseDown={(e) => {
+              props.onSelectTag(category);
+              e.preventDefault();
+            }}
+          >
+            {TagsFactory.create({
+              name: category,
+              accentColor: "white",
+              type: props.type,
+            })}
+          </button>
+        ))}
+      </div>
       <style jsx>{`
         .tag-container {
           margin: 5px 5px 0 0;
@@ -48,30 +51,25 @@ const TagSuggestions: React.FC<TagSuggestionsProps> = (props) => {
         .title {
           font-weight: bold;
           font-size: var(--font-size-regular);
-          margin-top: 20px;
           display: flex;
           -webkit-box-align: baseline;
           align-items: baseline;
         }
-        .suggestions-container {
-          position: absolute;
-          top: 0;
-          right: 0;
-          left: 0;
-          transform: translateY(-100%);
-          padding: 10px 15px;
-          box-shadow: 0 0 0 1px #d2d2d2;
-          border-radius: 10px 10px 0 0;
-          background-color: white;
-          font-size: 14px;
-          color: rgb(87, 87, 87);
+        .description {
+          font-size: var(--font-size-small);
         }
-        .categories-suggestions .tag-container {
+        .tags-container {
+          margin-top: 5px;
+          padding-top: 4px;
+          border-top: 1px dashed rgba(0, 0, 0, 0.3);
+        }
+
+        .tags-suggestions .tag-container {
           margin-top: 3px;
           margin-bottom: 3px;
           margin-right: 10px;
         }
-        .categories-suggestions .tag-container:hover {
+        .tags-suggestions .tag-container:hover {
           cursor: pointer;
         }
       `}</style>

@@ -36,10 +36,10 @@ export interface PostDetailsType {
 }
 
 export enum TagType {
-  INDEXABLE,
-  CONTENT_WARNING,
-  CATEGORY,
-  WHISPER,
+  INDEXABLE = "INDEXABLE",
+  CONTENT_WARNING = "CONTENT_WARNING",
+  CATEGORY = "CATEGORY",
+  WHISPER = "WHISPER",
 }
 
 export interface TagsType {
