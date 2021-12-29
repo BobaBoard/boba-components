@@ -68,14 +68,14 @@ const TagsInput: React.FC<TagsInputProps> = ({
   return (
     <>
       <div className={classnames("container", { editable })}>
-        {showTagsHint && (
+        {/* {showTagsHint && (
           <div className={classnames("suggestions-container how-to")}>
             Start a tag with <strong>{INDEXABLE_PREFIX}</strong> to make it
             searchable, <strong>{CATEGORY_PREFIX}</strong> for a filterable
             category, or <strong>{CONTENT_NOTICE_DEFAULT_PREFIX}</strong> for
             content notices. Tags are separated by new line.
           </div>
-        )}
+        )} */}
         {showCategoriesHint && (
           <div
             className={classnames(
@@ -119,7 +119,12 @@ const TagsInput: React.FC<TagsInputProps> = ({
         />
         {!!editable && (
           <TagInput
-            onFocusChange={setFocused}
+            onFocusChange={(focused) => {
+              setFocused(focused);
+              if (!focused) {
+                setTagInputState(TagInputState.EMPTY);
+              }
+            }}
             onTagChange={(value) => {
               setPromptingDelete(false);
               const currentTag = TagsFactory.getTagDataFromString(value);
@@ -151,7 +156,11 @@ const TagsInput: React.FC<TagsInputProps> = ({
                 setPromptingDelete(true);
               }
             }}
-          />
+          >
+            Add a tag! Try starting one with <strong>{INDEXABLE_PREFIX}</strong>
+            , <strong>{CONTENT_NOTICE_DEFAULT_PREFIX}</strong>, or{" "}
+            <strong>{CATEGORY_PREFIX}</strong>.
+          </TagInput>
         )}
       </div>
       <style jsx>{`

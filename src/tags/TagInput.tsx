@@ -10,7 +10,7 @@ import color from "color";
 import debug from "debug";
 
 const TAG_LENGTH_LIMIT = 200;
-const ADD_A_TAG_STRING = "Add a tag...";
+// const ADD_A_TAG_STRING = "Add a tag...";
 // This is a horrible hack. If the higher of the input div grows
 // beyond this number of pixel, we "detect" a two-line input and
 // bring the tag input to a new line.
@@ -65,7 +65,8 @@ const resetInputState = (div: HTMLDivElement | null, forceReset = false) => {
   const hasFocus = div == document.activeElement;
   log(`Resetting input element.`);
   log(`Input element focused: ${hasFocus}`);
-  div.textContent = forceReset || !hasFocus ? ADD_A_TAG_STRING : "";
+  div.parentElement!.classList.toggle("with-hint", forceReset || !hasFocus);
+  div.textContent = "";
   div.parentElement!.classList.remove("multiline");
 };
 
@@ -95,6 +96,7 @@ const TagInput: React.FC<TagInputProps> = (props) => {
 
   return (
     <div className="tag-input-container">
+      <div className="shadow-text">{props.children}</div>
       <div
         className={"tag-input"}
         role="textbox"
@@ -119,15 +121,7 @@ const TagInput: React.FC<TagInputProps> = (props) => {
         onPaste={sanitizeForPasting}
         onFocus={(e) => {
           props.onFocusChange(true);
-          const value = (e.target as HTMLDivElement).textContent;
-          if (value === ADD_A_TAG_STRING) {
-            log('Focused: Removing "add a tag..."');
-            if (divRef.current) {
-              divRef.current.textContent = "";
-            }
-          } else {
-            log("Focused: Found text not removing anything");
-          }
+          e.currentTarget.parentElement!.classList.remove("with-hint");
         }}
         onBlur={(e) => {
           props.onFocusChange(false);
@@ -153,10 +147,40 @@ const TagInput: React.FC<TagInputProps> = (props) => {
         .tag-input-container {
           display: inline-block;
           flex: 1;
+          position: relative;
         }
+        .tag-input-container:hover {
+          cursor: text;
+        }
+
         .tag-input-container.multiline {
           width: 100%;
         }
+        .shadow-text {
+          position: absolute;
+          top: 0;
+          left: 0;
+          bottom: 0;
+          right: 0;
+          pointer-events: none;
+          margin: 5px 0 0 0;
+          max-width: 100%;
+          overflow: hidden;
+          white-space: nowrap;
+          text-overflow: ellipsis;
+          word-break: normal;
+          min-width: 100px;
+          padding: 5px 8px;
+          font-size: var(--font-size-small);
+          color: ${LIGHT_BOARD_BACKGROUND_COLOR};
+          box-sizing: border-box;
+          display: none;
+        }
+
+        .tag-input-container.with-hint .shadow-text {
+          display: block;
+        }
+
         .tag-input {
           margin: 5px 0 0 0;
           max-width: 100%;
@@ -164,13 +188,12 @@ const TagInput: React.FC<TagInputProps> = (props) => {
           min-width: 100px;
           padding: 5px 8px;
           font-size: var(--font-size-small);
+          color: ${DefaultTheme.LAYOUT_BOARD_BACKGROUND_COLOR};
           border-radius: 8px;
-          color: ${LIGHT_BOARD_BACKGROUND_COLOR};
           box-sizing: border-box;
         }
         .tag-input:focus {
           outline: none;
-          color: ${DefaultTheme.LAYOUT_BOARD_BACKGROUND_COLOR};
           box-shadow: 0 0 0 1px rgba(var(--highlight-color), 0.5),
             0 0 0 4px rgba(var(--highlight-color), 0.3);
         }
