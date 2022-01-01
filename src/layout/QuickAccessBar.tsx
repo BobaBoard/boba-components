@@ -1,14 +1,15 @@
-import React from "react";
-
-import Theme from "../theme/default";
-import { faBars } from "@fortawesome/free-solid-svg-icons";
-import classnames from "classnames";
 import IconButton from "../buttons/IconButton";
+import { IconProps } from "common/Icon";
 import { LinkWithAction } from "types";
+import React from "react";
+import Theme from "../theme/default";
+import classnames from "classnames";
+import { faBars } from "@fortawesome/free-solid-svg-icons";
 
 interface QuickAccessBarProps {
   hasNotifications: boolean;
   hasOutdatedNotifications: boolean;
+  notificationIcon?: IconProps["icon"];
   sideMenuOpen: boolean;
   setShowSideMenu: (show: boolean) => void;
   onSideMenuButtonClick?: LinkWithAction;
@@ -29,6 +30,7 @@ const QuickAccessBar: React.ForwardRefRenderFunction<
     onSideMenuButtonClick,
     pinnedMenuContent,
     menuBarContent,
+    notificationIcon,
   },
   sideMenuRef
 ) => {
@@ -42,7 +44,8 @@ const QuickAccessBar: React.ForwardRefRenderFunction<
         <IconButton
           icon={faBars}
           label="menu"
-          dotColor={
+          notificationIcon={notificationIcon}
+          notificationColor={
             hasNotifications
               ? hasOutdatedNotifications
                 ? Theme.NOTIFICATIONS_OUTDATED_COLOR

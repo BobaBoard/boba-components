@@ -1,4 +1,3 @@
-import DefaultTheme from "../theme/default";
 import React from "react";
 import { TagType } from "../types";
 import TagsFactory from "./TagsFactory";
