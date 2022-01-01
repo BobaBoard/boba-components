@@ -18,8 +18,9 @@ export interface IconButtonProps {
   label?: string;
   link?: LinkWithAction;
   /**
-   * The color of the notification icon.
+   * The notification icon settings.
    */
+  withNotifications?: boolean;
   notificationIcon?: IconProps["icon"];
   notificationColor?: string;
 }
@@ -33,9 +34,11 @@ const IconButton: React.FC<IconButtonProps> = (props) => {
         })}
       >
         <div className="icon-wrapper">
-          <div className="notification-dot">
-            <Icon icon={props.notificationIcon || faCircle} />
-          </div>
+          {props.withNotifications && (
+            <div className="notification-dot">
+              <Icon icon={props.notificationIcon || faCircle} />
+            </div>
+          )}
           <Icon icon={props.icon} />
         </div>
       </div>

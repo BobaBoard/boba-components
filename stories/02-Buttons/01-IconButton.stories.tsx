@@ -1,9 +1,10 @@
-import React from "react";
-import { Story, Meta } from "@storybook/react";
 import IconButtonComponent, {
   IconButtonProps,
 } from "../../src/buttons/IconButton";
-import { faCoffee } from "@fortawesome/free-solid-svg-icons";
+import { Meta, Story } from "@storybook/react";
+import { faCoffee, faWineBottle } from "@fortawesome/free-solid-svg-icons";
+
+import React from "react";
 
 export default {
   title: "Buttons/Icon Button",
@@ -48,11 +49,13 @@ IconButton.args = {
 
 export const WithNotifications = ButtonTemplate.bind({});
 WithNotifications.args = {
-  icon: faCoffee,
-  link: {
-    onClick: () => {
-      // This is already handled by the config parameters above
-    },
-  },
-  dotColor: "red",
+  ...IconButton.args,
+  withNotifications: true,
+  notificationColor: "red",
+};
+
+export const WithCustomNotificationsIcon = ButtonTemplate.bind({});
+WithCustomNotificationsIcon.args = {
+  ...WithNotifications.args,
+  notificationIcon: faWineBottle,
 };

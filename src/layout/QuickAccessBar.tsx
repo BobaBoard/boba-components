@@ -44,13 +44,12 @@ const QuickAccessBar: React.ForwardRefRenderFunction<
         <IconButton
           icon={faBars}
           label="menu"
+          withNotifications={hasNotifications}
           notificationIcon={notificationIcon}
           notificationColor={
-            hasNotifications
-              ? hasOutdatedNotifications
-                ? Theme.NOTIFICATIONS_OUTDATED_COLOR
-                : Theme.NOTIFICATIONS_NEW_COLOR
-              : undefined
+            hasOutdatedNotifications
+              ? Theme.NOTIFICATIONS_OUTDATED_COLOR
+              : Theme.NOTIFICATIONS_NEW_COLOR
           }
           link={onSideMenuButtonClick}
         />
