@@ -58,14 +58,13 @@ const sanitizeForPasting: ClipboardEventHandler<HTMLElement> = (e) => {
   }
 };
 
-const resetInputState = (div: HTMLDivElement | null, forceReset = false) => {
+const resetInputState = (div: HTMLDivElement | null) => {
   if (!div) {
     return;
   }
   const hasFocus = div == document.activeElement;
   log(`Resetting input element.`);
   log(`Input element focused: ${hasFocus}`);
-  //div.parentElement!.classList.toggle("with-hint", forceReset || !hasFocus);
   div.textContent = "";
   div.parentElement!.classList.remove("multiline");
 };
@@ -91,7 +90,7 @@ const TagInput = React.forwardRef<TagInputRef, TagInputProps>((props, ref) => {
     [divRef]
   );
 
-  const maybeSubmitTag = (div: HTMLDivElement | null, forceReset?: boolean) => {
+  const maybeSubmitTag = (div: HTMLDivElement | null) => {
     if (!div) {
       return;
     }
@@ -99,7 +98,7 @@ const TagInput = React.forwardRef<TagInputRef, TagInputProps>((props, ref) => {
     if (TagsFactory.isTagValid(currentTag)) {
       props.onTagSubmit(currentTag);
     }
-    resetInputState(div, forceReset);
+    resetInputState(div);
     props.onTagChange("");
   };
 
@@ -136,7 +135,7 @@ const TagInput = React.forwardRef<TagInputRef, TagInputProps>((props, ref) => {
         }}
         onBlur={(e) => {
           props.onFocusChange(false);
-          maybeSubmitTag(divRef.current, true);
+          maybeSubmitTag(divRef.current);
         }}
         onKeyUp={(e) => {
           // TODO: if the user holds the button down (e.g. when deleting),
@@ -189,15 +188,6 @@ const TagInput = React.forwardRef<TagInputRef, TagInputProps>((props, ref) => {
           font-size: var(--font-size-small);
           color: ${LIGHT_BOARD_BACKGROUND_COLOR};
           box-sizing: border-box;
-           {
-            /* display: none; */
-          }
-        }
-
-         {
-          /* .tag-input-container.with-hint .shadow-text {
-          display: block;
-        } */
         }
 
         .tag-input {

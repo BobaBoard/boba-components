@@ -71,7 +71,7 @@ const getInputMessage = ({
   }
   // TODO: this needs to account for all the possible lengths of CN prefixes.
   if (currentTag.length == 3 && tagInputState == TagInputState.CONTENT_NOTICE) {
-    return `${currentTag} content notices help others avoid unwanted topics.`;
+    return `${currentTag} content notices can help others avoid sensitive topics.`;
   }
 
   // TODO: this needs to account for all the possible lengths of CN prefixes.
