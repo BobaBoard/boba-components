@@ -14,7 +14,7 @@ jobs:
       - run:
           name: Clone editor repository
           command: >-
-            cd ../boba-editor
+            cd ..
             git clone https://github.com/essential-randomness/boba-editor 
       - run:
           name: see files
