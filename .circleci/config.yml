@@ -29,7 +29,6 @@ jobs:
       - run:
           name: install editor
           command: >- 
-            cd ../bobaboard-ui
             yarn link @bobaboard/boba-editor
       - run:
           name: install ui
