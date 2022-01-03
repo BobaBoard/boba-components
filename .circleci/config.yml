@@ -9,12 +9,12 @@ orbs:
 jobs:
   build-and-test:
     docker:
-      - image: 'cimg/base:stable'
+      - image: "cimg/base:stable"
     steps:
       - checkout
       - node/install:
           install-yarn: true
-          node-version: '16.13.1'
+          node-version: "16.13.1"
       - run:
           name: Clone editor repository
           command: >-
@@ -40,7 +40,7 @@ jobs:
           command: yarn link @bobaboard/boba-editor
       - run:
           name: test
-          command: yarn run test
+          command: yarn run test:ci
 
       # - node/run:
       #     yarn-run: link
@@ -51,7 +51,6 @@ jobs:
       #     pkg-manager: yarn
       # - node/run:
       #     yarn-run: test
-            
 
 # Invoke jobs via workflows
 # See: https://circleci.com/docs/2.0/configuration-reference/#workflows
