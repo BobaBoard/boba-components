@@ -26,11 +26,12 @@ jobs:
           name: change folder to editor
           command: >- 
             cd boba-editor
+      - node/install-packages:
+          pkg-manager: yarn
       - run:
-          name: install
+          name: link
           command: >- 
-            yarn install
-            yarn run build
+            yarn run build | 
             yarn link
       - run:
           name: install editor
