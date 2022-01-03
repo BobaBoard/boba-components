@@ -28,7 +28,7 @@ const getType = (child: SidebarSectionChild) => {
   } else if (child.type == TextSection) {
     return "text";
   } else {
-    return null;
+    throw new Error("Unknown sidebar section type");
   }
 };
 
@@ -49,7 +49,7 @@ const makeEditableChild = (
     // If this method throws, there is a new type of child.
     // In that case, the props passed to the clone element below need to be
     // updated to support the update method of the new type of child.
-    return child;
+    throw new Error("Found unknown child of SidebarSection");
   }
   return React.cloneElement(child, {
     ...child.props,
@@ -92,9 +92,8 @@ export const getSectionData = (
         index: section.props.index,
         title: section.props.title,
         type: "text",
-        description: (
-          section.props.children as React.ReactElement<TextSectionProps>
-        ).props.description,
+        description: (section.props
+          .children as React.ReactElement<TextSectionProps>).props.description,
       };
     case "category_filter":
       return {
@@ -102,9 +101,10 @@ export const getSectionData = (
         index: section.props.index,
         title: section.props.title,
         type: "category_filter",
-        categories: (
-          section.props.children as React.ReactElement<TagsFilterSectionProps>
-        ).props.tags.map((tag) => tag.name),
+        categories: (section.props
+          .children as React.ReactElement<TagsFilterSectionProps>).props.tags.map(
+          (tag) => tag.name
+        ),
       };
   }
 };

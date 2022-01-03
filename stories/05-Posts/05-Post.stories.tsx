@@ -161,8 +161,7 @@ export const WithLongIdentityName = PostTemplate.bind({});
 WithDropdownAction.args = {
   ...Tagged.args,
   secretIdentity: {
-    name:
-      "Tuxedo Mask askldjaksldjaskld askdjaskldjaskldjas daskjdaklsdjaklsdj askdjaskldjaklsdjaskld askdj kasjdaklsdjaklsdjaskldjslk",
+    name: "Tuxedo Mask askldjaksldjaskld askdjaskldjaskldjas daskjdaklsdjaklsdj askdjaskldjaklsdjaskld askdj kasjdaklsdjaklsdjaskldjslk",
     avatar: `/${tuxedoAvatar}`,
   },
 };

@@ -1,13 +1,12 @@
-import React from "react";
-
+import ActionLink from "../buttons/ActionLink";
+import DefaultTheme from "../theme/default";
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { IconDefinition } from "@fortawesome/fontawesome-common-types";
 import { LinkWithAction } from "../types";
-import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import ActionLink from "../buttons/ActionLink";
-import css from "styled-jsx/css";
-import DefaultTheme from "../theme/default";
-import classnames from "classnames";
+import React from "react";
 import ReactDOM from "react-dom";
+import classnames from "classnames";
+import css from "styled-jsx/css";
 import { lightenColor } from "../utils";
 
 export interface PopupButtonsProps {
@@ -139,11 +138,17 @@ const PopupButtons: React.FC<PopupButtonsProps> = (props) => {
     };
   }, [show, onCloseRequest]);
   const [portalContainer, setPortalContainer] = React.useState(
-    props.container?.current || document.body
+    props.container?.current || typeof document !== "undefined"
+      ? document.body
+      : null
   );
   React.useEffect(() => {
     setPortalContainer(props.container?.current || document.body);
   }, [props.container]);
+
+  if (!portalContainer) {
+    return null;
+  }
 
   return ReactDOM.createPortal(
     <div className="options-container">
