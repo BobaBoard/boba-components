@@ -19,3 +19,7 @@ workflows:
           version: '16.10'
           # If you are using yarn, change the line below from "npm" to "yarn"
           pkg-manager: yarn
+      - clone-editor:
+          name: Clone editor repository
+          command: >-
+            git clone https://github.com/essential-randomness/boba-editor ~/my-app-frontend
