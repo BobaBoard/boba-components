@@ -22,7 +22,7 @@ jobs:
       - run:
           name: build editor
           command: >- 
-            cd ../boba-editor
+            cd boba-editor
             yarn install
             yarn run build
             yarn link
