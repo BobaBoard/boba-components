@@ -22,12 +22,9 @@ jobs:
       - run:
           name: see files
           command: ls -la
-      - run:
-          name: change folder to editor
-          command: >- 
-            cd boba-editor
       - node/install-packages:
           pkg-manager: yarn
+          app-dir: boba-editor
       - run:
           name: link
           command: >- 
