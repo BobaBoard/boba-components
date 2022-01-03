@@ -26,6 +26,10 @@ jobs:
           pkg-manager: yarn
           app-dir: boba-editor
       - run:
+          name: build editor
+          working_directory: boba-editor
+          command: yarn run build
+      - run:
           name: create editor link
           working_directory: boba-editor
           command: yarn link
