@@ -32,13 +32,16 @@ jobs:
           command: >- 
             cd ../bobaboard-ui
             yarn link @bobaboard/boba-editor
-      - node/test:
-          # This is the node version to use for the `cimg/node` tag
-          # Relevant tags can be found on the CircleCI Developer Hub
-          # https://circleci.com/developer/images/image/cimg/node
-          version: '16.10'
-          # If you are using yarn, change the line below from "npm" to "yarn"
-          pkg-manager: yarn
+      - run:
+          name: install ui
+          command: >-
+            yarn install
+            - run:
+      - run:
+          name: test
+          command: >-
+            yarn run test
+            
 
 # Invoke jobs via workflows
 # See: https://circleci.com/docs/2.0/configuration-reference/#workflows
