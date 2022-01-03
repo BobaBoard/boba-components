@@ -25,25 +25,18 @@ jobs:
       - node/install-packages:
           pkg-manager: yarn
           app-dir: boba-editor
-      - run:
-          name: link
-          command: >- 
-            yarn run build | 
-            yarn link
-      - run:
-          name: install editor
-          command: >- 
-            cd ..
-            yarn link @bobaboard/boba-editor
-      - run:
-          name: install ui
-          command: >-
-            yarn install
-            - run:
-      - run:
-          name: test
-          command: >-
-            yarn run test
+      - node/run:
+          yarn-run: build
+          app-dir: boba-editor
+      - node/run:
+          yarn-run: link
+          app-dir: boba-editor
+      - node/run:
+          yarn-run: link @bobaboard/boba-editor
+      - node/install-packages:
+          pkg-manager: yarn
+      - node/run:
+          yarn-run: test
             
 
 # Invoke jobs via workflows
