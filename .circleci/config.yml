@@ -6,6 +6,27 @@ version: 2.1
 orbs:
   node: circleci/node@4.7
 
+jobs:
+  build-and-test:
+    machine: true
+    steps:
+      - checkout
+      - run:
+          name: Clone editor repository
+          command: >-
+            git clone https://github.com/essential-randomness/boba-editor 
+      - run:
+          name: see files
+          command: ls -la
+      - run:
+          name: build editor
+          command: >- 
+            cd ../boba-editor
+            yarn install
+            yarn run build
+            yarn link
+            ls -la
+
 # Invoke jobs via workflows
 # See: https://circleci.com/docs/2.0/configuration-reference/#workflows
 workflows:
@@ -19,7 +40,5 @@ workflows:
           version: '16.10'
           # If you are using yarn, change the line below from "npm" to "yarn"
           pkg-manager: yarn
-      - clone-editor:
-          name: Clone editor repository
-          command: >-
-            git clone https://github.com/essential-randomness/boba-editor ~/my-app-frontend
+          steps:
+            - build-and-test
