@@ -39,6 +39,7 @@ import type { SettingType } from "layout/SettingsContainer";
 import SettingsContainer from "layout/SettingsContainer";
 import SideMenu from "sidemenu/SideMenu";
 import type { SideMenuHandler } from "sidemenu/SideMenu";
+import SidebarSection from "sidebar/SidebarSection";
 import TabsGroup from "layout/TabsGroup";
 import { TagType } from "types";
 import TagsFilterSection from "sidebar/TagsFilterSection";
@@ -53,9 +54,8 @@ require("intersection-observer");
 interface ImageUploaderContextProps {
   onImageUploadRequest: (imgUrl: string) => Promise<string>;
 }
-const ImageUploaderContext = React.createContext<ImageUploaderContextProps | null>(
-  null
-);
+const ImageUploaderContext =
+  React.createContext<ImageUploaderContextProps | null>(null);
 
 export {
   Layout,
@@ -78,6 +78,7 @@ export {
   CycleNewButton,
   FeedWithMenu,
   BoardSidebar,
+  SidebarSection,
   BoardsDisplay,
   ToastContainer,
   MasonryView,
