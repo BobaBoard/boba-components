@@ -23,16 +23,19 @@ jobs:
           name: see files
           command: ls -la
       - run:
-          name: build editor
+          name: change folder to editor
           command: >- 
-            cd boba-editor \n
+            cd boba-editor
+      - run:
+          name: install
+          command: >- 
             yarn install
             yarn run build
             yarn link
-            ls -la
       - run:
           name: install editor
           command: >- 
+            cd ..
             yarn link @bobaboard/boba-editor
       - run:
           name: install ui
