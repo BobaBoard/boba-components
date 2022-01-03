@@ -50,7 +50,7 @@
       "user/*": ["../src/user/*"],
       "src/*": ["../src/*"],
       "stories/*": ["../stories/*"],
-      "types/*": ["./types/*"]
+      "types/*": ["../src/types/*"]
     }
   },
   "include": ["/**/*", "index.d.ts"],

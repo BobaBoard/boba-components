@@ -8,7 +8,7 @@ export default {
   moduleNameMapper: {
     "\\.(css|less)$": "identity-obj-proxy",
     "^react($|/.+)": "<rootDir>/node_modules/react$1",
-    "^types(.*)$": "<rootDir>/types$1",
+    "^types(.*)$": "<rootDir>/src/types$1",
     "^stories(.*)$": "<rootDir>/stories$1",
     "^board(.*)$": "<rootDir>/src/board$1",
     "^common(.*)$": "<rootDir>/src/common$1",

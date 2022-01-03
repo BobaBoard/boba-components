@@ -1,8 +1,9 @@
-import React from "react";
-import { Story, Meta } from "@storybook/react";
 import CircleButton, {
   CircleButtonProps,
 } from "../../src/buttons/CircleButton";
+import { Meta, Story } from "@storybook/react";
+
+import React from "react";
 import { faCoffee } from "@fortawesome/free-solid-svg-icons";
 import mamoru from "../images/mamoru.png";
 

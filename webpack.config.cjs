@@ -1,12 +1,21 @@
 const path = require("path");
 const MiniCssExtractPlugin = require("mini-css-extract-plugin");
-const TsconfigPathsPlugin = require("tsconfig-paths-webpack-plugin");
+const tsconfig = require("./tsconfig.export.json");
 
 module.exports = {
   // Currently we need to add '.ts' to the resolve.extensions array.
   resolve: {
     extensions: [".ts", ".tsx", ".js", ".jsx"],
-    plugins: [new TsconfigPathsPlugin()],
+    alias: Object.keys(tsconfig.compilerOptions.paths).reduce(
+      (aliases, aliasName) => {
+        aliases[aliasName.replace("/*", "")] = path.resolve(
+          __dirname,
+          `src/${tsconfig.compilerOptions.paths[aliasName][0].replace("*", "")}`
+        );
+        return aliases;
+      },
+      {}
+    ),
   },
   plugins: [new MiniCssExtractPlugin()],
   target: "node",

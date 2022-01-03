@@ -5,6 +5,7 @@ import { CreateBaseCompound, extractCompound } from "../utils/compound-utils";
 
 import Header from "./Header";
 import { IconDefinition } from "@fortawesome/free-solid-svg-icons";
+import { IconProps } from "common/Icon";
 import { LinkWithAction } from "types";
 import LoadingBar from "../common/LoadingBar";
 import MenuBar from "./MenuBar";
@@ -117,10 +118,13 @@ const Layout = React.forwardRef<LayoutHandler, LayoutProps>(
         forceHideIdentity={forceHideIdentity}
       />
     );
-    console.log(loading);
     return (
       <div ref={layoutRef}>
-        <LoadingBar loading={loading} accentColor={headerAccent} />
+        <LoadingBar
+          loading={loading}
+          accentColor={headerAccent}
+          label="header loading bar"
+        />
         <div className="layout">
           <QuickAccessBar
             hasNotifications={!!hasNotifications}
@@ -253,6 +257,7 @@ export interface LayoutProps {
   onCompassClick?: () => void;
   loading?: boolean;
   userLoading?: boolean;
+  notificationIcon?: IconProps["icon"];
   hasNotifications: boolean;
   hasOutdatedNotifications: boolean;
   menuOptions?: {

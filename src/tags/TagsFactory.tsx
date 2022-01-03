@@ -1,7 +1,7 @@
+import { TagType, TagsType } from "../types";
+
 import DefaultTheme from "../theme/default";
 import React from "react";
-
-import { TagsType, TagType } from "../types";
 import Tag from "./Tag";
 
 export const INDEXABLE_PREFIX = "#";

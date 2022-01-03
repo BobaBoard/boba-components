@@ -1,12 +1,15 @@
 import { Meta, Story } from "@storybook/react";
-import TagInput, { TagInputProps } from "../../src/tags/TagInput";
+import TagSuggestions, {
+  TagSuggestionsProps,
+} from "../../src/tags/TagSuggestions";
 
 import React from "react";
+import { TagType } from "../../src/types";
 import { action } from "@storybook/addon-actions";
 
 export default {
-  title: "Tags/Tag Input",
-  component: TagInput,
+  title: "Tags/Tag Suggestions",
+  component: TagSuggestions,
   parameters: {
     actions: {
       handles: ["click .option", "click button"],
@@ -29,14 +32,15 @@ export default {
   ],
 } as Meta;
 
-const TagTemplate: Story<TagInputProps> = (args) => {
-  return <TagInput {...args} />;
+const TagTemplate: Story<TagSuggestionsProps> = (args) => {
+  return <TagSuggestions {...args} />;
 };
 
 export const Editable = TagTemplate.bind({});
 Editable.args = {
-  onTagChange: action("onTagChange"),
-  onTagSubmit: action("onTagSubmit"),
-  onDeletePrevious: action("onDeletePrevious"),
-  onFocusChange: action("onFocusChange"),
+  title: "A title",
+  description: "A title",
+  tags: ["A title"],
+  type: TagType.CATEGORY,
+  onSelectTag: action("selected tag"),
 };
