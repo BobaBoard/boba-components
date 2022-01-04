@@ -1,0 +1,61 @@
+# This config is equivalent to both the '.circleci/extended/orb-free.yml' and the base '.circleci/config.yml'
+version: 2.1
+
+# Orbs are reusable packages of CircleCI configuration that you may share across projects, enabling you to create encapsulated, parameterized commands, jobs, and executors that can be used across multiple projects.
+# See: https://circleci.com/docs/2.0/orb-intro/
+orbs:
+  node: circleci/node@5.0.0
+
+jobs:
+  build-and-test:
+    docker:
+      - image: "cimg/base:stable"
+    steps:
+      - checkout
+      - node/install:
+          install-yarn: true
+          node-version: "16.13.1"
+      - run:
+          name: Clone editor repository
+          command: >-
+            git clone https://github.com/essential-randomness/boba-editor
+      - run:
+          name: see files
+          command: ls -la
+      - node/install-packages:
+          pkg-manager: yarn
+          app-dir: boba-editor
+      - run:
+          name: build editor
+          working_directory: boba-editor
+          command: yarn run build
+      - run:
+          name: create editor link
+          working_directory: boba-editor
+          command: yarn link
+      - node/install-packages:
+          pkg-manager: yarn
+      - run:
+          name: link editor
+          command: yarn link @bobaboard/boba-editor
+      - run:
+          name: test
+          command: yarn run test:ci
+
+      # - node/run:
+      #     yarn-run: link
+      #     app-dir: boba-editor
+      # - node/run:
+      #     yarn-run: link @bobaboard/boba-editor
+      # - node/install-packages:
+      #     pkg-manager: yarn
+      # - node/run:
+      #     yarn-run: test
+
+# Invoke jobs via workflows
+# See: https://circleci.com/docs/2.0/configuration-reference/#workflows
+workflows:
+  run-tests: # This is the name of the workflow, feel free to change it to better match your workflow.
+    # Inside the workflow, you define the jobs you want to run.
+    jobs:
+      - build-and-test

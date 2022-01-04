@@ -10,6 +10,7 @@
     "profile": "tsc -p tsconfig.export.json --emitDeclarationOnly && webpack --mode production  --config webpack.config.cjs --profile --json > stats.json",
     "test": "jest --roots tests",
     "test:watch": "yarn run test --watch",
+    "test:ci": "yarn run test --ci --runInBand --no-cache",
     "storybook": "start-storybook -p 6006",
     "build-storybook": "build-storybook",
     "visual-testing": "backstop test",
