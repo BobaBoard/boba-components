@@ -1,9 +1,10 @@
-import React from "react";
-import Editor from "@bobaboard/boba-editor";
-import Theme from "../theme/default";
-import Avatar from "./Avatar";
-import ActionLink from "../buttons/ActionLink";
 import { LinkWithAction, SecretIdentityType } from "types";
+
+import ActionLink from "../buttons/ActionLink";
+import Avatar from "./Avatar";
+import Editor from "@bobaboard/boba-editor";
+import React from "react";
+import Theme from "../theme/default";
 import css from "styled-jsx/css";
 
 const parseText = (text: string) => {
@@ -52,24 +53,6 @@ const PostQuote: React.FC<PostQuoteProps> = (props) => {
       <style jsx>{`
         .quote {
           --text-color: white;
-        }
-        .quote :global(h1) {
-          padding: 0 5px;
-          font-size: 25px !important;
-        }
-        .quote :global(p) {
-          padding: 0 5px;
-          font-size: 15px !important;
-        }
-        // TODO: figure out how to do this without having to repeat the styling for every element
-        .quote :global(li) {
-          font-size: 15px !important;
-        }
-        .quote :global(ol) {
-          font-size: 15px !important;
-        }
-        .quote :global(.block-image-class) {
-          margin: 5px 0;
         }
         .quote-editor {
           background-color: ${Theme.LAYOUT_BOARD_BACKGROUND_COLOR};
