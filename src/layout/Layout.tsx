@@ -68,13 +68,24 @@ const Layout = React.forwardRef<LayoutHandler, LayoutProps>(
     const pinnedMenuContent = extractCompound(children, PinnedMenuContent);
     const actionButton = extractCompound(children, ActionButton);
 
+    const [sideMenuFullyClosed, setSideMenuFullyClosed] = React.useState(true);
     const {
       layoutRef,
       contentRef,
       sideMenuRef,
       setShowSideMenu,
       showSideMenu,
-    } = useSideMenuTransition(onSideMenuFullyOpen);
+    } = useSideMenuTransition({
+      onSideMenuFullyOpen,
+      onSideMenuFullyClosed: React.useCallback(() => {
+        setSideMenuFullyClosed(true);
+      }, []),
+    });
+    React.useEffect(() => {
+      if (showSideMenu) {
+        setSideMenuFullyClosed(false);
+      }
+    }, [showSideMenu]);
 
     React.useImperativeHandle(ref, () => ({
       closeSideMenu: () => {
@@ -130,6 +141,7 @@ const Layout = React.forwardRef<LayoutHandler, LayoutProps>(
             hasNotifications={!!hasNotifications}
             hasOutdatedNotifications={!!hasOutdatedNotifications}
             sideMenuOpen={showSideMenu}
+            sideMenuFullyClosed={sideMenuFullyClosed}
             setShowSideMenu={setShowSideMenu}
             onSideMenuButtonClick={sideMenuButtonAction}
             pinnedMenuContent={pinnedMenuContent}

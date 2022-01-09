@@ -11,6 +11,7 @@ interface QuickAccessBarProps {
   hasOutdatedNotifications: boolean;
   notificationIcon?: IconProps["icon"];
   sideMenuOpen: boolean;
+  sideMenuFullyClosed: boolean;
   setShowSideMenu: (show: boolean) => void;
   onSideMenuButtonClick?: LinkWithAction;
   pinnedMenuContent: React.ReactNode;
@@ -26,6 +27,7 @@ const QuickAccessBar: React.ForwardRefRenderFunction<
     hasNotifications,
     hasOutdatedNotifications,
     sideMenuOpen,
+    sideMenuFullyClosed,
     sideMenuContent,
     onSideMenuButtonClick,
     pinnedMenuContent,
@@ -61,7 +63,9 @@ const QuickAccessBar: React.ForwardRefRenderFunction<
           ref={sideMenuRef}
         >
           <div className="side-bottom-menu">{menuBarContent}</div>
-          <div className="side-menu-content">{sideMenuContent}</div>
+          <div className="side-menu-content">
+            {sideMenuFullyClosed ? null : sideMenuContent}
+          </div>
         </div>
       </div>
       <style jsx>{`

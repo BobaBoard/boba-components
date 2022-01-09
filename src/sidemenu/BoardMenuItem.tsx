@@ -1,13 +1,12 @@
-import React from "react";
-
-import BoardIcon from "../board/BoardIcon";
-import classnames from "classnames";
-import { LinkWithAction } from "../types";
-import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import { faMapMarkerAlt } from "@fortawesome/free-solid-svg-icons";
-import css from "styled-jsx/css";
 import ActionLink from "../buttons/ActionLink";
+import BoardIcon from "../board/BoardIcon";
 import DefaultTheme from "../theme/default";
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import { LinkWithAction } from "../types";
+import React from "react";
+import classnames from "classnames";
+import css from "styled-jsx/css";
+import { faMapMarkerAlt } from "@fortawesome/free-solid-svg-icons";
 
 const { className: containerClassname, styles: containerStyles } = css.resolve`
   .board-menu-item {
@@ -102,7 +101,7 @@ const BoardMenuItem: React.FC<BoardMenuItemProps> = (props) => {
   );
 };
 
-export default BoardMenuItem;
+export default React.memo(BoardMenuItem);
 export interface BoardMenuItemProps {
   avatar: string;
   color: string;
