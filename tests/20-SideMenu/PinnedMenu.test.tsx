@@ -1,6 +1,6 @@
 import "@testing-library/jest-dom/extend-expect";
 
-import * as stories from "stories/20-SideMenu/20-SideMenu.stories";
+import * as stories from "stories/20-SideMenu/01-PinnedMenu.stories";
 
 import {
   Screen,
@@ -24,22 +24,40 @@ jest.mock("uuid", () => ({
   v4: jest.fn(),
 }));
 
-const { SideMenuPreview } = composeStories(stories);
+const { Boards, Loading, Icons, Mixed, MultipleSections } = composeStories(stories);
 
 test("Renders ", async () => {
-  render(<SideMenuPreview />);
+  render(<MultipleSections />);
 
   //TODO: fill this
 });
 
 test("Correctly marks current board", async () => {
-  render(<SideMenuPreview />);
+  render(<Boards />);
 
   //TODO: fill this
 });
 
-test("Correctly marks current board", async () => {
-  render(<SideMenuPreview />);
+test("Correctly marks current icon", async () => {
+  render(<Icons />);
+
+  //TODO: fill this
+});
+
+test("Correctly marks boards with updates", async () => {
+  render(<Boards />);
+
+  //TODO: fill this
+});
+
+test("Correctly marks outdated boards with updates", async () => {
+  render(<Boards />);
+
+  //TODO: fill this
+});
+
+test("Correctly marks muted board", async () => {
+  render(<Boards />);
 
   //TODO: fill this
 });

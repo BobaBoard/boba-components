@@ -1,6 +1,6 @@
 import "@testing-library/jest-dom/extend-expect";
 
-import * as stories from "stories/20-SideMenu/20-SideMenu.stories";
+import * as stories from "stories/20-SideMenu/00-BoardsMenuSection.stories";
 
 import {
   Screen,
@@ -24,22 +24,35 @@ jest.mock("uuid", () => ({
   v4: jest.fn(),
 }));
 
-const { SideMenuPreview } = composeStories(stories);
+const { Regular, Empty, Loading, Long } = composeStories(stories);
 
-test("Renders ", async () => {
-  render(<SideMenuPreview />);
+
+test("Correctly marks boards with updates", async () => {
+  render(<Regular />);
+
+  //TODO: fill this
+});
+
+test("Correctly marks outdated boards with updates", async () => {
+  render(<Regular />);
+
+  //TODO: fill this
+});
+
+test("Long board slug text doesn't overflow", async () => {
+  render(<Long />);
 
   //TODO: fill this
 });
 
 test("Correctly marks current board", async () => {
-  render(<SideMenuPreview />);
+  render(<Long />);
 
   //TODO: fill this
 });
 
-test("Correctly marks current board", async () => {
-  render(<SideMenuPreview />);
+test("Correctly marks muted board", async () => {
+  render(<Long />);
 
   //TODO: fill this
 });
