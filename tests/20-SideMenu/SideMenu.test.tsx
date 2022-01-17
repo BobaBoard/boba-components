@@ -11,34 +11,66 @@ import {
   within,
 } from "@testing-library/react";
 
-import { DescriptionType } from "types";
 import React from "react";
 import { action } from "@storybook/addon-actions";
 import { composeStories } from "@storybook/testing-react";
 import { mocked } from "ts-jest/utils";
 import userEvent from "@testing-library/user-event";
-import { v4 } from "uuid";
 
 jest.mock("@storybook/addon-actions");
-jest.mock("uuid", () => ({
-  v4: jest.fn(),
-}));
 
 const { SideMenuPreview } = composeStories(stories);
 
-test("Renders ", async () => {
+test("Renders pinned menu", async () => {
   render(<SideMenuPreview />);
 
   //TODO: fill this
 });
 
-test("Correctly marks current board", async () => {
+test("Pinned Menu doesn't render when turned off", async () => {
   render(<SideMenuPreview />);
 
   //TODO: fill this
 });
 
-test("Correctly marks current board", async () => {
+test("Renders boards menu", async () => {
+  render(<SideMenuPreview />);
+
+  //TODO: fill this
+});
+
+test("Renders board filter", async () => {
+  render(<SideMenuPreview />);
+
+  //TODO: fill this
+});
+
+//Currently not rendered in Storybook
+test("Renders boards dropdown", async () => {
+  render(<SideMenuPreview />);
+
+  //TODO: fill this
+});
+
+test("Dismisses notifications from dropdown", async () => {
+  render(<SideMenuPreview />);
+
+  //TODO: fill this
+});
+
+test("Board filter correctly filters boards", async () => {
+  render(<SideMenuPreview />);
+
+  //TODO: fill this
+});
+
+test("Board filter correctly unfilters boards on entry deletion", async () => {
+  render(<SideMenuPreview />);
+
+  //TODO: fill this
+});
+
+test("Renders empty section if no boards match filter search", async () => {
   render(<SideMenuPreview />);
 
   //TODO: fill this

@@ -26,33 +26,74 @@ jest.mock("uuid", () => ({
 
 const { Regular, Empty, Loading, Long } = composeStories(stories);
 
-
-test("Correctly marks boards with updates", async () => {
-  render(<Regular />);
-
-  //TODO: fill this
+describe("Regular", () => {
+  test("Renders section with board menu items", async () => {
+    render(<Regular />);
+  
+    //TODO: fill this
+  });
+  
+  //Not sure if this should be it's own test or part of the previous test
+  test("Board menu items link to boards", async () => {
+    render(<Regular />);
+  
+    //TODO: fill this
+  });
+  
+  test("Correctly marks boards with updates", async () => {
+    render(<Regular />);
+  
+    //TODO: fill this
+  });
+  
+  test("Correctly marks outdated boards with updates", async () => {
+    render(<Regular />);
+  
+    //TODO: fill this
+  });
+  
+  test("Long board slug text doesn't overflow", async () => {
+    render(<Regular />);
+  
+    //TODO: fill this
+  });
+  
+  test("Correctly marks current board", async () => {
+    render(<Regular />);
+  
+    //TODO: fill this
+  });
 });
 
-test("Correctly marks outdated boards with updates", async () => {
-  render(<Regular />);
-
-  //TODO: fill this
+describe("Empty", () => {
+  test("Renders empty section", async () => {
+    render(<Empty />);
+  
+    //TODO: fill this
+  });
 });
 
-test("Long board slug text doesn't overflow", async () => {
-  render(<Long />);
-
-  //TODO: fill this
+describe("Loading", () => {
+  test("Renders loading section", async () => {
+    render(<Loading />);
+  
+    //TODO: fill this
+  });
 });
 
-test("Correctly marks current board", async () => {
-  render(<Long />);
+describe("Long", () => {
+  test("Correctly marks muted board", async () => {
+    render(<Long />);
+  
+    //TODO: fill this
+  });
 
-  //TODO: fill this
+  test("Correctly renders board without updates", async () => {
+    render(<Long />);
+  
+    //TODO: fill this
+  });
 });
 
-test("Correctly marks muted board", async () => {
-  render(<Long />);
 
-  //TODO: fill this
-});
+
