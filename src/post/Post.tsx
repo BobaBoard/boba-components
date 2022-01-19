@@ -256,7 +256,16 @@ const Post = React.forwardRef<PostHandler, PostProps>((props, ref) => {
           </Card.Footer>
         </Card>
       </div>
-
+      <style jsx>{`
+        /*dynamic styles*/
+        .board-info {
+          background-color: ${props.board?.accentColor || "none"};
+          text-align: center;
+          padding: 3px;
+          color: white;
+          font-weight: bold;
+        }
+      `}</style>
       <style jsx>{`
         /*static styles*/
         .muted {
