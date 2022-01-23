@@ -1,5 +1,4 @@
 import React from "react";
-
 import classnames from "classnames";
 
 const MAX_TRAILS = 15;
@@ -105,7 +104,7 @@ const CustomCursor: React.FC<CustomCursorProps> = (props) => {
       )}
       <style jsx>{`
         :global(body) {
-          cursor: url(${props.cursorImage}), auto;
+          cursor: ${props.cursorImage ? `url(${props.cursorImage}), ` : ``} auto;
         }
         .cursor-container {
           position: fixed;
