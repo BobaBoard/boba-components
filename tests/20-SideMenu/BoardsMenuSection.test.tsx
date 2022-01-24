@@ -47,14 +47,23 @@ describe("Regular", () => {
     //TODO: fill this
   });
   
-  test("Long board slug text doesn't overflow", async () => {
+  test("Correctly marks current board", async () => {
     render(<Regular />);
   
     //TODO: fill this
   });
+});
+
+//TODO: Update Regular story to include these examples and get rid of Long story, then move these tests up under Regular
+describe("Long", () => {
+  test("Correctly marks muted board", async () => {
+    render(<Long />);
   
-  test("Correctly marks current board", async () => {
-    render(<Regular />);
+    //TODO: fill this
+  });
+
+  test("Correctly renders board without updates", async () => {
+    render(<Long />);
   
     //TODO: fill this
   });
@@ -76,19 +85,7 @@ describe("Loading", () => {
   });
 });
 
-describe("Long", () => {
-  test("Correctly marks muted board", async () => {
-    render(<Long />);
-  
-    //TODO: fill this
-  });
 
-  test("Correctly renders board without updates", async () => {
-    render(<Long />);
-  
-    //TODO: fill this
-  });
-});
 
 
 

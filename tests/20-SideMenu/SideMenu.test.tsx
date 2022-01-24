@@ -39,39 +39,22 @@ test("Renders boards menu", async () => {
   //TODO: fill this
 });
 
-test("Renders board filter", async () => {
-  render(<SideMenuPreview />);
-
-  //TODO: fill this
-});
-
-//Currently not rendered in Storybook
+//Currently not rendered in Storybook. Need to add menuOptions arg in SideMenu story before testing
 test("Renders boards dropdown", async () => {
   render(<SideMenuPreview />);
 
   //TODO: fill this
 });
 
-test("Dismisses notifications from dropdown", async () => {
+test("Renders board filter", async () => {
   render(<SideMenuPreview />);
 
   //TODO: fill this
 });
 
-test("Board filter correctly filters boards", async () => {
+test("Correctly propagates filter change on text entry", async () => {
   render(<SideMenuPreview />);
 
   //TODO: fill this
 });
 
-test("Board filter correctly unfilters boards on entry deletion", async () => {
-  render(<SideMenuPreview />);
-
-  //TODO: fill this
-});
-
-test("Renders empty section if no boards match filter search", async () => {
-  render(<SideMenuPreview />);
-
-  //TODO: fill this
-});

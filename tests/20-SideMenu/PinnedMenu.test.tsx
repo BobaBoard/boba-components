@@ -51,18 +51,6 @@ describe("Boards", () => {
   
     //TODO: fill this
   });
-  
-  test("Pinning board adds it to Pinned menu", async () => {
-    render(<Boards />);
-  
-    //TODO: fill this
-  });
-  
-  test("Uninning board removes it from Pinned menu", async () => {
-    render(<Boards />);
-  
-    //TODO: fill this
-  });
 });
 
 describe("Loading", () => {
@@ -86,7 +74,7 @@ describe("Icons", () => {
     //TODO: fill this
   });
 
-  //Is this implemented? In Storybook icon has chevron, but doesn't actually open menu
+  //TODO: Need to implement DropdownListMenu in PinnedMenu.tsx before testing this
   test("Renders icon options dropdown", async () => {
     render(<Icons />);
   
