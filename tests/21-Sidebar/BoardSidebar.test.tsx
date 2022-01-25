@@ -261,64 +261,64 @@ describe("Editable", () => {
     );
   });
 
-  test("Correctly orders sections on submit (complex edit)", async () => {
-    render(<EditableBoardSidebar />);
+//   test("Correctly orders sections on submit (complex edit)", async () => {
+//     render(<EditableBoardSidebar />);
 
-    // Add a first text section
-    mocked(v4).mockReturnValueOnce("ts1");
-    await addTextSection(screen, {
-      titleText: "First section",
-      editorText: "The editor content",
-    });
+//     // Add a first text section
+//     mocked(v4).mockReturnValueOnce("ts1");
+//     await addTextSection(screen, {
+//       titleText: "First section",
+//       editorText: "The editor content",
+//     });
 
-    // Add a second text section
-    mocked(v4).mockReturnValueOnce("ts2");
-    await addTextSection(screen, {
-      titleText: "Second section",
-      editorText: "The editor content",
-    });
+//     // Add a second text section
+//     mocked(v4).mockReturnValueOnce("ts2");
+//     await addTextSection(screen, {
+//       titleText: "Second section",
+//       editorText: "The editor content",
+//     });
 
-    // Delete Rules section
-    await deleteSection(screen, "Rules");
+//     // Delete Rules section
+//     await deleteSection(screen, "Rules");
 
-    // Add a third text section
-    mocked(v4).mockReturnValueOnce("ts3");
-    await addTextSection(screen, {
-      titleText: "Third section",
-      editorText: "The editor content",
-    });
+//     // Add a third text section
+//     mocked(v4).mockReturnValueOnce("ts3");
+//     await addTextSection(screen, {
+//       titleText: "Third section",
+//       editorText: "The editor content",
+//     });
 
-    // Delete second section
-    await deleteSection(screen, "Second section");
+//     // Delete second section
+//     await deleteSection(screen, "Second section");
 
-    // Add fourth section
-    mocked(v4).mockReturnValueOnce("ts4");
-    await addTextSection(screen, {
-      titleText: "Fourth section",
-      editorText: "The editor content",
-    });
+//     // Add fourth section
+//     mocked(v4).mockReturnValueOnce("ts4");
+//     await addTextSection(screen, {
+//       titleText: "Fourth section",
+//       editorText: "The editor content",
+//     });
 
-    // Submit
-    await submitAndCheckValue(
-      screen,
-      hasDescriptionsMatcher([
-        expect.objectContaining({
-          title: "Board content notices",
-          index: 1,
-        }),
-        expect.objectContaining({
-          title: "First section",
-          index: 2,
-        }),
-        expect.objectContaining({
-          title: "Third section",
-          index: 3,
-        }),
-        expect.objectContaining({
-          title: "Fourth section",
-          index: 4,
-        }),
-      ])
-    );
-  });
+//     // Submit
+//     await submitAndCheckValue(
+//       screen,
+//       hasDescriptionsMatcher([
+//         expect.objectContaining({
+//           title: "Board content notices",
+//           index: 1,
+//         }),
+//         expect.objectContaining({
+//           title: "First section",
+//           index: 2,
+//         }),
+//         expect.objectContaining({
+//           title: "Third section",
+//           index: 3,
+//         }),
+//         expect.objectContaining({
+//           title: "Fourth section",
+//           index: 4,
+//         }),
+//       ])
+//     );
+//   });
 });

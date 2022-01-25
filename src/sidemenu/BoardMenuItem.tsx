@@ -1,13 +1,12 @@
-import React from "react";
-
-import BoardIcon from "../board/BoardIcon";
-import classnames from "classnames";
-import { LinkWithAction } from "../types";
-import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import { faMapMarkerAlt } from "@fortawesome/free-solid-svg-icons";
-import css from "styled-jsx/css";
 import ActionLink from "../buttons/ActionLink";
+import BoardIcon from "../board/BoardIcon";
 import DefaultTheme from "../theme/default";
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import { LinkWithAction } from "../types";
+import React from "react";
+import classnames from "classnames";
+import css from "styled-jsx/css";
+import { faMapMarkerAlt } from "@fortawesome/free-solid-svg-icons";
 
 const { className: containerClassname, styles: containerStyles } = css.resolve`
   .board-menu-item {
@@ -31,9 +30,22 @@ const BoardMenuItem: React.FC<BoardMenuItemProps> = (props) => {
     outdated,
     current,
   } = props;
+
+  const notificationLabel =
+    props.muted
+    ? `${slug} muted`
+    :(props.updates && !props.outdated)
+    ? `${slug} has new updates`
+    :(props.updates && props.outdated)
+    ? `${slug} has updates`
+    : `${slug}`;
+
   return (
     <ActionLink
       link={link}
+
+      // Why doesn't this work? Even if I just put a string in for the aria label Testing Library tells me that the links are named !boardname. I thought an aria label is supposed to override child content as the name?
+      aria-label={notificationLabel}
       className={classnames(containerClassname, "board-menu-item", {
         "has-updates": !!updates,
         muted: !!muted,

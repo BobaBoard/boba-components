@@ -5,6 +5,7 @@ import * as stories from "stories/20-SideMenu/00-BoardsMenuSection.stories";
 import {
   Screen,
   fireEvent,
+  getByText,
   render,
   screen,
   waitFor,
@@ -19,7 +20,7 @@ import userEvent from "@testing-library/user-event";
 
 jest.mock("@storybook/addon-actions");
 
-const { Regular, Empty, Loading, Long } = composeStories(stories);
+const { Regular, Empty, Loading, } = composeStories(stories);
 
 describe("Regular", () => {
   test("Renders section with board menu items", async () => {
@@ -35,10 +36,17 @@ describe("Regular", () => {
     //TODO: fill this
   });
   
+  test("Correctly renders board without updates", async () => {
+    render(<Regular />);
+
+    //Not sure .toBe is the right thing to expect here, but can't try it to figure it out because Testing Library can't find my aria labels
+    expect(screen.getByText("!oncie-den")).toBe(screen.getByRole("link", { name: "oncie-den"}));
+  });
+  
   test("Correctly marks boards with updates", async () => {
     render(<Regular />);
   
-    //TODO: fill this
+    expect(screen.getByLabelText("gore has new updates", {exact:false}));
   });
   
   test("Correctly marks outdated boards with updates", async () => {
@@ -52,18 +60,9 @@ describe("Regular", () => {
   
     //TODO: fill this
   });
-});
 
-//TODO: Update Regular story to include these examples and get rid of Long story, then move these tests up under Regular
-describe("Long", () => {
   test("Correctly marks muted board", async () => {
-    render(<Long />);
-  
-    //TODO: fill this
-  });
-
-  test("Correctly renders board without updates", async () => {
-    render(<Long />);
+    render(<Regular />);
   
     //TODO: fill this
   });
@@ -72,8 +71,9 @@ describe("Long", () => {
 describe("Empty", () => {
   test("Renders empty section", async () => {
     render(<Empty />);
-  
-    //TODO: fill this
+    
+    // This gives error "Property 'emptyDescription' does not exist on type 'Partial<Partial<BoardsMenuSectionProps>>'." and I don't understand why???
+    // expect(screen.getByText(Empty.args!.emptyDescription))
   });
 });
 

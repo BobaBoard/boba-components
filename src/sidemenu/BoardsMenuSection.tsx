@@ -1,12 +1,11 @@
-import { IconDefinition } from "@fortawesome/free-solid-svg-icons";
-import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import React from "react";
-import { BoardType } from "../types";
-import classnames from "classnames";
-
 import BoardMenuItem from "./BoardMenuItem";
-import LoadingPlaceholder from "../common/LoadingPlaceholder";
+import { BoardType } from "../types";
 import DefaultTheme from "../theme/default";
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import { IconDefinition } from "@fortawesome/free-solid-svg-icons";
+import LoadingPlaceholder from "../common/LoadingPlaceholder";
+import React from "react";
+import classnames from "classnames";
 
 const BoardsMenuSection: React.FC<BoardsMenuSectionProps> = (props) => {
   const { boards, title, icon, currentBoardSlug } = props as BoardsSectionProps;
