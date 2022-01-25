@@ -1,16 +1,14 @@
-import React from "react";
+import { Boards, Icons } from "./01-PinnedMenu.stories";
+import { Empty, Loading, Regular } from "./00-BoardsMenuSection.stories";
 import SideMenu, {
   SideMenuHandler,
   SideMenuProps,
 } from "../../src/sidemenu/SideMenu";
 
-import { Empty, Loading, Regular, Long } from "./00-BoardsMenuSection.stories";
-import { Icons, Boards } from "./01-PinnedMenu.stories";
-
-import { Story } from "@storybook/react";
-
-import PinnedMenu from "../../src/sidemenu/PinnedMenu";
 import BoardsMenuSection from "../../src/sidemenu/BoardsMenuSection";
+import PinnedMenu from "../../src/sidemenu/PinnedMenu";
+import React from "react";
+import { Story } from "@storybook/react";
 
 export default {
   title: "Side Menu/Side Menu",
@@ -36,8 +34,8 @@ const SideMenuPreviewTemplate: Story<
       <BoardsMenuSection {...Loading.args} loading={args.loading} />
       {/* @ts-expect-error (see: https://github.com/storybookjs/storybook/issues/13747) */}
       <BoardsMenuSection {...Empty.args} />
-      {/* @ts-expect-error (see: https://github.com/storybookjs/storybook/issues/13747) */}
-      <BoardsMenuSection {...Long.args} />
+      {/* @ts-expect-error (see: https://github.com/storybookjs/storybook/issues/13747)
+      <BoardsMenuSection {...Long.args} /> */}
     </SideMenu>
   );
 };
