@@ -79,7 +79,7 @@ const QuickAccessBar: React.ForwardRefRenderFunction<
           position: fixed;
           top: 0;
           left: 0;
-          z-index: 95;
+          z-index: 49;
         }
         .side-menu {
           background-color: ${Theme.LAYOUT_BOARD_BACKGROUND_COLOR};
@@ -135,7 +135,7 @@ const QuickAccessBar: React.ForwardRefRenderFunction<
         }
         .pinned-boards {
           background-color: ${Theme.LAYOUT_HEADER_BACKGROUND_COLOR};
-          z-index: 94;
+          z-index: 48;
           padding-top: ${Theme.HEADER_HEIGHT_PX}px;
           left: 0px;
           bottom: 0px;

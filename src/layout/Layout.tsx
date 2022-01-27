@@ -172,7 +172,7 @@ const Layout = React.forwardRef<LayoutHandler, LayoutProps>(
                 setShowSideMenu(false);
               }}
             />
-            <div ref={contentRef} className="content">
+            <div ref={contentRef} className="layout-content">
               {mainContent}
               {actionButton}
             </div>
@@ -193,8 +193,19 @@ const Layout = React.forwardRef<LayoutHandler, LayoutProps>(
               flex-grow: 1;
               position: relative;
               margin-left: ${Theme.PINNED_BAR_WIDTH_PX}px;
+              flex-shrink: 0;
+              width: calc(100% - ${Theme.PINNED_BAR_WIDTH_PX}px);
+              overflow: hidden;
+              background-color: ${Theme.LAYOUT_BOARD_SIDEBAR_BACKGROUND_COLOR};
+              transition: transform 0.3s ease-out;
             }
-            .content {
+            .layout-body.side-menu-open {
+              transform: translateX(var(--side-menu-width));
+            }
+            .layout-body.side-menu-open .layout-content {
+              flex-shrink: 0;
+            }
+            .layout-content {
               display: flex;
               flex-grow: 1;
               position: relative;
@@ -215,23 +226,6 @@ const Layout = React.forwardRef<LayoutHandler, LayoutProps>(
             .backdrop.visible {
               display: block;
               width: 100%;
-            }
-            .layout-body {
-              background-color: ${Theme.LAYOUT_BOARD_SIDEBAR_BACKGROUND_COLOR};
-              transition: transform 0.3s ease-out;
-            }
-            .layout-body.side-menu-open {
-              transform: translateX(var(--side-menu-width));
-            }
-            .layout-body.side-menu-open .content {
-              flex-shrink: 0;
-            }
-            .content {
-              flex-grow: 1;
-            }
-            .layout-body {
-              flex-shrink: 0;
-              width: calc(100% - ${Theme.PINNED_BAR_WIDTH_PX}px);
             }
             @media only screen and (max-width: 850px) {
               .layout-body {

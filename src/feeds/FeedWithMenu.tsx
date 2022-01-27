@@ -204,13 +204,13 @@ const FeedWithMenu: React.FC<FeedWithMenuProps> & CompoundComponents = ({
             sidebarContent
           )}
         </div>
-        <div className="main">
+        <main>
           {feedContent}
           <div
             ref={intersectionObserverRef}
             className="intersection-observer-ref"
           />
-        </div>
+        </main>
       </div>
       <style jsx>
         {`
@@ -220,7 +220,7 @@ const FeedWithMenu: React.FC<FeedWithMenuProps> & CompoundComponents = ({
             min-height: calc(100vh - ${Theme.HEADER_HEIGHT_PX}px);
             background-image: var(--feed-background-image);
           }
-          .main {
+          main {
             display: flex;
             flex-direction: column;
             align-items: center;
@@ -252,7 +252,7 @@ const FeedWithMenu: React.FC<FeedWithMenuProps> & CompoundComponents = ({
             .sidebar {
               border-radius: ${Theme.BORDER_RADIUS_LARGE}
                 ${Theme.BORDER_RADIUS_LARGE} 0px 0px;
-              width: 95%;
+              width: min(95%, 450px);
               position: fixed;
               left: 50%;
               transform: translate(-50%, 20%);
@@ -270,7 +270,7 @@ const FeedWithMenu: React.FC<FeedWithMenuProps> & CompoundComponents = ({
               opacity: 1;
               transform: translate(-50%, 0%);
             }
-            .main {
+            main {
               width: calc(100% - 12px);
               padding: 0 6px;
             }
