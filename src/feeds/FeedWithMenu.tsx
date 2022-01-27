@@ -1,16 +1,14 @@
-import React from "react";
-
-import classnames from "classnames";
-import Scrollbar from "../common/Scrollbar";
-
-import Theme from "../theme/default";
-import { useBackdrop } from "../utils";
-import debounce from "debounce";
-import noop from "noop-ts";
 import { ResizeObserver as Polyfill } from "@juggle/resize-observer";
-require("intersection-observer");
-
+import React from "react";
+import Scrollbar from "../common/Scrollbar";
+import Theme from "../theme/default";
+import classnames from "classnames";
+import debounce from "debounce";
 import debug from "debug";
+import noop from "noop-ts";
+import { useBackdrop } from "../utils";
+
+require("intersection-observer");
 
 const log = debug("bobaui:feed-with-menu-log");
 
@@ -22,28 +20,6 @@ export interface FeedWithMenuProps {
   accentColor?: string;
   onReachEnd?: (more?: (more: boolean) => void) => void;
 }
-
-// const maybePreventScrollOverflow = (
-//   event: React.WheelEvent,
-//   wrapper: HTMLDivElement
-// ) => {
-//   if (
-//     event.deltaY > 0 &&
-//     wrapper.scrollTop == wrapper.scrollHeight - wrapper.offsetHeight;
-//   ) {
-//     event.preventDefault();
-//   }
-// };
-
-// const preventEvent = (ref: HTMLDivElement) => {
-//   return (e: TouchEvent) => {
-//     let found = e.composedPath().filter((tgt) => tgt == ref);
-//     if (found.length == 0) {
-//       e.preventDefault();
-//       e.stopImmediatePropagation();
-//     }
-//   };
-// };
 
 interface CompoundComponents {
   Sidebar: React.FC<{ children: React.ReactNode }>;
@@ -96,49 +72,6 @@ const FeedWithMenu: React.FC<FeedWithMenuProps> & CompoundComponents = ({
       onCloseSidebar?.();
     },
   });
-
-  /**
-   * This horrible, horrible section prevents scrolling of the background element
-   * on mobile (especially iOS). It works by creating a touch event handler that
-   * looks at whether the sidebar is part of the targets of the touch event, and
-   * prevents its side effect (scrolling) if it isn't. This way only scroll events
-   * that occurr on the sidebar itself will cause the scroll to actually happen,
-   * and those with no sidebar involvement will be instead cancelled.
-   *
-   * This is only applied while the sidebar is explicitly open.
-   */
-  // const scrollableMenuRef = React.useCallback<any>((node: HTMLDivElement) => {
-  //   if (node) {
-  //     setTouchEventHandler(() => preventEvent(node));
-  //   }
-  // }, []);
-  // const [touchEventHandler, setTouchEventHandler] = React.useState<any>(null);
-
-  // React.useEffect(() => {
-  //   if (showSidebar && touchEventHandler) {
-  //     scrollableContentRef.current.addEventListener(
-  //       "touchmove",
-  //       touchEventHandler,
-  //       {
-  //         capture: false,
-  //         passive: false,
-  //       }
-  //     );
-  //   } else if (touchEventHandler) {
-  //     scrollableContentRef.current.removeEventListener(
-  //       "touchmove",
-  //       touchEventHandler,
-  //       {
-  //         capture: false,
-  //         passive: false,
-  //       }
-  //     );
-  //   }
-  // }, [showSidebar, touchEventHandler]);
-
-  /**
-   * End of horrible section.
-   */
 
   // Change overflow of content when sidebar is open
   React.useEffect(() => {
@@ -265,18 +198,7 @@ const FeedWithMenu: React.FC<FeedWithMenuProps> & CompoundComponents = ({
         >
           {showSidebar ? (
             <Scrollbar>
-              <div
-                className="sidebar-content-wrapper"
-                // onWheel={(e) => {
-                //   maybePreventScrollOverflow(
-                //     e,
-                //     // @ts-ignore
-                //     scrollableNodeRef.current?.contentWrapperEl
-                //   );
-                // }}
-              >
-                {sidebarContent}
-              </div>
+              <div className="sidebar-content-wrapper">{sidebarContent}</div>
             </Scrollbar>
           ) : (
             sidebarContent
