@@ -13,6 +13,7 @@ import Card from "../common/Card";
 import Editor from "@bobaboard/boba-editor";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import Footer from "./Footer";
+import type { IconProps } from "common/Icon";
 import React from "react";
 import Reaction from "../common/Reaction";
 import Tags from "../tags/Tags";
@@ -180,6 +181,7 @@ const Post = React.forwardRef<PostHandler, PostProps>((props, ref) => {
                   size={HeaderStyle.REGULAR}
                   backgroundColor={props.muted ? "#dcdcdc" : undefined}
                   forceHide={props.forceHideIdentity}
+                  createdMessageIcon={props.createdMessageIcon}
                 />
               </div>
               {props.menuOptions && (
@@ -426,6 +428,7 @@ export interface PostProps {
   text: string;
   createdTime: string;
   createdTimeLink: LinkWithAction;
+  createdMessageIcon: IconProps["icon"];
   secretIdentity: SecretIdentityType;
   userIdentity?: {
     avatar: string;

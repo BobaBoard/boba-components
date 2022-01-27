@@ -5,14 +5,15 @@ import {
   UserIdentityType,
 } from "../types";
 import DropdownListMenu, { DropdownProps } from "../common/DropdownListMenu";
+import Icon, { IconProps } from "../common/Icon";
 
 import AccessorySelector from "./AccessorySelector";
 import ActionLink from "../buttons/ActionLink";
 import Avatar from "./Avatar";
 import DefaultTheme from "../theme/default";
-import Icon from "../common/Icon";
 import React from "react";
 import classnames from "classnames";
+import css from "styled-jsx/css";
 import { faCaretDown } from "@fortawesome/free-solid-svg-icons";
 
 export enum UserMetadataStyle {
@@ -30,6 +31,7 @@ export interface UserMetadataProps {
   identityDropdownLabel?: string;
   identityOptions?: DropdownProps["options"];
   createdMessage?: string;
+  createdMessageIcon?: IconProps["icon"];
   createdMessageLink?: LinkWithAction;
   size?: UserMetadataStyle;
 }
@@ -39,6 +41,12 @@ export interface AccessorySelectionProps {
   accessories?: AccessoryType[];
   onSelectAccessory?: (accessory: AccessoryType | undefined) => void;
 }
+const { className: iconClassName, styles: iconStyles } = css.resolve`
+  .icon {
+    margin-right: 2px;
+    color: ${DefaultTheme.POST_HEADER_DATE_COLOR};
+  }
+`;
 
 const IdentityMetadata: React.FC<
   UserMetadataProps & AccessorySelectionProps
@@ -218,6 +226,9 @@ const UserMetadata = React.forwardRef<
         <div className="metadata">
           <IdentityMetadata {...props} />
           <div className="timestamp">
+            {props.createdMessageIcon && (
+              <Icon className={iconClassName} icon={props.createdMessageIcon} />
+            )}
             <ActionLink
               link={createdMessageLink}
               label="The timestamp of the post"
@@ -280,6 +291,7 @@ const UserMetadata = React.forwardRef<
           }
         `}
       </style>
+      {iconStyles}
     </div>
   );
 });

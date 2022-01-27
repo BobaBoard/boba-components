@@ -2,6 +2,7 @@ import { AccessoryType, LinkWithAction, SecretIdentityType } from "../types";
 import UserMetadata, { UserMetadataStyle } from "./UserMetadata";
 
 import { DropdownProps } from "../common/DropdownListMenu";
+import { IconProps } from "common/Icon";
 import React from "react";
 import classnames from "classnames";
 import debug from "debug";
@@ -127,6 +128,7 @@ const PostHeader = React.forwardRef<HTMLDivElement, PostHeaderProps>(
           }
           identityDropdownLabel="Select visible identity"
           createdMessage={props.createdMessage}
+          createdMessageIcon={props.createdMessageIcon}
           createdMessageLink={props.createdMessageLink}
           selectedAccessory={selectedAccessory}
           accessories={props.accessories}
@@ -151,7 +153,7 @@ const PostHeader = React.forwardRef<HTMLDivElement, PostHeaderProps>(
           .header-container.compact {
             align-items: center;
           }
-          .header-container.compact.with-accessory-select {
+          .header-containetypeIconr.compact.with-accessory-select {
             margin-bottom: 7px;
           }
         `}</style>
@@ -177,6 +179,7 @@ export interface PostHeaderProps {
   };
   avatarOptions?: DropdownProps["options"];
   createdMessage?: string;
+  createdMessageIcon: IconProps["icon"];
   createdMessageLink?: LinkWithAction;
   forceHide?: boolean;
   newPost?: boolean;

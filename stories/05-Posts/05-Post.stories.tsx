@@ -5,9 +5,10 @@ import {
   getInitialTextString,
 } from "../utils/editor-controls";
 import { Meta, Story } from "@storybook/react";
-import Post, { PostHandler, PostProps } from "../../src/post/Post";
+import Post, { PostHandler, PostProps } from "post/Post";
+import { faCodeBranch, faLink } from "@fortawesome/free-solid-svg-icons";
 
-import Button from "../../src/buttons/Button";
+import Button from "buttons/Button";
 import React from "react";
 import { WITH_ACCESSORIES_DECORATOR } from "../utils/decorators";
 import { action } from "@storybook/addon-actions";
@@ -127,6 +128,7 @@ WithDropdownAction.args = {
   menuOptions: [
     {
       name: "Copy Link",
+      icon: faLink,
       link: {
         onClick: action("copy!"),
         href: "https://www.youtube.com/watch?v=dQw4w9WgXcQ",
@@ -158,12 +160,19 @@ ForceHideIdentity.args = {
 };
 
 export const WithLongIdentityName = PostTemplate.bind({});
-WithDropdownAction.args = {
-  ...Tagged.args,
+WithLongIdentityName.args = {
+  ...WithDropdownAction.args,
   secretIdentity: {
-    name: "Tuxedo Mask askldjaksldjaskld askdjaskldjaskldjas daskjdaklsdjaklsdj askdjaskldjaklsdjaskld askdj kasjdaklsdjaklsdjaskldjslk",
+    name:
+      "Tuxedo Mask askldjaksldjaskld askdjaskldjaskldjas daskjdaklsdjaklsdj askdjaskldjaklsdjaskld askdj kasjdaklsdjaklsdjaskldjslk",
     avatar: `/${tuxedoAvatar}`,
   },
+};
+
+export const WithThreadTypeIcon = PostTemplate.bind({});
+WithThreadTypeIcon.args = {
+  ...WithLongIdentityName.args,
+  createdMessageIcon: faCodeBranch,
 };
 
 export const WithAccessories = PostTemplate.bind({});
