@@ -48,9 +48,9 @@
       "user/*": ["../src/user/*"],
       "src/*": ["../src/*"],
       "stories/*": ["../stories/*"],
-      "types/*": ["./types/*"]
+      "types/*": ["../src/types/*"]
     }
   },
-  "include": ["src/**/*", "index.d.ts"],
+  "include": ["image-types.d.ts", "extra-types.d.ts", "src/**/*"],
   "exclude": ["node_modules", "build", "scripts"]
 }

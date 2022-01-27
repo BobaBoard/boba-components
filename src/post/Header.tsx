@@ -5,7 +5,7 @@ import { DropdownProps } from "../common/DropdownListMenu";
 import React from "react";
 import classnames from "classnames";
 import debug from "debug";
-import questionMark from "../images/question_mark.png";
+import questionMark from "images/question_mark.png";
 
 // import Icon from "../common/Icon";
 //const log = debug("bobaui:header-log");

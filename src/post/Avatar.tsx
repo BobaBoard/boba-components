@@ -1,7 +1,7 @@
 import React from "react";
 import { SecretIdentityType } from "../types";
 import classnames from "classnames";
-import questionMark from "../images/question_mark.png";
+import questionMark from "images/question_mark.png";
 
 const Avatar = React.forwardRef<HTMLDivElement, AvatarProps>((props, ref) => {
   const visibleSecretAvatar = !props.forceHide && props.userIdentity?.avatar;

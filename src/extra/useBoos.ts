@@ -1,12 +1,10 @@
-import css from "styled-jsx/css";
-
-import debug from "debug";
 import React from "react";
-
-import booAwake from "../images/xmas_boo_awake.png";
-import booAwakeFlipped from "../images/xmas_boo_awake_flipped.png";
-import booShy from "../images/xmas_boo_shy.png";
-import booShyFlipped from "../images/xmas_boo_shy_flipped.png";
+import booAwake from "images/xmas_boo_awake.png";
+import booAwakeFlipped from "images/xmas_boo_awake_flipped.png";
+import booShy from "images/xmas_boo_shy.png";
+import booShyFlipped from "images/xmas_boo_shy_flipped.png";
+import css from "styled-jsx/css";
+import debug from "debug";
 
 const info = debug("bobafrontend:index-info");
 

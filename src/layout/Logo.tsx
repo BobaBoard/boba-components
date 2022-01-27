@@ -1,9 +1,8 @@
-import React from "react";
-
-import ActionLink from "../buttons/ActionLink";
-import logo from "../images/logo.svg";
-import compactLogo from "../images/logo-compact.svg";
+import ActionLink from "buttons/ActionLink";
 import { LinkWithAction } from "../types";
+import React from "react";
+import compactLogo from "images/logo-compact.svg";
+import logo from "images/logo.svg";
 
 interface LogoProps {
   accentColor?: string;
