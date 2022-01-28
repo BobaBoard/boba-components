@@ -1,4 +1,4 @@
-import "react-toastify/dist/ReactToastify.css";
+import "react-toastify/dist/ReactToastify.min.css";
 
 import {
   ToastContainer as ToastLibContainer,
@@ -8,14 +8,12 @@ import {
 
 import React from "react";
 
-export interface ToastContainerProps {}
-
 const bobaTransition = cssTransition({
   enter: "fade-in-top-animation",
   exit: "slide-out-blurred-top-animation",
 });
 
-const Toast = (props: ToastContainerProps) => {
+const Toast = () => {
   return (
     <>
       <ToastLibContainer
@@ -24,9 +22,14 @@ const Toast = (props: ToastContainerProps) => {
         autoClose={2200}
         newestOnTop={false}
         rtl={false}
+        theme="colored"
         draggable
+        icon={false}
       />
       <style jsx global>{`
+        .Toastify__toast-container {
+          top: 30px;
+        }
         .Toastify__toast {
           border-radius: 25px;
           padding: 15px;
@@ -35,6 +38,9 @@ const Toast = (props: ToastContainerProps) => {
           min-height: 40px;
           box-shadow: rgb(19 21 24 / 21%) 0px 3px 2px 1px;
           border: 1px solid rgb(19 21 24 / 21%);
+        }
+        .Toastify__toast-body {
+          padding: 0;
         }
         .Toastify__close-button {
           align-self: center;
