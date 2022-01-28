@@ -179,7 +179,7 @@ export interface PostHeaderProps {
   };
   avatarOptions?: DropdownProps["options"];
   createdMessage?: string;
-  createdMessageIcon: IconProps["icon"];
+  createdMessageIcon?: IconProps["icon"];
   createdMessageLink?: LinkWithAction;
   forceHide?: boolean;
   newPost?: boolean;
