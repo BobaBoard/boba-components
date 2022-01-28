@@ -1,12 +1,11 @@
-import React from "react";
-import { faCompass } from "@fortawesome/free-solid-svg-icons";
-import classnames from "classnames";
-import Theme from "../theme/default";
-
-import Logo from "./Logo";
-import IconButton from "../buttons/IconButton";
 import BoardTitle from "../board/BoardTitle";
+import IconButton from "../buttons/IconButton";
 import { LinkWithAction } from "../types";
+import Logo from "./Logo";
+import React from "react";
+import Theme from "../theme/default";
+import classnames from "classnames";
+import { faCompass } from "@fortawesome/free-solid-svg-icons";
 
 interface HeaderProps {
   accentColor?: string;

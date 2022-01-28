@@ -6,7 +6,12 @@ import {
 } from "../utils/editor-controls";
 import { Meta, Story } from "@storybook/react";
 import Post, { PostHandler, PostProps } from "post/Post";
-import { faCodeBranch, faLink } from "@fortawesome/free-solid-svg-icons";
+import {
+  faCodeBranch,
+  faFilm,
+  faImages,
+  faLink,
+} from "@fortawesome/free-solid-svg-icons";
 
 import Button from "buttons/Button";
 import React from "react";
@@ -163,8 +168,7 @@ export const WithLongIdentityName = PostTemplate.bind({});
 WithLongIdentityName.args = {
   ...WithDropdownAction.args,
   secretIdentity: {
-    name:
-      "Tuxedo Mask askldjaksldjaskld askdjaskldjaskldjas daskjdaklsdjaklsdj askdjaskldjaklsdjaskld askdj kasjdaklsdjaklsdjaskldjslk",
+    name: "Tuxedo Mask askldjaksldjaskld askdjaskldjaskldjas daskjdaklsdjaklsdj askdjaskldjaklsdjaskld askdj kasjdaklsdjaklsdjaskldjslk",
     avatar: `/${tuxedoAvatar}`,
   },
 };
@@ -174,6 +178,37 @@ WithThreadTypeIcon.args = {
   ...WithLongIdentityName.args,
   createdMessageIcon: faCodeBranch,
 };
+WithThreadTypeIcon.decorators = [
+  (Story, args) => {
+    const [currentIcon, setCurrentIcon] = React.useState(faCodeBranch);
+    args.args.createdMessageIcon = currentIcon;
+    return (
+      <div style={{ marginLeft: "20px" }}>
+        <Story />
+        <div style={{ marginTop: "20px" }}>
+          <button
+            onClick={() => setCurrentIcon(faCodeBranch)}
+            disabled={currentIcon == faCodeBranch}
+          >
+            Thread
+          </button>
+          <button
+            onClick={() => setCurrentIcon(faImages)}
+            disabled={currentIcon == faImages}
+          >
+            Gallery
+          </button>
+          <button
+            onClick={() => setCurrentIcon(faFilm)}
+            disabled={currentIcon == faFilm}
+          >
+            Timeline
+          </button>
+        </div>
+      </div>
+    );
+  },
+];
 
 export const WithAccessories = PostTemplate.bind({});
 WithAccessories.args = Tagged.args;
