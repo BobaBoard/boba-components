@@ -227,6 +227,7 @@ const FeedWithMenu: React.FC<FeedWithMenuProps> & CompoundComponents = ({
             flex-grow: 1;
             padding: 0 20px;
             position: relative;
+            overflow: auto;
           }
           .sidebar.force-hide {
             display: none;
