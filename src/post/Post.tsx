@@ -427,7 +427,7 @@ export interface PostProps {
   text: string;
   createdTime: string;
   createdTimeLink: LinkWithAction;
-  createdMessageIcon: IconProps["icon"];
+  createdMessageIcon?: IconProps["icon"];
   secretIdentity: SecretIdentityType;
   userIdentity?: {
     avatar: string;

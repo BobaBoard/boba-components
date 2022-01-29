@@ -295,6 +295,8 @@ const UserMetadata = React.forwardRef<
               transparent 100%
             );
             border-image-slice: 1;
+            display: flex;
+            align-items: center;
           }
           .timestamp .icon :global(svg) {
             color: ${DefaultTheme.POST_HEADER_DATE_COLOR};
