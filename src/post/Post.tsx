@@ -13,6 +13,7 @@ import Card from "../common/Card";
 import Editor from "@bobaboard/boba-editor";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import Footer from "./Footer";
+import type { IconProps } from "common/Icon";
 import React from "react";
 import Reaction from "../common/Reaction";
 import Tags from "../tags/Tags";
@@ -91,8 +92,7 @@ const PostFooter: React.FC<PostProps> = (props) => {
           color: white;
         }
         .notes {
-          padding: 15px;
-          padding-top: 10px;
+          padding: 10px;
         }
         .reactions {
           display: flex;
@@ -180,6 +180,7 @@ const Post = React.forwardRef<PostHandler, PostProps>((props, ref) => {
                   size={HeaderStyle.REGULAR}
                   backgroundColor={props.muted ? "#dcdcdc" : undefined}
                   forceHide={props.forceHideIdentity}
+                  createdMessageIcon={props.createdMessageIcon}
                 />
               </div>
               {props.menuOptions && (
@@ -256,7 +257,16 @@ const Post = React.forwardRef<PostHandler, PostProps>((props, ref) => {
           </Card.Footer>
         </Card>
       </div>
-
+      <style jsx>{`
+        /*dynamic styles*/
+        .board-info {
+          background-color: ${props.board?.accentColor || "none"};
+          text-align: center;
+          padding: 3px;
+          color: white;
+          font-weight: bold;
+        }
+      `}</style>
       <style jsx>{`
         /*static styles*/
         .muted {
@@ -279,7 +289,7 @@ const Post = React.forwardRef<PostHandler, PostProps>((props, ref) => {
         .header {
           border-radius: ${Theme.BORDER_RADIUS_REGULAR}
             ${Theme.BORDER_RADIUS_REGULAR} 0px 0px;
-          padding: 10px 10px 5px;
+          padding: 8px 10px;
           display: flex;
           border-bottom: 1px dotted rgba(0, 0, 0, 0.3);
           max-width: 100%;
@@ -380,10 +390,10 @@ const Post = React.forwardRef<PostHandler, PostProps>((props, ref) => {
           width: 20px;
           height: 20px;
           font-size: var(--font-size-regular);
-          color: rgb(28, 28, 28);
+          color: rgb(28, 28, 28, 0.45);
         }
-        .post-options-icon:hover {
-          color: rgb(28, 28, 28, 0.8);
+        .post-options-icon:is(:hover, :focus) {
+          color: rgb(28, 28, 28);
           cursor: pointer;
         }
         .board-info {
@@ -417,6 +427,7 @@ export interface PostProps {
   text: string;
   createdTime: string;
   createdTimeLink: LinkWithAction;
+  createdMessageIcon?: IconProps["icon"];
   secretIdentity: SecretIdentityType;
   userIdentity?: {
     avatar: string;

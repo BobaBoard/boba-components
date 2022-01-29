@@ -238,7 +238,7 @@ const PostEditor = React.forwardRef<PostEditorHandler, PostEditorProps>(
               </div>
             </div>
             <Card.Footer>
-              <div className="footer">
+              <div className="footer" aria-label="The post editor footer">
                 <MemoizedTags
                   tags={tags}
                   onTagsAdd={React.useCallback(

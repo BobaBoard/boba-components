@@ -53,6 +53,6 @@
       "types/*": ["../src/types/*"]
     }
   },
-  "include": ["/**/*", "index.d.ts"],
+  "include": ["/**/*", "extra-types.d.ts"],
   "exclude": ["node_modules", "build", "scripts", "dist"]
 }

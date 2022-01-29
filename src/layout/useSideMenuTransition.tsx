@@ -1,14 +1,17 @@
-import React from "react";
-
-import debug from "debug";
-
 // @ts-ignore
 import type HammerManager from "hammerjs";
+import React from "react";
+import debug from "debug";
+
 const log = debug("bobaui:layout-log");
 
-const useSideMenuTransition = (
-  onSideMenuFullyOpen?: () => void
-): {
+const useSideMenuTransition = ({
+  onSideMenuFullyOpen,
+  onSideMenuFullyClosed,
+}: {
+  onSideMenuFullyOpen?: () => void;
+  onSideMenuFullyClosed?: () => void;
+}): {
   layoutRef: React.RefObject<HTMLDivElement>;
   contentRef: React.RefObject<HTMLDivElement>;
   sideMenuRef: React.RefObject<HTMLDivElement>;
@@ -65,6 +68,7 @@ const useSideMenuTransition = (
         sideMenuRef.current.classList.add("closing");
       } else {
         sideMenuRef.current.classList.add("closed");
+        onSideMenuFullyClosed?.();
       }
       return;
     }
@@ -105,6 +109,7 @@ const useSideMenuTransition = (
       }
       sideMenuRef.current.classList.remove("closing");
       sideMenuRef.current.classList.add("closed");
+      onSideMenuFullyClosed?.();
 
       log(`...Reactivating!`);
       sideMenuRef.current?.removeEventListener(
@@ -120,8 +125,17 @@ const useSideMenuTransition = (
       "transitionend",
       transitionEndListener
     );
-  }, [showSideMenu, onSideMenuFullyOpen]);
+  }, [showSideMenu, onSideMenuFullyOpen, onSideMenuFullyClosed]);
 
-  return { layoutRef, contentRef, sideMenuRef, setShowSideMenu, showSideMenu };
+  return React.useMemo(
+    () => ({
+      layoutRef,
+      contentRef,
+      sideMenuRef,
+      setShowSideMenu,
+      showSideMenu,
+    }),
+    [layoutRef, contentRef, sideMenuRef, setShowSideMenu, showSideMenu]
+  );
 };
 export default useSideMenuTransition;

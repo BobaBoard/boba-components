@@ -114,7 +114,7 @@ const BoardMenuItem: React.FC<BoardMenuItemProps> = (props) => {
   );
 };
 
-export default BoardMenuItem;
+export default React.memo(BoardMenuItem);
 export interface BoardMenuItemProps {
   avatar: string;
   color: string;

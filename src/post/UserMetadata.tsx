@@ -5,14 +5,15 @@ import {
   UserIdentityType,
 } from "../types";
 import DropdownListMenu, { DropdownProps } from "../common/DropdownListMenu";
+import Icon, { IconProps } from "../common/Icon";
 
 import AccessorySelector from "./AccessorySelector";
 import ActionLink from "../buttons/ActionLink";
 import Avatar from "./Avatar";
 import DefaultTheme from "../theme/default";
-import Icon from "../common/Icon";
 import React from "react";
 import classnames from "classnames";
+import css from "styled-jsx/css";
 import { faCaretDown } from "@fortawesome/free-solid-svg-icons";
 
 export enum UserMetadataStyle {
@@ -30,6 +31,7 @@ export interface UserMetadataProps {
   identityDropdownLabel?: string;
   identityOptions?: DropdownProps["options"];
   createdMessage?: string;
+  createdMessageIcon?: IconProps["icon"];
   createdMessageLink?: LinkWithAction;
   size?: UserMetadataStyle;
 }
@@ -39,123 +41,130 @@ export interface AccessorySelectionProps {
   accessories?: AccessoryType[];
   onSelectAccessory?: (accessory: AccessoryType | undefined) => void;
 }
+const { className: iconClassName, styles: iconStyles } = css.resolve`
+  .icon {
+    margin-right: 2px;
+    color: ${DefaultTheme.POST_HEADER_DATE_COLOR};
+  }
+`;
 
-const IdentityMetadata: React.FC<
-  UserMetadataProps & AccessorySelectionProps
-> = (props) => {
-  const {
-    secretIdentity,
-    userIdentity,
-    forceHideIdentity,
-    size = UserMetadataStyle.REGULAR,
-    selectedAccessory,
-    accessories,
-    onSelectAccessory,
-    identityOptions,
-    identityDropdownLabel,
-    avatarDropdownLabel,
-  } = props;
+const IdentityMetadata: React.FC<UserMetadataProps & AccessorySelectionProps> =
+  (props) => {
+    const {
+      secretIdentity,
+      userIdentity,
+      forceHideIdentity,
+      size = UserMetadataStyle.REGULAR,
+      selectedAccessory,
+      accessories,
+      onSelectAccessory,
+      identityOptions,
+      identityDropdownLabel,
+      avatarDropdownLabel,
+    } = props;
 
-  const hasUserIdentity = !!(userIdentity?.name && userIdentity?.avatar);
-  const showUserIdentity = hasUserIdentity && !forceHideIdentity;
-  return (
-    <div className="metadata-identity">
-      {/* This wrapper div makes the dropdown popup appear where expected. */}
-      <div>
-        <DropdownListMenu
-          zIndex={200}
-          options={identityOptions}
-          label={identityDropdownLabel || avatarDropdownLabel}
-        >
+    const hasUserIdentity = !!(userIdentity?.name && userIdentity?.avatar);
+    const showUserIdentity = hasUserIdentity && !forceHideIdentity;
+    return (
+      <div className="metadata-identity">
+        {/* This wrapper div makes the dropdown popup appear where expected. */}
+        <div>
+          <DropdownListMenu
+            zIndex={200}
+            options={identityOptions}
+            label={identityDropdownLabel || avatarDropdownLabel}
+          >
+            <div
+              className={classnames("identity-container", {
+                "with-selector": !!identityOptions?.length,
+              })}
+            >
+              <div className="user-identity">{secretIdentity?.name}</div>
+              {!!identityOptions?.length && <Icon icon={faCaretDown} />}
+            </div>
+          </DropdownListMenu>
+        </div>
+        {showUserIdentity && (
           <div
-            className={classnames("identity-container", {
-              "with-selector": !!identityOptions?.length,
+            className={classnames("secret-identity-container", {
+              "with-accessory-selector": accessories?.length,
             })}
           >
-            <div className="user-identity">{secretIdentity?.name}</div>
-            {!!identityOptions?.length && <Icon icon={faCaretDown} />}
-          </div>
-        </DropdownListMenu>
-      </div>
-      {showUserIdentity && (
-        <div
-          className={classnames("secret-identity-container", {
-            "with-accessory-selector": accessories?.length,
-          })}
-        >
-          <div className="secret-identity">@{userIdentity?.name || "You"}</div>
-          {onSelectAccessory && (
-            <div className="accessory-selector">
-              <AccessorySelector
-                currentAccessory={selectedAccessory}
-                accessories={accessories || []}
-                onSelectAccessory={onSelectAccessory}
-                size={size || UserMetadataStyle.REGULAR}
-              />
+            <div className="secret-identity">
+              @{userIdentity?.name || "You"}
             </div>
-          )}
-        </div>
-      )}
-      <style jsx>
-        {`
-          .metadata-identity {
-            display: flex;
-            flex-direction: column;
-            min-width: 0;
-            margin-bottom: 2px;
-            flex-grow: 1;
-          }
-          .user-identity {
-            font-size: var(--font-size-large);
-            white-space: nowrap;
-            text-overflow: ellipsis;
-            overflow: hidden;
-            max-width: 100%;
-            padding-left: 5px;
-            color: ${secretIdentity?.color || "black"};
-          }
-          .secret-identity {
-            font-size: 14px;
-            line-height: 17px;
-            color: ${DefaultTheme.POST_HEADER_USERNAME_COLOR};
-            white-space: nowrap;
-            text-overflow: ellipsis;
-            overflow: hidden;
-            padding-left: 5px;
-            flex-grow: 1;
-            min-width: 50px;
-          }
-          .identity-container.with-selector {
-            display: inline-flex;
-            border-radius: 10px;
-            padding: 1px 5px;
-            max-width: 100%;
-          }
-          .identity-container.with-selector .user-identity {
-            margin-right: 5px;
-            padding-left: 0;
-          }
-          .identity-container.with-selector:hover {
-            cursor: pointer;
-            background-color: #ececec;
-          }
-          .secret-identity-container.with-accessory-selector {
-            display: flex;
-            align-items: center;
-          }
-          .accessory-selector {
-            margin-left: 0px;
-            display: none;
-          }
-          .secret-identity-container.with-accessory-selector
+            {onSelectAccessory && (
+              <div className="accessory-selector">
+                <AccessorySelector
+                  currentAccessory={selectedAccessory}
+                  accessories={accessories || []}
+                  onSelectAccessory={onSelectAccessory}
+                  size={size || UserMetadataStyle.REGULAR}
+                />
+              </div>
+            )}
+          </div>
+        )}
+        <style jsx>
+          {`
+            .metadata-identity {
+              display: flex;
+              flex-direction: column;
+              min-width: 0;
+              margin-bottom: 2px;
+              flex-grow: 1;
+            }
+            .user-identity {
+              font-size: var(--font-size-large);
+              white-space: nowrap;
+              text-overflow: ellipsis;
+              overflow: hidden;
+              max-width: 100%;
+              padding-left: 6px;
+              color: ${secretIdentity?.color || "black"};
+            }
+            .secret-identity {
+              font-size: var(--font-size-small);
+              color: ${DefaultTheme.POST_HEADER_USERNAME_COLOR};
+              white-space: nowrap;
+              text-overflow: ellipsis;
+              overflow: hidden;
+              padding-left: 6px;
+              flex-grow: 1;
+              min-width: 50px;
+              padding-top: 1px;
+            }
+            .identity-container.with-selector {
+              display: inline-flex;
+              border-radius: 10px;
+              padding: 1px 5px;
+              max-width: 100%;
+            }
+            .identity-container.with-selector .user-identity {
+              margin-right: 5px;
+              padding-left: 0;
+            }
+            .identity-container.with-selector:hover {
+              cursor: pointer;
+              background-color: #ececec;
+            }
+            .secret-identity-container.with-accessory-selector {
+              display: flex;
+              align-items: center;
+            }
             .accessory-selector {
-            display: block;
-          }
-        `}
-      </style>
-    </div>
-  );
-};
+              margin-left: 0px;
+              display: none;
+            }
+            .secret-identity-container.with-accessory-selector
+              .accessory-selector {
+              display: block;
+            }
+          `}
+        </style>
+      </div>
+    );
+  };
 
 const UserMetadata = React.forwardRef<
   HTMLDivElement,
@@ -218,6 +227,14 @@ const UserMetadata = React.forwardRef<
         <div className="metadata">
           <IdentityMetadata {...props} />
           <div className="timestamp">
+            {props.createdMessageIcon && (
+              <div className="icon">
+                <Icon
+                  className={iconClassName}
+                  icon={props.createdMessageIcon}
+                />
+              </div>
+            )}
             <ActionLink
               link={createdMessageLink}
               label="The timestamp of the post"
@@ -250,16 +267,39 @@ const UserMetadata = React.forwardRef<
             flex-direction: column;
           }
           .timestamp {
-            font-size: 14px;
-            line-height: 17px;
+            font-size: var(--font-size-small);
             color: ${DefaultTheme.POST_HEADER_DATE_COLOR};
             white-space: nowrap;
             text-overflow: ellipsis;
-            overflow: hidden;
-            padding-left: 8px;
+            overflow-x: hidden;
+            padding-left: 6px;
+            display: flex;
+            padding-top: 1px;
           }
           .timestamp :global(a):hover {
             text-decoration: underline;
+          }
+          .timestamp .icon {
+            --border-color: #a1a1a1;
+            text-align: center;
+            width: 20px;
+            margin-right: 5px;
+            border-right: 1px solid var(--border-color);
+            border-image: linear-gradient(
+              to bottom,
+              transparent 0%,
+              transparent 8%,
+              var(--border-color) 25%,
+              var(--border-color) 75%,
+              transparent 92%,
+              transparent 100%
+            );
+            border-image-slice: 1;
+            display: flex;
+            align-items: center;
+          }
+          .timestamp .icon :global(svg) {
+            color: ${DefaultTheme.POST_HEADER_DATE_COLOR};
           }
           .dropdown-metadata {
             padding: 15px;
@@ -280,6 +320,7 @@ const UserMetadata = React.forwardRef<
           }
         `}
       </style>
+      {iconStyles}
     </div>
   );
 });
