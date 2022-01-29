@@ -31,21 +31,18 @@ const BoardMenuItem: React.FC<BoardMenuItemProps> = (props) => {
     current,
   } = props;
 
-  const notificationLabel =
-    props.muted
-    ? `${slug} muted`
-    :(props.updates && !props.outdated)
-    ? `${slug} has new updates`
-    :(props.updates && props.outdated)
-    ? `${slug} has updates`
-    : `${slug}`;
+  const getNotificationlabel = (props: BoardMenuItemProps) => {
+    if (props.muted) return `${props.slug} muted`;
+    if (!props.updates) return props.slug;
+    if (props.outdated) return `${props.slug} has updates`;
+    return `${props.slug} has new updates`;
+  };
 
   return (
     <ActionLink
       link={link}
-
-      // Why doesn't this work? Even if I just put a string in for the aria label Testing Library tells me that the links are named !boardname. I thought an aria label is supposed to override child content as the name?
-      aria-label={notificationLabel}
+      isCurrent={current? "page" : false}
+      label={getNotificationlabel(props)}
       className={classnames(containerClassname, "board-menu-item", {
         "has-updates": !!updates,
         muted: !!muted,
