@@ -27,6 +27,12 @@ describe("Boards", () => {
   
     //TODO: fill this
   });
+
+  test("Board menu items link to boards", async () => {
+    render(<Boards />);
+  
+    //TODO: fill this
+  });
   
   test("Correctly marks current board", async () => {
     render(<Boards />);

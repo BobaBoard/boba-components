@@ -2,6 +2,7 @@ import "@testing-library/jest-dom/extend-expect";
 
 import * as stories from "stories/20-SideMenu/00-BoardsMenuSection.stories";
 
+import { EmptySectionProps, LoadingSectionProps } from "sidemenu/BoardsMenuSection";
 import {
   Screen,
   fireEvent,
@@ -29,7 +30,6 @@ describe("Regular", () => {
     //TODO: fill this
   });
   
-  //Not sure if this should be it's own test or part of the previous test
   test("Board menu items link to boards", async () => {
     render(<Regular />);
   
@@ -71,16 +71,19 @@ describe("Empty", () => {
   test("Renders empty section", async () => {
     render(<Empty />);
     
-    // This gives error "Property 'emptyDescription' does not exist on type 'Partial<Partial<BoardsMenuSectionProps>>'." and I don't understand why???
-    // expect(screen.getByText(Empty.args!.emptyDescription))
+    // This might be overkill?
+    expect(screen.getByText((Empty.args as EmptySectionProps).title)).toBeVisible;
+    expect(screen.getByText((Empty.args as EmptySectionProps).emptyTitle)).toBeVisible;
+    expect(screen.getByText((Empty.args as EmptySectionProps).emptyDescription)).toBeVisible;
   });
 });
 
 describe("Loading", () => {
   test("Renders loading section", async () => {
     render(<Loading />);
-  
-    //TODO: fill this
+    
+    
+    expect(screen.getByText((Loading.args as LoadingSectionProps).title)).toBeVisible;
   });
 });
 
