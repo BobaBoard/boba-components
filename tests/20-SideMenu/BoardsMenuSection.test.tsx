@@ -38,33 +38,32 @@ describe("Regular", () => {
   
   test("Correctly renders board without updates", async () => {
     render(<Regular />);
-
-    //Not sure .toBe is the right thing to expect here, but can't try it to figure it out because Testing Library can't find my aria labels
-    expect(screen.getByText("!oncie-den")).toBe(screen.getByRole("link", { name: "oncie-den"}));
+    
+    expect(screen.getByRole("link", { name: "oncie-den"})).toHaveTextContent("!oncie-den");
   });
   
   test("Correctly marks boards with updates", async () => {
     render(<Regular />);
   
-    expect(screen.getByLabelText("gore has new updates", {exact:false}));
+    expect(screen.getByLabelText("gore has new updates")).toHaveTextContent("!gore");
   });
   
   test("Correctly marks outdated boards with updates", async () => {
     render(<Regular />);
   
-    //TODO: fill this
+    expect(screen.getByLabelText("crack has updates")).toHaveTextContent("!crack");
   });
   
   test("Correctly marks current board", async () => {
     render(<Regular />);
   
-    //TODO: fill this
+    expect(screen.getByRole("link", { current: "page" })).toHaveTextContent("!kink-memes");
   });
 
   test("Correctly marks muted board", async () => {
     render(<Regular />);
   
-    //TODO: fill this
+    expect(screen.getByLabelText("anime muted")).toHaveTextContent("!anime");
   });
 });
 
