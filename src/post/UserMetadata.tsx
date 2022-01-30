@@ -275,7 +275,7 @@ const UserMetadata = React.forwardRef<
             padding-left: 6px;
             display: flex;
             padding-top: 1px;
-            line-height: normal;
+            line-height: 20px;
           }
           .timestamp :global(a):hover {
             text-decoration: underline;
@@ -295,7 +295,7 @@ const UserMetadata = React.forwardRef<
               transparent 92%,
               transparent 100%
             );
-            border-image-slice: 1;
+            border-image-slice: 0 1 0 0;
             display: flex;
             align-items: center;
           }
