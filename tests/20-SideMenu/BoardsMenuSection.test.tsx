@@ -38,8 +38,16 @@ describe("Regular", () => {
   
   test("Board menu items link to boards", async () => {
     render(<Regular />);
-  
-    //TODO: fill this
+    const actionReturn = jest.fn();
+    mocked(action).mockReturnValue(actionReturn);
+    
+    const boards = screen.getAllByRole("link");
+    for (const board of boards) {
+      fireEvent.click(board);
+      await waitFor(() => {
+        expect(action).toBeCalledWith("#slug");
+      });
+    };
   });
   
   test("Correctly renders board without updates", async () => {
