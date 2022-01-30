@@ -2,7 +2,7 @@ import "@testing-library/jest-dom/extend-expect";
 
 import * as stories from "stories/20-SideMenu/00-BoardsMenuSection.stories";
 
-import { EmptySectionProps, LoadingSectionProps } from "sidemenu/BoardsMenuSection";
+import { BoardsSectionProps, EmptySectionProps, LoadingSectionProps } from "sidemenu/BoardsMenuSection";
 import {
   Screen,
   fireEvent,
@@ -27,7 +27,13 @@ describe("Regular", () => {
   test("Renders section with board menu items", async () => {
     render(<Regular />);
   
-    //TODO: fill this
+    expect(screen.getByText(Regular!.args!.title!)).toBeVisible;
+
+    const boards = screen.getAllByRole("link");
+    expect(boards).toHaveLength((Regular.args as BoardsSectionProps).boards!.length);
+    boards.forEach((board, i) => {
+      expect(board).toHaveTextContent(`!${(Regular.args as BoardsSectionProps).boards[i].slug}`);
+    });
   });
   
   test("Board menu items link to boards", async () => {

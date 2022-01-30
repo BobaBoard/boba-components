@@ -17,7 +17,7 @@ const BoardsMenuSection: React.FC<BoardsMenuSectionProps> = (props) => {
   } = props as LoadingSectionProps;
   const isEmpty = !loading && (!boards || boards.length == 0);
   return (
-    <div className="boardSection">
+    <section className="boardSection">
       <div className="boardSection-title">
         <div className="icon">
           {typeof icon == "string" ? (
@@ -134,7 +134,7 @@ const BoardsMenuSection: React.FC<BoardsMenuSectionProps> = (props) => {
           display: flex;
         }
       `}</style>
-    </div>
+    </section>
   );
 };
 
