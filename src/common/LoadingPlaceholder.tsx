@@ -1,8 +1,7 @@
-import React from "react";
-
-import css from "styled-jsx/css";
 import Color from "color";
 import DefaultTheme from "../theme/default";
+import React from "react";
+import css from "styled-jsx/css";
 
 const { className: containerClassname, styles: containerStyles } = css.resolve`
   .board-menu-item {

@@ -82,8 +82,8 @@ describe("Loading", () => {
   test("Renders loading section", async () => {
     render(<Loading />);
     
-    
     expect(screen.getByText((Loading.args as LoadingSectionProps).title)).toBeVisible;
+    expect(screen.getAllByLabelText("loading board link")).toHaveLength((Loading.args as LoadingSectionProps).placeholdersCount);
   });
 });
 

@@ -51,6 +51,7 @@ const BoardsMenuSection: React.FC<BoardsMenuSectionProps> = (props) => {
           ))}
         </div>
         <div
+          aria-busy="true"
           className={classnames("boardSection-board-items", {
             visible: loading,
             hidden: isEmpty,
@@ -58,7 +59,7 @@ const BoardsMenuSection: React.FC<BoardsMenuSectionProps> = (props) => {
           key="loading-items-section"
         >
           {Array.from({ length: placeholdersCount || 0 }).map((_, index) => (
-            <div className="boardItem" key={`board-item-${index}`}>
+            <div className="boardItem" aria-label="loading board link" key={`board-item-${index}`}>
               <LoadingPlaceholder
                 key={index}
                 accentColor={accentColor || DefaultTheme.DEFAULT_ACCENT_COLOR}
