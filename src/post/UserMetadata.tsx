@@ -275,6 +275,7 @@ const UserMetadata = React.forwardRef<
             padding-left: 6px;
             display: flex;
             padding-top: 1px;
+            line-height: normal;
           }
           .timestamp :global(a):hover {
             text-decoration: underline;
