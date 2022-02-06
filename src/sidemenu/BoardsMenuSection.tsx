@@ -17,8 +17,8 @@ const BoardsMenuSection: React.FC<BoardsMenuSectionProps> = (props) => {
   } = props as LoadingSectionProps;
   const isEmpty = !loading && (!boards || boards.length == 0);
   return (
-    <section className="boardSection">
-      <div className="boardSection-title">
+    <section>
+      <div className="title">
         <div className="icon">
           {typeof icon == "string" ? (
             <img src={icon} alt={`${emptyTitle} icon`} />
@@ -28,9 +28,9 @@ const BoardsMenuSection: React.FC<BoardsMenuSectionProps> = (props) => {
         </div>
         {title}
       </div>
-      <div className="boardSection-display">
+      <div className="display">
         <div
-          className={classnames("boardSection-board-items", {
+          className={classnames("board-items", {
             visible: !loading && boards && boards?.length > 0,
           })}
           key="items-section"
@@ -52,14 +52,14 @@ const BoardsMenuSection: React.FC<BoardsMenuSectionProps> = (props) => {
         </div>
         <div
           aria-busy="true"
-          className={classnames("boardSection-board-items", {
+          className={classnames("board-items", {
             visible: loading,
             hidden: isEmpty,
           })}
           key="loading-items-section"
         >
           {Array.from({ length: placeholdersCount || 0 }).map((_, index) => (
-            <div className="boardItem" aria-label="loading board link" key={`board-item-${index}`}>
+            <div className="boardItem" aria-label="loading board placeholder" key={`board-item-${index}`}>
               <LoadingPlaceholder
                 key={index}
                 accentColor={accentColor || DefaultTheme.DEFAULT_ACCENT_COLOR}
@@ -69,7 +69,7 @@ const BoardsMenuSection: React.FC<BoardsMenuSectionProps> = (props) => {
           ))}
         </div>
         <div
-          className={classnames("boardSection-empty", {
+          className={classnames("empty", {
             visible: isEmpty,
           })}
           key="empty-section"
@@ -79,7 +79,7 @@ const BoardsMenuSection: React.FC<BoardsMenuSectionProps> = (props) => {
         </div>
       </div>
       <style jsx>{`
-        .boardSection-title {
+        .title {
           color: #fff;
           font-size: 12px;
           font-weight: 600;
@@ -89,16 +89,16 @@ const BoardsMenuSection: React.FC<BoardsMenuSectionProps> = (props) => {
           text-transform: uppercase;
           display: flex;
         }
-        .boardSection-title .icon {
+        .title .icon {
           margin-right: 8px;
         }
-        .boardSection {
+        section {
           padding: 12px 10px;
         }
         .boardItem {
           margin-bottom: 10px;
         }
-        .boardSection-empty {
+        .empty {
           color: #fff;
           font-size: 14px;
           opacity: 0.5;
@@ -106,31 +106,31 @@ const BoardsMenuSection: React.FC<BoardsMenuSectionProps> = (props) => {
           flex-grow: 1;
           display: none;
         }
-        .boardSection-empty.visible {
+        .empty.visible {
           display: block;
         }
-        .boardSection-empty p {
+        .empty p {
           margin: 0;
           padding: 0;
           line-height: 120%;
         }
-        .boardSection-empty .emtpy-title {
+        .empty .emtpy-title {
           font-weight: bold;
           margin-bottom: 5px;
         }
-        .boardSection-board-items {
+        .board-items {
           display: none;
           flex-grow: 1;
           max-width: 100%;
         }
-        .boardSection-board-items.visible {
+        .board-items.visible {
           display: block;
         }
-        .boardSection-board-items.hidden {
+        .board-items.hidden {
           display: none;
           max-width: 0px;
         }
-        .boardSection-display {
+        .display {
           display: flex;
         }
       `}</style>
