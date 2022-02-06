@@ -43,9 +43,11 @@ describe("Regular", () => {
     
     const boards = screen.getAllByRole("link");
     for (const board of boards) {
+      //TODO change to userEvent
       fireEvent.click(board);
       await waitFor(() => {
         expect(action).toBeCalledWith("#slug");
+        expect(board).toHaveAttribute("href", "#slug");
       });
     };
   });
@@ -53,31 +55,67 @@ describe("Regular", () => {
   test("Correctly renders board without updates", async () => {
     render(<Regular />);
     
-    expect(screen.getByRole("link", { name: "oncie-den"})).toHaveTextContent("!oncie-den");
+    const oncieBoard = screen.getByRole("link", { name: "oncie-den"}); 
+    expect(oncieBoard).toHaveTextContent("!oncie-den");
+    expect(within(oncieBoard).queryByRole("presentation", {hidden: true})).not.toBeInTheDocument();
+    const svgs = oncieBoard.getElementsByTagName("svg");
+    expect(svgs).toHaveLength(1);
+    expect(svgs[0]).toHaveClass("fa-map-marker-alt");
+    expect(svgs[0]).not.toBeVisible();
   });
   
   test("Correctly marks boards with updates", async () => {
     render(<Regular />);
-  
-    expect(screen.getByLabelText("gore has new updates")).toHaveTextContent("!gore");
+    
+    const goreBoard = screen.getByLabelText("gore has new updates");
+    expect(goreBoard).toHaveTextContent("!gore");
+    expect(within(goreBoard).getByRole("presentation", {hidden: true})).toBeVisible();
+    expect(within(goreBoard).getByRole("presentation", {hidden: true})).toHaveClass("board-icon__update");
+    const svgs = goreBoard.getElementsByTagName("svg");
+    expect(svgs).toHaveLength(1);
+    expect(svgs[0]).toHaveClass("fa-map-marker-alt");
+    expect(svgs[0]).not.toBeVisible();
   });
   
   test("Correctly marks outdated boards with updates", async () => {
     render(<Regular />);
   
-    expect(screen.getByLabelText("crack has updates")).toHaveTextContent("!crack");
+    const crackBoard = screen.getByLabelText("crack has updates");
+    expect(crackBoard).toHaveTextContent("!crack");
+    expect(within(crackBoard).getByRole("presentation", {hidden: true})).toBeVisible();
+    expect(within(crackBoard).getByRole("presentation", {hidden: true})).toHaveClass("board-icon__update");
+    const svgs = crackBoard.getElementsByTagName("svg");
+    expect(svgs).toHaveLength(1);
+    expect(svgs[0]).toHaveClass("fa-map-marker-alt");
+    expect(svgs[0]).not.toBeVisible();
   });
   
   test("Correctly marks current board", async () => {
     render(<Regular />);
   
-    expect(screen.getByRole("link", { current: "page" })).toHaveTextContent("!kink-memes");
+    const currentBoard = screen.getByRole("link", { current: "page" });
+    expect(currentBoard).toHaveTextContent("!kink-memes");
+    const svgs = currentBoard.getElementsByTagName("svg");
+    //In the real world it is possible to have the current board be muted, and if we changed the Story to have an example with both at once these length tests would break, but all these tests will break if we change the details of the story boards so I figure it's fine?
+    expect(svgs).toHaveLength(1);
+    expect(svgs[0]).toHaveClass("fa-map-marker-alt");
+    expect(svgs[0]).toBeVisible();
   });
 
   test("Correctly marks muted board", async () => {
     render(<Regular />);
   
-    expect(screen.getByLabelText("anime muted")).toHaveTextContent("!anime");
+    const mutedBoard = screen.getByLabelText("anime muted");
+    expect(mutedBoard).toHaveTextContent("!anime");
+    expect(screen.queryByLabelText("anime has updates")).not.toBeInTheDocument();
+    expect(screen.queryByLabelText("anime has new updates")).not.toBeInTheDocument();
+    expect(within(mutedBoard).queryByRole("presentation", {hidden: true})).not.toBeInTheDocument();
+    const svgs = mutedBoard.getElementsByTagName("svg");
+    expect(svgs).toHaveLength(2);
+    expect(svgs[0]).toHaveClass("fa-volume-mute");
+    expect(svgs[0]).toBeVisible();
+    expect(svgs[1]).toHaveClass("fa-map-marker-alt");
+    expect(svgs[1]).not.toBeVisible();
   });
 });
 
@@ -85,10 +123,9 @@ describe("Empty", () => {
   test("Renders empty section", async () => {
     render(<Empty />);
     
-    // This might be overkill?
-    expect(screen.getByText((Empty.args as EmptySectionProps).title)).toBeVisible;
-    expect(screen.getByText((Empty.args as EmptySectionProps).emptyTitle)).toBeVisible;
-    expect(screen.getByText((Empty.args as EmptySectionProps).emptyDescription)).toBeVisible;
+    expect(screen.getByText((Empty.args as EmptySectionProps).title)).toBeVisible();
+    expect(screen.getByText((Empty.args as EmptySectionProps).emptyTitle)).toBeVisible();
+    expect(screen.getByText((Empty.args as EmptySectionProps).emptyDescription)).toBeVisible();
   });
 });
 
@@ -96,8 +133,8 @@ describe("Loading", () => {
   test("Renders loading section", async () => {
     render(<Loading />);
     
-    expect(screen.getByText((Loading.args as LoadingSectionProps).title)).toBeVisible;
-    expect(screen.getAllByLabelText("loading board link")).toHaveLength((Loading.args as LoadingSectionProps).placeholdersCount);
+    expect(screen.getByText((Loading.args as LoadingSectionProps).title)).toBeVisible();
+    expect(screen.getAllByLabelText("loading board placeholder")).toHaveLength((Loading.args as LoadingSectionProps).placeholdersCount);
   });
 });
 

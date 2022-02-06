@@ -1,11 +1,12 @@
-import React from "react";
-import cx from "classnames";
-import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import {
   faMapMarkerAlt,
   faVolumeMute,
 } from "@fortawesome/free-solid-svg-icons";
+
 import Color from "color";
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import React from "react";
+import cx from "classnames";
 
 const BoardIcon: React.FC<BoardIconProps> = ({
   avatar,
@@ -29,7 +30,7 @@ const BoardIcon: React.FC<BoardIconProps> = ({
         })}
       >
         <div className="board-image" />
-        {!!updates && <div className="board-icon__update" />}
+        {!!updates && <div className="board-icon__update" role="presentation" />}
         {!!muted && (
           <div className="board-state-icon muted">
             <FontAwesomeIcon icon={faVolumeMute} />
