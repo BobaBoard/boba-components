@@ -7,7 +7,7 @@ const ActionLink: React.FC<ActionLinkProps> = ({
   label,
   className,
   allowDefault,
-  isCurrent,
+  current,
 }) => {
   const preventDefaultCallback = React.useCallback(
     (e: React.MouseEvent) => {
@@ -36,7 +36,7 @@ const ActionLink: React.FC<ActionLinkProps> = ({
         className={className}
         onClick={preventDefaultCallback}
         aria-label={link?.label ?? label}
-        aria-current={isCurrent ?? false}
+        aria-current={current ?? false}
       >
         {children}
         <style jsx>{`
@@ -65,7 +65,7 @@ const ActionLink: React.FC<ActionLinkProps> = ({
       href={link.href}
       onClick={preventDefaultCallback}
       aria-label={link?.label ?? label}
-      aria-current={isCurrent ?? false}
+      aria-current={current ?? false}
     >
       {children}
       <style jsx>{`
@@ -83,7 +83,8 @@ interface ActionLinkProps {
   className?: string;
   allowDefault?: boolean;
   label?: string;
-  isCurrent?: boolean | "time" | "false" | "true" | "page" | "step" | "location" | "date" | undefined;
+  //This allows aria-current to be set as appropriate
+  current?: boolean | "time" | "false" | "true" | "page" | "step" | "location" | "date" | undefined;
 }
 
 export default ActionLink;
