@@ -4,9 +4,6 @@ import * as stories from "stories/20-SideMenu/00-BoardsMenuSection.stories";
 
 import { BoardsSectionProps, EmptySectionProps, LoadingSectionProps } from "sidemenu/BoardsMenuSection";
 import {
-  Screen,
-  fireEvent,
-  getByText,
   render,
   screen,
   waitFor,
@@ -27,7 +24,7 @@ describe("Regular", () => {
   test("Renders section with board menu items", async () => {
     render(<Regular />);
   
-    expect(screen.getByText(Regular!.args!.title!)).toBeVisible;
+    expect(screen.getByText(Regular!.args!.title!)).toBeVisible();
 
     const boards = screen.getAllByRole("link");
     expect(boards).toHaveLength((Regular.args as BoardsSectionProps).boards!.length);
@@ -41,13 +38,12 @@ describe("Regular", () => {
     const actionReturn = jest.fn();
     mocked(action).mockReturnValue(actionReturn);
     
-    const boards = screen.getAllByRole("link");
-    for (const board of boards) {
-      //TODO change to userEvent
-      fireEvent.click(board);
+    const boardLinks = screen.getAllByRole("link");
+    for (const boardLink of boardLinks) {
+      userEvent.click(boardLink);
       await waitFor(() => {
         expect(action).toBeCalledWith("#slug");
-        expect(board).toHaveAttribute("href", "#slug");
+        expect(boardLink).toHaveAttribute("href", "#slug");
       });
     };
   });
