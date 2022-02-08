@@ -106,7 +106,7 @@ const PinnedMenuItem: React.FC<
 };
 
 const Section: React.FC<PinnedMenuSectionProps> = (props) => {
-  const { icon } = props as BasePinnedSectionProps;
+  const { icon, sectionId } = props as BasePinnedSectionProps;
   const {
     items,
     currentItemId: currentItemSlug  } = props as WithPinnedSectionProps;
@@ -117,8 +117,8 @@ const Section: React.FC<PinnedMenuSectionProps> = (props) => {
   } = props as LoadingPinnedSectionProps;
 
   return (
-    <div className="pinned-section">
-      <div className="icon">
+    <section>
+      <div className="icon" aria-label={sectionId}>
         <Icon icon={icon} />
       </div>
       <div className="items-container">
@@ -141,12 +141,12 @@ const Section: React.FC<PinnedMenuSectionProps> = (props) => {
         ))}
       </div>
       <style jsx>{`
-        .pinned-section {
+        section {
           display: flex;
           flex-direction: column;
           align-items: center;
         }
-        .pinned-section::-webkit-scrollbar {
+        section::-webkit-scrollbar {
           display: none;
         }
         .icon {
@@ -160,10 +160,10 @@ const Section: React.FC<PinnedMenuSectionProps> = (props) => {
         .items-container {
           width: 100%;
         }
-        .pinned-section:first-child {
+        section:first-child {
           padding-top: 15px;
         }
-        .pinned-section + .pinned-section::before {
+        section + section::before {
           content: "";
           width: 100%;
           height: 1px;
@@ -181,7 +181,7 @@ const Section: React.FC<PinnedMenuSectionProps> = (props) => {
           margin-bottom: 10px;
         }
       `}</style>
-    </div>
+    </section>
   );
 };
 
@@ -199,6 +199,7 @@ const PinnedMenu: React.FC<{ children: React.ReactNode }> & {
           height: 100%;
           scrollbar-width: none;
         }
+        //Is this supposed to be .pinned-container::-webkit-scrollbar?
         .pinned-section::-webkit-scrollbar {
           display: none;
         }
@@ -222,6 +223,8 @@ export type PinnedMenuSectionProps = BasePinnedSectionProps &
 
 export interface BasePinnedSectionProps {
   icon: IconProps["icon"];
+  //For accessibility, sections need to be labeled by something beyond an icon. I've made sectionId optional so as not to break anything for now, but should really be required.
+  sectionId?: string;
 }
 export interface WithPinnedSectionProps {
   items: (BoardType | (CircleButtonProps & { 

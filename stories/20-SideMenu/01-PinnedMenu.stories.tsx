@@ -80,8 +80,6 @@ const RECENT_BOARDS = [
     avatar: "/" + oncelerBoard,
     description: "Party like it's 2012",
     color: "#27caba",
-    updates: 10,
-    outdated: true,
     backgroundColor: "#131518",
     link: { href: "#slug", onClick: action("#slug") },
   },
@@ -112,6 +110,15 @@ const RECENT_BOARDS = [
     backgroundColor: "#131518",
     link: { href: "#slug", onClick: action("#slug") },
   },
+  {
+    slug: "anime",
+    muted: true,
+    avatar: "/" + anime,
+    description: "We put the weeb in dweeb.",
+    color: "#24d282",
+    backgroundColor: "#131518",
+    link: { href: "#slug", onClick: action("#slug") },
+  }
 ];
 
 export default {
@@ -130,6 +137,7 @@ const PinnedSectionTemplate: Story<PinnedMenuSectionProps> = (args) => {
 export const Boards = PinnedSectionTemplate.bind({});
 Boards.args = {
   icon: faThumbtack,
+  sectionId: "pinned boards",
   items: RECENT_BOARDS,
   currentItemId: "kink-memes",
 };
@@ -145,6 +153,7 @@ Loading.args = {
 export const Icons = PinnedSectionTemplate.bind({});
 Icons.args = {
   icon: faRssSquare,
+  sectionId: "feeds",
   items: [
     {
       id: "star",
