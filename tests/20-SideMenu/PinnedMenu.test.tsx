@@ -32,16 +32,23 @@ describe("Boards", () => {
     const boards = screen.getAllByRole("link");
     expect(boards).toHaveLength((Boards.args as WithPinnedSectionProps).items.length);
     boards.forEach((board, i) => {
-      if ("slug" in (Boards.args as WithPinnedSectionProps).items[i]) {
-        expect(board).toHaveAccessibleName((Boards.args as WithPinnedSectionProps).items[i].slug);
-      }
+        expect(board).toHaveAccessibleName(((Boards.args as WithPinnedSectionProps).items as BoardType[])[i].slug);
     });
   });
 
   test("Board menu items link to boards", async () => {
     render(<Boards />);
-  
-    //TODO: fill this
+    const actionReturn = jest.fn();
+    mocked(action).mockReturnValue(actionReturn);
+    
+    const boardLinks = screen.getAllByRole("link");
+    for (const boardLink of boardLinks) {
+      userEvent.click(boardLink);
+      await waitFor(() => {
+        expect(action).toBeCalledWith("#slug");
+        expect(boardLink).toHaveAttribute("href", "#slug");
+      });
+    };
   });
   
   test("Correctly marks current board", async () => {
@@ -102,7 +109,6 @@ describe("Icons", () => {
     //TODO: fill this
   });
 
-  //TODO: Need to implement DropdownListMenu in PinnedMenu.tsx before testing this
   test("Renders icon options dropdown", async () => {
     render(<Icons />);
   
