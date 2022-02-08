@@ -2,6 +2,7 @@ import "@testing-library/jest-dom/extend-expect";
 
 import * as stories from "stories/20-SideMenu/01-PinnedMenu.stories";
 
+import { BasePinnedSectionProps, LoadingPinnedSectionProps, PinnedMenuSectionProps, WithPinnedSectionProps } from "sidemenu/PinnedMenu";
 import {
   Screen,
   fireEvent,
@@ -11,6 +12,7 @@ import {
   within,
 } from "@testing-library/react";
 
+import { BoardType } from "types";
 import React from "react";
 import { action } from "@storybook/addon-actions";
 import { composeStories } from "@storybook/testing-react";
@@ -25,7 +27,15 @@ describe("Boards", () => {
   test("Renders section with boards", async () => {
     render(<Boards />);
   
-    //TODO: fill this
+    expect(screen.getByLabelText((Boards.args as BasePinnedSectionProps).sectionId!)).toBeVisible();
+
+    const boards = screen.getAllByRole("link");
+    expect(boards).toHaveLength((Boards.args as WithPinnedSectionProps).items.length);
+    boards.forEach((board, i) => {
+      if ("slug" in (Boards.args as WithPinnedSectionProps).items[i]) {
+        expect(board).toHaveAccessibleName((Boards.args as WithPinnedSectionProps).items[i].slug);
+      }
+    });
   });
 
   test("Board menu items link to boards", async () => {
@@ -35,6 +45,12 @@ describe("Boards", () => {
   });
   
   test("Correctly marks current board", async () => {
+    render(<Boards />);
+  
+    //TODO: fill this
+  });
+  
+  test("Correctly marks boards without updates", async () => {
     render(<Boards />);
   
     //TODO: fill this
@@ -74,6 +90,12 @@ describe("Icons", () => {
     //TODO: fill this
   });
   
+  test("Correctly marks icon with notification", async () => {
+    render(<Icons />);
+  
+    //TODO: fill this
+  });
+
   test("Correctly marks current icon", async () => {
     render(<Icons />);
   
