@@ -2,6 +2,7 @@ import CircleButton, {
   CircleButtonProps,
   SelectLightPosition,
 } from "../buttons/CircleButton";
+import DropdownListMenu, { DropdownProps, DropdownStyle } from "../common/DropdownListMenu";
 import Icon, { IconProps } from "../common/Icon";
 
 import ActionLink from "../buttons/ActionLink";
@@ -17,6 +18,8 @@ interface PinnedMenuItemProps {
   item: BoardType | CircleButtonProps;
   current: boolean;
   loading?: false;
+  menuOptions?: DropdownProps["options"];
+  label?: string;
 }
 
 interface LoadingPinnedMenuItemProps {
@@ -27,7 +30,7 @@ interface LoadingPinnedMenuItemProps {
 const PinnedMenuItem: React.FC<
   PinnedMenuItemProps | LoadingPinnedMenuItemProps
 > = (props) => {
-  const { item, current } = props as PinnedMenuItemProps;
+  const { item, current, menuOptions, label } = props as PinnedMenuItemProps;
   const { loading, loadingAccentColor } = props as LoadingPinnedMenuItemProps;
 
   return (
@@ -45,14 +48,39 @@ const PinnedMenuItem: React.FC<
         <ActionLink link={item.link}>
           <BoardIcon {...item} current={current} large />
         </ActionLink>
+      ) : !!menuOptions?.length? (
+        <div className="dropdown-wrapper">
+          <DropdownListMenu
+          options={menuOptions}
+          style={DropdownStyle.DARK}
+          label={label}
+          >
+            <CircleButton
+              {...item}
+              withDropdown={!!menuOptions?.length}
+            />
+          </DropdownListMenu> 
+        </div>
       ) : (
-        <CircleButton
+        <div className="button-wrapper">
+          <CircleButton
           {...item}
+          withDropdown={!!menuOptions?.length}
           selected={current}
           selectLightPosition={SelectLightPosition.LEFT}
-        />
+          />
+        </div>
       )}
       <style jsx>{`
+        .button-wrapper {
+          width: 100%;
+        }
+        .dropdown-wrapper {
+          display: flex;
+          width: 100%;
+          align-items: center; 
+          justify-content: center; 
+        }
         .pinned-item {
           margin-top: 15px;
           padding: 0 7px;
@@ -63,6 +91,8 @@ const PinnedMenuItem: React.FC<
           margin-top: 8px;
           padding: 0;
           width: 100%;
+          display: flex;
+          align-items: center;
         }
         .pinned-item:first-child {
           margin-top: 10px;
@@ -79,8 +109,7 @@ const Section: React.FC<PinnedMenuSectionProps> = (props) => {
   const { icon } = props as BasePinnedSectionProps;
   const {
     items,
-    currentItemId: currentItemSlug,
-  } = props as WithPinnedSectionProps;
+    currentItemId: currentItemSlug  } = props as WithPinnedSectionProps;
   const {
     loading,
     loadingAccentColor,
@@ -105,6 +134,8 @@ const Section: React.FC<PinnedMenuSectionProps> = (props) => {
           <PinnedMenuItem
             key={index}
             item={item}
+            label={"slug" in item ? item.slug : item.id}
+            menuOptions={"menuOptions" in item ? item.menuOptions : []}
             current={currentItemSlug == ("slug" in item ? item.slug : item.id)}
           />
         ))}
@@ -193,7 +224,9 @@ export interface BasePinnedSectionProps {
   icon: IconProps["icon"];
 }
 export interface WithPinnedSectionProps {
-  items: (BoardType | (CircleButtonProps & { id: string }))[];
+  items: (BoardType | (CircleButtonProps & { 
+    id: string, 
+    menuOptions?: DropdownProps["options"] }))[];
   currentItemId?: string | null;
   loading?: false;
 }
