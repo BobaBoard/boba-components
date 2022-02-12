@@ -33,6 +33,20 @@ const PinnedMenuItem: React.FC<
   const { item, current, menuOptions, label } = props as PinnedMenuItemProps;
   const { loading, loadingAccentColor } = props as LoadingPinnedMenuItemProps;
 
+  const getNotificationlabel = (item: BoardType | CircleButtonProps, label?: string) => {
+    if (!label) {return ""}
+    if ("slug" in item) {
+      if (item.muted) {return `${label} muted`;}
+      if (!item.updates) {return label;}
+      if (item.outdated) {return `${label} has updates`;}
+      return `${label} has new updates`;
+    } else if (item.withNotification) {
+      return `${label} has new updates`;
+    } else {
+      return label;
+    }
+  };
+  
   return (
     <div
       className={classNames("pinned-item", {
@@ -45,10 +59,13 @@ const PinnedMenuItem: React.FC<
           height="50px"
         />
       ) : "slug" in item ? (
-        <ActionLink link={item.link}>
+        <ActionLink 
+        label={getNotificationlabel(item, label)}
+        current={current? "page" : false}
+        link={item.link}>
           <BoardIcon {...item} current={current} large />
         </ActionLink>
-      ) : !!menuOptions?.length? (
+      ) : menuOptions?.length ? (
         <div className="dropdown-wrapper">
           <DropdownListMenu
           options={menuOptions}
@@ -66,6 +83,7 @@ const PinnedMenuItem: React.FC<
           <CircleButton
           {...item}
           withDropdown={!!menuOptions?.length}
+          label={getNotificationlabel(item, label)}
           selected={current}
           selectLightPosition={SelectLightPosition.LEFT}
           />
@@ -118,15 +136,16 @@ const Section: React.FC<PinnedMenuSectionProps> = (props) => {
 
   return (
     <section>
-      <div className="icon" aria-label={sectionId}>
+      <div className="icon" aria-label={loading? `loading ${sectionId}` : sectionId}>
         <Icon icon={icon} />
       </div>
-      <div className="items-container">
+      <div className="items-container" aria-busy={loading ? true : false}>
         {loading &&
           Array.from({ length: loadingElementsCount || 0 }).map((_, index) => (
             <PinnedMenuItem
               key={index}
               loading
+              aria-label="loading pinned item placeholder"
               loadingAccentColor={loadingAccentColor}
             />
           ))}
@@ -199,7 +218,7 @@ const PinnedMenu: React.FC<{ children: React.ReactNode }> & {
           height: 100%;
           scrollbar-width: none;
         }
-        //Is this supposed to be .pinned-container::-webkit-scrollbar?
+        // Is this supposed to be .pinned-container::-webkit-scrollbar?
         .pinned-section::-webkit-scrollbar {
           display: none;
         }
@@ -223,7 +242,7 @@ export type PinnedMenuSectionProps = BasePinnedSectionProps &
 
 export interface BasePinnedSectionProps {
   icon: IconProps["icon"];
-  //For accessibility, sections need to be labeled by something beyond an icon. I've made sectionId optional so as not to break anything for now, but should really be required.
+  // For accessibility, sections need to be labeled by something beyond an icon. I've made sectionId optional so as not to break anything for now, but should really be required.
   sectionId?: string;
 }
 export interface WithPinnedSectionProps {

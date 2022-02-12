@@ -136,6 +136,7 @@ const CircleButton: React.FC<CircleButtonProps> = ({
         <ActionLink
           label={label}
           link={link}
+          current={selected ? "page" : false}
           className={classnames("icon", iconClassName, {
             dropdown: !!withDropdown,
             loading,
