@@ -83,7 +83,7 @@ interface ActionLinkProps {
   className?: string;
   allowDefault?: boolean;
   label?: string;
-  //This allows aria-current to be set as appropriate
+  // Allows aria-current to be set as appropriate
   current?: boolean | "time" | "false" | "true" | "page" | "step" | "location" | "date" | undefined;
 }
 
