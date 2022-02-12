@@ -27,12 +27,12 @@ describe("Boards", () => {
   test("Renders section with boards", async () => {
     render(<Boards />);
   
-    expect(screen.getByLabelText((Boards.args as BasePinnedSectionProps).sectionId!)).toBeVisible();
+    expect(screen.getByLabelText((Boards!.args! as BasePinnedSectionProps).sectionId!)).toBeVisible();
 
     const boards = screen.getAllByRole("link");
     expect(boards).toHaveLength((Boards.args as WithPinnedSectionProps).items.length);
     boards.forEach((board, i) => {
-        expect(board).toHaveAccessibleName(((Boards.args as WithPinnedSectionProps).items as BoardType[])[i].slug);
+        expect(board).toHaveAccessibleName(expect.stringContaining(((Boards.args as WithPinnedSectionProps).items as BoardType[])[i].slug));
     });
   });
 
@@ -54,31 +54,55 @@ describe("Boards", () => {
   test("Correctly marks current board", async () => {
     render(<Boards />);
   
-    //TODO: fill this
+    const currentBoard = screen.getByRole("link", { current: "page" });
+    expect(currentBoard).toHaveAccessibleName(expect.stringContaining("kink-memes"));
+    const svgs = currentBoard.getElementsByTagName("svg");
+    // In the real world it is possible to have the current board be muted, and if we changed the Story to have an example with both at once these length tests would break, but all these tests will break if we change the details of the story boards so I figure it's fine?
+    expect(svgs).toHaveLength(1);
+    expect(svgs[0]).toHaveClass("fa-map-marker-alt");
+    expect(svgs[0]).toBeVisible();
   });
   
-  test("Correctly marks boards without updates", async () => {
+  test("Correctly renders board without updates", async () => {
     render(<Boards />);
   
-    //TODO: fill this
+    const oncieBoard = screen.getByRole("link", { name: "oncie-den"}); 
+    expect(within(oncieBoard).queryByRole("presentation", {hidden: true})).not.toBeInTheDocument();
+    const svgs = oncieBoard.getElementsByTagName("svg");
+    expect(svgs).toHaveLength(0);
   });
   
   test("Correctly marks boards with updates", async () => {
     render(<Boards />);
   
-    //TODO: fill this
+    const goreBoard = screen.getByLabelText("gore has new updates");
+    expect(within(goreBoard).getByRole("presentation", {hidden: true})).toBeVisible();
+    expect(within(goreBoard).getByRole("presentation", {hidden: true})).toHaveClass("board-icon__update");
+    const svgs = goreBoard.getElementsByTagName("svg");
+    expect(svgs).toHaveLength(0);
   });
   
   test("Correctly marks outdated boards with updates", async () => {
     render(<Boards />);
   
-    //TODO: fill this
+    const crackBoard = screen.getByLabelText("crack has updates");
+    expect(within(crackBoard).getByRole("presentation", {hidden: true})).toBeVisible();
+    expect(within(crackBoard).getByRole("presentation", {hidden: true})).toHaveClass("board-icon__update");
+    const svgs = crackBoard.getElementsByTagName("svg");
+    expect(svgs).toHaveLength(0);
   });
   
   test("Correctly marks muted board", async () => {
     render(<Boards />);
   
-    //TODO: fill this
+    const mutedBoard = screen.getByLabelText("anime muted");
+    expect(screen.queryByLabelText("anime has updates")).not.toBeInTheDocument();
+    expect(screen.queryByLabelText("anime has new updates")).not.toBeInTheDocument();
+    expect(within(mutedBoard).queryByRole("presentation", {hidden: true})).not.toBeInTheDocument();
+    const svgs = mutedBoard.getElementsByTagName("svg");
+    expect(svgs).toHaveLength(1);
+    expect(svgs[0]).toHaveClass("fa-volume-mute");
+    expect(svgs[0]).toBeVisible();
   });
 });
 
