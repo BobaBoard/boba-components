@@ -110,7 +110,8 @@ describe("Loading", () => {
   test("Renders loading section", async () => {
     render(<Loading />);
   
-    //TODO: fill this
+    expect(screen.getByLabelText(`loading ${(Loading.args as PinnedMenuSectionProps).sectionId}`)).toBeVisible();
+    expect(screen.getAllByLabelText("loading pinned item placeholder")).toHaveLength((Loading.args as LoadingPinnedSectionProps).loadingElementsCount);
   });
 });
 

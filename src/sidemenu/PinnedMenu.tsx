@@ -54,10 +54,12 @@ const PinnedMenuItem: React.FC<
       })}
     >
       {loading ? (
-        <LoadingPlaceholder
-          accentColor={loadingAccentColor || DefaultTheme.DEFAULT_ACCENT_COLOR}
-          height="50px"
-        />
+        <div aria-label="loading pinned item placeholder">
+          <LoadingPlaceholder
+            accentColor={loadingAccentColor || DefaultTheme.DEFAULT_ACCENT_COLOR}
+            height="50px"
+          />
+        </div>
       ) : "slug" in item ? (
         <ActionLink 
         label={getNotificationlabel(item, label)}
@@ -145,7 +147,6 @@ const Section: React.FC<PinnedMenuSectionProps> = (props) => {
             <PinnedMenuItem
               key={index}
               loading
-              aria-label="loading pinned item placeholder"
               loadingAccentColor={loadingAccentColor}
             />
           ))}
