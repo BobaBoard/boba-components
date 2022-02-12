@@ -30,9 +30,19 @@ const BoardMenuItem: React.FC<BoardMenuItemProps> = (props) => {
     outdated,
     current,
   } = props;
+
+  const getNotificationlabel = (props: BoardMenuItemProps) => {
+    if (props.muted) return `${props.slug} muted`;
+    if (!props.updates) return props.slug;
+    if (props.outdated) return `${props.slug} has updates`;
+    return `${props.slug} has new updates`;
+  };
+
   return (
     <ActionLink
       link={link}
+      current={current? "page" : false}
+      label={getNotificationlabel(props)}
       className={classnames(containerClassname, "board-menu-item", {
         "has-updates": !!updates,
         muted: !!muted,
