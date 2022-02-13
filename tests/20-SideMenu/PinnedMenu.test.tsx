@@ -6,6 +6,7 @@ import { BasePinnedSectionProps, LoadingPinnedSectionProps, PinnedMenuSectionPro
 import {
   Screen,
   fireEvent,
+  getByLabelText,
   render,
   screen,
   waitFor,
@@ -218,7 +219,11 @@ describe("Multiple Sections", () => {
   test("Renders sections in order", async () => {
     render(<MultipleSections />);
   
-    //TODO: fill this
+    const sections = document.getElementsByTagName("section");
+    
+    expect(sections[0]).toContainElement(screen.getByLabelText(MultipleSections!.args!.items![0].sectionId!));
+    expect(sections[1]).toContainElement(screen.getByLabelText(`loading ${MultipleSections!.args!.items![1].sectionId!}`));
+    expect(sections[2]).toContainElement(screen.getByLabelText(MultipleSections!.args!.items![2].sectionId!));
   });
 });
 

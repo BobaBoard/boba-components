@@ -145,6 +145,7 @@ Boards.args = {
 export const Loading = PinnedSectionTemplate.bind({});
 Loading.args = {
   icon: faUpload,
+  sectionId: "waiting",
   loading: true,
   loadingElementsCount: 7,
   loadingAccentColor: "green",
@@ -196,6 +197,7 @@ Icons.args = {
 export const Mixed = PinnedSectionTemplate.bind({});
 Mixed.args = {
   icon: faRssSquare,
+  sectionId: "mixed",
   items: [
     {
       id: "star",
