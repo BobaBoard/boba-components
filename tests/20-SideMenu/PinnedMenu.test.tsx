@@ -2,11 +2,13 @@ import "@testing-library/jest-dom/extend-expect";
 
 import * as stories from "stories/20-SideMenu/01-PinnedMenu.stories";
 
-import { BasePinnedSectionProps, LoadingPinnedSectionProps, PinnedMenuSectionProps, WithPinnedSectionProps } from "sidemenu/PinnedMenu";
+import PinnedMenu, { BasePinnedSectionProps, LoadingPinnedSectionProps, PinnedMenuSectionProps, WithPinnedSectionProps } from "sidemenu/PinnedMenu";
 import {
   Screen,
   fireEvent,
   getByLabelText,
+  queryAllByRole,
+  queryByRole,
   render,
   screen,
   waitFor,
@@ -19,6 +21,8 @@ import { DropdownProps } from "common/DropdownListMenu";
 import React from "react";
 import { action } from "@storybook/addon-actions";
 import { composeStories } from "@storybook/testing-react";
+import { faThumbtack } from "@fortawesome/free-solid-svg-icons";
+import { icon } from "@fortawesome/fontawesome-svg-core";
 import { mocked } from "ts-jest/utils";
 import userEvent from "@testing-library/user-event";
 
@@ -227,10 +231,19 @@ describe("Multiple Sections", () => {
   });
 });
 
-test("Doesn't render empty section", async () => {
-  render(<MultipleSections />);
+// I originally thought this would be testing that if you didn't have any pinned boards, you wouldn't see that section at all
+// but the component implementation renders the icon regardsless, so testing that it doesn't render the section at all if you have no pinned boards should be done in the frontend codebase
+test("Doesn't render items in empty section", async () => {
+  render(
+    <PinnedMenu>
+      <PinnedMenu.Section icon={faThumbtack} sectionId="pinned boards" items={[]} />
+    </PinnedMenu>
+    );
 
-  //TODO: fill this
+  expect(screen.queryByRole("link")).not.toBeInTheDocument();
+  expect(screen.queryByRole("button")).not.toBeInTheDocument();
+  expect(screen.queryByLabelText("loading pinned item placeholder")).not.toBeInTheDocument();
+  expect(screen.getByLabelText("pinned boards")).toBeVisible();
 });
 
 
