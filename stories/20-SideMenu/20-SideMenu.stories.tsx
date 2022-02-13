@@ -1,19 +1,92 @@
 import { Boards, Icons } from "./01-PinnedMenu.stories";
-import { Empty, Loading, Regular } from "./00-BoardsMenuSection.stories";
+import BoardsMenuSection, {BoardsMenuSectionProps} from "../../src/sidemenu/BoardsMenuSection";
+import BoardsMenuSectionTemplate, { Empty, Loading, Regular } from "./00-BoardsMenuSection.stories";
 import SideMenu, {
   SideMenuHandler,
   SideMenuProps,
 } from "../../src/sidemenu/SideMenu";
+import {
+  faClock,
+  faLemon
+} from "@fortawesome/free-solid-svg-icons";
 
-import BoardsMenuSection from "../../src/sidemenu/BoardsMenuSection";
 import PinnedMenu from "../../src/sidemenu/PinnedMenu";
 import React from "react";
 import { Story } from "@storybook/react";
+import { action } from "@storybook/addon-actions";
+import book from "../images/book.png";
+import goreBackground from "../images/gore.png";
+import kinkmeme from "../images/kink-meme.png";
+import meta from "../images/meta.png";
+import villains from "../images/villains.png";
 
 export default {
   title: "Side Menu/Side Menu",
   component: SideMenu,
 };
+
+const RECENT_BOARDS = [
+  {
+    slug: "gore",
+    avatar: "/" + goreBackground,
+    description: "Love me some bruised bois (and more).",
+    color: "#f96680",
+    link: { href: "#slug", onClick: action("#slug") },
+    updates: 10,
+  },
+  {
+    slug: "a-super-long-slug-because-we-need-to-test-for-overflow",
+    avatar: "/" + book,
+    description: "Come enjoy all the fics!",
+    color: "#7724d2",
+    updates: 5,
+    backgroundColor: "#131518",
+    link: { href: "#slug", onClick: action("#slug") },
+  },
+  {
+    slug: "kink-memes",
+    avatar: "/" + kinkmeme,
+    description: "No limits. No shame.",
+    color: "#000000",
+    link: { href: "#slug", onClick: action("#slug") },
+    updates: 10,
+  },
+  {
+  slug: "fic-club",
+  avatar: "/" + book,
+  description: "Come enjoy all the fics!",
+  color: "#7724d2",
+  updates: 5,
+  backgroundColor: "#131518",
+  link: { href: "#slug", onClick: action("#slug") },
+  },
+];
+
+const FANDOM_BOARDS = [
+  {
+    slug: "fic-club",
+    avatar: "/" + book,
+    description: "Come enjoy all the fics!",
+    color: "#7724d2",
+    updates: 5,
+    backgroundColor: "#131518",
+    link: { href: "#slug", onClick: action("#slug") },
+  },
+  {
+    slug: "meta",
+    avatar: "/" + meta,
+    description: "In My TiMeS wE CaLlEd It WaNk",
+    color: "#f9e066",
+    link: { href: "#slug", onClick: action("#slug") },
+  },
+  {
+    slug: "villain-thirst",
+    avatar: "/" + villains,
+    description: "Love to love 'em.",
+    color: "#e22b4b",
+    link: { href: "#slug", onClick: action("#slug") },
+  },
+];
 
 const SideMenuPreviewTemplate: Story<
   SideMenuProps & {
@@ -28,6 +101,8 @@ const SideMenuPreviewTemplate: Story<
         {/* @ts-expect-error (see: https://github.com/storybookjs/storybook/issues/13747) */}
         <PinnedMenu.Section {...Boards.args} />
       </PinnedMenu>
+      <BoardsMenuSection boards={RECENT_BOARDS} icon={faClock} title="Recent boards" currentBoardSlug={args.currentBoardSlug} />
+      <BoardsMenuSection boards={FANDOM_BOARDS} icon={faLemon} title="Fandom boards" currentBoardSlug={args.currentBoardSlug} />
       {/* @ts-expect-error (see: https://github.com/storybookjs/storybook/issues/13747) */}
       <BoardsMenuSection {...Regular.args} />
       {/* @ts-expect-error (see: https://github.com/storybookjs/storybook/issues/13747) */}
@@ -44,6 +119,7 @@ export const SideMenuPreview = SideMenuPreviewTemplate.bind({});
 SideMenuPreview.args = {
   showPinned: true,
   loading: true,
+  currentBoardSlug: "kink-memes",
 };
 SideMenuPreview.decorators = [
   (Story) => {

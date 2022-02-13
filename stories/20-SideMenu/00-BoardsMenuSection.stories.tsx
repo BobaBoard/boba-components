@@ -82,7 +82,7 @@ import villains from "../images/villains.png";
 //     link: { href: "#slug", onClick: action("#slug") },
 //   },
 // ];
-const RECENT_BOARDS = [
+const GENERAL_BOARDS = [
   {
     slug: "gore",
     avatar: "/" + goreBackground,
@@ -163,9 +163,9 @@ const BoardsMenuSectionTemplate: Story<BoardsMenuSectionProps> = (
 
 export const Regular = BoardsMenuSectionTemplate.bind({});
 Regular.args = {
-  boards: RECENT_BOARDS,
+  boards: GENERAL_BOARDS,
   icon: faTh,
-  title: "All boards",
+  title: "General boards",
   currentBoardSlug: "kink-memes",
 };
 
