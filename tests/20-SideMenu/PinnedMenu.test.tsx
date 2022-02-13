@@ -4,11 +4,6 @@ import * as stories from "stories/20-SideMenu/01-PinnedMenu.stories";
 
 import PinnedMenu, { BasePinnedSectionProps, LoadingPinnedSectionProps, PinnedMenuSectionProps, WithPinnedSectionProps } from "sidemenu/PinnedMenu";
 import {
-  Screen,
-  fireEvent,
-  getByLabelText,
-  queryAllByRole,
-  queryByRole,
   render,
   screen,
   waitFor,
@@ -22,7 +17,6 @@ import React from "react";
 import { action } from "@storybook/addon-actions";
 import { composeStories } from "@storybook/testing-react";
 import { faThumbtack } from "@fortawesome/free-solid-svg-icons";
-import { icon } from "@fortawesome/fontawesome-svg-core";
 import { mocked } from "ts-jest/utils";
 import userEvent from "@testing-library/user-event";
 
