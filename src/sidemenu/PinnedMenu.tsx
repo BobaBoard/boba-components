@@ -138,7 +138,7 @@ const Section: React.FC<PinnedMenuSectionProps> = (props) => {
 
   return (
     <section>
-      <div className="icon" aria-label={loading? `loading ${sectionId}` : sectionId}>
+      <div className="icon"  role="img" aria-label={loading? `loading ${sectionId}` : sectionId}>
         <Icon icon={icon} />
       </div>
       <div className="items-container" aria-busy={loading ? true : false}>

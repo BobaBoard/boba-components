@@ -159,12 +159,14 @@ Icons.args = {
       id: "star",
       icon: faStar,
       accentColor: "red",
+      link: { href: "#star", onClick: action("#star") },
     },
     {
       id: "inbox",
       icon: faInbox,
       accentColor: "red",
       withNotification: true,
+      link: { href: "#inbox", onClick: action("#inbox") },
     },
     { 
       id: "user options", 
@@ -173,11 +175,11 @@ Icons.args = {
       menuOptions : [
         {
           name: "Option 1",
-          link: { href: "#opt1", onClick: action("#opt1") },
+          link: { onClick: () => action("userOption1")() },
         },
         {
           name: "Option 2",
-          link: { href: "#opt2", onClick: action("#opt2") },
+          link: { onClick: () => action("userOption2")() },
         }
       ],
     },
@@ -185,6 +187,7 @@ Icons.args = {
       id: "heart",
       icon: faHeart,
       accentColor: "red",
+      link: { href: "#heart", onClick: action("#heart") },
     },
   ],
   currentItemId: "star",

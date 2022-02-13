@@ -156,6 +156,7 @@ const CircleButton: React.FC<CircleButtonProps> = ({
       </div>
       {selected && (
         <div
+          role="presentation"
           className={classnames("select-bar", {
             left: selectLightPosition === SelectLightPosition.LEFT,
           })}

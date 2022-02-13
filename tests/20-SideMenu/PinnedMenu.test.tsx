@@ -13,6 +13,8 @@ import {
 } from "@testing-library/react";
 
 import { BoardType } from "types";
+import { CircleButtonProps } from "buttons/CircleButton";
+import { DropdownProps } from "common/DropdownListMenu";
 import React from "react";
 import { action } from "@storybook/addon-actions";
 import { composeStories } from "@storybook/testing-react";
@@ -48,7 +50,7 @@ describe("Boards", () => {
         expect(action).toBeCalledWith("#slug");
         expect(boardLink).toHaveAttribute("href", "#slug");
       });
-    };
+    }
   });
   
   test("Correctly marks current board", async () => {
@@ -119,25 +121,96 @@ describe("Icons", () => {
   test("Renders section with icons", async () => {
     render(<Icons />);
   
-    //TODO: fill this
+    expect(screen.getByLabelText((Icons!.args! as BasePinnedSectionProps).sectionId!)).toBeVisible();
+
+    const argsItems = ((Icons.args as WithPinnedSectionProps)
+      .items as (CircleButtonProps & { id: string, menuOptions?: DropdownProps["options"] })[]);
+
+    const linkIcons = screen.getAllByRole("link");
+    const linkArgs = argsItems.filter(item => !item.menuOptions);
+    expect(linkIcons).toHaveLength(linkArgs.length);
+    linkIcons.forEach((icon, i) => {
+        expect(icon).toHaveAccessibleName(expect.stringContaining(linkArgs[i].id));
+    });
+
+    const buttonIcons = screen.getAllByRole("button");
+    const buttonArgs = argsItems.filter(item => item.menuOptions);
+    expect(buttonIcons).toHaveLength(buttonArgs.length);
+    const buttonArgIndex = argsItems.findIndex(item => item.menuOptions);
+    expect(buttonIcons[0]).toHaveAccessibleName(argsItems[buttonArgIndex].id);
+  });
+
+  test("Icons with links have correct links", async () => {
+    render(<Icons />);
+    const actionReturn = jest.fn();
+    mocked(action).mockReturnValue(actionReturn);
+
+    const argsItems = ((Icons.args as WithPinnedSectionProps)
+    .items as (CircleButtonProps & { id: string, menuOptions?: DropdownProps["options"] })[]);
+
+    const linkArgs = argsItems.filter(item => !item.menuOptions);
+    
+    const iconLinks = screen.getAllByRole("link");
+
+    for (const [i, iconLink] of iconLinks.entries()) {
+      userEvent.click(iconLink);
+      await waitFor(() => {
+        expect(action).toBeCalledWith(`#${linkArgs[i].id}`);
+        expect(iconLink).toHaveAttribute("href", `#${linkArgs[i].id}`);
+      });
+    }
   });
   
-  test("Correctly marks icon with notification", async () => {
+  test("Correctly marks icon without notification", async () => {
     render(<Icons />);
   
-    //TODO: fill this
+    expect(screen.getByRole("link", { name: "heart"})).toBeInTheDocument; 
+    expect(screen.queryByLabelText("heart has new updates")).not.toBeInTheDocument; 
+    expect(document.querySelector(".has-dot")).not.toContainElement(screen.getByRole("link", { name: "heart"}));
+  });
+
+  test("Correctly marks icon with notification", async () => {
+    render(<Icons />);
+    
+    expect(within(document.querySelector(".has-dot")!).getByRole("link")).toHaveAccessibleName("inbox has new updates");
   });
 
   test("Correctly marks current icon", async () => {
     render(<Icons />);
   
-    //TODO: fill this
+    const currentIcon = screen.getByRole("link", { current: "page" });
+    expect(currentIcon).toHaveAccessibleName("star");
+    expect(document.querySelector(".circle-button")).toContainElement(currentIcon);
+    expect(within(document.querySelector(".circle-button")!).getByRole("presentation")).toBeVisible();
   });
 
   test("Renders icon options dropdown", async () => {
     render(<Icons />);
-  
-    //TODO: fill this
+    
+    const actionReturn = jest.fn();
+    mocked(action).mockReturnValue(actionReturn);
+    
+    userEvent.click(screen.getByLabelText("user options"));
+    await waitFor(() => {
+      expect(screen.getByText("Option 1")).toBeVisible();
+    });
+    userEvent.click(screen.getByText("Option 1"));    
+    await waitFor(() => {
+      expect(action).toBeCalledWith("userOption1");
+    });
+
+    await waitFor(() => {
+      expect(screen.queryByText("Option 1")).not.toBeInTheDocument();
+    })
+
+    userEvent.click(screen.getByLabelText("user options"));
+    await waitFor(() => {
+      expect(screen.getByText("Option 2")).toBeVisible();
+    });
+    userEvent.click(screen.getByText("Option 2"));    
+    await waitFor(() => {
+      expect(action).toBeCalledWith("userOption2");
+    });
   });
 });
 
@@ -147,12 +220,12 @@ describe("Multiple Sections", () => {
   
     //TODO: fill this
   });
+});
 
-  test("Doesn't render empty section", async () => {
-    render(<MultipleSections />);
-  
-    //TODO: fill this
-  });
+test("Doesn't render empty section", async () => {
+  render(<MultipleSections />);
+
+  //TODO: fill this
 });
 
 
