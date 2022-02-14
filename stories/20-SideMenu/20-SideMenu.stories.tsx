@@ -1,6 +1,5 @@
 import { Boards, Icons } from "./01-PinnedMenu.stories";
-import BoardsMenuSection, {BoardsMenuSectionProps} from "../../src/sidemenu/BoardsMenuSection";
-import BoardsMenuSectionTemplate, { Empty, Loading, Regular } from "./00-BoardsMenuSection.stories";
+import { Empty, Loading, Regular } from "./00-BoardsMenuSection.stories";
 import SideMenu, {
   SideMenuHandler,
   SideMenuProps,
@@ -10,6 +9,7 @@ import {
   faLemon
 } from "@fortawesome/free-solid-svg-icons";
 
+import BoardsMenuSection from "../../src/sidemenu/BoardsMenuSection";
 import PinnedMenu from "../../src/sidemenu/PinnedMenu";
 import React from "react";
 import { Story } from "@storybook/react";
