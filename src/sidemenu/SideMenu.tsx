@@ -1,16 +1,16 @@
-import React from "react";
-import { BoardType } from "types";
-import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import { faEllipsisV, faSearch } from "@fortawesome/free-solid-svg-icons";
-
-import PinnedMenu from "./PinnedMenu";
-import BoardsMenuSection from "./BoardsMenuSection";
 import DropdownMenu, {
   DropdownProps,
   DropdownStyle,
 } from "../common/DropdownListMenu";
-import classnames from "classnames";
+import { faEllipsisV, faSearch } from "@fortawesome/free-solid-svg-icons";
+
+import { BoardType } from "types";
+import BoardsMenuSection from "./BoardsMenuSection";
 import DefaultTheme from "../theme/default";
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import PinnedMenu from "./PinnedMenu";
+import React from "react";
+import classnames from "classnames";
 import { extractCompounds } from "../utils/compound-utils";
 
 export interface SideMenuHandler {
@@ -58,6 +58,8 @@ const SideMenu = React.forwardRef<SideMenuHandler, SideMenuProps>(
             </div>
             <input
               placeholder="Filter boards"
+              role="searchbox"
+              aria-label="board filter"
               onChange={(e) => onFilterChange?.(e.target.value)}
               ref={boardFilterRef}
             />
@@ -65,6 +67,7 @@ const SideMenu = React.forwardRef<SideMenuHandler, SideMenuProps>(
               options={menuOptions}
               style={DropdownStyle.DARK}
               zIndex={101}
+              label="board menu options"
             >
               <div className={classnames("board-filter-options")}>
                 <FontAwesomeIcon icon={faEllipsisV} />
