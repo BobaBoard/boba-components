@@ -10,11 +10,8 @@ import classnames from "classnames";
 const BoardsMenuSection: React.FC<BoardsMenuSectionProps> = (props) => {
   const { boards, title, icon, currentBoardSlug } = props as BoardsSectionProps;
   const { emptyTitle, emptyDescription } = props as EmptySectionProps;
-  const {
-    loading,
-    placeholdersCount,
-    accentColor,
-  } = props as LoadingSectionProps;
+  const { loading, placeholdersCount, accentColor } =
+    props as LoadingSectionProps;
   const isEmpty = !loading && (!boards || boards.length == 0);
   return (
     <section>
@@ -59,7 +56,11 @@ const BoardsMenuSection: React.FC<BoardsMenuSectionProps> = (props) => {
           key="loading-items-section"
         >
           {Array.from({ length: placeholdersCount || 0 }).map((_, index) => (
-            <div className="boardItem" aria-label="loading board placeholder" key={`board-item-${index}`}>
+            <div
+              className="boardItem"
+              aria-label="board is loading"
+              key={`board-item-${index}`}
+            >
               <LoadingPlaceholder
                 key={index}
                 accentColor={accentColor || DefaultTheme.DEFAULT_ACCENT_COLOR}

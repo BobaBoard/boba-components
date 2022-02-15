@@ -140,12 +140,10 @@ describe("Loading", () => {
 
     expect(
       screen.getByLabelText(
-        `loading ${(Loading.args as PinnedMenuSectionProps).sectionId}`
+        `${(Loading.args as PinnedMenuSectionProps).sectionId} are loading`
       )
     ).toBeVisible();
-    expect(
-      screen.getAllByLabelText("loading pinned item placeholder")
-    ).toHaveLength(
+    expect(screen.getAllByLabelText("pinned item is loading")).toHaveLength(
       (Loading.args as LoadingPinnedSectionProps).loadingElementsCount
     );
   });
@@ -281,7 +279,7 @@ describe("Multiple Sections", () => {
     );
     expect(sections[1]).toContainElement(
       screen.getByLabelText(
-        `loading ${MultipleSections!.args!.items![1].sectionId!}`
+        `${MultipleSections!.args!.items![1].sectionId!} are loading`
       )
     );
     expect(sections[2]).toContainElement(

@@ -68,7 +68,7 @@ const PinnedMenuItem: React.FC<
       })}
     >
       {loading ? (
-        <div aria-label="loading pinned item placeholder">
+        <div aria-label="pinned item is loading">
           <LoadingPlaceholder
             accentColor={
               loadingAccentColor || DefaultTheme.DEFAULT_ACCENT_COLOR
@@ -148,12 +148,11 @@ const Section: React.FC<PinnedMenuSectionProps> = (props) => {
 
   return (
     <section>
-      <div
-        className="icon"
-        role="img"
-        aria-label={loading ? `loading ${sectionId}` : sectionId}
-      >
-        <Icon icon={icon} />
+      <div className="icon">
+        <Icon
+          label={loading ? `${sectionId} are loading` : sectionId}
+          icon={icon}
+        />
       </div>
       <div className="items-container" aria-busy={loading ? true : false}>
         {loading &&
