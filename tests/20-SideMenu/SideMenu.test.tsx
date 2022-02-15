@@ -17,21 +17,13 @@ import {
   Loading,
   Regular,
 } from "stories/20-SideMenu/00-BoardsMenuSection.stories";
-import {
-  Screen,
-  fireEvent,
-  render,
-  screen,
-  waitFor,
-  within,
-} from "@testing-library/react";
+import { render, screen, waitFor, within } from "@testing-library/react";
 
 import { CircleButtonProps } from "buttons/CircleButton";
 import { DropdownProps } from "common/DropdownListMenu";
 import React from "react";
 import { action } from "@storybook/addon-actions";
 import { composeStories } from "@storybook/testing-react";
-import exp from "constants";
 import { mocked } from "ts-jest/utils";
 import userEvent from "@testing-library/user-event";
 
@@ -126,7 +118,7 @@ test("Renders boards menu", async () => {
   // expect(within(sections[4]).getAllByRole("link")).toHaveLength((Regular.args as BoardsSectionProps).boards!.length);
 
   // expect(within(sections[5]).getByText(Loading!.args!.title!)).toBeVisible();
-  // expect(within(sections[5]).getAllByLabelText("loading board placeholder")).toHaveLength((Loading.args as LoadingSectionProps).placeholdersCount);
+  // expect(within(sections[5]).getAllByLabelText("board is loading")).toHaveLength((Loading.args as LoadingSectionProps).placeholdersCount);
 
   // expect(within(sections[6]).getByText(Empty!.args!.title!)).toBeVisible();
   // expect(within(sections[6]).queryAllByRole("link")).toHaveLength(0);
