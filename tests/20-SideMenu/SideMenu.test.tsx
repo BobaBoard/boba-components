@@ -2,10 +2,21 @@ import "@testing-library/jest-dom/extend-expect";
 
 import * as stories from "stories/20-SideMenu/20-SideMenu.stories";
 
-import { BasePinnedSectionProps, WithPinnedSectionProps } from "sidemenu/PinnedMenu";
+import {
+  BasePinnedSectionProps,
+  WithPinnedSectionProps,
+} from "sidemenu/PinnedMenu";
 import { Boards, Icons } from "stories/20-SideMenu/01-PinnedMenu.stories";
-import { BoardsSectionProps, EmptySectionProps, LoadingSectionProps } from "sidemenu/BoardsMenuSection";
-import { Empty, Loading, Regular } from "stories/20-SideMenu/00-BoardsMenuSection.stories";
+import {
+  BoardsSectionProps,
+  EmptySectionProps,
+  LoadingSectionProps,
+} from "sidemenu/BoardsMenuSection";
+import {
+  Empty,
+  Loading,
+  Regular,
+} from "stories/20-SideMenu/00-BoardsMenuSection.stories";
 import {
   Screen,
   fireEvent,
@@ -32,42 +43,77 @@ test("Renders pinned menu", async () => {
   render(<SideMenuPreview />);
 
   const sections = document.getElementsByTagName("section");
+  //TODO after updated story merged, change to expected length to 7
+  expect(sections).toHaveLength(5);
 
-  const argsItems = ((Icons.args as WithPinnedSectionProps)
-  .items as (CircleButtonProps & { id: string, menuOptions?: DropdownProps["options"] })[]);
-  const linkArgs = argsItems.filter(item => !item.menuOptions);
-  const buttonArgs = argsItems.filter(item => item.menuOptions);
+  const argsItems = (Icons.args as WithPinnedSectionProps)
+    .items as (CircleButtonProps & {
+    id: string;
+    menuOptions?: DropdownProps["options"];
+  })[];
+  const linkArgs = argsItems.filter((item) => !item.menuOptions);
+  const buttonArgs = argsItems.filter((item) => item.menuOptions);
 
-  expect(within(sections[0]).getByLabelText((Icons!.args! as BasePinnedSectionProps).sectionId!)).toBeVisible();
-  expect(within(sections[0]).getAllByRole("link")).toHaveLength(linkArgs.length);
-  expect(within(sections[0]).getAllByRole("button")).toHaveLength(buttonArgs.length);
+  expect(
+    within(sections[0]).getByLabelText(
+      (Icons!.args! as BasePinnedSectionProps).sectionId!
+    )
+  ).toBeVisible();
+  expect(within(sections[0]).getAllByRole("link")).toHaveLength(
+    linkArgs.length
+  );
+  expect(within(sections[0]).getAllByRole("button")).toHaveLength(
+    buttonArgs.length
+  );
 
-  expect(within(sections[1]).getByLabelText((Boards!.args! as BasePinnedSectionProps).sectionId!)).toBeVisible();
-  expect(within(sections[1]).getAllByRole("link")).toHaveLength((Boards.args as WithPinnedSectionProps).items.length);
+  expect(
+    within(sections[1]).getByLabelText(
+      (Boards!.args! as BasePinnedSectionProps).sectionId!
+    )
+  ).toBeVisible();
+  expect(within(sections[1]).getAllByRole("link")).toHaveLength(
+    (Boards.args as WithPinnedSectionProps).items.length
+  );
 });
 
 test("Pinned Menu doesn't render when turned off", async () => {
   render(<SideMenuPreview showPinned={false} />);
 
-  expect(screen.getByLabelText((Icons!.args! as BasePinnedSectionProps).sectionId!)).not.toBeVisible();
-  expect(screen.getByLabelText((Boards!.args! as BasePinnedSectionProps).sectionId!)).not.toBeVisible();
+  expect(
+    screen.getByLabelText((Icons!.args! as BasePinnedSectionProps).sectionId!)
+  ).not.toBeVisible();
+  expect(
+    screen.getByLabelText((Boards!.args! as BasePinnedSectionProps).sectionId!)
+  ).not.toBeVisible();
 });
 
 test("Renders boards menu", async () => {
   render(<SideMenuPreview />);
 
   const sections = document.getElementsByTagName("section");
+  //TODO after updated story merged, change to expected length to 7
+  expect(sections).toHaveLength(5);
 
   expect(within(sections[2]).getByText(Regular!.args!.title!)).toBeVisible();
-  expect(within(sections[2]).getAllByRole("link")).toHaveLength((Regular.args as BoardsSectionProps).boards!.length);
+  expect(within(sections[2]).getAllByRole("link")).toHaveLength(
+    (Regular.args as BoardsSectionProps).boards!.length
+  );
 
   expect(within(sections[3]).getByText(Loading!.args!.title!)).toBeVisible();
-  expect(within(sections[3]).getAllByLabelText("loading board placeholder")).toHaveLength((Loading.args as LoadingSectionProps).placeholdersCount);
+  expect(
+    within(sections[3]).getAllByLabelText("loading board placeholder")
+  ).toHaveLength((Loading.args as LoadingSectionProps).placeholdersCount);
 
   expect(within(sections[4]).getByText(Empty!.args!.title!)).toBeVisible();
   expect(within(sections[4]).queryAllByRole("link")).toHaveLength(0);
-  expect(within(sections[4]).getByText((Empty.args as EmptySectionProps).emptyTitle)).toBeVisible();
-  expect(within(sections[4]).getByText((Empty.args as EmptySectionProps).emptyDescription)).toBeVisible();
+  expect(
+    within(sections[4]).getByText((Empty.args as EmptySectionProps).emptyTitle)
+  ).toBeVisible();
+  expect(
+    within(sections[4]).getByText(
+      (Empty.args as EmptySectionProps).emptyDescription
+    )
+  ).toBeVisible();
 
   //TODO: Replace above with the following once updated story merged
   // expect(within(sections[2]).getByText("Recent boards")).toBeVisible();
@@ -93,12 +139,12 @@ test("Renders boards dropdown", async () => {
 
   const actionReturn = jest.fn();
   mocked(action).mockReturnValue(actionReturn);
-  
+
   userEvent.click(screen.getByLabelText("board menu options"));
   await waitFor(() => {
     expect(screen.getByText("Dismiss notifications")).toBeVisible();
   });
-  userEvent.click(screen.getByText("Dismiss notifications"));    
+  userEvent.click(screen.getByText("Dismiss notifications"));
   await waitFor(() => {
     expect(action).toBeCalledWith("dismissNotifications");
   });
@@ -112,7 +158,9 @@ test("Renders board filter", async () => {
   render(<SideMenuPreview />);
 
   expect(screen.getByRole("searchbox")).toHaveAccessibleName("board filter");
-  expect(screen.getByRole("searchbox")).toEqual(screen.getByPlaceholderText("Filter boards"));
+  expect(screen.getByRole("searchbox")).toEqual(
+    screen.getByPlaceholderText("Filter boards")
+  );
 });
 
 test("Correctly propagates filter change on text entry", async () => {
@@ -136,4 +184,3 @@ test("Correctly propagates filter change on text entry", async () => {
   });
   expect(boardFilter).toHaveValue("me");
 });
-
