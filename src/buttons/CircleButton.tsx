@@ -136,6 +136,7 @@ const CircleButton: React.FC<CircleButtonProps> = ({
         <ActionLink
           label={label}
           link={link}
+          current={selected ? "page" : false}
           className={classnames("icon", iconClassName, {
             dropdown: !!withDropdown,
             loading,
@@ -155,6 +156,7 @@ const CircleButton: React.FC<CircleButtonProps> = ({
       </div>
       {selected && (
         <div
+          role="presentation"
           className={classnames("select-bar", {
             left: selectLightPosition === SelectLightPosition.LEFT,
           })}

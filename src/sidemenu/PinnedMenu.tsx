@@ -2,7 +2,10 @@ import CircleButton, {
   CircleButtonProps,
   SelectLightPosition,
 } from "../buttons/CircleButton";
-import DropdownListMenu, { DropdownProps, DropdownStyle } from "../common/DropdownListMenu";
+import DropdownListMenu, {
+  DropdownProps,
+  DropdownStyle,
+} from "../common/DropdownListMenu";
 import Icon, { IconProps } from "../common/Icon";
 
 import ActionLink from "../buttons/ActionLink";
@@ -33,6 +36,31 @@ const PinnedMenuItem: React.FC<
   const { item, current, menuOptions, label } = props as PinnedMenuItemProps;
   const { loading, loadingAccentColor } = props as LoadingPinnedMenuItemProps;
 
+  const getNotificationlabel = (
+    item: BoardType | CircleButtonProps,
+    label?: string
+  ) => {
+    if (!label) {
+      return "";
+    }
+    if ("slug" in item) {
+      if (item.muted) {
+        return `${label} muted`;
+      }
+      if (!item.updates) {
+        return label;
+      }
+      if (item.outdated) {
+        return `${label} has updates`;
+      }
+      return `${label} has new updates`;
+    } else if (item.withNotification) {
+      return `${label} has new updates`;
+    } else {
+      return label;
+    }
+  };
+
   return (
     <div
       className={classNames("pinned-item", {
@@ -40,34 +68,40 @@ const PinnedMenuItem: React.FC<
       })}
     >
       {loading ? (
-        <LoadingPlaceholder
-          accentColor={loadingAccentColor || DefaultTheme.DEFAULT_ACCENT_COLOR}
-          height="50px"
-        />
+        <div aria-label="pinned item is loading">
+          <LoadingPlaceholder
+            accentColor={
+              loadingAccentColor || DefaultTheme.DEFAULT_ACCENT_COLOR
+            }
+            height="50px"
+          />
+        </div>
       ) : "slug" in item ? (
-        <ActionLink link={item.link}>
+        <ActionLink
+          label={getNotificationlabel(item, label)}
+          current={current ? "page" : false}
+          link={item.link}
+        >
           <BoardIcon {...item} current={current} large />
         </ActionLink>
-      ) : !!menuOptions?.length? (
+      ) : menuOptions?.length ? (
         <div className="dropdown-wrapper">
           <DropdownListMenu
-          options={menuOptions}
-          style={DropdownStyle.DARK}
-          label={label}
+            options={menuOptions}
+            style={DropdownStyle.DARK}
+            label={label}
           >
-            <CircleButton
-              {...item}
-              withDropdown={!!menuOptions?.length}
-            />
-          </DropdownListMenu> 
+            <CircleButton {...item} withDropdown={!!menuOptions?.length} />
+          </DropdownListMenu>
         </div>
       ) : (
         <div className="button-wrapper">
           <CircleButton
-          {...item}
-          withDropdown={!!menuOptions?.length}
-          selected={current}
-          selectLightPosition={SelectLightPosition.LEFT}
+            {...item}
+            withDropdown={!!menuOptions?.length}
+            label={getNotificationlabel(item, label)}
+            selected={current}
+            selectLightPosition={SelectLightPosition.LEFT}
           />
         </div>
       )}
@@ -78,8 +112,8 @@ const PinnedMenuItem: React.FC<
         .dropdown-wrapper {
           display: flex;
           width: 100%;
-          align-items: center; 
-          justify-content: center; 
+          align-items: center;
+          justify-content: center;
         }
         .pinned-item {
           margin-top: 15px;
@@ -106,22 +140,21 @@ const PinnedMenuItem: React.FC<
 };
 
 const Section: React.FC<PinnedMenuSectionProps> = (props) => {
-  const { icon } = props as BasePinnedSectionProps;
-  const {
-    items,
-    currentItemId: currentItemSlug  } = props as WithPinnedSectionProps;
-  const {
-    loading,
-    loadingAccentColor,
-    loadingElementsCount,
-  } = props as LoadingPinnedSectionProps;
+  const { icon, sectionId } = props as BasePinnedSectionProps;
+  const { items, currentItemId: currentItemSlug } =
+    props as WithPinnedSectionProps;
+  const { loading, loadingAccentColor, loadingElementsCount } =
+    props as LoadingPinnedSectionProps;
 
   return (
-    <div className="pinned-section">
+    <section>
       <div className="icon">
-        <Icon icon={icon} />
+        <Icon
+          label={loading ? `${sectionId} are loading` : sectionId}
+          icon={icon}
+        />
       </div>
-      <div className="items-container">
+      <div className="items-container" aria-busy={loading ? true : false}>
         {loading &&
           Array.from({ length: loadingElementsCount || 0 }).map((_, index) => (
             <PinnedMenuItem
@@ -141,12 +174,12 @@ const Section: React.FC<PinnedMenuSectionProps> = (props) => {
         ))}
       </div>
       <style jsx>{`
-        .pinned-section {
+        section {
           display: flex;
           flex-direction: column;
           align-items: center;
         }
-        .pinned-section::-webkit-scrollbar {
+        section::-webkit-scrollbar {
           display: none;
         }
         .icon {
@@ -160,10 +193,10 @@ const Section: React.FC<PinnedMenuSectionProps> = (props) => {
         .items-container {
           width: 100%;
         }
-        .pinned-section:first-child {
+        section:first-child {
           padding-top: 15px;
         }
-        .pinned-section + .pinned-section::before {
+        section + section::before {
           content: "";
           width: 100%;
           height: 1px;
@@ -181,7 +214,7 @@ const Section: React.FC<PinnedMenuSectionProps> = (props) => {
           margin-bottom: 10px;
         }
       `}</style>
-    </div>
+    </section>
   );
 };
 
@@ -199,6 +232,7 @@ const PinnedMenu: React.FC<{ children: React.ReactNode }> & {
           height: 100%;
           scrollbar-width: none;
         }
+        // Is this supposed to be .pinned-container::-webkit-scrollbar?
         .pinned-section::-webkit-scrollbar {
           display: none;
         }
@@ -222,11 +256,17 @@ export type PinnedMenuSectionProps = BasePinnedSectionProps &
 
 export interface BasePinnedSectionProps {
   icon: IconProps["icon"];
+  // For accessibility, sections need to be labeled by something beyond an icon. I've made sectionId optional so as not to break anything for now, but should really be required.
+  sectionId?: string;
 }
 export interface WithPinnedSectionProps {
-  items: (BoardType | (CircleButtonProps & { 
-    id: string, 
-    menuOptions?: DropdownProps["options"] }))[];
+  items: (
+    | BoardType
+    | (CircleButtonProps & {
+        id: string;
+        menuOptions?: DropdownProps["options"];
+      })
+  )[];
   currentItemId?: string | null;
   loading?: false;
 }

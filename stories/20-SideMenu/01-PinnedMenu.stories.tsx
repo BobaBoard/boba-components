@@ -80,8 +80,6 @@ const RECENT_BOARDS = [
     avatar: "/" + oncelerBoard,
     description: "Party like it's 2012",
     color: "#27caba",
-    updates: 10,
-    outdated: true,
     backgroundColor: "#131518",
     link: { href: "#slug", onClick: action("#slug") },
   },
@@ -112,6 +110,15 @@ const RECENT_BOARDS = [
     backgroundColor: "#131518",
     link: { href: "#slug", onClick: action("#slug") },
   },
+  {
+    slug: "anime",
+    muted: true,
+    avatar: "/" + anime,
+    description: "We put the weeb in dweeb.",
+    color: "#24d282",
+    backgroundColor: "#131518",
+    link: { href: "#slug", onClick: action("#slug") },
+  }
 ];
 
 export default {
@@ -130,6 +137,7 @@ const PinnedSectionTemplate: Story<PinnedMenuSectionProps> = (args) => {
 export const Boards = PinnedSectionTemplate.bind({});
 Boards.args = {
   icon: faThumbtack,
+  sectionId: "pinned boards",
   items: RECENT_BOARDS,
   currentItemId: "kink-memes",
 };
@@ -137,6 +145,7 @@ Boards.args = {
 export const Loading = PinnedSectionTemplate.bind({});
 Loading.args = {
   icon: faUpload,
+  sectionId: "waiting",
   loading: true,
   loadingElementsCount: 7,
   loadingAccentColor: "green",
@@ -145,17 +154,20 @@ Loading.args = {
 export const Icons = PinnedSectionTemplate.bind({});
 Icons.args = {
   icon: faRssSquare,
+  sectionId: "feeds",
   items: [
     {
       id: "star",
       icon: faStar,
       accentColor: "red",
+      link: { href: "#star", onClick: action("#star") },
     },
     {
       id: "inbox",
       icon: faInbox,
       accentColor: "red",
       withNotification: true,
+      link: { href: "#inbox", onClick: action("#inbox") },
     },
     { 
       id: "user options", 
@@ -164,11 +176,11 @@ Icons.args = {
       menuOptions : [
         {
           name: "Option 1",
-          link: { href: "#opt1", onClick: action("#opt1") },
+          link: { onClick: () => action("userOption1")() },
         },
         {
           name: "Option 2",
-          link: { href: "#opt2", onClick: action("#opt2") },
+          link: { onClick: () => action("userOption2")() },
         }
       ],
     },
@@ -176,6 +188,7 @@ Icons.args = {
       id: "heart",
       icon: faHeart,
       accentColor: "red",
+      link: { href: "#heart", onClick: action("#heart") },
     },
   ],
   currentItemId: "star",
@@ -184,6 +197,7 @@ Icons.args = {
 export const Mixed = PinnedSectionTemplate.bind({});
 Mixed.args = {
   icon: faRssSquare,
+  sectionId: "mixed",
   items: [
     {
       id: "star",
