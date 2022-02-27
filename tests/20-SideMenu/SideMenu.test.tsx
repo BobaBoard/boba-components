@@ -35,8 +35,7 @@ test("Renders pinned menu", async () => {
   render(<SideMenuPreview />);
 
   const sections = document.getElementsByTagName("section");
-  //TODO after updated story merged, change to expected length to 7
-  expect(sections).toHaveLength(5);
+  expect(sections).toHaveLength(7);
 
   const argsItems = (Icons.args as WithPinnedSectionProps)
     .items as (CircleButtonProps & {
@@ -83,47 +82,34 @@ test("Renders boards menu", async () => {
   render(<SideMenuPreview />);
 
   const sections = document.getElementsByTagName("section");
-  //TODO after updated story merged, change to expected length to 7
-  expect(sections).toHaveLength(5);
+  expect(sections).toHaveLength(7);
 
-  expect(within(sections[2]).getByText(Regular!.args!.title!)).toBeVisible();
-  expect(within(sections[2]).getAllByRole("link")).toHaveLength(
+  expect(within(sections[2]).getByText("Recent boards")).toBeVisible();
+  expect(within(sections[2]).getAllByRole("link")).toHaveLength(4);
+
+  expect(within(sections[3]).getByText("Fandom boards")).toBeVisible();
+  expect(within(sections[3]).getAllByRole("link")).toHaveLength(3);
+
+  expect(within(sections[4]).getByText(Regular!.args!.title!)).toBeVisible();
+  expect(within(sections[4]).getAllByRole("link")).toHaveLength(
     (Regular.args as BoardsSectionProps).boards!.length
   );
 
-  expect(within(sections[3]).getByText(Loading!.args!.title!)).toBeVisible();
+  expect(within(sections[5]).getByText(Loading!.args!.title!)).toBeVisible();
   expect(
-    within(sections[3]).getAllByLabelText("loading board placeholder")
+    within(sections[5]).getAllByLabelText("board is loading")
   ).toHaveLength((Loading.args as LoadingSectionProps).placeholdersCount);
 
-  expect(within(sections[4]).getByText(Empty!.args!.title!)).toBeVisible();
-  expect(within(sections[4]).queryAllByRole("link")).toHaveLength(0);
+  expect(within(sections[6]).getByText(Empty!.args!.title!)).toBeVisible();
+  expect(within(sections[6]).queryAllByRole("link")).toHaveLength(0);
   expect(
-    within(sections[4]).getByText((Empty.args as EmptySectionProps).emptyTitle)
+    within(sections[6]).getByText((Empty.args as EmptySectionProps).emptyTitle)
   ).toBeVisible();
   expect(
-    within(sections[4]).getByText(
+    within(sections[6]).getByText(
       (Empty.args as EmptySectionProps).emptyDescription
     )
   ).toBeVisible();
-
-  //TODO: Replace above with the following once updated story merged
-  // expect(within(sections[2]).getByText("Recent boards")).toBeVisible();
-  // expect(within(sections[2]).getAllByRole("link")).toHaveLength(4);
-
-  // expect(within(sections[3]).getByText("Fandom boards")).toBeVisible();
-  // expect(within(sections[3]).getAllByRole("link")).toHaveLength(3);
-
-  // expect(within(sections[4]).getByText(Regular!.args!.title!)).toBeVisible();
-  // expect(within(sections[4]).getAllByRole("link")).toHaveLength((Regular.args as BoardsSectionProps).boards!.length);
-
-  // expect(within(sections[5]).getByText(Loading!.args!.title!)).toBeVisible();
-  // expect(within(sections[5]).getAllByLabelText("board is loading")).toHaveLength((Loading.args as LoadingSectionProps).placeholdersCount);
-
-  // expect(within(sections[6]).getByText(Empty!.args!.title!)).toBeVisible();
-  // expect(within(sections[6]).queryAllByRole("link")).toHaveLength(0);
-  // expect(within(sections[6]).getByText((Empty.args as EmptySectionProps).emptyTitle)).toBeVisible();
-  // expect(within(sections[6]).getByText((Empty.args as EmptySectionProps).emptyDescription)).toBeVisible();
 });
 
 test("Renders boards dropdown", async () => {
