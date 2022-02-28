@@ -162,3 +162,39 @@ test("Correctly propagates filter change on text entry", async () => {
   });
   expect(boardFilter).toHaveValue("me");
 });
+
+test("Board filter returns empty string on deletion of contents", async () => {
+  render(<SideMenuPreview />);
+
+  const actionReturn = jest.fn();
+  mocked(action).mockReturnValue(actionReturn);
+
+  const boardFilter = screen.getByRole("searchbox");
+  userEvent.type(boardFilter, "meta");
+  await waitFor(() => {
+    expect(action).toBeCalledWith("filterBoards");
+    expect(actionReturn).toBeCalledWith("meta");
+  });
+  expect(boardFilter).toHaveValue("meta");
+
+  userEvent.type(boardFilter, "{backspace}{backspace}{backspace}{backspace}");
+  await waitFor(() => {
+    expect(action).toBeCalledWith("filterBoards");
+    expect(actionReturn).toBeCalledWith("");
+  });
+  expect(boardFilter).toHaveValue("");
+
+  userEvent.type(boardFilter, "meta");
+  await waitFor(() => {
+    expect(action).toBeCalledWith("filterBoards");
+    expect(actionReturn).toBeCalledWith("meta");
+  });
+  expect(boardFilter).toHaveValue("meta");
+
+  userEvent.type(boardFilter, "{selectall}{del}");
+  await waitFor(() => {
+    expect(action).toBeCalledWith("filterBoards");
+    expect(actionReturn).toBeCalledWith("");
+  });
+  expect(boardFilter).toHaveValue("");
+});
