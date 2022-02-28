@@ -4,10 +4,7 @@ import SideMenu, {
   SideMenuHandler,
   SideMenuProps,
 } from "../../src/sidemenu/SideMenu";
-import {
-  faClock,
-  faLemon
-} from "@fortawesome/free-solid-svg-icons";
+import { faClock, faLemon } from "@fortawesome/free-solid-svg-icons";
 
 import BoardsMenuSection from "../../src/sidemenu/BoardsMenuSection";
 import PinnedMenu from "../../src/sidemenu/PinnedMenu";
@@ -52,13 +49,13 @@ const RECENT_BOARDS = [
     updates: 10,
   },
   {
-  slug: "fic-club",
-  avatar: "/" + book,
-  description: "Come enjoy all the fics!",
-  color: "#7724d2",
-  updates: 5,
-  backgroundColor: "#131518",
-  link: { href: "#slug", onClick: action("#slug") },
+    slug: "fic-club",
+    avatar: "/" + book,
+    description: "Come enjoy all the fics!",
+    color: "#7724d2",
+    updates: 5,
+    backgroundColor: "#131518",
+    link: { href: "#slug", onClick: action("#slug") },
   },
 ];
 
@@ -94,15 +91,31 @@ const SideMenuPreviewTemplate: Story<
   }
 > = (args, context) => {
   return (
-    <SideMenu showPinned={args.showPinned} ref={context?.menuRef}>
+    <SideMenu
+      showPinned={args.showPinned}
+      onFilterChange={args.onFilterChange}
+      menuOptions={args.menuOptions}
+      currentBoardSlug={args.currentBoardSlug}
+      ref={context?.menuRef}
+    >
       <PinnedMenu>
         {/* @ts-expect-error (see: https://github.com/storybookjs/storybook/issues/13747) */}
         <PinnedMenu.Section {...Icons.args} />
         {/* @ts-expect-error (see: https://github.com/storybookjs/storybook/issues/13747) */}
         <PinnedMenu.Section {...Boards.args} />
       </PinnedMenu>
-      <BoardsMenuSection boards={RECENT_BOARDS} icon={faClock} title="Recent boards" currentBoardSlug={args.currentBoardSlug} />
-      <BoardsMenuSection boards={FANDOM_BOARDS} icon={faLemon} title="Fandom boards" currentBoardSlug={args.currentBoardSlug} />
+      <BoardsMenuSection
+        boards={RECENT_BOARDS}
+        icon={faClock}
+        title="Recent boards"
+        currentBoardSlug={args.currentBoardSlug}
+      />
+      <BoardsMenuSection
+        boards={FANDOM_BOARDS}
+        icon={faLemon}
+        title="Fandom boards"
+        currentBoardSlug={args.currentBoardSlug}
+      />
       {/* @ts-expect-error (see: https://github.com/storybookjs/storybook/issues/13747) */}
       <BoardsMenuSection {...Regular.args} />
       {/* @ts-expect-error (see: https://github.com/storybookjs/storybook/issues/13747) */}
@@ -120,6 +133,13 @@ SideMenuPreview.args = {
   showPinned: true,
   loading: true,
   currentBoardSlug: "kink-memes",
+  onFilterChange: (text) => action("filterBoards")(text),
+  menuOptions: [
+    {
+      name: "Dismiss notifications",
+      link: { onClick: () => action("dismissNotifications")() },
+    },
+  ],
 };
 SideMenuPreview.decorators = [
   (Story) => {
