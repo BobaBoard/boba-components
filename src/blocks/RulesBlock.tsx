@@ -1,6 +1,6 @@
 import React from "react";
 
-function RulesModuleHeader() {
+const RulesModuleHeader = () => {
   return (
     <div className="rules-header">
       <h3>📌 Pinned Rules</h3>
@@ -26,7 +26,7 @@ function RulesModuleHeader() {
   );
 }
 
-function RuleDisplay({ rule }) {
+const RuleDisplay = ({ rule }) => {
   return (
     <li key={rule.index}>
       <details className="details">
@@ -65,7 +65,7 @@ function RuleDisplay({ rule }) {
   );
 }
 
-function RulesList({ rules }) {
+const RulesList = ({ rules }) => {
   const list = [];
 
   rules.forEach((rule) => {
@@ -76,6 +76,15 @@ function RulesList({ rules }) {
     <ul style={{ listStyle: "none", margin: "6px 0px", padding: "0px" }}>
       {list}
     </ul>
+  );
+}
+
+const RulesBlock = () => {
+  return (
+    <div style={{ width: "600px" }}>
+      <RulesModuleHeader />
+      <RulesList rules={RULES} />
+    </div>
   );
 }
 
@@ -94,17 +103,10 @@ const RULES: Rules[] = [
   },
 ];
 
-export default function RulesBlock() {
-  return (
-    <div style={{ width: "600px" }}>
-      <RulesModuleHeader />
-      <RulesList rules={RULES} />
-    </div>
-  );
-}
-
 export interface Rules {
   title: string;
   description: string;
   index: number;
 }
+
+export default RulesBlock;
