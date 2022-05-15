@@ -66,15 +66,9 @@ const RuleDisplay = ({ rule }) => {
 }
 
 const RulesList = ({ rules }) => {
-  const list = [];
-
-  rules.forEach((rule) => {
-    list.push(<RuleDisplay rule={rule} key={rule.title} />);
-  });
-
   return (
     <ul style={{ listStyle: "none", margin: "6px 0px", padding: "0px" }}>
-      {list}
+      {rules.map(rule => <RuleDisplay rule={rule} key={rule.title} />)}
     </ul>
   );
 }
