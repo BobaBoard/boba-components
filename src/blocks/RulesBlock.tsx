@@ -29,12 +29,12 @@ const RulesModuleHeader = () => {
 const RuleDisplay = ({ rule }) => {
   return (
     <li key={rule.index}>
-      <details className="details">
-        <summary className="summary">{rule.title}</summary>
+      <details>
+        <summary>{rule.title}</summary>
         {rule.description}
       </details>
       <style jsx>{`
-        .details {
+        details {
           cursor: pointer;
           border: 2px solid #1c1c1c;
           border-radius: 15px;
@@ -44,7 +44,7 @@ const RuleDisplay = ({ rule }) => {
           margin: 6px;
         }
 
-        .summary {
+        summary {
           font-weight: bold;
           margin: -0.5em -0.5em 0;
           padding: 0.5em;
@@ -52,11 +52,11 @@ const RuleDisplay = ({ rule }) => {
           border-radius: 15px;
         }
 
-        .details[open] {
+        details[open] {
           padding: 0.5em;
         }
 
-        .details[open] summary {
+        details[open] summary {
           margin-bottom: 0.5em;
           border-radius: 15px 15px 0px 0px;
         }
