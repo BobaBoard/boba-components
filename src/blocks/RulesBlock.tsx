@@ -28,7 +28,7 @@ const RulesModuleHeader = () => {
 
 const RuleDisplay = ({ rule }) => {
   return (
-    <li key={rule.index}>
+    <li>
       <details>
         <summary>{rule.title}</summary>
         {rule.description}
