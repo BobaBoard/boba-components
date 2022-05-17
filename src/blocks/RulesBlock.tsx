@@ -1,12 +1,18 @@
+import ActionLink from "../buttons/ActionLink";
+import { LinkWithAction } from "../types";
 import React from "react";
 
-const RulesModuleHeader = () => {
+const RulesBlockHeader = ({seeAllLink, title}) => {
   return (
     <div className="rules-header">
-      <h3>📌 Pinned Rules</h3>
-      <a href="#" className="rules-link">
-        See all
-      </a>
+      <h3>{title}</h3>
+      <ActionLink
+        link={seeAllLink}
+        label="See all the rules"
+        className="rules-link"
+      >
+        See All
+      </ActionLink>
       <style jsx>{`
         .rules-header {
           display: flex;
@@ -24,7 +30,7 @@ const RulesModuleHeader = () => {
       `}</style>
     </div>
   );
-}
+};
 
 const RuleDisplay = ({ rule }) => {
   return (
@@ -63,44 +69,35 @@ const RuleDisplay = ({ rule }) => {
       `}</style>
     </li>
   );
-}
+};
 
 const RulesList = ({ rules }) => {
   return (
     <ul style={{ listStyle: "none", margin: "6px 0px", padding: "0px" }}>
-      {rules.map(rule => <RuleDisplay rule={rule} key={rule.title} />)}
+      {rules.map((rule) => (
+        <RuleDisplay rule={rule} key={rule.title} />
+      ))}
     </ul>
   );
-}
+};
 
-const RulesBlock = () => {
+const RulesBlock: React.FC<RulesBlockProps> = ({
+  title,
+  seeAllLink,
+  rules
+}) => {
   return (
     <div style={{ width: "600px" }}>
-      <RulesModuleHeader />
-      <RulesList rules={RULES} />
+      <RulesBlockHeader seeAllLink={seeAllLink} title={title} />
+      <RulesList rules={rules} />
     </div>
   );
-}
+};
 
-const RULES: Rules[] = [
-  {
-    title: "No Harassment",
-    description: "The mods will tell your mom if you don't behave",
-    index: 1,
-  },
-  { title: "No Memes", description: "", index: 2 },
-  {
-    title: "Use Required CN tags",
-    description:
-      "NSFW content posted to any board not in the explicit NSFW category requires a 'cn: NSFW' tag",
-    index: 0,
-  },
-];
-
-export interface Rules {
+export interface RulesBlockProps {
   title: string;
-  description: string;
-  index: number;
+  seeAllLink: LinkWithAction;
+  rules: string[];
 }
 
 export default RulesBlock;
