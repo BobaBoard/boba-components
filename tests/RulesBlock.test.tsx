@@ -28,9 +28,15 @@ describe("Multiple", () => {
   test("All the rules are being rendered", async () => {
     render(<Multiple />);
 
-    expect(screen.getAllByRole("group")).toHaveLength(
-      Multiple.args.rules.length
-    );
+    const rules = screen.getAllByRole("group");
+
+    expect(rules).toHaveLength(Multiple.args.rules.length);
+
+    rules.forEach((rule, i) => {
+      expect(rule).toHaveTextContent(
+        `${Multiple.args.rules[i].title}${Multiple.args.rules[i].description}`
+      );
+    });
   });
 });
 
@@ -39,6 +45,7 @@ describe("Single", () => {
     render(<Single />);
 
     expect(screen.getAllByRole("group")).toHaveLength(Single.args.rules.length);
+    expect(screen.queryByRole("heading")).toBeInTheDocument();
   });
 });
 
