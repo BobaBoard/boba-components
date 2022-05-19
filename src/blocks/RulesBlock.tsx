@@ -2,7 +2,7 @@ import ActionLink from "../buttons/ActionLink";
 import { LinkWithAction } from "../types";
 import React from "react";
 
-const RulesBlockHeader = ({seeAllLink, title}) => {
+const RulesBlockHeader = ({ seeAllLink, title }) => {
   return (
     <div className="rules-header">
       <h3>{title}</h3>
@@ -84,7 +84,7 @@ const RulesList = ({ rules }) => {
 const RulesBlock: React.FC<RulesBlockProps> = ({
   title,
   seeAllLink,
-  rules
+  rules,
 }) => {
   return (
     <div style={{ width: "600px" }}>

@@ -32,7 +32,7 @@ Single.args = {
 export const Multiple = Template.bind({});
 
 Multiple.args = {
-  ...Single.args, 
+  ...Single.args,
   title: "📌 Pinned Rules",
   rules: [
     ...Single.args.rules,
@@ -44,4 +44,4 @@ Multiple.args = {
       index: 0,
     },
   ],
-}
+};
