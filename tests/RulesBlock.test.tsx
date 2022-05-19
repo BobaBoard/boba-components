@@ -33,6 +33,7 @@ describe("Multiple", () => {
     expect(rules).toHaveLength(Multiple.args.rules.length);
 
     rules.forEach((rule, i) => {
+
       expect(rule).toHaveTextContent(
         `${Multiple.args.rules[i].title}${Multiple.args.rules[i].description}`
       );
@@ -45,7 +46,7 @@ describe("Single", () => {
     render(<Single />);
 
     expect(screen.getAllByRole("group")).toHaveLength(Single.args.rules.length);
-    expect(screen.queryByRole("heading")).toBeInTheDocument();
+    expect(screen.queryByRole("heading")).toHaveTextContent(Single.args.title);
   });
 });
 
