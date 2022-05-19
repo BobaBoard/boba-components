@@ -33,11 +33,16 @@ describe("Multiple", () => {
     expect(rules).toHaveLength(Multiple.args.rules.length);
 
     rules.forEach((rule, i) => {
-
+      
       expect(rule).toHaveTextContent(
         `${Multiple.args.rules[i].title}${Multiple.args.rules[i].description}`
       );
     });
+    // TODO: figure out how to test the elements separtely
+    //  rules.forEach((rule, i) => {
+    //     expect(rule.getByRole("button")).toHaveTextContent(Multiple.args.rules[i].title);
+    //     expect(rule.getByText(Multiple.args.rules[i].description)).toBeInTheDocument();
+    //  });
   });
 });
 
