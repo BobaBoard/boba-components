@@ -7,6 +7,8 @@ export default {
   component: RulesBlock,
 };
 
+// TODO: add types since we're using typescript for a reason :)
+
 const Template = (args) => (
   <>
     <RulesBlock {...args} />
@@ -24,7 +26,6 @@ Single.args = {
     {
       title: "No Harassment",
       description: "The mods will tell your mom if you don't behave",
-      index: 1,
     },
   ],
 };
@@ -36,12 +37,11 @@ Multiple.args = {
   title: "📌 Pinned Rules",
   rules: [
     ...Single.args.rules,
-    { title: "No Memes", description: "No fun allowed!", index: 2 },
+    { title: "No Memes", description: "No fun allowed!" },
     {
       title: "Use Required CN tags",
       description:
         "NSFW content posted to any board not in the explicit NSFW category requires a 'cn: NSFW' tag",
-      index: 0,
     },
   ],
 };
