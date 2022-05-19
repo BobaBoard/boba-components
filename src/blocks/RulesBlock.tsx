@@ -2,7 +2,8 @@ import ActionLink from "../buttons/ActionLink";
 import { LinkWithAction } from "../types";
 import React from "react";
 
-const RulesBlockHeader = ({ seeAllLink, title }) => {
+const RulesBlockHeader: React.FC<{title: string, 
+seeAllLink: LinkWithAction}> = ({ seeAllLink, title }) => {
   return (
     <div className="rules-header">
       <h3>{title}</h3>
@@ -32,7 +33,7 @@ const RulesBlockHeader = ({ seeAllLink, title }) => {
   );
 };
 
-const RuleDisplay = ({ rule }) => {
+const RuleDisplay: React.FC<{rule: Rule}> = ({ rule }) => {
   return (
     <li>
       <details>
@@ -71,7 +72,7 @@ const RuleDisplay = ({ rule }) => {
   );
 };
 
-const RulesList = ({ rules }) => {
+const RulesList: React.FC<{rules: Rule[]}>= ({ rules }) => {
   return (
     <ul style={{ listStyle: "none", margin: "6px 0px", padding: "0px" }}>
       {rules.map((rule) => (
@@ -94,10 +95,17 @@ const RulesBlock: React.FC<RulesBlockProps> = ({
   );
 };
 
+
 export interface RulesBlockProps {
   title: string;
   seeAllLink: LinkWithAction;
-  rules: string[];
+  rules: Rule[];
+}
+
+export interface Rule {
+  title: string; 
+  description: string; 
+  index: number;
 }
 
 export default RulesBlock;
