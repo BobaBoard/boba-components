@@ -33,6 +33,7 @@
     ],
     "strictBindCallApply": true,
     "paths": {
+      "blocks/*": ["../src/blocks/*"],
       "board/*": ["../src/board/*"],
       "common/*": ["../src/common/*"],
       "feeds/*": ["../src/feeds/*"],

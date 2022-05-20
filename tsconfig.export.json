@@ -32,6 +32,7 @@
     ],
     "paths": {
       "board/*": ["../src/board/*"],
+      "blocks/*": ["../src/blocks/*"],
       "common/*": ["../src/common/*"],
       "feeds/*": ["../src/feeds/*"],
       "post/*": ["../src/post/*"],

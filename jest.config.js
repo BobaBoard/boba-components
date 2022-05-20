@@ -11,6 +11,7 @@ export default {
     "^types(.*)$": "<rootDir>/src/types$1",
     "^stories(.*)$": "<rootDir>/stories$1",
     "^board(.*)$": "<rootDir>/src/board$1",
+    "^blocks(.*)$": "<rootDir>/src/blocks$1",
     "^common(.*)$": "<rootDir>/src/common$1",
     "^feeds(.*)$": "<rootDir>/src/feeds$1",
     "^post(.*)$": "<rootDir>/src/post$1",
