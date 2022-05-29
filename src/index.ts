@@ -34,6 +34,7 @@ import type { PostHandler } from "post/Post";
 import PostQuote from "post/PostQuote";
 import PostingActionButton from "board/PostingActionButton";
 import React from "react";
+import RulesBlock from "blocks/RulesBlock";
 import SegmentedButton from "buttons/SegmentedButton";
 import type { SettingType } from "layout/SettingsContainer";
 import SettingsContainer from "layout/SettingsContainer";
@@ -94,6 +95,7 @@ export {
   NewThread,
   CollapsedPlaceholder,
   BobaDex,
+  RulesBlock,
   SegmentedButton,
   NewCommentsThread,
   TagType,
