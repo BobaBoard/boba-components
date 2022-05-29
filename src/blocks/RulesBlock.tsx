@@ -76,10 +76,19 @@ const RuleDisplay: React.FC<{ rule: Rule }> = ({ rule }) => {
 
 const RulesList: React.FC<{ rules: Rule[] }> = ({ rules }) => {
   return (
-    <ul style={{ listStyle: "none", margin: "6px 0px", padding: "0px" }}>
-      {rules.map((rule) => (
-        <RuleDisplay rule={rule} key={rule.title} />
-      ))}
+    <ul>
+      {[...rules]
+        .sort((a, b) => a.index - b.index)
+        .map((rule) => (
+          <RuleDisplay rule={rule} key={rule.title} />
+        ))}
+      <style jsx>{`
+        ul {
+          list-style: none;
+          margin: 6px 0px;
+          padding: 0px;
+        }
+      `}</style>
     </ul>
   );
 };
@@ -106,6 +115,7 @@ export interface RulesBlockProps {
 export interface Rule {
   title: string;
   description: string;
+  index: number;
 }
 
 export default RulesBlock;
