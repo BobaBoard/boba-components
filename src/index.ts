@@ -96,7 +96,6 @@ export {
   NewThread,
   CollapsedPlaceholder,
   BobaDex,
-  RulesBlock,
   SegmentedButton,
   NewCommentsThread,
   TagType,
