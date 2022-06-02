@@ -1,12 +1,12 @@
+import PopupButtons, { PopupButtonsProps } from "../buttons/PopupButtons";
 import React, { Children } from "react";
 
-import Theme from "../theme/default";
 import CollapsedPlaceholder from "./CollapsedPlaceholder";
+import Theme from "../theme/default";
 import classnames from "classnames";
-import { lightenColor } from "../utils";
-import PopupButtons, { PopupButtonsProps } from "../buttons/PopupButtons";
-
 import debug from "debug";
+import { lightenColor } from "../utils";
+
 const info = debug("bobaui:NewThread-info");
 
 const INDENT_WIDTH_PX = 8;
@@ -139,9 +139,8 @@ const Thread: React.FC<ThreadProps & ChildrenWithRenderProps> & {
     );
   }, []);
 
-  const [popupData, onPopupOpenRequest] = React.useState<PopupData | null>(
-    null
-  );
+  const [popupData, onPopupOpenRequest] =
+    React.useState<PopupData | null>(null);
   const [shouldPreventClick, setPreventClick] = React.useState(false);
 
   // We wrap children in a Thread.Item, so we can simply use the regular Thread.Item
@@ -208,6 +207,7 @@ const Thread: React.FC<ThreadProps & ChildrenWithRenderProps> & {
           }
         `}</style>
       </div>
+      {console.log(popupData)}
       <PopupButtons
         options={stemOptions}
         show={!!popupData}
@@ -217,6 +217,7 @@ const Thread: React.FC<ThreadProps & ChildrenWithRenderProps> & {
         onCloseRequest={React.useCallback(() => {
           onPopupOpenRequest(null);
         }, [])}
+        container={threadRef}
       />
     </ThreadContext.Provider>
   );
@@ -306,10 +307,8 @@ export const CollapseGroup: React.FC<CollapseGroupProps> = (props) => {
 const Item: React.FC<ChildrenWithRenderProps> = (props) => {
   const threadContext = React.useContext(ThreadContext);
   const level = React.useContext(ThreadLevel);
-  const [
-    boundaryElement,
-    setBoundaryElement,
-  ] = React.useState<HTMLElement | null>(null);
+  const [boundaryElement, setBoundaryElement] =
+    React.useState<HTMLElement | null>(null);
   // Sometimes a lower level might want its boundary element to be the same as one of its
   // "parents". We create a unique boundary id that children of this element can refer
   // to if they want to tie up their boundary with the one of a level above them.
@@ -435,11 +434,25 @@ export const Stem: React.FC<StemProps> = (props) => {
   const stemColor = Theme.INDENT_COLORS[level % Theme.INDENT_COLORS.length];
   const onStemClick = React.useCallback(
     (e: React.PointerEvent<HTMLButtonElement>) => {
+      console.log(e.clientX, e.clientY);
+      console.log(document.querySelector(".thread")?.getBoundingClientRect());
+      console.log(
+        e.clientX -
+          document.querySelector(".thread")!.getBoundingClientRect().left
+      );
+      console.log(
+        e.clientY -
+          document.querySelector(".thread")!.getBoundingClientRect().top
+      );
       threadContext?.onPopupOpenRequest({
         level,
         levelId: props.levelId,
-        x: e.pageX,
-        y: e.pageY,
+        x:
+          e.clientX -
+          document.querySelector(".thread")!.getBoundingClientRect().left,
+        y:
+          e.clientY -
+          document.querySelector(".thread")!.getBoundingClientRect().top,
       });
       e.preventDefault();
       e.stopPropagation();
