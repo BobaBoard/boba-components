@@ -61,6 +61,7 @@ const ImageUploaderContext =
 export {
   Layout,
   Button,
+  RulesBlock,
   ButtonStyle,
   SideMenu,
   Input,
@@ -95,7 +96,6 @@ export {
   NewThread,
   CollapsedPlaceholder,
   BobaDex,
-  RulesBlock,
   SegmentedButton,
   NewCommentsThread,
   TagType,
