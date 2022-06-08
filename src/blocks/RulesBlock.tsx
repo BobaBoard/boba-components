@@ -48,7 +48,7 @@ const RuleDisplay: React.FC<{ rule: Rule }> = ({ rule }) => {
           border: 2px solid #1c1c1c;
           border-radius: 15px;
           padding: 0.5em 0.5em 0;
-          background-color: #2f2f30;
+          background-color: #1c1c1c;
           color: white;
           margin: 6px;
         }
@@ -63,11 +63,15 @@ const RuleDisplay: React.FC<{ rule: Rule }> = ({ rule }) => {
 
         details[open] {
           padding: 0.5em;
+          border: 2px solid #1c1c1c;
+          background-color: #2f2f30;
         }
 
         details[open] summary {
+          background-color: #1c1c1c;
+          border: unset;
           margin-bottom: 0.5em;
-          border-radius: 15px 15px 0px 0px;
+          border-radius: 12px 12px 0px 0px;
         }
       `}</style>
     </li>
@@ -85,7 +89,7 @@ const RulesList: React.FC<{ rules: Rule[] }> = ({ rules }) => {
       <style jsx>{`
         ul {
           list-style: none;
-          margin: 6px 0px;
+          margin: 0px;
           padding: 0px;
         }
       `}</style>
