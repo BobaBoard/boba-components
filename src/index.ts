@@ -41,6 +41,7 @@ import SettingsContainer from "layout/SettingsContainer";
 import SideMenu from "sidemenu/SideMenu";
 import type { SideMenuHandler } from "sidemenu/SideMenu";
 import SidebarSection from "sidebar/SidebarSection";
+import SubscriptionBlock from "blocks/SubscriptionBlock";
 import TabsGroup from "layout/TabsGroup";
 import { TagType } from "types";
 import TagsFilterSection from "sidebar/TagsFilterSection";
@@ -62,6 +63,7 @@ export {
   Layout,
   Button,
   RulesBlock,
+  SubscriptionBlock,
   ButtonStyle,
   SideMenu,
   Input,
