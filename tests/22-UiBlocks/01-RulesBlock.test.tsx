@@ -1,15 +1,15 @@
 import "@testing-library/jest-dom/extend-expect";
 
 // Import the stories you're going to test against
-import * as stories from "stories/RulesBlock.stories";
+import * as stories from "stories/22-UIBlocks/01-RulesBlock.stories.tsx";
 
 import { render, screen, waitFor, within } from "@testing-library/react";
 
 import React from "react";
 // import component?
-import RulesBlock from "../src/blocks/RulesBlock";
+import RulesBlock from "../../src/blocks/RulesBlock";
 // Import the prop types for the component
-import { RulesBlockProps } from "../src/blocks/RulesBlock";
+import { RulesBlockProps } from "../../src/blocks/RulesBlock";
 import { action } from "@storybook/addon-actions";
 import { composeStories } from "@storybook/testing-react";
 import { mocked } from "ts-jest/utils";
@@ -29,13 +29,15 @@ describe("Multiple", () => {
     render(<Multiple />);
 
     const rules = screen.getAllByRole("group");
+    const sortedRules = [...Multiple.args.rules].sort(
+      (a, b) => a.index - b.index
+    );
 
     expect(rules).toHaveLength(Multiple.args.rules.length);
 
-    rules.forEach((rule, i) => {
-      
+    rules.sort().forEach((rule, i) => {
       expect(rule).toHaveTextContent(
-        `${Multiple.args.rules[i].title}${Multiple.args.rules[i].description}`
+        `${sortedRules[i].title}${sortedRules[i].description}`
       );
     });
     // TODO: figure out how to test the elements separtely
