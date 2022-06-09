@@ -1,6 +1,15 @@
 import ActionLink from "../buttons/ActionLink";
 import { LinkWithAction } from "../types";
 import React from "react";
+import css from "styled-jsx/css";
+
+const { className: linkClassName, styles: linkStyles } = css.resolve`
+  a,
+  button {
+    text-decoration: underline;
+    color: #f96680;
+  }
+`;
 
 const RulesBlockHeader: React.FC<{
   title: string;
@@ -9,11 +18,7 @@ const RulesBlockHeader: React.FC<{
   return (
     <div className="rules-header">
       <h2>{title}</h2>
-      <ActionLink
-        link={seeAllLink}
-        label="See all the rules"
-        className="rules-link"
-      >
+      <ActionLink className={linkClassName} link={seeAllLink}>
         See All
       </ActionLink>
       <style jsx>{`
@@ -24,13 +29,8 @@ const RulesBlockHeader: React.FC<{
           padding: 6px;
           height: 1.2em;
         }
-        .rules-link {
-          color: #888;
-          text-decoration: none;
-          height: 1.2em;
-          padding: 0px 6px;
-        }
       `}</style>
+      {linkStyles}
     </div>
   );
 };
