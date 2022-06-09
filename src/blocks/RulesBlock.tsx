@@ -14,12 +14,13 @@ const { className: linkClassName, styles: linkStyles } = css.resolve`
 const RulesBlockHeader: React.FC<{
   title: string;
   seeAllLink: LinkWithAction;
-}> = ({ seeAllLink, title }) => {
+  headerLinkLabel: string;
+}> = ({ seeAllLink, title, headerLinkLabel: headerLinkLabel }) => {
   return (
     <div className="rules-header">
       <h2>{title}</h2>
       <ActionLink className={linkClassName} link={seeAllLink}>
-        See All
+        {headerLinkLabel}
       </ActionLink>
       <style jsx>{`
         .rules-header {
@@ -101,10 +102,15 @@ const RulesBlock: React.FC<RulesBlockProps> = ({
   title,
   seeAllLink,
   rules,
+  headerLinkLabel: headerLinkLabel,
 }) => {
   return (
     <>
-      <RulesBlockHeader seeAllLink={seeAllLink} title={title} />
+      <RulesBlockHeader
+        seeAllLink={seeAllLink}
+        title={title}
+        headerLinkLabel={headerLinkLabel}
+      />
       <RulesList rules={rules} />
     </>
   );
@@ -114,6 +120,7 @@ export interface RulesBlockProps {
   title: string;
   seeAllLink: LinkWithAction;
   rules: Rule[];
+  headerLinkLabel: string;
 }
 
 export interface Rule {
