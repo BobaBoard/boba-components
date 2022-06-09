@@ -6,7 +6,7 @@ import css from "styled-jsx/css";
 const { className: linkClassName, styles: linkStyles } = css.resolve`
   a,
   button {
-    text-decoration: underline;
+    text-decoration: none;
     color: #f96680;
   }
 `;
