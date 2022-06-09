@@ -1,19 +1,15 @@
+import RulesBlock, { RulesBlockProps } from "../../src/blocks/RulesBlock";
+
 import React from "react";
-import RulesBlock from "../src/blocks/RulesBlock";
+import { Story } from "@storybook/react";
 import { action } from "@storybook/addon-actions";
 
 export default {
-  title: "Blocks/Rules Block",
+  title: "UI Blocks/Rules Block",
   component: RulesBlock,
 };
 
-// TODO: add types since we're using typescript for a reason :)
-
-const Template = (args) => (
-  <>
-    <RulesBlock {...args} />
-  </>
-);
+const Template: Story<RulesBlockProps> = (args) => <RulesBlock {...args} />;
 
 export const Single = Template.bind({});
 Single.args = {
@@ -26,6 +22,7 @@ Single.args = {
     {
       title: "No Harassment",
       description: "The mods will tell your mom if you don't behave",
+      index: 2,
     },
   ],
 };
@@ -36,12 +33,13 @@ Multiple.args = {
   ...Single.args,
   title: "📌 Pinned Rules",
   rules: [
-    ...Single.args.rules,
-    { title: "No Memes", description: "No fun allowed!" },
+    ...Single.args.rules!,
+    { title: "No Memes", description: "No fun allowed!", index: 1 },
     {
       title: "Use Required CN tags",
       description:
         "NSFW content posted to any board not in the explicit NSFW category requires a 'cn: NSFW' tag",
+      index: 3,
     },
   ],
 };
