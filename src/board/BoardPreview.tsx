@@ -1,12 +1,12 @@
+import Color from "color";
+import DefaultTheme from "../theme/default";
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import HighlightedText from "../common/HighlightedText";
 import React from "react";
 import classnames from "classnames";
-import { hex2rgba } from "../utils";
-import fitty from "fitty";
-
-import HighlightedText from "../common/HighlightedText";
-import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faVolumeMute } from "@fortawesome/free-solid-svg-icons";
-import DefaultTheme from "../theme/default";
+import fitty from "fitty";
+import { hex2rgba } from "../utils";
 
 const DEFAULT_COLOR = "#000000";
 
@@ -212,6 +212,7 @@ const BoardPreview: React.FC<BoardPreviewProps> = ({
   updates,
   backgroundColor,
   muted,
+  outdated,
 }) => {
   const [showDescription, setShowDescription] = React.useState(false);
   const chosenColor = color || DEFAULT_COLOR;
@@ -288,7 +289,9 @@ const BoardPreview: React.FC<BoardPreviewProps> = ({
           background-position: center;
         }
         .updates {
-          background-color: ${chosenColor};
+          background-color: ${outdated
+            ? Color(chosenColor.toLowerCase()).darken(0.6).hex()
+            : chosenColor};
           border: 5px solid ${backgroundColor || "#2f2f30"};
         }
       `}</style>
@@ -395,6 +398,7 @@ export interface BoardPreviewProps {
   onClick?: () => void;
   href?: string;
   updates?: number | boolean;
+  outdated?: boolean;
   muted?: boolean;
 }
 

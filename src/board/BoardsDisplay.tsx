@@ -1,6 +1,7 @@
-import React from "react";
-import { LinkWithAction } from "types";
 import BoardPreview, { DisplayStyle } from "./BoardPreview";
+
+import { LinkWithAction } from "types";
+import React from "react";
 
 const BoardsDisplay: React.FC<BoardsDisplayProps> = (props) => {
   return (
@@ -19,6 +20,7 @@ const BoardsDisplay: React.FC<BoardsDisplayProps> = (props) => {
               description={board.description}
               color={board.color}
               updates={board.updates}
+              outdated={board.outdated}
               displayStyle={props.boardsDisplayStyle || DisplayStyle.COMPACT}
               href={board.link?.href}
               muted={board.muted}
@@ -60,6 +62,7 @@ export interface BoardsDisplayProps {
     description: string;
     color: string;
     updates?: number | boolean;
+    outdated?: boolean;
     muted?: boolean;
     link: LinkWithAction;
   }[];

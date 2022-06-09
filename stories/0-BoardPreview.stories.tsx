@@ -1,15 +1,16 @@
-import React from "react";
 //import { linkTo } from "@storybook/addon-links";
 import BoardPreview, { DisplayStyle } from "../src/board/BoardPreview";
-import BoardsDisplay from "../src/board/BoardsDisplay";
-import Tag from "../src/tags/Tag";
 
-import goreBackground from "./images/gore.png";
+import BoardsDisplay from "../src/board/BoardsDisplay";
+import React from "react";
+import Tag from "../src/tags/Tag";
 import anime from "./images/anime.png";
-import crack from "./images/crack.png";
-import meta from "./images/meta.png";
 import book from "./images/book.png";
+import crack from "./images/crack.png";
+import goreBackground from "./images/gore.png";
+import meta from "./images/meta.png";
 import villains from "./images/villains.png";
+
 export default {
   title: "Board Preview",
   component: BoardPreview,
@@ -269,6 +270,7 @@ export const BoardsDisplayStory = () => (
           description: "Come enjoy all the fics!",
           color: "#7724d2",
           updates: 5,
+          outdated: true,
         },
         {
           slug: "meta",
