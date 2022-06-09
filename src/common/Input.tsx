@@ -38,7 +38,7 @@ const Input: React.FC<InputProps> = (props) => {
     >
       <label
         htmlFor={props.id}
-        className={classnames("label", { hidden: props.hideLabel })}
+        className={classnames({ hidden: props.hideLabel })}
       >
         {props.label}
       </label>
@@ -82,10 +82,12 @@ const Input: React.FC<InputProps> = (props) => {
         .input.disabled {
           opacity: 0.8;
         }
-        .input .label {
+        .input label {
           color: #fff;
           font-size: var(--font-size-regular);
+          display: block;
           padding-bottom: 10px;
+          font-weight: 700;
         }
         .error .input-field {
           border: 1px solid rgba(214, 19, 19, 0.4);
