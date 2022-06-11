@@ -15,7 +15,7 @@ const RulesBlockHeader: React.FC<{
   title: string;
   seeAllLink: LinkWithAction;
   headerLinkLabel: string;
-}> = ({ seeAllLink, title, headerLinkLabel: headerLinkLabel }) => {
+}> = ({ seeAllLink, title, headerLinkLabel }) => {
   return (
     <div className="rules-header">
       <h2>{title}</h2>
@@ -102,7 +102,7 @@ const RulesBlock: React.FC<RulesBlockProps> = ({
   title,
   seeAllLink,
   rules,
-  headerLinkLabel: headerLinkLabel,
+  headerLinkLabel,
 }) => {
   return (
     <>
