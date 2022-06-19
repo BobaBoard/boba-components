@@ -18,7 +18,7 @@ import { TagMatcher } from "../utils/matchers";
 import { action } from "@storybook/addon-actions";
 import { composeStories } from "@storybook/testing-react";
 import { findRenderedComponentWithType } from "react-dom/test-utils";
-import { mocked } from "ts-jest/utils";
+import { mocked } from "jest-mock";
 import { suppressConsoleErrors } from "../utils/testUtils";
 import userEvent from "@testing-library/user-event";
 
@@ -46,9 +46,10 @@ describe("Tags Filter", () => {
     test("Renders content notices", () => {
       render(<TagsFilterRegular />);
 
-      const tagsDisplayText = TagsFilterRegular.args!.tagsFilterProps!.tags!.map(
-        (tag) => `cn:${tag.name}`
-      );
+      const tagsDisplayText =
+        TagsFilterRegular.args!.tagsFilterProps!.tags!.map(
+          (tag) => `cn:${tag.name}`
+        );
       tagsDisplayText.forEach((tagText) => {
         expect(screen.getByText(TagMatcher(tagText))).toBeInTheDocument();
       });
@@ -85,9 +86,10 @@ describe("Tags Filter", () => {
     test("Renders content notices", () => {
       render(<TagsFilterEditable />);
 
-      const tagsDisplayText = TagsFilterEditable.args!.tagsFilterProps!.tags!.map(
-        (tag) => `cn:${tag.name}`
-      );
+      const tagsDisplayText =
+        TagsFilterEditable.args!.tagsFilterProps!.tags!.map(
+          (tag) => `cn:${tag.name}`
+        );
       tagsDisplayText.forEach((tagText) => {
         expect(screen.getByText(TagMatcher(tagText))).toBeInTheDocument();
       });

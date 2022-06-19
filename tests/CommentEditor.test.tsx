@@ -15,7 +15,7 @@ import {
 import React from "react";
 import { action } from "@storybook/addon-actions";
 import { composeStories } from "@storybook/testing-react";
-import { mocked } from "ts-jest/utils";
+import { mocked } from "jest-mock";
 import userEvent from "@testing-library/user-event";
 
 jest.mock("@storybook/addon-actions");
