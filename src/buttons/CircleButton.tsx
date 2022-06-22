@@ -1,5 +1,4 @@
 import {
-  IconDefinition,
   faChevronCircleDown,
   faSpinner,
 } from "@fortawesome/free-solid-svg-icons";
@@ -8,6 +7,7 @@ import ActionLink from "../buttons/ActionLink";
 import DefaultTheme from "../theme/default";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import Icon from "../common/Icon";
+import type { IconProp } from "@fortawesome/fontawesome-svg-core";
 import { LinkWithAction } from "types";
 import React from "react";
 import classnames from "classnames";
@@ -75,7 +75,7 @@ const getIconStyle = ({
 
 export interface CircleButtonProps {
   loading?: boolean;
-  icon: IconDefinition | string;
+  icon: IconProp | string;
   selected?: boolean;
   selectLightPosition?: SelectLightPosition;
   link?: LinkWithAction;

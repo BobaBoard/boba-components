@@ -2,7 +2,7 @@ import BoardMenuItem from "./BoardMenuItem";
 import { BoardType } from "../types";
 import DefaultTheme from "../theme/default";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import { IconDefinition } from "@fortawesome/free-solid-svg-icons";
+import type { IconProp } from "@fortawesome/fontawesome-svg-core";
 import LoadingPlaceholder from "../common/LoadingPlaceholder";
 import React from "react";
 import classnames from "classnames";
@@ -148,7 +148,7 @@ export type BoardsMenuSectionProps =
 
 export interface BaseSectionProps {
   title: string;
-  icon: string | IconDefinition;
+  icon: string | IconProp;
 }
 export interface BoardsSectionProps extends BaseSectionProps {
   boards: BoardType[];
