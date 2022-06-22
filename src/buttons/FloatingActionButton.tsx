@@ -1,6 +1,6 @@
-import React from "react";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import { IconDefinition } from "@fortawesome/free-solid-svg-icons";
+import type { IconProp } from "@fortawesome/fontawesome-svg-core";
+import React from "react";
 import Theme from "../theme/default";
 import classNames from "classnames";
 
@@ -8,7 +8,7 @@ export interface FloatingActionButtonProps {
   accentColor?: string;
   spin?: boolean;
   actions: {
-    icon: IconDefinition;
+    icon: IconProp;
     tooltip: string;
     action: () => void;
   }[];

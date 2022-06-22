@@ -1,7 +1,7 @@
 import ActionLink from "../buttons/ActionLink";
 import DefaultTheme from "../theme/default";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import { IconDefinition } from "@fortawesome/fontawesome-common-types";
+import type { IconProp } from "@fortawesome/fontawesome-svg-core";
 import { LinkWithAction } from "../types";
 import React from "react";
 import ReactDOM from "react-dom";
@@ -12,7 +12,7 @@ import { lightenColor } from "../utils";
 export interface PopupButtonsProps {
   options?: ({
     name: string;
-    icon?: IconDefinition | string;
+    icon?: IconProp | string;
     color?: string;
   } & { link: LinkWithAction })[];
   onCloseRequest: () => void;

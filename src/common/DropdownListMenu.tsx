@@ -12,7 +12,7 @@ import {
 import ActionLink from "../buttons/ActionLink";
 import Color from "color";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import { IconDefinition } from "@fortawesome/fontawesome-common-types";
+import type { IconProp } from "@fortawesome/fontawesome-svg-core";
 import { LinkWithAction } from "../types";
 import React from "react";
 import ReactDOM from "react-dom";
@@ -58,7 +58,7 @@ export interface DropdownProps {
   // If Options are empty, children is simply returned.
   options?: ({
     name: string;
-    icon?: IconDefinition | string;
+    icon?: IconProp | string;
     color?: string;
   } & ({ link: LinkWithAction } | { options: DropdownProps["options"] }))[];
   style?: DropdownStyle;
@@ -217,11 +217,8 @@ const DropdownContent = React.forwardRef<
     style?: DropdownStyle;
   }
 >((props, ref) => {
-  const {
-    reverseThemeColor,
-    themeColor,
-    hoverBackgroundColor,
-  } = getThemeColors(props.style);
+  const { reverseThemeColor, themeColor, hoverBackgroundColor } =
+    getThemeColors(props.style);
   return (
     <div className={classnames("menu")} ref={ref}>
       {!!props.previousOption && (
@@ -379,18 +376,12 @@ const DropdownMenu: React.FC<DropdownProps> & {
     },
   ]);
   // We use states for this cause refs don't cause a re-render on dom update
-  const [
-    optionsWrapper,
-    setOptionsWrapper,
-  ] = React.useState<HTMLDivElement | null>(null);
-  const [
-    optionsSlider,
-    setOptionsSlider,
-  ] = React.useState<HTMLDivElement | null>(null);
-  const [
-    contentWrapper,
-    setContentWrapper,
-  ] = React.useState<HTMLDivElement | null>(null);
+  const [optionsWrapper, setOptionsWrapper] =
+    React.useState<HTMLDivElement | null>(null);
+  const [optionsSlider, setOptionsSlider] =
+    React.useState<HTMLDivElement | null>(null);
+  const [contentWrapper, setContentWrapper] =
+    React.useState<HTMLDivElement | null>(null);
 
   React.useEffect(() => {
     setOptionsStack([
@@ -401,65 +392,62 @@ const DropdownMenu: React.FC<DropdownProps> & {
     ]);
   }, [props.options]);
 
-  const {
-    slideToNextOption,
-    slideToPreviousOption,
-    appendNestedOptions,
-  } = React.useMemo(
-    () => ({
-      slideToNextOption: (option: OptionInfo) => {
-        if (!optionsWrapper || !optionsSlider) {
-          return;
-        }
-        const currentMenuRect = option.ref.current?.getBoundingClientRect();
-        optionsWrapper.style.height = (currentMenuRect?.height || 0) + "px";
-        if (!isSmallScreen()) {
-          optionsWrapper.style.width = (currentMenuRect?.width || 0) + "px";
-        } else {
-          optionsSlider.style.width =
-            optionsWrapper.getBoundingClientRect().width + "px";
-        }
-        // Only turn it in absolute when we're effectively in a multistack situation
-        // so we don't interfere with the popover operation.
-        optionsSlider.style.position = "absolute";
-        optionsSlider.style.left =
-          -getMenuOffsetInSlider({
-            menuRef: option.ref,
-            sliderRef: optionsSlider,
-          }) + "px";
-      },
-      slideToPreviousOption: (option: OptionInfo) => {
-        if (!optionsWrapper || !optionsSlider) {
-          return;
-        }
-        const previousMenuRect = option.ref.current?.getBoundingClientRect();
-        if (!isSmallScreen()) {
-          optionsWrapper.style.width = (previousMenuRect?.width || 0) + "px";
-        }
-        optionsWrapper.style.height = (previousMenuRect?.height || 0) + "px";
+  const { slideToNextOption, slideToPreviousOption, appendNestedOptions } =
+    React.useMemo(
+      () => ({
+        slideToNextOption: (option: OptionInfo) => {
+          if (!optionsWrapper || !optionsSlider) {
+            return;
+          }
+          const currentMenuRect = option.ref.current?.getBoundingClientRect();
+          optionsWrapper.style.height = (currentMenuRect?.height || 0) + "px";
+          if (!isSmallScreen()) {
+            optionsWrapper.style.width = (currentMenuRect?.width || 0) + "px";
+          } else {
+            optionsSlider.style.width =
+              optionsWrapper.getBoundingClientRect().width + "px";
+          }
+          // Only turn it in absolute when we're effectively in a multistack situation
+          // so we don't interfere with the popover operation.
+          optionsSlider.style.position = "absolute";
+          optionsSlider.style.left =
+            -getMenuOffsetInSlider({
+              menuRef: option.ref,
+              sliderRef: optionsSlider,
+            }) + "px";
+        },
+        slideToPreviousOption: (option: OptionInfo) => {
+          if (!optionsWrapper || !optionsSlider) {
+            return;
+          }
+          const previousMenuRect = option.ref.current?.getBoundingClientRect();
+          if (!isSmallScreen()) {
+            optionsWrapper.style.width = (previousMenuRect?.width || 0) + "px";
+          }
+          optionsWrapper.style.height = (previousMenuRect?.height || 0) + "px";
 
-        optionsSlider.style.left =
-          -getMenuOffsetInSlider({
-            menuRef: option.ref,
-            sliderRef: optionsSlider,
-          }) + "px";
-        optionsSlider.addEventListener(
-          "transitionend",
-          () => {
-            setOptionsStack((stack) => stack.slice(0, stack.length - 1));
-          },
-          { once: true }
-        );
-      },
-      appendNestedOptions: (options: DropdownProps["options"]) => {
-        setOptionsStack((optionsStack) => [
-          ...optionsStack,
-          { ref: React.createRef(), options },
-        ]);
-      },
-    }),
-    [optionsWrapper, optionsSlider]
-  );
+          optionsSlider.style.left =
+            -getMenuOffsetInSlider({
+              menuRef: option.ref,
+              sliderRef: optionsSlider,
+            }) + "px";
+          optionsSlider.addEventListener(
+            "transitionend",
+            () => {
+              setOptionsStack((stack) => stack.slice(0, stack.length - 1));
+            },
+            { once: true }
+          );
+        },
+        appendNestedOptions: (options: DropdownProps["options"]) => {
+          setOptionsStack((optionsStack) => [
+            ...optionsStack,
+            { ref: React.createRef(), options },
+          ]);
+        },
+      }),
+      [optionsWrapper, optionsSlider]
+    );
 
   React.useEffect(() => {
     if (isOpen && isSmallScreen()) {

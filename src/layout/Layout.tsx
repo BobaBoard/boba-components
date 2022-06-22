@@ -4,7 +4,7 @@ import "normalize.css";
 import { CreateBaseCompound, extractCompound } from "../utils/compound-utils";
 
 import Header from "./Header";
-import { IconDefinition } from "@fortawesome/free-solid-svg-icons";
+import type { IconProp } from "@fortawesome/fontawesome-svg-core";
 import { IconProps } from "common/Icon";
 import { LinkWithAction } from "types";
 import LoadingBar from "../common/LoadingBar";
@@ -268,12 +268,12 @@ export interface LayoutProps {
   hasOutdatedNotifications: boolean;
   menuOptions?: {
     id: string;
-    icon: IconDefinition;
+    icon: IconProp;
     link: LinkWithAction;
   }[];
   selectedMenuOption?: string | null;
   loggedInMenuOptions?: {
-    icon: IconDefinition;
+    icon: IconProp;
     name: string;
     link: LinkWithAction;
   }[];
