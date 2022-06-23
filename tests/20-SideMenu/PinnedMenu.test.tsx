@@ -16,7 +16,11 @@ import { DropdownProps } from "common/DropdownListMenu";
 import React from "react";
 import { action } from "@storybook/addon-actions";
 import { composeStories } from "@storybook/testing-react";
-import { faThumbtack } from "@fortawesome/free-solid-svg-icons";
+import {
+  faThumbtack,
+  faVolumeMute,
+  faMapMarkerAlt,
+} from "@fortawesome/free-solid-svg-icons";
 import { mocked } from "jest-mock";
 import userEvent from "@testing-library/user-event";
 
@@ -71,7 +75,7 @@ describe("Boards", () => {
     );
     const svgs = currentBoard.getElementsByTagName("svg");
     expect(svgs).toHaveLength(1);
-    expect(svgs[0]).toHaveClass("fa-map-marker-alt");
+    expect(svgs[0]).toHaveClass(`fa-${faMapMarkerAlt.iconName}`);
     expect(svgs[0]).toBeVisible();
   });
 
@@ -129,7 +133,7 @@ describe("Boards", () => {
     ).not.toBeInTheDocument();
     const svgs = mutedBoard.getElementsByTagName("svg");
     expect(svgs).toHaveLength(1);
-    expect(svgs[0]).toHaveClass("fa-volume-mute");
+    expect(svgs[0]).toHaveClass(`fa-${faVolumeMute.iconName}`);
     expect(svgs[0]).toBeVisible();
   });
 });
