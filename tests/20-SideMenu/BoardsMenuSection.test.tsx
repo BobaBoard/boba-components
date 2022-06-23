@@ -14,6 +14,10 @@ import { action } from "@storybook/addon-actions";
 import { composeStories } from "@storybook/testing-react";
 import { mocked } from "jest-mock";
 import userEvent from "@testing-library/user-event";
+import {
+  faMapMarkerAlt,
+  faVolumeMute,
+} from "@fortawesome/free-solid-svg-icons";
 
 jest.mock("@storybook/addon-actions");
 
@@ -61,7 +65,7 @@ describe("Regular", () => {
     ).not.toBeInTheDocument();
     const svgs = oncieBoard.getElementsByTagName("svg");
     expect(svgs).toHaveLength(1);
-    expect(svgs[0]).toHaveClass("fa-map-marker-alt");
+    expect(svgs[0]).toHaveClass(`fa-${faMapMarkerAlt.iconName}`);
     expect(svgs[0]).not.toBeVisible();
   });
 
@@ -78,7 +82,7 @@ describe("Regular", () => {
     ).toHaveClass("board-icon__update");
     const svgs = goreBoard.getElementsByTagName("svg");
     expect(svgs).toHaveLength(1);
-    expect(svgs[0]).toHaveClass("fa-map-marker-alt");
+    expect(svgs[0]).toHaveClass(`fa-${faMapMarkerAlt.iconName}`);
     expect(svgs[0]).not.toBeVisible();
   });
 
@@ -95,7 +99,7 @@ describe("Regular", () => {
     ).toHaveClass("board-icon__update");
     const svgs = crackBoard.getElementsByTagName("svg");
     expect(svgs).toHaveLength(1);
-    expect(svgs[0]).toHaveClass("fa-map-marker-alt");
+    expect(svgs[0]).toHaveClass(`fa-${faMapMarkerAlt.iconName}`);
     expect(svgs[0]).not.toBeVisible();
   });
 
@@ -107,7 +111,7 @@ describe("Regular", () => {
     const svgs = currentBoard.getElementsByTagName("svg");
     //In the real world it is possible to have the current board be muted, and if we changed the Story to have an example with both at once these length tests would break, but all these tests will break if we change the details of the story boards so I figure it's fine?
     expect(svgs).toHaveLength(1);
-    expect(svgs[0]).toHaveClass("fa-map-marker-alt");
+    expect(svgs[0]).toHaveClass(`fa-${faMapMarkerAlt.iconName}`);
     expect(svgs[0]).toBeVisible();
   });
 
@@ -127,9 +131,9 @@ describe("Regular", () => {
     ).not.toBeInTheDocument();
     const svgs = mutedBoard.getElementsByTagName("svg");
     expect(svgs).toHaveLength(2);
-    expect(svgs[0]).toHaveClass("fa-volume-mute");
+    expect(svgs[0]).toHaveClass(`fa-${faVolumeMute.iconName}`);
     expect(svgs[0]).toBeVisible();
-    expect(svgs[1]).toHaveClass("fa-map-marker-alt");
+    expect(svgs[1]).toHaveClass(`fa-${faMapMarkerAlt.iconName}`);
     expect(svgs[1]).not.toBeVisible();
   });
 });
