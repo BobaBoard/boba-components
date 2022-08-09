@@ -93,3 +93,10 @@ export const CompactThreadStory = () => {
 CompactThreadStory.story = {
   name: "compact",
 };
+
+export const HiddenThread = () => {
+};
+
+HiddenThread.story = {
+  name: "hidden",
+};
