@@ -1,5 +1,6 @@
 import React from "react";
 import CompactPostThread from "../src/post/CompactPostThread";
+import HiddenThread from "../src/post/HiddenThread";
 
 import oncelerAvatar from "./images/oncie.jpg";
 import greedlerAvatar from "./images/greedler.jpg";
@@ -94,9 +95,12 @@ CompactThreadStory.story = {
   name: "compact",
 };
 
-export const HiddenThread = () => {
+export const HiddenThreadStory = () => {
+  return(
+    <HiddenThread></HiddenThread>
+  );
 };
 
-HiddenThread.story = {
+HiddenThreadStory.story = {
   name: "hidden",
 };
