@@ -1,18 +1,15 @@
 import React from "react";
-
 import classnames from "classnames";
 
-import Tags from "../tags/Tags";
+import Button from "../../src/buttons/Button";
 
 const HiddenThreadContainer: React.FC = (props) => {
     return (
       <div className="post hidden" >
         You hid this thread{" "}
-        <a
-          href="#"
-        >
-          [unhide]
-        </a>
+        <div className="reveal thread">
+          <Button>Reveal Thread</Button>
+        </div>
         <style jsx>{`
           .post.hidden {
             margin: 0 auto;
@@ -22,6 +19,9 @@ const HiddenThreadContainer: React.FC = (props) => {
             padding: 20px;
             border: 1px dashed black;
             border-radius: 15px;
+          }
+          .reveal.thread {
+            text-align:center;
           }
         `}</style>
       </div>
