@@ -10,6 +10,7 @@ import {
   faPlus,
 } from "@fortawesome/free-solid-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import { action } from "@storybook/addon-actions";
 
 const HiddenThreadContainer: React.FC = (props) => {
     return (
@@ -18,6 +19,13 @@ const HiddenThreadContainer: React.FC = (props) => {
         <div className="dropdown">
           <DropdownListMenu
             label="Post options"
+            options={[
+              {
+                name: "Unhide Thread",
+                link: {
+                  onClick: action("noHrefClick"),
+                }
+              }]}
           >
             <DropdownListMenu.Header>
             </DropdownListMenu.Header>
