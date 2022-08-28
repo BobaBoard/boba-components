@@ -1,14 +1,8 @@
 import React from "react";
-import classnames from "classnames";
 
-import DropdownListMenu, { DropdownProps } from "../common/DropdownListMenu";
+import DropdownListMenu from "../common/DropdownListMenu";
 import Button from "../../src/buttons/Button";
-import {
-  faCertificate,
-  faCrown,
-  faEllipsisV,
-  faPlus,
-} from "@fortawesome/free-solid-svg-icons";
+import {faEllipsisV} from "@fortawesome/free-solid-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { action } from "@storybook/addon-actions";
 
