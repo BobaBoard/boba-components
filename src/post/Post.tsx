@@ -54,7 +54,8 @@ const PostFooter: React.FC<PostProps> = (props) => {
           newContributions={props.newContributions}
           newComments={props.newComments}
           notesLink={props.notesLink}
-          answerable={props.answerable}
+          canContribute={props.canContribute}
+          canComment={props.canComment}
         />
       </div>
       {!!props.reactable && (
@@ -423,7 +424,8 @@ export interface PostProps {
   id?: string;
   mode?: string;
   editable?: boolean;
-  answerable?: boolean;
+  canComment?: boolean;
+  canContribute?: boolean;
   text: string;
   createdTime: string;
   createdTimeLink: LinkWithAction;

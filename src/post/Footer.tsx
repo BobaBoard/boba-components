@@ -1,16 +1,14 @@
-import React from "react";
-
 import Button, { ButtonStyle } from "../buttons/Button";
-import classnames from "classnames";
-import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-
 import { faComment, faPlusSquare } from "@fortawesome/free-regular-svg-icons";
 
-import { faCodeBranch } from "@fortawesome/free-solid-svg-icons";
-import { LinkWithAction } from "types";
-import useDimensions from "react-cool-dimensions";
 import ActionLink from "../buttons/ActionLink";
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import { LinkWithAction } from "types";
+import React from "react";
+import classnames from "classnames";
 import css from "styled-jsx/css";
+import { faCodeBranch } from "@fortawesome/free-solid-svg-icons";
+import useDimensions from "react-cool-dimensions";
 
 const COMPACT_FOOTER_TRIGGER_SIZE = 450;
 
@@ -92,7 +90,8 @@ const Footer: React.FC<FooterProps> = ({
   newContributions,
   totalComments,
   newComments,
-  answerable,
+  canComment,
+  canContribute,
   notesLink,
 }) => {
   const { ref, currentBreakpoint } = useDimensions<HTMLDivElement>({
@@ -136,26 +135,25 @@ const Footer: React.FC<FooterProps> = ({
           compact,
         })}
       >
-        {answerable && (
-          <>
-            <Button
-              onClick={onContribution}
-              icon={faPlusSquare}
-              compact={currentBreakpoint == "compact"}
-              theme={ButtonStyle.TRANSPARENT}
-            >
-              Contribute
-            </Button>
-
-            <Button
-              onClick={onComment}
-              icon={faComment}
-              compact={currentBreakpoint == "compact"}
-              theme={ButtonStyle.TRANSPARENT}
-            >
-              Comment
-            </Button>
-          </>
+        {canContribute && (
+          <Button
+            onClick={onContribution}
+            icon={faPlusSquare}
+            compact={currentBreakpoint == "compact"}
+            theme={ButtonStyle.TRANSPARENT}
+          >
+            Contribute
+          </Button>
+        )}
+        {canComment && (
+          <Button
+            onClick={onComment}
+            icon={faComment}
+            compact={currentBreakpoint == "compact"}
+            theme={ButtonStyle.TRANSPARENT}
+          >
+            Comment
+          </Button>
         )}
       </div>
       <style jsx>{`
@@ -226,7 +224,8 @@ export interface FooterProps {
   onComment?: () => void;
   onContribution?: () => void;
   compact?: boolean;
-  answerable?: boolean;
+  canComment?: boolean;
+  canContribute?: boolean;
   totalContributions?: number;
   directContributions?: number;
   newContributions?: number;
