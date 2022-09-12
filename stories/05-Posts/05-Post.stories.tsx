@@ -77,7 +77,8 @@ Updated.args = {
 export const Answerable = PostTemplate.bind({});
 Answerable.args = {
   ...Updated.args,
-  answerable: true,
+  canComment: true,
+  canContribute: true,
 };
 
 export const Tagged = PostTemplate.bind({});
@@ -100,7 +101,8 @@ Tagged.args = {
       "JugemuJugemuGokonoSurikireKaijarisuigyonoSuigyomatsuUnraimatsuFuraimatsuKuNeruTokoroniSumuTokoroYaburaKojinoBuraKojiPaipopaipoPaiponoShuringanShuringannoGurindaiGurindainoPonpokopinoPonpokonanoChokyumeinoChosuke",
     ],
   },
-  answerable: true,
+  canComment: true,
+  canContribute: true,
 };
 
 export const Reactable = PostTemplate.bind({});

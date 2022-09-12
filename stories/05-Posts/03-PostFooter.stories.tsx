@@ -1,8 +1,8 @@
-import React from "react";
 import Footer, { FooterProps } from "../../src/post/Footer";
+import { Meta, Story } from "@storybook/react";
 
+import React from "react";
 import { action } from "@storybook/addon-actions";
-import { Story } from "@storybook/react";
 
 export default {
   title: "Posts/Footer",
@@ -34,18 +34,20 @@ export default {
       </div>
     ),
   ],
-};
+} as Meta;
 
 const FooterTemplate: Story<FooterProps> = (args) => <Footer {...args} />;
 
 export const Answerable = FooterTemplate.bind({});
 Answerable.args = {
-  answerable: true,
+  canComment: true,
+  canContribute: true,
 };
 
 export const WithNotes = FooterTemplate.bind({});
 WithNotes.args = {
-  answerable: true,
+  canComment: true,
+  canContribute: true,
   totalContributions: 5,
   directContributions: 2,
   totalComments: 4,
@@ -64,7 +66,8 @@ WithUpdates.args = {
 
 export const WithHighCounts = FooterTemplate.bind({});
 WithHighCounts.args = {
-  answerable: true,
+  canComment: true,
+  canContribute: true,
   totalContributions: 305,
   directContributions: 200,
   totalComments: 690,
@@ -75,7 +78,22 @@ WithHighCounts.args = {
 export const NonAnswerable = FooterTemplate.bind({});
 NonAnswerable.args = {
   ...WithUpdates.args,
-  answerable: false,
+  canComment: false,
+  canContribute: false,
+};
+
+export const ContributeOnly = FooterTemplate.bind({});
+ContributeOnly.args = {
+  ...WithUpdates.args,
+  canComment: false,
+  canContribute: true,
+};
+
+export const CommentOnly = FooterTemplate.bind({});
+CommentOnly.args = {
+  ...WithUpdates.args,
+  canComment: true,
+  canContribute: false,
 };
 
 export const NotesWithNoHref = FooterTemplate.bind({});
@@ -89,7 +107,8 @@ NotesWithNoHref.args = {
 export const NotesWithHref = FooterTemplate.bind({});
 NotesWithHref.args = {
   ...WithUpdates.args,
-  answerable: false,
+  canComment: false,
+  canContribute: false,
   notesLink: {
     onClick: () => action("withHref")(),
     href: "https://www.youtube.com/watch?v=dQw4w9WgXcQ",
