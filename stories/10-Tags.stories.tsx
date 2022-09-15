@@ -17,7 +17,6 @@ export default {
   component: Tags,
 };
 
-
 export const EditableTags = () => {
   const [tags, setTags] = React.useState<TagsType[]>([
     {
@@ -55,7 +54,6 @@ export const EditableTags = () => {
           "best fanfictions",
         ]}
         editable
-        onSubmit={() => console.log("submit!!")}
       />
     </div>
   );
@@ -150,7 +148,7 @@ export const TagsWithOptions = () => {
           if (tag.name == "no options!") {
             return;
           }
-          let options = [
+          const options = [
             { name: "Option 1", link: { onClick: action("option!") } },
           ];
           switch (tag.type) {
@@ -213,7 +211,7 @@ export const FilterTags = () => {
     <div style={{ width: "500px", backgroundColor: "white" }}>
       <CategoryFilter
         categories={tags}
-        onCategoryStateChange={(name, active) => {
+        onCategoryStateChangeRequest={(name) => {
           setTags(
             tags.map((tag) => (tag.name == name ? { name, active } : tag))
           );
