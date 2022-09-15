@@ -90,14 +90,15 @@ const Footer: React.FC<FooterProps> = ({
   newContributions,
   totalComments,
   newComments,
-  canComment,
-  canContribute,
+  allowsComment,
+  allowsContribution,
   notesLink,
 }) => {
   const { ref, currentBreakpoint } = useDimensions<HTMLDivElement>({
     breakpoints: { compact: 0, regular: COMPACT_FOOTER_TRIGGER_SIZE },
     updateOnBreakpointChange: true,
   });
+  const answerable = allowsComment || allowsContribution;
   return (
     <div className="footer" ref={ref}>
       <div
@@ -135,25 +136,27 @@ const Footer: React.FC<FooterProps> = ({
           compact,
         })}
       >
-        {canContribute && (
-          <Button
-            onClick={onContribution}
-            icon={faPlusSquare}
-            compact={currentBreakpoint == "compact"}
-            theme={ButtonStyle.TRANSPARENT}
-          >
-            Contribute
-          </Button>
-        )}
-        {canComment && (
-          <Button
-            onClick={onComment}
-            icon={faComment}
-            compact={currentBreakpoint == "compact"}
-            theme={ButtonStyle.TRANSPARENT}
-          >
-            Comment
-          </Button>
+        {answerable && (
+          <>
+            <Button
+              onClick={onContribution}
+              icon={faPlusSquare}
+              compact={currentBreakpoint == "compact"}
+              theme={ButtonStyle.TRANSPARENT}
+              disabled={!allowsContribution}
+            >
+              Contribute
+            </Button>
+            <Button
+              onClick={onComment}
+              icon={faComment}
+              compact={currentBreakpoint == "compact"}
+              theme={ButtonStyle.TRANSPARENT}
+              disabled={!allowsComment}
+            >
+              Comment
+            </Button>
+          </>
         )}
       </div>
       <style jsx>{`
@@ -224,8 +227,8 @@ export interface FooterProps {
   onComment?: () => void;
   onContribution?: () => void;
   compact?: boolean;
-  canComment?: boolean;
-  canContribute?: boolean;
+  allowsComment?: boolean;
+  allowsContribution?: boolean;
   totalContributions?: number;
   directContributions?: number;
   newContributions?: number;
