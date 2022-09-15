@@ -1,5 +1,7 @@
+import UserBar, { UserBarProps } from "layout/UserBar";
+
 import React from "react";
-import UserBar from "layout/UserBar";
+import { Story } from "@storybook/react";
 import { action } from "@storybook/addon-actions";
 import mamoru from "./images/mamoru.png";
 
@@ -11,7 +13,7 @@ export default {
   },
 };
 
-const UserBarTemplate = (args: any) => (
+const UserBarTemplate: Story<UserBarProps> = (args) => (
   <div style={{ margin: "25px" }}>
     <UserBar {...args} />
   </div>

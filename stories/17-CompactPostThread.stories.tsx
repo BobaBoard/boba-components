@@ -22,6 +22,16 @@ export const CompactThreadStory = () => {
             name: "Good Guy",
             avatar: `/${oncelerAvatar}`,
           },
+          createdTimeLink: {
+            onClick: action("createdTime"),
+            href: "https://www.youtube.com/watch?v=dQw4w9WgXcQ",
+          },
+          notesLink: {
+            onClick: action("notesLink"),
+            href: "https://www.youtube.com/watch?v=dQw4w9WgXcQ",
+          },
+          onNewComment: () => console.log("click"),
+          onNewContribution: () => console.log("click"),
         },
         {
           createdTime: "10 hours ago",
@@ -52,6 +62,16 @@ export const CompactThreadStory = () => {
               "JugemuJugemuGokonoSurikireKaijarisuigyonoSuigyomatsuUnraimatsuFuraimatsuKuNeruTokoroniSumuTokoroYaburaKojinoBuraKojiPaipopaipoPaiponoShuringanShuringannoGurindaiGurindainoPonpokopinoPonpokonanoChokyumeinoChosuke",
             ],
           },
+          createdTimeLink: {
+            onClick: action("createdTime"),
+            href: "https://www.youtube.com/watch?v=dQw4w9WgXcQ",
+          },
+          notesLink: {
+            onClick: action("notesLink"),
+            href: "https://www.youtube.com/watch?v=dQw4w9WgXcQ",
+          },
+          onNewComment: () => console.log("click"),
+          onNewContribution: () => console.log("click"),
         },
         {
           createdTime: "yesterday",
@@ -78,10 +98,18 @@ export const CompactThreadStory = () => {
               "JugemuJugemuGokonoSurikireKaijarisuigyonoSuigyomatsuUnraimatsuFuraimatsuKuNeruTokoroniSumuTokoroYaburaKojinoBuraKojiPaipopaipoPaiponoShuringanShuringannoGurindaiGurindainoPonpokopinoPonpokonanoChokyumeinoChosuke",
             ],
           },
+          createdTimeLink: {
+            onClick: action("createdTime"),
+            href: "https://www.youtube.com/watch?v=dQw4w9WgXcQ",
+          },
+          notesLink: {
+            onClick: action("notesLink"),
+            href: "https://www.youtube.com/watch?v=dQw4w9WgXcQ",
+          },
+          onNewComment: () => console.log("click"),
+          onNewContribution: () => console.log("click"),
         },
       ]}
-      onNewComment={() => console.log("click")}
-      onNewContribution={() => console.log("click")}
     />
   );
 };
