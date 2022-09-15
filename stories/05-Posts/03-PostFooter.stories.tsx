@@ -40,14 +40,14 @@ const FooterTemplate: Story<FooterProps> = (args) => <Footer {...args} />;
 
 export const Answerable = FooterTemplate.bind({});
 Answerable.args = {
-  canComment: true,
-  canContribute: true,
+  allowsComment: true,
+  allowsContribution: true,
 };
 
 export const WithNotes = FooterTemplate.bind({});
 WithNotes.args = {
-  canComment: true,
-  canContribute: true,
+  allowsComment: true,
+  allowsContribution: true,
   totalContributions: 5,
   directContributions: 2,
   totalComments: 4,
@@ -66,8 +66,8 @@ WithUpdates.args = {
 
 export const WithHighCounts = FooterTemplate.bind({});
 WithHighCounts.args = {
-  canComment: true,
-  canContribute: true,
+  allowsComment: true,
+  allowsContribution: true,
   totalContributions: 305,
   directContributions: 200,
   totalComments: 690,
@@ -78,22 +78,22 @@ WithHighCounts.args = {
 export const NonAnswerable = FooterTemplate.bind({});
 NonAnswerable.args = {
   ...WithUpdates.args,
-  canComment: false,
-  canContribute: false,
+  allowsComment: false,
+  allowsContribution: false,
 };
 
 export const ContributeOnly = FooterTemplate.bind({});
 ContributeOnly.args = {
   ...WithUpdates.args,
-  canComment: false,
-  canContribute: true,
+  allowsComment: false,
+  allowsContribution: true,
 };
 
 export const CommentOnly = FooterTemplate.bind({});
 CommentOnly.args = {
   ...WithUpdates.args,
-  canComment: true,
-  canContribute: false,
+  allowsComment: true,
+  allowsContribution: false,
 };
 
 export const NotesWithNoHref = FooterTemplate.bind({});
@@ -107,8 +107,8 @@ NotesWithNoHref.args = {
 export const NotesWithHref = FooterTemplate.bind({});
 NotesWithHref.args = {
   ...WithUpdates.args,
-  canComment: false,
-  canContribute: false,
+  allowsComment: false,
+  allowsContribution: false,
   notesLink: {
     onClick: () => action("withHref")(),
     href: "https://www.youtube.com/watch?v=dQw4w9WgXcQ",
