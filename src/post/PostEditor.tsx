@@ -7,6 +7,7 @@ import {
   faCompressArrowsAlt,
 } from "@fortawesome/free-solid-svg-icons";
 
+import BEN from "boba-editor-next";
 import Button from "../buttons/Button";
 import Card from "../common/Card";
 import DropdownListMenu from "../common/DropdownListMenu";
@@ -58,19 +59,16 @@ const PostEditor = React.forwardRef<PostEditorHandler, PostEditorProps>(
     const [selectedView, setSelectedView] = React.useState<string | undefined>(
       props.viewOptions?.[0]?.name
     );
-    const [selectedIdentity, setSelectedIdentity] = React.useState<
-      string | SecretIdentityType | undefined
-    >();
-    const [selectedAccessory, setSelectedAccessory] = React.useState<
-      string | undefined
-    >();
+    const [selectedIdentity, setSelectedIdentity] =
+      React.useState<string | SecretIdentityType | undefined>();
+    const [selectedAccessory, setSelectedAccessory] =
+      React.useState<string | undefined>();
     const [suggestedCategories, setSuggestedCategories] = React.useState(
       props.suggestedCategories
     );
     const imageUploader = React.useContext(ImageUploaderContext);
-    const [boardSelectorInHeader, setBoardSelectorInHeader] = React.useState(
-      false
-    );
+    const [boardSelectorInHeader, setBoardSelectorInHeader] =
+      React.useState(false);
 
     React.useEffect(() => {
       if (
@@ -222,7 +220,7 @@ const PostEditor = React.forwardRef<PostEditorHandler, PostEditorProps>(
                   "can-edit": !props.editableSections,
                 })}
               >
-                <Editor
+                <BEN.Editor
                   ref={editorRef}
                   key="editor"
                   initialText={
@@ -233,7 +231,9 @@ const PostEditor = React.forwardRef<PostEditorHandler, PostEditorProps>(
                     setIsEmpty(empty);
                   }}
                   // This is a no op because we're using the handler to access the content directly.
-                  onTextChange={noop}
+                  onContentChange={(content) => {
+                    console.log(content);
+                  }}
                 />
               </div>
             </div>

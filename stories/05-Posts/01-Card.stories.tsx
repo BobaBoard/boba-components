@@ -1,13 +1,14 @@
-import React from "react";
 import Card, { CardProps } from "../../src/common/Card";
-import Editor from "@bobaboard/boba-editor";
-import { Story, Meta } from "@storybook/react";
 import {
-  editorArgTypes,
-  EditorControlsType,
   EDITOR_TEXT_VALUES,
+  EditorControlsType,
+  editorArgTypes,
   getInitialText,
 } from "../utils/editor-controls";
+import { Meta, Story } from "@storybook/react";
+
+import BEN from "boba-editor-next";
+import React from "react";
 
 export default {
   title: "Posts/Card",
@@ -44,7 +45,7 @@ const CardTemplate: Story<
     <Card {...args}>
       <Card.Footer>{footer}</Card.Footer>
       <Card.Header>{header}</Card.Header>
-      <Editor editable={false} initialText={getInitialText(args.editorText)} />
+      <BEN.Editor />
     </Card>
   );
 };
