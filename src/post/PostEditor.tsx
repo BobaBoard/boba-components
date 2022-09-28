@@ -1,7 +1,7 @@
 import BoardSelector, { BoardSelectorProps } from "../tags/BoardSelector";
 import { DefaultTheme, ImageUploaderContext } from "../index";
 import Header, { HeaderStyle, PostHeaderProps } from "./Header";
-import { SecretIdentityType, TagsType } from "../types";
+import { SecretIdentityType, TagsType, UserIdentityType } from "../types";
 import {
   faCaretDown,
   faCompressArrowsAlt,
@@ -58,19 +58,16 @@ const PostEditor = React.forwardRef<PostEditorHandler, PostEditorProps>(
     const [selectedView, setSelectedView] = React.useState<string | undefined>(
       props.viewOptions?.[0]?.name
     );
-    const [selectedIdentity, setSelectedIdentity] = React.useState<
-      string | SecretIdentityType | undefined
-    >();
-    const [selectedAccessory, setSelectedAccessory] = React.useState<
-      string | undefined
-    >();
+    const [selectedIdentity, setSelectedIdentity] =
+      React.useState<string | SecretIdentityType | undefined>();
+    const [selectedAccessory, setSelectedAccessory] =
+      React.useState<string | undefined>();
     const [suggestedCategories, setSuggestedCategories] = React.useState(
       props.suggestedCategories
     );
     const imageUploader = React.useContext(ImageUploaderContext);
-    const [boardSelectorInHeader, setBoardSelectorInHeader] = React.useState(
-      false
-    );
+    const [boardSelectorInHeader, setBoardSelectorInHeader] =
+      React.useState(false);
 
     React.useEffect(() => {
       if (
@@ -410,10 +407,7 @@ export interface PostEditorProps {
     indexTags: string[];
   };
   secretIdentity?: SecretIdentityType;
-  userIdentity: {
-    avatar: string;
-    name: string;
-  };
+  userIdentity: UserIdentityType;
   additionalIdentities?: PostHeaderProps["additionalIdentities"];
   accessories?: PostHeaderProps["accessories"];
   loading?: boolean;

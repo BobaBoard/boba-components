@@ -1,4 +1,9 @@
-import { AccessoryType, LinkWithAction, SecretIdentityType } from "../types";
+import {
+  AccessoryType,
+  LinkWithAction,
+  SecretIdentityType,
+  UserIdentityType,
+} from "../types";
 import UserMetadata, { UserMetadataStyle } from "./UserMetadata";
 
 import { DropdownProps } from "../common/DropdownListMenu";
@@ -173,10 +178,7 @@ export interface PostHeaderProps {
   accessories?: AccessoryType[];
   onSelectIdentity?: (identity: SecretIdentityType | undefined) => void;
   onSelectAccessory?: (accessory: AccessoryType | undefined) => void;
-  userIdentity?: {
-    avatar: string;
-    name: string;
-  };
+  userIdentity?: UserIdentityType;
   avatarOptions?: DropdownProps["options"];
   createdMessage?: string;
   createdMessageIcon?: IconProps["icon"];

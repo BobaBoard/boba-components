@@ -1,4 +1,5 @@
 import CommentEditor, { EditorRef } from "./CommentEditor";
+import { SecretIdentityType, UserIdentityType } from "types";
 import { faPlus, faTimes } from "@fortawesome/free-solid-svg-icons";
 
 import DefaultTheme from "../theme/default";
@@ -6,7 +7,6 @@ import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { ImageUploaderContext } from "../index";
 import { PostHeaderProps } from "./Header";
 import React from "react";
-import { SecretIdentityType } from "types";
 import classnames from "classnames";
 import debug from "debug";
 import { prepareContentSubmission } from "../utils";
@@ -59,12 +59,10 @@ const CommentChainEditor = React.forwardRef<
   const editorRefs = React.useRef(new Map<number, EditorRef>());
   const deleteRef = React.useRef<HTMLDivElement>(null);
   const chainEditorRef = React.useRef<HTMLDivElement>(null);
-  const [selectedIdentity, setSelectedIdentity] = React.useState<
-    string | undefined
-  >();
-  const [selectedAccessory, setSelectedAccessory] = React.useState<
-    string | undefined
-  >();
+  const [selectedIdentity, setSelectedIdentity] =
+    React.useState<string | undefined>();
+  const [selectedAccessory, setSelectedAccessory] =
+    React.useState<string | undefined>();
   const imageUploader = React.useContext(ImageUploaderContext);
 
   React.useImperativeHandle(
@@ -97,8 +95,8 @@ const CommentChainEditor = React.forwardRef<
 
   React.useEffect(() => {
     const comment = chainComments[focusedChainIndex];
-    const emptyEditorRef = editorRefs.current.get(focusedChainIndex)?.editorRef
-      .current;
+    const emptyEditorRef =
+      editorRefs.current.get(focusedChainIndex)?.editorRef.current;
     if (
       chainEditorRef.current &&
       deleteRef.current &&
@@ -339,10 +337,7 @@ export interface CommentChainEditorProps {
   }) => void;
   secretIdentity?: SecretIdentityType;
   loading?: boolean;
-  userIdentity?: {
-    avatar: string;
-    name: string;
-  };
+  userIdentity?: UserIdentityType;
   additionalIdentities?: SecretIdentityType[];
   accessories?: PostHeaderProps["accessories"];
 }

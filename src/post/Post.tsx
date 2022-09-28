@@ -1,6 +1,11 @@
 import DropdownListMenu, { DropdownProps } from "../common/DropdownListMenu";
 import Header, { HeaderStyle } from "./Header";
-import { LinkWithAction, SecretIdentityType, TagsType } from "types";
+import {
+  LinkWithAction,
+  SecretIdentityType,
+  TagsType,
+  UserIdentityType,
+} from "types";
 import {
   faCertificate,
   faCrown,
@@ -431,10 +436,7 @@ export interface PostProps {
   createdTimeLink: LinkWithAction;
   createdMessageIcon?: IconProps["icon"];
   secretIdentity: SecretIdentityType;
-  userIdentity?: {
-    avatar: string;
-    name: string;
-  };
+  userIdentity?: UserIdentityType;
   tags?: {
     contentWarnings: string[];
     categoryTags: string[];

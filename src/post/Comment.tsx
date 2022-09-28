@@ -1,5 +1,5 @@
 import Header, { HeaderStyle } from "./Header";
-import { LinkWithAction, SecretIdentityType } from "types";
+import { LinkWithAction, SecretIdentityType, UserIdentityType } from "types";
 import {
   faCertificate,
   faComment,
@@ -278,10 +278,7 @@ export interface CommentHandler {
 export interface CommentProps {
   comments: { id: string; text: string }[];
   secretIdentity: SecretIdentityType;
-  userIdentity?: {
-    avatar: string;
-    name: string;
-  };
+  userIdentity?: UserIdentityType;
   forceHideIdentity?: boolean;
   createdTime: string;
   new?: boolean;

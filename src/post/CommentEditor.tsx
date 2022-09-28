@@ -1,11 +1,11 @@
 import { DefaultTheme, ImageUploaderContext } from "../index";
 import Header, { HeaderStyle, PostHeaderProps } from "./Header";
+import { SecretIdentityType, UserIdentityType } from "../types";
 import { faCheck, faCross } from "@fortawesome/free-solid-svg-icons";
 
 import Button from "../buttons/Button";
 import Editor from "@bobaboard/boba-editor";
 import React from "react";
-import { SecretIdentityType } from "../types";
 import Spinner from "../common/Spinner";
 import classNames from "classnames";
 import { prepareContentSubmission } from "../utils";
@@ -31,13 +31,11 @@ const CommentFooter = (props: {
   withActions?: boolean;
   canSubmit: boolean;
 }) => {
-  const {
-    ref: containerRef,
-    currentBreakpoint,
-  } = useDimensions<HTMLDivElement>({
-    breakpoints: { compact: 0, regular: SIZE_TRIGGER },
-    updateOnBreakpointChange: true,
-  });
+  const { ref: containerRef, currentBreakpoint } =
+    useDimensions<HTMLDivElement>({
+      breakpoints: { compact: 0, regular: SIZE_TRIGGER },
+      updateOnBreakpointChange: true,
+    });
   const size = currentBreakpoint == "regular" ? SIZES.REGULAR : SIZES.COMPACT;
   return (
     <>
@@ -279,10 +277,7 @@ export interface EditorRef {
 
 export interface CommentProps {
   secretIdentity?: SecretIdentityType;
-  userIdentity?: {
-    avatar: string;
-    name: string;
-  };
+  userIdentity?: UserIdentityType;
   additionalIdentities?: SecretIdentityType[];
   onSelectIdentity?: (identity: SecretIdentityType | undefined) => void;
   accessories?: PostHeaderProps["accessories"];

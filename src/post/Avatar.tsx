@@ -1,5 +1,6 @@
+import { SecretIdentityType, UserIdentityType } from "../types";
+
 import React from "react";
-import { SecretIdentityType } from "../types";
 import classnames from "classnames";
 import questionMark from "images/question_mark.png";
 
@@ -134,10 +135,7 @@ export interface AvatarProps {
         color?: undefined;
         accessory?: string;
       };
-  userIdentity?: {
-    avatar: string;
-    name: string;
-  };
+  userIdentity?: UserIdentityType;
   forceHide?: boolean;
   compact?: boolean;
 }
