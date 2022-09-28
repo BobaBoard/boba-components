@@ -1,12 +1,12 @@
 import Color from "color";
-import DefaultTheme from "../theme/default";
+import DefaultTheme from "theme/default";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import HighlightedText from "../common/HighlightedText";
+import HighlightedText from "common/HighlightedText";
 import React from "react";
 import classnames from "classnames";
 import { faVolumeMute } from "@fortawesome/free-solid-svg-icons";
 import fitty from "fitty";
-import { hex2rgba } from "../utils";
+import { hex2rgba } from "utils";
 
 const DEFAULT_COLOR = "#000000";
 

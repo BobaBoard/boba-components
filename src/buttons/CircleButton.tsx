@@ -3,10 +3,10 @@ import {
   faSpinner,
 } from "@fortawesome/free-solid-svg-icons";
 
-import ActionLink from "../buttons/ActionLink";
-import DefaultTheme from "../theme/default";
+import ActionLink from "buttons/ActionLink";
+import DefaultTheme from "theme/default";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import Icon from "../common/Icon";
+import Icon from "common/Icon";
 import type { IconProp } from "@fortawesome/fontawesome-svg-core";
 import { LinkWithAction } from "types";
 import React from "react";

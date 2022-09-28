@@ -1,7 +1,7 @@
 import React, { Children } from "react";
 
-import Theme from "../theme/default";
-import { lightenColor } from "../utils";
+import Theme from "theme/default";
+import { lightenColor } from "utils";
 
 const INDENT_WIDTH_PX = 25;
 const STEM_WIDTH_PX = 1;
@@ -26,9 +26,7 @@ interface ThreadContext extends ThreadProps {
     boundaryElement: BoundaryElement;
   }) => void;
   unregisterItemBoundary: (element: { levelElement: HTMLElement }) => void;
-  getNextLevelBoundaries: (
-    levelElement: HTMLElement
-  ) => {
+  getNextLevelBoundaries: (levelElement: HTMLElement) => {
     levelElement: HTMLElement;
     boundaryElement: BoundaryElement;
   }[];
@@ -130,13 +128,11 @@ const useBoundariesMap = () => {
         levelElement: HTMLElement;
         boundaryElement: BoundaryElement;
       }[] = [];
-      const nextLevelElements = levelElement.querySelectorAll(
-        ":scope > ol > li"
-      );
+      const nextLevelElements =
+        levelElement.querySelectorAll(":scope > ol > li");
       nextLevelElements.forEach((element) => {
-        const boundaryElement:
-          | BoundaryElement
-          | undefined = levelsBoundariesMap.current.get(element as HTMLElement);
+        const boundaryElement: BoundaryElement | undefined =
+          levelsBoundariesMap.current.get(element as HTMLElement);
         if (!boundaryElement) {
           // This can happen when an element is added after the first render, and has not yet registered
           // while the parent is already re-rendering.
@@ -332,14 +328,10 @@ const setNextLevelStemBoundaries = ({
   nextLevelElement: HTMLElement;
   nextLevelBoundary: BoundaryElement;
 }) => {
-  const {
-    left: levelBoundaryLeft,
-    width: levelBoundaryWidth,
-  } = getStickyElementBoundingRect(levelBoundary);
-  const {
-    top: nextLevelTop,
-    left: nextLevelLeft,
-  } = nextLevelElement.getBoundingClientRect();
+  const { left: levelBoundaryLeft, width: levelBoundaryWidth } =
+    getStickyElementBoundingRect(levelBoundary);
+  const { top: nextLevelTop, left: nextLevelLeft } =
+    nextLevelElement.getBoundingClientRect();
   const {
     left: nextLevelBoundaryLeft,
     top: nextLevelBoundaryTop,
@@ -394,10 +386,8 @@ const setNextLevelStemBoundaries = ({
 const Item: React.FC<ChildrenWithRenderProps> = (props) => {
   const threadContext = React.useContext(ThreadContext);
   const level = React.useContext(ThreadLevel);
-  const [
-    boundaryElement,
-    setBoundaryElement,
-  ] = React.useState<BoundaryElement | null>(null);
+  const [boundaryElement, setBoundaryElement] =
+    React.useState<BoundaryElement | null>(null);
   const levelContent = React.createRef<HTMLLIElement & HTMLDivElement>();
   const levelStem = React.createRef<HTMLDivElement>();
   const levelStemContainer = React.createRef<HTMLDivElement>();
@@ -463,9 +453,8 @@ const Item: React.FC<ChildrenWithRenderProps> = (props) => {
       boundaryElement,
     });
     const setStemPositions = () => {
-      const nextLevelBoundaries = threadContext.getNextLevelBoundaries(
-        levelElement
-      );
+      const nextLevelBoundaries =
+        threadContext.getNextLevelBoundaries(levelElement);
       setLevelStemBoundaries({
         levelElement,
         boundaryElement,

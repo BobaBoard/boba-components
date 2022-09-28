@@ -1,8 +1,8 @@
-import ActionLink from "../buttons/ActionLink";
-import BoardIcon from "../board/BoardIcon";
-import DefaultTheme from "../theme/default";
+import ActionLink from "buttons/ActionLink";
+import BoardIcon from "board/BoardIcon";
+import DefaultTheme from "theme/default";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import { LinkWithAction } from "../types";
+import { LinkWithAction } from "types";
 import React from "react";
 import classnames from "classnames";
 import css from "styled-jsx/css";
@@ -20,16 +20,8 @@ const { className: containerClassname, styles: containerStyles } = css.resolve`
 `;
 
 const BoardMenuItem: React.FC<BoardMenuItemProps> = (props) => {
-  const {
-    avatar,
-    color,
-    updates,
-    muted,
-    slug,
-    link,
-    outdated,
-    current,
-  } = props;
+  const { avatar, color, updates, muted, slug, link, outdated, current } =
+    props;
 
   const getNotificationlabel = (props: BoardMenuItemProps) => {
     if (props.muted) return `${props.slug} muted`;
@@ -41,7 +33,7 @@ const BoardMenuItem: React.FC<BoardMenuItemProps> = (props) => {
   return (
     <ActionLink
       link={link}
-      current={current? "page" : false}
+      current={current ? "page" : false}
       label={getNotificationlabel(props)}
       className={classnames(containerClassname, "board-menu-item", {
         "has-updates": !!updates,

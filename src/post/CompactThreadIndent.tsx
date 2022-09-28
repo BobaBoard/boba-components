@@ -1,21 +1,23 @@
 import { CommentHandler } from "./Comment";
 import React from "react";
-import Theme from "../theme/default";
+import Theme from "theme/default";
 
 const STEM_WIDTH_PX = 5;
 
 const CompactThreadIndent: React.FC<CompactThreadIndentProps> = (props) => {
   const containerRef = React.useRef<HTMLDivElement>(null);
-  const [startPointCoordinates, setStartPointCoordinates] = React.useState<{
-    top: number;
-    left: number;
-  }>();
-  const [innerLevelBounds, setInnerLevelBounds] = React.useState<
-    {
+  const [startPointCoordinates, setStartPointCoordinates] =
+    React.useState<{
       top: number;
       left: number;
-    }[]
-  >();
+    }>();
+  const [innerLevelBounds, setInnerLevelBounds] =
+    React.useState<
+      {
+        top: number;
+        left: number;
+      }[]
+    >();
 
   React.useLayoutEffect(() => {
     if (props.startsFromViewport && containerRef.current) {
@@ -159,9 +161,8 @@ export const useIndent = (): {
   // This is not a ref because the re-assignment of a ref doesn't cause a
   // react re-render.
   const [handler, setHandler] = React.useState<CommentHandler | null>(null);
-  const [headerBounds, setHeaderBounds] = React.useState<HeaderBounds | null>(
-    null
-  );
+  const [headerBounds, setHeaderBounds] =
+    React.useState<HeaderBounds | null>(null);
 
   React.useEffect(() => {
     const boundingHeader = handler?.avatarRef?.current?.getBoundingClientRect();

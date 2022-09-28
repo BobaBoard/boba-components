@@ -1,6 +1,6 @@
-import Input, { InputStyle } from "../common/Input";
+import Input, { InputStyle } from "common/Input";
 
-import ColorInput from "../common/ColorInput";
+import ColorInput from "common/ColorInput";
 import React from "react";
 import classnames from "classnames";
 

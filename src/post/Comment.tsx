@@ -8,11 +8,11 @@ import {
 
 import ActionLink from "buttons/ActionLink";
 import Badge from "./Badge";
-import { DropdownProps } from "../common/DropdownListMenu";
+import { DropdownProps } from "common/DropdownListMenu";
 import Editor from "@bobaboard/boba-editor";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import React from "react";
-import Theme from "../theme/default";
+import Theme from "theme/default";
 import classnames from "classnames";
 import css from "styled-jsx/css";
 import debug from "debug";

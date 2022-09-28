@@ -1,6 +1,5 @@
 import React from "react";
-import Reaction from "../src/common/Reaction";
-
+import Reaction from "common/Reaction";
 import oncieReaction from "./images/oncie-reaction.png";
 
 export default {

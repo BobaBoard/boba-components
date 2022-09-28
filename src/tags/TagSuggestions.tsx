@@ -1,5 +1,5 @@
 import React from "react";
-import { TagType } from "../types";
+import { TagType } from "types";
 import TagsFactory from "./TagsFactory";
 import classnames from "classnames";
 

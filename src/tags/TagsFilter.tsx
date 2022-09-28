@@ -1,4 +1,4 @@
-import Input, { InputStyle } from "../common/Input";
+import Input, { InputStyle } from "common/Input";
 import TagsFactory, { getDataForTagType } from "./TagsFactory";
 
 import Button from "buttons/Button";

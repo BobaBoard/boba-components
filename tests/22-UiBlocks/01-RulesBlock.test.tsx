@@ -7,9 +7,9 @@ import { render, screen, waitFor, within } from "@testing-library/react";
 
 import React from "react";
 // import component?
-import RulesBlock from "../../src/blocks/RulesBlock";
+import RulesBlock from "blocks/RulesBlock";
 // Import the prop types for the component
-import { RulesBlockProps } from "../../src/blocks/RulesBlock";
+import { RulesBlockProps } from "blocks/RulesBlock";
 import { action } from "@storybook/addon-actions";
 import { composeStories } from "@storybook/testing-react";
 import { mocked } from "jest-mock";

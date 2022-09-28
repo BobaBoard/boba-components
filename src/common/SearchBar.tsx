@@ -1,6 +1,6 @@
-import React from "react";
+import Button, { ButtonStyle } from "buttons/Button";
 
-import Button, { ButtonStyle } from "../buttons/Button";
+import React from "react";
 import { faSearch } from "@fortawesome/free-solid-svg-icons";
 
 const SearchBar: React.FC<SearchBarProps> = (props) => {

@@ -1,7 +1,7 @@
-import React from "react";
+import Input, { InputStyle } from "common/Input";
 
-import Input, { InputStyle } from "../src/common/Input";
-import ColorInput from "../src/common/ColorInput";
+import ColorInput from "common/ColorInput";
+import React from "react";
 
 export default {
   title: "Input",

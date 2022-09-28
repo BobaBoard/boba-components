@@ -1,17 +1,17 @@
 import DropdownMenu, {
   DropdownProps,
   DropdownStyle,
-} from "../common/DropdownListMenu";
+} from "common/DropdownListMenu";
 import { faEllipsisV, faSearch } from "@fortawesome/free-solid-svg-icons";
 
 import { BoardType } from "types";
 import BoardsMenuSection from "./BoardsMenuSection";
-import DefaultTheme from "../theme/default";
+import DefaultTheme from "theme/default";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import PinnedMenu from "./PinnedMenu";
 import React from "react";
 import classnames from "classnames";
-import { extractCompounds } from "../utils/compound-utils";
+import { extractCompounds } from "utils/compound-utils";
 
 export interface SideMenuHandler {
   focusBoardFilter: () => void;

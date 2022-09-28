@@ -1,13 +1,13 @@
 import Comment, { CommentProps } from "post/Comment";
 
 import { Meta } from "@storybook/react";
-import NewCommentsThread from "../../src/thread/NewCommentsThread";
+import NewCommentsThread from "thread/NewCommentsThread";
 import React from "react";
-import Theme from "../../src/theme/default";
+import Theme from "theme/default";
 import { action } from "@storybook/addon-actions";
 import { editorArgTypes } from "../utils/editor-controls";
-import mamoruAvatar from "../images/mamoru.png";
-import tuxedoAvatar from "../images/tuxedo-mask.jpg";
+import mamoruAvatar from "stories/images/mamoru.png";
+import tuxedoAvatar from "stories/images/tuxedo-mask.jpg";
 
 export default {
   title: "Comment/Comments Thread",
@@ -46,8 +46,7 @@ const COMMENT_ARGS: CommentProps = {
   comments: [
     {
       id: "b91441ee-a57a-405d-9d69-bbe1d28991c5",
-      text:
-        '[{"insert": "[LVL 0] I mean, sure, but you know what also is great?"}]',
+      text: '[{"insert": "[LVL 0] I mean, sure, but you know what also is great?"}]',
     },
     {
       id: "5c420fc4-0093-4cfa-a7a4-b3ed1434e9ca",

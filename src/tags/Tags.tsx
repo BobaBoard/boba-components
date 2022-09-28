@@ -1,13 +1,13 @@
 import TagInput, { TagInputRef } from "./TagInput";
-import { TagType, TagsType } from "../types";
+import { TagType, TagsType } from "types";
 import TagsFactory, {
   CATEGORY_PREFIX,
   CONTENT_NOTICE_DEFAULT_PREFIX,
   INDEXABLE_PREFIX,
 } from "./TagsFactory";
 
-import DefaultTheme from "../theme/default";
-import { DropdownProps } from "../common/DropdownListMenu";
+import DefaultTheme from "theme/default";
+import { DropdownProps } from "common/DropdownListMenu";
 import React from "react";
 import TagSuggestions from "./TagSuggestions";
 import TagsDisplay from "./TagsDisplay";

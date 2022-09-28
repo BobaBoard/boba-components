@@ -1,8 +1,7 @@
+import BobaDex from "user/BobaDex";
 import React from "react";
 //import { linkTo } from "@storybook/addon-links";
-import UserDetails from "../src/user/UserDetails";
-import BobaDex from "../src/user/BobaDex";
-
+import UserDetails from "user/UserDetails";
 import goreBackground from "./images/gore.png";
 
 export default {

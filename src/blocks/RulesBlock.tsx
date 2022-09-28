@@ -1,5 +1,5 @@
-import ActionLink from "../buttons/ActionLink";
-import { LinkWithAction } from "../types";
+import ActionLink from "buttons/ActionLink";
+import { LinkWithAction } from "types";
 import React from "react";
 import css from "styled-jsx/css";
 

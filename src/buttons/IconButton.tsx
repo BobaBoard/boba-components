@@ -1,9 +1,9 @@
-import Icon, { IconProps } from "../common/Icon";
+import Icon, { IconProps } from "common/Icon";
 
 import ActionLink from "./ActionLink";
-import { LinkWithAction } from "../types";
+import { LinkWithAction } from "types";
 import React from "react";
-import Theme from "../theme/default";
+import Theme from "theme/default";
 import classnames from "classnames";
 import { faCircle } from "@fortawesome/free-solid-svg-icons";
 

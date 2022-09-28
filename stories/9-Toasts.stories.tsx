@@ -1,5 +1,5 @@
 //import { linkTo } from "@storybook/addon-links";
-import ToastContainer, { toast } from "../src/common/Toast";
+import ToastContainer, { toast } from "common/Toast";
 
 import React from "react";
 

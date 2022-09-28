@@ -1,10 +1,8 @@
-import React from "react";
-
-import Theme from "../theme/default";
-import classnames from "classnames";
-
-import { faAngleDoubleUp } from "@fortawesome/free-solid-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import React from "react";
+import Theme from "theme/default";
+import classnames from "classnames";
+import { faAngleDoubleUp } from "@fortawesome/free-solid-svg-icons";
 
 const indentationSizePx = 4;
 const barGap = 5;

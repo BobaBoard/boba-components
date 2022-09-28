@@ -1,5 +1,5 @@
+import FloatingActionButton from "buttons/FloatingActionButton";
 import React from "react";
-import FloatingActionButton from "../buttons/FloatingActionButton";
 import { faPlusSquare } from "@fortawesome/free-solid-svg-icons";
 
 export interface PostingActionButtonProps {

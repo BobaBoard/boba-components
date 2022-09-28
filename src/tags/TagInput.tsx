@@ -4,7 +4,7 @@ import React, {
   KeyboardEvent,
 } from "react";
 
-import DefaultTheme from "../theme/default";
+import DefaultTheme from "theme/default";
 import TagsFactory from "./TagsFactory";
 import color from "color";
 import debug from "debug";

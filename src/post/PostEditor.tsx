@@ -1,4 +1,4 @@
-import BoardSelector, { BoardSelectorProps } from "../tags/BoardSelector";
+import BoardSelector, { BoardSelectorProps } from "tags/BoardSelector";
 import { DefaultTheme, ImageUploaderContext } from "../index";
 import Header, { HeaderStyle, PostHeaderProps } from "./Header";
 import {
@@ -6,25 +6,25 @@ import {
   TagsListType,
   TagsType,
   UserIdentityType,
-} from "../types";
+} from "types";
 import {
   faCaretDown,
   faCompressArrowsAlt,
 } from "@fortawesome/free-solid-svg-icons";
 
-import Button from "../buttons/Button";
-import Card from "../common/Card";
-import DropdownListMenu from "../common/DropdownListMenu";
+import Button from "buttons/Button";
+import Card from "common/Card";
+import DropdownListMenu from "common/DropdownListMenu";
 import Editor from "@bobaboard/boba-editor";
 import EditorFooter from "./EditorFooter";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import React from "react";
-import Spinner from "../common/Spinner";
-import Tags from "../tags/Tags";
-import TagsFactory from "../tags/TagsFactory";
+import Spinner from "common/Spinner";
+import Tags from "tags/Tags";
+import TagsFactory from "tags/TagsFactory";
 import classnames from "classnames";
 import noop from "noop-ts";
-import { prepareContentSubmission } from "../utils";
+import { prepareContentSubmission } from "utils";
 import { useHotkeys } from "react-hotkeys-hook";
 
 const computeTags = (

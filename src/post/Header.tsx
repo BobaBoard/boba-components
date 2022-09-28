@@ -3,17 +3,17 @@ import {
   LinkWithAction,
   SecretIdentityType,
   UserIdentityType,
-} from "../types";
+} from "types";
 import UserMetadata, { UserMetadataStyle } from "./UserMetadata";
 
-import { DropdownProps } from "../common/DropdownListMenu";
+import { DropdownProps } from "common/DropdownListMenu";
 import { IconProps } from "common/Icon";
 import React from "react";
 import classnames from "classnames";
 import debug from "debug";
 import questionMark from "images/question_mark.png";
 
-// import Icon from "../common/Icon";
+// import Icon from "common/Icon";
 //const log = debug("bobaui:header-log");
 const info = debug("bobaui:header-info");
 

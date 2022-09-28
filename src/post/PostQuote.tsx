@@ -1,10 +1,10 @@
 import { LinkWithAction, SecretIdentityType } from "types";
 
-import ActionLink from "../buttons/ActionLink";
+import ActionLink from "buttons/ActionLink";
 import Avatar from "./Avatar";
 import Editor from "@bobaboard/boba-editor";
 import React from "react";
-import Theme from "../theme/default";
+import Theme from "theme/default";
 import css from "styled-jsx/css";
 
 const parseText = (text: string) => {

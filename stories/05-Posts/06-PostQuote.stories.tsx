@@ -1,17 +1,15 @@
-import React from "react";
-
-import tuxedoAvatar from "../images/tuxedo-mask.jpg";
-import mamoruAvatar from "../images/mamoru.png";
-
-import { action } from "@storybook/addon-actions";
 import {
   EDITOR_TEXT_VALUES,
   getInitialTextString,
 } from "../utils/editor-controls";
 import { Meta, Story } from "@storybook/react";
-import PostQuote, { PostQuoteProps } from "../../src/post/PostQuote";
+import PostQuote, { PostQuoteProps } from "post/PostQuote";
 
-import crown from "../images/crown.png";
+import React from "react";
+import { action } from "@storybook/addon-actions";
+import crown from "stories/images/crown.png";
+import mamoruAvatar from "stories/images/mamoru.png";
+import tuxedoAvatar from "stories/images/tuxedo-mask.jpg";
 
 export default {
   title: "Posts / PostQuote",

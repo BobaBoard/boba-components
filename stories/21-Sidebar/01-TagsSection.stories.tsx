@@ -1,11 +1,11 @@
 import { Meta, Story } from "@storybook/react";
 import TagsFilterSection, {
   TagsFilterSectionProps,
-} from "../../src/sidebar/TagsFilterSection";
+} from "sidebar/TagsFilterSection";
 
-import { FilteredTagsState } from "../../src/tags/TagsFilter";
+import { FilteredTagsState } from "tags/TagsFilter";
 import React from "react";
-import { TagType } from "../../src/types";
+import { TagType } from "types";
 import { action } from "@storybook/addon-actions";
 
 export default {

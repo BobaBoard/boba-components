@@ -1,9 +1,9 @@
-import { BoardMetadataType, DescriptionType } from "../types";
-import Button, { ButtonStyle } from "../buttons/Button";
+import { BoardMetadataType, DescriptionType } from "types";
+import Button, { ButtonStyle } from "buttons/Button";
 import DropdownMenu, {
   DropdownProps,
   DropdownStyle,
-} from "../common/DropdownListMenu";
+} from "common/DropdownListMenu";
 import SidebarSection, {
   SidebarSectionProps,
   getSectionData,
@@ -15,16 +15,16 @@ import {
   faCheck,
 } from "@fortawesome/free-solid-svg-icons";
 
-import BoardPreview from "../board/BoardPreview";
+import BoardPreview from "board/BoardPreview";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import PreviewEditor from "./PreviewEditor";
 import React from "react";
 import SectionsList from "./SectionsList";
 import TagsFilterSection from "./TagsFilterSection";
 import TextSection from "./TextSection";
-import Theme from "../theme/default";
+import Theme from "theme/default";
 import classnames from "classnames";
-import { extractCompounds } from "../utils/compound-utils";
+import { extractCompounds } from "utils/compound-utils";
 import { v4 as uuidv4 } from "uuid";
 
 interface EditableBoardSidebarProps {

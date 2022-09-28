@@ -1,6 +1,5 @@
+import Checkbox from "common/Checkbox";
 import React from "react";
-
-import Checkbox from "../common/Checkbox";
 
 type CheckboxSettingType = {
   type: "checkbox";

@@ -1,9 +1,10 @@
-import React from "react";
-import DefaultTheme from "../theme/default";
-import Icon, { IconProps } from "../common/Icon";
+import Icon, { IconProps } from "common/Icon";
+
+import ActionLink from "buttons/ActionLink";
+import DefaultTheme from "theme/default";
 import { LinkWithAction } from "types";
+import React from "react";
 import classNames from "classnames";
-import ActionLink from "../buttons/ActionLink";
 
 interface CompoundComponents {
   Option: React.FC<{

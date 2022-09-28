@@ -1,4 +1,4 @@
-import { LinkWithAction, SecretIdentityType } from "../types";
+import { LinkWithAction, SecretIdentityType } from "types";
 
 import ActionLink from "buttons/ActionLink";
 import DefaultTheme from "theme/default";

@@ -1,21 +1,22 @@
+import { TagType, TagsType } from "types";
+import TagsFilter, { FilteredTagsState } from "tags/TagsFilter";
+
+import BoardSelector from "tags/BoardSelector";
+import CategoryFilter from "common/CategoryFilter";
 import React from "react";
-import Tags from "../src/tags/Tags";
-import CategoryFilter from "../src/common/CategoryFilter";
-import TagsFilter, { FilteredTagsState } from "../src/tags/TagsFilter";
-import BoardSelector from "../src/tags/BoardSelector";
-import { TagsType, TagType } from "../src/types";
+import Tags from "tags/Tags";
 import { action } from "@storybook/addon-actions";
+import book from "./images/book.png";
+import crack from "./images/crack.png";
+import goreBackground from "./images/gore.png";
+import kinkmeme from "./images/kink-meme.png";
+import oncelerBoard from "./images/onceler-board.png";
 
 export default {
   title: "Tags Preview",
   component: Tags,
 };
 
-import goreBackground from "./images/gore.png";
-import crack from "./images/crack.png";
-import oncelerBoard from "./images/onceler-board.png";
-import book from "./images/book.png";
-import kinkmeme from "./images/kink-meme.png";
 
 export const EditableTags = () => {
   const [tags, setTags] = React.useState<TagsType[]>([
@@ -87,14 +88,12 @@ export const DisplayTags = () => {
     },
     { name: "short again!", type: TagType.WHISPER },
     {
-      name:
-        "a tag with many words that is actually more than one single line long used to check words splitting",
+      name: "a tag with many words that is actually more than one single line long used to check words splitting",
       type: TagType.WHISPER,
     },
     { name: "short again x 2!", type: TagType.WHISPER },
     {
-      name:
-        "JugemuJugemuGokonoSurikireKaijarisuigyonoSuigyomatsuUnraimatsuFuraimatsuKuNeruTokoroniSumuTokoroYaburaKojinoBuraKojiPaipopaipoPaiponoShuringanShuringannoGurindaiGurindainoPonpokopinoPonpokonanoChokyumeinoChosuke",
+      name: "JugemuJugemuGokonoSurikireKaijarisuigyonoSuigyomatsuUnraimatsuFuraimatsuKuNeruTokoroniSumuTokoroYaburaKojinoBuraKojiPaipopaipoPaiponoShuringanShuringannoGurindaiGurindainoPonpokopinoPonpokonanoChokyumeinoChosuke",
       type: TagType.WHISPER,
     },
   ]);
@@ -134,14 +133,12 @@ export const TagsWithOptions = () => {
     },
     { name: "short again!", type: TagType.WHISPER },
     {
-      name:
-        "a tag with many words that is actually more than one single line long used to check words splitting",
+      name: "a tag with many words that is actually more than one single line long used to check words splitting",
       type: TagType.WHISPER,
     },
     { name: "short again x 2!", type: TagType.WHISPER },
     {
-      name:
-        "JugemuJugemuGokonoSurikireKaijarisuigyonoSuigyomatsuUnraimatsuFuraimatsuKuNeruTokoroniSumuTokoroYaburaKojinoBuraKojiPaipopaipoPaiponoShuringanShuringannoGurindaiGurindainoPonpokopinoPonpokonanoChokyumeinoChosuke",
+      name: "JugemuJugemuGokonoSurikireKaijarisuigyonoSuigyomatsuUnraimatsuFuraimatsuKuNeruTokoroniSumuTokoroYaburaKojinoBuraKojiPaipopaipoPaiponoShuringanShuringannoGurindaiGurindainoPonpokopinoPonpokonanoChokyumeinoChosuke",
       type: TagType.WHISPER,
     },
   ]);
@@ -204,13 +201,11 @@ export const FilterTags = () => {
       active: false,
     },
     {
-      name:
-        "a tag with many words that is actually more than one single line long used to check words splitting",
+      name: "a tag with many words that is actually more than one single line long used to check words splitting",
       active: true,
     },
     {
-      name:
-        "JugemuJugemuGokonoSurikireKaijarisuigyonoSuigyomatsuUnraimatsuFuraimatsuKuNeruTokoroniSumuTokoroYaburaKojinoBuraKojiPaipopaipoPaiponoShuringanShuringannoGurindaiGurindainoPonpokopinoPonpokonanoChokyumeinoChosuke",
+      name: "JugemuJugemuGokonoSurikireKaijarisuigyonoSuigyomatsuUnraimatsuFuraimatsuKuNeruTokoroniSumuTokoroYaburaKojinoBuraKojiPaipopaipoPaiponoShuringanShuringannoGurindaiGurindainoPonpokopinoPonpokonanoChokyumeinoChosuke",
       active: false,
     },
   ]);
@@ -242,13 +237,11 @@ export const TagsFilterStory = () => {
       state: FilteredTagsState.DISABLED,
     },
     {
-      name:
-        "a tag with many words that is actually more than one single line long used to check words splitting",
+      name: "a tag with many words that is actually more than one single line long used to check words splitting",
       state: FilteredTagsState.ACTIVE,
     },
     {
-      name:
-        "JugemuJugemuGokonoSurikireKaijarisuigyonoSuigyomatsuUnraimatsuFuraimatsuKuNeruTokoroniSumuTokoroYaburaKojinoBuraKojiPaipopaipoPaiponoShuringanShuringannoGurindaiGurindainoPonpokopinoPonpokonanoChokyumeinoChosuke",
+      name: "JugemuJugemuGokonoSurikireKaijarisuigyonoSuigyomatsuUnraimatsuFuraimatsuKuNeruTokoroniSumuTokoroYaburaKojinoBuraKojiPaipopaipoPaiponoShuringanShuringannoGurindaiGurindainoPonpokopinoPonpokonanoChokyumeinoChosuke",
       state: FilteredTagsState.DISABLED,
     },
   ]);
@@ -289,13 +282,11 @@ export const TagsFilterUncategorizedStory = () => {
       state: FilteredTagsState.DISABLED,
     },
     {
-      name:
-        "a tag with many words that is actually more than one single line long used to check words splitting",
+      name: "a tag with many words that is actually more than one single line long used to check words splitting",
       state: FilteredTagsState.ACTIVE,
     },
     {
-      name:
-        "JugemuJugemuGokonoSurikireKaijarisuigyonoSuigyomatsuUnraimatsuFuraimatsuKuNeruTokoroniSumuTokoroYaburaKojinoBuraKojiPaipopaipoPaiponoShuringanShuringannoGurindaiGurindainoPonpokopinoPonpokonanoChokyumeinoChosuke",
+      name: "JugemuJugemuGokonoSurikireKaijarisuigyonoSuigyomatsuUnraimatsuFuraimatsuKuNeruTokoroniSumuTokoroYaburaKojinoBuraKojiPaipopaipoPaiponoShuringanShuringannoGurindaiGurindainoPonpokopinoPonpokonanoChokyumeinoChosuke",
       state: FilteredTagsState.DISABLED,
     },
   ]);
@@ -332,12 +323,10 @@ export const EditableTagsFilterStory = () => {
       name: "a very very very very very long tag with many words",
     },
     {
-      name:
-        "a tag with many words that is actually more than one single line long used to check words splitting",
+      name: "a tag with many words that is actually more than one single line long used to check words splitting",
     },
     {
-      name:
-        "JugemuJugemuGokonoSurikireKaijarisuigyonoSuigyomatsuUnraimatsuFuraimatsuKuNeruTokoroniSumuTokoroYaburaKojinoBuraKojiPaipopaipoPaiponoShuringanShuringannoGurindaiGurindainoPonpokopinoPonpokonanoChokyumeinoChosuke",
+      name: "JugemuJugemuGokonoSurikireKaijarisuigyonoSuigyomatsuUnraimatsuFuraimatsuKuNeruTokoroniSumuTokoroYaburaKojinoBuraKojiPaipopaipoPaiponoShuringanShuringannoGurindaiGurindainoPonpokopinoPonpokonanoChokyumeinoChosuke",
     },
   ]);
   return (

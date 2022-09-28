@@ -1,13 +1,13 @@
-import ActionLink from "../buttons/ActionLink";
-import DefaultTheme from "../theme/default";
+import ActionLink from "buttons/ActionLink";
+import DefaultTheme from "theme/default";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import type { IconProp } from "@fortawesome/fontawesome-svg-core";
-import { LinkWithAction } from "../types";
+import { LinkWithAction } from "types";
 import React from "react";
 import ReactDOM from "react-dom";
 import classnames from "classnames";
 import css from "styled-jsx/css";
-import { lightenColor } from "../utils";
+import { lightenColor } from "utils";
 
 export interface PopupButtonsProps {
   options?: ({

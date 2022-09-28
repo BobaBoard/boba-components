@@ -1,4 +1,4 @@
-import DropdownListMenu, { DropdownProps } from "../common/DropdownListMenu";
+import DropdownListMenu, { DropdownProps } from "common/DropdownListMenu";
 import Header, { HeaderStyle } from "./Header";
 import {
   LinkWithAction,
@@ -15,16 +15,16 @@ import {
 } from "@fortawesome/free-solid-svg-icons";
 
 import Badge from "./Badge";
-import Card from "../common/Card";
+import Card from "common/Card";
 import Editor from "@bobaboard/boba-editor";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import Footer from "./Footer";
 import type { IconProps } from "common/Icon";
 import React from "react";
-import Reaction from "../common/Reaction";
-import Tags from "../tags/Tags";
-import TagsFactory from "../tags/TagsFactory";
-import Theme from "../theme/default";
+import Reaction from "common/Reaction";
+import Tags from "tags/Tags";
+import TagsFactory from "tags/TagsFactory";
+import Theme from "theme/default";
 import UpdatesHeader from "./UpdatesHeader";
 import classnames from "classnames";
 import debug from "debug";

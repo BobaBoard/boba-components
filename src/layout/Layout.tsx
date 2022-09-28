@@ -1,17 +1,17 @@
 import "@bobaboard/boba-editor/dist/main.css";
 import "normalize.css";
 
-import { CreateBaseCompound, extractCompound } from "../utils/compound-utils";
+import { CreateBaseCompound, extractCompound } from "utils/compound-utils";
 
 import Header from "./Header";
 import type { IconProp } from "@fortawesome/fontawesome-svg-core";
 import { IconProps } from "common/Icon";
 import { LinkWithAction } from "types";
-import LoadingBar from "../common/LoadingBar";
+import LoadingBar from "common/LoadingBar";
 import MenuBar from "./MenuBar";
 import QuickAccessBar from "./QuickAccessBar";
 import React from "react";
-import Theme from "../theme/default";
+import Theme from "theme/default";
 import classnames from "classnames";
 import useSideMenuTransition from "./useSideMenuTransition";
 

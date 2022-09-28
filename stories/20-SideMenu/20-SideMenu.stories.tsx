@@ -1,21 +1,18 @@
 import { Boards, Icons } from "./01-PinnedMenu.stories";
 import { Empty, Loading, Regular } from "./00-BoardsMenuSection.stories";
-import SideMenu, {
-  SideMenuHandler,
-  SideMenuProps,
-} from "../../src/sidemenu/SideMenu";
+import SideMenu, { SideMenuHandler, SideMenuProps } from "sidemenu/SideMenu";
 import { faClock, faLemon } from "@fortawesome/free-solid-svg-icons";
 
-import BoardsMenuSection from "../../src/sidemenu/BoardsMenuSection";
-import PinnedMenu from "../../src/sidemenu/PinnedMenu";
+import BoardsMenuSection from "sidemenu/BoardsMenuSection";
+import PinnedMenu from "sidemenu/PinnedMenu";
 import React from "react";
 import { Story } from "@storybook/react";
 import { action } from "@storybook/addon-actions";
-import book from "../images/book.png";
-import goreBackground from "../images/gore.png";
-import kinkmeme from "../images/kink-meme.png";
-import meta from "../images/meta.png";
-import villains from "../images/villains.png";
+import book from "stories/images/book.png";
+import goreBackground from "stories/images/gore.png";
+import kinkmeme from "stories/images/kink-meme.png";
+import meta from "stories/images/meta.png";
+import villains from "stories/images/villains.png";
 
 export default {
   title: "Side Menu/Side Menu",

@@ -1,6 +1,4 @@
-import IconButtonComponent, {
-  IconButtonProps,
-} from "../../src/buttons/IconButton";
+import IconButtonComponent, { IconButtonProps } from "buttons/IconButton";
 import { Meta, Story } from "@storybook/react";
 import { faCoffee, faWineBottle } from "@fortawesome/free-solid-svg-icons";
 

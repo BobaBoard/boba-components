@@ -1,18 +1,18 @@
-import React from "react";
-
 import Header, { HeaderStyle } from "./Header";
 import Post, { PostProps } from "./Post";
-import Card from "../common/Card";
-import Editor from "@bobaboard/boba-editor";
-import classnames from "classnames";
-//import { useCompact } from "../utils";
 
-import Theme from "../theme/default";
-import { PostDetailsType } from "../types";
-import Tags from "../tags/Tags";
-import TagsFactory from "../tags/TagsFactory";
+import Card from "common/Card";
+import Editor from "@bobaboard/boba-editor";
+import { PostDetailsType } from "types";
+import { PostHandler } from "../index";
+import React from "react";
+import Tags from "tags/Tags";
+import TagsFactory from "tags/TagsFactory";
+import Theme from "theme/default";
 import UpdatesHeader from "./UpdatesHeader";
-import { PostHandler } from "index";
+import classnames from "classnames";
+
+//import { useCompact } from "utils";
 
 const PostContent: React.FC<
   PostDetailsType & { showHeader?: boolean; showFooter?: boolean }

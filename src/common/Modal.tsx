@@ -1,7 +1,7 @@
-import React from "react";
-import LibraryModal from "react-modal";
-import Theme from "../theme/default";
 import Div100vh from "react-div-100vh";
+import LibraryModal from "react-modal";
+import React from "react";
+import Theme from "theme/default";
 
 const customStyles = {
   content: {

@@ -3,14 +3,14 @@ import {
   LinkWithAction,
   SecretIdentityType,
   UserIdentityType,
-} from "../types";
-import DropdownListMenu, { DropdownProps } from "../common/DropdownListMenu";
-import Icon, { IconProps } from "../common/Icon";
+} from "types";
+import DropdownListMenu, { DropdownProps } from "common/DropdownListMenu";
+import Icon, { IconProps } from "common/Icon";
 
 import AccessorySelector from "./AccessorySelector";
-import ActionLink from "../buttons/ActionLink";
+import ActionLink from "buttons/ActionLink";
 import Avatar from "./Avatar";
-import DefaultTheme from "../theme/default";
+import DefaultTheme from "theme/default";
 import React from "react";
 import classnames from "classnames";
 import css from "styled-jsx/css";

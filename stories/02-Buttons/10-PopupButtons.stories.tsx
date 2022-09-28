@@ -1,15 +1,14 @@
-import React from "react";
-import PopupButtonsComponent, {
-  PopupButtonsProps,
-} from "../../src/buttons/PopupButtons";
-import DefaultTheme from "../../src/theme/default";
+import { Meta, Story } from "@storybook/react";
+import PopupButtonsComponent, { PopupButtonsProps } from "buttons/PopupButtons";
 import {
-  faMapPin,
   faBellSlash,
+  faMapPin,
   faPaintBrush,
 } from "@fortawesome/free-solid-svg-icons";
+
+import DefaultTheme from "theme/default";
+import React from "react";
 import { action } from "@storybook/addon-actions";
-import { Meta, Story } from "@storybook/react";
 
 export default {
   title: "Buttons/Popup Buttons",

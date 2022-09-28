@@ -1,9 +1,9 @@
 //import { linkTo } from "@storybook/addon-links";
-import BoardPreview, { DisplayStyle } from "../src/board/BoardPreview";
+import BoardPreview, { DisplayStyle } from "board/BoardPreview";
 
-import BoardsDisplay from "../src/board/BoardsDisplay";
+import BoardsDisplay from "board/BoardsDisplay";
 import React from "react";
-import Tag from "../src/tags/Tag";
+import Tag from "tags/Tag";
 import anime from "./images/anime.png";
 import book from "./images/book.png";
 import crack from "./images/crack.png";

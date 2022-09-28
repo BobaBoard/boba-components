@@ -1,9 +1,9 @@
-import BoardTitle from "../board/BoardTitle";
-import IconButton from "../buttons/IconButton";
-import { LinkWithAction } from "../types";
+import BoardTitle from "board/BoardTitle";
+import IconButton from "buttons/IconButton";
+import { LinkWithAction } from "types";
 import Logo from "./Logo";
 import React from "react";
-import Theme from "../theme/default";
+import Theme from "theme/default";
 import classnames from "classnames";
 import { faCompass } from "@fortawesome/free-solid-svg-icons";
 

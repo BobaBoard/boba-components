@@ -4,13 +4,13 @@ import {
 } from "../utils/editor-controls";
 import SubscriptionBlock, {
   SubscriptionBlockProps,
-} from "../../src/blocks/SubscriptionBlock";
+} from "blocks/SubscriptionBlock";
 
 import React from "react";
 import { Story } from "@storybook/react";
 import { action } from "@storybook/addon-actions";
-import crown from "../images/crown.png";
-import tuxedoAvatar from "../images/tuxedo-mask.jpg";
+import crown from "stories/images/crown.png";
+import tuxedoAvatar from "stories/images/tuxedo-mask.jpg";
 
 export default {
   title: "UI Blocks/Subscription Block",

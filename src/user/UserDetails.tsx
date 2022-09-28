@@ -1,6 +1,6 @@
 import { Area, MediaSize } from "react-easy-crop/types";
-import Button, { ButtonStyle } from "../buttons/Button";
-import Input, { InputStyle } from "../common/Input";
+import Button, { ButtonStyle } from "buttons/Button";
+import Input, { InputStyle } from "common/Input";
 import {
   faCheck,
   faCross,
@@ -10,7 +10,7 @@ import {
 import Cropper from "react-easy-crop";
 import Pica from "pica";
 import React from "react";
-import Spinner from "../common/Spinner";
+import Spinner from "common/Spinner";
 import classnames from "classnames";
 import debug from "debug";
 

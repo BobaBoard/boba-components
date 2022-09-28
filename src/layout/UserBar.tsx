@@ -1,8 +1,9 @@
-import React from "react";
-import Button, { ButtonStyle } from "../buttons/Button";
-import DropdownListMenu, { DropdownStyle } from "../common/DropdownListMenu";
-import { faUser } from "@fortawesome/free-solid-svg-icons";
+import Button, { ButtonStyle } from "buttons/Button";
+import DropdownListMenu, { DropdownStyle } from "common/DropdownListMenu";
+
 import { LinkWithAction } from "types";
+import React from "react";
+import { faUser } from "@fortawesome/free-solid-svg-icons";
 
 const UserBar: React.FC<UserBarProps> = ({
   user,

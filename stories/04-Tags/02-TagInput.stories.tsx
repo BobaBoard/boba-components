@@ -1,5 +1,5 @@
 import { Meta, Story } from "@storybook/react";
-import TagInput, { TagInputProps } from "../../src/tags/TagInput";
+import TagInput, { TagInputProps } from "tags/TagInput";
 
 import React from "react";
 import { action } from "@storybook/addon-actions";

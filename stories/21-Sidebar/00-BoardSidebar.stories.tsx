@@ -1,19 +1,17 @@
-import BoardSidebar, {
-  BoardSidebarProps,
-} from "../../src/sidebar/BoardSidebar";
+import BoardSidebar, { BoardSidebarProps } from "sidebar/BoardSidebar";
 import { Meta, Story } from "@storybook/react";
 import TagsFilterSection, {
   TagsFilterSectionProps,
-} from "../../src/sidebar/TagsFilterSection";
-import TextSection, { TextSectionProps } from "../../src/sidebar/TextSection";
+} from "sidebar/TagsFilterSection";
+import TextSection, { TextSectionProps } from "sidebar/TextSection";
 
-import DefaultTheme from "../../src/theme/default";
+import DefaultTheme from "theme/default";
 import React from "react";
-import { SidebarSectionProps } from "../../src/sidebar/SidebarSection";
+import { SidebarSectionProps } from "sidebar/SidebarSection";
 import { Regular as TagsRegular } from "./01-TagsSection.stories";
 import { Regular as TextRegular } from "./02-TextSection.stories";
 import { action } from "@storybook/addon-actions";
-import goreBackground from "../images/gore.png";
+import goreBackground from "stories/images/gore.png";
 
 export default {
   title: "Sidebar/Board Sidebar",

@@ -1,10 +1,10 @@
-import React from "react";
+import DropdownListMenu, { DropdownProps } from "common/DropdownListMenu";
+import { TagType, TagsType } from "types";
 
-import { getDataForTagType } from "./TagsFactory";
-import DropdownListMenu, { DropdownProps } from "../common/DropdownListMenu";
-import classnames from "classnames";
-import { TagsType, TagType } from "../types";
+import React from "react";
 import Tag from "./Tag";
+import classnames from "classnames";
+import { getDataForTagType } from "./TagsFactory";
 
 export interface TagsDisplayProps {
   tags: TagsType[];

@@ -1,8 +1,8 @@
-import IconButton from "../buttons/IconButton";
+import IconButton from "buttons/IconButton";
 import { IconProps } from "common/Icon";
 import { LinkWithAction } from "types";
 import React from "react";
-import Theme from "../theme/default";
+import Theme from "theme/default";
 import classnames from "classnames";
 import { faBars } from "@fortawesome/free-solid-svg-icons";
 

@@ -1,9 +1,9 @@
 import BoardMenuItem from "./BoardMenuItem";
-import { BoardType } from "../types";
-import DefaultTheme from "../theme/default";
+import { BoardType } from "types";
+import DefaultTheme from "theme/default";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import type { IconProp } from "@fortawesome/fontawesome-svg-core";
-import LoadingPlaceholder from "../common/LoadingPlaceholder";
+import LoadingPlaceholder from "common/LoadingPlaceholder";
 import React from "react";
 import classnames from "classnames";
 

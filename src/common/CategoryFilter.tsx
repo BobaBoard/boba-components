@@ -1,7 +1,7 @@
 import React from "react";
+import { TagType } from "types";
+import TagsFactory from "tags/TagsFactory";
 import classnames from "classnames";
-import TagsFactory from "../tags/TagsFactory";
-import { TagType } from "../types";
 
 const CateogyFilter: React.FC<CateogyFilterProps> = (props) => {
   return (

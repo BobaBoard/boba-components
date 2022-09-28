@@ -1,12 +1,12 @@
 import { ResizeObserver as Polyfill } from "@juggle/resize-observer";
 import React from "react";
-import Scrollbar from "../common/Scrollbar";
-import Theme from "../theme/default";
+import Scrollbar from "common/Scrollbar";
+import Theme from "theme/default";
 import classnames from "classnames";
 import debounce from "debounce";
 import debug from "debug";
 import noop from "noop-ts";
-import { useBackdrop } from "../utils";
+import { useBackdrop } from "utils";
 
 require("intersection-observer");
 

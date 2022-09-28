@@ -1,9 +1,8 @@
-import React from "react";
-
-import { faCaretDown } from "@fortawesome/free-solid-svg-icons";
+import DropdownMenu from "common/DropdownListMenu";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import React from "react";
 import classnames from "classnames";
-import DropdownMenu from "../common/DropdownListMenu";
+import { faCaretDown } from "@fortawesome/free-solid-svg-icons";
 
 export interface BoardSelectorProps {
   availableBoards: {

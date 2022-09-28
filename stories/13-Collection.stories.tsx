@@ -1,17 +1,15 @@
-import React from "react";
+import Button, { ButtonStyle } from "buttons/Button";
 
-import Layout from "../src/layout/Layout";
-import FeedWithMenu from "../src/feeds/FeedWithMenu";
-import PostingActionButton from "../src/board/PostingActionButton";
-import Post from "../src/post/Post";
-import Tag from "../src/tags/Tag";
 // @ts-ignore
 import Editor from "@bobaboard/boba-editor";
-
-import tuxedoAvatar from "./images/tuxedo-mask.jpg";
+import FeedWithMenu from "feeds/FeedWithMenu";
+import Layout from "layout/Layout";
+import Post from "post/Post";
+import PostingActionButton from "board/PostingActionButton";
+import React from "react";
+import Tag from "tags/Tag";
 import mamoruAvatar from "./images/mamoru.png";
-
-import Button, { ButtonStyle } from "../src/buttons/Button";
+import tuxedoAvatar from "./images/tuxedo-mask.jpg";
 
 export default {
   title: "Collections Preview",

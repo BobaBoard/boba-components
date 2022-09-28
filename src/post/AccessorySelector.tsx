@@ -4,10 +4,10 @@ import {
   faShieldAlt,
 } from "@fortawesome/free-solid-svg-icons";
 
-import { AccessoryType } from "../types";
-import DefaultTheme from "../theme/default";
-import DropdownListMenu from "../common/DropdownListMenu";
-import Icon from "../common/Icon";
+import { AccessoryType } from "types";
+import DefaultTheme from "theme/default";
+import DropdownListMenu from "common/DropdownListMenu";
+import Icon from "common/Icon";
 import React from "react";
 import { UserMetadataStyle } from "./UserMetadata";
 import classnames from "classnames";

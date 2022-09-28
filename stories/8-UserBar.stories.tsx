@@ -1,9 +1,7 @@
 import React from "react";
-
-import UserBar from "../src/layout/UserBar";
-import mamoru from "./images/mamoru.png";
-
+import UserBar from "layout/UserBar";
 import { action } from "@storybook/addon-actions";
+import mamoru from "./images/mamoru.png";
 
 export default {
   title: "UserBar",

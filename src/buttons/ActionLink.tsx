@@ -1,4 +1,4 @@
-import { LinkWithAction } from "../types";
+import { LinkWithAction } from "types";
 import React from "react";
 
 const ActionLink: React.FC<ActionLinkProps> = ({
@@ -84,7 +84,16 @@ interface ActionLinkProps {
   allowDefault?: boolean;
   label?: string;
   // Allows aria-current to be set as appropriate
-  current?: boolean | "time" | "false" | "true" | "page" | "step" | "location" | "date" | undefined;
+  current?:
+    | boolean
+    | "time"
+    | "false"
+    | "true"
+    | "page"
+    | "step"
+    | "location"
+    | "date"
+    | undefined;
 }
 
 export default ActionLink;

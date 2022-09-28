@@ -1,10 +1,10 @@
-import { DescriptionType, TagType } from "../types";
-import Input, { InputStyle } from "../common/Input";
+import { DescriptionType, TagType } from "types";
+import Input, { InputStyle } from "common/Input";
 import TagsFilterSection, { TagsFilterSectionProps } from "./TagsFilterSection";
 import TextSection, { TextSectionProps } from "./TextSection";
 
-import Button from "../buttons/Button";
-import { FilteredTagsState } from "../tags/TagsFilter";
+import Button from "buttons/Button";
+import { FilteredTagsState } from "tags/TagsFilter";
 import React from "react";
 import { faCross } from "@fortawesome/free-solid-svg-icons";
 import noop from "noop-ts";
@@ -92,8 +92,9 @@ export const getSectionData = (
         index: section.props.index,
         title: section.props.title,
         type: "text",
-        description: (section.props
-          .children as React.ReactElement<TextSectionProps>).props.description,
+        description: (
+          section.props.children as React.ReactElement<TextSectionProps>
+        ).props.description,
       };
     case "category_filter":
       return {
@@ -101,10 +102,9 @@ export const getSectionData = (
         index: section.props.index,
         title: section.props.title,
         type: "category_filter",
-        categories: (section.props
-          .children as React.ReactElement<TagsFilterSectionProps>).props.tags.map(
-          (tag) => tag.name
-        ),
+        categories: (
+          section.props.children as React.ReactElement<TagsFilterSectionProps>
+        ).props.tags.map((tag) => tag.name),
       };
   }
 };

@@ -1,13 +1,11 @@
+import Button, { ButtonProps, ButtonStyle } from "buttons/Button";
+import { Meta, Story } from "@storybook/react";
 import React, { useState } from "react";
-import { Story, Meta } from "@storybook/react";
+import SegmentedButton, { SegmentedButtonProps } from "buttons/SegmentedButton";
 
-import Button, { ButtonProps, ButtonStyle } from "../../src/buttons/Button";
-import SegmentedButton, {
-  SegmentedButtonProps,
-} from "../../src/buttons/SegmentedButton";
-import { faCoffee } from "@fortawesome/free-solid-svg-icons";
-import mamoru from "../images/mamoru.png";
 import { action } from "@storybook/addon-actions";
+import { faCoffee } from "@fortawesome/free-solid-svg-icons";
+import mamoru from "stories/images/mamoru.png";
 
 export default {
   title: "Buttons/Regular Button",

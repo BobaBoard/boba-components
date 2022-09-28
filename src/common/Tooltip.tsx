@@ -1,10 +1,10 @@
-import React from "react";
-
 import LibraryPopover, {
-  PopoverProps as LibraryPopoverProps,
   ArrowContainer,
+  PopoverProps as LibraryPopoverProps,
 } from "react-tiny-popover";
-import Theme from "../theme/default";
+
+import React from "react";
+import Theme from "theme/default";
 
 interface TootlipProps extends LibraryPopoverProps {
   background?: string;

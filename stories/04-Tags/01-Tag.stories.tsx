@@ -1,9 +1,9 @@
-import Icon, { IconProps, isIcon } from "../../src/common/Icon";
+import Icon, { IconProps, isIcon } from "common/Icon";
 import { Meta, Story } from "@storybook/react";
 import React, { useState } from "react";
-import Tag, { DeletableTagProps, TagProps } from "../../src/tags/Tag";
+import Tag, { DeletableTagProps, TagProps } from "tags/Tag";
 
-import { TagsFactory } from "../../src/tags/TagsFactory";
+import { TagsFactory } from "tags/TagsFactory";
 import { action } from "@storybook/addon-actions";
 import { faCalendar } from "@fortawesome/free-solid-svg-icons";
 

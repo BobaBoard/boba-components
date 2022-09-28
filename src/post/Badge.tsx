@@ -1,7 +1,7 @@
-import Icon, { IconProps } from "../common/Icon";
+import Icon, { IconProps } from "common/Icon";
 
 import React from "react";
-import { darkenColor } from "../utils";
+import { darkenColor } from "utils";
 
 const Badge: React.FC<{
   icon?: IconProps["icon"];

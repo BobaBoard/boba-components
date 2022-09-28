@@ -1,5 +1,5 @@
 import Color from "color";
-import DefaultTheme from "../theme/default";
+import DefaultTheme from "theme/default";
 import React from "react";
 import css from "styled-jsx/css";
 

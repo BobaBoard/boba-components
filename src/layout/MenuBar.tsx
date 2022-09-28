@@ -1,10 +1,10 @@
-import DropdownListMenu, { DropdownStyle } from "../common/DropdownListMenu";
+import DropdownListMenu, { DropdownStyle } from "common/DropdownListMenu";
 import { faHome, faUser } from "@fortawesome/free-solid-svg-icons";
 
-import CircleButton from "../buttons/CircleButton";
+import CircleButton from "buttons/CircleButton";
+import type { IconProp } from "@fortawesome/fontawesome-svg-core";
 import { LinkWithAction } from "types";
 import React from "react";
-import type { IconProp } from "@fortawesome/fontawesome-svg-core";
 
 const MenuBar: React.FC<MenuBarProps> = ({
   user,

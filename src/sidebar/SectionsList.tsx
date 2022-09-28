@@ -1,4 +1,4 @@
-import Button, { ButtonStyle } from "../buttons/Button";
+import Button, { ButtonStyle } from "buttons/Button";
 import { faFont, faPlus, faTags } from "@fortawesome/free-solid-svg-icons";
 
 import React from "react";

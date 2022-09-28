@@ -8,22 +8,22 @@ import { Meta, Story } from "@storybook/react";
 import PostEditor, {
   PostEditorHandler,
   PostEditorProps,
-} from "../../src/post/PostEditor";
+} from "post/PostEditor";
 
-import Button from "../../src/buttons/Button";
-import Modal from "../../src/common/Modal";
+import Button from "buttons/Button";
+import Modal from "common/Modal";
 import React from "react";
 import { action } from "@storybook/addon-actions";
-import book from "../images/book.png";
-import crack from "../images/crack.png";
-import crown from "../images/crown.png";
-import goreBackground from "../images/gore.png";
-import kinkmeme from "../images/kink-meme.png";
-import mamoruAvatar from "../images/mamoru.png";
-import oncelerAvatar from "../images/oncie.jpg";
-import oncelerBoard from "../images/onceler-board.png";
-import reindeerEars from "../images/reindeer-ears.png";
-import tuxedoAvatar from "../images/tuxedo-mask.jpg";
+import book from "stories/images/book.png";
+import crack from "stories/images/crack.png";
+import crown from "stories/images/crown.png";
+import goreBackground from "stories/images/gore.png";
+import kinkmeme from "stories/images/kink-meme.png";
+import mamoruAvatar from "stories/images/mamoru.png";
+import oncelerAvatar from "stories/images/oncie.jpg";
+import oncelerBoard from "stories/images/onceler-board.png";
+import reindeerEars from "stories/images/reindeer-ears.png";
+import tuxedoAvatar from "stories/images/tuxedo-mask.jpg";
 
 export default {
   title: "Editors / Post Editor",

@@ -1,7 +1,7 @@
-import React from "react";
-import Theme from "../theme/default";
 // @ts-ignore
 import Loader from "react-loader-spinner";
+import React from "react";
+import Theme from "theme/default";
 
 const Spinner: React.FC<{
   color?: string;

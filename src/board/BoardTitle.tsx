@@ -1,11 +1,10 @@
-import React from "react";
-
-import HighlightedText from "../common/HighlightedText";
-import ActionLink from "../buttons/ActionLink";
-import css from "styled-jsx/css";
-import classnames from "classnames";
+import ActionLink from "buttons/ActionLink";
+import HighlightedText from "common/HighlightedText";
 import { LinkWithAction } from "types";
-import Theme from "../theme/default";
+import React from "react";
+import Theme from "theme/default";
+import classnames from "classnames";
+import css from "styled-jsx/css";
 
 const { className: titleClassName, styles: titleStyles } = css.resolve`
   .title {

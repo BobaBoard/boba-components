@@ -1,13 +1,13 @@
 import LegacyBoardSidebar, {
   BoardSidebarProps,
-} from "../../src/board/LegacyBoardSidebar";
+} from "board/LegacyBoardSidebar";
 import { Meta, Story } from "@storybook/react";
 
-import Button from "../../src/buttons/Button";
-import DefaultTheme from "../../src/theme/default";
+import Button from "buttons/Button";
+import DefaultTheme from "theme/default";
 import React from "react";
 import { action } from "@storybook/addon-actions";
-import goreBackground from "../images/gore.png";
+import goreBackground from "stories/images/gore.png";
 
 export default {
   title: "Sidebar/Legacy Sidebar",

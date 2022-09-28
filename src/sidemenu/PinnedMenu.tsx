@@ -1,21 +1,21 @@
 import CircleButton, {
   CircleButtonProps,
   SelectLightPosition,
-} from "../buttons/CircleButton";
+} from "buttons/CircleButton";
 import DropdownListMenu, {
   DropdownProps,
   DropdownStyle,
-} from "../common/DropdownListMenu";
-import Icon, { IconProps } from "../common/Icon";
+} from "common/DropdownListMenu";
+import Icon, { IconProps } from "common/Icon";
 
-import ActionLink from "../buttons/ActionLink";
-import BoardIcon from "../board/BoardIcon";
-import { BoardType } from "../types";
-import DefaultTheme from "../theme/default";
-import LoadingPlaceholder from "../common/LoadingPlaceholder";
+import ActionLink from "buttons/ActionLink";
+import BoardIcon from "board/BoardIcon";
+import { BoardType } from "types";
+import DefaultTheme from "theme/default";
+import LoadingPlaceholder from "common/LoadingPlaceholder";
 import React from "react";
 import classNames from "classnames";
-import { extractCompounds } from "../utils/compound-utils";
+import { extractCompounds } from "utils/compound-utils";
 
 interface PinnedMenuItemProps {
   item: BoardType | CircleButtonProps;

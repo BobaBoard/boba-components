@@ -14,8 +14,8 @@ import {
 import React from "react";
 import { action } from "@storybook/addon-actions";
 import { editorArgTypes } from "../utils/editor-controls";
-import mamoruAvatar from "../images/mamoru.png";
-import tuxedoAvatar from "../images/tuxedo-mask.jpg";
+import mamoruAvatar from "stories/images/mamoru.png";
+import tuxedoAvatar from "stories/images/tuxedo-mask.jpg";
 
 export default {
   title: "Comment/Chained Comments",
@@ -55,13 +55,11 @@ ChainComment.args = {
     },
     {
       id: "689c6467-4dfd-4434-8bca-a8f1b04bc1e8",
-      text:
-        '[{"insert": "I\'m just a man of simple taste. I see half an ankle and go:"}]',
+      text: '[{"insert": "I\'m just a man of simple taste. I see half an ankle and go:"}]',
     },
     {
       id: "91648c92-d86b-4e31-86c8-5f0e3b7a04a7",
-      text:
-        '[{"insert":{"block-image":{"src":"https://media.tenor.com/images/2d4aeafd88c82922635b972e454c07d3/tenor.gif","spoilers":false,"width":320,"height":176}}},{"insert":""}]',
+      text: '[{"insert":{"block-image":{"src":"https://media.tenor.com/images/2d4aeafd88c82922635b972e454c07d3/tenor.gif","spoilers":false,"width":320,"height":176}}},{"insert":""}]',
     },
   ],
   secretIdentity: { name: "Tuxedo Mask", avatar: `/${tuxedoAvatar}` },

@@ -1,7 +1,7 @@
 import { Meta, Story } from "@storybook/react";
-import TextSection, { TextSectionProps } from "../../src/sidebar/TextSection";
+import TextSection, { TextSectionProps } from "sidebar/TextSection";
 
-import DefaultTheme from "../../src/theme/default";
+import DefaultTheme from "theme/default";
 import React from "react";
 
 export default {

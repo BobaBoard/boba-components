@@ -1,14 +1,14 @@
 import { DefaultTheme, ImageUploaderContext } from "../index";
 import Header, { HeaderStyle, PostHeaderProps } from "./Header";
-import { SecretIdentityType, UserIdentityType } from "../types";
+import { SecretIdentityType, UserIdentityType } from "types";
 import { faCheck, faCross } from "@fortawesome/free-solid-svg-icons";
 
-import Button from "../buttons/Button";
+import Button from "buttons/Button";
 import Editor from "@bobaboard/boba-editor";
 import React from "react";
-import Spinner from "../common/Spinner";
+import Spinner from "common/Spinner";
 import classNames from "classnames";
-import { prepareContentSubmission } from "../utils";
+import { prepareContentSubmission } from "utils";
 import useDimensions from "react-cool-dimensions";
 
 export const modes = {

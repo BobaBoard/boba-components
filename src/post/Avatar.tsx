@@ -1,4 +1,4 @@
-import { SecretIdentityType, UserIdentityType } from "../types";
+import { SecretIdentityType, UserIdentityType } from "types";
 
 import React from "react";
 import classnames from "classnames";

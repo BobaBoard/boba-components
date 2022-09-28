@@ -1,8 +1,8 @@
 import { Meta, Story } from "@storybook/react";
-import TagsInput, { TagsInputProps } from "../../src/tags/Tags";
+import TagsInput, { TagsInputProps } from "tags/Tags";
 
 import React from "react";
-import { TagsFactory } from "../../src/tags/TagsFactory";
+import { TagsFactory } from "tags/TagsFactory";
 
 export default {
   title: "Tags/Tags Input",

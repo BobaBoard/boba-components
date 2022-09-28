@@ -2,16 +2,14 @@ import * as TagsFilterStories from "./01-TagsSection.stories";
 import * as TextSectionStories from "./02-TextSection.stories";
 
 import { Meta, Story } from "@storybook/react";
-import SidebarSection, {
-  SidebarSectionProps,
-} from "../../src/sidebar/SidebarSection";
+import SidebarSection, { SidebarSectionProps } from "sidebar/SidebarSection";
 import TagsFilterSection, {
   DisplayTagsFilterSectionProps,
   TagsFilterSectionProps,
-} from "../../src/sidebar/TagsFilterSection";
-import TextSection, { TextSectionProps } from "../../src/sidebar/TextSection";
+} from "sidebar/TagsFilterSection";
+import TextSection, { TextSectionProps } from "sidebar/TextSection";
 
-import DefaultTheme from "../../src/theme/default";
+import DefaultTheme from "theme/default";
 import React from "react";
 import { action } from "@storybook/addon-actions";
 

@@ -1,12 +1,13 @@
-import React from "react";
-import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faAngleDown, faAngleUp } from "@fortawesome/free-solid-svg-icons";
-import DefaultTheme from "../theme/default";
-import { lightenColor } from "../utils";
-import ActionLink from "../buttons/ActionLink";
+
+import ActionLink from "buttons/ActionLink";
+import DefaultTheme from "theme/default";
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import { LinkWithAction } from "types";
+import React from "react";
 import classnames from "classnames";
 import css from "styled-jsx/css";
-import { LinkWithAction } from "types";
+import { lightenColor } from "utils";
 
 interface CollapsedPlaceholderProps {
   onUncollapseClick: LinkWithAction;
@@ -74,13 +75,11 @@ const CollapsedPlaceholder: React.FC<CollapsedPlaceholderProps> = (props) => {
     props.accentColor || DefaultTheme.INDENT_COLORS[0],
     0.07
   );
-  const {
-    styles: loadMoreStyle,
-    className: loadMoreClassName,
-  } = getLoadMoreStyle({
-    accentColor: props.accentColor || DefaultTheme.INDENT_COLORS[0],
-    hoverColor: stemHoverColor,
-  });
+  const { styles: loadMoreStyle, className: loadMoreClassName } =
+    getLoadMoreStyle({
+      accentColor: props.accentColor || DefaultTheme.INDENT_COLORS[0],
+      hoverColor: stemHoverColor,
+    });
   return (
     <div
       className={classnames("collapsed-placeholder-container", {

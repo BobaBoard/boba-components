@@ -1,7 +1,7 @@
-import Button, { ButtonStyle } from "../buttons/Button";
+import Button, { ButtonStyle } from "buttons/Button";
 import { faComment, faPlusSquare } from "@fortawesome/free-regular-svg-icons";
 
-import ActionLink from "../buttons/ActionLink";
+import ActionLink from "buttons/ActionLink";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { LinkWithAction } from "types";
 import React from "react";

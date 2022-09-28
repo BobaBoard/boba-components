@@ -1,6 +1,4 @@
-import PinnedMenu, {
-  PinnedMenuSectionProps,
-} from "../../src/sidemenu/PinnedMenu";
+import PinnedMenu, { PinnedMenuSectionProps } from "sidemenu/PinnedMenu";
 import {
   faHeart,
   faInbox,
@@ -13,14 +11,14 @@ import {
 import React from "react";
 import { Story } from "@storybook/react";
 import { action } from "@storybook/addon-actions";
-import anime from "../images/anime.png";
-import book from "../images/book.png";
-import crack from "../images/crack.png";
-import goreBackground from "../images/gore.png";
-import kinkmeme from "../images/kink-meme.png";
-import mamoru from "../images/mamoru.png";
-import meta from "../images/meta.png";
-import oncelerBoard from "../images/onceler-board.png";
+import anime from "stories/images/anime.png";
+import book from "stories/images/book.png";
+import crack from "stories/images/crack.png";
+import goreBackground from "stories/images/gore.png";
+import kinkmeme from "stories/images/kink-meme.png";
+import mamoru from "stories/images/mamoru.png";
+import meta from "stories/images/meta.png";
+import oncelerBoard from "stories/images/onceler-board.png";
 
 const PINNED_BOARDS = [
   {
@@ -118,7 +116,7 @@ const RECENT_BOARDS = [
     color: "#24d282",
     backgroundColor: "#131518",
     link: { href: "#slug", onClick: action("#slug") },
-  }
+  },
 ];
 
 export default {
@@ -169,11 +167,11 @@ Icons.args = {
       withNotification: true,
       link: { href: "#inbox", onClick: action("#inbox") },
     },
-    { 
-      id: "user options", 
-      icon: mamoru, 
-      accentColor: "red", 
-      menuOptions : [
+    {
+      id: "user options",
+      icon: mamoru,
+      accentColor: "red",
+      menuOptions: [
         {
           name: "Option 1",
           link: { onClick: () => action("userOption1")() },
@@ -181,7 +179,7 @@ Icons.args = {
         {
           name: "Option 2",
           link: { onClick: () => action("userOption2")() },
-        }
+        },
       ],
     },
     {
@@ -205,19 +203,21 @@ Mixed.args = {
       accentColor: "red",
     },
     PINNED_BOARDS[0],
-    { id: "user options", 
-    icon: mamoru, 
-    accentColor: "red", 
-    menuOptions : [
-      {
-        name: "Option 1",
-        link: { href: "#opt1", onClick: action("#opt1") },
-      },
-      {
-        name: "Option 2",
-        link: { href: "#opt2", onClick: action("#opt2") },
-      }
-    ], },
+    {
+      id: "user options",
+      icon: mamoru,
+      accentColor: "red",
+      menuOptions: [
+        {
+          name: "Option 1",
+          link: { href: "#opt1", onClick: action("#opt1") },
+        },
+        {
+          name: "Option 2",
+          link: { href: "#opt2", onClick: action("#opt2") },
+        },
+      ],
+    },
     PINNED_BOARDS[2],
     { id: "heart", icon: faHeart, accentColor: "red" },
   ],

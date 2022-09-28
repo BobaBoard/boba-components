@@ -2,14 +2,14 @@ import CommentEditor, { EditorRef } from "./CommentEditor";
 import { SecretIdentityType, UserIdentityType } from "types";
 import { faPlus, faTimes } from "@fortawesome/free-solid-svg-icons";
 
-import DefaultTheme from "../theme/default";
+import DefaultTheme from "theme/default";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { ImageUploaderContext } from "../index";
 import { PostHeaderProps } from "./Header";
 import React from "react";
 import classnames from "classnames";
 import debug from "debug";
-import { prepareContentSubmission } from "../utils";
+import { prepareContentSubmission } from "utils";
 import { useHotkeys } from "react-hotkeys-hook";
 
 const log = debug("bobaui:CommentChainEditor-log");

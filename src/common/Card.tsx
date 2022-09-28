@@ -2,14 +2,14 @@ import {
   CreateBaseCompound,
   extractCompound,
   extractRest,
-} from "../utils/compound-utils";
+} from "utils/compound-utils";
 import {
   faAngleDoubleDown,
   faAngleDoubleUp,
 } from "@fortawesome/free-solid-svg-icons";
 
 import Color from "color";
-import DefaultTheme from "../theme/default";
+import DefaultTheme from "theme/default";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import React from "react";
 import classnames from "classnames";

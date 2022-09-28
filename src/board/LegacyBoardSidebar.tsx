@@ -1,12 +1,12 @@
-import React from "react";
+import Button, { ButtonStyle } from "buttons/Button";
+import DropdownMenu, { DropdownStyle } from "common/DropdownListMenu";
 
 import BoardPreview from "./BoardPreview";
-import Tag from "../tags/Tag";
 import { LinkWithAction } from "types";
-import Button, { ButtonStyle } from "../buttons/Button";
-import DropdownMenu, { DropdownStyle } from "../common/DropdownListMenu";
-import { faCaretDown } from "@fortawesome/free-solid-svg-icons";
+import React from "react";
+import Tag from "tags/Tag";
 import classnames from "classnames";
+import { faCaretDown } from "@fortawesome/free-solid-svg-icons";
 
 const BoardSidebar: React.FC<BoardSidebarProps> = (props) => {
   return (

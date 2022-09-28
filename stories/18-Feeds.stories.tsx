@@ -1,17 +1,3 @@
-import React from "react";
-import Layout from "../src/layout/Layout";
-import SideMenu from "../src/sidemenu/SideMenu";
-import useBoos from "../src/extra/useBoos";
-import FeedWithMenu from "../src/feeds/FeedWithMenu";
-import PostingActionButton from "../src/board/PostingActionButton";
-import CycleNewButton from "../src/board/CycleNewButton";
-import BoardSidebar from "../src/board/LegacyBoardSidebar";
-import Button from "../src/buttons/Button";
-import Post from "../src/post/Post";
-import MasonryView from "../src/feeds/MasonryView";
-import { useStateWithCallbackLazy } from "use-state-with-callback";
-import CustomCursor from "../src/layout/CustomCursor";
-
 import {
   faClock,
   faInbox,
@@ -22,30 +8,39 @@ import {
   faUnlink,
 } from "@fortawesome/free-solid-svg-icons";
 
+import BoardSidebar from "board/LegacyBoardSidebar";
+import Button from "buttons/Button";
+import CustomCursor from "layout/CustomCursor";
+import CycleNewButton from "board/CycleNewButton";
+import FeedWithMenu from "feeds/FeedWithMenu";
+import Layout from "layout/Layout";
+import MasonryView from "feeds/MasonryView";
+import PinnedMenu from "sidemenu/PinnedMenu";
+import Post from "post/Post";
+import PostingActionButton from "board/PostingActionButton";
+import React from "react";
+import SideMenu from "sidemenu/SideMenu";
 import { action } from "@storybook/addon-actions";
-
-import oncelerAvatar from "./images/oncie.jpg";
-import greedlerAvatar from "./images/greedler.jpg";
-import tuxedoAvatar from "./images/tuxedo-mask.jpg";
-import mamoruAvatar from "./images/mamoru.png";
-import hannibalAvatar from "./images/hannibal.png";
-
-import goreBackground from "./images/gore.png";
-
 import anime from "./images/anime.png";
-import crack from "./images/crack.png";
-import oncelerBoard from "./images/onceler-board.png";
-import meta from "./images/meta.png";
-import book from "./images/book.png";
-import villains from "./images/villains.png";
-import kinkmeme from "./images/kink-meme.png";
 import art from "./images/art-crit.png";
-
+import book from "./images/book.png";
+import crack from "./images/crack.png";
+import debug from "debug";
+import goreBackground from "./images/gore.png";
+import greedlerAvatar from "./images/greedler.jpg";
+import hannibalAvatar from "./images/hannibal.png";
+import kinkmeme from "./images/kink-meme.png";
+import mamoruAvatar from "./images/mamoru.png";
+import meta from "./images/meta.png";
+import oncelerAvatar from "./images/oncie.jpg";
+import oncelerBoard from "./images/onceler-board.png";
 import sparkle from "./images/sparkle.gif";
+import tuxedoAvatar from "./images/tuxedo-mask.jpg";
+import useBoos from "extra/useBoos";
+import { useStateWithCallbackLazy } from "use-state-with-callback";
+import villains from "./images/villains.png";
 import wand from "./images/sailor_wand.png";
 
-import debug from "debug";
-import PinnedMenu from "../src/sidemenu/PinnedMenu";
 const log = debug("bobaui:stories:layout-log");
 
 const PINNED_BOARDS = [
@@ -431,8 +426,7 @@ const POSTS = [
   },
   {
     createdTime: "5 minutes ago",
-    text:
-      '[{"insert":"Nishin Masumi Reading Group (Week 2)"},{"attributes":{"header":1},"insert":"\\n"},{"insert":"\\nAs you know, we\'re going through \\"Host is Down\\" this week! \\n\\n"},{"attributes":{"alt":"Host is Down by Mado Fuchiya (Nishin)"},"insert":{"image":"https://i.gr-assets.com/images/S/compressed.photo.goodreads.com/books/1564868627l/50190748._SX1200_SY630_.jpg"}},{"insert":"\\n\\nThis is the official discussion thread. Feel free to comment, but remember to tag spoilers (or suffer the mods\' wrath).\\n"}]',
+    text: '[{"insert":"Nishin Masumi Reading Group (Week 2)"},{"attributes":{"header":1},"insert":"\\n"},{"insert":"\\nAs you know, we\'re going through \\"Host is Down\\" this week! \\n\\n"},{"attributes":{"alt":"Host is Down by Mado Fuchiya (Nishin)"},"insert":{"image":"https://i.gr-assets.com/images/S/compressed.photo.goodreads.com/books/1564868627l/50190748._SX1200_SY630_.jpg"}},{"insert":"\\n\\nThis is the official discussion thread. Feel free to comment, but remember to tag spoilers (or suffer the mods\' wrath).\\n"}]',
     secretIdentity: {
       name: "Good Guy",
       avatar: `/${oncelerAvatar}`,
@@ -444,8 +438,7 @@ const POSTS = [
   },
   {
     createdTime: "10 hours ago",
-    text:
-      '[{"insert":"Help a Thirsty, Thirsty Anon"},{"attributes":{"header":1},"insert":"\\n"},{"insert":"\\nI recently discovered "},{"attributes":{"link":"https://myanimelist.net/manga/115345/MADK"},"insert":"MadK"},{"insert":", and I\'ve fallen in love with the combination of beautiful art and great story. I\'ve been trying to put together a list of recs of the angstiest, goriest series out there. It\'s been surprisingly hard to find the Good Shit.\\n\\nWhat\'s your favorite series and why?\\n"}]',
+    text: '[{"insert":"Help a Thirsty, Thirsty Anon"},{"attributes":{"header":1},"insert":"\\n"},{"insert":"\\nI recently discovered "},{"attributes":{"link":"https://myanimelist.net/manga/115345/MADK"},"insert":"MadK"},{"insert":", and I\'ve fallen in love with the combination of beautiful art and great story. I\'ve been trying to put together a list of recs of the angstiest, goriest series out there. It\'s been surprisingly hard to find the Good Shit.\\n\\nWhat\'s your favorite series and why?\\n"}]',
     secretIdentity: {
       name: "Tuxedo Mask",
       avatar: `/${tuxedoAvatar}`,
@@ -464,8 +457,7 @@ const POSTS = [
   },
   {
     createdTime: "yesterday",
-    text:
-      '[{"insert":"Monthly Art Roundup"},{"attributes":{"header":1},"insert":"\\n"},{"insert":"\\nPost your favorites! As usual, remember to embed the actual posts (unless it\'s your own art, then do as you wish). Reposting is a no-no. \\n\\nI\'ll start with one of my favorite artists:\\n"},{"insert":{"tweet":"https://twitter.com/notkrad/status/1222638147886034945"}}]',
+    text: '[{"insert":"Monthly Art Roundup"},{"attributes":{"header":1},"insert":"\\n"},{"insert":"\\nPost your favorites! As usual, remember to embed the actual posts (unless it\'s your own art, then do as you wish). Reposting is a no-no. \\n\\nI\'ll start with one of my favorite artists:\\n"},{"insert":{"tweet":"https://twitter.com/notkrad/status/1222638147886034945"}}]',
     secretIdentity: {
       name: "Bad Guy",
       avatar: `/${greedlerAvatar}`,
@@ -478,8 +470,7 @@ const POSTS = [
   },
   {
     createdTime: "3 days ago",
-    text:
-      '[{"insert":{"block-image":"https://media.tenor.com/images/97b761adf7bdc9d72fc1fadbbaa3a4a6/tenor.gif"}},{"insert":"(I got inspired to write a quick cannibalism drabble. Wanted to share it and get your opinion while I decide whether to turn it into a longer fic!)\\n"}]',
+    text: '[{"insert":{"block-image":"https://media.tenor.com/images/97b761adf7bdc9d72fc1fadbbaa3a4a6/tenor.gif"}},{"insert":"(I got inspired to write a quick cannibalism drabble. Wanted to share it and get your opinion while I decide whether to turn it into a longer fic!)\\n"}]',
     secretIdentity: {
       name: "Nice Therapist",
       avatar: `/${hannibalAvatar}`,

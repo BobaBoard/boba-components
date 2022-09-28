@@ -1,9 +1,7 @@
 import Comment, { CommentHandler } from "post/Comment";
-import CompactThreadIndent, {
-  useIndent,
-} from "../src/post/CompactThreadIndent";
-import Post, { PostSizes } from "../src/post/Post";
-import Thread, { CollapseGroup } from "../src/thread/NewThread";
+import CompactThreadIndent, { useIndent } from "post/CompactThreadIndent";
+import Post, { PostSizes } from "post/Post";
+import Thread, { CollapseGroup } from "thread/NewThread";
 import {
   faAngleDoubleUp,
   faBellSlash,
@@ -13,10 +11,10 @@ import {
   faPlusSquare,
 } from "@fortawesome/free-solid-svg-icons";
 
-import CollapsedPlaceholder from "../src/thread/CollapsedPlaceholder";
+import CollapsedPlaceholder from "thread/CollapsedPlaceholder";
 import React from "react";
-import Theme from "../src/theme/default";
-import ThreadIndent from "../src/post/ThreadIndent";
+import Theme from "theme/default";
+import ThreadIndent from "post/ThreadIndent";
 import { action } from "@storybook/addon-actions";
 import greedlerAvatar from "./images/greedler.jpg";
 import hannibalAvatar from "./images/hannibal.png";
@@ -247,8 +245,7 @@ export const ThreadedComments = () => {
             comments={[
               {
                 id: "1",
-                text:
-                  '[{"insert": "[LVL 0] I mean, sure, but you know what also is great?"}]',
+                text: '[{"insert": "[LVL 0] I mean, sure, but you know what also is great?"}]',
               },
               {
                 id: "2",
@@ -273,8 +270,7 @@ export const ThreadedComments = () => {
               comments={[
                 {
                   id: "1",
-                  text:
-                    '[{"insert": "[LVL 1]I mean, sure, but you know what also is great?"}]',
+                  text: '[{"insert": "[LVL 1]I mean, sure, but you know what also is great?"}]',
                 },
                 {
                   id: "2",
@@ -296,8 +292,7 @@ export const ThreadedComments = () => {
               comments={[
                 {
                   id: "1",
-                  text:
-                    '[{"insert": "[LVL 1]I mean, sure, but you know what also is great?"}]',
+                  text: '[{"insert": "[LVL 1]I mean, sure, but you know what also is great?"}]',
                 },
                 {
                   id: "2",
@@ -322,8 +317,7 @@ export const ThreadedComments = () => {
                 comments={[
                   {
                     id: "1",
-                    text:
-                      '[{"insert": "[LVL2] I mean, sure, but you know what also is great?"}]',
+                    text: '[{"insert": "[LVL2] I mean, sure, but you know what also is great?"}]',
                   },
                   {
                     id: "2",
@@ -353,8 +347,7 @@ export const ThreadedComments = () => {
                 comments={[
                   {
                     id: "1",
-                    text:
-                      '[{"insert": "[LVL3] I mean, sure, but you know what also is great?"}]',
+                    text: '[{"insert": "[LVL3] I mean, sure, but you know what also is great?"}]',
                   },
                   {
                     id: "2",
@@ -385,8 +378,7 @@ export const ThreadedComments = () => {
               comments={[
                 {
                   id: "1",
-                  text:
-                    '[{"insert": "[LVL1] I mean, sure, but you know what also is great?"}]',
+                  text: '[{"insert": "[LVL1] I mean, sure, but you know what also is great?"}]',
                 },
                 {
                   id: "2",
@@ -437,13 +429,11 @@ export const SingleThreadedComments = () => {
               () => [
                 {
                   id: "1",
-                  text:
-                    '[{"insert": "[LVL 0] I mean, sure, but you know what also is great?"}]',
+                  text: '[{"insert": "[LVL 0] I mean, sure, but you know what also is great?"}]',
                 },
                 {
                   id: "2",
-                  text:
-                    '[{"attributes": {"inline-spoilers": true}, "insert": "Deze nuts."}]',
+                  text: '[{"attributes": {"inline-spoilers": true}, "insert": "Deze nuts."}]',
                 },
                 {
                   id: "3",
@@ -890,18 +880,15 @@ export const NewRegularThread = () => {
                                 () => [
                                   {
                                     id: "1",
-                                    text:
-                                      '[{"insert": "[LVL 0] I mean, sure, but you know what also is great?"}]',
+                                    text: '[{"insert": "[LVL 0] I mean, sure, but you know what also is great?"}]',
                                   },
                                   {
                                     id: "2",
-                                    text:
-                                      '[{"attributes": {"inline-spoilers": true}, "insert": "Deze nuts."}]',
+                                    text: '[{"attributes": {"inline-spoilers": true}, "insert": "Deze nuts."}]',
                                   },
                                   {
                                     id: "3",
-                                    text:
-                                      '[{"insert": "Wait is that how you type it?"}]',
+                                    text: '[{"insert": "Wait is that how you type it?"}]',
                                   },
                                 ],
                                 []

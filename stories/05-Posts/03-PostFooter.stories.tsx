@@ -1,4 +1,4 @@
-import Footer, { FooterProps } from "../../src/post/Footer";
+import Footer, { FooterProps } from "post/Footer";
 import { Meta, Story } from "@storybook/react";
 
 import React from "react";

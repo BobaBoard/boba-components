@@ -1,6 +1,6 @@
-import Icon, { IconProps } from "../common/Icon";
+import Icon, { IconProps } from "common/Icon";
 
-import DefaultTheme from "../theme/default";
+import DefaultTheme from "theme/default";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import React from "react";
 import classnames from "classnames";

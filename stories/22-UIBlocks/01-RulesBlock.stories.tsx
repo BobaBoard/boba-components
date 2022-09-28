@@ -1,4 +1,4 @@
-import RulesBlock, { RulesBlockProps } from "../../src/blocks/RulesBlock";
+import RulesBlock, { RulesBlockProps } from "blocks/RulesBlock";
 
 import React from "react";
 import { Story } from "@storybook/react";

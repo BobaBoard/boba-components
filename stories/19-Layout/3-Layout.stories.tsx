@@ -1,11 +1,11 @@
-import Layout, { LayoutProps } from "../../src/layout/Layout";
+import Layout, { LayoutProps } from "layout/Layout";
 import { faInbox, faSearch, faTh } from "@fortawesome/free-solid-svg-icons";
 
-import { MultipleSections } from "../20-SideMenu/01-PinnedMenu.stories";
+import { MultipleSections } from "stories/20-SideMenu/01-PinnedMenu.stories";
 import React from "react";
 import { Story } from "@storybook/react";
 import { action } from "@storybook/addon-actions";
-import mamoru from "../images/mamoru.png";
+import mamoru from "stories/images/mamoru.png";
 
 export default {
   title: "Layout / Layout Preview",
@@ -116,8 +116,7 @@ LoggedInLayout.args = {
     },
     {
       icon: faInbox,
-      name:
-        "opt2askldjaskdjaskdjaskldjaskldjaskldjaskldjaskldjaskldjaskldjaskldjaklsj",
+      name: "opt2askldjaskdjaskdjaskldjaskldjaskldjaskldjaskldjaskldjaskldjaskldjaklsj",
       link: {
         onClick: action("opt2"),
       },

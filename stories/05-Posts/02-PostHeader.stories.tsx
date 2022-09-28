@@ -1,14 +1,14 @@
-import { AccessoryType, SecretIdentityType } from "../types";
-import Header, { HeaderStyle, PostHeaderProps } from "../../src/post/Header";
+import { AccessoryType, SecretIdentityType } from "types";
+import Header, { HeaderStyle, PostHeaderProps } from "post/Header";
 import { Meta, Story } from "@storybook/react";
 
 import React from "react";
 import { action } from "@storybook/addon-actions";
-import crown from "../images/crown.png";
-import mamoruAvatar from "../images/mamoru.png";
-import oncelerAvatar from "../images/oncie.jpg";
-import reindeerEars from "../images/reindeer-ears.png";
-import tuxedoAvatar from "../images/tuxedo-mask.jpg";
+import crown from "stories/images/crown.png";
+import mamoruAvatar from "stories/images/mamoru.png";
+import oncelerAvatar from "stories/images/oncie.jpg";
+import reindeerEars from "stories/images/reindeer-ears.png";
+import tuxedoAvatar from "stories/images/tuxedo-mask.jpg";
 
 export default {
   title: "Posts/Header",
@@ -142,9 +142,8 @@ WithAccessorySelector.args = {
 };
 WithAccessorySelector.decorators = [
   (Story, storyArgs) => {
-    const [currentAccessory, setCurrentAccessory] = React.useState<
-      AccessoryType | undefined
-    >(reindeerEars);
+    const [currentAccessory, setCurrentAccessory] =
+      React.useState<AccessoryType | undefined>(reindeerEars);
 
     (storyArgs.args as PostHeaderProps).onSelectAccessory = setCurrentAccessory;
     (storyArgs.args as PostHeaderProps).accessory = currentAccessory;

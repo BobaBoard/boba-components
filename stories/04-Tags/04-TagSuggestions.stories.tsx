@@ -1,10 +1,8 @@
 import { Meta, Story } from "@storybook/react";
-import TagSuggestions, {
-  TagSuggestionsProps,
-} from "../../src/tags/TagSuggestions";
+import TagSuggestions, { TagSuggestionsProps } from "tags/TagSuggestions";
 
 import React from "react";
-import { TagType } from "../../src/types";
+import { TagType } from "types";
 import { action } from "@storybook/addon-actions";
 
 export default {

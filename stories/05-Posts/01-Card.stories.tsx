@@ -1,13 +1,14 @@
-import React from "react";
-import Card, { CardProps } from "../../src/common/Card";
-import Editor from "@bobaboard/boba-editor";
-import { Story, Meta } from "@storybook/react";
+import Card, { CardProps } from "common/Card";
 import {
-  editorArgTypes,
-  EditorControlsType,
   EDITOR_TEXT_VALUES,
+  EditorControlsType,
+  editorArgTypes,
   getInitialText,
 } from "../utils/editor-controls";
+import { Meta, Story } from "@storybook/react";
+
+import Editor from "@bobaboard/boba-editor";
+import React from "react";
 
 export default {
   title: "Posts/Card",

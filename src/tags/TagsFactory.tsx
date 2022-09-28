@@ -1,6 +1,6 @@
-import { TagType, TagsListType, TagsType } from "../types";
+import { TagType, TagsListType, TagsType } from "types";
 
-import DefaultTheme from "../theme/default";
+import DefaultTheme from "theme/default";
 import React from "react";
 import Tag from "./Tag";
 

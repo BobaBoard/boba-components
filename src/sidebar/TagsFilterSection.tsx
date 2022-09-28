@@ -1,7 +1,7 @@
-import TagsFilter, { FilteredTagsState } from "../tags/TagsFilter";
+import TagsFilter, { FilteredTagsState } from "tags/TagsFilter";
 
 import React from "react";
-import { TagType } from "../types";
+import { TagType } from "types";
 import classnames from "classnames";
 import debug from "debug";
 import noop from "noop-ts";
@@ -12,10 +12,8 @@ const log = debug("bobaui:boards:CategoryFilterSection");
 const TagsFilterSection: React.FC<TagsFilterSectionProps> & {
   FilteredTagsState: typeof FilteredTagsState;
 } = (props) => {
-  const {
-    uncategorized,
-    onUncategorizedStateChangeRequest,
-  } = props as DisplayTagsFilterSectionProps;
+  const { uncategorized, onUncategorizedStateChangeRequest } =
+    props as DisplayTagsFilterSectionProps;
 
   return (
     <div

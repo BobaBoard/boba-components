@@ -6,8 +6,8 @@ import {
   faVolumeMute,
 } from "@fortawesome/free-solid-svg-icons";
 
-import Button from "../src/buttons/Button";
-import DropdownListMenu from "../src/common/DropdownListMenu";
+import Button from "buttons/Button";
+import DropdownListMenu from "common/DropdownListMenu";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import React from "react";
 import { action } from "@storybook/addon-actions";

@@ -1,6 +1,7 @@
-import React from "react";
-import FloatingActionButton from "../buttons/FloatingActionButton";
 import { faCertificate, faSpinner } from "@fortawesome/free-solid-svg-icons";
+
+import FloatingActionButton from "buttons/FloatingActionButton";
+import React from "react";
 
 export interface CycleNewButtonProps {
   onNext: () => void;

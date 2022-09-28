@@ -1,14 +1,11 @@
+import SettingsContainer, { SettingType } from "layout/SettingsContainer";
+
+import FeedWithMenu from "feeds/FeedWithMenu";
+import Layout from "layout/Layout";
 import React from "react";
-import Layout from "../src/layout/Layout";
-import FeedWithMenu from "../src/feeds/FeedWithMenu";
-import TabsGroup from "../src/layout/TabsGroup";
-import SettingsContainer, {
-  SettingType,
-} from "../src/layout/SettingsContainer";
-
-import { faSearch } from "@fortawesome/free-solid-svg-icons";
-
+import TabsGroup from "layout/TabsGroup";
 import { action } from "@storybook/addon-actions";
+import { faSearch } from "@fortawesome/free-solid-svg-icons";
 
 export default {
   title: "Settings Preview",
@@ -20,9 +17,8 @@ export const SettingsLayout = () => {
     onClick: () => action("option")(),
     href: "https://www.youtube.com/watch?v=dQw4w9WgXcQ",
   };
-  const [globalSettingValue, setGlobalSettingValue] = React.useState<boolean>(
-    true
-  );
+  const [globalSettingValue, setGlobalSettingValue] =
+    React.useState<boolean>(true);
   const [currentSettings, setCurrentSettings] = React.useState<SettingType[]>([
     {
       type: "checkbox",

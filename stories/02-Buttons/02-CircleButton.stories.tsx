@@ -1,11 +1,9 @@
-import CircleButton, {
-  CircleButtonProps,
-} from "../../src/buttons/CircleButton";
+import CircleButton, { CircleButtonProps } from "buttons/CircleButton";
 import { Meta, Story } from "@storybook/react";
 
 import React from "react";
 import { faCoffee } from "@fortawesome/free-solid-svg-icons";
-import mamoru from "../images/mamoru.png";
+import mamoru from "stories/images/mamoru.png";
 
 export default {
   title: "Buttons/Circle Button",

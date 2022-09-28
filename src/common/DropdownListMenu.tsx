@@ -3,24 +3,24 @@ import {
   extractCompound,
   extractRest,
   hasChildren,
-} from "../utils/compound-utils";
+} from "utils/compound-utils";
 import {
   faChevronLeft,
   faChevronRight,
 } from "@fortawesome/free-solid-svg-icons";
 
-import ActionLink from "../buttons/ActionLink";
+import ActionLink from "buttons/ActionLink";
 import Color from "color";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import type { IconProp } from "@fortawesome/fontawesome-svg-core";
-import { LinkWithAction } from "../types";
+import { LinkWithAction } from "types";
 import React from "react";
 import ReactDOM from "react-dom";
-import Theme from "../theme/default";
+import Theme from "theme/default";
 import Tooltip from "./Tooltip";
 import classnames from "classnames";
 import css from "styled-jsx/css";
-import { useBackdrop } from "../utils";
+import { useBackdrop } from "utils";
 
 const { className: buttonClass, styles: buttonStyles } = css.resolve`
   button {

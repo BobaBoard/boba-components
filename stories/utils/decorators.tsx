@@ -4,10 +4,10 @@ import {
 } from "@storybook/react/dist/ts3.9/client/preview/types";
 
 import React from "react";
-import reindeerEars from "../images/reindeer-ears.png";
-import scarf from "../images/scarf.png";
-import snow from "../images/snow.gif";
-import wreath from "../images/wreath.png";
+import reindeerEars from "stories/images/reindeer-ears.png";
+import scarf from "stories/images/scarf.png";
+import snow from "stories/images/snow.gif";
+import wreath from "stories/images/wreath.png";
 
 export const WRAP_COMPACT_DECORATOR = (Story: () => StoryFnReactReturnType) => {
   return (
@@ -26,9 +26,8 @@ export const WITH_ACCESSORIES_DECORATOR = (
   Story: () => StoryFnReactReturnType,
   storyArgs: StoryContext
 ) => {
-  const [currentAccessory, setCurrentAccessory] = React.useState<
-    string | undefined
-  >(reindeerEars);
+  const [currentAccessory, setCurrentAccessory] =
+    React.useState<string | undefined>(reindeerEars);
   storyArgs.args.secretIdentity = {
     ...storyArgs.args.secretIdentity,
     accessory: currentAccessory,
