@@ -1,7 +1,12 @@
 import BoardSelector, { BoardSelectorProps } from "../tags/BoardSelector";
 import { DefaultTheme, ImageUploaderContext } from "../index";
 import Header, { HeaderStyle, PostHeaderProps } from "./Header";
-import { SecretIdentityType, TagsType, UserIdentityType } from "../types";
+import {
+  SecretIdentityType,
+  TagsListType,
+  TagsType,
+  UserIdentityType,
+} from "../types";
 import {
   faCaretDown,
   faCompressArrowsAlt,
@@ -400,12 +405,7 @@ export default PostEditor;
 
 export interface PostEditorProps {
   initialText?: string;
-  initialTags?: {
-    contentWarnings: string[];
-    categoryTags: string[];
-    whisperTags: string[];
-    indexTags: string[];
-  };
+  initialTags?: TagsListType;
   secretIdentity?: SecretIdentityType;
   userIdentity: UserIdentityType;
   additionalIdentities?: PostHeaderProps["additionalIdentities"];

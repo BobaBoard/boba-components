@@ -1,4 +1,4 @@
-import { TagType, TagsType } from "../types";
+import { TagType, TagsListType, TagsType } from "../types";
 
 import DefaultTheme from "../theme/default";
 import React from "react";
@@ -16,7 +16,8 @@ export const CONTENT_NOTICE_PREFIXES = [
 export const WHISPER_PREFIX = "»";
 
 export const INDEXABLE_TAG_COLOR = DefaultTheme.INDEX_TAG_COLOR.toLowerCase();
-export const CATEGORY_TAG_COLOR = DefaultTheme.CATEGORY_FILTER_COLOR.toLowerCase();
+export const CATEGORY_TAG_COLOR =
+  DefaultTheme.CATEGORY_FILTER_COLOR.toLowerCase();
 export const CW_TAG_COLOR = DefaultTheme.CONTENT_NOTICE_COLOR.toLowerCase();
 
 const getTagType = (tag: TagsType | TagType) => {
@@ -88,12 +89,7 @@ export class TagsFactory {
     };
   }
 
-  static getTagsFromTagObject(tagsObject?: {
-    contentWarnings: string[];
-    categoryTags: string[];
-    whisperTags: string[];
-    indexTags: string[];
-  }) {
+  static getTagsFromTagObject(tagsObject?: TagsListType) {
     if (!tagsObject) {
       return [];
     }

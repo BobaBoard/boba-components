@@ -19,6 +19,13 @@ export interface AccessoryType {
   accessory: string;
 }
 
+export interface TagsListType {
+  contentWarnings: string[];
+  categoryTags: string[];
+  whisperTags: string[];
+  indexTags: string[];
+}
+
 export interface PostDetailsType {
   text: string;
   createdTime: string;
@@ -27,12 +34,7 @@ export interface PostDetailsType {
   newPost?: boolean;
   newComments?: number;
   newContributions?: number;
-  tags?: {
-    contentWarnings: string[];
-    categoryTags: string[];
-    whisperTags: string[];
-    indexTags: string[];
-  };
+  tags?: TagsListType;
 }
 
 export enum TagType {

@@ -3,6 +3,7 @@ import Header, { HeaderStyle } from "./Header";
 import {
   LinkWithAction,
   SecretIdentityType,
+  TagsListType,
   TagsType,
   UserIdentityType,
 } from "types";
@@ -437,12 +438,7 @@ export interface PostProps {
   createdMessageIcon?: IconProps["icon"];
   secretIdentity: SecretIdentityType;
   userIdentity?: UserIdentityType;
-  tags?: {
-    contentWarnings: string[];
-    categoryTags: string[];
-    whisperTags: string[];
-    indexTags: string[];
-  };
+  tags?: TagsListType;
   reactions?: {
     image: string;
     count: number;
