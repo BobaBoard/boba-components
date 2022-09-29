@@ -1,5 +1,5 @@
-const ReactDocgenTypescriptPlugin = require("react-docgen-typescript-plugin")
-  .default;
+const ReactDocgenTypescriptPlugin =
+  require("react-docgen-typescript-plugin").default;
 const TsconfigPathsPlugin = require("tsconfig-paths-webpack-plugin");
 
 module.exports = {
@@ -9,6 +9,7 @@ module.exports = {
     "@storybook/addon-a11y",
     "@storybook/addon-essentials",
     "storybook-addon-pseudo-states",
+    "@storybook/addon-interactions",
   ],
   plugins: [
     // Will default to loading your root tsconfig.json
