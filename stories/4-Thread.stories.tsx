@@ -223,233 +223,233 @@ ShortContent.story = {
   name: "short content (flex)",
 };
 
-export const ThreadedComments = () => {
-  const lvl0Indent = useIndent();
-  const lvl1Indent = useIndent();
-  const lvl1p2Indent = useIndent();
-  const lvl2Indent = useIndent();
-  const lvl3Indent = useIndent();
-  const lvl1p3Indent = useIndent();
+// export const ThreadedComments = () => {
+//   const lvl0Indent = useIndent();
+//   const lvl1Indent = useIndent();
+//   const lvl1p2Indent = useIndent();
+//   const lvl2Indent = useIndent();
+//   const lvl3Indent = useIndent();
+//   const lvl1p3Indent = useIndent();
 
-  return (
-    <div
-      style={{
-        marginLeft: "100px",
-        backgroundColor: "Theme.LAYOUT_BOARD_BACKGROUND_COLOR",
-      }}
-    >
-      <CompactThreadIndent level={0} startsFromViewport={lvl0Indent.bounds}>
-        <div style={{ paddingTop: "15px", maxWidth: "550px" }}>
-          <Comment
-            ref={(ref) => lvl0Indent.setHandler(ref)}
-            comments={[
-              {
-                id: "1",
-                text: '[{"insert": "[LVL 0] I mean, sure, but you know what also is great?"}]',
-              },
-              {
-                id: "2",
-                text: '[{"insert": "Deze nuts."}]',
-              },
-              {
-                id: "3",
-                text: '[{"insert": "Wait is that how you type it?"}]',
-              },
-            ]}
-            secretIdentity={{
-              name: "Tuxedo Mask",
-              avatar: `/${tuxedoAvatar}`,
-            }}
-            userIdentity={{ name: "SexyDaddy69", avatar: `/${mamoruAvatar}` }}
-          />
-        </div>
-        <CompactThreadIndent level={1} startsFromViewport={lvl1Indent.bounds}>
-          <div style={{ paddingTop: "15px", opacity: 1 }}>
-            <Comment
-              ref={(ref) => lvl1Indent.setHandler(ref)}
-              comments={[
-                {
-                  id: "1",
-                  text: '[{"insert": "[LVL 1]I mean, sure, but you know what also is great?"}]',
-                },
-                {
-                  id: "2",
-                  text: '[{"insert": "Deze nuts."}]',
-                },
-                {
-                  id: "3",
-                  text: '[{"insert": "Wait is that how you type it?"}]',
-                },
-              ]}
-              secretIdentity={{
-                name: "Tuxedo Mask",
-                avatar: `/${tuxedoAvatar}`,
-              }}
-              userIdentity={{ name: "SexyDaddy69", avatar: `/${mamoruAvatar}` }}
-            />
-            <Comment
-              ref={(ref) => lvl1p2Indent.setHandler(ref)}
-              comments={[
-                {
-                  id: "1",
-                  text: '[{"insert": "[LVL 1]I mean, sure, but you know what also is great?"}]',
-                },
-                {
-                  id: "2",
-                  text: '[{"insert": "Deze nuts."}]',
-                },
-                {
-                  id: "3",
-                  text: '[{"insert": "Wait is that how you type it?"}]',
-                },
-              ]}
-              secretIdentity={{
-                name: "Tuxedo Mask",
-                avatar: `/${tuxedoAvatar}`,
-              }}
-              userIdentity={{ name: "SexyDaddy69", avatar: `/${mamoruAvatar}` }}
-            />
-          </div>{" "}
-          <CompactThreadIndent level={2} startsFromViewport={lvl2Indent.bounds}>
-            <div style={{ paddingTop: "15px", opacity: 1 }}>
-              <Comment
-                ref={(ref) => lvl2Indent.setHandler(ref)}
-                comments={[
-                  {
-                    id: "1",
-                    text: '[{"insert": "[LVL2] I mean, sure, but you know what also is great?"}]',
-                  },
-                  {
-                    id: "2",
-                    text: '[{"insert": "Deze nuts."}]',
-                  },
-                  {
-                    id: "3",
-                    text: '[{"insert": "Wait is that how you type it?"}]',
-                  },
-                ]}
-                secretIdentity={{
-                  name: "Tuxedo Mask",
-                  avatar: `/${tuxedoAvatar}`,
-                }}
-                userIdentity={{
-                  name: "SexyDaddy69",
-                  avatar: `/${mamoruAvatar}`,
-                }}
-              />
-            </div>
-            <CompactThreadIndent
-              level={3}
-              startsFromViewport={lvl3Indent.bounds}
-            >
-              <Comment
-                ref={(ref: CommentHandler | null) => lvl3Indent.setHandler(ref)}
-                comments={[
-                  {
-                    id: "1",
-                    text: '[{"insert": "[LVL3] I mean, sure, but you know what also is great?"}]',
-                  },
-                  {
-                    id: "2",
-                    text: '[{"insert": "Deze nuts."}]',
-                  },
-                  {
-                    id: "3",
-                    text: '[{"insert": "Wait is that how you type it?"}]',
-                  },
-                ]}
-                secretIdentity={{
-                  name: "Tuxedo Mask",
-                  avatar: `/${tuxedoAvatar}`,
-                }}
-                userIdentity={{
-                  name: "SexyDaddy69",
-                  avatar: `/${mamoruAvatar}`,
-                }}
-              />
-            </CompactThreadIndent>
-          </CompactThreadIndent>
-        </CompactThreadIndent>
+//   return (
+//     <div
+//       style={{
+//         marginLeft: "100px",
+//         backgroundColor: "Theme.LAYOUT_BOARD_BACKGROUND_COLOR",
+//       }}
+//     >
+//       <CompactThreadIndent level={0} startsFromViewport={lvl0Indent.bounds}>
+//         <div style={{ paddingTop: "15px", maxWidth: "550px" }}>
+//           <Comment
+//             ref={(ref) => lvl0Indent.setHandler(ref)}
+//             comments={[
+//               {
+//                 id: "1",
+//                 text: '[{"insert": "[LVL 0] I mean, sure, but you know what also is great?"}]',
+//               },
+//               {
+//                 id: "2",
+//                 text: '[{"insert": "Deze nuts."}]',
+//               },
+//               {
+//                 id: "3",
+//                 text: '[{"insert": "Wait is that how you type it?"}]',
+//               },
+//             ]}
+//             secretIdentity={{
+//               name: "Tuxedo Mask",
+//               avatar: `/${tuxedoAvatar}`,
+//             }}
+//             userIdentity={{ name: "SexyDaddy69", avatar: `/${mamoruAvatar}` }}
+//           />
+//         </div>
+//         <CompactThreadIndent level={1} startsFromViewport={lvl1Indent.bounds}>
+//           <div style={{ paddingTop: "15px", opacity: 1 }}>
+//             <Comment
+//               ref={(ref) => lvl1Indent.setHandler(ref)}
+//               comments={[
+//                 {
+//                   id: "1",
+//                   text: '[{"insert": "[LVL 1]I mean, sure, but you know what also is great?"}]',
+//                 },
+//                 {
+//                   id: "2",
+//                   text: '[{"insert": "Deze nuts."}]',
+//                 },
+//                 {
+//                   id: "3",
+//                   text: '[{"insert": "Wait is that how you type it?"}]',
+//                 },
+//               ]}
+//               secretIdentity={{
+//                 name: "Tuxedo Mask",
+//                 avatar: `/${tuxedoAvatar}`,
+//               }}
+//               userIdentity={{ name: "SexyDaddy69", avatar: `/${mamoruAvatar}` }}
+//             />
+//             <Comment
+//               ref={(ref) => lvl1p2Indent.setHandler(ref)}
+//               comments={[
+//                 {
+//                   id: "1",
+//                   text: '[{"insert": "[LVL 1]I mean, sure, but you know what also is great?"}]',
+//                 },
+//                 {
+//                   id: "2",
+//                   text: '[{"insert": "Deze nuts."}]',
+//                 },
+//                 {
+//                   id: "3",
+//                   text: '[{"insert": "Wait is that how you type it?"}]',
+//                 },
+//               ]}
+//               secretIdentity={{
+//                 name: "Tuxedo Mask",
+//                 avatar: `/${tuxedoAvatar}`,
+//               }}
+//               userIdentity={{ name: "SexyDaddy69", avatar: `/${mamoruAvatar}` }}
+//             />
+//           </div>{" "}
+//           <CompactThreadIndent level={2} startsFromViewport={lvl2Indent.bounds}>
+//             <div style={{ paddingTop: "15px", opacity: 1 }}>
+//               <Comment
+//                 ref={(ref) => lvl2Indent.setHandler(ref)}
+//                 comments={[
+//                   {
+//                     id: "1",
+//                     text: '[{"insert": "[LVL2] I mean, sure, but you know what also is great?"}]',
+//                   },
+//                   {
+//                     id: "2",
+//                     text: '[{"insert": "Deze nuts."}]',
+//                   },
+//                   {
+//                     id: "3",
+//                     text: '[{"insert": "Wait is that how you type it?"}]',
+//                   },
+//                 ]}
+//                 secretIdentity={{
+//                   name: "Tuxedo Mask",
+//                   avatar: `/${tuxedoAvatar}`,
+//                 }}
+//                 userIdentity={{
+//                   name: "SexyDaddy69",
+//                   avatar: `/${mamoruAvatar}`,
+//                 }}
+//               />
+//             </div>
+//             <CompactThreadIndent
+//               level={3}
+//               startsFromViewport={lvl3Indent.bounds}
+//             >
+//               <Comment
+//                 ref={(ref: CommentHandler | null) => lvl3Indent.setHandler(ref)}
+//                 comments={[
+//                   {
+//                     id: "1",
+//                     text: '[{"insert": "[LVL3] I mean, sure, but you know what also is great?"}]',
+//                   },
+//                   {
+//                     id: "2",
+//                     text: '[{"insert": "Deze nuts."}]',
+//                   },
+//                   {
+//                     id: "3",
+//                     text: '[{"insert": "Wait is that how you type it?"}]',
+//                   },
+//                 ]}
+//                 secretIdentity={{
+//                   name: "Tuxedo Mask",
+//                   avatar: `/${tuxedoAvatar}`,
+//                 }}
+//                 userIdentity={{
+//                   name: "SexyDaddy69",
+//                   avatar: `/${mamoruAvatar}`,
+//                 }}
+//               />
+//             </CompactThreadIndent>
+//           </CompactThreadIndent>
+//         </CompactThreadIndent>
 
-        <CompactThreadIndent level={1} startsFromViewport={lvl1p3Indent.bounds}>
-          <div style={{ paddingTop: "15px", opacity: 1 }}>
-            <Comment
-              ref={(ref) => lvl1p3Indent.setHandler(ref)}
-              comments={[
-                {
-                  id: "1",
-                  text: '[{"insert": "[LVL1] I mean, sure, but you know what also is great?"}]',
-                },
-                {
-                  id: "2",
-                  text: '[{"insert": "Deze nuts."}]',
-                },
-                {
-                  id: "3",
-                  text: '[{"insert": "Wait is that how you type it?"}]',
-                },
-              ]}
-              secretIdentity={{
-                name: "Tuxedo Mask",
-                avatar: `/${tuxedoAvatar}`,
-              }}
-              userIdentity={{ name: "SexyDaddy69", avatar: `/${mamoruAvatar}` }}
-            />
-          </div>
-        </CompactThreadIndent>
-      </CompactThreadIndent>
-    </div>
-  );
-};
+//         <CompactThreadIndent level={1} startsFromViewport={lvl1p3Indent.bounds}>
+//           <div style={{ paddingTop: "15px", opacity: 1 }}>
+//             <Comment
+//               ref={(ref) => lvl1p3Indent.setHandler(ref)}
+//               comments={[
+//                 {
+//                   id: "1",
+//                   text: '[{"insert": "[LVL1] I mean, sure, but you know what also is great?"}]',
+//                 },
+//                 {
+//                   id: "2",
+//                   text: '[{"insert": "Deze nuts."}]',
+//                 },
+//                 {
+//                   id: "3",
+//                   text: '[{"insert": "Wait is that how you type it?"}]',
+//                 },
+//               ]}
+//               secretIdentity={{
+//                 name: "Tuxedo Mask",
+//                 avatar: `/${tuxedoAvatar}`,
+//               }}
+//               userIdentity={{ name: "SexyDaddy69", avatar: `/${mamoruAvatar}` }}
+//             />
+//           </div>
+//         </CompactThreadIndent>
+//       </CompactThreadIndent>
+//     </div>
+//   );
+// };
 
-ThreadedComments.story = {
-  name: "comments",
-};
+// ThreadedComments.story = {
+//   name: "comments",
+// };
 
 const TUXEDO_MASK_IDENTITY = {
   name: "Tuxedo Mask",
   avatar: `/${tuxedoAvatar}`,
 };
 const MAMORU_IDENTITY = { name: "SexyDaddy69", avatar: `/${mamoruAvatar}` };
-export const SingleThreadedComments = () => {
-  const lvl0Indent = useIndent();
+// export const SingleThreadedComments = () => {
+//   const lvl0Indent = useIndent();
 
-  return (
-    <div
-      style={{
-        marginLeft: "100px",
-        backgroundColor: "Theme.LAYOUT_BOARD_BACKGROUND_COLOR",
-      }}
-    >
-      <CompactThreadIndent level={0} startsFromViewport={lvl0Indent.bounds}>
-        <div style={{ paddingTop: "15px", maxWidth: "550px" }}>
-          <Comment
-            ref={(ref) => lvl0Indent.setHandler(ref)}
-            comments={React.useMemo(
-              () => [
-                {
-                  id: "1",
-                  text: '[{"insert": "[LVL 0] I mean, sure, but you know what also is great?"}]',
-                },
-                {
-                  id: "2",
-                  text: '[{"attributes": {"inline-spoilers": true}, "insert": "Deze nuts."}]',
-                },
-                {
-                  id: "3",
-                  text: '[{"insert": "Wait is that how you type it?"}]',
-                },
-              ],
-              []
-            )}
-            secretIdentity={TUXEDO_MASK_IDENTITY}
-            userIdentity={MAMORU_IDENTITY}
-          />
-        </div>
-      </CompactThreadIndent>
-    </div>
-  );
-};
+//   return (
+//     <div
+//       style={{
+//         marginLeft: "100px",
+//         backgroundColor: "Theme.LAYOUT_BOARD_BACKGROUND_COLOR",
+//       }}
+//     >
+//       <CompactThreadIndent level={0} startsFromViewport={lvl0Indent.bounds}>
+//         <div style={{ paddingTop: "15px", maxWidth: "550px" }}>
+//           <Comment
+//             ref={(ref) => lvl0Indent.setHandler(ref)}
+//             comments={React.useMemo(
+//               () => [
+//                 {
+//                   id: "1",
+//                   text: '[{"insert": "[LVL 0] I mean, sure, but you know what also is great?"}]',
+//                 },
+//                 {
+//                   id: "2",
+//                   text: '[{"attributes": {"inline-spoilers": true}, "insert": "Deze nuts."}]',
+//                 },
+//                 {
+//                   id: "3",
+//                   text: '[{"insert": "Wait is that how you type it?"}]',
+//                 },
+//               ],
+//               []
+//             )}
+//             secretIdentity={TUXEDO_MASK_IDENTITY}
+//             userIdentity={MAMORU_IDENTITY}
+//           />
+//         </div>
+//       </CompactThreadIndent>
+//     </div>
+//   );
+// };
 
 export const CollapsePlaceholderStory = () => {
   return (
@@ -767,270 +767,270 @@ export const NewThreadStory = () => {
   );
 };
 
-export const NewRegularThread = () => {
-  const lvl0Indent = useIndent();
-  return (
-    <div
-      style={{
-        marginLeft: "100px",
-        backgroundColor: Theme.LAYOUT_BOARD_BACKGROUND_COLOR,
-      }}
-    >
-      <Thread
-        onCollapseLevel={(levelId) => {}}
-        onUncollapseLevel={(levelId) => {}}
-        getCollapseReason={() => {
-          return <div>Subthread manually hidden.</div>;
-        }}
-        getStemOptions={(levelId) => {
-          return [
-            {
-              name: "Collapse",
-              icon: faCompressArrowsAlt,
-              link: {
-                onClick: () => {},
-              },
-            },
-            {
-              name: "Beam up",
-              icon: faAngleDoubleUp,
-              link: {
-                href: "#href",
-                onClick: action("noHrefClick"),
-              },
-            },
-            {
-              name: "Add Contrib",
-              icon: faPlusSquare,
-              link: {
-                onClick: action("noHrefClick"),
-              },
-            },
-          ];
-        }}
-      >
-        {(setBoundaryElement) => (
-          <>
-            <div style={{ paddingTop: "15px", maxWidth: "550px" }}>
-              <Post
-                createdTime="2019/05/14 at 7:34pm"
-                text={
-                  '[{"insert":"Open RP"},{"attributes":{"header":1},"insert":"\\n"},{"insert":{"block-image":"https://cdn.discordapp.com/attachments/443967088118333442/691486081895628830/unknown.png"}}, {"attributes":{"italic":true},"insert":"You have my sword..."}]'
-                }
-                secretIdentity={{
-                  name: "Tuxedo Mask",
-                  avatar: `/${tuxedoAvatar}`,
-                }}
-                userIdentity={{
-                  name: "SexyDaddy69",
-                  avatar: `/${mamoruAvatar}`,
-                }}
-                onNewContribution={() => console.log("click!")}
-                onNewComment={() => console.log("click!")}
-                newComments={3}
-                newContributions={5}
-                ref={(ref) =>
-                  setBoundaryElement(ref?.avatarRef?.current || null)
-                }
-              />
-            </div>
-            <Thread.Indent id="level-1">
-              <Thread.Item>
-                {(setBoundaryElement) => (
-                  <>
-                    <div style={{ paddingTop: "15px", opacity: 0.7 }}>
-                      <Post
-                        createdTime="2019/05/14 at 7:34pm"
-                        text={
-                          '[{"insert":{"block-image":"https://si.wsj.net/public/resources/images/BN-GA217_legola_G_20141215080444.jpg"}}, {"attributes":{"italic":true}, "insert":"...and my bow..."}]'
-                        }
-                        secretIdentity={{
-                          name: "Nice Therapist",
-                          avatar: `/${hannibalAvatar}`,
-                        }}
-                        userIdentity={{
-                          name: "xXxChesapeakeRipperxXx",
-                          avatar: `/${hannibalAvatar}`,
-                        }}
-                        onNewContribution={() => console.log("click!")}
-                        onNewComment={() => console.log("click!")}
-                        collapsed
-                        ref={(ref) =>
-                          setBoundaryElement(ref?.avatarRef?.current || null)
-                        }
-                      />
-                    </div>
-                    <Thread.Indent id="level1-1">
-                      <Thread.Item>
-                        <div
-                          style={{
-                            paddingTop: "15px",
-                            marginLeft: "30px",
-                            maxWidth: "550px",
-                            pointerEvents: "none",
-                          }}
-                        >
-                          <CompactThreadIndent
-                            level={0}
-                            startsFromViewport={lvl0Indent.bounds}
-                          >
-                            <Comment
-                              ref={(ref) => lvl0Indent.setHandler(ref)}
-                              comments={React.useMemo(
-                                () => [
-                                  {
-                                    id: "1",
-                                    text: '[{"insert": "[LVL 0] I mean, sure, but you know what also is great?"}]',
-                                  },
-                                  {
-                                    id: "2",
-                                    text: '[{"attributes": {"inline-spoilers": true}, "insert": "Deze nuts."}]',
-                                  },
-                                  {
-                                    id: "3",
-                                    text: '[{"insert": "Wait is that how you type it?"}]',
-                                  },
-                                ],
-                                []
-                              )}
-                              secretIdentity={TUXEDO_MASK_IDENTITY}
-                              userIdentity={MAMORU_IDENTITY}
-                            />
-                          </CompactThreadIndent>
-                        </div>
-                      </Thread.Item>
-                      <Thread.Item>
-                        {(setBoundaryElement) => (
-                          <>
-                            <div
-                              style={{ paddingTop: "15px", maxWidth: "550px" }}
-                            >
-                              <Post
-                                createdTime="2019/05/14 at 7:34pm"
-                                text={
-                                  '[{"insert":{"block-image":"https://cdn.discordapp.com/attachments/443967088118333442/691401632940032040/AbJqbbOwrc74AAAAAElFTkSuQmCC.png"}}]'
-                                }
-                                secretIdentity={{
-                                  name: "Bad Guy",
-                                  avatar: `/${greedlerAvatar}`,
-                                }}
-                                onNewContribution={() => console.log("click!")}
-                                onNewComment={() => console.log("click!")}
-                                muted
-                                answerable
-                                ref={(ref) =>
-                                  setBoundaryElement(
-                                    ref?.avatarRef?.current || null
-                                  )
-                                }
-                              />
-                            </div>
-                          </>
-                        )}
-                      </Thread.Item>
-                    </Thread.Indent>
-                  </>
-                )}
-              </Thread.Item>
-              <Thread.Item>
-                {(setBoundaryElement) => (
-                  <>
-                    <div
-                      style={{
-                        paddingTop: "15px",
-                        maxWidth: "550px",
-                      }}
-                    >
-                      <Post
-                        createdTime="2019/05/14 at 7:34pm"
-                        text={
-                          '[{"insert":{"block-image":"https://si.wsj.net/public/resources/images/BN-GA217_legola_G_20141215080444.jpg"}}, {"attributes":{"italic":true}, "insert":"...and my bow..."}]'
-                        }
-                        secretIdentity={{
-                          name: "Nice Therapist",
-                          avatar: `/${hannibalAvatar}`,
-                        }}
-                        userIdentity={{
-                          name: "xXxChesapeakeRipperxXx",
-                          avatar: `/${hannibalAvatar}`,
-                        }}
-                        onNewContribution={() => console.log("click!")}
-                        onNewComment={() => console.log("click!")}
-                        ref={(ref) =>
-                          setBoundaryElement(ref?.avatarRef?.current || null)
-                        }
-                      />
-                    </div>
-                    <Thread.Indent id="level1-1-1">
-                      <Thread.Item>
-                        {(setBoundaryElement) => (
-                          <>
-                            <div
-                              style={{ paddingTop: "15px", maxWidth: "550px" }}
-                            >
-                              <Post
-                                createdTime="2019/05/14 at 7:34pm"
-                                text={
-                                  '[{"insert":{"block-image":"https://cdn.discordapp.com/attachments/443967088118333442/691401632940032040/AbJqbbOwrc74AAAAAElFTkSuQmCC.png"}}]'
-                                }
-                                secretIdentity={{
-                                  name: "Bad Guy",
-                                  avatar: `/${greedlerAvatar}`,
-                                }}
-                                onNewContribution={() => console.log("click!")}
-                                onNewComment={() => console.log("click!")}
-                                muted
-                                answerable
-                                ref={(ref) =>
-                                  setBoundaryElement(
-                                    ref?.avatarRef?.current || null
-                                  )
-                                }
-                              />
-                            </div>
-                            <Thread.Indent id="level1-1-1">
-                              <Thread.Item>
-                                {(setBoundaryElement) => (
-                                  <div
-                                    style={{
-                                      paddingTop: "15px",
-                                      maxWidth: "550px",
-                                    }}
-                                  >
-                                    <Post
-                                      createdTime="2019/05/14 at 7:34pm"
-                                      text={
-                                        '[{"insert":{"block-image":"https://littlelessonslearned.files.wordpress.com/2012/03/the-lorax-pic091.jpg"}}]'
-                                      }
-                                      secretIdentity={{
-                                        name: "Bad Guy",
-                                        avatar: `/${greedlerAvatar}`,
-                                      }}
-                                      onNewContribution={() =>
-                                        console.log("click!")
-                                      }
-                                      onNewComment={() => console.log("click!")}
-                                      ref={(ref) =>
-                                        setBoundaryElement(
-                                          ref?.avatarRef?.current || null
-                                        )
-                                      }
-                                    />
-                                  </div>
-                                )}
-                              </Thread.Item>
-                            </Thread.Indent>
-                          </>
-                        )}
-                      </Thread.Item>
-                    </Thread.Indent>
-                  </>
-                )}
-              </Thread.Item>
-            </Thread.Indent>
-          </>
-        )}
-      </Thread>
-    </div>
-  );
-};
+// export const NewRegularThread = () => {
+//   const lvl0Indent = useIndent();
+//   return (
+//     <div
+//       style={{
+//         marginLeft: "100px",
+//         backgroundColor: Theme.LAYOUT_BOARD_BACKGROUND_COLOR,
+//       }}
+//     >
+//       <Thread
+//         onCollapseLevel={(levelId) => {}}
+//         onUncollapseLevel={(levelId) => {}}
+//         getCollapseReason={() => {
+//           return <div>Subthread manually hidden.</div>;
+//         }}
+//         getStemOptions={(levelId) => {
+//           return [
+//             {
+//               name: "Collapse",
+//               icon: faCompressArrowsAlt,
+//               link: {
+//                 onClick: () => {},
+//               },
+//             },
+//             {
+//               name: "Beam up",
+//               icon: faAngleDoubleUp,
+//               link: {
+//                 href: "#href",
+//                 onClick: action("noHrefClick"),
+//               },
+//             },
+//             {
+//               name: "Add Contrib",
+//               icon: faPlusSquare,
+//               link: {
+//                 onClick: action("noHrefClick"),
+//               },
+//             },
+//           ];
+//         }}
+//       >
+//         {(setBoundaryElement) => (
+//           <>
+//             <div style={{ paddingTop: "15px", maxWidth: "550px" }}>
+//               <Post
+//                 createdTime="2019/05/14 at 7:34pm"
+//                 text={
+//                   '[{"insert":"Open RP"},{"attributes":{"header":1},"insert":"\\n"},{"insert":{"block-image":"https://cdn.discordapp.com/attachments/443967088118333442/691486081895628830/unknown.png"}}, {"attributes":{"italic":true},"insert":"You have my sword..."}]'
+//                 }
+//                 secretIdentity={{
+//                   name: "Tuxedo Mask",
+//                   avatar: `/${tuxedoAvatar}`,
+//                 }}
+//                 userIdentity={{
+//                   name: "SexyDaddy69",
+//                   avatar: `/${mamoruAvatar}`,
+//                 }}
+//                 onNewContribution={() => console.log("click!")}
+//                 onNewComment={() => console.log("click!")}
+//                 newComments={3}
+//                 newContributions={5}
+//                 ref={(ref) =>
+//                   setBoundaryElement(ref?.avatarRef?.current || null)
+//                 }
+//               />
+//             </div>
+//             <Thread.Indent id="level-1">
+//               <Thread.Item>
+//                 {(setBoundaryElement) => (
+//                   <>
+//                     <div style={{ paddingTop: "15px", opacity: 0.7 }}>
+//                       <Post
+//                         createdTime="2019/05/14 at 7:34pm"
+//                         text={
+//                           '[{"insert":{"block-image":"https://si.wsj.net/public/resources/images/BN-GA217_legola_G_20141215080444.jpg"}}, {"attributes":{"italic":true}, "insert":"...and my bow..."}]'
+//                         }
+//                         secretIdentity={{
+//                           name: "Nice Therapist",
+//                           avatar: `/${hannibalAvatar}`,
+//                         }}
+//                         userIdentity={{
+//                           name: "xXxChesapeakeRipperxXx",
+//                           avatar: `/${hannibalAvatar}`,
+//                         }}
+//                         onNewContribution={() => console.log("click!")}
+//                         onNewComment={() => console.log("click!")}
+//                         collapsed
+//                         ref={(ref) =>
+//                           setBoundaryElement(ref?.avatarRef?.current || null)
+//                         }
+//                       />
+//                     </div>
+//                     <Thread.Indent id="level1-1">
+//                       <Thread.Item>
+//                         <div
+//                           style={{
+//                             paddingTop: "15px",
+//                             marginLeft: "30px",
+//                             maxWidth: "550px",
+//                             pointerEvents: "none",
+//                           }}
+//                         >
+//                           <CompactThreadIndent
+//                             level={0}
+//                             startsFromViewport={lvl0Indent.bounds}
+//                           >
+//                             <Comment
+//                               ref={(ref) => lvl0Indent.setHandler(ref)}
+//                               comments={React.useMemo(
+//                                 () => [
+//                                   {
+//                                     id: "1",
+//                                     text: '[{"insert": "[LVL 0] I mean, sure, but you know what also is great?"}]',
+//                                   },
+//                                   {
+//                                     id: "2",
+//                                     text: '[{"attributes": {"inline-spoilers": true}, "insert": "Deze nuts."}]',
+//                                   },
+//                                   {
+//                                     id: "3",
+//                                     text: '[{"insert": "Wait is that how you type it?"}]',
+//                                   },
+//                                 ],
+//                                 []
+//                               )}
+//                               secretIdentity={TUXEDO_MASK_IDENTITY}
+//                               userIdentity={MAMORU_IDENTITY}
+//                             />
+//                           </CompactThreadIndent>
+//                         </div>
+//                       </Thread.Item>
+//                       <Thread.Item>
+//                         {(setBoundaryElement) => (
+//                           <>
+//                             <div
+//                               style={{ paddingTop: "15px", maxWidth: "550px" }}
+//                             >
+//                               <Post
+//                                 createdTime="2019/05/14 at 7:34pm"
+//                                 text={
+//                                   '[{"insert":{"block-image":"https://cdn.discordapp.com/attachments/443967088118333442/691401632940032040/AbJqbbOwrc74AAAAAElFTkSuQmCC.png"}}]'
+//                                 }
+//                                 secretIdentity={{
+//                                   name: "Bad Guy",
+//                                   avatar: `/${greedlerAvatar}`,
+//                                 }}
+//                                 onNewContribution={() => console.log("click!")}
+//                                 onNewComment={() => console.log("click!")}
+//                                 muted
+//                                 answerable
+//                                 ref={(ref) =>
+//                                   setBoundaryElement(
+//                                     ref?.avatarRef?.current || null
+//                                   )
+//                                 }
+//                               />
+//                             </div>
+//                           </>
+//                         )}
+//                       </Thread.Item>
+//                     </Thread.Indent>
+//                   </>
+//                 )}
+//               </Thread.Item>
+//               <Thread.Item>
+//                 {(setBoundaryElement) => (
+//                   <>
+//                     <div
+//                       style={{
+//                         paddingTop: "15px",
+//                         maxWidth: "550px",
+//                       }}
+//                     >
+//                       <Post
+//                         createdTime="2019/05/14 at 7:34pm"
+//                         text={
+//                           '[{"insert":{"block-image":"https://si.wsj.net/public/resources/images/BN-GA217_legola_G_20141215080444.jpg"}}, {"attributes":{"italic":true}, "insert":"...and my bow..."}]'
+//                         }
+//                         secretIdentity={{
+//                           name: "Nice Therapist",
+//                           avatar: `/${hannibalAvatar}`,
+//                         }}
+//                         userIdentity={{
+//                           name: "xXxChesapeakeRipperxXx",
+//                           avatar: `/${hannibalAvatar}`,
+//                         }}
+//                         onNewContribution={() => console.log("click!")}
+//                         onNewComment={() => console.log("click!")}
+//                         ref={(ref) =>
+//                           setBoundaryElement(ref?.avatarRef?.current || null)
+//                         }
+//                       />
+//                     </div>
+//                     <Thread.Indent id="level1-1-1">
+//                       <Thread.Item>
+//                         {(setBoundaryElement) => (
+//                           <>
+//                             <div
+//                               style={{ paddingTop: "15px", maxWidth: "550px" }}
+//                             >
+//                               <Post
+//                                 createdTime="2019/05/14 at 7:34pm"
+//                                 text={
+//                                   '[{"insert":{"block-image":"https://cdn.discordapp.com/attachments/443967088118333442/691401632940032040/AbJqbbOwrc74AAAAAElFTkSuQmCC.png"}}]'
+//                                 }
+//                                 secretIdentity={{
+//                                   name: "Bad Guy",
+//                                   avatar: `/${greedlerAvatar}`,
+//                                 }}
+//                                 onNewContribution={() => console.log("click!")}
+//                                 onNewComment={() => console.log("click!")}
+//                                 muted
+//                                 answerable
+//                                 ref={(ref) =>
+//                                   setBoundaryElement(
+//                                     ref?.avatarRef?.current || null
+//                                   )
+//                                 }
+//                               />
+//                             </div>
+//                             <Thread.Indent id="level1-1-1">
+//                               <Thread.Item>
+//                                 {(setBoundaryElement) => (
+//                                   <div
+//                                     style={{
+//                                       paddingTop: "15px",
+//                                       maxWidth: "550px",
+//                                     }}
+//                                   >
+//                                     <Post
+//                                       createdTime="2019/05/14 at 7:34pm"
+//                                       text={
+//                                         '[{"insert":{"block-image":"https://littlelessonslearned.files.wordpress.com/2012/03/the-lorax-pic091.jpg"}}]'
+//                                       }
+//                                       secretIdentity={{
+//                                         name: "Bad Guy",
+//                                         avatar: `/${greedlerAvatar}`,
+//                                       }}
+//                                       onNewContribution={() =>
+//                                         console.log("click!")
+//                                       }
+//                                       onNewComment={() => console.log("click!")}
+//                                       ref={(ref) =>
+//                                         setBoundaryElement(
+//                                           ref?.avatarRef?.current || null
+//                                         )
+//                                       }
+//                                     />
+//                                   </div>
+//                                 )}
+//                               </Thread.Item>
+//                             </Thread.Indent>
+//                           </>
+//                         )}
+//                       </Thread.Item>
+//                     </Thread.Indent>
+//                   </>
+//                 )}
+//               </Thread.Item>
+//             </Thread.Indent>
+//           </>
+//         )}
+//       </Thread>
+//     </div>
+//   );
+// };
