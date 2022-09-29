@@ -121,7 +121,7 @@ const PostFooter: React.FC<PostProps> = (props) => {
 const MemoizedFooter = React.memo(PostFooter);
 const Post = React.forwardRef<PostHandler, PostProps>((props, ref) => {
   const containerRef = React.useRef<HTMLDivElement>(null);
-  const avatarRef = React.createRef<HTMLDivElement>();
+  const avatarRef = React.createRef<HTMLImageElement>();
   const hasUpdate =
     props.newComments || props.newContributions || props.newPost;
 
@@ -423,7 +423,7 @@ export default Post;
 
 export interface PostHandler {
   highlight: (color: string) => void;
-  avatarRef?: React.RefObject<HTMLDivElement>;
+  avatarRef?: React.RefObject<HTMLImageElement>;
 }
 
 export interface PostProps {

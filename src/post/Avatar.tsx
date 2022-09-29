@@ -4,7 +4,7 @@ import React from "react";
 import classnames from "classnames";
 import questionMark from "images/question_mark.png";
 
-const Avatar = React.forwardRef<HTMLDivElement, AvatarProps>((props, ref) => {
+const Avatar = React.forwardRef<HTMLImageElement, AvatarProps>((props, ref) => {
   const visibleSecretAvatar = !props.forceHide && props.userIdentity?.avatar;
   const currentAvatar = props.forceHide
     ? props.secretIdentity?.avatar
@@ -17,36 +17,34 @@ const Avatar = React.forwardRef<HTMLDivElement, AvatarProps>((props, ref) => {
         compact: props.compact,
       })}
     >
-      <div className={classnames("avatar-wrapper")}>
-        <div
-          className={classnames("avatar", {
-            "with-secret": visibleSecretAvatar,
-            "with-border": !!props.secretIdentity?.color,
-          })}
-          ref={ref}
-          role="img"
-          aria-label="The avatar of the secret identity"
-          data-testid="secret-identity-avatar"
+      <img
+        className={classnames("avatar", {
+          "with-secret": visibleSecretAvatar,
+          "with-border": !!props.secretIdentity?.color,
+        })}
+        src={secretAvatar}
+        ref={ref}
+        aria-label="The avatar of the secret identity"
+      />
+      {props.secretIdentity?.accessory && (
+        <img
+          src={props.secretIdentity?.accessory}
+          className="accessory"
+          aria-label="The secret identity accessory"
         />
-        {props.secretIdentity?.accessory && (
-          <img
-            src={props.secretIdentity?.accessory}
-            className="accessory"
-            aria-label="The secret identity accessory"
-          />
-        )}
-        <div
-          className={classnames("secret-avatar", {
-            visible: visibleSecretAvatar,
-          })}
-          aria-label="The avatar of the user identity"
-        />
-      </div>
+      )}
+      <img
+        className={classnames("secret-avatar", {
+          visible: visibleSecretAvatar,
+        })}
+        src={currentAvatar}
+        aria-label="The avatar of the user identity"
+      />
       <style jsx>{`
         .avatar-container * {
           box-sizing: border-box;
         }
-        .avatar-wrapper {
+        .avatar-container {
           position: relative;
         }
         .accessory {
@@ -65,16 +63,13 @@ const Avatar = React.forwardRef<HTMLDivElement, AvatarProps>((props, ref) => {
           width: 40px;
           height: 40px;
           display: block;
-          background: url("${secretAvatar}");
-          background-size: cover;
+          object-fit: cover;
           border-radius: 50%;
           margin-right: 5px;
         }
         .avatar.with-border {
           border: 2px solid
             ${props.secretIdentity ? props.secretIdentity.color : "transparent"};
-        }
-        .avatar:not(.with-secret) {
         }
         .avatar.with-secret {
           mask: linear-gradient(0deg, rgba(0, 0, 0, 0), rgba(0, 0, 0, 0)),
@@ -108,8 +103,7 @@ const Avatar = React.forwardRef<HTMLDivElement, AvatarProps>((props, ref) => {
           width: 22px;
           height: 22px;
           display: none;
-          background: url("${currentAvatar}");
-          background-size: cover;
+          object-fit: cover;
           border-radius: 50%;
         }
         .avatar-container.compact .secret-avatar {

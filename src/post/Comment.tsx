@@ -91,7 +91,7 @@ const Comment = React.forwardRef<CommentHandler, CommentProps>(
     ref
   ) => {
     const headerRef = React.useRef<HTMLDivElement>(null);
-    const avatarRef = React.useRef<HTMLDivElement>(null);
+    const avatarRef = React.useRef<HTMLImageElement>(null);
     const commentContainerRef = React.useRef<HTMLDivElement>(null);
 
     React.useImperativeHandle(ref, () => ({
