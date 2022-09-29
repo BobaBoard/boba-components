@@ -115,7 +115,6 @@ const PostHeader = React.forwardRef<HTMLImageElement, PostHeaderProps>(
       <div
         className={classnames("header-container", {
           compact: isCompact,
-          "with-accessory-select": !!props.accessories?.length,
         })}
       >
         <UserMetadata
@@ -157,9 +156,6 @@ const PostHeader = React.forwardRef<HTMLImageElement, PostHeaderProps>(
           }
           .header-container.compact {
             align-items: center;
-          }
-          .header-containetypeIconr.compact.with-accessory-select {
-            margin-bottom: 7px;
           }
         `}</style>
       </div>
