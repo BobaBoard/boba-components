@@ -184,8 +184,4 @@ export interface PostHeaderProps {
   createdMessageIcon?: IconProps["icon"];
   createdMessageLink?: LinkWithAction;
   forceHide?: boolean;
-  newPost?: boolean;
-  newComments?: boolean;
-  newContributions?: boolean;
-  backgroundColor?: string;
 }
