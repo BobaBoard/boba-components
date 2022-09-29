@@ -89,7 +89,7 @@ const useIdentitySelectionOptions = (props: {
   return identityOptions;
 };
 
-const PostHeader = React.forwardRef<HTMLDivElement, PostHeaderProps>(
+const PostHeader = React.forwardRef<HTMLImageElement, PostHeaderProps>(
   (props, avatarRef) => {
     info(`Rendering post header`);
     const isCompact = props.size == HeaderStyle.COMPACT;

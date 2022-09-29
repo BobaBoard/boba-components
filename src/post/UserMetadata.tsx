@@ -167,7 +167,7 @@ const IdentityMetadata: React.FC<UserMetadataProps & AccessorySelectionProps> =
   };
 
 const UserMetadata = React.forwardRef<
-  HTMLDivElement,
+  HTMLImageElement,
   UserMetadataProps & AccessorySelectionProps
 >((props, avatarRef) => {
   const {
