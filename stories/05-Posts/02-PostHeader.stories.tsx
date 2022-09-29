@@ -1,6 +1,7 @@
 import { AccessoryType, SecretIdentityType } from "types";
 import Header, { HeaderStyle, PostHeaderProps } from "post/Header";
 import { Meta, Story } from "@storybook/react";
+import { screen, userEvent, within } from "@storybook/testing-library";
 
 import React from "react";
 import { action } from "@storybook/addon-actions";
@@ -8,6 +9,7 @@ import crown from "stories/images/crown.png";
 import mamoruAvatar from "stories/images/mamoru.png";
 import oncelerAvatar from "stories/images/oncie.jpg";
 import reindeerEars from "stories/images/reindeer-ears.png";
+import { sleep } from "../utils/test-utils";
 import tuxedoAvatar from "stories/images/tuxedo-mask.jpg";
 
 export default {
@@ -119,6 +121,19 @@ WithIdentitySelector.decorators = [
     return <Story />;
   },
 ];
+
+WithIdentitySelector.play = async () => {
+  const largeComponent = screen.getByTestId("large-container");
+  const smallComponent = screen.getByTestId("small-container");
+  await sleep(1000);
+  await userEvent.click(within(largeComponent).getByRole("button"));
+  await sleep(1000);
+  await userEvent.click(largeComponent);
+  await sleep(2000);
+  await userEvent.click(within(smallComponent).getByRole("button"));
+  await sleep(1000);
+  await userEvent.click(largeComponent);
+};
 
 export const WithAccessorySelector = HeaderTemplate.bind({});
 WithAccessorySelector.args = {
