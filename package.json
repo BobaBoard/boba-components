@@ -15,13 +15,16 @@
     "build-storybook": "build-storybook",
     "visual-testing": "backstop test",
     "approve-visuals": "backstop approve",
-    "postinstall": "patch-package"
+    "postinstall": "patch-package",
+    "chromatic": "npx chromatic --project-token=CHROMATIC_PROJECT_TOKEN"
   },
   "repository": {
     "type": "git",
     "url": "git+https://github.com/essential-randomness/bobaboard-ui.git"
   },
-  "author": "Essential Randomness",
+  "author": {
+    "name": "Essential Randomness"
+  },
   "license": "mit",
   "bugs": {
     "url": "https://github.com/essential-randomness/bobaboard-ui/issues"
@@ -110,6 +113,7 @@
     "babel-loader": "^8.1.0",
     "babel-preset-react-app": "^9.1.2",
     "backstopjs": "^5.0.1",
+    "chromatic": "^6.10.1",
     "cross-env": "^7.0.2",
     "css-loader": "^6.7.1",
     "eslint": "^8.7.0",
