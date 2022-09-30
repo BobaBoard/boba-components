@@ -31,7 +31,6 @@ const PostContent: React.FC<
             userIdentity={props.userIdentity}
             createdMessage={`${props.createdTime}`}
             size={HeaderStyle.REGULAR}
-            newPost={props.newPost}
           />
         </div>
       )}
