@@ -6,6 +6,7 @@ import { screen, userEvent, within } from "@storybook/testing-library";
 import React from "react";
 import { action } from "@storybook/addon-actions";
 import crown from "stories/images/crown.png";
+import { faBacon } from "@fortawesome/free-solid-svg-icons";
 import mamoruAvatar from "stories/images/mamoru.png";
 import oncelerAvatar from "stories/images/oncie.jpg";
 import reindeerEars from "stories/images/reindeer-ears.png";
@@ -66,7 +67,10 @@ export const WithUserIdentity = HeaderTemplate.bind({});
 WithUserIdentity.args = {
   ...RegularHeader.args,
   secretIdentity: { name: "Tuxedo Mask", avatar: `/${tuxedoAvatar}` },
-  userIdentity: { name: "SexyDaddy69", avatar: `/${mamoruAvatar}` },
+  userIdentity: {
+    name: "SexyDaddyWithTheVeryVeryVeryLongName69",
+    avatar: `/${mamoruAvatar}`,
+  },
 };
 
 export const WithForceHideUserIdentity = HeaderTemplate.bind({});
@@ -89,7 +93,7 @@ export const WithIdentitySelector = HeaderTemplate.bind({});
 WithIdentitySelector.args = {
   ...WithUserIdentity.args,
   secretIdentity: {
-    name: "Tuxedo Mask, the one and only",
+    name: "Tuxedo Mask, the one, the only, the legend",
     avatar: `/${tuxedoAvatar}`,
   },
   additionalIdentities: [
@@ -121,7 +125,6 @@ WithIdentitySelector.decorators = [
     return <Story />;
   },
 ];
-
 WithIdentitySelector.play = async () => {
   const largeComponent = screen.getByTestId("large-container");
   const smallComponent = screen.getByTestId("small-container");
@@ -138,10 +141,7 @@ WithIdentitySelector.play = async () => {
 export const WithAccessorySelector = HeaderTemplate.bind({});
 WithAccessorySelector.args = {
   ...WithUserIdentity.args,
-  secretIdentity: {
-    name: "Tuxedo Mask, the one and only",
-    avatar: `/${tuxedoAvatar}`,
-  },
+  secretIdentity: WithIdentitySelector.args.secretIdentity,
   accessories: [
     {
       id: "ac1",
@@ -165,6 +165,30 @@ WithAccessorySelector.decorators = [
     return <Story />;
   },
 ];
+WithAccessorySelector.play = async () => {
+  const largeComponent = screen.getByTestId("large-container");
+  const smallComponent = screen.getByTestId("small-container");
+  await sleep(1000);
+  await userEvent.click(
+    within(largeComponent).getByLabelText("Select accessory")
+  );
+  await sleep(1000);
+  await userEvent.click(largeComponent);
+  await sleep(2000);
+  await userEvent.click(
+    within(smallComponent).getByLabelText("Select accessory")
+  );
+  await sleep(1000);
+  await userEvent.click(largeComponent);
+};
+
+export const WithThemAll = HeaderTemplate.bind({});
+WithThemAll.args = {
+  ...WithIdentitySelector.args,
+  ...WithAccessorySelector.args,
+  createdMessageIcon: faBacon,
+};
+WithThemAll.decorators = WithAccessorySelector.decorators;
 
 export const CompactHeader = HeaderTemplate.bind({});
 CompactHeader.args = {
