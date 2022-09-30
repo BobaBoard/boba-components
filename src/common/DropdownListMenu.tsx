@@ -66,6 +66,7 @@ export interface DropdownProps {
   zIndex?: number;
   onOpen?: () => void;
   label?: string;
+  buttonClassName?: string;
 }
 
 const isSmallScreen = () => {
@@ -572,7 +573,7 @@ const DropdownMenu: React.FC<DropdownProps> & {
         border={TOOLTIP_BORDER}
       >
         <button
-          className={classnames("button-wrapper", {
+          className={classnames("button-wrapper", props.buttonClassName, {
             "with-options": props.options?.length,
             "with-header": header,
           })}
