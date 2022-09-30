@@ -43,11 +43,11 @@ const useAccessoriesOptions = (props: {
   return accessoryOptions;
 };
 
-interface AccessorySelectorProps {
+export interface AccessorySelectorProps {
   accessories: AccessoryType[];
   onSelectAccessory: (accessory: AccessoryType | undefined) => void;
-  currentAccessory?: AccessoryType | string;
-  size: UserMetadataStyle;
+  selectedAccessory?: AccessoryType | string;
+  size?: UserMetadataStyle;
 }
 
 const AccessorySelector: React.FC<AccessorySelectorProps> = (props) => {
@@ -60,10 +60,10 @@ const AccessorySelector: React.FC<AccessorySelectorProps> = (props) => {
     return null;
   }
 
-  const currentAccessoryDisplayName = props.currentAccessory
-    ? typeof props.currentAccessory == "string"
+  const selectedAccessoryDisplayName = props.selectedAccessory
+    ? typeof props.selectedAccessory == "string"
       ? "Unknown"
-      : props.currentAccessory.name
+      : props.selectedAccessory.name
     : "None";
   return (
     <DropdownListMenu
@@ -74,7 +74,7 @@ const AccessorySelector: React.FC<AccessorySelectorProps> = (props) => {
       <>
         <div
           className={classnames("equip", {
-            empty: !props.currentAccessory,
+            empty: !props.selectedAccessory,
             compact: props.size == UserMetadataStyle.COMPACT,
           })}
         >
@@ -83,7 +83,7 @@ const AccessorySelector: React.FC<AccessorySelectorProps> = (props) => {
             <>
               <span className="title">Equip: </span>
               <span className="accessory-name">
-                {currentAccessoryDisplayName}
+                {selectedAccessoryDisplayName}
               </span>
               <Icon icon={faCaretDown} />
             </>
@@ -98,8 +98,11 @@ const AccessorySelector: React.FC<AccessorySelectorProps> = (props) => {
             align-items: center;
             color: ${DefaultTheme.POST_HEADER_USERNAME_COLOR};
             background-color: #efefef;
-            width: 150px;
+            width: min(100%, 160px);
             padding: 2px 3px 2px 8px;
+          }
+          .equip :global(*) {
+            box-sizing: border-box;
           }
           .equip :global(svg) {
             margin-right: 3px;
@@ -139,9 +142,6 @@ const AccessorySelector: React.FC<AccessorySelectorProps> = (props) => {
             }
             .equip.not(.compact) :global(svg) {
               margin-right: 5px;
-            }
-            .equip {
-              width: 100px;
             }
           }
         `}</style>

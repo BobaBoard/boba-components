@@ -129,6 +129,11 @@ const IdentityMetadata: React.FC<UserMetadataProps> = (props) => {
             position: relative;
             width: 100%;
           }
+          @media only screen and (max-width: 450px) {
+            .metadata {
+              grid-template-columns: 30px 1fr 80px;
+            }
+          }
           :not(.with-accessory-selector) .secret-identity {
             grid-column-start: secret-identity-start;
             grid-column-end: accessory-selector-end;
