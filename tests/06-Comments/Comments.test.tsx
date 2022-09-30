@@ -28,17 +28,7 @@ describe("Chain Comment", () => {
 
     expect(
       screen.getByLabelText("The avatar of the secret identity")
-    ).toHaveStyle(
-      `background-image: url(${
-        CompactChainComment.args!.secretIdentity!.avatar
-      })`
-    );
-
-    expect(
-      screen.getByLabelText("The avatar of the user identity")
-    ).toHaveStyle(
-      `background-image: url(${CompactChainComment.args!.userIdentity!.avatar})`
-    );
+    ).toHaveAttribute("src", CompactChainComment.args!.secretIdentity!.avatar);
 
     CompactChainComment.args!.comments?.forEach((comment) => {
       expect(screen.getByText(DeltaMatcher(comment.text))).toBeVisible();

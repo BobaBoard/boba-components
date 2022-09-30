@@ -40,8 +40,9 @@ const verifySecretIdentity = (render: RenderResult, story: Story) => {
   );
 
   expect(secretIdentityElement).not.toBeNull();
-  expect(secretIdentityAvatar).toHaveStyle(
-    `background-image: url(${story.args!.secretIdentity!.avatar})`
+  expect(secretIdentityAvatar).toHaveAttribute(
+    "src",
+    story.args!.secretIdentity!.avatar
   );
 
   return { secretIdentityElement, secretIdentityAvatar };
@@ -57,8 +58,9 @@ const verifyUserIdentity = (render: RenderResult, story: Story) => {
     "The avatar of the user identity"
   );
   expect(userIdentityElement).not.toBeNull();
-  expect(userIdentityAvatar).toHaveStyle(
-    `background-image: url(${story.args!.userIdentity!.avatar})`
+  expect(userIdentityAvatar).toHaveAttribute(
+    "src",
+    story.args!.userIdentity!.avatar
   );
   return { userIdentityElement, userIdentityAvatar };
 };
