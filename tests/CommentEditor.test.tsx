@@ -35,8 +35,9 @@ test("Renders user identity", () => {
     getContainer(),
     "The avatar of the user identity"
   );
-  expect(userIdentityAvatar).toHaveStyle(
-    `background-image: url(${Base.args!.userIdentity!.avatar})`
+  expect(userIdentityAvatar).toHaveAttribute(
+    "src",
+    Base.args!.userIdentity!.avatar
   );
 });
 
@@ -46,10 +47,9 @@ test("Renders default secret identity", () => {
     getContainer(),
     "The avatar of the secret identity"
   );
-  expect(secretIdentityAvatar).toHaveStyle(
-    `background-image: url(${
-      WithDefaultSecretIdentity.args!.secretIdentity!.avatar
-    })`
+  expect(secretIdentityAvatar).toHaveAttribute(
+    "src",
+    WithDefaultSecretIdentity.args!.secretIdentity!.avatar
   );
 });
 
@@ -82,10 +82,9 @@ test("Renders alternative identities and allows their selection", async () => {
       getContainer(),
       "The avatar of the secret identity"
     );
-    expect(secretIdentityAvatar).toHaveStyle(
-      `background-image: url(${
-        WithIdentitySelector.args!.additionalIdentities![1].avatar
-      })`
+    expect(secretIdentityAvatar).toHaveAttribute(
+      "src",
+      WithIdentitySelector.args!.additionalIdentities![1].avatar
     );
     expect(
       getByLabelText(getContainer(), "The secret identity accessory")
