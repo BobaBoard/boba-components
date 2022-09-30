@@ -131,11 +131,11 @@ WithIdentitySelector.play = async () => {
   await sleep(1000);
   await userEvent.click(within(largeComponent).getByRole("button"));
   await sleep(1000);
-  await userEvent.click(largeComponent);
+  await userEvent.click(screen.getByRole("presentation"));
   await sleep(2000);
   await userEvent.click(within(smallComponent).getByRole("button"));
   await sleep(1000);
-  await userEvent.click(largeComponent);
+  await userEvent.click(screen.getByRole("presentation"));
 };
 
 export const WithAccessorySelector = HeaderTemplate.bind({});
@@ -173,13 +173,13 @@ WithAccessorySelector.play = async () => {
     within(largeComponent).getByLabelText("Select accessory")
   );
   await sleep(1000);
-  await userEvent.click(largeComponent);
+  await userEvent.click(screen.getByRole("presentation"));
   await sleep(2000);
   await userEvent.click(
     within(smallComponent).getByLabelText("Select accessory")
   );
   await sleep(1000);
-  await userEvent.click(largeComponent);
+  await userEvent.click(screen.getByRole("presentation"));
 };
 
 export const WithThemAll = HeaderTemplate.bind({});

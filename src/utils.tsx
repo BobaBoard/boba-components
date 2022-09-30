@@ -98,6 +98,7 @@ const maybeCreateBackdropNode = (id: string, onClick: () => void) => {
   backdropNode.style.left = "0";
   backdropNode.style.right = "0";
   backdropNode.style.display = "none";
+  backdropNode.setAttribute("role", "presentation");
   document.body.appendChild(backdropNode);
 
   backdropNode.addEventListener("click", (e) => {
