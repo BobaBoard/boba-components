@@ -185,7 +185,6 @@ const Post = React.forwardRef<PostHandler, PostProps>((props, ref) => {
                   createdMessage={props.createdTime}
                   createdMessageLink={props.createdTimeLink}
                   size={HeaderStyle.REGULAR}
-                  backgroundColor={props.muted ? "#dcdcdc" : undefined}
                   forceHide={props.forceHideIdentity}
                   createdMessageIcon={props.createdMessageIcon}
                 />
