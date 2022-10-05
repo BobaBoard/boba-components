@@ -8,6 +8,7 @@ import Post from "post/Post";
 import PostingActionButton from "board/PostingActionButton";
 import React from "react";
 import Tag from "tags/Tag";
+import { action } from "@storybook/addon-actions";
 import mamoruAvatar from "./images/mamoru.png";
 import tuxedoAvatar from "./images/tuxedo-mask.jpg";
 
@@ -16,7 +17,7 @@ export default {
   component: Layout,
 };
 
-const NewPostsFeed = (props) => {
+const NewPostsFeed = () => {
   return (
     <>
       {" "}
@@ -33,13 +34,21 @@ const NewPostsFeed = (props) => {
           name: "SexyDaddy69",
           avatar: `/${mamoruAvatar}`,
         }}
-        onNewContribution={() => console.log("click!")}
-        onNewComment={() => console.log("click!")}
-        onNotesClick={() => console.log("click")}
-        notesUrl={"#"}
+        onNewContribution={action("onNewContribution")}
+        onNewComment={action("onNewComment")}
+        notesLink={{
+          onClick: action("notesLink"),
+          href: "#href",
+        }}
+        createdTimeLink={{
+          onClick: action("createdTime"),
+          href: "https://www.youtube.com/watch?v=dQw4w9WgXcQ",
+        }}
         tags={{
           whisperTags: [],
           indexTags: [],
+          contentWarnings: [],
+          categoryTags: [],
         }}
         totalContributions={0}
         directContributions={0}
@@ -59,15 +68,21 @@ const NewPostsFeed = (props) => {
           name: "SexyDaddy69",
           avatar: `/${mamoruAvatar}`,
         }}
-        onNewContribution={() => console.log("click!")}
-        onNewComment={() => console.log("click!")}
-        onNotesClick={() => console.log("click")}
-        notesUrl={"#"}
+        onNewContribution={action("onNewContribution")}
+        onNewComment={action("onNewComment")}
+        notesLink={{
+          onClick: action("notesLink"),
+          href: "#href",
+        }}
+        createdTimeLink={{
+          onClick: action("createdTime"),
+          href: "https://www.youtube.com/watch?v=dQw4w9WgXcQ",
+        }}
         tags={{
-          whisperTags: [
-            "we interrupt your scheduled Nadia route to bring you some Julian",
-          ],
+          whisperTags: [],
           indexTags: [],
+          contentWarnings: [],
+          categoryTags: [],
         }}
         totalContributions={0}
         directContributions={0}
@@ -88,13 +103,21 @@ const NewPostsFeed = (props) => {
           name: "SexyDaddy69",
           avatar: `/${mamoruAvatar}`,
         }}
-        onNewContribution={() => console.log("click!")}
-        onNewComment={() => console.log("click!")}
-        onNotesClick={() => console.log("click")}
-        notesUrl={"#"}
+        onNewContribution={action("onNewContribution")}
+        onNewComment={action("onNewComment")}
+        notesLink={{
+          onClick: action("notesLink"),
+          href: "#href",
+        }}
+        createdTimeLink={{
+          onClick: action("createdTime"),
+          href: "https://www.youtube.com/watch?v=dQw4w9WgXcQ",
+        }}
         tags={{
-          whisperTags: ["BEACH EPISODE GO"],
+          whisperTags: [],
           indexTags: [],
+          contentWarnings: [],
+          categoryTags: [],
         }}
         totalContributions={5}
         directContributions={3}
@@ -107,7 +130,7 @@ const NewPostsFeed = (props) => {
   );
 };
 
-const UpdatedPostsFeed = (props) => {
+const UpdatedPostsFeed = () => {
   return (
     <>
       <Post
@@ -123,10 +146,22 @@ const UpdatedPostsFeed = (props) => {
           name: "SexyDaddy69",
           avatar: `/${mamoruAvatar}`,
         }}
-        onNewContribution={() => console.log("click!")}
-        onNewComment={() => console.log("click!")}
-        onNotesClick={() => console.log("click")}
-        notesUrl={"#"}
+        onNewContribution={action("onNewContribution")}
+        onNewComment={action("onNewComment")}
+        notesLink={{
+          onClick: action("notesLink"),
+          href: "#href",
+        }}
+        createdTimeLink={{
+          onClick: action("createdTime"),
+          href: "https://www.youtube.com/watch?v=dQw4w9WgXcQ",
+        }}
+        tags={{
+          whisperTags: [],
+          indexTags: [],
+          contentWarnings: [],
+          categoryTags: [],
+        }}
         totalContributions={15}
         directContributions={3}
         totalComments={5}
@@ -146,13 +181,21 @@ const UpdatedPostsFeed = (props) => {
           name: "SexyDaddy69",
           avatar: `/${mamoruAvatar}`,
         }}
-        onNewContribution={() => console.log("click!")}
-        onNewComment={() => console.log("click!")}
-        onNotesClick={() => console.log("click")}
-        notesUrl={"#"}
+        onNewContribution={action("onNewContribution")}
+        onNewComment={action("onNewComment")}
+        notesLink={{
+          onClick: action("notesLink"),
+          href: "#href",
+        }}
+        createdTimeLink={{
+          onClick: action("createdTime"),
+          href: "https://www.youtube.com/watch?v=dQw4w9WgXcQ",
+        }}
         tags={{
           whisperTags: [],
           indexTags: [],
+          contentWarnings: [],
+          categoryTags: [],
         }}
         totalContributions={0}
         directContributions={0}
@@ -172,15 +215,21 @@ const UpdatedPostsFeed = (props) => {
           name: "SexyDaddy69",
           avatar: `/${mamoruAvatar}`,
         }}
-        onNewContribution={() => console.log("click!")}
-        onNewComment={() => console.log("click!")}
-        onNotesClick={() => console.log("click")}
-        notesUrl={"#"}
+        onNewContribution={action("onNewContribution")}
+        onNewComment={action("onNewComment")}
+        notesLink={{
+          onClick: action("notesLink"),
+          href: "#href",
+        }}
+        createdTimeLink={{
+          onClick: action("createdTime"),
+          href: "https://www.youtube.com/watch?v=dQw4w9WgXcQ",
+        }}
         tags={{
-          whisperTags: [
-            "we interrupt your scheduled Nadia route to bring you some Julian",
-          ],
+          whisperTags: [],
           indexTags: [],
+          contentWarnings: [],
+          categoryTags: [],
         }}
         totalContributions={0}
         directContributions={0}
@@ -201,13 +250,21 @@ const UpdatedPostsFeed = (props) => {
           name: "SexyDaddy69",
           avatar: `/${mamoruAvatar}`,
         }}
-        onNewContribution={() => console.log("click!")}
-        onNewComment={() => console.log("click!")}
-        onNotesClick={() => console.log("click")}
-        notesUrl={"#"}
+        onNewContribution={action("onNewContribution")}
+        onNewComment={action("onNewComment")}
+        notesLink={{
+          onClick: action("notesLink"),
+          href: "#href",
+        }}
+        createdTimeLink={{
+          onClick: action("createdTime"),
+          href: "https://www.youtube.com/watch?v=dQw4w9WgXcQ",
+        }}
         tags={{
-          whisperTags: ["BEACH EPISODE GO"],
+          whisperTags: [],
           indexTags: [],
+          contentWarnings: [],
+          categoryTags: [],
         }}
         totalContributions={5}
         directContributions={3}
@@ -236,13 +293,21 @@ export const AllPost = () => {
           name: "SexyDaddy69",
           avatar: `/${mamoruAvatar}`,
         }}
-        onNewContribution={() => console.log("click!")}
-        onNewComment={() => console.log("click!")}
-        onNotesClick={() => console.log("click")}
-        notesUrl={"#"}
+        onNewContribution={action("onNewContribution")}
+        onNewComment={action("onNewComment")}
+        notesLink={{
+          onClick: action("notesLink"),
+          href: "#href",
+        }}
+        createdTimeLink={{
+          onClick: action("createdTime"),
+          href: "https://www.youtube.com/watch?v=dQw4w9WgXcQ",
+        }}
         tags={{
           whisperTags: ["I'm ready to get dommed"],
           indexTags: [],
+          categoryTags: [],
+          contentWarnings: [],
         }}
         totalContributions={15}
         directContributions={3}
@@ -260,10 +325,16 @@ export const AllPost = () => {
           name: "SexyDaddy69",
           avatar: `/${mamoruAvatar}`,
         }}
-        onNewContribution={() => console.log("click!")}
-        onNewComment={() => console.log("click!")}
-        onNotesClick={() => console.log("click")}
-        notesUrl={"#"}
+        onNewContribution={action("onNewContribution")}
+        onNewComment={action("onNewComment")}
+        notesLink={{
+          onClick: action("notesLink"),
+          href: "#href",
+        }}
+        createdTimeLink={{
+          onClick: action("createdTime"),
+          href: "https://www.youtube.com/watch?v=dQw4w9WgXcQ",
+        }}
         totalContributions={15}
         directContributions={3}
         totalComments={5}
@@ -283,13 +354,21 @@ export const AllPost = () => {
           name: "SexyDaddy69",
           avatar: `/${mamoruAvatar}`,
         }}
-        onNewContribution={() => console.log("click!")}
-        onNewComment={() => console.log("click!")}
-        onNotesClick={() => console.log("click")}
-        notesUrl={"#"}
+        onNewContribution={action("onNewContribution")}
+        onNewComment={action("onNewComment")}
+        notesLink={{
+          onClick: action("notesLink"),
+          href: "#href",
+        }}
+        createdTimeLink={{
+          onClick: action("createdTime"),
+          href: "https://www.youtube.com/watch?v=dQw4w9WgXcQ",
+        }}
         tags={{
           whisperTags: ["he's such an asshole usually", "i'm still suspicious"],
           indexTags: [],
+          categoryTags: [],
+          contentWarnings: [],
         }}
         totalContributions={15}
         directContributions={3}
@@ -307,13 +386,21 @@ export const AllPost = () => {
           name: "SexyDaddy69",
           avatar: `/${mamoruAvatar}`,
         }}
-        onNewContribution={() => console.log("click!")}
-        onNewComment={() => console.log("click!")}
-        onNotesClick={() => console.log("click")}
-        notesUrl={"#"}
+        onNewContribution={action("onNewContribution")}
+        onNewComment={action("onNewComment")}
+        notesLink={{
+          onClick: action("notesLink"),
+          href: "#href",
+        }}
+        createdTimeLink={{
+          onClick: action("createdTime"),
+          href: "https://www.youtube.com/watch?v=dQw4w9WgXcQ",
+        }}
         tags={{
           whisperTags: [],
           indexTags: [],
+          contentWarnings: [],
+          categoryTags: [],
         }}
         totalContributions={0}
         directContributions={0}
@@ -333,15 +420,23 @@ export const AllPost = () => {
           name: "SexyDaddy69",
           avatar: `/${mamoruAvatar}`,
         }}
-        onNewContribution={() => console.log("click!")}
-        onNewComment={() => console.log("click!")}
-        onNotesClick={() => console.log("click")}
-        notesUrl={"#"}
+        onNewContribution={action("onNewContribution")}
+        onNewComment={action("onNewComment")}
+        notesLink={{
+          onClick: action("notesLink"),
+          href: "#href",
+        }}
+        createdTimeLink={{
+          onClick: action("createdTime"),
+          href: "https://www.youtube.com/watch?v=dQw4w9WgXcQ",
+        }}
         tags={{
           whisperTags: [
             "we interrupt your scheduled Nadia route to bring you some Julian",
           ],
           indexTags: [],
+          contentWarnings: [],
+          categoryTags: [],
         }}
         totalContributions={0}
         directContributions={0}
@@ -362,13 +457,21 @@ export const AllPost = () => {
           name: "SexyDaddy69",
           avatar: `/${mamoruAvatar}`,
         }}
-        onNewContribution={() => console.log("click!")}
-        onNewComment={() => console.log("click!")}
-        onNotesClick={() => console.log("click")}
-        notesUrl={"#"}
+        onNewContribution={action("onNewContribution")}
+        onNewComment={action("onNewComment")}
+        notesLink={{
+          onClick: action("notesLink"),
+          href: "#href",
+        }}
+        createdTimeLink={{
+          onClick: action("createdTime"),
+          href: "https://www.youtube.com/watch?v=dQw4w9WgXcQ",
+        }}
         tags={{
           whisperTags: ["BEACH EPISODE GO"],
           indexTags: [],
+          categoryTags: [],
+          contentWarnings: [],
         }}
         totalContributions={5}
         directContributions={3}
@@ -381,178 +484,180 @@ export const AllPost = () => {
   );
 };
 
-enum DisplayType {
-  NEW,
-  UPDATED,
-  ALL,
-}
+// This is so outdated that it's totally broken and should just completely get reworked when updating to the new story format
 
-export const Attempt1 = () => {
-  const [showSidebar, setShowSidebar] = React.useState(false);
-  const [displayType, setDisplayType] = React.useState(DisplayType.NEW);
-  return (
-    <>
-      <Layout
-        mainContent={
-          <FeedWithMenu
-            sidebarContent={<div></div>}
-            feedContent={
-              <div className="feed-content">
-                <div className="intro">
-                  <Editor
-                    initialText={JSON.parse(
-                      '[{"insert":"It\'s real arcana hours~"},{"attributes":{"header":1},"insert":"\\n"},{"insert":"\\n"},{"insert":{"image":"https://uploads.jovemnerd.com.br/wp-content/uploads/2020/06/the-arcana-30dias-30dicas.jpg"}},{"insert":"\\n\\ni\'ve already played partway through some of the routes but haven\'t finished any yet, so i\'ll liveblog all of them at least a little\\n\\ni\'m not finishing any route before muriel\'s (meaning that on other routes, i\'ll only go as far as his latest book)"},{"attributes":{"list":"ordered"},"insert":"\\n"},{"insert":"i don\'t mind spoilers at all, so feel free to reply with anything that might be one"},{"attributes":{"list":"ordered"},"insert":"\\n"}]'
-                    )}
-                    editable={false}
-                    focus={false}
-                    onSubmit={() => {}}
-                    onTextChange={() => {}}
-                  />
-                  <div className="tags">
-                    <Tag name="The Arcana" symbol="!" compact color="#40e0d0" />
-                    <Tag name="Videogames" symbol="!" compact color="#40e0d0" />
-                    <Tag
-                      name="Spoilers Beware"
-                      symbol="#"
-                      compact
-                      highlightColor="white"
-                    />
-                    <Tag
-                      name="CWs mostly untagged"
-                      symbol="#"
-                      compact
-                      highlightColor="white"
-                    />
-                    <Tag
-                      name="read at your own risk"
-                      symbol="#"
-                      compact
-                      highlightColor="white"
-                    />
-                  </div>
-                  <h3>Collection Categories</h3>
-                  <div className="categories">
-                    <Tag color="#cf436d" name="Nadia" symbol="+" />
-                    <Tag color="#e85c49" name="Asra" symbol="+" />
-                    <Tag color="#de0137" name="Julian" symbol="+" />
-                    <Tag color="#376135" name="Muriel" symbol="+" />
-                    <Tag color="#efc78c" name="BaeWatch" symbol="+" />
-                    <Tag color="#6c43bc" name="Ramblings" symbol="+" />
-                  </div>
-                </div>
+// enum DisplayType {
+//   NEW,
+//   UPDATED,
+//   ALL,
+// }
 
-                <div className="title">
-                  <div className="feed-type">
-                    <Button
-                      theme={
-                        displayType == DisplayType.NEW
-                          ? ButtonStyle.LIGHT
-                          : ButtonStyle.DARK
-                      }
-                      color="#40e0d0"
-                      onClick={() => setDisplayType(DisplayType.NEW)}
-                      updates={3}
-                    >
-                      New
-                    </Button>
-                    <Button
-                      theme={
-                        displayType == DisplayType.UPDATED
-                          ? ButtonStyle.LIGHT
-                          : ButtonStyle.DARK
-                      }
-                      color="#40e0d0"
-                      onClick={() => setDisplayType(DisplayType.UPDATED)}
-                      updates={4}
-                    >
-                      Updates
-                    </Button>
-                    <Button
-                      theme={
-                        displayType == DisplayType.ALL
-                          ? ButtonStyle.LIGHT
-                          : ButtonStyle.DARK
-                      }
-                      color="#40e0d0"
-                      onClick={() => setDisplayType(DisplayType.ALL)}
-                    >
-                      All
-                    </Button>
-                  </div>
-                </div>
-                {displayType == DisplayType.NEW && <NewPostsFeed />}
-                {displayType == DisplayType.UPDATED && <UpdatedPostsFeed />}
-                {displayType == DisplayType.ALL && <AllPost />}
-              </div>
-            }
-          />
-        }
-        sideMenuContent={<div>The usual!</div>}
-        actionButton={
-          <PostingActionButton
-            accentColor="#40e0d0"
-            onNewPost={() => console.log("hi!")}
-          />
-        }
-        headerAccent="#40e0d0"
-        title="!liveblogging"
-        onLogoClick={() => console.log("clack")}
-        onTitleClick={() => {
-          setShowSidebar(!showSidebar);
-        }}
-        onUserBarClick={() => console.log("userbar click!")}
-        loggedInMenuOptions={[
-          { name: "opt1", onClick: () => console.log("opt1 click!") },
-          { name: "opt2", onClick: () => console.log("opt2 click!") },
-        ]}
-        user={{
-          username: "SexyDaddy69",
-          avatarUrl: mamoruAvatar,
-        }}
-      />
-      <style jsx>{`
-        .intro {
-          max-width: 500px;
-          color: white !important;
-          border-radius: 25px;
-          padding: 10px;
-          margin: 0 auto;
-        }
-        .categories {
-          margin: 20px auto;
-          max-width: 500px;
-          width: 100%;
-          display: grid;
-          /* Define Auto Row size */
-          grid-auto-rows: 40px;
-          /*Define our columns */
-          grid-template-columns: repeat(auto-fill, 130px);
-          grid-gap: 1em;
-          text-align: center;
-        }
-        .tags {
-          margin-top: 10px;
-        }
-        .tags > :global(div),
-        .categories > :global(div) {
-          margin-left: 5px;
-          margin-bottom: 5px;
-        }
-        .feed-type {
-          margin-bottom: 20px;
-          max-width: 300px;
-          display: flex;
-          justify-content: space-around;
-          margin: 0 auto;
-        }
-        :global(.post-container) {
-          margin-top: 20px;
-        }
-      `}</style>
-    </>
-  );
-};
+// export const Attempt1 = () => {
+//   const [showSidebar, setShowSidebar] = React.useState(false);
+//   const [displayType, setDisplayType] = React.useState(DisplayType.NEW);
+//   return (
+//     <>
+//       <Layout
+//         mainContent={
+//           <FeedWithMenu
+//             sidebarContent={<div></div>}
+//             feedContent={
+//               <div className="feed-content">
+//                 <div className="intro">
+//                   <Editor
+//                     initialText={JSON.parse(
+//                       '[{"insert":"It\'s real arcana hours~"},{"attributes":{"header":1},"insert":"\\n"},{"insert":"\\n"},{"insert":{"image":"https://uploads.jovemnerd.com.br/wp-content/uploads/2020/06/the-arcana-30dias-30dicas.jpg"}},{"insert":"\\n\\ni\'ve already played partway through some of the routes but haven\'t finished any yet, so i\'ll liveblog all of them at least a little\\n\\ni\'m not finishing any route before muriel\'s (meaning that on other routes, i\'ll only go as far as his latest book)"},{"attributes":{"list":"ordered"},"insert":"\\n"},{"insert":"i don\'t mind spoilers at all, so feel free to reply with anything that might be one"},{"attributes":{"list":"ordered"},"insert":"\\n"}]'
+//                     )}
+//                     editable={false}
+//                     focus={false}
+//                     onSubmit={() => {}}
+//                     onTextChange={() => {}}
+//                   />
+//                   <div className="tags">
+//                     <Tag name="The Arcana" symbol="!" compact color="#40e0d0" />
+//                     <Tag name="Videogames" symbol="!" compact color="#40e0d0" />
+//                     <Tag
+//                       name="Spoilers Beware"
+//                       symbol="#"
+//                       compact
+//                       highlightColor="white"
+//                     />
+//                     <Tag
+//                       name="CWs mostly untagged"
+//                       symbol="#"
+//                       compact
+//                       highlightColor="white"
+//                     />
+//                     <Tag
+//                       name="read at your own risk"
+//                       symbol="#"
+//                       compact
+//                       highlightColor="white"
+//                     />
+//                   </div>
+//                   <h3>Collection Categories</h3>
+//                   <div className="categories">
+//                     <Tag color="#cf436d" name="Nadia" symbol="+" />
+//                     <Tag color="#e85c49" name="Asra" symbol="+" />
+//                     <Tag color="#de0137" name="Julian" symbol="+" />
+//                     <Tag color="#376135" name="Muriel" symbol="+" />
+//                     <Tag color="#efc78c" name="BaeWatch" symbol="+" />
+//                     <Tag color="#6c43bc" name="Ramblings" symbol="+" />
+//                   </div>
+//                 </div>
 
-Attempt1.story = {
-  name: "there was an attempt",
-};
+//                 <div className="title">
+//                   <div className="feed-type">
+//                     <Button
+//                       theme={
+//                         displayType == DisplayType.NEW
+//                           ? ButtonStyle.LIGHT
+//                           : ButtonStyle.DARK
+//                       }
+//                       color="#40e0d0"
+//                       onClick={() => setDisplayType(DisplayType.NEW)}
+//                       updates={3}
+//                     >
+//                       New
+//                     </Button>
+//                     <Button
+//                       theme={
+//                         displayType == DisplayType.UPDATED
+//                           ? ButtonStyle.LIGHT
+//                           : ButtonStyle.DARK
+//                       }
+//                       color="#40e0d0"
+//                       onClick={() => setDisplayType(DisplayType.UPDATED)}
+//                       updates={4}
+//                     >
+//                       Updates
+//                     </Button>
+//                     <Button
+//                       theme={
+//                         displayType == DisplayType.ALL
+//                           ? ButtonStyle.LIGHT
+//                           : ButtonStyle.DARK
+//                       }
+//                       color="#40e0d0"
+//                       onClick={() => setDisplayType(DisplayType.ALL)}
+//                     >
+//                       All
+//                     </Button>
+//                   </div>
+//                 </div>
+//                 {displayType == DisplayType.NEW && <NewPostsFeed />}
+//                 {displayType == DisplayType.UPDATED && <UpdatedPostsFeed />}
+//                 {displayType == DisplayType.ALL && <AllPost />}
+//               </div>
+//             }
+//           />
+//         }
+//         sideMenuContent={<div>The usual!</div>}
+//         actionButton={
+//           <PostingActionButton
+//             accentColor="#40e0d0"
+//             onNewPost={() => console.log("hi!")}
+//           />
+//         }
+//         headerAccent="#40e0d0"
+//         title="!liveblogging"
+//         onLogoClick={() => console.log("clack")}
+//         onTitleClick={() => {
+//           setShowSidebar(!showSidebar);
+//         }}
+//         onUserBarClick={() => console.log("userbar click!")}
+//         loggedInMenuOptions={[
+//           { name: "opt1", onClick: () => console.log("opt1 click!") },
+//           { name: "opt2", onClick: () => console.log("opt2 click!") },
+//         ]}
+//         user={{
+//           username: "SexyDaddy69",
+//           avatarUrl: mamoruAvatar,
+//         }}
+//       />
+//       <style jsx>{`
+//         .intro {
+//           max-width: 500px;
+//           color: white !important;
+//           border-radius: 25px;
+//           padding: 10px;
+//           margin: 0 auto;
+//         }
+//         .categories {
+//           margin: 20px auto;
+//           max-width: 500px;
+//           width: 100%;
+//           display: grid;
+//           /* Define Auto Row size */
+//           grid-auto-rows: 40px;
+//           /*Define our columns */
+//           grid-template-columns: repeat(auto-fill, 130px);
+//           grid-gap: 1em;
+//           text-align: center;
+//         }
+//         .tags {
+//           margin-top: 10px;
+//         }
+//         .tags > :global(div),
+//         .categories > :global(div) {
+//           margin-left: 5px;
+//           margin-bottom: 5px;
+//         }
+//         .feed-type {
+//           margin-bottom: 20px;
+//           max-width: 300px;
+//           display: flex;
+//           justify-content: space-around;
+//           margin: 0 auto;
+//         }
+//         :global(.post-container) {
+//           margin-top: 20px;
+//         }
+//       `}</style>
+//     </>
+//   );
+// };
+
+// Attempt1.story = {
+//   name: "there was an attempt",
+// };

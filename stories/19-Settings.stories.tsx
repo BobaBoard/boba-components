@@ -2,6 +2,7 @@ import SettingsContainer, { SettingType } from "layout/SettingsContainer";
 
 import FeedWithMenu from "feeds/FeedWithMenu";
 import Layout from "layout/Layout";
+import { Meta } from "@storybook/react";
 import React from "react";
 import TabsGroup from "layout/TabsGroup";
 import { action } from "@storybook/addon-actions";
@@ -10,7 +11,7 @@ import { faSearch } from "@fortawesome/free-solid-svg-icons";
 export default {
   title: "Settings Preview",
   component: SettingsContainer,
-};
+} as Meta;
 
 export const SettingsLayout = () => {
   const link = {
@@ -37,7 +38,14 @@ export const SettingsLayout = () => {
   ]);
 
   return (
-    <Layout title="test!" headerAccent="purple">
+    <Layout
+      onUserBarClick={{ onClick: action("onUserbarClick") }}
+      hasNotifications
+      hasOutdatedNotifications={false}
+      title="test!"
+      headerAccent="purple"
+    >
+      <Layout.SideMenuContent></Layout.SideMenuContent>
       <Layout.MainContent>
         {" "}
         <FeedWithMenu>

@@ -1,9 +1,10 @@
-//import { linkTo } from "@storybook/addon-links";
 import BoardPreview, { DisplayStyle } from "board/BoardPreview";
 
 import BoardsDisplay from "board/BoardsDisplay";
 import React from "react";
 import Tag from "tags/Tag";
+//import { linkTo } from "@storybook/addon-links";
+import { action } from "@storybook/addon-actions";
 import anime from "./images/anime.png";
 import book from "./images/book.png";
 import crack from "./images/crack.png";
@@ -249,12 +250,20 @@ export const BoardsDisplayStory = () => (
           avatar: "/" + goreBackground,
           description: "Love me some bruised bois (and more).",
           color: "#f96680",
+          link: {
+            href: "#href",
+            onClick: action("hrefClick"),
+          },
         },
         {
           slug: "anime",
           avatar: "/" + anime,
           description: "We put the weeb in dweeb.",
           color: "#24d282",
+          link: {
+            href: "#href",
+            onClick: action("hrefClick"),
+          },
           updates: 2,
         },
         {
@@ -262,6 +271,10 @@ export const BoardsDisplayStory = () => (
           avatar: "/" + crack,
           description: "What's crackalackin",
           color: "#f9e066",
+          link: {
+            href: "#href",
+            onClick: action("hrefClick"),
+          },
           updates: 3,
         },
         {
@@ -269,6 +282,10 @@ export const BoardsDisplayStory = () => (
           avatar: "/" + book,
           description: "Come enjoy all the fics!",
           color: "#7724d2",
+          link: {
+            href: "#href",
+            onClick: action("hrefClick"),
+          },
           updates: 5,
           outdated: true,
         },
@@ -277,17 +294,23 @@ export const BoardsDisplayStory = () => (
           avatar: "/" + meta,
           description: "In My TiMeS wE CaLlEd It WaNk",
           color: "#f9e066",
+          link: {
+            href: "#href",
+            onClick: action("hrefClick"),
+          },
         },
         {
           slug: "villain-thirst",
           avatar: "/" + villains,
           description: "Love to love 'em.",
           color: "#e22b4b",
+          link: {
+            href: "#href",
+            onClick: action("hrefClick"),
+          },
         },
       ]}
       boardsDisplayStyle={DisplayStyle.MINI}
-      onBoardClick={(slug) => console.log(slug)}
-      getBoardHref={(slug) => `#${slug}`}
     />
   </div>
 );
