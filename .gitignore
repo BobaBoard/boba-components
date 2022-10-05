@@ -111,3 +111,5 @@ dist
 
 .github
 stats.json
+
+storybook-static
