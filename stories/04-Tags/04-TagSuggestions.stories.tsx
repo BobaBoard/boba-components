@@ -36,7 +36,6 @@ const TagTemplate: Story<TagSuggestionsProps> = (args) => {
 
 export const Editable = TagTemplate.bind({});
 Editable.args = {
-  title: "A title",
   description: "A title",
   tags: ["A title"],
   type: TagType.CATEGORY,
