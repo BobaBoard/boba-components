@@ -1,9 +1,12 @@
+import Layout, { LayoutProps } from "layout/Layout";
+import { Meta, Story } from "@storybook/react";
 import {
   faClock,
   faInbox,
   faLink,
   faSearch,
   faTh,
+  faThumbtack,
   faTrash,
   faUnlink,
 } from "@fortawesome/free-solid-svg-icons";
@@ -13,7 +16,6 @@ import Button from "buttons/Button";
 import CustomCursor from "layout/CustomCursor";
 import CycleNewButton from "board/CycleNewButton";
 import FeedWithMenu from "feeds/FeedWithMenu";
-import Layout from "layout/Layout";
 import MasonryView from "feeds/MasonryView";
 import PinnedMenu from "sidemenu/PinnedMenu";
 import Post from "post/Post";
@@ -154,7 +156,7 @@ const RECENT_BOARDS = [
 export default {
   title: "Feeds Preview",
   component: FeedWithMenu,
-};
+} as Meta;
 
 const menuOptions = {
   menuOptions: [
@@ -189,7 +191,13 @@ const menuOptions = {
   selectedMenuOption: "inbox",
 };
 
-const LayoutTemplate = (args: any) => {
+interface LayoutStoryProps extends LayoutProps {
+  mainContent: JSX.Element;
+  sideMenuContent: JSX.Element;
+  pinnedMenuContent: JSX.Element;
+}
+
+const LayoutTemplate: Story<LayoutStoryProps> = (args: LayoutStoryProps) => {
   const { mainContent, sideMenuContent, pinnedMenuContent, ...rest } = args;
   return (
     <>
@@ -230,6 +238,9 @@ FeedWithMenuShortPreview.args = {
   sideMenuContent: <div>Side menu side menu!</div>,
   title: "!test",
   headerAccent: "purple",
+  onUserBarClick: { onClick: action("onUserbarClick") },
+  hasNotifications: true,
+  hasOutdatedNotifications: false,
 };
 
 FeedWithMenuShortPreview.story = {
@@ -245,6 +256,9 @@ export const FeedWithMenuPreview = () => {
 
   return (
     <Layout
+      onUserBarClick={{ onClick: action("onUserbarClick") }}
+      hasNotifications
+      hasOutdatedNotifications={false}
       title="test!"
       titleLink={{ onClick: () => setShowSidebar(true) }}
       headerAccent="purple"
@@ -317,7 +331,7 @@ FeedWithMenuPreview.story = {
 
 const POSTS = [
   {
-    createdMessage: "1 minute ago",
+    createdTime: "1 minute ago",
     text: '[{"insert":"A short post."}]',
     secretIdentity: {
       name: "Good Guy",
@@ -329,7 +343,7 @@ const POSTS = [
     directContributions: 3,
   },
   {
-    createdMessage: "1 minute ago",
+    createdTime: "1 minute ago",
     text: '[{"insert":"A short post."}]',
     secretIdentity: {
       name: "Good Guy",
@@ -341,7 +355,7 @@ const POSTS = [
     directContributions: 3,
   },
   {
-    createdMessage: "1 minute ago",
+    createdTime: "1 minute ago",
     text: '[{"insert":"A short post."}]',
     secretIdentity: {
       name: "Good Guy",
@@ -353,7 +367,7 @@ const POSTS = [
     directContributions: 3,
   },
   {
-    createdMessage: "1 minute ago",
+    createdTime: "1 minute ago",
     text: '[{"insert":"A short post."}]',
     secretIdentity: {
       name: "Good Guy",
@@ -365,7 +379,7 @@ const POSTS = [
     directContributions: 3,
   },
   {
-    createdMessage: "1 minute ago",
+    createdTime: "1 minute ago",
     text: '[{"insert":"A short post."}]',
     secretIdentity: {
       name: "Good Guy",
@@ -377,7 +391,7 @@ const POSTS = [
     directContributions: 3,
   },
   {
-    createdMessage: "1 minute ago",
+    createdTime: "1 minute ago",
     text: '[{"insert":"A short post."}]',
     secretIdentity: {
       name: "Good Guy",
@@ -389,7 +403,7 @@ const POSTS = [
     directContributions: 3,
   },
   {
-    createdMessage: "1 minute ago",
+    createdTime: "1 minute ago",
     text: '[{"insert":"A short post."}]',
     secretIdentity: {
       name: "Good Guy",
@@ -401,7 +415,7 @@ const POSTS = [
     directContributions: 3,
   },
   {
-    createdMessage: "1 minute ago",
+    createdTime: "1 minute ago",
     text: '[{"insert":"A short post."}]',
     secretIdentity: {
       name: "Good Guy",
@@ -413,7 +427,7 @@ const POSTS = [
     directContributions: 3,
   },
   {
-    createdMessage: "1 minute ago",
+    createdTime: "1 minute ago",
     text: '[{"insert":"A short post."}]',
     secretIdentity: {
       name: "Good Guy",
@@ -560,11 +574,10 @@ export const Attempt1 = () => {
         headerAccent="#f96680"
         title="!goreisthebestweloveit"
         titleLink={{ onClick: () => setShowSidebar(!showSidebar) }}
-        onUserBarClick={() => console.log("userbar click!")}
+        onUserBarClick={{ onClick: action("onUserbarClick") }}
+        hasNotifications
+        hasOutdatedNotifications
         onCompassClick={() => setShowSidebar(!showSidebar)}
-        forceHideTitle={true}
-        updates={true}
-        outdated={true}
         loggedInMenuOptions={[
           {
             name: "no href",
@@ -586,10 +599,8 @@ export const Attempt1 = () => {
       >
         <Layout.SideMenuContent>
           <SideMenu
-            allBoards={[...PINNED_BOARDS, ...RECENT_BOARDS, ...SEARCH_BOARDS]}
-            recentBoards={RECENT_BOARDS}
+            pinnedBoards={PINNED_BOARDS}
             showPinned={true}
-            showRecent={true}
             menuOptions={[
               {
                 name: "no href",
@@ -606,6 +617,13 @@ export const Attempt1 = () => {
               },
             ]}
           >
+            <PinnedMenu>
+              <PinnedMenu.Section
+                icon={faThumbtack}
+                sectionId="pinned boards"
+                items={PINNED_BOARDS}
+              />
+            </PinnedMenu>
             <SideMenu.BoardsMenuSection
               title="recent unreads"
               icon={faClock}
@@ -629,7 +647,13 @@ export const Attempt1 = () => {
           </SideMenu>
         </Layout.SideMenuContent>
         <Layout.PinnedMenuContent>
-          <PinnedMenu boards={[...PINNED_BOARDS, ...PINNED_BOARDS]} />
+          <PinnedMenu>
+            <PinnedMenu.Section
+              icon={faThumbtack}
+              sectionId="pinned boards"
+              items={PINNED_BOARDS}
+            />
+          </PinnedMenu>
         </Layout.PinnedMenuContent>
         <Layout.MainContent>
           <FeedWithMenu
@@ -664,14 +688,14 @@ export const Attempt1 = () => {
                       totalComments={post.totalComments}
                       totalContributions={post.totalContributions}
                       directContributions={post.directContributions}
-                      onNewContribution={() => console.log("click!")}
-                      onNewComment={() => console.log("click!")}
-                      createdTimeLink={{
-                        onClick: action("createdTime"),
-                        href: "https://www.youtube.com/watch?v=dQw4w9WgXcQ",
-                      }}
+                      onNewContribution={action("onNewContribution")}
+                      onNewComment={action("onNewComment")}
                       notesLink={{
                         onClick: action("notesLink"),
+                        href: "#href",
+                      }}
+                      createdTimeLink={{
+                        onClick: action("createdTime"),
                         href: "https://www.youtube.com/watch?v=dQw4w9WgXcQ",
                       }}
                     />
@@ -721,10 +745,26 @@ export const MasonryLayout = () => {
         titleLink={{
           onClick: () => setShowSidebar(!showSidebar),
         }}
-        onUserBarClick={() => console.log("userbar click!")}
+        onUserBarClick={{ onClick: action("onUserbarClick") }}
+        hasNotifications
+        hasOutdatedNotifications
+        onCompassClick={() => setShowSidebar(!showSidebar)}
         loggedInMenuOptions={[
-          { name: "opt1", link: { onClick: action("optionOne") } },
-          { name: "opt2", link: { onClick: action("option2") } },
+          {
+            name: "no href",
+            icon: faUnlink,
+            link: {
+              onClick: action("noHrefClick"),
+            },
+          },
+          {
+            name: "with href",
+            icon: faLink,
+            link: {
+              onClick: action("withHref"),
+              href: "https://www.youtube.com/watch?v=dQw4w9WgXcQ",
+            },
+          },
         ]}
       >
         <Layout.ActionButton>
@@ -736,11 +776,51 @@ export const MasonryLayout = () => {
         <Layout.SideMenuContent>
           <SideMenu
             pinnedBoards={PINNED_BOARDS}
-            searchBoards={SEARCH_BOARDS}
-            recentBoards={RECENT_BOARDS}
-            showDismissNotifications56
-            onNotificationsDismissRequest={() => {}}
-          />
+            showPinned={true}
+            menuOptions={[
+              {
+                name: "no href",
+                link: {
+                  onClick: action("noHrefClick"),
+                },
+              },
+              {
+                name: "with href",
+                link: {
+                  onClick: action("withHref"),
+                  href: "https://www.youtube.com/watch?v=dQw4w9WgXcQ",
+                },
+              },
+            ]}
+          >
+            <PinnedMenu>
+              <PinnedMenu.Section
+                icon={faThumbtack}
+                sectionId="pinned boards"
+                items={PINNED_BOARDS}
+              />
+            </PinnedMenu>
+            <SideMenu.BoardsMenuSection
+              title="recent unreads"
+              icon={faClock}
+              boards={RECENT_BOARDS}
+              emptyTitle="Congratulations!"
+              emptyDescription="You read 'em all."
+            />
+            <SideMenu.BoardsMenuSection
+              title="empty section"
+              icon={faTrash}
+              emptyTitle="Congratulations!"
+              emptyDescription="You read 'em all."
+            />
+            <SideMenu.BoardsMenuSection
+              title="all boards"
+              icon={faTh}
+              boards={[...PINNED_BOARDS, ...RECENT_BOARDS, ...SEARCH_BOARDS]}
+              emptyTitle="There's no board here."
+              emptyDescription="Somehow, that feels wrong."
+            />
+          </SideMenu>
         </Layout.SideMenuContent>
         <Layout.MainContent>
           <FeedWithMenu
@@ -782,11 +862,15 @@ export const MasonryLayout = () => {
                       totalComments={post.totalComments}
                       totalContributions={post.totalContributions}
                       directContributions={post.directContributions}
-                      onNewContribution={() => console.log("click!")}
-                      onNewComment={() => console.log("click!")}
-                      notesLink={{ onClick: () => console.log("click") }}
+                      onNewContribution={action("onNewContribution")}
+                      onNewComment={action("onNewComment")}
+                      notesLink={{
+                        onClick: action("notesLink"),
+                        href: "#href",
+                      }}
                       createdTimeLink={{
-                        onClick: () => console.log("click"),
+                        onClick: action("createdTime"),
+                        href: "https://www.youtube.com/watch?v=dQw4w9WgXcQ",
                       }}
                     />
                   </div>

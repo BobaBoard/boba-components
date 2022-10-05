@@ -361,7 +361,7 @@ const TOOLTIP_BORDER = { width: "2px", radius: "10px" };
 
 const DropdownHeader = CreateBaseCompound("DropdownHeader");
 const DropdownMenu: React.FC<DropdownProps> & {
-  Header: React.FC<{ children: React.ReactNode }>;
+  Header: React.FC<{ children?: React.ReactNode }>;
 } = (props) => {
   const [isOpen, setOpen] = React.useState(false);
   const close = React.useCallback(() => setOpen(false), [setOpen]);

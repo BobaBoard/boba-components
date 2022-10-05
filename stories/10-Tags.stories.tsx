@@ -213,7 +213,9 @@ export const FilterTags = () => {
         categories={tags}
         onCategoryStateChangeRequest={(name) => {
           setTags(
-            tags.map((tag) => (tag.name == name ? { name, active } : tag))
+            tags.map((tag) =>
+              tag.name == name ? { name, active: !tag.active } : tag
+            )
           );
         }}
       />
@@ -251,14 +253,6 @@ export const TagsFilterStory = () => {
         onTagStateChangeRequest={(changedTag) =>
           setTags(
             tags.map((tag) => (changedTag.name == tag.name ? changedTag : tag))
-          )
-        }
-        onClearTagsFilterRequests={() =>
-          setTags(
-            tags.map((tag) => ({
-              name: tag.name,
-              state: FilteredTagsState.ACTIVE,
-            }))
           )
         }
       />

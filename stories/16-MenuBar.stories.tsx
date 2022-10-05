@@ -1,7 +1,8 @@
+import MenuBar, { MenuBarProps } from "layout/MenuBar";
 import { faInbox, faSearch, faTh } from "@fortawesome/free-solid-svg-icons";
 
-import MenuBar from "layout/MenuBar";
 import React from "react";
+import { Story } from "@storybook/react";
 import { action } from "@storybook/addon-actions";
 import mamoru from "./images/mamoru.png";
 
@@ -13,7 +14,7 @@ export default {
   },
 };
 
-const MenuBarTemplate = (args: any) => (
+const MenuBarTemplate: Story<MenuBarProps> = (args: MenuBarProps) => (
   <div style={{ margin: "25px", backgroundColor: "purple", height: "70px" }}>
     <MenuBar {...args} />
   </div>
@@ -65,7 +66,9 @@ MenuBarSimple.args = {
       },
     },
   ],
-  onLoggedOutUserClick: action("userClick!"),
+  onLoggedOutUserClick: {
+    onClick: action("LoggedOutUserClick"),
+  },
 };
 
 export const MenuBarLockedIdentity = MenuBarTemplate.bind({});
@@ -117,7 +120,9 @@ MenuBarLoading.args = {
       },
     },
   ],
-  onLoggedOutUserClick: action("userClick!"),
+  onLoggedOutUserClick: {
+    onClick: action("LoggedOutUserClick"),
+  },
 };
 
 export const MenuBarLoggedOut = MenuBarTemplate.bind({});
@@ -163,6 +168,6 @@ MenuBarLoggedOut.args = {
     },
   ],
   onLoggedOutUserClick: {
-    onClick: action("userClick!"),
+    onClick: action("LoggedOutUserClick"),
   },
 };
