@@ -77,6 +77,7 @@ interface ChildrenWithRenderProps {
   parentBoundary?: string;
   children?:
     | JSX.Element
+    | JSX.Element[]
     | ((
         refCallback: (element: HTMLElement | null) => void,
         id: string

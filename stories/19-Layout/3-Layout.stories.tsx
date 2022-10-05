@@ -151,7 +151,6 @@ LoadingLayout.decorators = [
           position: "relative",
         }}
       >
-        {/* @ts-expect-error */}
         <Story {...newStoryContenxt} />
         <button
           style={{

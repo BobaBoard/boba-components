@@ -34,7 +34,7 @@ export default {
 } as Meta;
 
 const TagTemplate: Story<
-  TagProps | DeletableTagProps | { tags: TagProps | DeletableTagProps[] }
+  TagProps | DeletableTagProps | { tags: TagProps[] | DeletableTagProps[] }
 > = (args) => {
   return (
     <>
@@ -69,7 +69,7 @@ export const Deletable = TagTemplate.bind({});
 Deletable.args = {
   ...WithSymbol.args,
   deletable: true,
-  onDelete: action("onDelete"),
+  onDeleteTag: action("onDeleteTag"),
 };
 
 export const CanonicalTagTypes = TagTemplate.bind({});

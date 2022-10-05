@@ -80,7 +80,6 @@ PopupButtons.decorators = [
     return (
       <div className="story" ref={container}>
         <button onClick={() => setShow(!show)}>Toggle visibility</button>
-        {/* @ts-expect-error (TODO: figure this out)*/}
         {Story({
           args: {
             show,
