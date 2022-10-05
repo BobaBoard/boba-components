@@ -617,13 +617,6 @@ export const Attempt1 = () => {
               },
             ]}
           >
-            <PinnedMenu>
-              <PinnedMenu.Section
-                icon={faThumbtack}
-                sectionId="pinned boards"
-                items={PINNED_BOARDS}
-              />
-            </PinnedMenu>
             <SideMenu.BoardsMenuSection
               title="recent unreads"
               icon={faClock}
@@ -793,13 +786,6 @@ export const MasonryLayout = () => {
               },
             ]}
           >
-            <PinnedMenu>
-              <PinnedMenu.Section
-                icon={faThumbtack}
-                sectionId="pinned boards"
-                items={PINNED_BOARDS}
-              />
-            </PinnedMenu>
             <SideMenu.BoardsMenuSection
               title="recent unreads"
               icon={faClock}
