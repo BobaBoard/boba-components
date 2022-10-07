@@ -3,7 +3,6 @@ import BoardPreview, { DisplayStyle } from "board/BoardPreview";
 import BoardsDisplay from "board/BoardsDisplay";
 import React from "react";
 import Tag from "tags/Tag";
-//import { linkTo } from "@storybook/addon-links";
 import { action } from "@storybook/addon-actions";
 import anime from "./images/anime.png";
 import book from "./images/book.png";
