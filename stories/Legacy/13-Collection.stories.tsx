@@ -9,8 +9,8 @@ import PostingActionButton from "board/PostingActionButton";
 import React from "react";
 import Tag from "tags/Tag";
 import { action } from "@storybook/addon-actions";
-import mamoruAvatar from "./images/mamoru.png";
-import tuxedoAvatar from "./images/tuxedo-mask.jpg";
+import mamoruAvatar from "stories/images/mamoru.png";
+import tuxedoAvatar from "stories/images/tuxedo-mask.jpg";
 
 export default {
   title: "Collections Preview",

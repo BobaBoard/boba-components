@@ -2,9 +2,9 @@ import CompactPostThread from "post/CompactPostThread";
 import React from "react";
 import { action } from "@storybook/addon-actions";
 import greedlerAvatar from "./images/greedler.jpg";
+import hannibalAvatar from "./images/hannibal.png";
 import mamoruAvatar from "./images/mamoru.png";
 import oncelerAvatar from "./images/oncie.jpg";
-import reindeerEars from "stories/images/reindeer-ears.png";
 import tuxedoAvatar from "./images/tuxedo-mask.jpg";
 
 export default {

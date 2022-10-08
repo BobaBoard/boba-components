@@ -14,10 +14,10 @@ import React from "react";
 import Theme from "theme/default";
 import ThreadIndent from "post/ThreadIndent";
 import { action } from "@storybook/addon-actions";
-import greedlerAvatar from "./images/greedler.jpg";
-import hannibalAvatar from "./images/hannibal.png";
-import mamoruAvatar from "./images/mamoru.png";
-import tuxedoAvatar from "./images/tuxedo-mask.jpg";
+import greedlerAvatar from "stories/images/greedler.jpg";
+import hannibalAvatar from "stories/images/hannibal.png";
+import mamoruAvatar from "stories/images/mamoru.png";
+import tuxedoAvatar from "stories/images/tuxedo-mask.jpg";
 
 export default {
   title: "Thread Preview",

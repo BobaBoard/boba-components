@@ -4,12 +4,12 @@ import BoardsDisplay from "board/BoardsDisplay";
 import React from "react";
 import Tag from "tags/Tag";
 import { action } from "@storybook/addon-actions";
-import anime from "./images/anime.png";
-import book from "./images/book.png";
-import crack from "./images/crack.png";
-import goreBackground from "./images/gore.png";
-import meta from "./images/meta.png";
-import villains from "./images/villains.png";
+import anime from "stories/images/anime.png";
+import book from "stories/images/book.png";
+import crack from "stories/images/crack.png";
+import goreBackground from "stories/images/gore.png";
+import meta from "stories/images/meta.png";
+import villains from "stories/images/villains.png";
 
 export default {
   title: "Board Preview",

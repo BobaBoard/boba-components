@@ -2,7 +2,7 @@ import BobaDex from "user/BobaDex";
 import React from "react";
 //import { linkTo } from "@storybook/addon-links";
 import UserDetails from "user/UserDetails";
-import goreBackground from "./images/gore.png";
+import goreBackground from "stories/images/gore.png";
 
 export default {
   title: "Users Preview",
