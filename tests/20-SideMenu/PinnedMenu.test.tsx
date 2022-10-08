@@ -1,6 +1,6 @@
 import "@testing-library/jest-dom/extend-expect";
 
-import * as stories from "stories/20-SideMenu/01-PinnedMenu.stories";
+import * as stories from "stories/SideMenu/01-PinnedMenu.stories";
 
 import PinnedMenu, {
   BasePinnedSectionProps,

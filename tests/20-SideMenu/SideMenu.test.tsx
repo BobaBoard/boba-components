@@ -1,12 +1,12 @@
 import "@testing-library/jest-dom/extend-expect";
 
-import * as stories from "stories/20-SideMenu/20-SideMenu.stories";
+import * as stories from "stories/SideMenu/20-SideMenu.stories";
 
 import {
   BasePinnedSectionProps,
   WithPinnedSectionProps,
 } from "sidemenu/PinnedMenu";
-import { Boards, Icons } from "stories/20-SideMenu/01-PinnedMenu.stories";
+import { Boards, Icons } from "stories/SideMenu/01-PinnedMenu.stories";
 import {
   BoardsSectionProps,
   EmptySectionProps,
@@ -16,7 +16,7 @@ import {
   Empty,
   Loading,
   Regular,
-} from "stories/20-SideMenu/00-BoardsMenuSection.stories";
+} from "stories/SideMenu/00-BoardsMenuSection.stories";
 import { render, screen, waitFor, within } from "@testing-library/react";
 
 import { CircleButtonProps } from "buttons/CircleButton";
