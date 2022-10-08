@@ -2,7 +2,7 @@ import {
   EDITOR_TEXT_VALUES,
   getInitialTextString,
 } from "../utils/editor-controls";
-import { EditorContext, ImageUploaderContext } from "../../src/index";
+import { EditorContext, ImageUploaderContext } from "../index";
 import { Meta, Story } from "@storybook/react";
 //import { linkTo } from "@storybook/addon-links";
 import PostEditor, {

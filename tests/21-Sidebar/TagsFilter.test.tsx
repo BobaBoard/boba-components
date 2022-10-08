@@ -1,6 +1,6 @@
 import "@testing-library/jest-dom/extend-expect";
 
-import * as tagStories from "stories/21-Sidebar/01-TagsSection.stories";
+import * as tagStories from "stories/Sidebar/01-TagsSection.stories";
 
 import {
   fireEvent,
