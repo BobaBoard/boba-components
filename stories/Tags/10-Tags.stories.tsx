@@ -6,11 +6,11 @@ import CategoryFilter from "common/CategoryFilter";
 import React from "react";
 import Tags from "tags/Tags";
 import { action } from "@storybook/addon-actions";
-import book from "./images/book.png";
-import crack from "./images/crack.png";
-import goreBackground from "./images/gore.png";
-import kinkmeme from "./images/kink-meme.png";
-import oncelerBoard from "./images/onceler-board.png";
+import book from "stories/images/book.png";
+import crack from "stories/images/crack.png";
+import goreBackground from "stories/images/gore.png";
+import kinkmeme from "stories/images/kink-meme.png";
+import oncelerBoard from "stories/images/onceler-board.png";
 
 export default {
   title: "Tags Preview",

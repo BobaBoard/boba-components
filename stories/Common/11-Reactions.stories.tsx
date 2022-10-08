@@ -1,6 +1,6 @@
 import React from "react";
 import Reaction from "common/Reaction";
-import oncieReaction from "./images/oncie-reaction.png";
+import oncieReaction from "stories/images/oncie-reaction.png";
 
 export default {
   title: "Reactions Preview",

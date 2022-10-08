@@ -4,7 +4,7 @@ import { faInbox, faSearch, faTh } from "@fortawesome/free-solid-svg-icons";
 import React from "react";
 import { Story } from "@storybook/react";
 import { action } from "@storybook/addon-actions";
-import mamoru from "./images/mamoru.png";
+import mamoru from "stories/images/mamoru.png";
 
 export default {
   title: "MenuBar",
