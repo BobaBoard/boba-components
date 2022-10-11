@@ -57,3 +57,15 @@ WithCustomNotificationsIcon.args = {
   ...WithNotifications.args,
   notificationIcon: faWineBottle,
 };
+
+export const WithDropdown = ButtonTemplate.bind({});
+WithDropdown.args = {
+  ...IconButton.args,
+  withDropdown: true,
+};
+
+export const WithCustomDropdownIcon = ButtonTemplate.bind({});
+WithCustomDropdownIcon.args = {
+  ...WithDropdown.args,
+  dropdownIcon: faWineBottle,
+};

@@ -13,11 +13,6 @@ import React from "react";
 import classnames from "classnames";
 import css from "styled-jsx/css";
 
-export enum SelectLightPosition {
-  BOTTOM = "BOTTOM",
-  LEFT = "LEFT",
-}
-
 const getIconStyle = ({
   accentColor,
   defaultBorderColor,
@@ -73,11 +68,45 @@ const getIconStyle = ({
   }
 `;
 
+const SelectBar = (props: Pick<CircleButtonProps, "selectLightPosition">) => {
+  return (
+    <div
+      role="presentation"
+      className={classnames("select-bar", {
+        left: props.selectLightPosition === "left",
+      })}
+    >
+      <style jsx>
+        {`
+          .select-bar {
+            position: absolute;
+            border-top-left-radius: 15px;
+            border-top-right-radius: 15px;
+            height: 3px;
+            bottom: 0;
+            left: 0;
+            right: 0;
+            background-color: var(
+              --accent-color,
+              ${DefaultTheme.MENU_ITEM_ICON_HIGHLIGHT_COLOR}
+            );
+          }
+          .select-bar.left {
+            width: 3px;
+            height: 100%;
+            top: 0;
+          }
+        `}
+      </style>
+    </div>
+  );
+};
+
 export interface CircleButtonProps {
   loading?: boolean;
   icon: IconProp | string;
   selected?: boolean;
-  selectLightPosition?: SelectLightPosition;
+  selectLightPosition?: "left" | "top";
   link?: LinkWithAction;
   /**
    * The color to use to highlight the button when selected or hovered.
@@ -138,30 +167,15 @@ const CircleButton: React.FC<CircleButtonProps> = ({
           link={link}
           current={selected ? "page" : false}
           className={classnames("icon", iconClassName, {
-            dropdown: !!withDropdown,
             loading,
             selected,
             blurred,
           })}
         >
-          <Icon icon={loading ? faSpinner : icon} />
+          <IconButton icon={loading ? faSpinner : icon} />
         </ActionLink>
-        <div
-          className={classnames("dropdown-indicator", {
-            visible: !!withDropdown,
-          })}
-        >
-          <FontAwesomeIcon icon={faChevronCircleDown} />
-        </div>
       </div>
-      {selected && (
-        <div
-          role="presentation"
-          className={classnames("select-bar", {
-            left: selectLightPosition === SelectLightPosition.LEFT,
-          })}
-        />
-      )}
+      {selected && <SelectBar selectLightPosition={selectLightPosition} />}
       <style jsx>{`
         .circle-button {
           display: flex;
@@ -175,11 +189,9 @@ const CircleButton: React.FC<CircleButtonProps> = ({
         }
         .circle-button:hover :global(.icon) {
           color: ${DefaultTheme.MENU_ITEM_ICON_HIGHLIGHT_COLOR};
-          border-color: ${
-            accentColor ||
-            defaultBorderColor ||
-            DefaultTheme.MENU_ITEM_ICON_BACKGROUND_COLOR
-          };
+          border-color: ${accentColor ||
+          defaultBorderColor ||
+          DefaultTheme.MENU_ITEM_ICON_BACKGROUND_COLOR};
         }
         .icon-wrapper {
           position: relative;
@@ -194,43 +206,16 @@ const CircleButton: React.FC<CircleButtonProps> = ({
           background: ${DefaultTheme.NOTIFICATIONS_NEW_COLOR};
           border-radius: 50%;
           border: 2px solid
-            ${
-              selected
-                ? accentColor
-                : defaultBorderColor ||
-                  DefaultTheme.MENU_ITEM_ICON_BACKGROUND_COLOR
-            };
+            ${selected
+              ? accentColor
+              : defaultBorderColor ||
+                DefaultTheme.MENU_ITEM_ICON_BACKGROUND_COLOR};
           transform: translate(-3px, 3px);
         }
         .circle-button.has-dot:hover :global(.icon)::after {
-          border-color: ${
-            accentColor ||
-            defaultBorderColor ||
-            DefaultTheme.MENU_ITEM_ICON_BACKGROUND_COLOR
-          };
-        }
-        .dropdown-indicator {
-          position: absolute;
-          right: -3px;
-          bottom: 1px;
-          color: ${DefaultTheme.MENU_ITEM_ICON_BACKGROUND_COLOR};
-          background-color: ${DefaultTheme.MENU_ITEM_ICON_COLOR};
-          border-radius: 50%;
-          width: 10px;
-          height: 10px;
-          z-index: 1;
-          display: none;
-        }
-        .dropdown-indicator.visible {
-          display: block;
-        }
-        .dropdown-indicator :global(svg) {
-          height: 15px;
-          width: 15px;
-          position: absolute;
-          top: 50%;
-          left: 50%;
-          transform: translate(-50%, -50%);
+          border-color: ${accentColor ||
+          defaultBorderColor ||
+          DefaultTheme.MENU_ITEM_ICON_BACKGROUND_COLOR};
         }
         .circle-button :global(button):focus {
           outline: none;
@@ -239,29 +224,6 @@ const CircleButton: React.FC<CircleButtonProps> = ({
           outline: none;
           box-shadow: blue 0px 0px 0px 3px;
         }
-        .select-bar {
-          position: absolute;
-          border-top-left-radius: 15px;
-          border-top-right-radius: 15px;
-          height: 3px;
-          bottom: 0;
-          left: 0;
-          right: 0;
-          background-color: ${
-            accentColor || DefaultTheme.MENU_ITEM_ICON_HIGHLIGHT_COLOR
-          };
-        }
-        .select-bar.left {
-          position: absolute;
-          border-top-left-radius: 15px;
-          border-top-right-radius: 15px;
-          width: 3px;
-          height: 100%;
-          left: 0;
-          top: 0;
-          background-color: ${
-            accentColor || DefaultTheme.MENU_ITEM_ICON_HIGHLIGHT_COLOR
-          };
       `}</style>
       {iconStyle}
     </div>
