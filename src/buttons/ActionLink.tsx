@@ -1,4 +1,4 @@
-import React, { PropsWithChildren } from "react";
+import React, { AriaAttributes, PropsWithChildren } from "react";
 
 import { LinkWithAction } from "types";
 
@@ -13,9 +13,8 @@ type WithRequiredProperty<Type, Key extends keyof Type> = Type &
  * Does what you expect it to do and tries not to get on
  * your way.
  */
-
 const NeutralButton: React.FC<ActionLinkProps> = (props) => {
-  const { children, link, label, className, allowDefault, current } = props;
+  const { children, link, className, allowDefault } = props;
   return (
     <button
       className={className}
@@ -36,8 +35,8 @@ const NeutralButton: React.FC<ActionLinkProps> = (props) => {
         },
         [link, allowDefault]
       )}
-      aria-label={link?.label ?? label}
-      aria-current={current ?? false}
+      aria-label={link?.label ?? props["aria-label"]}
+      aria-current={props["aria-current"]}
     >
       {children}
       <style jsx>{`
@@ -66,11 +65,10 @@ const NeutralButton: React.FC<ActionLinkProps> = (props) => {
  * Does what you expect it to do and tries not to get on
  * your way.
  */
-
 const NeutralAnchor: React.FC<WithRequiredProperty<ActionLinkProps, "link">> = (
   props
 ) => {
-  const { children, link, label, className, allowDefault, current } = props;
+  const { children, link, className, allowDefault } = props;
 
   return (
     <a
@@ -93,8 +91,8 @@ const NeutralAnchor: React.FC<WithRequiredProperty<ActionLinkProps, "link">> = (
         },
         [link, allowDefault]
       )}
-      aria-label={link?.label ?? label}
-      aria-current={current ?? false}
+      aria-label={link?.label ?? props["aria-label"]}
+      aria-current={props["aria-current"]}
     >
       {children}
       <style jsx>{`
@@ -120,15 +118,18 @@ const NeutralAnchor: React.FC<WithRequiredProperty<ActionLinkProps, "link">> = (
  * with keyboard shortcuts (e.g. left-click) will go to the href,
  * but if effectively clicked it will prevent the default but call
  * the onclick event.
+ * If it has none, renders as a span if given a classname, or
+ * completely disappears if not necessary.
  */
 // TODO: check where this abstraction leaks.
 const ActionLink = (props: PropsWithChildren<ActionLinkProps>) => {
-  const { children, link, label, className } = props;
+  const { children, link, className } = props;
 
   if (!link) {
-    // TODO: see if you can pass both className and aria-label underneath.
     return className ? (
-      <span className={className} aria-label={label}>
+      // TODO: check if we can just pass the classname directly to the
+      // underlying element.
+      <span className={className} aria-label={props["aria-label"]}>
         {children}
       </span>
     ) : (
@@ -139,33 +140,16 @@ const ActionLink = (props: PropsWithChildren<ActionLinkProps>) => {
   if (link.onClick && !link.href) {
     return <NeutralButton {...props} />;
   }
-  // TODO: figure out why it doesn't recognize that link is supposed to be
-  // null here.
-  // @ts-expect-error
-  return <NeutralAnchor {...props} />;
+  return <NeutralAnchor {...props} link={link} />;
 };
 
 // TODO: this should probably be turned into a generic (#typescript)
 // TODO: the type with link optional should also be extracted in its own
 // type (#typescript)
-interface ActionLinkProps {
+interface ActionLinkProps extends AriaAttributes {
   link?: LinkWithAction<unknown>;
   className?: string;
   allowDefault?: boolean;
-  // TODO: rather than have these, we should see if ActionLink can extend
-  // both the a
-  label?: string;
-  // Allows aria-current to be set as appropriate
-  current?:
-    | boolean
-    | "time"
-    | "false"
-    | "true"
-    | "page"
-    | "step"
-    | "location"
-    | "date"
-    | undefined;
 }
 
 export default ActionLink;

@@ -84,6 +84,14 @@ export type DescriptionType =
   | TextDescriptionType
   | CategoryFilterDescriptionType;
 
+/**
+ * A link handler that can behave differently according to
+ * whether a href or an onClick (or both) are passed.
+ *
+ * Used to enable anchor and buttons to behave as people expect,
+ * optionally enabling things like "open URL in a new window" even
+ * for buttons that have a distinct onClick action.
+ */
 export interface LinkWithAction<T = MouseEvent> {
   href?: string;
   onClick?: (e?: T) => void;
