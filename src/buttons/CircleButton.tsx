@@ -1,63 +1,37 @@
-import {
-  faChevronCircleDown,
-  faSpinner,
-} from "@fortawesome/free-solid-svg-icons";
+import IconButton, { IconButtonProps } from "buttons/IconButton";
+import React, { AriaAttributes } from "react";
 
-import ActionLink from "buttons/ActionLink";
 import DefaultTheme from "theme/default";
-import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import Icon from "common/Icon";
-import type { IconProp } from "@fortawesome/fontawesome-svg-core";
 import { LinkWithAction } from "types";
-import React from "react";
 import classnames from "classnames";
 import css from "styled-jsx/css";
+import { faSpinner } from "@fortawesome/free-solid-svg-icons";
 
-const getIconStyle = ({
-  accentColor,
-  defaultBorderColor,
-}: {
-  accentColor?: string;
-  defaultBorderColor?: string;
-}) => css.resolve`
-  .icon {
-    width: 35px;
-    height: 35px;
-    background-color: ${DefaultTheme.MENU_ITEM_ICON_BACKGROUND_COLOR};
-    border: 2px solid
-      ${defaultBorderColor || DefaultTheme.MENU_ITEM_ICON_BACKGROUND_COLOR};
-    border-radius: 50%;
-    color: ${DefaultTheme.MENU_ITEM_ICON_COLOR};
-    text-align: center;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    position: relative;
-  }
-  .icon.blurred :global(img) {
+const { className: iconClassName, styles: iconStyle } = css.resolve`
+  width: auto;
+  height: 1em;
+
+  .blurred {
     filter: blur(3px) invert(1);
   }
-  .icon.blurred:hover :global(img) {
+  .blurred:hover {
     filter: none;
   }
-  .icon.dropdown {
+  .dropdown {
     mask: linear-gradient(0deg, rgba(0, 0, 0, 0), rgba(0, 0, 0, 0)),
       radial-gradient(18px at right 3px bottom 6px, transparent 50%, black 55%)
         bottom right;
   }
-  .icon :global(img) {
-    width: 100%;
-    height: 100%;
+  img {
+    width: 100% !important;
+    height: 100% !important;
     border-radius: 50%;
   }
 
-  .selected.icon {
-    border-color: ${accentColor || DefaultTheme.MENU_ITEM_ICON_HIGHLIGHT_COLOR};
-    color: ${DefaultTheme.MENU_ITEM_ICON_HIGHLIGHT_COLOR};
-  }
-  .loading.icon :global(svg) {
+  .loading {
     animation: spin 2s linear infinite;
   }
+
   @keyframes spin {
     0% {
       transform: rotateZ(0);
@@ -68,6 +42,10 @@ const getIconStyle = ({
   }
 `;
 
+/**
+ * An element indicating that the current circle button is in the
+ * "selected" state.
+ */
 const SelectBar = (props: Pick<CircleButtonProps, "selectLightPosition">) => {
   return (
     <div
@@ -102,9 +80,16 @@ const SelectBar = (props: Pick<CircleButtonProps, "selectLightPosition">) => {
   );
 };
 
-export interface CircleButtonProps {
+// Make the underlying link take the full width of the "circle button",
+// as not to "influence" its rendering.
+const { className: linkWrapper, styles: linkWrapperStyles } = css.resolve`
+  width: 100%;
+  height: 100%;
+`;
+
+export interface CircleButtonProps extends AriaAttributes {
   loading?: boolean;
-  icon: IconProp | string;
+  icon: IconButtonProps["icon"];
   selected?: boolean;
   selectLightPosition?: "left" | "top";
   link?: LinkWithAction;
@@ -118,104 +103,77 @@ export interface CircleButtonProps {
    */
   defaultBorderColor?: string;
   /**
-   * Whether to show an icon indicating the button has multiple options.
-   */
-  withDropdown?: boolean;
-  /**
-   * Whether to show an icon indicating the button has a notification.
-   */
-  withNotification?: boolean;
-  /**
-   * Applies a blurred filter to the icon, for privacy reasons.
-   * This only applies to icons of type "image".
+   * Applies a blurred filter to the icon.
    */
   blurred?: boolean;
-  /**
-   * The aria-label associated with the icon.
-   */
-  label?: string;
+  withDropdown?: IconButtonProps["withDropdown"];
+  withNotification?: IconButtonProps["withNotifications"];
 }
 
 const CircleButton: React.FC<CircleButtonProps> = ({
   loading,
   icon,
-  label,
   selected,
   selectLightPosition,
   link,
   accentColor,
+  // TODO: we only use border color for the "green" outline in the
+  // logged in menu. See about removing this and just using CSS
+  // variables or passing a style. #css
   defaultBorderColor,
   withDropdown,
   withNotification,
   blurred,
+  ...props
 }) => {
-  const { className: iconClassName, styles: iconStyle } = getIconStyle({
-    accentColor,
-    defaultBorderColor,
-  });
+  const iconProps = {
+    ...icon,
+    icon: loading ? faSpinner : icon.icon,
+    className: classnames("icon", icon.className, iconClassName, {
+      loading,
+      selected,
+      blurred,
+    }),
+  };
   return (
     <div
       className={classnames("circle-button", {
         selected,
         loading,
-        "has-dot": !!withNotification,
       })}
     >
-      <div className="icon-wrapper">
-        <ActionLink
-          label={label}
+      <div className="icon-circle">
+        <IconButton
+          icon={iconProps}
+          aria-label={props["aria-label"]}
           link={link}
-          current={selected ? "page" : false}
-          className={classnames("icon", iconClassName, {
-            loading,
-            selected,
-            blurred,
-          })}
-        >
-          <IconButton icon={loading ? faSpinner : icon} />
-        </ActionLink>
+          withDropdown={withDropdown}
+          withNotifications={withNotification}
+          className={linkWrapper}
+          // TODO: we should pass aria-current from above, in case it's
+          // not just used to select pages anymore.
+          aria-current={selected ? "page" : false}
+        />
       </div>
       {selected && <SelectBar selectLightPosition={selectLightPosition} />}
+      {linkWrapperStyles}
+      {iconStyle}
       <style jsx>{`
+        .circle-button :global(*) {
+          box-sizing: border-box;
+        }
         .circle-button {
           display: flex;
           align-items: center;
           height: 100%;
           justify-content: center;
           position: relative;
+          // TODO: figure out how to type CSS variables
+          --accent-color: ${accentColor ?? "inherit"};
+          --top-icon-border-color: ${defaultBorderColor ?? "inherit"};
         }
         .circle-button:hover {
           cursor: pointer;
-        }
-        .circle-button:hover :global(.icon) {
-          color: ${DefaultTheme.MENU_ITEM_ICON_HIGHLIGHT_COLOR};
-          border-color: ${accentColor ||
-          defaultBorderColor ||
-          DefaultTheme.MENU_ITEM_ICON_BACKGROUND_COLOR};
-        }
-        .icon-wrapper {
-          position: relative;
-        }
-        .circle-button.has-dot :global(.icon)::after {
-          content: "";
-          position: absolute;
-          top: -6px;
-          right: -7px;
-          width: 10px;
-          height: 10px;
-          background: ${DefaultTheme.NOTIFICATIONS_NEW_COLOR};
-          border-radius: 50%;
-          border: 2px solid
-            ${selected
-              ? accentColor
-              : defaultBorderColor ||
-                DefaultTheme.MENU_ITEM_ICON_BACKGROUND_COLOR};
-          transform: translate(-3px, 3px);
-        }
-        .circle-button.has-dot:hover :global(.icon)::after {
-          border-color: ${accentColor ||
-          defaultBorderColor ||
-          DefaultTheme.MENU_ITEM_ICON_BACKGROUND_COLOR};
         }
         .circle-button :global(button):focus {
           outline: none;
@@ -224,8 +182,38 @@ const CircleButton: React.FC<CircleButtonProps> = ({
           outline: none;
           box-shadow: blue 0px 0px 0px 3px;
         }
+        .icon-circle {
+          width: 35px;
+          height: 35px;
+          background-color: ${DefaultTheme.MENU_ITEM_ICON_BACKGROUND_COLOR};
+          border: 2px solid
+            ${defaultBorderColor ||
+            DefaultTheme.MENU_ITEM_ICON_BACKGROUND_COLOR};
+          border-radius: 50%;
+          color: ${DefaultTheme.MENU_ITEM_ICON_COLOR};
+          text-align: center;
+          display: flex;
+          align-items: center;
+          justify-content: center;
+          position: relative;
+        }
+        .selected .icon-circle {
+          border-color: ${accentColor ||
+          DefaultTheme.MENU_ITEM_ICON_HIGHLIGHT_COLOR};
+          color: ${DefaultTheme.MENU_ITEM_ICON_HIGHLIGHT_COLOR};
+          --top-icon-border-color: var(--accent-color, inherit);
+        }
+        .icon-circle:hover {
+          border-color: ${accentColor ||
+          defaultBorderColor ||
+          DefaultTheme.MENU_ITEM_ICON_BACKGROUND_COLOR};
+          --top-icon-border-color: var(--accent-color, inherit);
+        }
+        .selected :global(.${iconClassName}),
+        .icon-circle:hover :global(.${iconClassName}) {
+          color: ${DefaultTheme.MENU_ITEM_ICON_HIGHLIGHT_COLOR};
+        }
       `}</style>
-      {iconStyle}
     </div>
   );
 };

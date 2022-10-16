@@ -108,7 +108,10 @@ const IdentityMetadata: React.FC<UserMetadataProps> = (props) => {
         </div>
       )}
       <div className="timestamp">
-        <ActionLink link={createdMessageLink} label="The timestamp of the post">
+        <ActionLink
+          link={createdMessageLink}
+          aria-label="The timestamp of the post"
+        >
           {createdMessage}
         </ActionLink>
       </div>

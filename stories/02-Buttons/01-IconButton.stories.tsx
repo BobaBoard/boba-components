@@ -37,7 +37,7 @@ const ButtonTemplate: Story<IconButtonProps> = (args) => {
 
 export const IconButton = ButtonTemplate.bind({});
 IconButton.args = {
-  icon: faCoffee,
+  icon: { icon: faCoffee },
   link: {
     onClick: () => {
       // This is already handled by the config parameters above
@@ -48,24 +48,33 @@ IconButton.args = {
 export const WithNotifications = ButtonTemplate.bind({});
 WithNotifications.args = {
   ...IconButton.args,
-  withNotifications: true,
-  notificationColor: "red",
+  withNotifications: { color: "red" },
 };
 
 export const WithCustomNotificationsIcon = ButtonTemplate.bind({});
 WithCustomNotificationsIcon.args = {
   ...WithNotifications.args,
-  notificationIcon: faWineBottle,
+  withNotifications: {
+    ...WithNotifications.args.withNotifications,
+    icon: faWineBottle,
+  },
 };
 
 export const WithDropdown = ButtonTemplate.bind({});
 WithDropdown.args = {
   ...IconButton.args,
-  withDropdown: true,
+  withDropdown: {},
 };
 
 export const WithCustomDropdownIcon = ButtonTemplate.bind({});
 WithCustomDropdownIcon.args = {
   ...WithDropdown.args,
-  dropdownIcon: faWineBottle,
+  withDropdown: { icon: faWineBottle },
+};
+
+export const WithDropdownAndNotification = ButtonTemplate.bind({});
+WithDropdownAndNotification.args = {
+  ...IconButton.args,
+  withNotifications: {},
+  withDropdown: {},
 };

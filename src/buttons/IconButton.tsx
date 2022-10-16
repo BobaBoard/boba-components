@@ -5,71 +5,55 @@ import {
 } from "@fortawesome/free-solid-svg-icons";
 
 import ActionLink from "./ActionLink";
+import { AriaAttributes } from "react";
 import { LinkWithAction } from "types";
 import React from "react";
 import Theme from "theme/default";
 import classnames from "classnames";
+import css from "styled-jsx/css";
 
 const NotificationDot = (props: IconButtonProps) => {
+  const notificationProps = {
+    ...props.withNotifications,
+    icon: props.withNotifications?.icon || faCircle,
+    color: props.withNotifications?.color || "inherit",
+  };
   return (
     <div className="notification-dot">
-      <Icon icon={props.notificationIcon || faCircle} />
+      <Icon {...notificationProps} />
       <style jsx>{`
         .notification-dot {
-          --top-icon-color: ${props.notificationColor};
+          --top-icon-color: ${notificationProps.color};
         }
       `}</style>
       <style jsx>{`
         .notification-dot {
           position: absolute;
-          color: var(--top-icon-color, red);
-          top: 2px;
+          color: var(--top-icon-color, ${Theme.NOTIFICATIONS_NEW_COLOR});
+          top: 0px;
           right: 0px;
-          transform: translate(50%, -50%);
+          z-index: 1;
           font-size: 10px;
           // The border around the icon
           // TODO: extract this into a utility style #css
           filter: drop-shadow(
-              -1px 0px 0px var(--top-icon-background-color, ${Theme.LAYOUT_HEADER_BACKGROUND_COLOR})
+              -1px 0px 0px var(--top-icon-border-color, ${Theme.LAYOUT_HEADER_BACKGROUND_COLOR})
             )
             drop-shadow(
-              0px -1px 0px var(--top-icon-background-color, ${Theme.LAYOUT_HEADER_BACKGROUND_COLOR})
+              0px -1px 0px var(--top-icon-border-color, ${Theme.LAYOUT_HEADER_BACKGROUND_COLOR})
             )
             drop-shadow(
               1px 0px 0px
                 var(
-                  --top-icon-background-color,
+                  --top-icon-border-color,
                   ${Theme.LAYOUT_HEADER_BACKGROUND_COLOR}
                 )
             )
             drop-shadow(
               0px 1px 0px
-                $var(
-                  --top-icon-background-color,
+                var(
+                  --top-icon-border-color,
                   ${Theme.LAYOUT_HEADER_BACKGROUND_COLOR}
-                )
-            );
-        }
-        .notification-dot:hover {
-          // The border around the icon, on hover.
-          filter: drop-shadow(
-              -1px 0px 0px var(--top-icon-background-color--hover, ${Theme.MENU_ITEM_ICON_BACKGROUND_COLOR})
-            )
-            drop-shadow(
-              0px -1px 0px var(--top-icon-background-color--hover, ${Theme.MENU_ITEM_ICON_BACKGROUND_COLOR})
-            )
-            drop-shadow(
-              1px 0px 0px
-                var(
-                  --top-icon-background-color--hover,
-                  ${Theme.MENU_ITEM_ICON_BACKGROUND_COLOR}
-                )
-            )
-            drop-shadow(
-              0px 1px 0px
-                var(
-                  --top-icon-background-color--hover,
-                  ${Theme.MENU_ITEM_ICON_BACKGROUND_COLOR}
                 )
             );
         }
@@ -79,18 +63,23 @@ const NotificationDot = (props: IconButtonProps) => {
 };
 
 const DropdownIndicator = (props: IconButtonProps) => {
+  const dropdownProps = {
+    ...props.withDropdown,
+    icon: props.withDropdown?.icon || faChevronCircleDown,
+    color: props.withDropdown?.color || "inherit",
+  };
   return (
     <div
       className={classnames("dropdown-indicator", {
         visible: !!props.withDropdown,
       })}
     >
-      <Icon icon={props.dropdownIcon || faChevronCircleDown} />
+      <Icon {...dropdownProps} />
       <style jsx>{`
         .dropdown-indicator {
           position: absolute;
-          right: -3px;
-          bottom: 1px;
+          right: 0;
+          bottom: 0;
           color: ${Theme.MENU_ITEM_ICON_BACKGROUND_COLOR};
           background-color: ${Theme.MENU_ITEM_ICON_COLOR};
           border-radius: 50%;
@@ -118,35 +107,35 @@ const DropdownIndicator = (props: IconButtonProps) => {
 /**
  * A button made of a single icon.
  */
-export interface IconButtonProps {
-  icon: IconProps["icon"];
-  /**
-   * The aria-label associated with the icon.
-   */
-  label?: string;
+export interface IconButtonProps extends AriaAttributes {
+  icon: IconProps;
+  className?: string;
   link?: LinkWithAction;
-  /**
-   * The notification icon settings.
-   */
-  withNotifications?: boolean;
-  notificationIcon?: IconProps["icon"];
-  withDropdown?: boolean;
-  dropdownIcon: IconProps["icon"];
-  notificationColor?: string;
+  withNotifications?: Partial<IconProps>;
+  withDropdown?: Partial<IconProps>;
 }
+
+const { className: linkWrapper, styles: linkWrapperStyles } = css.resolve`
+  width: 35px;
+  height: 35px;
+  position: relative;
+`;
 
 const IconButton: React.FC<IconButtonProps> = (props) => {
   return (
-    <ActionLink label={props.label} link={props.link}>
+    <ActionLink
+      aria-label={props["aria-label"]}
+      link={props.link}
+      className={classnames(props.className, linkWrapper)}
+    >
+      {props.withNotifications && <NotificationDot {...props} />}
       <div className={classnames("icon-button")}>
-        {props.withNotifications && <NotificationDot {...props} />}
-        <Icon icon={props.icon} />
-        {props.withDropdown && <DropdownIndicator {...props} />}
+        <Icon {...props.icon} />
       </div>
+      {props.withDropdown && <DropdownIndicator {...props} />}
+      {linkWrapperStyles}
       <style jsx>{`
         .icon-button {
-          width: 35px;
-          height: 35px;
           border-radius: 50%;
           border: 0;
           background: transparent;
@@ -158,8 +147,9 @@ const IconButton: React.FC<IconButtonProps> = (props) => {
           justify-content: center;
           position: relative;
           flex-shrink: 0;
-          font-size: 20px;
           padding: 0;
+          width: 100%;
+          height: 100%;
         }
         .icon-button:focus {
           outline: none;

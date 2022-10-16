@@ -36,7 +36,7 @@ const ButtonTemplate: Story<CircleButtonProps> = (args) => {
 
 export const Regular = ButtonTemplate.bind({});
 Regular.args = {
-  icon: faCoffee,
+  icon: { icon: faCoffee },
   link: {
     onClick: () => {
       // This is already handled by the config parameters above
@@ -54,13 +54,13 @@ WithBorderColor.args = {
 export const WithDropdown = ButtonTemplate.bind({});
 WithDropdown.args = {
   ...Regular.args,
-  withDropdown: true,
+  withDropdown: {},
 };
 
 export const WithNotificationDot = ButtonTemplate.bind({});
 WithNotificationDot.args = {
   ...Regular.args,
-  withNotification: true,
+  withNotification: {},
 };
 
 export const WithNotificationDotAndBorder = ButtonTemplate.bind({});
@@ -92,12 +92,12 @@ Loading.args = {
 export const WithImage = ButtonTemplate.bind({});
 WithImage.args = {
   ...Regular.args,
-  icon: mamoru,
+  icon: { icon: mamoru },
 };
 
 export const WithBlurredImage = ButtonTemplate.bind({});
 WithBlurredImage.args = {
   ...Regular.args,
-  icon: mamoru,
+  icon: { icon: mamoru },
   blurred: true,
 };

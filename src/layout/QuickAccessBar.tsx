@@ -8,8 +8,11 @@ import { faBars } from "@fortawesome/free-solid-svg-icons";
 
 interface QuickAccessBarProps {
   hasNotifications: boolean;
+  // TODO: remove this and pass the notification color directly
+  // down from the layout
   hasOutdatedNotifications: boolean;
   notificationIcon?: IconProps["icon"];
+  notificationColor?: string;
   sideMenuOpen: boolean;
   sideMenuFullyClosed: boolean;
   setShowSideMenu: (show: boolean) => void;
@@ -19,6 +22,7 @@ interface QuickAccessBarProps {
   sideMenuContent: React.ReactNode;
 }
 
+const menuIcon = { icon: faBars };
 const QuickAccessBar: React.ForwardRefRenderFunction<
   HTMLDivElement,
   QuickAccessBarProps
@@ -26,6 +30,7 @@ const QuickAccessBar: React.ForwardRefRenderFunction<
   {
     hasNotifications,
     hasOutdatedNotifications,
+    notificationColor,
     sideMenuOpen,
     sideMenuFullyClosed,
     sideMenuContent,
@@ -44,14 +49,19 @@ const QuickAccessBar: React.ForwardRefRenderFunction<
     >
       <div className={"sidemenu-button-container"}>
         <IconButton
-          icon={faBars}
-          label="menu"
-          withNotifications={hasNotifications}
-          notificationIcon={notificationIcon}
-          notificationColor={
-            hasOutdatedNotifications
-              ? Theme.NOTIFICATIONS_OUTDATED_COLOR
-              : Theme.NOTIFICATIONS_NEW_COLOR
+          icon={menuIcon}
+          aria-label="menu"
+          withNotifications={
+            hasNotifications
+              ? {
+                  icon: notificationIcon,
+                  color:
+                    notificationColor ??
+                    (hasOutdatedNotifications
+                      ? Theme.NOTIFICATIONS_OUTDATED_COLOR
+                      : Theme.NOTIFICATIONS_NEW_COLOR),
+                }
+              : undefined
           }
           link={onSideMenuButtonClick}
         />

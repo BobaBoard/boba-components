@@ -33,8 +33,8 @@ const BoardMenuItem: React.FC<BoardMenuItemProps> = (props) => {
   return (
     <ActionLink
       link={link}
-      current={current ? "page" : false}
-      label={getNotificationlabel(props)}
+      aria-current={current ? "page" : false}
+      aria-label={getNotificationlabel(props)}
       className={classnames(containerClassname, "board-menu-item", {
         "has-updates": !!updates,
         muted: !!muted,

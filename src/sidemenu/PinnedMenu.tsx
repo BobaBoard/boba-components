@@ -1,7 +1,4 @@
-import CircleButton, {
-  CircleButtonProps,
-  SelectLightPosition,
-} from "buttons/CircleButton";
+import CircleButton, { CircleButtonProps } from "buttons/CircleButton";
 import DropdownListMenu, {
   DropdownProps,
   DropdownStyle,
@@ -78,8 +75,8 @@ const PinnedMenuItem: React.FC<
         </div>
       ) : "slug" in item ? (
         <ActionLink
-          label={getNotificationlabel(item, label)}
-          current={current ? "page" : false}
+          aria-label={getNotificationlabel(item, label)}
+          aria-current={current ? "page" : false}
           link={item.link}
         >
           <BoardIcon {...item} current={current} large />
@@ -91,17 +88,22 @@ const PinnedMenuItem: React.FC<
             style={DropdownStyle.DARK}
             label={label}
           >
-            <CircleButton {...item} withDropdown={!!menuOptions?.length} />
+            <CircleButton
+              {...item}
+              // Pass an empty object to trigger the default rendering
+              withDropdown={menuOptions?.length ? {} : undefined}
+            />
           </DropdownListMenu>
         </div>
       ) : (
         <div className="button-wrapper">
           <CircleButton
             {...item}
-            withDropdown={!!menuOptions?.length}
-            label={getNotificationlabel(item, label)}
+            // Pass an empty object to trigger the default rendering
+            withDropdown={menuOptions?.length ? {} : undefined}
+            aria-label={getNotificationlabel(item, label)}
             selected={current}
-            selectLightPosition={SelectLightPosition.LEFT}
+            selectLightPosition="left"
           />
         </div>
       )}
@@ -150,7 +152,7 @@ const Section: React.FC<PinnedMenuSectionProps> = (props) => {
     <section>
       <div className="icon">
         <Icon
-          label={loading ? `${sectionId} are loading` : sectionId}
+          aria-label={loading ? `${sectionId} are loading` : sectionId}
           icon={icon}
         />
       </div>

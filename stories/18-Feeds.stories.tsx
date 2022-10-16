@@ -163,7 +163,7 @@ const menuOptions = {
     {
       id: "boards",
       name: "boards",
-      icon: faTh,
+      icon: { icon: faTh },
       link: {
         href: "https://www.youtube.com/watch?v=dQw4w9WgXcQ",
         onClick: action("boards"),
@@ -172,7 +172,7 @@ const menuOptions = {
     {
       id: "inbox",
       name: "inbox",
-      icon: faInbox,
+      icon: { icon: faInbox },
       link: {
         href: "https://www.youtube.com/watch?v=dQw4w9WgXcQ",
         onClick: action("inbox"),
@@ -181,7 +181,7 @@ const menuOptions = {
     {
       id: "search",
       name: "search",
-      icon: faSearch,
+      icon: { icon: faSearch },
       link: {
         href: "https://www.youtube.com/watch?v=dQw4w9WgXcQ",
         onClick: action("search"),
@@ -581,14 +581,14 @@ export const Attempt1 = () => {
         loggedInMenuOptions={[
           {
             name: "no href",
-            icon: faUnlink,
+            icon: { icon: faUnlink },
             link: {
               onClick: action("noHrefClick"),
             },
           },
           {
             name: "with href",
-            icon: faLink,
+            icon: { icon: faLink },
             link: {
               onClick: action("withHref"),
               href: "https://www.youtube.com/watch?v=dQw4w9WgXcQ",
@@ -745,14 +745,14 @@ export const MasonryLayout = () => {
         loggedInMenuOptions={[
           {
             name: "no href",
-            icon: faUnlink,
+            icon: { icon: faUnlink },
             link: {
               onClick: action("noHrefClick"),
             },
           },
           {
             name: "with href",
-            icon: faLink,
+            icon: { icon: faLink },
             link: {
               onClick: action("withHref"),
               href: "https://www.youtube.com/watch?v=dQw4w9WgXcQ",
