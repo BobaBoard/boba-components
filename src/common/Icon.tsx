@@ -23,7 +23,7 @@ const Icon: React.FC<IconProps> = ({ icon, className, color, ...props }) => {
     <FontAwesomeIcon
       icon={icon}
       className={classNames("icon", className)}
-      title={"aria-label"}
+      aria-label={props["aria-label"]}
       color={color}
     />
   );

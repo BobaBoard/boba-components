@@ -17,6 +17,7 @@ const NotificationDot = (props: IconButtonProps) => {
     ...props.withNotifications,
     icon: props.withNotifications?.icon || faCircle,
     color: props.withNotifications?.color || "inherit",
+    "aria-label": props.withNotifications?.["aria-label"] ?? "notification",
   };
   return (
     <div className="notification-dot">
@@ -67,6 +68,7 @@ const DropdownIndicator = (props: IconButtonProps) => {
     ...props.withDropdown,
     icon: props.withDropdown?.icon || faChevronCircleDown,
     color: props.withDropdown?.color || "inherit",
+    "aria-label": props.withDropdown?.["aria-label"] ?? "dropdown",
   };
   return (
     <div
@@ -125,6 +127,7 @@ const IconButton: React.FC<IconButtonProps> = (props) => {
   return (
     <ActionLink
       aria-label={props["aria-label"]}
+      aria-current={props["aria-current"]}
       link={props.link}
       className={classnames(props.className, linkWrapper)}
     >
