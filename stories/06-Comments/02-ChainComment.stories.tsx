@@ -75,7 +75,7 @@ export const CompactChainCommentWithAction = CommentTemplate.bind({});
 CompactChainCommentWithAction.args = {
   ...CompactChainComment.args,
   onExtraAction: {
-    onClick: () => action("click")(),
+    onClick: action("click"),
     label: "onExtraAction trigger",
   },
 };

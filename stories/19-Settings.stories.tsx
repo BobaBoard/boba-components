@@ -15,7 +15,7 @@ export default {
 
 export const SettingsLayout = () => {
   const link = {
-    onClick: () => action("option")(),
+    onClick: action("option"),
     href: "https://www.youtube.com/watch?v=dQw4w9WgXcQ",
   };
   const [globalSettingValue, setGlobalSettingValue] =

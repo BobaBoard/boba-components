@@ -174,11 +174,11 @@ Icons.args = {
       menuOptions: [
         {
           name: "Option 1",
-          link: { onClick: () => action("userOption1")() },
+          link: { onClick: action("userOption1") },
         },
         {
           name: "Option 2",
-          link: { onClick: () => action("userOption2")() },
+          link: { onClick: action("userOption2") },
         },
       ],
     },

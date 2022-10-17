@@ -7,6 +7,10 @@ import {
   EmptySectionProps,
   LoadingSectionProps,
 } from "sidemenu/BoardsMenuSection";
+import {
+  faMapMarkerAlt,
+  faVolumeMute,
+} from "@fortawesome/free-solid-svg-icons";
 import { render, screen, waitFor, within } from "@testing-library/react";
 
 import React from "react";
@@ -14,10 +18,6 @@ import { action } from "@storybook/addon-actions";
 import { composeStories } from "@storybook/testing-react";
 import { mocked } from "jest-mock";
 import userEvent from "@testing-library/user-event";
-import {
-  faMapMarkerAlt,
-  faVolumeMute,
-} from "@fortawesome/free-solid-svg-icons";
 
 jest.mock("@storybook/addon-actions");
 
@@ -42,14 +42,12 @@ describe("Regular", () => {
 
   test("Board menu items link to boards", async () => {
     render(<Regular />);
-    const actionReturn = jest.fn();
-    mocked(action).mockReturnValue(actionReturn);
 
     const boardLinks = screen.getAllByRole("link");
     for (const boardLink of boardLinks) {
       userEvent.click(boardLink);
       await waitFor(() => {
-        expect(action).toBeCalledWith("#slug");
+        expect(action("#slug")).toHaveBeenCalled();
         expect(boardLink).toHaveAttribute("href", "#slug");
       });
     }

@@ -8,6 +8,11 @@ import PinnedMenu, {
   PinnedMenuSectionProps,
   WithPinnedSectionProps,
 } from "sidemenu/PinnedMenu";
+import {
+  faMapMarkerAlt,
+  faThumbtack,
+  faVolumeMute,
+} from "@fortawesome/free-solid-svg-icons";
 import { render, screen, waitFor, within } from "@testing-library/react";
 
 import { BoardType } from "types";
@@ -16,11 +21,6 @@ import { DropdownProps } from "common/DropdownListMenu";
 import React from "react";
 import { action } from "@storybook/addon-actions";
 import { composeStories } from "@storybook/testing-react";
-import {
-  faThumbtack,
-  faVolumeMute,
-  faMapMarkerAlt,
-} from "@fortawesome/free-solid-svg-icons";
 import { mocked } from "jest-mock";
 import userEvent from "@testing-library/user-event";
 
@@ -53,14 +53,12 @@ describe("Boards", () => {
 
   test("Board menu items link to boards", async () => {
     render(<Boards />);
-    const actionReturn = jest.fn();
-    mocked(action).mockReturnValue(actionReturn);
 
     const boardLinks = screen.getAllByRole("link");
     for (const boardLink of boardLinks) {
       userEvent.click(boardLink);
       await waitFor(() => {
-        expect(action).toBeCalledWith("#slug");
+        expect(action("#slug")).toHaveBeenCalled();
         expect(boardLink).toHaveAttribute("href", "#slug");
       });
     }
@@ -185,8 +183,6 @@ describe("Icons", () => {
 
   test("Icons with links have correct links", async () => {
     render(<Icons />);
-    const actionReturn = jest.fn();
-    mocked(action).mockReturnValue(actionReturn);
 
     const argsItems = (Icons.args as WithPinnedSectionProps)
       .items as (CircleButtonProps & {
@@ -244,16 +240,13 @@ describe("Icons", () => {
   test("Renders icon options dropdown", async () => {
     render(<Icons />);
 
-    const actionReturn = jest.fn();
-    mocked(action).mockReturnValue(actionReturn);
-
     userEvent.click(screen.getByLabelText("user options"));
     await waitFor(() => {
       expect(screen.getByText("Option 1")).toBeVisible();
     });
     userEvent.click(screen.getByText("Option 1"));
     await waitFor(() => {
-      expect(action).toBeCalledWith("userOption1");
+      expect(action("userOption1")).toHaveBeenCalled();
     });
 
     await waitFor(() => {
@@ -266,7 +259,7 @@ describe("Icons", () => {
     });
     userEvent.click(screen.getByText("Option 2"));
     await waitFor(() => {
-      expect(action).toBeCalledWith("userOption2");
+      expect(action("userOption2")).toHaveBeenCalled();
     });
   });
 });

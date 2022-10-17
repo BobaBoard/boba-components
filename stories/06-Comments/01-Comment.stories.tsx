@@ -64,7 +64,7 @@ export const CompactTextWithAction = CommentTemplate.bind({});
 CompactTextWithAction.args = {
   ...CompactTextComment.args,
   onExtraAction: {
-    onClick: () => action("click")(),
+    onClick: action("click"),
     label: "onExtraAction trigger",
   },
 };
@@ -91,7 +91,7 @@ export const CompactImageCommentWithAction = CommentTemplate.bind({});
 CompactImageCommentWithAction.args = {
   ...ImageComment.args,
   onExtraAction: {
-    onClick: () => action("click")(),
+    onClick: action("click"),
     label: "onExtraAction trigger",
   },
 };

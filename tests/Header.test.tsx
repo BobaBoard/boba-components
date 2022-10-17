@@ -86,7 +86,7 @@ test("Renders header with date", async () => {
   );
   fireEvent.click(timestamp);
   await waitFor(() => {
-    expect(action).toBeCalledWith("withHref");
+    expect(action("withHref")).toHaveBeenCalled();
   });
 });
 

@@ -115,16 +115,13 @@ test("Renders boards menu", async () => {
 test("Renders boards dropdown", async () => {
   render(<SideMenuPreview />);
 
-  const actionReturn = jest.fn();
-  mocked(action).mockReturnValue(actionReturn);
-
   userEvent.click(screen.getByLabelText("board menu options"));
   await waitFor(() => {
     expect(screen.getByText("Dismiss notifications")).toBeVisible();
   });
   userEvent.click(screen.getByText("Dismiss notifications"));
   await waitFor(() => {
-    expect(action).toBeCalledWith("dismissNotifications");
+    expect(action("dismissNotifications")).toHaveBeenCalled();
   });
 
   await waitFor(() => {
@@ -144,21 +141,16 @@ test("Renders board filter", async () => {
 test("Correctly propagates filter change on text entry", async () => {
   render(<SideMenuPreview />);
 
-  const actionReturn = jest.fn();
-  mocked(action).mockReturnValue(actionReturn);
-
   const boardFilter = screen.getByRole("searchbox");
   userEvent.type(boardFilter, "meta");
   await waitFor(() => {
-    expect(action).toBeCalledWith("filterBoards");
-    expect(actionReturn).toBeCalledWith("meta");
+    expect(action("filterBoards")).toBeCalledWith("meta");
   });
   expect(boardFilter).toHaveValue("meta");
 
   userEvent.type(boardFilter, "{backspace}{backspace}");
   await waitFor(() => {
-    expect(action).toBeCalledWith("filterBoards");
-    expect(actionReturn).toBeCalledWith("me");
+    expect(action("filterBoards")).toBeCalledWith("me");
   });
   expect(boardFilter).toHaveValue("me");
 });
@@ -166,35 +158,28 @@ test("Correctly propagates filter change on text entry", async () => {
 test("Board filter returns empty string on deletion of contents", async () => {
   render(<SideMenuPreview />);
 
-  const actionReturn = jest.fn();
-  mocked(action).mockReturnValue(actionReturn);
-
   const boardFilter = screen.getByRole("searchbox");
   userEvent.type(boardFilter, "meta");
   await waitFor(() => {
-    expect(action).toBeCalledWith("filterBoards");
-    expect(actionReturn).toBeCalledWith("meta");
+    expect(action("filterBoards")).toBeCalledWith("meta");
   });
   expect(boardFilter).toHaveValue("meta");
 
   userEvent.type(boardFilter, "{backspace}{backspace}{backspace}{backspace}");
   await waitFor(() => {
-    expect(action).toBeCalledWith("filterBoards");
-    expect(actionReturn).toBeCalledWith("");
+    expect(action("filterBoards")).toBeCalledWith("");
   });
   expect(boardFilter).toHaveValue("");
 
   userEvent.type(boardFilter, "meta");
   await waitFor(() => {
-    expect(action).toBeCalledWith("filterBoards");
-    expect(actionReturn).toBeCalledWith("meta");
+    expect(action("filterBoards")).toBeCalledWith("meta");
   });
   expect(boardFilter).toHaveValue("meta");
 
   userEvent.type(boardFilter, "{selectall}{del}");
   await waitFor(() => {
-    expect(action).toBeCalledWith("filterBoards");
-    expect(actionReturn).toBeCalledWith("");
+    expect(action("filterBoards")).toBeCalledWith("");
   });
   expect(boardFilter).toHaveValue("");
 });

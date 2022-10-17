@@ -48,9 +48,9 @@ Regular.args = {
     { name: "test11", state: FilteredTagsState.ACTIVE },
   ],
   type: TagType.CONTENT_WARNING,
-  onTagsStateChangeRequest: (...args) => action("tagChange")(args),
+  onTagsStateChangeRequest: action("tagChange"),
   uncategorized: FilteredTagsState.ACTIVE,
-  onUncategorizedStateChangeRequest: (...args) => action("uncategorized")(args),
+  onUncategorizedStateChangeRequest: action("uncategorized"),
 };
 
 export const Inactive = TagsFilterSectionTemplate.bind({});
@@ -76,5 +76,5 @@ export const Editable = TagsFilterSectionTemplate.bind({});
 Editable.args = {
   ...Regular.args,
   editable: true,
-  onTagsChange: (...args) => action("tagChange")(args),
+  onTagsChange: action("tagChange"),
 };

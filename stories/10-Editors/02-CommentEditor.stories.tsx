@@ -61,8 +61,8 @@ const CommentChainEditorTemplate: Story<CommentChainEditorProps> = (args) => (
 export const Base = CommentChainEditorTemplate.bind({});
 Base.args = {
   userIdentity: { name: "SexyDaddy69", avatar: `/${mamoruAvatar}` },
-  onSubmit: (submitProps) => action("submit")(submitProps),
-  onCancel: () => action("cancel"),
+  onSubmit: action("submit"),
+  onCancel: action("cancel"),
 };
 
 export const WithLoadingState = CommentChainEditorTemplate.bind({});

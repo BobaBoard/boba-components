@@ -67,7 +67,7 @@ const COMMENT_ARGS: CommentProps = {
   },
   createdTime: "At some point",
   onExtraAction: {
-    onClick: () => action("click")(),
+    onClick: action("click"),
     label: "onExtraAction trigger",
   },
 };
