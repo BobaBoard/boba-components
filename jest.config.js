@@ -31,5 +31,7 @@ export default {
     "/!node_modules\\/fitty/",
     "/!node_modules\\/@bobaboard/boba-editor",
   ],
+  // For CI
+  testPathIgnorePatterns: ["boba-editor/"],
   setupFilesAfterEnv: ["./tests/utils/jestSetup.ts"],
 };

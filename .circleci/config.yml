@@ -40,7 +40,7 @@ jobs:
           command: yarn link @bobaboard/boba-editor
       - run:
           name: test
-          command: yarn run test:ci tests/
+          command: yarn run test:ci
 
       # - node/run:
       #     yarn-run: link
