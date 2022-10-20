@@ -17,11 +17,7 @@ import Button from "buttons/Button";
 import React from "react";
 import { WITH_ACCESSORIES_DECORATOR } from "../utils/decorators";
 import { action } from "@storybook/addon-actions";
-import junkoReaction from "stories/images/junko-reaction.png";
-import luigiReaction from "stories/images/luigi-reaction.png";
 import mamoruAvatar from "stories/images/mamoru.png";
-import oncieReaction from "stories/images/oncie-reaction.png";
-import sportacusReaction from "stories/images/sportacus-reaction.png";
 import tuxedoAvatar from "stories/images/tuxedo-mask.jpg";
 
 export default {

@@ -2,7 +2,6 @@ import CompactPostThread from "post/CompactPostThread";
 import React from "react";
 import { action } from "@storybook/addon-actions";
 import greedlerAvatar from "./images/greedler.jpg";
-import hannibalAvatar from "./images/hannibal.png";
 import mamoruAvatar from "./images/mamoru.png";
 import oncelerAvatar from "./images/oncie.jpg";
 import tuxedoAvatar from "./images/tuxedo-mask.jpg";
@@ -14,6 +13,8 @@ export default {
 export const CompactThreadStory = () => {
   return (
     <CompactPostThread
+      onNewComment={action("comment")}
+      onNewContribution={action("contribute")}
       posts={[
         {
           createdTime: "5 minutes ago",
@@ -34,8 +35,6 @@ export const CompactThreadStory = () => {
             onClick: action("notesLink"),
             href: "https://www.youtube.com/watch?v=dQw4w9WgXcQ",
           },
-          onNewComment: () => console.log("click"),
-          onNewContribution: () => console.log("click"),
         },
         {
           createdTime: "10 hours ago",
@@ -74,8 +73,6 @@ export const CompactThreadStory = () => {
             onClick: action("notesLink"),
             href: "https://www.youtube.com/watch?v=dQw4w9WgXcQ",
           },
-          onNewComment: () => console.log("click"),
-          onNewContribution: () => console.log("click"),
         },
         {
           createdTime: "yesterday",
@@ -114,8 +111,6 @@ export const CompactThreadStory = () => {
             onClick: action("notesLink"),
             href: "https://www.youtube.com/watch?v=dQw4w9WgXcQ",
           },
-          onNewComment: () => console.log("click"),
-          onNewContribution: () => console.log("click"),
         },
       ]}
     />
