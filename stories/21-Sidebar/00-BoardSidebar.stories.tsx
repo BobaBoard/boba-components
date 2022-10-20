@@ -57,11 +57,11 @@ RegularBoardSidebar.args = {
   previewOptions: [
     {
       name: "opt1",
-      link: { onClick: () => action("boardOption1")() },
+      link: { onClick: action("boardOption1") },
     },
     {
       name: "opt2",
-      link: { onClick: () => action("boardOption2")() },
+      link: { onClick: action("boardOption2") },
     },
   ],
   sidebarSections: [

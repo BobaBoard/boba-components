@@ -48,24 +48,20 @@ describe("Regular", () => {
   test("Triggers tag status change", async () => {
     render(<Regular />);
 
-    const actionReturn = jest.fn();
-    mocked(action).mockReturnValue(actionReturn);
     fireEvent.click(screen.getByText(TagMatcher(`cn:test4`)));
     await waitFor(() => {
-      expect(action).toBeCalledWith("tagChange");
-      expect(actionReturn).toBeCalledWith(["test4"]);
+      expect(action("tagChange")).toBeCalledWith("test4");
     });
   });
 
   test("Triggers uncategorized click", async () => {
     render(<Regular />);
 
-    const disableActionReturn = jest.fn();
-    mocked(action).mockReturnValue(disableActionReturn);
     fireEvent.click(screen.getByText(TagMatcher(`cn:uncategorized`)));
     await waitFor(() => {
-      expect(action).toHaveBeenCalledWith("tagChange");
-      expect(disableActionReturn).toBeCalledWith([FilteredTagsState.DISABLED]);
+      expect(action("uncategorized")).toBeCalledWith(
+        FilteredTagsState.DISABLED
+      );
     });
   });
 
@@ -107,12 +103,9 @@ describe("Inactive", () => {
   test("Triggers uncategorized click", async () => {
     render(<Inactive />);
 
-    const disableActionReturn = jest.fn();
-    mocked(action).mockReturnValue(disableActionReturn);
     fireEvent.click(screen.getByText(TagMatcher(`cn:uncategorized`)));
     await waitFor(() => {
-      expect(action).toHaveBeenCalledWith("tagChange");
-      expect(disableActionReturn).toBeCalledWith([FilteredTagsState.ACTIVE]);
+      expect(action("uncategorized")).toBeCalledWith(FilteredTagsState.ACTIVE);
     });
   });
 });
@@ -135,17 +128,14 @@ describe("Editable", () => {
     const tag = screen.getByText(TagMatcher(`cn:test4`));
     const deleteButton = within(tag).getByLabelText("delete tag");
 
-    const removeTagMethod = jest.fn();
-    mocked(action).mockReturnValue(removeTagMethod);
     fireEvent.click(deleteButton);
 
     await waitFor(() => {
-      expect(action).toHaveBeenCalledWith("tagChange");
-      expect(removeTagMethod).toBeCalledWith([
+      expect(action("tagChange")).toBeCalledWith(
         Editable.args?.tags
           ?.filter((tag) => tag.name != "test4")
-          .map((tag) => ({ name: tag.name })),
-      ]);
+          .map((tag) => ({ name: tag.name }))
+      );
     });
   });
 
@@ -155,17 +145,12 @@ describe("Editable", () => {
     const addNewTag = screen.getByLabelText("Add new tag");
 
     userEvent.type(addNewTag!, "bar");
-    const addTagMethod = jest.fn();
-    mocked(action).mockReturnValue(addTagMethod);
     fireEvent.click(screen.getByLabelText("Add tag button"));
 
     await waitFor(() => {
-      expect(action).toHaveBeenCalledWith("tagChange");
-      expect(addTagMethod).toBeCalledWith([
-        [
-          ...Editable.args!.tags!.map((tag) => ({ name: tag.name })),
-          { name: "bar" },
-        ],
+      expect(action("tagChange")).toBeCalledWith([
+        ...Editable.args!.tags!.map((tag) => ({ name: tag.name })),
+        { name: "bar" },
       ]);
     });
   });

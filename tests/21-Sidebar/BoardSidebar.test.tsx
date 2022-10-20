@@ -27,12 +27,9 @@ jest.mock("uuid", () => ({
 const { RegularBoardSidebar, EditableBoardSidebar } = composeStories(stories);
 
 const submitAndCheckValue = async (screen: Screen, valueMatcher: unknown) => {
-  const actionReturn = jest.fn();
-  mocked(action).mockReturnValue(actionReturn);
   fireEvent.click(screen.getByText("Save"));
   await waitFor(() => {
-    expect(action).toBeCalledWith("save");
-    expect(actionReturn).toBeCalledWith([valueMatcher]);
+    expect(action("save")).toBeCalledWith([valueMatcher]);
   });
 };
 
@@ -105,15 +102,14 @@ const hasDescriptionsMatcher = (
 describe("Regular", () => {
   test("Renders board options", async () => {
     render(<RegularBoardSidebar />);
-    const actionReturn = jest.fn();
-    mocked(action).mockReturnValue(actionReturn);
+
     fireEvent.click(screen.getByLabelText("Board options"));
     await waitFor(() => {
       expect(screen.getByText("opt2")).toBeVisible();
     });
     fireEvent.click(screen.getByText("opt2"));
     await waitFor(() => {
-      expect(action).toBeCalledWith("boardOption2");
+      expect(action("boardOption2")).toHaveBeenCalled();
     });
   });
 
@@ -142,11 +138,10 @@ describe("Regular", () => {
 describe("Editable", () => {
   test("Triggers stop editing on back", async () => {
     render(<EditableBoardSidebar />);
-    const actionReturn = jest.fn();
-    mocked(action).mockReturnValue(actionReturn);
+
     fireEvent.click(screen.getByText("Back"));
     await waitFor(() => {
-      expect(action).toBeCalledWith("cancel");
+      expect(action("cancel")).toHaveBeenCalled();
     });
   });
 

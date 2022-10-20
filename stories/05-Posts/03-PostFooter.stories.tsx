@@ -53,8 +53,8 @@ WithNotes.args = {
   totalComments: 4,
   // We need to do this because when action is given an event
   // it causes an exception
-  onContribution: () => action("contribution")(),
-  onComment: () => action("comment")(),
+  onContribution: action("contribution"),
+  onComment: action("comment"),
 };
 
 export const WithUpdates = FooterTemplate.bind({});
@@ -100,7 +100,7 @@ export const NotesWithNoHref = FooterTemplate.bind({});
 NotesWithNoHref.args = {
   ...WithUpdates.args,
   notesLink: {
-    onClick: () => action("withoutHref")(),
+    onClick: action("withoutHref"),
   },
 };
 
@@ -110,7 +110,7 @@ NotesWithHref.args = {
   allowsComment: false,
   allowsContribution: false,
   notesLink: {
-    onClick: () => action("withHref")(),
+    onClick: action("withHref"),
     href: "https://www.youtube.com/watch?v=dQw4w9WgXcQ",
   },
 };

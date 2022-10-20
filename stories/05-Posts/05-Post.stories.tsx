@@ -52,8 +52,8 @@ Base.args = {
   createdTime: "2019/05/14 at 7:34pm",
   secretIdentity: { name: "Tuxedo Mask", avatar: `/${tuxedoAvatar}` },
   userIdentity: { name: "SexyDaddy69", avatar: `/${mamoruAvatar}` },
-  onNewContribution: () => action("newContribution"),
-  onNewComment: () => action("newComment"),
+  onNewContribution: action("newContribution"),
+  onNewComment: action("newComment"),
   createdTimeLink: {
     onClick: action("createdTime"),
     href: "https://www.youtube.com/watch?v=dQw4w9WgXcQ",

@@ -299,8 +299,8 @@ ShortContent.story = {
   name: "short content (flex)",
 };
 
-// Still broken after updating props and fixing all shown ts errors. 
-// We may be able to simply get rid of this story as it may be covered by the CommentsThread stories in the Comments folder. 
+// Still broken after updating props and fixing all shown ts errors.
+// We may be able to simply get rid of this story as it may be covered by the CommentsThread stories in the Comments folder.
 // export const ThreadedComments = () => {
 //   const lvl0Indent = useIndent();
 //   const lvl1Indent = useIndent();
@@ -490,7 +490,7 @@ ShortContent.story = {
 //   name: "comments",
 // };
 
-// Still broken after updating props and fixing all shown ts errors. 
+// Still broken after updating props and fixing all shown ts errors.
 // We may be able to simply get rid of this story as it may be covered by the CommentsThread stories in the Comments folder.
 // const TUXEDO_MASK_IDENTITY = {
 //   name: "Tuxedo Mask",
@@ -542,7 +542,7 @@ export const CollapsePlaceholderStory = () => {
   return (
     <div style={{ maxWidth: "500px", textAlign: "center" }}>
       <CollapsedPlaceholder
-        onUncollapseClick={{ onClick: () => action("uncollapse")() }}
+        onUncollapseClick={{ onClick: action("uncollapse") }}
       >
         <div>
           5 comments <span style={{ color: "green" }}>manually hidden</span>.
@@ -553,8 +553,8 @@ export const CollapsePlaceholderStory = () => {
         </div>
       </CollapsedPlaceholder>
       <CollapsedPlaceholder
-        onUncollapseClick={{ onClick: () => action("uncollapse")() }}
-        onLoadBefore={{ onClick: () => action("loadBefore")() }}
+        onUncollapseClick={{ onClick: action("uncollapse") }}
+        onLoadBefore={{ onClick: action("loadBefore") }}
       >
         <div>
           5 comments <span style={{ color: "green" }}>manually hidden</span>.
@@ -565,8 +565,8 @@ export const CollapsePlaceholderStory = () => {
         </div>
       </CollapsedPlaceholder>
       <CollapsedPlaceholder
-        onUncollapseClick={{ onClick: () => action("uncollapse")() }}
-        onLoadAfter={{ onClick: () => action("loadAfter")() }}
+        onUncollapseClick={{ onClick: action("uncollapse") }}
+        onLoadAfter={{ onClick: action("loadAfter") }}
       >
         <div>
           5 comments <span style={{ color: "green" }}>manually hidden</span>.
@@ -577,9 +577,9 @@ export const CollapsePlaceholderStory = () => {
         </div>
       </CollapsedPlaceholder>
       <CollapsedPlaceholder
-        onUncollapseClick={{ onClick: () => action("uncollapse")() }}
-        onLoadBefore={{ onClick: () => action("loadBefore")() }}
-        onLoadAfter={{ onClick: () => action("loadAfter")() }}
+        onUncollapseClick={{ onClick: action("uncollapse") }}
+        onLoadBefore={{ onClick: action("loadBefore") }}
+        onLoadAfter={{ onClick: action("loadAfter") }}
       >
         <div>
           5 comments <span style={{ color: "green" }}>manually hidden</span>.

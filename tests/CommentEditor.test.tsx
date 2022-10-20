@@ -163,18 +163,15 @@ test("Propagates selected accessory and identity on submit", async () => {
     }
   );
 
-  const actionReturn = jest.fn();
-  mocked(action).mockReturnValue(actionReturn);
   fireEvent.click(within(getContainer()).getByLabelText("Submit"));
   await waitFor(() => {
-    expect(action).toBeCalledWith("submit");
-    expect(actionReturn).toBeCalledWith({
+    expect(action("submit")).toBeCalledWith({
       accessoryId: WithAccessorySelector.args!.accessories![0].id,
       identityId: WithAccessorySelector.args!.additionalIdentities![1].id,
       texts: expect.any(Promise),
     });
   });
-  expect(await actionReturn.mock.calls[0][0].texts).toEqual([
+  expect(await mocked(action("submit")).mock.calls[0][0].texts).toEqual([
     '[{"insert":"bar"}]',
   ]);
 });

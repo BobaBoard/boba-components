@@ -43,15 +43,13 @@ describe("Chain Comment", () => {
     );
   });
   test("Renders extra action", async () => {
-    const actionReturn = jest.fn();
-    mocked(action).mockReturnValue(actionReturn);
     render(<CompactChainCommentWithAction />);
 
     screen
       .getByLabelText(CompactChainCommentWithAction.args!.onExtraAction!.label!)
       .click();
 
-    expect(actionReturn).toBeCalledTimes(1);
+    expect(action("click")).toHaveBeenCalled();
   });
 
   test("Renders accessories", async () => {

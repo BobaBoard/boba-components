@@ -134,7 +134,7 @@ SideMenuPreview.args = {
   menuOptions: [
     {
       name: "Dismiss notifications",
-      link: { onClick: () => action("dismissNotifications")() },
+      link: { onClick: action("dismissNotifications") },
     },
   ],
 };
