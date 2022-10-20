@@ -98,11 +98,15 @@ export interface LinkWithAction<T = MouseEvent> {
   label?: string;
 }
 
-export interface BoardType {
+export interface BoardDataType {
   slug: string;
   avatar: string;
-  description: string;
   color: string;
+}
+
+// TODO: rename this to something more specific.
+export interface BoardType extends BoardDataType {
+  description: string;
   updates?: number | boolean;
   outdated?: boolean;
   muted?: boolean;
