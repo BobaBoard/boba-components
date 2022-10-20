@@ -1,57 +1,266 @@
-import BoardSelector, { BoardSelectorProps } from "tags/BoardSelector";
-import { DefaultTheme, ImageUploaderContext } from "../index";
-import Header, { HeaderStyle, PostHeaderProps } from "./Header";
 import {
+  AccessoryType,
+  BoardDataType,
   SecretIdentityType,
   TagsListType,
   TagsType,
   UserIdentityType,
 } from "types";
-import {
-  faCaretDown,
-  faCompressArrowsAlt,
-} from "@fortawesome/free-solid-svg-icons";
+import BoardSelector, { BoardSelectorProps } from "tags/BoardSelector";
+import Card, { CardHandler } from "common/Card";
+import { DefaultTheme, ImageUploaderContext } from "../index";
+import Header, { HeaderStyle, PostHeaderProps } from "./Header";
+import ViewSelector, { ViewOption } from "./ViewSelector";
 
-import Button from "buttons/Button";
-import Card from "common/Card";
-import DropdownListMenu from "common/DropdownListMenu";
 import Editor from "@bobaboard/boba-editor";
 import EditorFooter from "./EditorFooter";
-import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import React from "react";
 import Spinner from "common/Spinner";
 import Tags from "tags/Tags";
 import TagsFactory from "tags/TagsFactory";
 import classnames from "classnames";
+import css from "styled-jsx/css";
 import noop from "noop-ts";
 import { prepareContentSubmission } from "utils";
+import useDimensions from "react-cool-dimensions";
 import { useHotkeys } from "react-hotkeys-hook";
-
-const computeTags = (
-  tags: TagsType[],
-  newTag: TagsType | undefined
-): TagsType[] => {
-  if (!newTag) {
-    return tags;
-  }
-
-  tags.push(newTag);
-
-  return TagsFactory.orderTags(tags);
-};
 
 export interface PostEditorHandler {
   focus: () => void;
+}
+
+// TODO: change all these `| undefined` to `| null`
+interface AccessorySelector {
+  selectedAccessory: AccessoryType | undefined;
+  accessories: AccessoryType[] | undefined;
+  onSelectAccessory: (accessory: AccessoryType | undefined) => void;
+}
+
+interface IdentitySelector {
+  userIdentity: UserIdentityType | undefined;
+  // TODO: why was this typed as string? #typescript
+  selectedIdentity: string | SecretIdentityType | undefined;
+  additionalIdentities: SecretIdentityType[] | undefined;
+  onSelectIdentity: (identity: string | SecretIdentityType | undefined) => void;
+}
+
+interface BoardSelector {
+  selectedBoard: BoardDataType | undefined;
+  availableBoards: BoardDataType[] | undefined;
+  onSelectBoard: (board: BoardDataType | undefined) => void;
 }
 
 const BOARD_SELECTOR_IN_HEADER_BREAKPOINT = 450;
 
 const MemoizedTags = React.memo(Tags);
 const MemoizedHeader = React.memo(Header);
+
+const { styles: headerStyles, className: headerClassName } = css.resolve`
+  .header {
+    border-bottom: 1px solid #d2d2d2;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    width: 100%;
+    padding-bottom: 5px;
+  }
+  .header:last-child {
+    padding-bottom: 10px;
+  }
+`;
+
+const PostEditorHeader = (
+  props: AccessorySelector &
+    IdentitySelector &
+    BoardSelector & { showBoardSelector: boolean }
+) => {
+  // TODO: double-check whether we ever have a string here or can directly
+  // use "selected identity".
+  const selectedIdentity =
+    typeof props.selectedIdentity == "object"
+      ? props.selectedIdentity
+      : props.additionalIdentities?.find(
+          (identity) => identity.id == props.selectedIdentity
+        );
+
+  return (
+    <>
+      <MemoizedHeader
+        className={classnames("header", headerClassName)}
+        secretIdentity={selectedIdentity}
+        userIdentity={props.userIdentity}
+        additionalIdentities={props.additionalIdentities}
+        onSelectIdentity={props.onSelectIdentity}
+        accessories={props.accessories}
+        accessory={props.selectedAccessory}
+        onSelectAccessory={props.onSelectAccessory}
+        size={HeaderStyle.REGULAR}
+      />
+      {props.availableBoards &&
+        // TODO: remove this condition when the board can be null in
+        // the post editor
+        props.selectedBoard &&
+        props.showBoardSelector && (
+          <div className="select-board">
+            Posting in:{" "}
+            <BoardSelector
+              availableBoards={props.availableBoards}
+              onBoardSelected={props.onSelectBoard}
+              selectedBoard={props.selectedBoard}
+            />
+          </div>
+        )}
+      <style jsx>{`
+        .select-board {
+          padding: 3px 0;
+          border-bottom: 1px solid #d2d2d2;
+          display: flex;
+          align-content: center;
+          align-items: center;
+          font-size: var(--font-size-small);
+          white-space: nowrap;
+          gap: 5px;
+        }
+      `}</style>
+      {headerStyles}
+    </>
+  );
+};
+
+const { styles: tagsStyles, className: tagsClassName } = css.resolve`
+  border-top: 1px solid #d2d2d2;
+`;
+const PostEditorFooter = (
+  props: BoardSelector & {
+    suggestibleCategories: string[] | undefined;
+    tags: TagsType[];
+    onTagsChange: (tags: TagsType[]) => void;
+    showBoardSelector: boolean;
+    canSubmit: boolean;
+    onSubmit: () => void;
+    canCancel: boolean;
+    views: ViewOption[] | undefined;
+    selectedView: ViewOption | undefined;
+    onSelectView: (selectedView: ViewOption) => void;
+    onCancel: () => void;
+  }
+) => {
+  const currentlyUsedCategories = props.tags.filter((tag) => tag.category);
+  const toSuggest = props.suggestibleCategories?.filter((suggestibleCategory) =>
+    currentlyUsedCategories.some(
+      (usedCategory) => usedCategory.name == suggestibleCategory
+    )
+  );
+  const { tags, onTagsChange } = props;
+  return (
+    <>
+      <MemoizedTags
+        tags={props.tags}
+        onTagsAdd={React.useCallback(
+          (newTag: TagsType) => {
+            if (!newTag) {
+              return onTagsChange(tags);
+            }
+            onTagsChange(TagsFactory.orderTags([...tags, newTag]));
+          },
+          [tags, onTagsChange]
+        )}
+        onTagsDelete={React.useCallback(
+          (tag: TagsType) => {
+            onTagsChange(tags.filter((currentTag) => currentTag != tag));
+          },
+          [tags, onTagsChange]
+        )}
+        editable
+        suggestedCategories={toSuggest}
+        className={tagsClassName}
+      >
+        {props.availableBoards &&
+          props.showBoardSelector &&
+          props.selectedBoard && (
+            <BoardSelector
+              availableBoards={props.availableBoards}
+              onBoardSelected={props.onSelectBoard}
+              selectedBoard={props.selectedBoard}
+            />
+          )}
+      </MemoizedTags>
+      <div
+        className={classnames("footer-actions", {
+          "with-options": !!props.views,
+        })}
+      >
+        {props.views && (
+          <ViewSelector
+            views={props.views}
+            selectedView={props.selectedView}
+            onSelectView={props.onSelectView}
+          />
+        )}
+        <EditorFooter
+          onSubmit={props.onSubmit}
+          onCancel={props.onCancel}
+          submittable={props.canSubmit}
+          cancellable={props.canCancel}
+        />
+      </div>
+      <style jsx>{`
+        .footer-actions {
+          border-top: 1px solid #d2d2d2;
+          padding-top: 5px;
+          display: flex;
+          align-items: center;
+          justify-content: flex-end;
+        }
+        .footer-actions.with-options {
+          justify-content: space-between;
+        }
+      `}</style>
+      {tagsStyles}
+    </>
+  );
+};
+
+const { styles: cardStyles, className: cardClassName } = css.resolve`
+  .post-editor {
+    max-width: ${DefaultTheme.POST_WIDTH_PX}px;
+    width: 100%;
+  }
+  .editor {
+    min-height: 300px;
+  }
+  .editor:not(.can-edit) {
+    opacity: 0.7;
+  }
+  .editor-container.loading .editor {
+    opacity: 0.5;
+  }
+  .spinner {
+    position: absolute;
+    top: 0;
+    bottom: 0;
+    left: 0;
+    right: 0;
+    justify-content: center;
+    align-items: center;
+    z-index: 100;
+  }
+
+  .editor-container:not(.loading) .spinner {
+    display: none !important;
+  }
+`;
 const PostEditor = React.forwardRef<PostEditorHandler, PostEditorProps>(
   (props, ref) => {
     const editorRef = React.useRef<Editor>(null);
     const [isEmpty, setIsEmpty] = React.useState(true);
+    const [selectedIdentity, setSelectedIdentity] = React.useState<
+      string | SecretIdentityType | undefined
+    >(props.secretIdentity);
+    const [selectedAccessory, setSelectedAccessory] =
+      React.useState<AccessoryType | undefined>();
+    const imageUploader = React.useContext(ImageUploaderContext);
+
     const [selectedBoard, setSelectedBoard] = React.useState(
       props.initialBoard
     );
@@ -60,54 +269,20 @@ const PostEditor = React.forwardRef<PostEditorHandler, PostEditorProps>(
         ? TagsFactory.getTagsFromTagObject(props.initialTags)
         : []
     );
-    const [selectedView, setSelectedView] = React.useState<string | undefined>(
-      props.viewOptions?.[0]?.name
-    );
-    const [selectedIdentity, setSelectedIdentity] =
-      React.useState<string | SecretIdentityType | undefined>();
-    const [selectedAccessory, setSelectedAccessory] =
-      React.useState<string | undefined>();
-    const [suggestedCategories, setSuggestedCategories] = React.useState(
-      props.suggestedCategories
-    );
-    const imageUploader = React.useContext(ImageUploaderContext);
-    const [boardSelectorInHeader, setBoardSelectorInHeader] =
-      React.useState(false);
+    const [selectedView, setSelectedView] = React.useState<
+      ViewOption | undefined
+    >(props.viewOptions?.[0]);
 
-    React.useEffect(() => {
-      if (
-        !props.availableBoards ||
-        !editorRef.current ||
-        !editorRef.current.editorContainer.current
-      ) {
-        return;
-      }
-      const containerObserver = new ResizeObserver((entries) => {
-        setBoardSelectorInHeader(
-          entries[0].contentRect.width < BOARD_SELECTOR_IN_HEADER_BREAKPOINT
-        );
-      });
-      containerObserver.observe(editorRef.current.editorContainer.current);
-      return () => {
-        containerObserver.disconnect();
-      };
-    }, [props.availableBoards]);
-
-    React.useEffect(() => {
-      setSelectedIdentity(props.secretIdentity);
-    }, [props.secretIdentity]);
-
-    React.useEffect(() => {
-      const currentCategories = tags.filter((tag) => tag.category);
-      setSuggestedCategories(
-        props.suggestedCategories?.filter(
-          (suggestedCategory) =>
-            !currentCategories.some(
-              (category) => category.name == suggestedCategory
-            )
-        )
-      );
-    }, [props.suggestedCategories, tags]);
+    const {
+      observe: dimensionsObserver,
+      currentBreakpoint: boardSelectorPosition,
+    } = useDimensions<HTMLDivElement>({
+      breakpoints: {
+        header: 0,
+        footer: BOARD_SELECTOR_IN_HEADER_BREAKPOINT,
+      },
+      updateOnBreakpointChange: true,
+    });
 
     React.useImperativeHandle(ref, () => ({
       focus: () => {
@@ -116,7 +291,7 @@ const PostEditor = React.forwardRef<PostEditorHandler, PostEditorProps>(
       },
     }));
 
-    const { onSubmit } = props;
+    const { onSubmit, onCancel } = props;
     const onSubmitHandler = React.useCallback(() => {
       if (!props.editableSections && isEmpty) {
         return;
@@ -131,13 +306,13 @@ const PostEditor = React.forwardRef<PostEditorHandler, PostEditorProps>(
         ).then((uploadedText) => ({
           text: uploadedText,
           tags,
-          viewOptionName: selectedView,
+          viewOptionName: selectedView?.name,
           identityId:
             typeof selectedIdentity === "object"
               ? selectedIdentity.id
               : selectedIdentity,
-          accessoryId: selectedAccessory,
-          boardSlug: selectedBoard,
+          accessoryId: selectedAccessory?.id,
+          boardSlug: selectedBoard?.slug,
         }))
       );
     }, [
@@ -151,251 +326,95 @@ const PostEditor = React.forwardRef<PostEditorHandler, PostEditorProps>(
       tags,
       selectedBoard,
     ]);
+
     useHotkeys(
       "control+enter,command+enter",
       onSubmitHandler,
       { keydown: true, enableOnTags: ["INPUT"], enableOnContentEditable: true },
       [onSubmitHandler]
     );
-
     return (
-      <>
-        <div className={classnames("post-container")}>
-          <Card>
-            <Card.Header>
-              <div className="header">
-                <MemoizedHeader
-                  secretIdentity={React.useMemo(() => {
-                    return typeof selectedIdentity == "object"
-                      ? selectedIdentity
-                      : props.additionalIdentities?.find(
-                          (identity) => identity.id == selectedIdentity
-                        );
-                  }, [selectedIdentity, props.additionalIdentities])}
-                  userIdentity={props.userIdentity}
-                  additionalIdentities={
-                    !props.editableSections
-                      ? props.additionalIdentities
-                      : undefined
-                  }
-                  onSelectIdentity={React.useCallback((identity) => {
-                    setSelectedIdentity(identity?.id);
-                  }, [])}
-                  accessories={props.accessories}
-                  accessory={props.accessories?.find(
-                    (accessory) => accessory.id === selectedAccessory
-                  )}
-                  onSelectAccessory={React.useCallback((accessory) => {
-                    setSelectedAccessory(accessory?.id);
-                  }, [])}
-                  size={HeaderStyle.REGULAR}
-                />
-                {props.minimizable ? (
-                  <Button
-                    icon={faCompressArrowsAlt}
-                    onClick={props.onMinimize}
-                    disabled={props.loading}
-                  >
-                    Minimize
-                  </Button>
-                ) : undefined}
-              </div>
-              {props.availableBoards && boardSelectorInHeader && selectedBoard && (
-                <div className="header-board">
-                  Posting in:{" "}
-                  <BoardSelector
-                    availableBoards={props.availableBoards}
-                    onBoardSelected={setSelectedBoard}
-                    selectedBoard={selectedBoard}
-                  />
-                </div>
-              )}
-            </Card.Header>
-            <div
-              className={classnames("editor-container", {
-                loading: props.loading,
-              })}
-            >
-              <div className={"spinner"}>
-                <Spinner />
-              </div>
-              <div
-                className={classnames("editor", {
-                  "can-edit": !props.editableSections,
-                })}
-              >
-                <Editor
-                  ref={editorRef}
-                  key="editor"
-                  initialText={
-                    props.initialText ? JSON.parse(props.initialText) : ""
-                  }
-                  editable={!props.loading && !props.editableSections}
-                  onIsEmptyChange={(empty: boolean) => {
-                    setIsEmpty(empty);
-                  }}
-                  // This is a no op because we're using the handler to access the content directly.
-                  onTextChange={noop}
-                />
-              </div>
-            </div>
-            <Card.Footer>
-              <div className="footer" aria-label="The post editor footer">
-                <MemoizedTags
-                  tags={tags}
-                  onTagsAdd={React.useCallback(
-                    (tag: TagsType) => setTags(computeTags(tags, tag)),
-                    [tags]
-                  )}
-                  onTagsDelete={React.useCallback(
-                    (tag: TagsType) => {
-                      setTags(tags.filter((currentTag) => currentTag != tag));
-                    },
-                    [tags]
-                  )}
-                  editable
-                  suggestedCategories={suggestedCategories}
-                >
-                  {props.availableBoards &&
-                    !boardSelectorInHeader &&
-                    selectedBoard && (
-                      <BoardSelector
-                        availableBoards={props.availableBoards}
-                        onBoardSelected={setSelectedBoard}
-                        selectedBoard={selectedBoard}
-                      />
-                    )}
-                </MemoizedTags>
-                <div
-                  className={classnames("footer-actions", {
-                    "with-options": !!props.viewOptions,
-                  })}
-                >
-                  {props.viewOptions && (
-                    <DropdownListMenu
-                      options={props.viewOptions?.map((option) => ({
-                        name: option.name,
-                        link: {
-                          onClick: () => setSelectedView(option.name),
-                        },
-                      }))}
-                      zIndex={200}
-                    >
-                      <div>
-                        <div className="views-dropdown">
-                          <div className="default-view">
-                            Default View: {selectedView}
-                          </div>
-                          <FontAwesomeIcon icon={faCaretDown} />
-                        </div>
-                      </div>
-                    </DropdownListMenu>
-                  )}
-                  <EditorFooter
-                    onSubmit={onSubmitHandler}
-                    onCancel={() => props.onCancel(isEmpty)}
-                    submittable={
-                      !props.loading && (!isEmpty || !!props.editableSections)
-                    }
-                    cancellable={!props.loading}
-                  />
-                </div>
-              </div>
-            </Card.Footer>
-          </Card>
-        </div>
-        <style jsx>{`
-          .post-container {
-            max-width: ${DefaultTheme.POST_WIDTH_PX}px;
-            width: 100%;
-          }
-          .header {
-            padding: 10px 0;
-            margin: 0 10px 5px 10px;
-            border-bottom: 1px solid #d2d2d2;
-            display: flex;
-            align-items: center;
-            justify-content: space-between;
-            max-width: calc(100% - 30px);
-            width: 100%;
-          }
-          .header-board {
-            padding-bottom: 5px;
-            margin: 0px 10px 5px;
-            border-bottom: 1px solid rgb(210, 210, 210);
-            display: flex;
-            align-content: center;
-            align-items: center;
-            font-size: var(--font-size-small);
-            max-width: calc(100% - 30px);
-          }
-
-           {
-            /** TODO: don't use global */
-          }
-          .header-board :global(button) {
-            width: calc(100% - 80px);
-            margin-left: 5px;
-          }
-          .header-board :global(button .board-selector) {
-            width: 100%;
-          }
-          .footer {
-            border-top: 1px solid #d2d2d2;
-            padding: 0 0 10px 0;
-            margin: 0 10px;
-          }
-          .footer-actions {
-            border-top: 1px solid #d2d2d2;
-            padding-top: 10px;
-          }
-          .footer-actions.with-options {
-            display: flex;
-            justify-content: space-between;
-            align-items: baseline;
-          }
-          .views-dropdown {
-            display: inline-flex;
-            color: #1c1c1c;
-            border-radius: 10px;
-            padding: 3px 6px;
-            align-items: center;
-          }
-          .views-dropdown :global(svg) {
-            margin-left: 4px;
-          }
-          .views-dropdown:hover {
-            cursor: pointer;
-            background-color: #ececec;
-          }
-          .editor-container {
-          }
-          .editor {
-            min-height: 300px;
-          }
-          .editor:not(.can-edit) {
-            opacity: 0.7;
-          }
-          .editor-container.loading .editor {
-            opacity: 0.5;
-          }
-          .spinner {
-            position: absolute;
-            top: 0;
-            bottom: 0;
-            left: 0;
-            right: 0;
-            justify-content: center;
-            align-items: center;
-            z-index: 100;
-            display: none;
-          }
-
-          .editor-container.loading .spinner {
-            display: flex;
-          }
-        `}</style>
-      </>
+      <Card
+        className={classnames(cardClassName, "post-editor")}
+        ref={React.useCallback(
+          (ref: CardHandler | null) => {
+            if (ref?.cardRef && ref.cardRef.current) {
+              dimensionsObserver(ref.cardRef.current);
+            }
+          },
+          [dimensionsObserver]
+        )}
+      >
+        <Card.Header>
+          <PostEditorHeader
+            selectedAccessory={selectedAccessory}
+            accessories={props.editableSections ? undefined : props.accessories}
+            onSelectAccessory={setSelectedAccessory}
+            userIdentity={props.userIdentity}
+            selectedIdentity={selectedIdentity}
+            additionalIdentities={
+              props.editableSections ? undefined : props.additionalIdentities
+            }
+            onSelectIdentity={setSelectedIdentity}
+            selectedBoard={selectedBoard}
+            availableBoards={
+              props.editableSections ? undefined : props.availableBoards
+            }
+            onSelectBoard={setSelectedBoard}
+            showBoardSelector={boardSelectorPosition == "header"}
+          />
+        </Card.Header>
+        <Card.Content
+          className={classnames(cardClassName, "editor-container", {
+            loading: props.loading,
+          })}
+        >
+          <Spinner className={classnames(cardClassName, "spinner")} />
+          <div
+            className={classnames("editor", cardClassName, {
+              "can-edit": !props.editableSections,
+            })}
+          >
+            <Editor
+              ref={editorRef}
+              key="editor"
+              initialText={
+                props.initialText ? JSON.parse(props.initialText) : ""
+              }
+              editable={!props.loading && !props.editableSections}
+              onIsEmptyChange={(empty: boolean) => {
+                setIsEmpty(empty);
+              }}
+              // This is a no op because we're using the handler to access the content directly.
+              onTextChange={noop}
+            />
+          </div>
+        </Card.Content>
+        <Card.Footer aria-label="The post editor footer">
+          <PostEditorFooter
+            selectedBoard={selectedBoard}
+            availableBoards={
+              props.editableSections ? undefined : props.availableBoards
+            }
+            onSelectBoard={setSelectedBoard}
+            showBoardSelector={boardSelectorPosition == "footer"}
+            suggestibleCategories={props.suggestedCategories}
+            tags={tags}
+            onTagsChange={setTags}
+            views={props.editableSections ? undefined : props.viewOptions}
+            selectedView={selectedView}
+            onSelectView={setSelectedView}
+            canSubmit={!props.loading && (!isEmpty || !!props.editableSections)}
+            onSubmit={onSubmitHandler}
+            canCancel={!props.loading}
+            onCancel={React.useCallback(
+              () => onCancel(isEmpty),
+              [isEmpty, onCancel]
+            )}
+          />
+        </Card.Footer>
+        {cardStyles}
+      </Card>
     );
   }
 );
@@ -422,13 +441,9 @@ export interface PostEditorProps {
     }>
   ) => void;
   onCancel: (empty: boolean) => void;
-  onMinimize?: () => void;
-  minimizable?: boolean;
-  viewOptions?: {
-    name: string;
-    iconUrl?: string;
-  }[];
+  viewOptions?: ViewOption[];
   accentColor?: string;
+  // TODO: maybe rename this something like "suggestible categories"?
   suggestedCategories?: string[];
   editableSections?: {
     tags?: boolean;
