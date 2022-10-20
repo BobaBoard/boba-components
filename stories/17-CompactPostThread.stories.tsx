@@ -22,6 +22,10 @@ export const CompactThreadStory = () => {
             name: "Good Guy",
             avatar: `/${oncelerAvatar}`,
           },
+          userIdentity: {
+            name: "Bad Guy",
+            avatar: `/${greedlerAvatar}`,
+          },
           createdTimeLink: {
             onClick: action("createdTime"),
             href: "https://www.youtube.com/watch?v=dQw4w9WgXcQ",
@@ -77,6 +81,10 @@ export const CompactThreadStory = () => {
           createdTime: "yesterday",
           text: '[{"insert":{"block-image":"https://cdn.discordapp.com/attachments/443967088118333442/691401632940032040/AbJqbbOwrc74AAAAAElFTkSuQmCC.png"}}]',
           secretIdentity: {
+            name: "Good Guy",
+            avatar: `/${oncelerAvatar}`,
+          },
+          userIdentity: {
             name: "Bad Guy",
             avatar: `/${greedlerAvatar}`,
           },

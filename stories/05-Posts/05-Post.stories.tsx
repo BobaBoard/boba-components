@@ -105,30 +105,6 @@ Tagged.args = {
   allowsContribution: true,
 };
 
-export const Reactable = PostTemplate.bind({});
-Reactable.args = {
-  ...Tagged.args,
-  reactable: true,
-  reactions: [
-    { image: oncieReaction, count: 3 },
-    { image: sportacusReaction, count: 6 },
-    { image: luigiReaction, count: 11 },
-    { image: junkoReaction, count: 20 },
-  ],
-  tags: {
-    indexTags: ["indexable"],
-    categoryTags: ["category"],
-    whisperTags: [
-      "tag1",
-      "tag2",
-      "a long tag",
-      "a very very very very very long tag with many words",
-      "JugemuJugemuGokonoSurikireKaijarisuigyonoSuigyomatsuUnraimatsuFuraimatsuKuNeruTokoroniSumuTokoroYaburaKojinoBuraKojiPaipopaipoPaiponoShuringanShuringannoGurindaiGurindainoPonpokopinoPonpokonanoChokyumeinoChosuke",
-    ],
-    contentWarnings: ["this has just one warning!"],
-  },
-};
-
 export const WithDropdownAction = PostTemplate.bind({});
 WithDropdownAction.args = {
   ...Tagged.args,
@@ -173,6 +149,16 @@ WithLongIdentityName.args = {
     name: "Tuxedo Mask askldjaksldjaskld askdjaskldjaskldjas daskjdaklsdjaklsdj askdjaskldjaklsdjaskld askdj kasjdaklsdjaklsdjaskldjslk",
     avatar: `/${tuxedoAvatar}`,
   },
+  board: {
+    slug: "!gore",
+    accentColor: "purple",
+  },
+};
+
+export const Muted = PostTemplate.bind({});
+Muted.args = {
+  ...WithLongIdentityName.args,
+  muted: true,
 };
 
 export const WithThreadTypeIcon = PostTemplate.bind({});
