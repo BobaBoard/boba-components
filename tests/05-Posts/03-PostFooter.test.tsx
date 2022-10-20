@@ -57,11 +57,11 @@ describe("when a footer allows contributions only", () => {
   });
   it("the contribute button is active", () => {
     expect(
-      within(largeContainer).getByLabelText("contribute")
+      within(largeContainer).getByLabelText("new contribution")
     ).not.toBeDisabled();
   });
   it("the comment button is disabled", () => {
-    expect(within(largeContainer).getByLabelText("comment")).toBeDisabled();
+    expect(within(largeContainer).getByLabelText("new comment")).toBeDisabled();
   });
 });
 
