@@ -90,6 +90,7 @@ const TagsInput: React.FC<TagsInputProps> = ({
   getOptionsForTag,
   packBottom,
   children,
+  className,
 }) => {
   const [tagInputState, setTagInputState] = React.useState(TagInputState.EMPTY);
   const [currentTag, setCurrentTag] = React.useState<string | null>(null);
@@ -104,7 +105,7 @@ const TagsInput: React.FC<TagsInputProps> = ({
     tagInputState == TagInputState.CATEGORY;
   return (
     <>
-      <div className={classnames("container", { editable })}>
+      <div className={classnames("container", className, { editable })}>
         {showCategoriesHint && (
           <div className={classnames("suggestions-container")}>
             <TagSuggestions
@@ -210,6 +211,7 @@ const TagsInput: React.FC<TagsInputProps> = ({
           margin-top: 5px;
           padding-right: 5px;
           margin-right: 5px;
+          width: 150px;
         }
 
         .suggestions-container {
@@ -244,4 +246,5 @@ export interface TagsInputProps {
   // item lines are at the top.
   packBottom?: boolean;
   children?: React.ReactNode;
+  className?: string;
 }
