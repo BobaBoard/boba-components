@@ -33,5 +33,5 @@ export default {
   ],
   // For CI
   testPathIgnorePatterns: ["boba-editor/"],
-  setupFilesAfterEnv: ["./tests/utils/jestSetup.ts"],
+  setupFilesAfterEnv: ["jest-extended/all", "./tests/utils/jestSetup.ts"],
 };
