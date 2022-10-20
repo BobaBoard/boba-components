@@ -1,5 +1,10 @@
 import Layout, { LayoutProps } from "layout/Layout";
-import { faInbox, faSearch, faTh } from "@fortawesome/free-solid-svg-icons";
+import {
+  faInbox,
+  faSearch,
+  faStar,
+  faTh,
+} from "@fortawesome/free-solid-svg-icons";
 
 import { MultipleSections } from "stories/20-SideMenu/01-PinnedMenu.stories";
 import React from "react";
@@ -7,68 +12,67 @@ import { Story } from "@storybook/react";
 import { action } from "@storybook/addon-actions";
 import mamoru from "stories/images/mamoru.png";
 
+const defaultLayoutArgs: Partial<LayoutTemplate> = {
+  sideMenuContent: <div>Get a load of this menu content!</div>,
+  // @ts-ignore-error
+  pinnedMenuContent: <MultipleSections {...MultipleSections.args} />,
+  mainContent: (
+    <div
+      style={{ backgroundColor: "darkgray", height: "2000px", width: "100%" }}
+    >
+      This is the main content!
+    </div>
+  ),
+  logoLink: {
+    href: "https://www.youtube.com/watch?v=dQw4w9WgXcQ",
+    onClick: action("logoClick"),
+  },
+  titleLink: {
+    href: "https://www.youtube.com/watch?v=dQw4w9WgXcQ",
+    onClick: action("titleClick"),
+  },
+  menuOptions: [
+    {
+      id: "boards",
+      icon: { icon: faTh },
+      link: {
+        href: "https://www.youtube.com/watch?v=dQw4w9WgXcQ",
+        onClick: action("boards"),
+      },
+    },
+    {
+      id: "inbox",
+      icon: { icon: faInbox },
+      link: {
+        href: "https://www.youtube.com/watch?v=dQw4w9WgXcQ",
+        onClick: action("inbox"),
+      },
+    },
+    {
+      id: "search",
+      icon: { icon: faSearch },
+      link: {
+        href: "https://www.youtube.com/watch?v=dQw4w9WgXcQ",
+        onClick: action("search"),
+      },
+    },
+  ],
+  selectedMenuOption: "inbox",
+};
+
 export default {
   title: "Layout / Layout Preview",
   component: Layout,
-  args: {
-    sideMenuContent: <div>Get a load of this menu content!</div>,
-    // @ts-expect-error
-    pinnedMenuContent: <MultipleSections {...MultipleSections.args} />,
-    mainContent: (
-      <div
-        style={{ backgroundColor: "darkgray", height: "2000px", width: "100%" }}
-      >
-        This is the main content!
-      </div>
-    ),
-    logoLink: {
-      href: "https://www.youtube.com/watch?v=dQw4w9WgXcQ",
-      onClick: action("logoClick"),
-    },
-    titleLink: {
-      href: "https://www.youtube.com/watch?v=dQw4w9WgXcQ",
-      onClick: action("titleClick"),
-    },
-    menuOptions: [
-      {
-        id: "boards",
-        name: "boards",
-        icon: faTh,
-        link: {
-          href: "https://www.youtube.com/watch?v=dQw4w9WgXcQ",
-          onClick: action("boards"),
-        },
-      },
-      {
-        id: "inbox",
-        name: "inbox",
-        icon: faInbox,
-        link: {
-          href: "https://www.youtube.com/watch?v=dQw4w9WgXcQ",
-          onClick: action("inbox"),
-        },
-      },
-      {
-        id: "search",
-        name: "search",
-        icon: faSearch,
-        link: {
-          href: "https://www.youtube.com/watch?v=dQw4w9WgXcQ",
-          onClick: action("search"),
-        },
-      },
-    ],
-    selectedMenuOption: "inbox",
-  },
+  args: defaultLayoutArgs,
 };
 
-const LayoutTemplate: Story<
-  LayoutProps & {
-    mainContent: React.ReactNode;
-    sideMenuContent: React.ReactNode;
-    pinnedMenuContent: React.ReactNode;
-  }
-> = (args) => {
+interface LayoutTemplate extends LayoutProps {
+  mainContent: React.ReactNode;
+  sideMenuContent: React.ReactNode;
+  pinnedMenuContent: React.ReactNode;
+}
+
+const LayoutTemplate: Story<LayoutTemplate> = (args) => {
   const { mainContent, sideMenuContent, pinnedMenuContent, ...rest } = args;
   return (
     <>
@@ -108,20 +112,23 @@ LoggedInLayout.args = {
   },
   loggedInMenuOptions: [
     {
-      icon: faSearch,
+      icon: { icon: faSearch },
       name: "opt1",
       link: {
         onClick: action("opt1"),
       },
     },
     {
-      icon: faInbox,
+      icon: { icon: faInbox },
       name: "opt2askldjaskdjaskdjaskldjaskldjaskldjaskldjaskldjaskldjaskldjaskldjaklsj",
       link: {
         onClick: action("opt2"),
       },
     },
   ],
+  hasNotifications: true,
+  notificationIcon: faStar,
+  notificationColor: "#f4cb2e",
 };
 
 export const LoadingLayout = LayoutTemplate.bind({});

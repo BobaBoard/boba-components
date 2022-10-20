@@ -156,20 +156,20 @@ Icons.args = {
   items: [
     {
       id: "star",
-      icon: faStar,
+      icon: { icon: faStar },
       accentColor: "red",
       link: { href: "#star", onClick: action("#star") },
     },
     {
       id: "inbox",
-      icon: faInbox,
+      icon: { icon: faInbox },
       accentColor: "red",
-      withNotification: true,
+      withNotification: {},
       link: { href: "#inbox", onClick: action("#inbox") },
     },
     {
       id: "user options",
-      icon: mamoru,
+      icon: { icon: mamoru },
       accentColor: "red",
       menuOptions: [
         {
@@ -184,7 +184,7 @@ Icons.args = {
     },
     {
       id: "heart",
-      icon: faHeart,
+      icon: { icon: faHeart },
       accentColor: "red",
       link: { href: "#heart", onClick: action("#heart") },
     },
@@ -199,13 +199,13 @@ Mixed.args = {
   items: [
     {
       id: "star",
-      icon: faStar,
+      icon: { icon: faStar },
       accentColor: "red",
     },
     PINNED_BOARDS[0],
     {
       id: "user options",
-      icon: mamoru,
+      icon: { icon: mamoru },
       accentColor: "red",
       menuOptions: [
         {
@@ -219,7 +219,7 @@ Mixed.args = {
       ],
     },
     PINNED_BOARDS[2],
-    { id: "heart", icon: faHeart, accentColor: "red" },
+    { id: "heart", icon: { icon: faHeart }, accentColor: "red" },
   ],
   currentItemId: "star",
 };

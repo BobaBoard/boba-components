@@ -1,28 +1,30 @@
+import React, { AriaAttributes } from "react";
+
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import type { IconProp } from "@fortawesome/fontawesome-svg-core";
-import React from "react";
 import classNames from "classnames";
 
-export interface IconProps {
+export interface IconProps extends AriaAttributes {
   icon: string | IconProp;
   className?: string;
-  label?: string;
+  color?: string;
 }
 
 export const isIcon = (prop: any): prop is IconProps => "icon" in prop;
 
-const Icon: React.FC<IconProps> = ({ icon, className, label }) => {
+const Icon: React.FC<IconProps> = ({ icon, className, color, ...props }) => {
   return typeof icon == "string" ? (
     <img
       src={icon}
       className={classNames("icon", className)}
-      aria-label={label}
+      aria-label={props["aria-label"]}
     />
   ) : (
     <FontAwesomeIcon
       icon={icon}
       className={classNames("icon", className)}
-      title={label}
+      aria-label={props["aria-label"]}
+      color={color}
     />
   );
 };

@@ -2,7 +2,7 @@ import DropdownListMenu, { DropdownStyle } from "common/DropdownListMenu";
 import { faHome, faUser } from "@fortawesome/free-solid-svg-icons";
 
 import CircleButton from "buttons/CircleButton";
-import type { IconProp } from "@fortawesome/fontawesome-svg-core";
+import { IconProps } from "common/Icon";
 import { LinkWithAction } from "types";
 import React from "react";
 
@@ -23,7 +23,7 @@ const MenuBar: React.FC<MenuBarProps> = ({
       {onHomeMenuClick && (
         <div className="home">
           <CircleButton
-            icon={faHome}
+            icon={{ icon: faHome }}
             link={onHomeMenuClick}
             accentColor={accentColor}
             loading={loading}
@@ -47,14 +47,16 @@ const MenuBar: React.FC<MenuBarProps> = ({
       >
         <div className="menu-item">
           <CircleButton
-            icon={user?.avatarUrl ? user?.avatarUrl : faUser}
+            icon={{ icon: user?.avatarUrl ? user?.avatarUrl : faUser }}
             link={!loading && !isLoggedIn ? onLoggedOutUserClick : undefined}
             accentColor={accentColor}
             defaultBorderColor={isLoggedIn ? "green" : undefined}
             loading={loading}
-            withDropdown={!!isLoggedIn && !!userMenuOptions?.length}
+            withDropdown={
+              !!isLoggedIn && !!userMenuOptions?.length ? {} : undefined
+            }
             blurred={forceHideIdentity}
-            label={!loading && !isLoggedIn ? "login" : "User menu"}
+            aria-label={!loading && !isLoggedIn ? "login" : "User menu"}
           />
         </div>
       </DropdownListMenu>
@@ -93,7 +95,7 @@ export interface MenuBarProps {
   onHomeMenuClick?: LinkWithAction;
   menuOptions?: {
     id: string;
-    icon: IconProp;
+    icon: IconProps;
     link: LinkWithAction;
   }[];
   userMenuOptions?: {

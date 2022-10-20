@@ -2,13 +2,12 @@ import "@bobaboard/boba-editor/dist/main.css";
 import "normalize.css";
 
 import { CreateBaseCompound, extractCompound } from "utils/compound-utils";
+import MenuBar, { MenuBarProps } from "./MenuBar";
 
 import Header from "./Header";
-import type { IconProp } from "@fortawesome/fontawesome-svg-core";
 import { IconProps } from "common/Icon";
 import { LinkWithAction } from "types";
 import LoadingBar from "common/LoadingBar";
-import MenuBar from "./MenuBar";
 import QuickAccessBar from "./QuickAccessBar";
 import React from "react";
 import Theme from "theme/default";
@@ -53,6 +52,8 @@ const Layout = React.forwardRef<LayoutHandler, LayoutProps>(
       logoLink,
       hasNotifications,
       hasOutdatedNotifications,
+      notificationIcon,
+      notificationColor,
       hideTitleOnDesktop,
       loggedInMenuOptions,
       forceHideIdentity,
@@ -140,6 +141,8 @@ const Layout = React.forwardRef<LayoutHandler, LayoutProps>(
           <QuickAccessBar
             hasNotifications={!!hasNotifications}
             hasOutdatedNotifications={!!hasOutdatedNotifications}
+            notificationIcon={notificationIcon}
+            notificationColor={notificationColor}
             sideMenuOpen={showSideMenu}
             sideMenuFullyClosed={sideMenuFullyClosed}
             setShowSideMenu={setShowSideMenu}
@@ -264,16 +267,14 @@ export interface LayoutProps {
   loading?: boolean;
   userLoading?: boolean;
   notificationIcon?: IconProps["icon"];
+  notificationColor?: string;
   hasNotifications: boolean;
+  // TODO: remove this
   hasOutdatedNotifications: boolean;
-  menuOptions?: {
-    id: string;
-    icon: IconProp;
-    link: LinkWithAction;
-  }[];
+  menuOptions?: MenuBarProps["menuOptions"];
   selectedMenuOption?: string | null;
   loggedInMenuOptions?: {
-    icon: IconProp;
+    icon: IconProps;
     name: string;
     link: LinkWithAction;
   }[];

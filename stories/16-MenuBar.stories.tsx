@@ -25,7 +25,7 @@ MenuBarSimple.args = {
   menuOptions: [
     {
       id: "boards",
-      icon: faTh,
+      icon: { icon: faTh },
       link: {
         href: "https://www.google.com",
         onClick: action("boards!"),
@@ -33,12 +33,12 @@ MenuBarSimple.args = {
     },
     {
       id: "inbox",
-      icon: faInbox,
+      icon: { icon: faInbox },
       link: { href: "https://www.google.com", onClick: action("inbox!") },
     },
     {
       id: "search",
-      icon: faSearch,
+      icon: { icon: faSearch },
       link: {
         href: "https://www.google.com",
         onClick: action("search!"),
@@ -82,7 +82,7 @@ MenuBarLoading.args = {
   menuOptions: [
     {
       id: "boards",
-      icon: faTh,
+      icon: { icon: faTh },
       link: {
         href: "https://www.google.com",
         onClick: action("boards!"),
@@ -90,12 +90,12 @@ MenuBarLoading.args = {
     },
     {
       id: "inbox",
-      icon: faInbox,
+      icon: { icon: faInbox },
       link: { href: "https://www.google.com", onClick: action("inbox!") },
     },
     {
       id: "search",
-      icon: faSearch,
+      icon: { icon: faSearch },
       link: {
         href: "https://www.google.com",
         onClick: action("search!"),
@@ -130,7 +130,7 @@ MenuBarLoggedOut.args = {
   menuOptions: [
     {
       id: "boards",
-      icon: faTh,
+      icon: { icon: faTh },
       link: {
         href: "https://www.google.com",
         onClick: action("boards!"),
@@ -138,12 +138,12 @@ MenuBarLoggedOut.args = {
     },
     {
       id: "inbox",
-      icon: faInbox,
+      icon: { icon: faInbox },
       link: { href: "https://www.google.com", onClick: action("inbox!") },
     },
     {
       id: "search",
-      icon: faSearch,
+      icon: { icon: faSearch },
       link: {
         href: "https://www.google.com",
         onClick: action("search!"),

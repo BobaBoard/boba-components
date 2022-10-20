@@ -16,6 +16,7 @@ interface HeaderProps {
   hideTitleOnDesktop?: boolean;
 }
 
+const compassIcon = { icon: faCompass };
 const Header: React.FC<HeaderProps> = ({
   accentColor,
   logoLink,
@@ -43,9 +44,9 @@ const Header: React.FC<HeaderProps> = ({
       >
         <div className="compass">
           <IconButton
-            icon={faCompass}
+            icon={compassIcon}
             link={onCompassClick}
-            label="compass-menu"
+            aria-label="compass-menu"
           />
         </div>
         <div className="menu-bar">{children}</div>
