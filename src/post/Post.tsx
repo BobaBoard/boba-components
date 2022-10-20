@@ -53,7 +53,11 @@ const { styles: headerStyles, className: headerClassName } = css.resolve`
   .metadata {
     max-width: calc(100% - 20px);
   }
+<<<<<<< HEAD
   .dropdown-button {
+=======
+  button {
+>>>>>>> 2a20276 (Clean up Post)
     display: block;
     width: 40px;
     height: 30px;
@@ -66,12 +70,20 @@ const { styles: headerStyles, className: headerClassName } = css.resolve`
     justify-content: center;
     align-items: center;
   }
+<<<<<<< HEAD
   .dropdown-button:is(:hover, :focus) {
+=======
+  button:is(:hover, :focus) {
+>>>>>>> 2a20276 (Clean up Post)
     color: rgb(28, 28, 28);
     cursor: pointer;
   }
   @media only screen and (max-width: 500px) {
+<<<<<<< HEAD
     .dropdown-button {
+=======
+    button {
+>>>>>>> 2a20276 (Clean up Post)
       // By this point the user has switched to a mobile view, so we don't
       // have to worry about the arrow. The user is also probably going
       // to use the finger, so a clickable area closer to the bottom will come in
@@ -112,7 +124,11 @@ export const HeaderContent = React.forwardRef<HTMLImageElement, PostProps>(
       />
       {(props.menuOptions || props.menuOptionsHeader) && (
         <DropdownListMenu
+<<<<<<< HEAD
           buttonClassName={classnames(headerClassName, "dropdown-button")}
+=======
+          buttonClassName={classnames(headerClassName)}
+>>>>>>> 2a20276 (Clean up Post)
           options={props.menuOptions}
           label="Post options"
         >
@@ -238,7 +254,11 @@ export interface PostData {
     slug: string;
     accentColor: string;
   };
+<<<<<<< HEAD
   muted?: boolean;
+=======
+  notesLink: LinkWithAction;
+>>>>>>> 2a20276 (Clean up Post)
 }
 
 export interface PostProps extends PostData {
@@ -253,5 +273,9 @@ export interface PostProps extends PostData {
   getOptionsForTag?: (tag: TagsType) => DropdownProps["options"];
   forceHideIdentity?: boolean;
   backgroundColor?: string;
+<<<<<<< HEAD
   notesLink: LinkWithAction;
+=======
+  muted?: boolean;
+>>>>>>> 2a20276 (Clean up Post)
 }
