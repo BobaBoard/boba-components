@@ -48,14 +48,17 @@ export const useExpand = (
       height: ref.current.style.height,
       overflow: ref.current.style.overflow,
     };
-    if (currentStyle.height != options.compactHeight + "px") {
+    if (
+      currentStyle.height != options.compactHeight + "px" &&
+      ref.current.getBoundingClientRect().height > options.compactHeight
+    ) {
       setOldStyle(currentStyle);
       toggleCompact(ref.current, currentStyle, options.compactHeight);
       setExpanded(false);
     }
   }, [ref, options.compactHeight]);
 
-  if (!ref.current) {
+  if (!ref.current || !oldStyle) {
     return null;
   }
 
