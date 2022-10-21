@@ -1,4 +1,5 @@
 import { HeaderContent, PostData, PostProps } from "./Post";
+import { LinkWithAction, TagsListType } from "types";
 import PostPreamble, { PostBadges } from "./PostPreamble";
 
 import Card from "common/Card";
@@ -8,7 +9,6 @@ import { PostHandler } from "../index";
 import React from "react";
 import Tags from "tags/Tags";
 import TagsFactory from "tags/TagsFactory";
-import { TagsListType } from "types";
 import Theme from "theme/default";
 import TinyHeader from "./TinyHeader";
 import classnames from "classnames";
@@ -104,7 +104,7 @@ const PreviousContent = (props: CompactThreadProps) => {
                 totalComments={post.totalComments}
                 newContributions={post.newContributions}
                 newComments={post.newComments}
-                notesLink={post.notesLink}
+                notesLink={post.createdTimeLink}
               />
             </footer>
           </article>
@@ -196,7 +196,7 @@ const CompactThread: React.FC<CompactThreadProps> = (props) => {
               totalComments={lastPost.totalComments}
               newContributions={lastPost.newContributions}
               newComments={lastPost.newComments}
-              notesLink={lastPost.notesLink}
+              notesLink={props.notesLink}
               allowsContribution={props.allowsContribution}
               allowsComment={props.allowsComment}
             />
@@ -230,4 +230,5 @@ export interface CompactThreadProps extends Omit<PostProps, keyof PostData> {
   posts: PostData[];
   innerRef?: React.Ref<PostHandler>;
   forceHideIdentity?: boolean;
+  notesLink: LinkWithAction;
 }

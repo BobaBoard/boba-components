@@ -238,7 +238,6 @@ export interface PostData {
     slug: string;
     accentColor: string;
   };
-  notesLink: LinkWithAction;
 }
 
 export interface PostProps extends PostData {
@@ -254,4 +253,5 @@ export interface PostProps extends PostData {
   forceHideIdentity?: boolean;
   backgroundColor?: string;
   muted?: boolean;
+  notesLink: LinkWithAction;
 }

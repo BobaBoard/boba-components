@@ -4,6 +4,7 @@ import "normalize.css";
 import { CreateBaseCompound, extractCompound } from "utils/compound-utils";
 import MenuBar, { MenuBarProps } from "./MenuBar";
 
+import { DropdownProps } from "common/DropdownListMenu";
 import Header from "./Header";
 import { IconProps } from "common/Icon";
 import { LinkWithAction } from "types";
@@ -273,11 +274,7 @@ export interface LayoutProps {
   hasOutdatedNotifications: boolean;
   menuOptions?: MenuBarProps["menuOptions"];
   selectedMenuOption?: string | null;
-  loggedInMenuOptions?: {
-    icon: IconProps;
-    name: string;
-    link: LinkWithAction;
-  }[];
+  loggedInMenuOptions?: DropdownProps["options"];
   onSideMenuButtonClick?: () => void;
   onSideMenuFullyOpen?: () => void;
   forceHideIdentity?: boolean;
