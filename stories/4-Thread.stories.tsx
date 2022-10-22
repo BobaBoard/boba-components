@@ -12,6 +12,7 @@ import {
 } from "@fortawesome/free-solid-svg-icons";
 
 import CollapsedPlaceholder from "thread/CollapsedPlaceholder";
+import { NewCommentsThread } from "index";
 import Post from "post/Post";
 import React from "react";
 import Theme from "theme/default";
@@ -492,14 +493,14 @@ ShortContent.story = {
 
 // Still broken after updating props and fixing all shown ts errors.
 // We may be able to simply get rid of this story as it may be covered by the CommentsThread stories in the Comments folder.
-// const TUXEDO_MASK_IDENTITY = {
-//   name: "Tuxedo Mask",
-//   avatar: `/${tuxedoAvatar}`,
-// };
-// const MAMORU_IDENTITY = { name: "SexyDaddy69", avatar: `/${mamoruAvatar}` };
+const TUXEDO_MASK_IDENTITY = {
+  name: "Tuxedo Mask",
+  avatar: `/${tuxedoAvatar}`,
+};
+const MAMORU_IDENTITY = { name: "SexyDaddy69", avatar: `/${mamoruAvatar}` };
 // export const SingleThreadedComments = () => {
 //   const lvl0Indent = useIndent();
-
+//
 //   return (
 //     <div
 //       style={{
@@ -857,328 +858,334 @@ export const NewThreadStory = () => {
 // Still broken after updating props and fixing all shown ts errors.
 // Storybook shows the error: "Maximum update depth exceeded. This can happen when a component repeatedly calls setState inside componentWillUpdate or componentDidUpdate. React limits the number of nested updates to prevent infinite loops."
 // TODO: Try rewriting in new story format, otherwise more investigation needed
-// export const NewRegularThread = () => {
-//   const lvl0Indent = useIndent();
-//   return (
-//     <div
-//       style={{
-//         marginLeft: "100px",
-//         backgroundColor: Theme.LAYOUT_BOARD_BACKGROUND_COLOR,
-//       }}
-//     >
-//       <Thread
-//         onCollapseLevel={(levelId) => action(`onCollapseLevel${levelId}`)}
-//         onUncollapseLevel={(levelId) => action(`onCollapseLevel${levelId}`)}
-//         getCollapseReason={() => {
-//           return <div>Subthread manually hidden.</div>;
-//         }}
-//         getStemOptions={(levelId) => {
-//           return [
-//             {
-//               name: "Collapse",
-//               icon: faCompressArrowsAlt,
-//               link: {
-//                 onClick: action(`collapseClickLevel${levelId}`),
-//               },
-//             },
-//             {
-//               name: "Beam up",
-//               icon: faAngleDoubleUp,
-//               link: {
-//                 href: "#href",
-//                 onClick: action("hrefClick"),
-//               },
-//             },
-//             {
-//               name: "Add Contrib",
-//               icon: faPlusSquare,
-//               link: {
-//                 onClick: action("noHrefClick"),
-//               },
-//             },
-//           ];
-//         }}
-//       >
-//         {(setBoundaryElement) => (
-//           <>
-//             <div style={{ paddingTop: "15px", maxWidth: "550px" }}>
-//               <Post
-//                 createdTimeLink={{
-//                   onClick: action("createdTime"),
-//                   href: "https://www.youtube.com/watch?v=dQw4w9WgXcQ",
-//                 }}
-//                 notesLink={{
-//                   onClick: action("notesLink"),
-//                   href: "https://www.youtube.com/watch?v=dQw4w9WgXcQ",
-//                 }}
-//                 createdTime="2019/05/14 at 7:34pm"
-//                 text={
-//                   '[{"insert":"Open RP"},{"attributes":{"header":1},"insert":"\\n"},{"insert":{"block-image":"https://cdn.discordapp.com/attachments/443967088118333442/691486081895628830/unknown.png"}}, {"attributes":{"italic":true},"insert":"You have my sword..."}]'
-//                 }
-//                 secretIdentity={{
-//                   name: "Tuxedo Mask",
-//                   avatar: `/${tuxedoAvatar}`,
-//                 }}
-//                 userIdentity={{
-//                   name: "SexyDaddy69",
-//                   avatar: `/${mamoruAvatar}`,
-//                 }}
-//                 onNewContribution={() => console.log("click!")}
-//                 onNewComment={() => console.log("click!")}
-//                 newComments={3}
-//                 newContributions={5}
-//                 menuOptions={[
-//                   {
-//                     name: "Copy Link",
-//                     icon: faLink,
-//                     link: {
-//                       onClick: action("copy!"),
-//                       href: "https://www.youtube.com/watch?v=dQw4w9WgXcQ",
-//                     },
-//                   },
-//                 ]}
-//                 ref={(ref) =>
-//                   setBoundaryElement(ref?.avatarRef?.current || null)
-//                 }
-//               />
-//             </div>
-//             <Thread.Indent id="level-1">
-//               <Thread.Item>
-//                 {(setBoundaryElement) => (
-//                   <>
-//                     <div style={{ paddingTop: "15px", opacity: 0.7 }}>
-//                       <Post
-//                         createdTimeLink={{
-//                           onClick: action("createdTime"),
-//                           href: "https://www.youtube.com/watch?v=dQw4w9WgXcQ",
-//                         }}
-//                         notesLink={{
-//                           onClick: action("notesLink"),
-//                           href: "https://www.youtube.com/watch?v=dQw4w9WgXcQ",
-//                         }}
-//                         createdTime="2019/05/14 at 7:34pm"
-//                         text={
-//                           '[{"insert":{"block-image":"https://si.wsj.net/public/resources/images/BN-GA217_legola_G_20141215080444.jpg"}}, {"attributes":{"italic":true}, "insert":"...and my bow..."}]'
-//                         }
-//                         secretIdentity={{
-//                           name: "Nice Therapist",
-//                           avatar: `/${hannibalAvatar}`,
-//                         }}
-//                         userIdentity={{
-//                           name: "xXxChesapeakeRipperxXx",
-//                           avatar: `/${hannibalAvatar}`,
-//                         }}
-//                         onNewContribution={() => console.log("click!")}
-//                         onNewComment={() => console.log("click!")}
-//                         collapsed
-//                         ref={(ref) =>
-//                           setBoundaryElement(ref?.avatarRef?.current || null)
-//                         }
-//                       />
-//                     </div>
-//                     <Thread.Indent id="level1-1">
-//                       <Thread.Item>
-//                         <div
-//                           style={{
-//                             paddingTop: "15px",
-//                             marginLeft: "30px",
-//                             maxWidth: "550px",
-//                             pointerEvents: "none",
-//                           }}
-//                         >
-//                           <CompactThreadIndent
-//                             level={0}
-//                             startsFromViewport={lvl0Indent.bounds}
-//                           >
-//                             <Comment
-//                               createdTime="2019/05/14 at 7:34pm"
-//                               ref={(ref) => lvl0Indent.setHandler(ref)}
-//                               comments={[
-//                                 {
-//                                   id: "1",
-//                                   text: '[{"insert": "[LVL 0] I mean, sure, but you know what also is great?"}]',
-//                                 },
-//                                 {
-//                                   id: "2",
-//                                   text: '[{"attributes": {"inline-spoilers": true}, "insert": "Deze nuts."}]',
-//                                 },
-//                                 {
-//                                   id: "3",
-//                                   text: '[{"insert": "Wait is that how you type it?"}]',
-//                                 },
-//                               ]}
-//                               secretIdentity={TUXEDO_MASK_IDENTITY}
-//                               userIdentity={MAMORU_IDENTITY}
-//                             />
-//                           </CompactThreadIndent>
-//                         </div>
-//                       </Thread.Item>
-//                       <Thread.Item>
-//                         {(setBoundaryElement) => (
-//                           <>
-//                             <div
-//                               style={{ paddingTop: "15px", maxWidth: "550px" }}
-//                             >
-//                               <Post
-//                                 createdTimeLink={{
-//                                   onClick: action("createdTime"),
-//                                   href: "https://www.youtube.com/watch?v=dQw4w9WgXcQ",
-//                                 }}
-//                                 notesLink={{
-//                                   onClick: action("notesLink"),
-//                                   href: "https://www.youtube.com/watch?v=dQw4w9WgXcQ",
-//                                 }}
-//                                 createdTime="2019/05/14 at 7:34pm"
-//                                 text={
-//                                   '[{"insert":{"block-image":"https://cdn.discordapp.com/attachments/443967088118333442/691401632940032040/AbJqbbOwrc74AAAAAElFTkSuQmCC.png"}}]'
-//                                 }
-//                                 secretIdentity={{
-//                                   name: "Bad Guy",
-//                                   avatar: `/${greedlerAvatar}`,
-//                                 }}
-//                                 onNewContribution={() => console.log("click!")}
-//                                 onNewComment={() => console.log("click!")}
-//                                 muted
-//                                 allowsComment
-//                                 allowsContribution
-//                                 ref={(ref) =>
-//                                   setBoundaryElement(
-//                                     ref?.avatarRef?.current || null
-//                                   )
-//                                 }
-//                               />
-//                             </div>
-//                           </>
-//                         )}
-//                       </Thread.Item>
-//                     </Thread.Indent>
-//                   </>
-//                 )}
-//               </Thread.Item>
-//               <Thread.Item>
-//                 {(setBoundaryElement) => (
-//                   <>
-//                     <div
-//                       style={{
-//                         paddingTop: "15px",
-//                         maxWidth: "550px",
-//                       }}
-//                     >
-//                       <Post
-//                         createdTimeLink={{
-//                           onClick: action("createdTime"),
-//                           href: "https://www.youtube.com/watch?v=dQw4w9WgXcQ",
-//                         }}
-//                         notesLink={{
-//                           onClick: action("notesLink"),
-//                           href: "https://www.youtube.com/watch?v=dQw4w9WgXcQ",
-//                         }}
-//                         createdTime="2019/05/14 at 7:34pm"
-//                         text={
-//                           '[{"insert":{"block-image":"https://si.wsj.net/public/resources/images/BN-GA217_legola_G_20141215080444.jpg"}}, {"attributes":{"italic":true}, "insert":"...and my bow..."}]'
-//                         }
-//                         secretIdentity={{
-//                           name: "Nice Therapist",
-//                           avatar: `/${hannibalAvatar}`,
-//                         }}
-//                         userIdentity={{
-//                           name: "xXxChesapeakeRipperxXx",
-//                           avatar: `/${hannibalAvatar}`,
-//                         }}
-//                         onNewContribution={() => console.log("click!")}
-//                         onNewComment={() => console.log("click!")}
-//                         ref={(ref) =>
-//                           setBoundaryElement(ref?.avatarRef?.current || null)
-//                         }
-//                       />
-//                     </div>
-//                     <Thread.Indent id="level1-1-1">
-//                       <Thread.Item>
-//                         {(setBoundaryElement) => (
-//                           <>
-//                             <div
-//                               style={{ paddingTop: "15px", maxWidth: "550px" }}
-//                             >
-//                               <Post
-//                                 createdTimeLink={{
-//                                   onClick: action("createdTime"),
-//                                   href: "https://www.youtube.com/watch?v=dQw4w9WgXcQ",
-//                                 }}
-//                                 notesLink={{
-//                                   onClick: action("notesLink"),
-//                                   href: "https://www.youtube.com/watch?v=dQw4w9WgXcQ",
-//                                 }}
-//                                 createdTime="2019/05/14 at 7:34pm"
-//                                 text={
-//                                   '[{"insert":{"block-image":"https://cdn.discordapp.com/attachments/443967088118333442/691401632940032040/AbJqbbOwrc74AAAAAElFTkSuQmCC.png"}}]'
-//                                 }
-//                                 secretIdentity={{
-//                                   name: "Bad Guy",
-//                                   avatar: `/${greedlerAvatar}`,
-//                                 }}
-//                                 onNewContribution={() => console.log("click!")}
-//                                 onNewComment={() => console.log("click!")}
-//                                 muted
-//                                 allowsComment
-//                                 allowsContribution
-//                                 ref={(ref) =>
-//                                   setBoundaryElement(
-//                                     ref?.avatarRef?.current || null
-//                                   )
-//                                 }
-//                               />
-//                             </div>
-//                             <Thread.Indent id="level1-1-1">
-//                               <Thread.Item>
-//                                 {(setBoundaryElement) => (
-//                                   <div
-//                                     style={{
-//                                       paddingTop: "15px",
-//                                       maxWidth: "550px",
-//                                     }}
-//                                   >
-//                                     <Post
-//                                       createdTimeLink={{
-//                                         onClick: action("createdTime"),
-//                                         href: "https://www.youtube.com/watch?v=dQw4w9WgXcQ",
-//                                       }}
-//                                       notesLink={{
-//                                         onClick: action("notesLink"),
-//                                         href: "https://www.youtube.com/watch?v=dQw4w9WgXcQ",
-//                                       }}
-//                                       createdTime="2019/05/14 at 7:34pm"
-//                                       text={
-//                                         '[{"insert":{"block-image":"https://littlelessonslearned.files.wordpress.com/2012/03/the-lorax-pic091.jpg"}}]'
-//                                       }
-//                                       secretIdentity={{
-//                                         name: "Bad Guy",
-//                                         avatar: `/${greedlerAvatar}`,
-//                                       }}
-//                                       onNewContribution={() =>
-//                                         console.log("click!")
-//                                       }
-//                                       onNewComment={() => console.log("click!")}
-//                                       ref={(ref) =>
-//                                         setBoundaryElement(
-//                                           ref?.avatarRef?.current || null
-//                                         )
-//                                       }
-//                                     />
-//                                   </div>
-//                                 )}
-//                               </Thread.Item>
-//                             </Thread.Indent>
-//                           </>
-//                         )}
-//                       </Thread.Item>
-//                     </Thread.Indent>
-//                   </>
-//                 )}
-//               </Thread.Item>
-//             </Thread.Indent>
-//           </>
-//         )}
-//       </Thread>
-//     </div>
-//   );
-// };
+export const NewRegularThread = () => {
+  return (
+    <div
+      style={{
+        marginLeft: "100px",
+        backgroundColor: Theme.LAYOUT_BOARD_BACKGROUND_COLOR,
+      }}
+    >
+      <Thread
+        onCollapseLevel={(levelId) => action(`onCollapseLevel${levelId}`)}
+        onUncollapseLevel={(levelId) => action(`onCollapseLevel${levelId}`)}
+        getCollapseReason={() => {
+          return <div>Subthread manually hidden.</div>;
+        }}
+        getStemOptions={(levelId) => {
+          return [
+            {
+              name: "Collapse",
+              icon: faCompressArrowsAlt,
+              link: {
+                onClick: action(`collapseClickLevel${levelId}`),
+              },
+            },
+            {
+              name: "Beam up",
+              icon: faAngleDoubleUp,
+              link: {
+                href: "#href",
+                onClick: action("hrefClick"),
+              },
+            },
+            {
+              name: "Add Contrib",
+              icon: faPlusSquare,
+              link: {
+                onClick: action("noHrefClick"),
+              },
+            },
+          ];
+        }}
+      >
+        {(setBoundaryElement) => (
+          <>
+            <div style={{ paddingTop: "15px", maxWidth: "550px" }}>
+              <Post
+                createdTimeLink={{
+                  onClick: action("createdTime"),
+                  href: "https://www.youtube.com/watch?v=dQw4w9WgXcQ",
+                }}
+                notesLink={{
+                  onClick: action("notesLink"),
+                  href: "https://www.youtube.com/watch?v=dQw4w9WgXcQ",
+                }}
+                createdTime="2019/05/14 at 7:34pm"
+                text={
+                  '[{"insert":"Open RP"},{"attributes":{"header":1},"insert":"\\n"},{"insert":{"block-image":"https://cdn.discordapp.com/attachments/443967088118333442/691486081895628830/unknown.png"}}, {"attributes":{"italic":true},"insert":"You have my sword..."}]'
+                }
+                secretIdentity={{
+                  name: "Tuxedo Mask",
+                  avatar: `/${tuxedoAvatar}`,
+                }}
+                userIdentity={{
+                  name: "SexyDaddy69",
+                  avatar: `/${mamoruAvatar}`,
+                }}
+                onNewContribution={() => console.log("click!")}
+                onNewComment={() => console.log("click!")}
+                newComments={3}
+                newContributions={5}
+                menuOptions={[
+                  {
+                    name: "Copy Link",
+                    icon: faLink,
+                    link: {
+                      onClick: action("copy!"),
+                      href: "https://www.youtube.com/watch?v=dQw4w9WgXcQ",
+                    },
+                  },
+                ]}
+                ref={(ref) =>
+                  setBoundaryElement(ref?.avatarRef?.current || null)
+                }
+              />
+            </div>
+            <Thread.Indent id="level-1">
+              <Thread.Item>
+                {(setBoundaryElement) => (
+                  <>
+                    <div style={{ paddingTop: "15px", opacity: 0.7 }}>
+                      <Post
+                        createdTimeLink={{
+                          onClick: action("createdTime"),
+                          href: "https://www.youtube.com/watch?v=dQw4w9WgXcQ",
+                        }}
+                        notesLink={{
+                          onClick: action("notesLink"),
+                          href: "https://www.youtube.com/watch?v=dQw4w9WgXcQ",
+                        }}
+                        createdTime="2019/05/14 at 7:34pm"
+                        text={
+                          '[{"insert":{"block-image":"https://si.wsj.net/public/resources/images/BN-GA217_legola_G_20141215080444.jpg"}}, {"attributes":{"italic":true}, "insert":"...and my bow..."}]'
+                        }
+                        secretIdentity={{
+                          name: "Nice Therapist",
+                          avatar: `/${hannibalAvatar}`,
+                        }}
+                        userIdentity={{
+                          name: "xXxChesapeakeRipperxXx",
+                          avatar: `/${hannibalAvatar}`,
+                        }}
+                        onNewContribution={() => console.log("click!")}
+                        onNewComment={() => console.log("click!")}
+                        collapsed
+                        ref={(ref) =>
+                          setBoundaryElement(ref?.avatarRef?.current || null)
+                        }
+                      />
+                    </div>
+                    <Thread.Indent id="level1-1">
+                      <Thread.Item>
+                        <Thread.Indent id="level1-1-1">
+                          <div
+                            style={{
+                              paddingTop: "15px",
+                              marginLeft: "30px",
+                              maxWidth: "550px",
+                              pointerEvents: "none",
+                            }}
+                          >
+                            <NewCommentsThread>
+                              <NewCommentsThread.Item>
+                                {(setBoundaryElement) => (
+                                  <Comment
+                                    createdTime="2019/05/14 at 7:34pm"
+                                    comments={[
+                                      {
+                                        id: "1",
+                                        text: '[{"insert": "[LVL 0] I mean, sure, but you know what also is great?"}]',
+                                      },
+                                      {
+                                        id: "2",
+                                        text: '[{"attributes": {"inline-spoilers": true}, "insert": "Deze nuts."}]',
+                                      },
+                                      {
+                                        id: "3",
+                                        text: '[{"insert": "Wait is that how you type it?"}]',
+                                      },
+                                    ]}
+                                    secretIdentity={TUXEDO_MASK_IDENTITY}
+                                    userIdentity={MAMORU_IDENTITY}
+                                    ref={(ref) =>
+                                      setBoundaryElement(
+                                        ref?.avatarRef?.current || null
+                                      )
+                                    }
+                                  />
+                                )}
+                              </NewCommentsThread.Item>
+                            </NewCommentsThread>
+                          </div>
+                        </Thread.Indent>
+                      </Thread.Item>
+                      <Thread.Item>
+                        {(setBoundaryElement) => (
+                          <>
+                            <div
+                              style={{ paddingTop: "15px", maxWidth: "550px" }}
+                            >
+                              <Post
+                                createdTimeLink={{
+                                  onClick: action("createdTime"),
+                                  href: "https://www.youtube.com/watch?v=dQw4w9WgXcQ",
+                                }}
+                                notesLink={{
+                                  onClick: action("notesLink"),
+                                  href: "https://www.youtube.com/watch?v=dQw4w9WgXcQ",
+                                }}
+                                createdTime="2019/05/14 at 7:34pm"
+                                text={
+                                  '[{"insert":{"block-image":"https://cdn.discordapp.com/attachments/443967088118333442/691401632940032040/AbJqbbOwrc74AAAAAElFTkSuQmCC.png"}}]'
+                                }
+                                secretIdentity={{
+                                  name: "Bad Guy",
+                                  avatar: `/${greedlerAvatar}`,
+                                }}
+                                onNewContribution={() => console.log("click!")}
+                                onNewComment={() => console.log("click!")}
+                                muted
+                                allowsComment
+                                allowsContribution
+                                ref={(ref) =>
+                                  setBoundaryElement(
+                                    ref?.avatarRef?.current || null
+                                  )
+                                }
+                              />
+                            </div>
+                          </>
+                        )}
+                      </Thread.Item>
+                    </Thread.Indent>
+                  </>
+                )}
+              </Thread.Item>
+              <Thread.Item>
+                {(setBoundaryElement) => (
+                  <>
+                    <div
+                      style={{
+                        paddingTop: "15px",
+                        maxWidth: "550px",
+                      }}
+                    >
+                      <Post
+                        createdTimeLink={{
+                          onClick: action("createdTime"),
+                          href: "https://www.youtube.com/watch?v=dQw4w9WgXcQ",
+                        }}
+                        notesLink={{
+                          onClick: action("notesLink"),
+                          href: "https://www.youtube.com/watch?v=dQw4w9WgXcQ",
+                        }}
+                        createdTime="2019/05/14 at 7:34pm"
+                        text={
+                          '[{"insert":{"block-image":"https://si.wsj.net/public/resources/images/BN-GA217_legola_G_20141215080444.jpg"}}, {"attributes":{"italic":true}, "insert":"...and my bow..."}]'
+                        }
+                        secretIdentity={{
+                          name: "Nice Therapist",
+                          avatar: `/${hannibalAvatar}`,
+                        }}
+                        userIdentity={{
+                          name: "xXxChesapeakeRipperxXx",
+                          avatar: `/${hannibalAvatar}`,
+                        }}
+                        onNewContribution={() => console.log("click!")}
+                        onNewComment={() => console.log("click!")}
+                        ref={(ref) =>
+                          setBoundaryElement(ref?.avatarRef?.current || null)
+                        }
+                      />
+                    </div>
+                    <Thread.Indent id="level1-1-1">
+                      <Thread.Item>
+                        {(setBoundaryElement) => (
+                          <>
+                            <div
+                              style={{ paddingTop: "15px", maxWidth: "550px" }}
+                            >
+                              <Post
+                                createdTimeLink={{
+                                  onClick: action("createdTime"),
+                                  href: "https://www.youtube.com/watch?v=dQw4w9WgXcQ",
+                                }}
+                                notesLink={{
+                                  onClick: action("notesLink"),
+                                  href: "https://www.youtube.com/watch?v=dQw4w9WgXcQ",
+                                }}
+                                createdTime="2019/05/14 at 7:34pm"
+                                text={
+                                  '[{"insert":{"block-image":"https://cdn.discordapp.com/attachments/443967088118333442/691401632940032040/AbJqbbOwrc74AAAAAElFTkSuQmCC.png"}}]'
+                                }
+                                secretIdentity={{
+                                  name: "Bad Guy",
+                                  avatar: `/${greedlerAvatar}`,
+                                }}
+                                onNewContribution={() => console.log("click!")}
+                                onNewComment={() => console.log("click!")}
+                                muted
+                                allowsComment
+                                allowsContribution
+                                ref={(ref) =>
+                                  setBoundaryElement(
+                                    ref?.avatarRef?.current || null
+                                  )
+                                }
+                              />
+                            </div>
+                            <Thread.Indent id="level1-1-1">
+                              <Thread.Item>
+                                {(setBoundaryElement) => (
+                                  <div
+                                    style={{
+                                      paddingTop: "15px",
+                                      maxWidth: "550px",
+                                    }}
+                                  >
+                                    <Post
+                                      createdTimeLink={{
+                                        onClick: action("createdTime"),
+                                        href: "https://www.youtube.com/watch?v=dQw4w9WgXcQ",
+                                      }}
+                                      notesLink={{
+                                        onClick: action("notesLink"),
+                                        href: "https://www.youtube.com/watch?v=dQw4w9WgXcQ",
+                                      }}
+                                      createdTime="2019/05/14 at 7:34pm"
+                                      text={
+                                        '[{"insert":{"block-image":"https://littlelessonslearned.files.wordpress.com/2012/03/the-lorax-pic091.jpg"}}]'
+                                      }
+                                      secretIdentity={{
+                                        name: "Bad Guy",
+                                        avatar: `/${greedlerAvatar}`,
+                                      }}
+                                      onNewContribution={() =>
+                                        console.log("click!")
+                                      }
+                                      onNewComment={() => console.log("click!")}
+                                      ref={(ref) =>
+                                        setBoundaryElement(
+                                          ref?.avatarRef?.current || null
+                                        )
+                                      }
+                                    />
+                                  </div>
+                                )}
+                              </Thread.Item>
+                            </Thread.Indent>
+                          </>
+                        )}
+                      </Thread.Item>
+                    </Thread.Indent>
+                  </>
+                )}
+              </Thread.Item>
+            </Thread.Indent>
+          </>
+        )}
+      </Thread>
+    </div>
+  );
+};
