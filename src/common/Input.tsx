@@ -90,6 +90,9 @@ const Input: React.FC<InputProps> = (props) => {
           display: block;
           font-weight: 700;
         }
+        .hide-label label {
+          display: none;
+        }
         input {
           border-radius: 8px;
           border: 1px solid rgba(255, 255, 255, 0.3);
@@ -106,20 +109,6 @@ const Input: React.FC<InputProps> = (props) => {
           box-sizing: border-box;
           box-shadow: 0px 0px 0px 3px rgba(255, 255, 255, 0.1);
         }
-        input:invalid {
-          border: 1px solid rgba(214, 19, 19, 0.4);
-        }
-        input:invalid:focus {
-          box-shadow: 0px 0px 0px 3px rgba(214, 19, 19, 0.2);
-        }
-        .input.disabled label {
-          color: #a2a2a2;
-        }
-        input:disabled {
-          background-color: #a2a2a235;
-          color: #d2d2d2;
-          text-decoration: line-through;
-        }
         .additional-info {
           justify-content: space-between;
           display: flex;
@@ -129,11 +118,24 @@ const Input: React.FC<InputProps> = (props) => {
         :not(.with-additional-text) .additional-info {
           display: none;
         }
+        // Styles for invalid input
+        input:invalid {
+          border: 1px solid rgba(214, 19, 19, 0.4);
+        }
+        input:invalid:focus {
+          box-shadow: 0px 0px 0px 3px rgba(214, 19, 19, 0.2);
+        }
         .error .additional-info {
           color: #d61313;
         }
-        .hide-label label {
-          display: none;
+        // Styles for disabled input
+        .input.disabled label {
+          color: #a2a2a2;
+        }
+        input:disabled {
+          background-color: #a2a2a235;
+          color: #d2d2d2;
+          text-decoration: line-through;
         }
       `}</style>
     </div>
