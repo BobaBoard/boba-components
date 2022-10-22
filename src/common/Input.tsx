@@ -24,75 +24,73 @@ export interface InputProps {
 }
 
 const Input: React.FC<InputProps> = (props) => {
-  const [focused, setFocused] = React.useState(false);
   const { errorMessage, helper, maxLength, value } = props;
+  const inputRef = React.useRef<HTMLInputElement | null>();
+
+  // If there is an errror message, let's mark the input itself as invalid
+  // for accessibility reasons.
+  errorMessage && inputRef.current?.setCustomValidity(errorMessage || "");
+
+  const hasHelperText = !!(helper || errorMessage);
+  const hasMaxLength = !!maxLength;
 
   return (
     <div
       className={classnames("input", {
         error: !!errorMessage,
-        helper: !errorMessage && !!helper,
-        focused,
+        "with-additional-text": hasHelperText || hasMaxLength,
         disabled: props.disabled,
+        "hide-label": props.hideLabel,
       })}
     >
-      <label
-        htmlFor={props.id}
-        className={classnames({ hidden: props.hideLabel })}
-      >
-        {props.label}
-      </label>
+      <label htmlFor={props.id}>{props.label}</label>
       <input
-        className={classnames("input-field", {
-          focused,
-        })}
-        name={props.label}
         id={props.id}
+        name={props.label}
         type={props.password ? "password" : "text"}
         value={value}
         placeholder={props.placeholder}
         onChange={(e) => !props.disabled && props.onTextChange(e.target.value)}
-        onFocus={() => !props.disabled && setFocused(true)}
-        onBlur={() => !props.disabled && setFocused(false)}
         disabled={props.disabled}
         onKeyDown={(e) => {
           if (e.key === "Enter") {
             props.onEnter?.(e);
           }
         }}
+        ref={(input) => {
+          // Whenever the input changes, set a custom validity error message if
+          // there is a current error.
+          input?.setCustomValidity(errorMessage || "");
+          inputRef.current = input;
+        }}
       />
-      {}
-      <div></div>
-      {(!!helper || !!errorMessage || !!maxLength) && (
-        <div className="input__bottom">
-          <span className="input__bottom-text">
+      <div className="additional-info">
+        {hasHelperText && (
+          <div className="helper-text">
             {errorMessage ? errorMessage : helper || ""}
-          </span>
-          <span className="input__bottom-limit">
-            {maxLength ? `${value.length}/${maxLength}` : ""}
-          </span>
-        </div>
-      )}
+          </div>
+        )}
+        {hasMaxLength && (
+          <div className="max-length">
+            {value.length}/{maxLength}
+          </div>
+        )}
+      </div>
       <style jsx>{`
         .input {
-          display: inline-block;
           position: relative;
+          display: inline-flex;
+          flex-direction: column;
+          gap: 8px;
           width: 100%;
         }
-        .input.disabled {
-          opacity: 0.8;
-        }
-        .input label {
+        label {
           color: #fff;
           font-size: var(--font-size-regular);
           display: block;
-          padding-bottom: 10px;
           font-weight: 700;
         }
-        .error .input-field {
-          border: 1px solid rgba(214, 19, 19, 0.4);
-        }
-        .input-field {
+        input {
           border-radius: 8px;
           border: 1px solid rgba(255, 255, 255, 0.3);
           color: #fff;
@@ -102,26 +100,39 @@ const Input: React.FC<InputProps> = (props) => {
           width: 100%;
           box-sizing: border-box;
         }
-        .input-field:focus {
+        input:focus {
           outline: none;
           border: 1px solid rgba(255, 255, 255, 0.5);
           box-sizing: border-box;
           box-shadow: 0px 0px 0px 3px rgba(255, 255, 255, 0.1);
         }
-        .error .input-field:focus {
+        input:invalid {
+          border: 1px solid rgba(214, 19, 19, 0.4);
+        }
+        input:invalid:focus {
           box-shadow: 0px 0px 0px 3px rgba(214, 19, 19, 0.2);
         }
-        .input__bottom {
-          color: #bfbfbf;
-          display: flex;
-          font-size: 14px;
-          justify-content: space-between;
-          padding-top: 10px;
+        .input.disabled label {
+          color: #a2a2a2;
         }
-        .input.error .input__bottom-text {
+        input:disabled {
+          background-color: #a2a2a235;
+          color: #d2d2d2;
+          text-decoration: line-through;
+        }
+        .additional-info {
+          justify-content: space-between;
+          display: flex;
+          color: #bfbfbf;
+          font-size: 14px;
+        }
+        :not(.with-additional-text) .additional-info {
+          display: none;
+        }
+        .error .additional-info {
           color: #d61313;
         }
-        .hidden {
+        .hide-label label {
           display: none;
         }
       `}</style>
