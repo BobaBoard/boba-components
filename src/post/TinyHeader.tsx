@@ -59,14 +59,18 @@ const TinyHeader = React.forwardRef<HTMLImageElement, TinyHeaderProps>(
         />
         {props.secretIdentity?.name && <div>{props.secretIdentity?.name}</div>}
         {props.userIdentity?.name && <div>({props.userIdentity?.name})</div>}
-        <DropdownListMenu
-          buttonClassName={classnames(headerClassName)}
-          options={props.postOptions}
-          label="Post options"
-        >
-          <DropdownListMenu.Header>{props.postOptions}</DropdownListMenu.Header>
-          <Icon icon={faEllipsisV} />
-        </DropdownListMenu>
+        {props.postOptions?.length && (
+          <DropdownListMenu
+            buttonClassName={classnames(headerClassName)}
+            options={props.postOptions}
+            label="Post options"
+          >
+            <DropdownListMenu.Header>
+              {props.postOptions}
+            </DropdownListMenu.Header>
+            <Icon icon={faEllipsisV} />
+          </DropdownListMenu>
+        )}
         <style jsx>{`
           .header-container {
             max-width: 100%;
@@ -74,8 +78,6 @@ const TinyHeader = React.forwardRef<HTMLImageElement, TinyHeaderProps>(
             display: flex;
             padding: 5px 8px;
             align-items: center;
-            border-bottom: 1px dotted #d2d2d2;
-            border-top: 1px dotted #d2d2d2;
           }
         `}</style>
         {headerStyles}

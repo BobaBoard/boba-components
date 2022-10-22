@@ -3,6 +3,7 @@ import { LinkWithAction, TagsListType } from "types";
 import PostPreamble, { PostBadges } from "./PostPreamble";
 
 import Card from "common/Card";
+import { DropdownProps } from "common/DropdownListMenu";
 import Editor from "@bobaboard/boba-editor";
 import Footer from "./Footer";
 import { PostHandler } from "../index";
@@ -35,11 +36,12 @@ const { styles: footerStyles, className: footerClassName } = css.resolve`
 `;
 
 const { styles: headerStyles, className: headerClassName } = css.resolve`
-  header {
-    background-color: #dddddd;
-  }
   .badges {
     bottom: 0;
+  }
+  header {
+    border-bottom: 1px dotted #d2d2d2;
+    padding: 5px 3px;
   }
 `;
 
@@ -57,6 +59,7 @@ const PreviousContent = (props: CompactThreadProps) => {
   const container = React.useRef<HTMLDivElement>(null);
   const clicker = useExpand(container, {
     compactHeight: 350,
+    backgroundColor: "#dddddd",
   });
   return (
     <div className={classnames("previous-content")} ref={container}>
@@ -69,17 +72,13 @@ const PreviousContent = (props: CompactThreadProps) => {
         };
         return (
           <article key={post.id || index}>
-            {index > 0 && (
-              // Do not show the header on the first post as that's taken care of by
-              // the card itself
-              <header>
-                <PostBadges
-                  {...post}
-                  className={classnames("badges", headerClassName)}
-                />
-                <TinyHeader {...post} />
-              </header>
-            )}
+            <header className={headerClassName}>
+              <PostBadges
+                {...post}
+                className={classnames("badges", headerClassName)}
+              />
+              <TinyHeader {...post} />
+            </header>
             <Editor
               initialText={JSON.parse(post.text)}
               editable={false}
@@ -117,14 +116,17 @@ const PreviousContent = (props: CompactThreadProps) => {
       <style jsx>{`
         .previous-content {
           position: relative;
-          background-color: #dddddd;
+          margin: 5px;
         }
         .previous-content[data-shrunk] {
           filter: grayscale(0.6);
         }
+        article {
+          border-radius: 15px;
+          background-color: #dddddd;
+        }
         article + article {
-          padding-top: 3px;
-          border-top: 4px dashed ${Theme.LAYOUT_BOARD_BACKGROUND_COLOR};
+          margin-top: 8px;
         }
         article header {
           position: relative;
@@ -138,74 +140,71 @@ const CompactThread: React.FC<CompactThreadProps> = (props) => {
   const lastPost = props.posts[props.posts.length - 1];
 
   return (
-    <>
-      <article>
-        <PostPreamble
-          {...props}
-          {...props.posts[0]}
-          tags={React.useMemo(
-            () => ({
-              indexTags: [],
-              categoryTags: [],
-              whisperTags: [],
-              contentWarnings: [
-                ...new Set(
-                  props.posts
-                    .flatMap((post) => post.tags?.contentWarnings)
-                    .filter((x): x is string => x !== undefined)
-                ),
-              ],
-            }),
-            [props.posts]
-          )}
-        />
-        <Card>
-          <Card.Header className={classnames(headerClassName)}>
-            <HeaderContent {...props} {...props.posts[0]} />
-          </Card.Header>
-          <Card.Content>
-            <PreviousContent {...props} />
-            <article key={lastPost.id || props.posts.length}>
-              <header>
-                <PostBadges {...lastPost} />
-                <TinyHeader {...lastPost} />
-              </header>
-              <Editor
-                initialText={JSON.parse(lastPost.text)}
-                editable={false}
-                onEmbedLoaded={props.onEmbedLoaded}
-              />
-            </article>
-          </Card.Content>
-          <Card.Footer
-            className={classnames(footerClassName, {
-              "with-tags": hasFooterTags(lastPost),
+    <article>
+      <PostPreamble
+        {...props}
+        {...props.posts[0]}
+        tags={React.useMemo(
+          () => ({
+            indexTags: [],
+            categoryTags: [],
+            whisperTags: [],
+            contentWarnings: [
+              ...new Set(
+                props.posts
+                  .flatMap((post) => post.tags?.contentWarnings)
+                  .filter((x): x is string => x !== undefined)
+              ),
+            ],
+          }),
+          [props.posts]
+        )}
+      />
+      <Card>
+        <Card.Header>
+          <HeaderContent {...props} {...lastPost} />
+        </Card.Header>
+        <Card.Content>
+          <PreviousContent {...props} />
+          <article key={lastPost.id || props.posts.length}>
+            <header>
+              <PostBadges {...lastPost} />
+            </header>
+            <Editor
+              initialText={JSON.parse(lastPost.text)}
+              editable={false}
+              onEmbedLoaded={props.onEmbedLoaded}
+            />
+          </article>
+        </Card.Content>
+        <Card.Footer
+          className={classnames(footerClassName, {
+            "with-tags": hasFooterTags(lastPost),
+          })}
+        >
+          <Tags
+            tags={TagsFactory.getTagsFromTagObject({
+              whisperTags: lastPost.tags?.whisperTags ?? [],
+              categoryTags: lastPost.tags?.categoryTags ?? [],
+              indexTags: lastPost.tags?.indexTags ?? [],
+              contentWarnings: [],
             })}
-          >
-            <Tags
-              tags={TagsFactory.getTagsFromTagObject({
-                whisperTags: lastPost.tags?.whisperTags ?? [],
-                categoryTags: lastPost.tags?.categoryTags ?? [],
-                indexTags: lastPost.tags?.indexTags ?? [],
-                contentWarnings: [],
-              })}
-              getOptionsForTag={props.getOptionsForTag}
-            />
-            <Footer
-              onContribution={props.onNewContribution}
-              onComment={props.onNewComment}
-              totalContributions={lastPost.totalContributions}
-              directContributions={lastPost.directContributions}
-              totalComments={lastPost.totalComments}
-              newContributions={lastPost.newContributions}
-              newComments={lastPost.newComments}
-              notesLink={props.notesLink}
-              allowsContribution={props.allowsContribution}
-              allowsComment={props.allowsComment}
-            />
-          </Card.Footer>
-        </Card>
-      </article>
+            getOptionsForTag={props.getOptionsForTag}
+          />
+          <Footer
+            onContribution={props.onNewContribution}
+            onComment={props.onNewComment}
+            totalContributions={lastPost.totalContributions}
+            directContributions={lastPost.directContributions}
+            totalComments={lastPost.totalComments}
+            newContributions={lastPost.newContributions}
+            newComments={lastPost.newComments}
+            notesLink={props.notesLink}
+            allowsContribution={props.allowsContribution}
+            allowsComment={props.allowsComment}
+          />
+        </Card.Footer>
+      </Card>
       <style jsx>{`
         article {
           position: relative;
@@ -218,7 +217,7 @@ const CompactThread: React.FC<CompactThreadProps> = (props) => {
       `}</style>
       {headerStyles}
       {footerStyles}
-    </>
+    </article>
   );
 };
 
