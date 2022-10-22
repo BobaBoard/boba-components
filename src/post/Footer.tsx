@@ -213,7 +213,7 @@ const Footer: React.FC<FooterProps> = ({
             compact={currentBreakpoint == "compact"}
             theme={ButtonStyle.TRANSPARENT}
             disabled={!allowsContribution}
-            label="new contribution"
+            label="contribute"
           >
             Contribute
           </Button>
@@ -223,7 +223,7 @@ const Footer: React.FC<FooterProps> = ({
             compact={currentBreakpoint == "compact"}
             theme={ButtonStyle.TRANSPARENT}
             disabled={!allowsComment}
-            label="new comment"
+            label="comment"
           >
             Comment
           </Button>

@@ -155,6 +155,9 @@ export interface AvatarProps {
       };
   userIdentity?: UserIdentityType;
   forceHide?: boolean;
+  // TODO: this should really not be boolean | mini. Consider either changing
+  // it to have "mini" | "compact" as the type, or consider exporting different
+  // components for alt styles.
   compact?: boolean | "mini";
 }
 

@@ -26,8 +26,8 @@ describe("when an answerable footer is displayed", () => {
     render(<Answerable />);
     largeContainer = screen.getByTestId("large-container");
 
-    expect(WithNotes.args!.allowsContribution).toBeTrue();
-    expect(WithNotes.args!.allowsComment).toBeTrue();
+    expect(Answerable.args!.allowsContribution).toBeTrue();
+    expect(Answerable.args!.allowsComment).toBeTrue();
   });
 
   it("displays the contribute button", () => {
@@ -57,11 +57,11 @@ describe("when a footer allows contributions only", () => {
   });
   it("the contribute button is active", () => {
     expect(
-      within(largeContainer).getByLabelText("new contribution")
+      within(largeContainer).getByLabelText("contribute")
     ).not.toBeDisabled();
   });
   it("the comment button is disabled", () => {
-    expect(within(largeContainer).getByLabelText("new comment")).toBeDisabled();
+    expect(within(largeContainer).getByLabelText("comment")).toBeDisabled();
   });
 });
 
@@ -75,14 +75,10 @@ describe("when a footer allows comments only", () => {
     expect(CommentOnly.args!.allowsComment).toBeTrue();
   });
   it("the contribute button is disabled", () => {
-    expect(
-      within(largeContainer).getByLabelText("new contribution")
-    ).toBeDisabled();
+    expect(within(largeContainer).getByLabelText("contribute")).toBeDisabled();
   });
   it("the comment button is active", () => {
-    expect(
-      within(largeContainer).getByLabelText("new comment")
-    ).not.toBeDisabled();
+    expect(within(largeContainer).getByLabelText("comment")).not.toBeDisabled();
   });
 });
 

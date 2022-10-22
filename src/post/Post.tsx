@@ -53,7 +53,7 @@ const { styles: headerStyles, className: headerClassName } = css.resolve`
   .metadata {
     max-width: calc(100% - 20px);
   }
-  button {
+  .dropdown-button {
     display: block;
     width: 40px;
     height: 30px;
@@ -66,12 +66,12 @@ const { styles: headerStyles, className: headerClassName } = css.resolve`
     justify-content: center;
     align-items: center;
   }
-  button:is(:hover, :focus) {
+  .dropdown-button:is(:hover, :focus) {
     color: rgb(28, 28, 28);
     cursor: pointer;
   }
   @media only screen and (max-width: 500px) {
-    button {
+    .dropdown-button {
       // By this point the user has switched to a mobile view, so we don't
       // have to worry about the arrow. The user is also probably going
       // to use the finger, so a clickable area closer to the bottom will come in
@@ -112,7 +112,7 @@ export const HeaderContent = React.forwardRef<HTMLImageElement, PostProps>(
       />
       {(props.menuOptions || props.menuOptionsHeader) && (
         <DropdownListMenu
-          buttonClassName={classnames(headerClassName)}
+          buttonClassName={classnames(headerClassName, "dropdown-button")}
           options={props.menuOptions}
           label="Post options"
         >
@@ -238,6 +238,7 @@ export interface PostData {
     slug: string;
     accentColor: string;
   };
+  muted?: boolean;
 }
 
 export interface PostProps extends PostData {
@@ -252,6 +253,5 @@ export interface PostProps extends PostData {
   getOptionsForTag?: (tag: TagsType) => DropdownProps["options"];
   forceHideIdentity?: boolean;
   backgroundColor?: string;
-  muted?: boolean;
   notesLink: LinkWithAction;
 }

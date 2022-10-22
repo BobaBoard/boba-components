@@ -855,9 +855,6 @@ export const NewThreadStory = () => {
   );
 };
 
-// Still broken after updating props and fixing all shown ts errors.
-// Storybook shows the error: "Maximum update depth exceeded. This can happen when a component repeatedly calls setState inside componentWillUpdate or componentDidUpdate. React limits the number of nested updates to prevent infinite loops."
-// TODO: Try rewriting in new story format, otherwise more investigation needed
 export const NewRegularThread = () => {
   return (
     <div
