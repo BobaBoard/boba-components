@@ -142,7 +142,7 @@ const CompactThread: React.FC<CompactThreadProps> = (props) => {
     <article>
       <PostPreamble
         {...props}
-        {...props.posts[0]}
+        {...lastPost}
         tags={React.useMemo(
           () => ({
             indexTags: [],
