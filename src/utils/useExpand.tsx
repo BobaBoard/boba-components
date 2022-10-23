@@ -29,8 +29,19 @@ const toggleCompact = (
   }
 };
 
-const { styles: iconStyles, className: iconClassName } = css.resolve``;
+const { styles: iconStyles, className: iconClassName } = css.resolve`
+  svg {
+    // see: https://stackoverflow.com/questions/29814709/click-event-not-fired-on-button-with-svg-element-in-safari
+    pointer-events: none;
+  }
+`;
 
+/**
+ * Modifies the component passed as a ref, and collapses it so its height
+ * doesn't surpass `compactHeight`.
+ * Returns a button to add to the DOM (usually right after the component), which
+ * can then be used to toggle the expansion/contraption of the component.
+ */
 export const useExpand = (
   ref: React.RefObject<HTMLDivElement>,
   options: {

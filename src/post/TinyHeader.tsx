@@ -2,6 +2,7 @@ import DropdownListMenu, { DropdownProps } from "common/DropdownListMenu";
 import { SecretIdentityType, UserIdentityType } from "types";
 
 import Avatar from "./Avatar";
+import DefaultTheme from "theme/default";
 import Icon from "common/Icon";
 import React from "react";
 import classnames from "classnames";
@@ -57,8 +58,12 @@ const TinyHeader = React.forwardRef<HTMLImageElement, TinyHeaderProps>(
           compact="mini"
           ref={avatarRef}
         />
-        {props.secretIdentity?.name && <div>{props.secretIdentity?.name}</div>}
-        {props.userIdentity?.name && <div>({props.userIdentity?.name})</div>}
+        {props.secretIdentity?.name && (
+          <div className="secret-identity">{props.secretIdentity?.name}</div>
+        )}
+        {props.userIdentity?.name && (
+          <div className="user-identity">@{props.userIdentity?.name}</div>
+        )}
         {props.postOptions?.length && (
           <DropdownListMenu
             buttonClassName={classnames(headerClassName)}
@@ -77,7 +82,20 @@ const TinyHeader = React.forwardRef<HTMLImageElement, TinyHeaderProps>(
             width: 100%;
             display: flex;
             padding: 5px 8px;
+            height: 30px;
             align-items: center;
+          }
+          .secret-identity {
+            font-size: var(--font-size-regular);
+          }
+          .user-identity {
+            font-size: var(--font-size-small);
+            color: ${DefaultTheme.POST_HEADER_USERNAME_COLOR};
+            // Make the difference in size look a bit better
+            margin-top: 2px;
+          }
+          .secret-identity + .user-identity {
+            margin-left: 5px;
           }
         `}</style>
         {headerStyles}

@@ -59,6 +59,9 @@ const Avatar = React.forwardRef<HTMLImageElement, AvatarProps>((props, ref) => {
         .compact .accessory {
           transform: translate(calc(-50% - 3px), -50%) scale(0.85);
         }
+        .mini .accessory {
+          transform: translate(calc(-50% - 11px), -50%) scale(0.67);
+        }
         .avatar {
           position: relative;
           width: 40px;

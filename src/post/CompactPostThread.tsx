@@ -3,7 +3,6 @@ import { LinkWithAction, TagsListType } from "types";
 import PostPreamble, { PostBadges } from "./PostPreamble";
 
 import Card from "common/Card";
-import { DropdownProps } from "common/DropdownListMenu";
 import Editor from "@bobaboard/boba-editor";
 import Footer from "./Footer";
 import { PostHandler } from "../index";
