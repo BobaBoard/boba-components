@@ -5,12 +5,11 @@ import Theme from "theme/default";
 
 const customStyles = {
   content: {
-    top: "50%",
-    left: "50%",
-    right: "auto",
-    bottom: "auto",
-    marginRight: "-50%",
-    transform: "translate(-50%, -50%)",
+    top: 0,
+    bottom: 0,
+    left: 0,
+    right: 0,
+    padding: "0px",
     backgroundColor: "transparent",
     border: "none",
     width: "100%",
@@ -64,7 +63,7 @@ const Modal: React.FC<ModalProps> = (props) => {
           margin-top: 3vh;
           margin-bottom: 3vh;
         }
-        .modal-overlay {
+        :global(.modal-overlay) {
           position: fixed;
           top: 0;
           left: 0;
@@ -73,9 +72,9 @@ const Modal: React.FC<ModalProps> = (props) => {
           background-color: ${Theme.MODAL_BACKGROUND_COLOR};
           z-index: 100;
         }
-        .minimized-modal-overlay {
+        :global(.minimized-modal-overlay) {
           position: fixed;
-          top: 60vh;
+          top: 80vh;
           left: 0;
           right: 0;
           bottom: 0;
