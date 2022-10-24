@@ -1,17 +1,13 @@
-import Comment, { CommentHandler } from "post/Comment";
-import CompactThreadIndent, { useIndent } from "post/CompactThreadIndent";
 import Thread, { CollapseGroup } from "thread/NewThread";
 import {
   faAngleDoubleUp,
-  faBellSlash,
   faCompressArrowsAlt,
   faLink,
-  faMapPin,
-  faPaintBrush,
   faPlusSquare,
 } from "@fortawesome/free-solid-svg-icons";
 
 import CollapsedPlaceholder from "thread/CollapsedPlaceholder";
+import Comment from "post/Comment";
 import { NewCommentsThread } from "index";
 import Post from "post/Post";
 import React from "react";
@@ -28,7 +24,7 @@ export default {
   component: ThreadIndent,
 };
 
-export const RegularThread = () => {
+export const Regular = () => {
   return (
     <div
       style={{
@@ -228,10 +224,6 @@ export const RegularThread = () => {
   );
 };
 
-RegularThread.story = {
-  name: "regular",
-};
-
 export const ShortContent = () => {
   return (
     <div
@@ -294,10 +286,6 @@ export const ShortContent = () => {
       </ThreadIndent>
     </div>
   );
-};
-
-ShortContent.story = {
-  name: "short content (flex)",
 };
 
 // Still broken after updating props and fixing all shown ts errors.
@@ -539,7 +527,7 @@ const MAMORU_IDENTITY = { name: "SexyDaddy69", avatar: `/${mamoruAvatar}` };
 //   );
 // };
 
-export const CollapsePlaceholderStory = () => {
+export const CollapsePlaceholder = () => {
   return (
     <div style={{ maxWidth: "500px", textAlign: "center" }}>
       <CollapsedPlaceholder
@@ -594,12 +582,38 @@ export const CollapsePlaceholderStory = () => {
   );
 };
 
-export const NewThreadStory = () => {
+const Spacer = () => {
+  const [spacerPadding, setSpacerPadding] = React.useState(25);
+  return (
+    <div
+      style={{
+        paddingBottom: spacerPadding + "px",
+        marginLeft: "25px",
+        backgroundColor: "aqua",
+        display: "grid",
+        gridTemplateColumns: "auto auto",
+        gridTemplateRows: "1fr 1fr",
+        gap: "5px",
+      }}
+    >
+      <div style={{ gridColumn: "span 2" }}>
+        This spacer should not influence the starting point of the next stem
+      </div>
+      <button onClick={() => setSpacerPadding(spacerPadding + 10)}>
+        Increase height
+      </button>
+      <button onClick={() => setSpacerPadding(spacerPadding - 10)}>
+        Decrease height
+      </button>
+    </div>
+  );
+};
+
+export const NewWithCollapsedPlaceholder = () => {
   const [collapsed, setCollapsed] = React.useState<string[]>([
     "level-2,1",
     "cg-1",
   ]);
-  const [spacerPadding, setSpacerPadding] = React.useState(25);
 
   // In real usage, indents will sometimes be wrapped within components, and they should
   // continue working anyway.
@@ -712,21 +726,7 @@ export const NewThreadStory = () => {
       >
         {(setBoundaryElement) => (
           <>
-            <div
-              style={{
-                paddingTop: spacerPadding + "px",
-                marginLeft: "25px",
-                backgroundColor: "aqua",
-              }}
-            >
-              This should not be included in the stem length
-              <button onClick={() => setSpacerPadding(spacerPadding + 10)}>
-                Increase
-              </button>
-              <button onClick={() => setSpacerPadding(spacerPadding - 10)}>
-                Decrease
-              </button>
-            </div>
+            <Spacer />
             <div className="fake-post" ref={(div) => setBoundaryElement(div)}>
               This is the main post
             </div>
@@ -737,25 +737,7 @@ export const NewThreadStory = () => {
               <Thread.Item>
                 {(setBoundaryElement) => (
                   <>
-                    <div
-                      style={{
-                        paddingTop: spacerPadding + "px",
-                        marginLeft: "25px",
-                        backgroundColor: "aqua",
-                      }}
-                    >
-                      This should not be included in the stem length
-                      <button
-                        onClick={() => setSpacerPadding(spacerPadding + 10)}
-                      >
-                        Increase
-                      </button>
-                      <button
-                        onClick={() => setSpacerPadding(spacerPadding - 10)}
-                      >
-                        Decrease
-                      </button>
-                    </div>
+                    <Spacer />
                     <div
                       ref={(div) => setBoundaryElement(div)}
                       className="fake-post"
@@ -855,7 +837,7 @@ export const NewThreadStory = () => {
   );
 };
 
-export const NewRegularThread = () => {
+export const NewWithPostsAndComments = () => {
   return (
     <div
       style={{
