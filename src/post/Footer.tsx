@@ -69,13 +69,11 @@ const UpdatesIndicator = ({
           background-color: ${Theme.BUTTON_BACKGROUND_COLOR_DARK};
           border-radius: 25px;
           color: ${Theme.BUTTON_ACCENT_COLOR_DARK};
-          padding: 3px 5px;
+          padding: 2px 5px;
           position: absolute;
-          right: 0;
-          top: 0;
-          transform: translate(10%, -55%);
+          right: -5%;
+          top: -30%;
           font-size: var(--font-size-small);
-          line-height: 10px;
           display: flex;
         }
         .notes-update :global(svg) {
