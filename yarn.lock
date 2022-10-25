@@ -11007,7 +11007,7 @@ node-releases@^2.0.6:
   resolved "https://registry.yarnpkg.com/node-releases/-/node-releases-2.0.6.tgz#8a7088c63a55e493845683ebf3c828d8c51c5503"
   integrity sha512-PiVXnNuFm5+iYkLBNeq5211hvO38y63T0i2KKh2KnUs3RpzJ+JtODFjkD8yjLwnDkTYF1eKXheUwdssR+NRZdg==
 
-noop-ts@^1.0.3:
+noop-ts@1.0.3:
   version "1.0.3"
   resolved "https://registry.yarnpkg.com/noop-ts/-/noop-ts-1.0.3.tgz#ded86bff3f291206881b54230f3a5338aeb7181d"
   integrity sha512-R3DfoyuFCbaVoYfaE6yS+qON0GGqBcc3FeANDvMe4Z1Dd7fuqzMJrnjJx9if9hCP72+UlTxZ/DSP4BuP6/+p8A==

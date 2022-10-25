@@ -51,7 +51,7 @@
     "hammerjs": "^2.0.8",
     "intersection-observer": "^0.11.0",
     "magic-grid": "^3.2.4",
-    "noop-ts": "^1.0.3",
+    "noop-ts": "1.0.3",
     "normalize.css": "^8.0.1",
     "patch-package": "^6.2.2",
     "pica": "^6.1.1",
