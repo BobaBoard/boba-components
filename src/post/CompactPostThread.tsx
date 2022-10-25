@@ -104,7 +104,10 @@ const PreviousContent = (props: CompactThreadProps) => {
                 totalComments={post.totalComments}
                 newContributions={post.newContributions}
                 newComments={post.newComments}
-                notesLink={props.innerNotesLink}
+                // We're making clicking on the inner "notes links" the same
+                // as clicking at the created time link, which is actually not
+                // visible on compact post threads.
+                notesLink={post.createdTimeLink}
               />
             </footer>
           </article>
@@ -230,6 +233,5 @@ export interface CompactThreadProps extends Omit<PostProps, keyof PostData> {
   posts: PostData[];
   innerRef?: React.Ref<PostHandler>;
   forceHideIdentity?: boolean;
-  innerNotesLink: LinkWithAction;
   notesLink: LinkWithAction;
 }

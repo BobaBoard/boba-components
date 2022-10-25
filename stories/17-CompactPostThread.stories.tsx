@@ -101,10 +101,6 @@ export const CompactThreadStory = () => {
           },
         },
       ]}
-      innerNotesLink={{
-        onClick: action("innerNotesLink"),
-        href: "https://www.youtube.com/watch?v=dQw4w9WgXcQ",
-      }}
       notesLink={{
         onClick: action("notesLink"),
         href: "https://www.youtube.com/watch?v=dQw4w9WgXcQ",
