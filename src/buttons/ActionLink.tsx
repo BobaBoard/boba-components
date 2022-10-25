@@ -10,7 +10,7 @@ type WithRequiredProperty<Type, Key extends keyof Type> = Type &
 
 /**
  * The most neutral of all buttons. Absolutely uninvasive.
- * Does what you expect it to do and tries not to get on
+ * Does what you expect it to do and tries not to get in
  * your way.
  */
 const NeutralButton: React.FC<ActionLinkProps> = (props) => {
@@ -62,7 +62,7 @@ const NeutralButton: React.FC<ActionLinkProps> = (props) => {
 
 /**
  * The most neutral of all anchors. Absolutely uninvasive.
- * Does what you expect it to do and tries not to get on
+ * Does what you expect it to do and tries not to get in
  * your way.
  */
 const NeutralAnchor: React.FC<WithRequiredProperty<ActionLinkProps, "link">> = (

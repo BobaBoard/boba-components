@@ -1,6 +1,5 @@
 import "resize-observer-polyfill";
 import "@fortawesome/fontawesome-svg-core/styles.css";
-import "react-loader-spinner/dist/loader/css/react-spinner-loader.css";
 
 import Button, { ButtonStyle } from "buttons/Button";
 import { EditorContext, getDeltaSummary } from "@bobaboard/boba-editor";
@@ -49,7 +48,6 @@ import type { TagsType } from "types";
 import UserDetails from "user/UserDetails";
 import flush from "styled-jsx/server";
 import useBoos from "extra/useBoos";
-import { useCompact } from "utils";
 
 require("intersection-observer");
 
@@ -91,7 +89,6 @@ export {
   EditorContext,
   ImageUploaderContext,
   flush,
-  useCompact,
   DefaultTheme,
   TagsFilterSection,
   PostQuote,

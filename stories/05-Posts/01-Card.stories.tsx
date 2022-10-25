@@ -45,7 +45,12 @@ const CardTemplate: Story<
     <Card {...args}>
       <Card.Footer>{footer}</Card.Footer>
       <Card.Header>{header}</Card.Header>
-      <Editor editable={false} initialText={getInitialText(args.editorText)} />
+      <Card.Content>
+        <Editor
+          editable={false}
+          initialText={getInitialText(args.editorText)}
+        />
+      </Card.Content>
     </Card>
   );
 };

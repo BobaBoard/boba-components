@@ -578,7 +578,7 @@ const DropdownMenu: React.FC<DropdownProps> & {
             "with-header": header,
           })}
           tabIndex={0}
-          onClick={() => setOpen(!isOpen)}
+          onClick={() => (props.options?.length || header) && setOpen(!isOpen)}
           aria-label={props.label}
         >
           {rest}

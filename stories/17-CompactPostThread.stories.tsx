@@ -2,7 +2,6 @@ import CompactPostThread from "post/CompactPostThread";
 import React from "react";
 import { action } from "@storybook/addon-actions";
 import greedlerAvatar from "./images/greedler.jpg";
-import hannibalAvatar from "./images/hannibal.png";
 import mamoruAvatar from "./images/mamoru.png";
 import oncelerAvatar from "./images/oncie.jpg";
 import tuxedoAvatar from "./images/tuxedo-mask.jpg";
@@ -14,6 +13,8 @@ export default {
 export const CompactThreadStory = () => {
   return (
     <CompactPostThread
+      onNewComment={action("comment")}
+      onNewContribution={action("contribute")}
       posts={[
         {
           createdTime: "5 minutes ago",
@@ -22,16 +23,14 @@ export const CompactThreadStory = () => {
             name: "Good Guy",
             avatar: `/${oncelerAvatar}`,
           },
+          userIdentity: {
+            name: "Bad Guy",
+            avatar: `/${greedlerAvatar}`,
+          },
           createdTimeLink: {
             onClick: action("createdTime"),
             href: "https://www.youtube.com/watch?v=dQw4w9WgXcQ",
           },
-          notesLink: {
-            onClick: action("notesLink"),
-            href: "https://www.youtube.com/watch?v=dQw4w9WgXcQ",
-          },
-          onNewComment: () => console.log("click"),
-          onNewContribution: () => console.log("click"),
         },
         {
           createdTime: "10 hours ago",
@@ -66,17 +65,15 @@ export const CompactThreadStory = () => {
             onClick: action("createdTime"),
             href: "https://www.youtube.com/watch?v=dQw4w9WgXcQ",
           },
-          notesLink: {
-            onClick: action("notesLink"),
-            href: "https://www.youtube.com/watch?v=dQw4w9WgXcQ",
-          },
-          onNewComment: () => console.log("click"),
-          onNewContribution: () => console.log("click"),
         },
         {
           createdTime: "yesterday",
           text: '[{"insert":{"block-image":"https://cdn.discordapp.com/attachments/443967088118333442/691401632940032040/AbJqbbOwrc74AAAAAElFTkSuQmCC.png"}}]',
           secretIdentity: {
+            name: "Good Guy",
+            avatar: `/${oncelerAvatar}`,
+          },
+          userIdentity: {
             name: "Bad Guy",
             avatar: `/${greedlerAvatar}`,
           },
@@ -102,14 +99,16 @@ export const CompactThreadStory = () => {
             onClick: action("createdTime"),
             href: "https://www.youtube.com/watch?v=dQw4w9WgXcQ",
           },
-          notesLink: {
-            onClick: action("notesLink"),
-            href: "https://www.youtube.com/watch?v=dQw4w9WgXcQ",
-          },
-          onNewComment: () => console.log("click"),
-          onNewContribution: () => console.log("click"),
         },
       ]}
+      innerNotesLink={{
+        onClick: action("innerNotesLink"),
+        href: "https://www.youtube.com/watch?v=dQw4w9WgXcQ",
+      }}
+      notesLink={{
+        onClick: action("notesLink"),
+        href: "https://www.youtube.com/watch?v=dQw4w9WgXcQ",
+      }}
     />
   );
 };

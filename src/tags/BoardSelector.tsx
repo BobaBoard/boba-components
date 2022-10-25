@@ -1,18 +1,22 @@
+import { BoardDataType } from "types";
 import DropdownMenu from "common/DropdownListMenu";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import React from "react";
 import classnames from "classnames";
+import css from "styled-jsx/css";
 import { faCaretDown } from "@fortawesome/free-solid-svg-icons";
 
 export interface BoardSelectorProps {
-  availableBoards: {
-    slug: string;
-    avatar: string;
-    color: string;
-  }[];
-  selectedBoard: string;
-  onBoardSelected: (slug: string) => void;
+  availableBoards: BoardDataType[];
+  selectedBoard: BoardDataType;
+  onBoardSelected: (slug: BoardDataType) => void;
 }
+
+const { styles: buttonStyles, className: buttonClassName } = css.resolve`
+  width: 100%;
+  flex-shrink: 1;
+`;
+
 const BoardSelector: React.FC<BoardSelectorProps> = (props) => {
   const [filter, setFilter] = React.useState("");
   const inputRef = React.useRef<HTMLInputElement>(null);
@@ -31,7 +35,7 @@ const BoardSelector: React.FC<BoardSelectorProps> = (props) => {
           link: {
             onClick: () => {
               setFilter("");
-              props.onBoardSelected?.(board.slug);
+              props.onBoardSelected?.(board);
             },
           },
         }))}
@@ -39,6 +43,7 @@ const BoardSelector: React.FC<BoardSelectorProps> = (props) => {
         inputRef.current?.focus();
       }}
       zIndex={200}
+      buttonClassName={buttonClassName}
     >
       <DropdownMenu.Header>
         <div className="filter">
@@ -79,18 +84,18 @@ const BoardSelector: React.FC<BoardSelectorProps> = (props) => {
           style={{
             backgroundImage: `url(${
               props.availableBoards?.find(
-                (board) => props.selectedBoard == board.slug
+                (board) => props.selectedBoard.slug == board.slug
               )?.avatar
             })`,
             borderColor: props.availableBoards?.find(
-              (board) => props.selectedBoard == board.slug
+              (board) => props.selectedBoard.slug == board.slug
             )?.color,
           }}
         />
-        <span className="name">!{props.selectedBoard}</span>
+        <span className="name">!{props.selectedBoard.slug}</span>
         <div className={classnames("dropdown")}>
           <FontAwesomeIcon icon={faCaretDown} />
-        </div>{" "}
+        </div>
         <style jsx>{`
           .board-selector {
             padding-right: 5px;
@@ -103,7 +108,6 @@ const BoardSelector: React.FC<BoardSelectorProps> = (props) => {
             color: white;
             display: flex;
             align-items: center;
-            width: 130px;
           }
           .symbol {
             height: 18px;
@@ -131,6 +135,7 @@ const BoardSelector: React.FC<BoardSelectorProps> = (props) => {
             flex-shrink: 0;
           }
         `}</style>
+        {buttonStyles}
       </div>
     </DropdownMenu>
   );
