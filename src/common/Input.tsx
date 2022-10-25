@@ -37,7 +37,7 @@ const Input: React.FC<InputProps> = (props) => {
   const hasHelperText = !!(helper || errorMessage);
   const hasMaxLength = !!maxLength;
 
-  const [togglePassword, setTogglePassword] = React.useState(true);
+  const [passwordVisible, setPasswordVisible] = React.useState(false);
 
   return (
     <div
@@ -49,44 +49,44 @@ const Input: React.FC<InputProps> = (props) => {
       })}
     >
       <label htmlFor={props.id}>{props.label}</label>
-      <input
-        id={props.id}
-        name={props.label}
-        type={props.password && togglePassword ? "password" : "text"}
-        value={value}
-        placeholder={props.placeholder}
-        onChange={(e) => !props.disabled && props.onTextChange(e.target.value)}
-        disabled={props.disabled}
-        onKeyDown={(e) => {
-          if (e.key === "Enter") {
-            props.onEnter?.(e);
+      <div className="password-wrapper">
+        <input
+          id={props.id}
+          name={props.label}
+          type={props.password && !passwordVisible ? "password" : "text"}
+          className={classnames({ "password-input": props.password })}
+          value={value}
+          placeholder={props.placeholder}
+          onChange={(e) =>
+            !props.disabled && props.onTextChange(e.target.value)
           }
-        }}
-        ref={(input) => {
-          // Whenever the input changes, set a custom validity error message if
-          // there is a current error.
-          input?.setCustomValidity(errorMessage || "");
-          inputRef.current = input;
-        }}
-      />
-      {props.password && (
-        <div className="password-toggle">
-          <input
-            type="checkbox"
-            id="password-toggle"
-            onClick={() => setTogglePassword(!togglePassword)}
-            className="sr-only"
-          />
-          <label htmlFor="password-toggle" className="toggle-label">
-            {" "}
+          disabled={props.disabled}
+          onKeyDown={(e) => {
+            if (e.key === "Enter") {
+              props.onEnter?.(e);
+            }
+          }}
+          ref={(input) => {
+            // Whenever the input changes, set a custom validity error message if
+            // there is a current error.
+            input?.setCustomValidity(errorMessage || "");
+            inputRef.current = input;
+          }}
+        />
+        {props.password && (
+          <label className="visibility-toggle">
+            <input
+              type="checkbox"
+              onClick={() => setPasswordVisible(!passwordVisible)}
+            />
             <FontAwesomeIcon
-              icon={togglePassword ? faEye : faEyeSlash}
+              icon={passwordVisible ? faEyeSlash : faEye}
               className={classnames("icon")}
               title={"label"}
             />
           </label>
-        </div>
-      )}
+        )}
+      </div>
       <div className="additional-info">
         {hasHelperText && (
           <div className="helper-text">
@@ -160,7 +160,22 @@ const Input: React.FC<InputProps> = (props) => {
           color: #d2d2d2;
           text-decoration: line-through;
         }
-        .sr-only {
+        .password-input {
+          padding-right: calc(var(--font-size-regular) * 2.8);
+        }
+        .password-wrapper {
+          position: relative;
+        }
+        .visibility-toggle {
+          position: absolute;
+          right: 0px;
+          top: 0px;
+          line-height: 17.5px;
+          font-size: var(--font-size-regular);
+          padding: 13px;
+        }
+        // hide visibility toggle checkbox in an accesible way
+        input[type="checkbox"] {
           position: absolute;
           clip: rect(1px, 1px, 1px, 1px);
           padding: 0;
