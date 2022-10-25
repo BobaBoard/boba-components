@@ -3,9 +3,11 @@ import {
   faAngleDoubleUp,
 } from "@fortawesome/free-solid-svg-icons";
 
+import DefaultTheme from "theme/default";
 import Icon from "common/Icon";
 import React from "react";
-import classNames from "classnames";
+import classnames from "classnames";
+import css from "styled-jsx/css";
 
 const toggleCompact = (
   div: HTMLDivElement,
@@ -27,10 +29,24 @@ const toggleCompact = (
   }
 };
 
+const { styles: iconStyles, className: iconClassName } = css.resolve`
+  svg {
+    // see: https://stackoverflow.com/questions/29814709/click-event-not-fired-on-button-with-svg-element-in-safari
+    pointer-events: none;
+  }
+`;
+
+/**
+ * Modifies the component passed as a ref, and collapses it so its height
+ * doesn't surpass `compactHeight`.
+ * Returns a button to add to the DOM (usually right after the component), which
+ * can then be used to toggle the expansion/contraption of the component.
+ */
 export const useExpand = (
   ref: React.RefObject<HTMLDivElement>,
   options: {
     compactHeight: number;
+    backgroundColor?: string;
   }
 ) => {
   const [oldStyle, setOldStyle] =
@@ -63,10 +79,10 @@ export const useExpand = (
   }
 
   const refStyle = getComputedStyle(ref.current);
-  const backgroundColor = refStyle.backgroundColor;
+  const backgroundColor = options.backgroundColor || refStyle.backgroundColor;
   return (
     <button
-      className={classNames("expand-overlay", {
+      className={classnames("expand-overlay", {
         expanded,
       })}
       onClick={() => {
@@ -77,7 +93,12 @@ export const useExpand = (
         setExpanded((expanded) => !expanded);
       }}
     >
-      <Icon icon={expanded ? faAngleDoubleUp : faAngleDoubleDown} />
+      <div className="expand-icon">
+        <Icon
+          icon={expanded ? faAngleDoubleUp : faAngleDoubleDown}
+          className={classnames(iconClassName, "icon")}
+        />
+      </div>
       <style jsx>{`
         .expand-overlay {
           height: 40px;
@@ -90,12 +111,50 @@ export const useExpand = (
           cursor: pointer;
           text-align: center;
           border: 0px;
-        }
-        .expand-overlay:not(.expanded) {
           position: absolute;
           bottom: 0;
+          z-index: 2;
+        }
+        .expand-overlay.expanded {
+          background: transparent;
+          transform: translateY(50%);
+        }
+        .expand-icon {
+          background-color: ${DefaultTheme.BUTTON_BACKGROUND_COLOR_DARK};
+          color: ${DefaultTheme.BUTTON_ACCENT_COLOR_DARK};
+          width: 30px;
+          height: 30px;
+          border-radius: 50%;
+          margin: 0 auto;
+          margin-top: -10px;
+          display: flex;
+          align-content: center;
+          justify-content: center;
+          align-items: center;
+          z-index: 2;
+          position: relative;
+        }
+        // Note: I previously did this adding a border to the icon, but it
+        // resulted in a bad-looking interaction because the border would not
+        // cause changes to the hover state, nor trigger the expansion if clicked.
+        // This looks much better.
+        .expand-overlay:before {
+          content: "";
+          width: 40px;
+          height: 40px;
+          background-color: ${backgroundColor};
+          position: absolute;
+          top: -5px;
+          left: 50%;
+          transform: translateX(-50%);
+          border-radius: 50%;
+        }
+        .expand-overlay:hover .expand-icon {
+          background-color: ${DefaultTheme.BUTTON_BACKGROUND_COLOR_LIGHT};
+          color: ${DefaultTheme.BUTTON_ACCENT_COLOR_LIGHT};
         }
       `}</style>
+      {iconStyles}
     </button>
   );
 };
