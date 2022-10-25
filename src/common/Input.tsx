@@ -1,3 +1,6 @@
+import { faEye, faEyeSlash } from "@fortawesome/free-solid-svg-icons";
+
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import React from "react";
 import classnames from "classnames";
 
@@ -34,12 +37,14 @@ const Input: React.FC<InputProps> = (props) => {
   const hasHelperText = !!(helper || errorMessage);
   const hasMaxLength = !!maxLength;
 
+  const [togglePassword, setTogglePassword] = React.useState(true);
+
   return (
     <div
       className={classnames("input", {
-        error: !!errorMessage,
+        "error": !!errorMessage,
         "with-additional-text": hasHelperText || hasMaxLength,
-        disabled: props.disabled,
+        "disabled": props.disabled,
         "hide-label": props.hideLabel,
       })}
     >
@@ -47,7 +52,7 @@ const Input: React.FC<InputProps> = (props) => {
       <input
         id={props.id}
         name={props.label}
-        type={props.password ? "password" : "text"}
+        type={props.password && togglePassword ? "password" : "text"}
         value={value}
         placeholder={props.placeholder}
         onChange={(e) => !props.disabled && props.onTextChange(e.target.value)}
@@ -64,6 +69,24 @@ const Input: React.FC<InputProps> = (props) => {
           inputRef.current = input;
         }}
       />
+      {props.password && (
+        <div className="password-toggle">
+          <input
+            type="checkbox"
+            id="password-toggle"
+            onClick={() => setTogglePassword(!togglePassword)}
+            className="sr-only"
+          />
+          <label htmlFor="password-toggle" className="toggle-label">
+            {" "}
+            <FontAwesomeIcon
+              icon={togglePassword ? faEye : faEyeSlash}
+              className={classnames("icon")}
+              title={"label"}
+            />
+          </label>
+        </div>
+      )}
       <div className="additional-info">
         {hasHelperText && (
           <div className="helper-text">
@@ -136,6 +159,15 @@ const Input: React.FC<InputProps> = (props) => {
           background-color: #a2a2a235;
           color: #d2d2d2;
           text-decoration: line-through;
+        }
+        .sr-only {
+          position: absolute;
+          clip: rect(1px, 1px, 1px, 1px);
+          padding: 0;
+          border: 0;
+          height: 1px;
+          width: 1px;
+          overflow: hidden;
         }
       `}</style>
     </div>
