@@ -104,7 +104,7 @@ const PreviousContent = (props: CompactThreadProps) => {
                 totalComments={post.totalComments}
                 newContributions={post.newContributions}
                 newComments={post.newComments}
-                notesLink={post.createdTimeLink}
+                notesLink={props.innerNotesLink}
               />
             </footer>
           </article>
@@ -230,5 +230,6 @@ export interface CompactThreadProps extends Omit<PostProps, keyof PostData> {
   posts: PostData[];
   innerRef?: React.Ref<PostHandler>;
   forceHideIdentity?: boolean;
+  innerNotesLink: LinkWithAction;
   notesLink: LinkWithAction;
 }

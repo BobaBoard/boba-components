@@ -31,10 +31,6 @@ export const CompactThreadStory = () => {
             onClick: action("createdTime"),
             href: "https://www.youtube.com/watch?v=dQw4w9WgXcQ",
           },
-          notesLink: {
-            onClick: action("notesLink"),
-            href: "https://www.youtube.com/watch?v=dQw4w9WgXcQ",
-          },
         },
         {
           createdTime: "10 hours ago",
@@ -67,10 +63,6 @@ export const CompactThreadStory = () => {
           },
           createdTimeLink: {
             onClick: action("createdTime"),
-            href: "https://www.youtube.com/watch?v=dQw4w9WgXcQ",
-          },
-          notesLink: {
-            onClick: action("notesLink"),
             href: "https://www.youtube.com/watch?v=dQw4w9WgXcQ",
           },
         },
@@ -107,12 +99,16 @@ export const CompactThreadStory = () => {
             onClick: action("createdTime"),
             href: "https://www.youtube.com/watch?v=dQw4w9WgXcQ",
           },
-          notesLink: {
-            onClick: action("notesLink"),
-            href: "https://www.youtube.com/watch?v=dQw4w9WgXcQ",
-          },
         },
       ]}
+      innerNotesLink={{
+        onClick: action("innerNotesLink"),
+        href: "https://www.youtube.com/watch?v=dQw4w9WgXcQ",
+      }}
+      notesLink={{
+        onClick: action("notesLink"),
+        href: "https://www.youtube.com/watch?v=dQw4w9WgXcQ",
+      }}
     />
   );
 };
