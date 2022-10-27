@@ -49,7 +49,7 @@ const Input: React.FC<InputProps> = (props) => {
       })}
     >
       <label htmlFor={props.id}>{props.label}</label>
-      <div className="password-wrapper">
+      <div className="input-wrapper">
         <input
           id={props.id}
           name={props.label}
@@ -79,11 +79,7 @@ const Input: React.FC<InputProps> = (props) => {
               type="checkbox"
               onClick={() => setPasswordVisible(!passwordVisible)}
             />
-            <FontAwesomeIcon
-              icon={passwordVisible ? faEyeSlash : faEye}
-              className={classnames("icon")}
-              title={"label"}
-            />
+            <FontAwesomeIcon icon={passwordVisible ? faEyeSlash : faEye} />
           </label>
         )}
       </div>
@@ -163,7 +159,7 @@ const Input: React.FC<InputProps> = (props) => {
         .password-input {
           padding-right: calc(var(--font-size-regular) * 2.8);
         }
-        .password-wrapper {
+        .input-wrapper {
           position: relative;
         }
         .visibility-toggle {
