@@ -1,6 +1,6 @@
 {
   "name": "@bobaboard/ui-components",
-  "version": "0.3.1",
+  "version": "0.3.2",
   "description": "BobaBoard's UI components",
   "main": "dist/main.js",
   "types": "dist/index.d.ts",
