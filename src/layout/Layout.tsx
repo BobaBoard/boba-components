@@ -230,10 +230,13 @@ const Layout = React.forwardRef<LayoutHandler, LayoutProps>(
               width: calc(100% - ${Theme.PINNED_BAR_WIDTH_PX}px);
               overflow: hidden;
               background-color: ${Theme.LAYOUT_BOARD_SIDEBAR_BACKGROUND_COLOR};
-              transition: transform 0.3s ease-out;
+              transition: transform 2s ease-out;
             }
             .layout-body.side-menu-open {
               transform: translateX(var(--side-menu-width));
+            }
+            :global(header) {
+              transition: transform 2s ease-out;
             }
             .side-menu-open :global(header) {
               transform: translateX(var(--side-menu-width));
@@ -255,7 +258,7 @@ const Layout = React.forwardRef<LayoutHandler, LayoutProps>(
               bottom: 0;
               left: 0;
               right: 0;
-              transition: transform 0.3s ease-out;
+              transition: transform 2s ease-out;
               opacity: 0.9;
               z-index: 100;
               width: 0;
@@ -308,7 +311,7 @@ const Layout = React.forwardRef<LayoutHandler, LayoutProps>(
               top: 0;
               left: ${Theme.PINNED_BAR_WIDTH_PX}px;
               bottom: 0;
-              transition: transform 0.3s ease-out;
+              transition: transform 2s ease-out;
               transform: translateX(
                 calc(
                   -1 * var(--side-menu-width) - ${Theme.PINNED_BAR_WIDTH_PX}px
@@ -373,6 +376,11 @@ const Layout = React.forwardRef<LayoutHandler, LayoutProps>(
             @media only screen and (max-width: 600px) {
               .side-menu {
                 background-color: ${Theme.LAYOUT_BOARD_SIDEBAR_BACKGROUND_COLOR};
+                left: ${Theme.PINNED_BAR_WIDTH_PX}px;
+                transform: translateX(calc(-1 * var(--side-menu-width)));
+              }
+              .side-menu.closed {
+                left: 0;
               }
               .side-menu-content {
                 height: calc(100% - ${Theme.HEADER_HEIGHT_PX}px);
@@ -382,7 +390,7 @@ const Layout = React.forwardRef<LayoutHandler, LayoutProps>(
               .side-bottom-menu {
                 position: absolute;
                 top: 0;
-                left: 0;
+                left: ${Theme.PINNED_BAR_WIDTH_PX}px;
                 right: 0;
                 height: 0px;
                 background-color: ${Theme.LAYOUT_HEADER_BACKGROUND_COLOR};
@@ -406,6 +414,13 @@ const Layout = React.forwardRef<LayoutHandler, LayoutProps>(
                 display: block;
                 position: fixed;
                 top: 0;
+              }
+              .layout-body.side-menu-open,
+              .side-menu-open :global(header),
+              .backdrop.visible {
+                 {
+                  /* transform: translateX(var(--side-menu-width)); */
+                }
               }
             }
             @media only screen and (max-width: 450px) {

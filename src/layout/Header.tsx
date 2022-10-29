@@ -66,7 +66,6 @@ const Header: React.FC<HeaderProps> = ({
           display: flex;
           align-items: center;
           z-index: 10;
-          transition: transform 0.3s ease-out;
         }
         .header-menu-bar {
           height: 100%;

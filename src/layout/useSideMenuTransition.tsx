@@ -94,7 +94,7 @@ const useSideMenuTransition = ({
     // move it to layout
     document.body.style.overflow = "hidden";
     layoutRef.current.style.overflow = "hidden";
-    contentRef.current.style.overflow = "hidden";
+    // contentRef.current.style.overflow = "hidden";
     // This will be triggered when the animation for either
     // closing the sidemenu ends.
     // We attach it when we get the first request for showing
@@ -133,8 +133,8 @@ const useSideMenuTransition = ({
         transitionEndListener
       );
       document.body.style.overflow = "";
-      layoutRef.current.style.overflow = "";
-      contentRef.current.style.overflow = "";
+      // layoutRef.current.style.overflow = "";
+      // contentRef.current.style.overflow = "";
     };
     log(`Adding event listener for end of transition...`);
     sideMenuRef.current.addEventListener(
