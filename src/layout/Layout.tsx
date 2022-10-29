@@ -376,11 +376,12 @@ const Layout = React.forwardRef<LayoutHandler, LayoutProps>(
             @media only screen and (max-width: 600px) {
               .side-menu {
                 background-color: ${Theme.LAYOUT_BOARD_SIDEBAR_BACKGROUND_COLOR};
-                left: ${Theme.PINNED_BAR_WIDTH_PX}px;
+                maring-left: 0;
                 transform: translateX(calc(-1 * var(--side-menu-width)));
               }
               .side-menu.closed {
-                left: 0;
+                margin-left: -${Theme.PINNED_BAR_WIDTH_PX}px;
+                transition: transform 2s ease-out, margin 2s ease-out;
               }
               .side-menu-content {
                 height: calc(100% - ${Theme.HEADER_HEIGHT_PX}px);
