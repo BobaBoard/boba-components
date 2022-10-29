@@ -1,9 +1,42 @@
-// @ts-ignore
+// @ts-ignore (for some reason, typescript thinks this is unused)
 import type HammerManager from "hammerjs";
 import React from "react";
 import debug from "debug";
 
 const log = debug("bobaui:layout-log");
+
+const useSwipeHandler = ({
+  layoutRef,
+  onSwipe,
+}: {
+  layoutRef: React.RefObject<HTMLDivElement>;
+  onSwipe: (direction: "left" | "right") => void;
+}) => {
+  const swipeHandler = React.useRef<HammerManager>(null);
+  React.useEffect(() => {
+    const Hammer = require("hammerjs") as HammerStatic;
+    if (layoutRef.current && !swipeHandler.current) {
+      // @ts-ignore
+      delete Hammer.defaults.cssProps.userSelect;
+      // @ts-ignore
+      delete Hammer.defaults.cssProps.touchCallout;
+      // @ts-ignore
+      swipeHandler.current = new Hammer(layoutRef.current, {
+        inputClass: Hammer.TouchInput,
+        touchAction: "auto",
+      });
+      swipeHandler.current.get("swipe").set({
+        threshold: 30,
+      });
+      swipeHandler.current.on("swiperight", () => {
+        onSwipe("right");
+      });
+      swipeHandler.current.on("swipeleft", () => {
+        onSwipe("left");
+      });
+    }
+  }, [layoutRef, onSwipe]);
+};
 
 const useSideMenuTransition = ({
   onSideMenuFullyOpen,
@@ -21,33 +54,16 @@ const useSideMenuTransition = ({
   const contentRef = React.useRef<HTMLDivElement>(null);
   const layoutRef = React.useRef<HTMLDivElement>(null);
   const sideMenuRef = React.useRef<HTMLDivElement>(null);
-  const swipeHandler = React.useRef<HammerManager>(null);
 
   const [showSideMenu, setShowSideMenu] = React.useState(false);
 
-  React.useEffect(() => {
-    const Hammer = require("hammerjs") as HammerStatic;
-    if (layoutRef.current && !swipeHandler.current) {
-      // @ts-ignore
-      delete Hammer.defaults.cssProps.userSelect;
-      // @ts-ignore
-      delete Hammer.defaults.cssProps.touchCallout;
-      // @ts-ignore
-      swipeHandler.current = new Hammer(layoutRef.current, {
-        inputClass: Hammer.TouchInput,
-        touchAction: "auto",
-      });
-      swipeHandler.current.get("swipe").set({
-        threshold: 30,
-      });
-      swipeHandler.current.on("swiperight", () => {
-        setShowSideMenu(true);
-      });
-      swipeHandler.current.on("swipeleft", () => {
-        setShowSideMenu(false);
-      });
-    }
-  }, [layoutRef]);
+  useSwipeHandler({
+    layoutRef,
+    onSwipe: React.useCallback(
+      (direction) => setShowSideMenu(direction == "right"),
+      []
+    ),
+  });
 
   React.useEffect(() => {
     log(`${showSideMenu ? "Opening" : "Closing"} side`);

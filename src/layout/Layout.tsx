@@ -139,7 +139,29 @@ const Layout = React.forwardRef<LayoutHandler, LayoutProps>(
           accentColor={headerAccent}
           label="header loading bar"
         />
-        <div className="layout">
+        <div
+          className={classnames("layout", {
+            "side-menu-open": showSideMenu,
+          })}
+        >
+          <div
+            className={classnames("backdrop", {
+              visible: showSideMenu,
+            })}
+            onClick={() => {
+              setShowSideMenu(false);
+            }}
+          />
+          <Header
+            accentColor={headerAccent}
+            logoLink={logoLink}
+            title={title}
+            titleLink={titleLink}
+            hideTitleOnDesktop={hideTitleOnDesktop}
+            onCompassClick={compassAction}
+          >
+            {menuBar}
+          </Header>
           <div
             className={classnames("pinned-bar", {
               "side-menu-open": showSideMenu,
@@ -182,24 +204,6 @@ const Layout = React.forwardRef<LayoutHandler, LayoutProps>(
               "side-menu-open": showSideMenu,
             })}
           >
-            <Header
-              accentColor={headerAccent}
-              logoLink={logoLink}
-              title={title}
-              titleLink={titleLink}
-              hideTitleOnDesktop={hideTitleOnDesktop}
-              onCompassClick={compassAction}
-            >
-              {menuBar}
-            </Header>
-            <div
-              className={classnames("backdrop", {
-                visible: showSideMenu,
-              })}
-              onClick={() => {
-                setShowSideMenu(false);
-              }}
-            />
             <div ref={contentRef} className="layout-content">
               {mainContent}
               {actionButton}
@@ -214,6 +218,7 @@ const Layout = React.forwardRef<LayoutHandler, LayoutProps>(
                 calc(100vw - 100px),
                 ${Theme.SIDE_MENU_MAX_WIDTH_PX}px
               );
+              position: relative;
             }
             .layout-body {
               display: flex;
@@ -228,6 +233,9 @@ const Layout = React.forwardRef<LayoutHandler, LayoutProps>(
               transition: transform 0.3s ease-out;
             }
             .layout-body.side-menu-open {
+              transform: translateX(var(--side-menu-width));
+            }
+            .side-menu-open :global(header) {
               transform: translateX(var(--side-menu-width));
             }
             .layout-body.side-menu-open .layout-content {
@@ -247,6 +255,7 @@ const Layout = React.forwardRef<LayoutHandler, LayoutProps>(
               bottom: 0;
               left: 0;
               right: 0;
+              transition: transform 0.3s ease-out;
               opacity: 0.9;
               z-index: 100;
               width: 0;
@@ -254,6 +263,8 @@ const Layout = React.forwardRef<LayoutHandler, LayoutProps>(
             .backdrop.visible {
               display: block;
               width: 100%;
+              transform: translateX(var(--side-menu-width));
+              left: 65px;
             }
             @media only screen and (max-width: 850px) {
               .layout-body {
