@@ -408,12 +408,11 @@ const Layout = React.forwardRef<LayoutHandler, LayoutProps>(
                 height: ${Theme.HEADER_HEIGHT_PX}px;
               }
               .pinned-boards {
-                display: none;
+                transform: translateX(-${Theme.PINNED_BAR_WIDTH_PX}px);
+                transition: transform 1s ease-out;
               }
               .side-menu-open .pinned-boards {
-                display: block;
-                position: fixed;
-                top: 0;
+                transform: translateX(0);
               }
               .layout-body.side-menu-open,
               .side-menu-open :global(header),
