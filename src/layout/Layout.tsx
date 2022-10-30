@@ -118,6 +118,7 @@ const Layout = React.forwardRef<LayoutHandler, LayoutProps>(
           // TODO: note that this is only FULLY closed
           "side-menu-closed": sideMenuFullyClosed,
           "side-menu-open": showSideMenu,
+          "side-menu-closing": !showSideMenu && inTransition,
         })}
       >
         <LoadingBar
@@ -195,7 +196,7 @@ const Layout = React.forwardRef<LayoutHandler, LayoutProps>(
             margin-left: ${Theme.PINNED_BAR_WIDTH_PX}px;
             width: calc(100% - ${Theme.PINNED_BAR_WIDTH_PX}px);
             background-color: ${Theme.LAYOUT_BOARD_BACKGROUND_COLOR};
-            transition: transform 2s ease-out;
+            transition: transform 0.6s ease-out;
             margin-top: ${Theme.HEADER_HEIGHT_PX}px;
           }
           .backdrop {
@@ -205,7 +206,7 @@ const Layout = React.forwardRef<LayoutHandler, LayoutProps>(
             bottom: 0;
             left: 0;
             right: 0;
-            transition: transform 2s ease-out;
+            transition: transform 0.6s ease-out;
             opacity: 0.9;
             z-index: 100;
             width: 0;
@@ -232,7 +233,7 @@ const Layout = React.forwardRef<LayoutHandler, LayoutProps>(
             top: 0;
             left: ${Theme.PINNED_BAR_WIDTH_PX}px;
             bottom: 0;
-            transition: transform 2s ease-out;
+            transition: transform 0.6s ease-out;
           }
           .side-bottom-menu {
             display: none;
@@ -291,7 +292,7 @@ const Layout = React.forwardRef<LayoutHandler, LayoutProps>(
             transform: translateX(var(--side-menu-width));
           }
           :global(header) {
-            transition: transform 2s ease-out;
+            transition: transform 0.6s ease-out;
           }
           .side-menu-open :global(header) {
             transform: translateX(var(--side-menu-width));
@@ -316,12 +317,22 @@ const Layout = React.forwardRef<LayoutHandler, LayoutProps>(
             main.side-menu-closed .side-menu {
               margin-left: -${Theme.PINNED_BAR_WIDTH_PX}px;
             }
+            main.side-menu-closing .side-menu {
+              margin-left: -${Theme.PINNED_BAR_WIDTH_PX}px;
+              // Note: this works well as an animation for when the menu goes all
+              // the way out and then back in, but it still jumps when the animation
+              // is cancelled halfway through (because the animation delay is static,
+              // and not tied to how long it will take to transition from the in-between
+              // point). Unfortunately, I can't figure out how to fix this.
+              transition: transform 0.6s ease-out,
+                margin-left 0.4s ease-out 0.5s;
+            }
             main.side-menu-open .side-menu {
               margin-left: 0;
             }
             .pinned-boards {
               transform: translateX(-${Theme.PINNED_BAR_WIDTH_PX}px);
-              transition: transform 1s ease-out;
+              transition: transform 0.5s ease-out;
             }
             .side-menu-open .pinned-boards {
               transform: translateX(0);

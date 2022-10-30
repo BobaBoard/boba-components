@@ -79,39 +79,33 @@ const removeTransitionHandlers = (
   element.removeEventListener("transitioncancel", handler);
 };
 
-const getTransitionHandler = ({
-  isOpenRef,
-  setShowSideMenu,
+const getTransitionEndHandler = ({
   setInTransition,
 }: {
-  isOpenRef: React.MutableRefObject<boolean>;
-  setShowSideMenu: React.Dispatch<React.SetStateAction<boolean>>;
   setInTransition: React.Dispatch<React.SetStateAction<boolean>>;
 }) => {
+  const activeTransitions: string[] = [];
   return (e: TransitionEvent) => {
-    if (e.propertyName != "transform") {
-      return;
-    }
-
+    console.log(e.type, e.propertyName);
     switch (e.type) {
       case "transitionstart": {
-        setShowSideMenu((showSideMenu) => {
-          if (isOpenRef.current == showSideMenu) {
-            // If the CSS state and the React state agree then we don't need to
-            // update the status.
-            return isOpenRef.current;
-          }
-          return !showSideMenu;
-        });
+        setInTransition(true);
+        activeTransitions.push(e.type);
         break;
       }
       case "transitionend": {
-        setInTransition(false);
+        activeTransitions.shift();
+        if (activeTransitions.length == 0) {
+          setInTransition(false);
+        }
         break;
       }
       case "transitioncancel": {
-        // We do nothing here, as a new transition start event will fire
-        // immediately after.
+        // We never end a transition on cancel, as a new transition
+        // start event will fire immediately after, or the transition
+        // has been cancelled before it can even start (e.g. in case
+        // of a transition with delay).
+        activeTransitions.shift();
         break;
       }
     }
@@ -134,11 +128,9 @@ const useSideMenuTransition = (): {
   // We create a stable reference to a transition handler, so we can easily add
   // and remove it as we deal with different refs to sideMenu
   const transitionHandler = React.useRef<
-    ReturnType<typeof getTransitionHandler>
+    ReturnType<typeof getTransitionEndHandler>
   >(
-    getTransitionHandler({
-      isOpenRef,
-      setShowSideMenu,
+    getTransitionEndHandler({
       setInTransition,
     })
   );
@@ -158,7 +150,6 @@ const useSideMenuTransition = (): {
       transitionHandler.current
     );
     currentSideMenuRef.current = ref;
-    ref.classList.add("closed");
     // Save a reference to the transition handler so we can remove it later
     addTransitionHandlers(
       currentSideMenuRef.current,
