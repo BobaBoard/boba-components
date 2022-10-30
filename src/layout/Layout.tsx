@@ -192,7 +192,7 @@ const Layout = React.forwardRef<LayoutHandler, LayoutProps>(
               >
                 <div className="side-bottom-menu">{menuBar}</div>
                 <div className="side-menu-content">
-                  {!showSideMenu && !inTransition ? null : sideMenuContent}
+                  {sideMenuFullyClosed ? null : sideMenuContent}
                 </div>
               </div>
             </div>

@@ -8,6 +8,7 @@ import {
 
 import { MultipleSections } from "stories/20-SideMenu/01-PinnedMenu.stories";
 import React from "react";
+import { SideMenuPreview } from "stories/20-SideMenu/20-SideMenu.stories";
 import { Story } from "@storybook/react";
 import { action } from "@storybook/addon-actions";
 import mamoru from "stories/images/mamoru.png";
@@ -175,3 +176,8 @@ LoadingLayout.decorators = [
     );
   },
 ];
+export const WithSideMenu = LayoutTemplate.bind({});
+WithSideMenu.args = {
+  ...LoggedInLayout,
+  sideMenuContent: <SideMenuPreview {...SideMenuPreview.args} />,
+};

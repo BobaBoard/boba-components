@@ -92,13 +92,13 @@ const getTransitionHandler = ({
     if (e.propertyName != "transform") {
       return;
     }
+
     switch (e.type) {
       case "transitionstart": {
-        setInTransition(true);
         setShowSideMenu((showSideMenu) => {
           if (isOpenRef.current == showSideMenu) {
-            // If the CSS state and the React state agree
-            // then we don't need to update the status.
+            // If the CSS state and the React state agree then we don't need to
+            // update the status.
             return isOpenRef.current;
           }
           return !showSideMenu;
@@ -118,6 +118,8 @@ const getTransitionHandler = ({
   };
 };
 
+// TODO: remove references to sideMenu here and just call this something like
+// "useOpenCloseTransition".
 const useSideMenuTransition = (): {
   sideMenuRefHandler: (ref: HTMLDivElement | null) => void;
   showSideMenu: boolean;
@@ -163,7 +165,13 @@ const useSideMenuTransition = (): {
       transitionHandler.current
     );
   }, []);
-  isOpenRef.current = showSideMenu;
+  if (isOpenRef.current != showSideMenu) {
+    // If the status of our ref is different from our saved status,
+    // immediately mark the menu as being in transition, without waiting
+    // for the React setState cycle to trigger.
+    isOpenRef.current = showSideMenu;
+    setInTransition(true);
+  }
 
   return React.useMemo(
     () => ({
