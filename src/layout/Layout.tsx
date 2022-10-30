@@ -112,10 +112,12 @@ const Layout = React.forwardRef<LayoutHandler, LayoutProps>(
     );
 
     return (
-      <div
+      <main
         ref={swipeHandler}
-        className={classnames("container", {
+        className={classnames({
+          // TODO: note that this is only FULLY closed
           "side-menu-closed": sideMenuFullyClosed,
+          "side-menu-open": showSideMenu,
         })}
       >
         <LoadingBar
@@ -124,92 +126,86 @@ const Layout = React.forwardRef<LayoutHandler, LayoutProps>(
           label="header loading bar"
         />
         <div
-          className={classnames("layout", {
+          className={classnames("backdrop", {
+            visible: showSideMenu,
+          })}
+          onClick={() => {
+            setShowSideMenu(false);
+          }}
+        />
+        <Header
+          accentColor={headerAccent}
+          logoLink={logoLink}
+          title={title}
+          titleLink={titleLink}
+          hideTitleOnDesktop={hideTitleOnDesktop}
+          onCompassClick={React.useMemo(() => {
+            return {
+              onClick: onCompassClick,
+            };
+          }, [onCompassClick])}
+        >
+          {menuBar}
+        </Header>
+        <div
+          className={classnames("pinned-bar", {
             "side-menu-open": showSideMenu,
           })}
         >
-          <div
-            className={classnames("backdrop", {
-              visible: showSideMenu,
-            })}
-            onClick={() => {
-              setShowSideMenu(false);
-            }}
-          />
-          <Header
-            accentColor={headerAccent}
-            logoLink={logoLink}
-            title={title}
-            titleLink={titleLink}
-            hideTitleOnDesktop={hideTitleOnDesktop}
-            onCompassClick={React.useMemo(() => {
-              return {
-                onClick: onCompassClick,
-              };
-            }, [onCompassClick])}
-          >
-            {menuBar}
-          </Header>
-          <div
-            className={classnames("pinned-bar", {
-              "side-menu-open": showSideMenu,
-            })}
-          >
-            <div className={"sidemenu-button-container"}>
-              <IconButton
-                icon={{ icon: faBars }}
-                aria-label="menu"
-                withNotifications={
-                  hasNotifications
-                    ? {
-                        icon: notificationIcon,
-                        color:
-                          notificationColor ??
-                          (hasOutdatedNotifications
-                            ? Theme.NOTIFICATIONS_OUTDATED_COLOR
-                            : Theme.NOTIFICATIONS_NEW_COLOR),
-                      }
-                    : undefined
-                }
-                link={React.useMemo(() => {
-                  return {
-                    onClick: () => {
-                      setShowSideMenu((showSideMenu) => !showSideMenu);
-                    },
-                  };
-                }, [setShowSideMenu])}
-              />
-            </div>
-            <div className="menus-container">
-              <div className="pinned-boards">{pinnedMenuContent}</div>
-              <div
-                className={classnames("side-menu", {
-                  visible: showSideMenu,
-                  open: showSideMenu,
-                  closed: !showSideMenu,
-                })}
-                ref={sideMenuRefHandler}
-              >
-                <div className="side-bottom-menu">{menuBar}</div>
-                <div className="side-menu-content">
-                  {sideMenuFullyClosed ? null : sideMenuContent}
-                </div>
+          <div className={"sidemenu-button-container"}>
+            <IconButton
+              icon={{ icon: faBars }}
+              aria-label="menu"
+              withNotifications={
+                hasNotifications
+                  ? {
+                      icon: notificationIcon,
+                      color:
+                        notificationColor ??
+                        (hasOutdatedNotifications
+                          ? Theme.NOTIFICATIONS_OUTDATED_COLOR
+                          : Theme.NOTIFICATIONS_NEW_COLOR),
+                    }
+                  : undefined
+              }
+              link={React.useMemo(() => {
+                return {
+                  onClick: () => {
+                    setShowSideMenu((showSideMenu) => !showSideMenu);
+                  },
+                };
+              }, [setShowSideMenu])}
+            />
+          </div>
+          <div className="menus-container">
+            <div className="pinned-boards">{pinnedMenuContent}</div>
+            <div
+              className={classnames("side-menu", {
+                visible: showSideMenu,
+                open: showSideMenu,
+                closed: !showSideMenu,
+              })}
+              ref={sideMenuRefHandler}
+            >
+              <div className="side-bottom-menu">{menuBar}</div>
+              <div className="side-menu-content">
+                {sideMenuFullyClosed ? null : sideMenuContent}
               </div>
             </div>
           </div>
-          <div
-            className={classnames("layout-body", {
-              "side-menu-open": showSideMenu,
-            })}
-          >
-            <div className="layout-content">
-              {mainContent}
-              {actionButton}
-            </div>
+        </div>
+        <div
+          className={classnames("layout-body", {
+            "side-menu-open": showSideMenu,
+          })}
+        >
+          <div className="layout-content">
+            {mainContent}
+            {actionButton}
           </div>
         </div>
         <style jsx>{`
-          .layout {
+          main {
             background-color: ${Theme.LAYOUT_BOARD_BACKGROUND_COLOR};
             display: flex;
             font-family: "Inter", sans-serif;
@@ -250,7 +246,7 @@ const Layout = React.forwardRef<LayoutHandler, LayoutProps>(
             padding-top: ${Theme.HEADER_HEIGHT_PX}px;
             background: ${Theme.LAYOUT_BOARD_BACKGROUND_COLOR};
           }
-          .container:not(.side-menu-closed) {
+          main:not(.side-menu-closed) {
             overflow: hidden;
           }
           .backdrop {
@@ -429,7 +425,7 @@ const Layout = React.forwardRef<LayoutHandler, LayoutProps>(
             }
           }
         `}</style>
-      </div>
+      </main>
     );
   }
 ) as LayoutCompoundComponent;
