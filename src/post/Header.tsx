@@ -13,8 +13,6 @@ import classnames from "classnames";
 import debug from "debug";
 import questionMark from "images/question_mark.png";
 
-// import Icon from "common/Icon";
-//const log = debug("bobaui:header-log");
 const info = debug("bobaui:header-info");
 
 export enum HeaderStyle {
@@ -113,7 +111,7 @@ const PostHeader = React.forwardRef<HTMLImageElement, PostHeaderProps>(
 
     return (
       <div
-        className={classnames("header-container", {
+        className={classnames("header-container", props.className, {
           compact: isCompact,
         })}
       >
@@ -180,4 +178,5 @@ export interface PostHeaderProps {
   createdMessageIcon?: IconProps["icon"];
   createdMessageLink?: LinkWithAction;
   forceHide?: boolean;
+  className?: string;
 }

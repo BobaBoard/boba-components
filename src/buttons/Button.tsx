@@ -114,6 +114,9 @@ const Button: React.FC<ButtonProps> = ({
           font-size: 13px;
           line-height: 115%;
         }
+        .button.disabled {
+          opacity: 50%;
+        }
         .button button {
           border-radius: 25px;
           background-image: none;

@@ -1,4 +1,7 @@
-import DropdownListMenu, { DropdownStyle } from "common/DropdownListMenu";
+import DropdownListMenu, {
+  DropdownProps,
+  DropdownStyle,
+} from "common/DropdownListMenu";
 import { faHome, faUser } from "@fortawesome/free-solid-svg-icons";
 
 import CircleButton from "buttons/CircleButton";
@@ -98,10 +101,7 @@ export interface MenuBarProps {
     icon: IconProps;
     link: LinkWithAction;
   }[];
-  userMenuOptions?: {
-    name: string;
-    link: LinkWithAction;
-  }[];
+  userMenuOptions?: DropdownProps["options"];
   selectedOption?: string | null;
   user?: { username: string; avatarUrl?: string };
   forceHideIdentity?: boolean;

@@ -9,6 +9,11 @@ import PostEditor, {
   PostEditorHandler,
   PostEditorProps,
 } from "post/PostEditor";
+import {
+  faCodeBranch,
+  faFilm,
+  faPortrait,
+} from "@fortawesome/free-solid-svg-icons";
 
 import Button from "buttons/Button";
 import Modal from "common/Modal";
@@ -128,7 +133,7 @@ Base.args = {
     "off topic",
   ],
   availableBoards: RECENT_BOARDS,
-  initialBoard: "gore",
+  initialBoard: RECENT_BOARDS[0],
 };
 
 export const WithAdditionalIdentities = PostEditorTemplate.bind({});
@@ -149,7 +154,20 @@ WithAdditionalIdentities.args = {
 export const WithSelectView = PostEditorTemplate.bind({});
 WithSelectView.args = {
   ...WithAdditionalIdentities.args,
-  viewOptions: [{ name: "Thread" }, { name: "Gallery" }, { name: "Timeline" }],
+  viewOptions: [
+    {
+      icon: faCodeBranch,
+      name: "Thread",
+    },
+    {
+      icon: faPortrait,
+      name: "Gallery",
+    },
+    {
+      icon: faFilm,
+      name: "Timeline",
+    },
+  ],
 };
 
 export const WithAccessories = PostEditorTemplate.bind({});
@@ -271,10 +289,4 @@ EditTagsOnly.args = {
   editableSections: {
     tags: true,
   },
-};
-
-export const Minimizable = PostEditorTemplate.bind({});
-Minimizable.args = {
-  ...Base.args,
-  minimizable: true,
 };

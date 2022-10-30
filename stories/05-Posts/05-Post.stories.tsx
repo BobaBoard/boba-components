@@ -17,11 +17,7 @@ import Button from "buttons/Button";
 import React from "react";
 import { WITH_ACCESSORIES_DECORATOR } from "../utils/decorators";
 import { action } from "@storybook/addon-actions";
-import junkoReaction from "stories/images/junko-reaction.png";
-import luigiReaction from "stories/images/luigi-reaction.png";
 import mamoruAvatar from "stories/images/mamoru.png";
-import oncieReaction from "stories/images/oncie-reaction.png";
-import sportacusReaction from "stories/images/sportacus-reaction.png";
 import tuxedoAvatar from "stories/images/tuxedo-mask.jpg";
 
 export default {
@@ -105,30 +101,6 @@ Tagged.args = {
   allowsContribution: true,
 };
 
-export const Reactable = PostTemplate.bind({});
-Reactable.args = {
-  ...Tagged.args,
-  reactable: true,
-  reactions: [
-    { image: oncieReaction, count: 3 },
-    { image: sportacusReaction, count: 6 },
-    { image: luigiReaction, count: 11 },
-    { image: junkoReaction, count: 20 },
-  ],
-  tags: {
-    indexTags: ["indexable"],
-    categoryTags: ["category"],
-    whisperTags: [
-      "tag1",
-      "tag2",
-      "a long tag",
-      "a very very very very very long tag with many words",
-      "JugemuJugemuGokonoSurikireKaijarisuigyonoSuigyomatsuUnraimatsuFuraimatsuKuNeruTokoroniSumuTokoroYaburaKojinoBuraKojiPaipopaipoPaiponoShuringanShuringannoGurindaiGurindainoPonpokopinoPonpokonanoChokyumeinoChosuke",
-    ],
-    contentWarnings: ["this has just one warning!"],
-  },
-};
-
 export const WithDropdownAction = PostTemplate.bind({});
 WithDropdownAction.args = {
   ...Tagged.args,
@@ -173,6 +145,16 @@ WithLongIdentityName.args = {
     name: "Tuxedo Mask askldjaksldjaskld askdjaskldjaskldjas daskjdaklsdjaklsdj askdjaskldjaklsdjaskld askdj kasjdaklsdjaklsdjaskldjslk",
     avatar: `/${tuxedoAvatar}`,
   },
+  board: {
+    slug: "!gore",
+    accentColor: "purple",
+  },
+};
+
+export const Muted = PostTemplate.bind({});
+Muted.args = {
+  ...WithLongIdentityName.args,
+  muted: true,
 };
 
 export const WithThreadTypeIcon = PostTemplate.bind({});
