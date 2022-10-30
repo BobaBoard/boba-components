@@ -189,7 +189,7 @@ WithSideMenu.args = {
 };
 
 export const ShortContent = LayoutTemplate.bind({});
-WithSideMenu.args = {
+ShortContent.args = {
   ...LoggedInLayout,
   // @ts-ignore
   sideMenuContent: <SideMenuPreview {...SideMenuPreview.args} />,
