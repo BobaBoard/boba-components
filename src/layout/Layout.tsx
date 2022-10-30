@@ -172,20 +172,18 @@ const Layout = React.forwardRef<LayoutHandler, LayoutProps>(
             }, [setShowSideMenu])}
           />
         </div>
-        <div className="menus-container">
-          <div className="pinned-boards">{pinnedMenuContent}</div>
-          <div
-            className={classnames("side-menu", {
-              visible: showSideMenu,
-              open: showSideMenu,
-              closed: !showSideMenu,
-            })}
-            ref={sideMenuRefHandler}
-          >
-            <div className="side-bottom-menu">{menuBar}</div>
-            <div className="side-menu-content">
-              {false ? null : sideMenuContent}
-            </div>
+        <div className="pinned-boards">{pinnedMenuContent}</div>
+        <div
+          className={classnames("side-menu", {
+            visible: showSideMenu,
+            open: showSideMenu,
+            closed: !showSideMenu,
+          })}
+          ref={sideMenuRefHandler}
+        >
+          <div className="side-bottom-menu">{menuBar}</div>
+          <div className="side-menu-content">
+            {false ? null : sideMenuContent}
           </div>
         </div>
         <div
@@ -334,12 +332,6 @@ const Layout = React.forwardRef<LayoutHandler, LayoutProps>(
           }
           .side-menu:not(.opened) .side-menu-content {
             overflow: hidden;
-          }
-          .menus-container {
-            background-color: ${Theme.LAYOUT_HEADER_BACKGROUND_COLOR};
-            color: white;
-            min-height: 100vh;
-            height: 100%;
           }
           .pinned-boards {
             background-color: ${Theme.LAYOUT_HEADER_BACKGROUND_COLOR};
