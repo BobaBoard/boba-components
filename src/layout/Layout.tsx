@@ -183,7 +183,11 @@ const Layout = React.forwardRef<LayoutHandler, LayoutProps>(
             <div className="menus-container">
               <div className="pinned-boards">{pinnedMenuContent}</div>
               <div
-                className={classnames("side-menu", { visible: showSideMenu })}
+                className={classnames("side-menu", {
+                  visible: showSideMenu,
+                  open: showSideMenu,
+                  closed: !showSideMenu,
+                })}
                 ref={sideMenuRefHandler}
               >
                 <div className="side-bottom-menu">{menuBar}</div>

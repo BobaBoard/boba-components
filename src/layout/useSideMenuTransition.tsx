@@ -80,9 +80,11 @@ const removeTransitionHandlers = (
 };
 
 const getTransitionHandler = ({
+  isOpenRef,
   setShowSideMenu,
   setInTransition,
 }: {
+  isOpenRef: React.MutableRefObject<boolean>;
   setShowSideMenu: React.Dispatch<React.SetStateAction<boolean>>;
   setInTransition: React.Dispatch<React.SetStateAction<boolean>>;
 }) => {
@@ -90,16 +92,14 @@ const getTransitionHandler = ({
     if (e.propertyName != "transform") {
       return;
     }
-    const sideMenu = e.target as HTMLDivElement;
     switch (e.type) {
       case "transitionstart": {
         setInTransition(true);
         setShowSideMenu((showSideMenu) => {
-          const isOpen = sideMenu.classList.contains("open");
-          if (isOpen == showSideMenu) {
+          if (isOpenRef.current == showSideMenu) {
             // If the CSS state and the React state agree
             // then we don't need to update the status.
-            return isOpen;
+            return isOpenRef.current;
           }
           return !showSideMenu;
         });
@@ -125,6 +125,7 @@ const useSideMenuTransition = (): {
   setShowSideMenu: React.Dispatch<React.SetStateAction<boolean>>;
 } => {
   const currentSideMenuRef = React.useRef<HTMLDivElement | null>(null);
+  const isOpenRef = React.useRef<boolean>(false);
 
   const [showSideMenu, setShowSideMenu] = React.useState(false);
   const [inTransition, setInTransition] = React.useState(false);
@@ -134,6 +135,7 @@ const useSideMenuTransition = (): {
     ReturnType<typeof getTransitionHandler>
   >(
     getTransitionHandler({
+      isOpenRef,
       setShowSideMenu,
       setInTransition,
     })
@@ -161,9 +163,7 @@ const useSideMenuTransition = (): {
       transitionHandler.current
     );
   }, []);
-  currentSideMenuRef.current?.classList.toggle("closed", !showSideMenu);
-  currentSideMenuRef.current?.classList.toggle("open", showSideMenu);
-  currentSideMenuRef.current?.classList.toggle("in-transition", inTransition);
+  isOpenRef.current = showSideMenu;
 
   return React.useMemo(
     () => ({
