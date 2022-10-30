@@ -17,6 +17,7 @@ import LoadingBar from "common/LoadingBar";
 import React from "react";
 import Theme from "theme/default";
 import classnames from "classnames";
+import css from "styled-jsx/css";
 import { faBars } from "@fortawesome/free-solid-svg-icons";
 
 // import debug from "debug";
@@ -41,6 +42,49 @@ export interface LayoutCompoundComponent
   SideMenuContent: React.FC<unknown>;
   ActionButton: React.FC<unknown>;
 }
+
+const { className: headerClassName, styles: headerStyles } = css.resolve`
+  header {
+    transition: transform 0.6s ease-out;
+    background-color: ${Theme.LAYOUT_HEADER_BACKGROUND_COLOR};
+    background-image: var(--header-background-image);
+    height: ${Theme.HEADER_HEIGHT_PX}px;
+    position: fixed;
+    top: 0;
+    right: 0;
+    left: ${Theme.PINNED_BAR_WIDTH_PX}px;
+    z-index: 10;
+  }
+  :global([data-side-menu-status^="open"]) header {
+    transform: translateX(var(--side-menu-width));
+  }
+`;
+
+const Backdrop = (props: { onClick: () => void }) => (
+  <div className="backdrop" onClick={props.onClick}>
+    <style jsx>{`
+      .backdrop {
+        position: absolute;
+        background-color: ${Theme.MODAL_BACKGROUND_COLOR};
+        top: 0;
+        bottom: 0;
+        left: 0;
+        right: 0;
+        transition: transform 0.6s ease-out;
+        opacity: 0.9;
+        z-index: 100;
+        width: 0;
+      }
+
+      :global([data-side-menu-status^="open"]) .backdrop {
+        display: block;
+        width: 100%;
+        transform: translateX(var(--side-menu-width));
+        left: ${Theme.PINNED_BAR_WIDTH_PX}px;
+      }
+    `}</style>
+  </div>
+);
 
 const Layout = React.forwardRef<LayoutHandler, LayoutProps>(
   function LayoutForwardRef(
@@ -79,7 +123,6 @@ const Layout = React.forwardRef<LayoutHandler, LayoutProps>(
       inTransition,
     } = useOpenCloseTransition();
     const swipeHandler = useSwipeHandler({ setOpen: setShowSideMenu });
-    const sideMenuFullyClosed = !showSideMenu && !inTransition;
 
     React.useImperativeHandle(
       ref,
@@ -91,6 +134,7 @@ const Layout = React.forwardRef<LayoutHandler, LayoutProps>(
       [setShowSideMenu]
     );
 
+    const sideMenuFullyClosed = !showSideMenu && !inTransition;
     React.useEffect(() => {
       if (!sideMenuFullyClosed) {
         document.body.style.overflow = "hidden";
@@ -116,27 +160,30 @@ const Layout = React.forwardRef<LayoutHandler, LayoutProps>(
       />
     );
 
+    let sideMenuStatus = showSideMenu ? "open" : "closed";
+    if (inTransition) {
+      sideMenuStatus = showSideMenu ? "opening" : "closing";
+    }
     return (
-      <main
+      <div
         ref={swipeHandler}
-        className={classnames({
-          "side-menu-fully-closed": sideMenuFullyClosed,
-          "side-menu-open": showSideMenu,
-          "side-menu-closing": !showSideMenu && inTransition,
-        })}
+        className="layout"
+        data-side-menu-status={sideMenuStatus}
       >
         <LoadingBar
           loading={loading}
           accentColor={headerAccent}
           label="header loading bar"
         />
-        <div
-          className="backdrop"
+        <Backdrop
           onClick={() => {
             setShowSideMenu(false);
           }}
         />
         <Header
+          className={classnames(headerClassName, {
+            "side-menu-open": showSideMenu,
+          })}
           accentColor={headerAccent}
           logoLink={logoLink}
           title={title}
@@ -150,7 +197,7 @@ const Layout = React.forwardRef<LayoutHandler, LayoutProps>(
         >
           {menuBar}
         </Header>
-        <div className={"sidemenu-button"}>
+        <div className={"side-menu-button"}>
           <IconButton
             icon={{ icon: faBars }}
             aria-label="menu"
@@ -180,12 +227,12 @@ const Layout = React.forwardRef<LayoutHandler, LayoutProps>(
           <div className="side-menu-options">{menuBar}</div>
           {sideMenuFullyClosed ? null : sideMenuContent}
         </nav>
-        <div className="layout-content">
+        <main>
           {mainContent}
           {actionButton}
-        </div>
+        </main>
         <style jsx>{`
-          main {
+          .layout {
             background-color: ${Theme.LAYOUT_BOARD_BACKGROUND_COLOR};
             display: flex;
             font-family: "Inter", sans-serif;
@@ -195,27 +242,14 @@ const Layout = React.forwardRef<LayoutHandler, LayoutProps>(
             );
             position: relative;
           }
-          .layout-content {
+          main {
             position: relative;
             margin-left: ${Theme.PINNED_BAR_WIDTH_PX}px;
             width: calc(100% - ${Theme.PINNED_BAR_WIDTH_PX}px);
             background-color: ${Theme.LAYOUT_BOARD_BACKGROUND_COLOR};
-            transition: transform 0.6s ease-out;
             margin-top: ${Theme.HEADER_HEIGHT_PX}px;
           }
-          .backdrop {
-            position: absolute;
-            background-color: ${Theme.MODAL_BACKGROUND_COLOR};
-            top: 0;
-            bottom: 0;
-            left: 0;
-            right: 0;
-            transition: transform 0.6s ease-out;
-            opacity: 0.9;
-            z-index: 100;
-            width: 0;
-          }
-          .sidemenu-button {
+          .side-menu-button {
             width: ${Theme.PINNED_BAR_WIDTH_PX}px;
             height: ${Theme.HEADER_HEIGHT_PX}px;
             background-color: ${Theme.LAYOUT_HEADER_BACKGROUND_COLOR};
@@ -237,7 +271,6 @@ const Layout = React.forwardRef<LayoutHandler, LayoutProps>(
             top: 0;
             left: ${Theme.PINNED_BAR_WIDTH_PX}px;
             bottom: 0;
-            transition: transform 0.6s ease-out;
           }
           .side-menu-options {
             display: none;
@@ -265,12 +298,9 @@ const Layout = React.forwardRef<LayoutHandler, LayoutProps>(
               margin-left: 0;
               margin-top: ${Theme.HEADER_HEIGHT_PX}px;
             }
-            .layout-content {
+            main {
               margin-left: 0px;
               width: 100%;
-            }
-            .side-menu-open .layout-content {
-              margin-left: ${Theme.PINNED_BAR_WIDTH_PX}px;
             }
             .side-menu-options {
               position: absolute;
@@ -289,28 +319,21 @@ const Layout = React.forwardRef<LayoutHandler, LayoutProps>(
           }
         `}</style>
         <style jsx>{`
-          main:not(.side-menu-fully-closed) {
+          // These are all the styles related to the opening/closing animation
+          .layout:not([data-side-menu-status="closed"]) {
             overflow: hidden;
           }
-          main.side-menu-open .layout-content {
-            transform: translateX(var(--side-menu-width));
-          }
-          :global(header) {
+          main {
             transition: transform 0.6s ease-out;
           }
-          main.side-menu-open :global(header) {
+          [data-side-menu-status^="open"] main {
             transform: translateX(var(--side-menu-width));
-          }
-          main.side-menu-open .backdrop {
-            display: block;
-            width: 100%;
-            transform: translateX(var(--side-menu-width));
-            left: ${Theme.PINNED_BAR_WIDTH_PX}px;
           }
           .side-menu {
+            transition: transform 0.6s ease-out;
             transform: translateX(calc(-1 * var(--side-menu-width)));
           }
-          main.side-menu-open .side-menu {
+          [data-side-menu-status^="open"] .side-menu {
             transform: translateX(0);
             visibility: visible;
           }
@@ -318,10 +341,10 @@ const Layout = React.forwardRef<LayoutHandler, LayoutProps>(
             .side-menu {
               transform: translateX(calc(-1 * var(--side-menu-width)));
             }
-            main.side-menu-fully-closed .side-menu {
+            [data-side-menu-status="closed"] .side-menu {
               margin-left: -${Theme.PINNED_BAR_WIDTH_PX}px;
             }
-            main.side-menu-closing .side-menu {
+            [data-side-menu-status="closing"] .side-menu {
               margin-left: -${Theme.PINNED_BAR_WIDTH_PX}px;
               // Note: this works well as an animation for when the menu goes all
               // the way out and then back in, but it still jumps when the animation
@@ -329,21 +352,26 @@ const Layout = React.forwardRef<LayoutHandler, LayoutProps>(
               // and not tied to how long it will take to transition from the in-between
               // point). Unfortunately, I can't figure out how to fix this.
               transition: transform 0.6s ease-out,
-                margin-left 0.4s ease-out 0.58s;
+                margin-left 0.2s ease-out 0.58s;
             }
-            main.side-menu-open .side-menu {
+            [data-side-menu-status^="open"] main {
+              margin-left: ${Theme.PINNED_BAR_WIDTH_PX}px;
+            }
+
+            [data-side-menu-status^="open"] .side-menu {
               margin-left: 0;
             }
             .pinned-menu {
               transform: translateX(-${Theme.PINNED_BAR_WIDTH_PX}px);
               transition: transform 0.5s ease-out;
             }
-            main.side-menu-open .pinned-menu {
+            [data-side-menu-status^="open"] .pinned-menu {
               transform: translateX(0);
             }
           }
         `}</style>
-      </main>
+        {headerStyles}
+      </div>
     );
   }
 ) as LayoutCompoundComponent;

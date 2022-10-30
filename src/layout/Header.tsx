@@ -14,10 +14,12 @@ interface HeaderProps {
   onCompassClick?: LinkWithAction;
   title?: string;
   hideTitleOnDesktop?: boolean;
+  className?: string;
 }
 
 const compassIcon = { icon: faCompass };
 const Header: React.FC<HeaderProps> = ({
+  className,
   accentColor,
   logoLink,
   title,
@@ -27,7 +29,7 @@ const Header: React.FC<HeaderProps> = ({
   children,
 }) => {
   return (
-    <header>
+    <header className={className}>
       <Logo accentColor={accentColor} link={logoLink} />
       {title && (
         <BoardTitle
@@ -53,13 +55,6 @@ const Header: React.FC<HeaderProps> = ({
       </div>
       <style jsx>{`
         header {
-          background-color: ${Theme.LAYOUT_HEADER_BACKGROUND_COLOR};
-          background-image: var(--header-background-image);
-          height: ${Theme.HEADER_HEIGHT_PX}px;
-          position: fixed;
-          top: 0;
-          right: 0;
-          left: ${Theme.PINNED_BAR_WIDTH_PX}px;
           flex-shrink: 0;
           padding-right: 15px;
           padding-left: 5px;
