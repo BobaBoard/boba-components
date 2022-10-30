@@ -303,9 +303,7 @@ const Layout = React.forwardRef<LayoutHandler, LayoutProps>(
             left: ${Theme.PINNED_BAR_WIDTH_PX}px;
           }
           .side-menu {
-            transform: translateX(
-              calc(-1 * var(--side-menu-width) - ${Theme.PINNED_BAR_WIDTH_PX}px)
-            );
+            transform: translateX(calc(-1 * var(--side-menu-width)));
           }
           main.side-menu-open .side-menu {
             transform: translateX(0);
@@ -315,9 +313,11 @@ const Layout = React.forwardRef<LayoutHandler, LayoutProps>(
             .side-menu {
               transform: translateX(calc(-1 * var(--side-menu-width)));
             }
-            main:not(.side-menu-open) .side-menu {
+            main.side-menu-closed .side-menu {
               margin-left: -${Theme.PINNED_BAR_WIDTH_PX}px;
-              transition: transform 2s ease-out, margin 2s ease-out;
+            }
+            main.side-menu-open .side-menu {
+              margin-left: 0;
             }
             .pinned-boards {
               transform: translateX(-${Theme.PINNED_BAR_WIDTH_PX}px);
