@@ -3,6 +3,9 @@ import "normalize.css";
 
 import { CreateBaseCompound, extractCompound } from "utils/compound-utils";
 import MenuBar, { MenuBarProps } from "./MenuBar";
+import useSideMenuTransition, {
+  useSwipeHandler,
+} from "./useSideMenuTransition";
 
 import { DropdownProps } from "common/DropdownListMenu";
 import Header from "./Header";
@@ -14,7 +17,6 @@ import React from "react";
 import Theme from "theme/default";
 import classnames from "classnames";
 import { faBars } from "@fortawesome/free-solid-svg-icons";
-import useSideMenuTransition from "./useSideMenuTransition";
 
 // import debug from "debug";
 // const log = debug("bobaui:layout-log");
@@ -69,39 +71,30 @@ const Layout = React.forwardRef<LayoutHandler, LayoutProps>(
     const pinnedMenuContent = extractCompound(children, PinnedMenuContent);
     const actionButton = extractCompound(children, ActionButton);
 
-    const {
-      layoutRefHandler,
-      setShowSideMenu,
-      sideMenuRefHandler,
-      showSideMenu,
-      inTransition,
-    } = useSideMenuTransition();
+    const { setShowSideMenu, sideMenuRefHandler, showSideMenu, inTransition } =
+      useSideMenuTransition();
+    const swipeHandler = useSwipeHandler({ setShowSideMenu });
 
-    React.useImperativeHandle(ref, () => ({
-      closeSideMenu: () => {
-        setShowSideMenu(false);
-      },
-    }));
+    React.useImperativeHandle(
+      ref,
+      () => ({
+        closeSideMenu: () => {
+          setShowSideMenu(false);
+        },
+      }),
+      [setShowSideMenu]
+    );
 
     React.useEffect(() => {
+      if (showSideMenu || inTransition) {
+        document.body.style.overflow = "hidden";
+      } else {
+        document.body.style.removeProperty("overflow");
+      }
       return () => {
-        document.body.style.overflow = "";
+        document.body.style.removeProperty("overflow");
       };
-    }, []);
-
-    const sideMenuButtonAction = React.useMemo(() => {
-      return {
-        onClick: () => {
-          setShowSideMenu((showSideMenu) => !showSideMenu);
-        },
-      };
-    }, [setShowSideMenu]);
-
-    const compassAction = React.useMemo(() => {
-      return {
-        onClick: onCompassClick,
-      };
-    }, [onCompassClick]);
+    }, [showSideMenu, inTransition]);
 
     const menuBar = (
       <MemoizedMenuBar
@@ -117,7 +110,7 @@ const Layout = React.forwardRef<LayoutHandler, LayoutProps>(
       />
     );
     return (
-      <div ref={layoutRefHandler}>
+      <div ref={swipeHandler}>
         <LoadingBar
           loading={loading}
           accentColor={headerAccent}
@@ -142,7 +135,11 @@ const Layout = React.forwardRef<LayoutHandler, LayoutProps>(
             title={title}
             titleLink={titleLink}
             hideTitleOnDesktop={hideTitleOnDesktop}
-            onCompassClick={compassAction}
+            onCompassClick={React.useMemo(() => {
+              return {
+                onClick: onCompassClick,
+              };
+            }, [onCompassClick])}
           >
             {menuBar}
           </Header>
@@ -167,7 +164,13 @@ const Layout = React.forwardRef<LayoutHandler, LayoutProps>(
                       }
                     : undefined
                 }
-                link={sideMenuButtonAction}
+                link={React.useMemo(() => {
+                  return {
+                    onClick: () => {
+                      setShowSideMenu((showSideMenu) => !showSideMenu);
+                    },
+                  };
+                }, [setShowSideMenu])}
               />
             </div>
             <div className="menus-container">
@@ -375,7 +378,7 @@ const Layout = React.forwardRef<LayoutHandler, LayoutProps>(
               .side-bottom-menu {
                 position: absolute;
                 top: 0;
-                left: ${Theme.PINNED_BAR_WIDTH_PX}px;
+                left: 0;
                 right: 0;
                 height: 0px;
                 background-color: ${Theme.LAYOUT_HEADER_BACKGROUND_COLOR};

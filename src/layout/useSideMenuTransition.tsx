@@ -5,35 +5,48 @@ import React from "react";
 type TransitionHandler = (e: TransitionEvent) => void;
 
 let swipeHandler: HammerManager | null = null;
-const addSwipeHandler = ({
-  layoutRef,
-  onSwipe,
-}: {
-  layoutRef: HTMLDivElement;
-  onSwipe: (direction: "left" | "right") => void;
-}) => {
-  // TODO: double-check what happens if the layoutRef changes
-  if (swipeHandler) {
-    return;
-  }
-  const Hammer = require("hammerjs") as HammerStatic;
+let Hammer: HammerStatic | null = null;
+if (typeof window !== "undefined") {
+  Hammer = require("hammerjs") as HammerStatic;
   // @ts-ignore
   delete Hammer.defaults.cssProps.userSelect;
   // @ts-ignore
   delete Hammer.defaults.cssProps.touchCallout;
-  swipeHandler = new Hammer(layoutRef, {
-    inputClass: Hammer.TouchInput,
-    touchAction: "auto",
-  });
-  swipeHandler.get("swipe").set({
-    threshold: 30,
-  });
-  swipeHandler.on("swiperight", () => {
-    onSwipe("right");
-  });
-  swipeHandler.on("swipeleft", () => {
-    onSwipe("left");
-  });
+}
+export const useSwipeHandler = ({
+  setShowSideMenu,
+}: {
+  setShowSideMenu: (show: boolean) => void;
+}) => {
+  return React.useCallback(
+    (ref: HTMLDivElement | null) => {
+      if (!ref) {
+        if (swipeHandler) {
+          swipeHandler.destroy();
+          swipeHandler = null;
+        }
+        return;
+      }
+      // TODO: double-check what happens if the layoutRef changes
+      if (swipeHandler || !Hammer) {
+        return;
+      }
+      swipeHandler = new Hammer(ref, {
+        inputClass: Hammer.TouchInput,
+        touchAction: "auto",
+      });
+      swipeHandler.get("swipe").set({
+        threshold: 30,
+      });
+      swipeHandler.on("swiperight", () => {
+        setShowSideMenu(true);
+      });
+      swipeHandler.on("swipeleft", () => {
+        setShowSideMenu(false);
+      });
+    },
+    [setShowSideMenu]
+  );
 };
 
 /**
@@ -106,7 +119,6 @@ const getTransitionHandler = ({
 };
 
 const useSideMenuTransition = (): {
-  layoutRefHandler: (ref: HTMLDivElement | null) => void;
   sideMenuRefHandler: (ref: HTMLDivElement | null) => void;
   showSideMenu: boolean;
   inTransition: boolean;
@@ -126,19 +138,6 @@ const useSideMenuTransition = (): {
       setInTransition,
     })
   );
-
-  const layoutRefHandler = React.useCallback((ref: HTMLDivElement | null) => {
-    if (!ref) {
-      return;
-    }
-    addSwipeHandler({
-      layoutRef: ref,
-      // We don't need to change "in transition" here because swiping doesn't change
-      // whether the menu is transitioning, but only its direction (which, if different
-      // than the current, will then trigger the transition).
-      onSwipe: (direction) => setShowSideMenu(direction == "right"),
-    });
-  }, []);
 
   const sideMenuRefHandler = React.useCallback((ref: HTMLDivElement | null) => {
     if (!ref) {
@@ -171,16 +170,9 @@ const useSideMenuTransition = (): {
       setShowSideMenu,
       showSideMenu,
       inTransition,
-      layoutRefHandler,
       sideMenuRefHandler,
     }),
-    [
-      setShowSideMenu,
-      layoutRefHandler,
-      sideMenuRefHandler,
-      showSideMenu,
-      inTransition,
-    ]
+    [setShowSideMenu, sideMenuRefHandler, showSideMenu, inTransition]
   );
 };
 export default useSideMenuTransition;
