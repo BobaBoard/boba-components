@@ -147,50 +147,44 @@ const Layout = React.forwardRef<LayoutHandler, LayoutProps>(
         >
           {menuBar}
         </Header>
-        <div
-          className={classnames("pinned-bar", {
-            "side-menu-open": showSideMenu,
-          })}
-        >
-          <div className={"sidemenu-button-container"}>
-            <IconButton
-              icon={{ icon: faBars }}
-              aria-label="menu"
-              withNotifications={
-                hasNotifications
-                  ? {
-                      icon: notificationIcon,
-                      color:
-                        notificationColor ??
-                        (hasOutdatedNotifications
-                          ? Theme.NOTIFICATIONS_OUTDATED_COLOR
-                          : Theme.NOTIFICATIONS_NEW_COLOR),
-                    }
-                  : undefined
-              }
-              link={React.useMemo(() => {
-                return {
-                  onClick: () => {
-                    setShowSideMenu((showSideMenu) => !showSideMenu);
-                  },
-                };
-              }, [setShowSideMenu])}
-            />
-          </div>
-          <div className="menus-container">
-            <div className="pinned-boards">{pinnedMenuContent}</div>
-            <div
-              className={classnames("side-menu", {
-                visible: showSideMenu,
-                open: showSideMenu,
-                closed: !showSideMenu,
-              })}
-              ref={sideMenuRefHandler}
-            >
-              <div className="side-bottom-menu">{menuBar}</div>
-              <div className="side-menu-content">
-                {sideMenuFullyClosed ? null : sideMenuContent}
-              </div>
+        <div className={"sidemenu-button"}>
+          <IconButton
+            icon={{ icon: faBars }}
+            aria-label="menu"
+            withNotifications={
+              hasNotifications
+                ? {
+                    icon: notificationIcon,
+                    color:
+                      notificationColor ??
+                      (hasOutdatedNotifications
+                        ? Theme.NOTIFICATIONS_OUTDATED_COLOR
+                        : Theme.NOTIFICATIONS_NEW_COLOR),
+                  }
+                : undefined
+            }
+            link={React.useMemo(() => {
+              return {
+                onClick: () => {
+                  setShowSideMenu((showSideMenu) => !showSideMenu);
+                },
+              };
+            }, [setShowSideMenu])}
+          />
+        </div>
+        <div className="menus-container">
+          <div className="pinned-boards">{pinnedMenuContent}</div>
+          <div
+            className={classnames("side-menu", {
+              visible: showSideMenu,
+              open: showSideMenu,
+              closed: !showSideMenu,
+            })}
+            ref={sideMenuRefHandler}
+          >
+            <div className="side-bottom-menu">{menuBar}</div>
+            <div className="side-menu-content">
+              {false ? null : sideMenuContent}
             </div>
           </div>
         </div>
@@ -286,7 +280,7 @@ const Layout = React.forwardRef<LayoutHandler, LayoutProps>(
           }
         `}</style>
         <style jsx>{`
-          .sidemenu-button-container {
+          .sidemenu-button {
             width: ${Theme.PINNED_BAR_WIDTH_PX}px;
             height: ${Theme.HEADER_HEIGHT_PX}px;
             background-color: ${Theme.LAYOUT_HEADER_BACKGROUND_COLOR};
@@ -347,20 +341,16 @@ const Layout = React.forwardRef<LayoutHandler, LayoutProps>(
             min-height: 100vh;
             height: 100%;
           }
-          .pinned-bar {
-            background-color: ${Theme.LAYOUT_HEADER_BACKGROUND_COLOR};
-          }
           .pinned-boards {
             background-color: ${Theme.LAYOUT_HEADER_BACKGROUND_COLOR};
             z-index: 48;
-            padding-top: ${Theme.HEADER_HEIGHT_PX}px;
             left: 0px;
             bottom: 0px;
             min-height: calc(100vh - ${Theme.HEADER_HEIGHT_PX}px);
             width: ${Theme.PINNED_BAR_WIDTH_PX}px;
             display: block;
             position: fixed;
-            top: 0;
+            top: ${Theme.HEADER_HEIGHT_PX}px;
             overflow: hidden scroll;
             overscroll-behavior: contain;
             scrollbar-width: none;
@@ -417,11 +407,6 @@ const Layout = React.forwardRef<LayoutHandler, LayoutProps>(
                {
                 /* transform: translateX(var(--side-menu-width)); */
               }
-            }
-          }
-          @media only screen and (max-width: 450px) {
-            .sidemenu-button.menu {
-              margin-right: 0;
             }
           }
         `}</style>
