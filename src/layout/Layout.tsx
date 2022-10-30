@@ -60,7 +60,6 @@ const Layout = React.forwardRef<LayoutHandler, LayoutProps>(
       loggedInMenuOptions,
       forceHideIdentity,
       onSideMenuButtonClick,
-      onSideMenuFullyOpen,
       onCompassClick,
       children,
     },
@@ -72,18 +71,9 @@ const Layout = React.forwardRef<LayoutHandler, LayoutProps>(
     const actionButton = extractCompound(children, ActionButton);
 
     const [sideMenuFullyClosed, setSideMenuFullyClosed] = React.useState(true);
-    const {
-      layoutRef,
-      contentRef,
-      sideMenuRef,
-      setShowSideMenu,
-      showSideMenu,
-    } = useSideMenuTransition({
-      onSideMenuFullyOpen,
-      onSideMenuFullyClosed: React.useCallback(() => {
-        setSideMenuFullyClosed(true);
-      }, []),
-    });
+    const { layoutRefHandler, setShowSideMenu, sideMenuRefHandler, status } =
+      useSideMenuTransition();
+    const showSideMenu = status != "closed" && status != "closing";
     React.useEffect(() => {
       if (showSideMenu) {
         setSideMenuFullyClosed(false);
@@ -133,7 +123,7 @@ const Layout = React.forwardRef<LayoutHandler, LayoutProps>(
       />
     );
     return (
-      <div ref={layoutRef}>
+      <div ref={layoutRefHandler}>
         <LoadingBar
           loading={loading}
           accentColor={headerAccent}
@@ -190,11 +180,11 @@ const Layout = React.forwardRef<LayoutHandler, LayoutProps>(
               <div className="pinned-boards">{pinnedMenuContent}</div>
               <div
                 className={classnames("side-menu", { visible: showSideMenu })}
-                ref={sideMenuRef}
+                ref={sideMenuRefHandler}
               >
                 <div className="side-bottom-menu">{menuBar}</div>
                 <div className="side-menu-content">
-                  {sideMenuFullyClosed ? null : sideMenuContent}
+                  {status == "closed" ? null : sideMenuContent}
                 </div>
               </div>
             </div>
@@ -204,7 +194,7 @@ const Layout = React.forwardRef<LayoutHandler, LayoutProps>(
               "side-menu-open": showSideMenu,
             })}
           >
-            <div ref={contentRef} className="layout-content">
+            <div className="layout-content">
               {mainContent}
               {actionButton}
             </div>
@@ -456,7 +446,6 @@ export interface LayoutProps {
   selectedMenuOption?: string | null;
   loggedInMenuOptions?: DropdownProps["options"];
   onSideMenuButtonClick?: () => void;
-  onSideMenuFullyOpen?: () => void;
   forceHideIdentity?: boolean;
   children: JSX.Element[];
 }
