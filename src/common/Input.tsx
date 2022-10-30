@@ -42,9 +42,9 @@ const Input: React.FC<InputProps> = (props) => {
   return (
     <div
       className={classnames("input", {
-        "error": !!errorMessage,
+        error: !!errorMessage,
         "with-additional-text": hasHelperText || hasMaxLength,
-        "disabled": props.disabled,
+        disabled: props.disabled,
         "hide-label": props.hideLabel,
       })}
     >
@@ -157,18 +157,23 @@ const Input: React.FC<InputProps> = (props) => {
           text-decoration: line-through;
         }
         .password-input {
-          padding-right: calc(var(--font-size-regular) * 2.8);
+          padding-right: 50px;
         }
         .input-wrapper {
           position: relative;
         }
         .visibility-toggle {
+          cursor: pointer;
           position: absolute;
           right: 0px;
           top: 0px;
           line-height: 17.5px;
           font-size: var(--font-size-regular);
-          padding: 13px;
+          padding: 13px 0px;
+          width: 50px;
+          display: flex;
+          align-items: center;
+          justify-content: center;
         }
         // hide visibility toggle checkbox in an accesible way
         input[type="checkbox"] {
