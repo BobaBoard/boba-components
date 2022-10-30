@@ -74,6 +74,7 @@ const Layout = React.forwardRef<LayoutHandler, LayoutProps>(
     const { setShowSideMenu, sideMenuRefHandler, showSideMenu, inTransition } =
       useSideMenuTransition();
     const swipeHandler = useSwipeHandler({ setShowSideMenu });
+    const sideMenuFullyClosed = !showSideMenu && !inTransition;
 
     React.useImperativeHandle(
       ref,
@@ -86,7 +87,7 @@ const Layout = React.forwardRef<LayoutHandler, LayoutProps>(
     );
 
     React.useEffect(() => {
-      if (showSideMenu || inTransition) {
+      if (!sideMenuFullyClosed) {
         document.body.style.overflow = "hidden";
       } else {
         document.body.style.removeProperty("overflow");
@@ -94,7 +95,7 @@ const Layout = React.forwardRef<LayoutHandler, LayoutProps>(
       return () => {
         document.body.style.removeProperty("overflow");
       };
-    }, [showSideMenu, inTransition]);
+    }, [sideMenuFullyClosed]);
 
     const menuBar = (
       <MemoizedMenuBar
@@ -109,8 +110,14 @@ const Layout = React.forwardRef<LayoutHandler, LayoutProps>(
         forceHideIdentity={forceHideIdentity}
       />
     );
+
     return (
-      <div ref={swipeHandler}>
+      <div
+        ref={swipeHandler}
+        className={classnames("container", {
+          "side-menu-closed": sideMenuFullyClosed,
+        })}
+      >
         <LoadingBar
           loading={loading}
           accentColor={headerAccent}
@@ -196,227 +203,228 @@ const Layout = React.forwardRef<LayoutHandler, LayoutProps>(
               {actionButton}
             </div>
           </div>
-          <style jsx>{`
-            .layout {
-              background-color: ${Theme.LAYOUT_BOARD_BACKGROUND_COLOR};
-              display: flex;
-              font-family: "Inter", sans-serif;
-              --side-menu-width: min(
-                calc(100vw - 100px),
-                ${Theme.SIDE_MENU_MAX_WIDTH_PX}px
-              );
-              position: relative;
-            }
+        </div>
+        <style jsx>{`
+          .layout {
+            background-color: ${Theme.LAYOUT_BOARD_BACKGROUND_COLOR};
+            display: flex;
+            font-family: "Inter", sans-serif;
+            --side-menu-width: min(
+              calc(100vw - 100px),
+              ${Theme.SIDE_MENU_MAX_WIDTH_PX}px
+            );
+            position: relative;
+          }
+          .layout-body {
+            display: flex;
+            flex-direction: column;
+            flex-grow: 1;
+            position: relative;
+            margin-left: ${Theme.PINNED_BAR_WIDTH_PX}px;
+            flex-shrink: 0;
+            width: calc(100% - ${Theme.PINNED_BAR_WIDTH_PX}px);
+            overflow: hidden;
+            background-color: ${Theme.LAYOUT_BOARD_SIDEBAR_BACKGROUND_COLOR};
+            transition: transform 2s ease-out;
+          }
+          .layout-body.side-menu-open {
+            transform: translateX(var(--side-menu-width));
+          }
+          :global(header) {
+            transition: transform 2s ease-out;
+          }
+          .side-menu-open :global(header) {
+            transform: translateX(var(--side-menu-width));
+          }
+          .layout-body.side-menu-open .layout-content {
+            flex-shrink: 0;
+          }
+          .layout-content {
+            display: flex;
+            flex-grow: 1;
+            position: relative;
+            padding-top: ${Theme.HEADER_HEIGHT_PX}px;
+            background: ${Theme.LAYOUT_BOARD_BACKGROUND_COLOR};
+          }
+          .container:not(.side-menu-closed) {
+            overflow: hidden;
+          }
+          .backdrop {
+            position: absolute;
+            background-color: ${Theme.MODAL_BACKGROUND_COLOR};
+            top: 0;
+            bottom: 0;
+            left: 0;
+            right: 0;
+            transition: transform 2s ease-out;
+            opacity: 0.9;
+            z-index: 100;
+            width: 0;
+          }
+          .backdrop.visible {
+            display: block;
+            width: 100%;
+            transform: translateX(var(--side-menu-width));
+            left: 65px;
+          }
+          @media only screen and (max-width: 850px) {
             .layout-body {
-              display: flex;
               flex-direction: column;
-              flex-grow: 1;
-              position: relative;
-              margin-left: ${Theme.PINNED_BAR_WIDTH_PX}px;
-              flex-shrink: 0;
-              width: calc(100% - ${Theme.PINNED_BAR_WIDTH_PX}px);
-              overflow: hidden;
-              background-color: ${Theme.LAYOUT_BOARD_SIDEBAR_BACKGROUND_COLOR};
-              transition: transform 2s ease-out;
+              flex-shrink: 1;
+            }
+            .sidebar-button {
+              display: inline-block;
+            }
+          }
+          @media only screen and (max-width: 600px) {
+            .layout-body {
+              margin-left: 0px;
             }
             .layout-body.side-menu-open {
-              transform: translateX(var(--side-menu-width));
+              margin-left: ${Theme.PINNED_BAR_WIDTH_PX}px;
             }
-            :global(header) {
-              transition: transform 2s ease-out;
-            }
-            .side-menu-open :global(header) {
-              transform: translateX(var(--side-menu-width));
-            }
-            .layout-body.side-menu-open .layout-content {
-              flex-shrink: 0;
-            }
-            .layout-content {
-              display: flex;
-              flex-grow: 1;
-              position: relative;
-              padding-top: ${Theme.HEADER_HEIGHT_PX}px;
-              background: ${Theme.LAYOUT_BOARD_BACKGROUND_COLOR};
-            }
-            .backdrop {
-              position: absolute;
-              background-color: ${Theme.MODAL_BACKGROUND_COLOR};
-              top: 0;
-              bottom: 0;
-              left: 0;
-              right: 0;
-              transition: transform 2s ease-out;
-              opacity: 0.9;
-              z-index: 100;
-              width: 0;
-            }
-            .backdrop.visible {
-              display: block;
-              width: 100%;
-              transform: translateX(var(--side-menu-width));
-              left: 65px;
-            }
-            @media only screen and (max-width: 850px) {
-              .layout-body {
-                flex-direction: column;
-                flex-shrink: 1;
-              }
-              .sidebar-button {
-                display: inline-block;
-              }
-            }
-            @media only screen and (max-width: 600px) {
-              .layout-body {
-                margin-left: 0px;
-              }
-              .layout-body.side-menu-open {
-                margin-left: ${Theme.PINNED_BAR_WIDTH_PX}px;
-              }
-            }
-          `}</style>
-          <style jsx>{`
-            .sidemenu-button-container {
-              width: ${Theme.PINNED_BAR_WIDTH_PX}px;
-              height: ${Theme.HEADER_HEIGHT_PX}px;
-              background-color: ${Theme.LAYOUT_HEADER_BACKGROUND_COLOR};
-              display: flex;
-              justify-content: center;
-              align-items: center;
-              position: fixed;
-              top: 0;
-              left: 0;
-              z-index: 49;
-            }
-            .side-menu {
-              background-color: ${Theme.LAYOUT_BOARD_BACKGROUND_COLOR};
-              overflow: hidden;
-              z-index: 1;
-              width: var(--side-menu-width);
-              flex-shrink: 0;
-              overscroll-behavior: contain;
-              position: fixed;
-              top: 0;
-              left: ${Theme.PINNED_BAR_WIDTH_PX}px;
-              bottom: 0;
-              transition: transform 2s ease-out;
-              transform: translateX(
-                calc(
-                  -1 * var(--side-menu-width) - ${Theme.PINNED_BAR_WIDTH_PX}px
-                )
-              );
-            }
-            .side-menu.closed {
-              //visibility: hidden;
-            }
-            .side-menu-content {
-              width: var(--side-menu-width);
-              position: relative;
-              height: 100%;
-            }
-            .side-menu.visible {
-              transform: translateX(0);
-              visibility: visible;
-            }
-            .side-bottom-menu {
-              display: none;
-            }
-            /**
+          }
+        `}</style>
+        <style jsx>{`
+          .sidemenu-button-container {
+            width: ${Theme.PINNED_BAR_WIDTH_PX}px;
+            height: ${Theme.HEADER_HEIGHT_PX}px;
+            background-color: ${Theme.LAYOUT_HEADER_BACKGROUND_COLOR};
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            position: fixed;
+            top: 0;
+            left: 0;
+            z-index: 49;
+          }
+          .side-menu {
+            background-color: ${Theme.LAYOUT_BOARD_BACKGROUND_COLOR};
+            overflow: hidden;
+            z-index: 1;
+            width: var(--side-menu-width);
+            flex-shrink: 0;
+            overscroll-behavior: contain;
+            position: fixed;
+            top: 0;
+            left: ${Theme.PINNED_BAR_WIDTH_PX}px;
+            bottom: 0;
+            transition: transform 2s ease-out;
+            transform: translateX(
+              calc(-1 * var(--side-menu-width) - ${Theme.PINNED_BAR_WIDTH_PX}px)
+            );
+          }
+          .side-menu.closed {
+            //visibility: hidden;
+          }
+          .side-menu-content {
+            width: var(--side-menu-width);
+            position: relative;
+            height: 100%;
+          }
+          .side-menu.visible {
+            transform: translateX(0);
+            visibility: visible;
+          }
+          .side-bottom-menu {
+            display: none;
+          }
+          /**
              * Having overflow: auto as the iOS page loads will cause a weird bug
              * where the sidemenu flickers before disappearing. We cannot use display:none
              * to fix it, because it then messes with the width transition. Keeping
              * overflow: auto only when the side-menu is open fixes the problem.
              */
-            .side-menu.opened .side-menu-content {
-              overflow: auto;
+          .side-menu.opened .side-menu-content {
+            overflow: auto;
+          }
+          .side-menu:not(.opened) .side-menu-content {
+            overflow: hidden;
+          }
+          .menus-container {
+            background-color: ${Theme.LAYOUT_HEADER_BACKGROUND_COLOR};
+            color: white;
+            min-height: 100vh;
+            height: 100%;
+          }
+          .pinned-bar {
+            background-color: ${Theme.LAYOUT_HEADER_BACKGROUND_COLOR};
+          }
+          .pinned-boards {
+            background-color: ${Theme.LAYOUT_HEADER_BACKGROUND_COLOR};
+            z-index: 48;
+            padding-top: ${Theme.HEADER_HEIGHT_PX}px;
+            left: 0px;
+            bottom: 0px;
+            min-height: calc(100vh - ${Theme.HEADER_HEIGHT_PX}px);
+            width: ${Theme.PINNED_BAR_WIDTH_PX}px;
+            display: block;
+            position: fixed;
+            top: 0;
+            overflow: hidden scroll;
+            overscroll-behavior: contain;
+            scrollbar-width: none;
+          }
+          .pinned-boards::-webkit-scrollbar {
+            width: 0px;
+            background: transparent; /* Chrome/Safari/Webkit */
+          }
+          @media only screen and (max-width: 600px) {
+            .side-menu {
+              background-color: ${Theme.LAYOUT_BOARD_SIDEBAR_BACKGROUND_COLOR};
+              maring-left: 0;
+              transform: translateX(calc(-1 * var(--side-menu-width)));
             }
-            .side-menu:not(.opened) .side-menu-content {
-              overflow: hidden;
+            .side-menu.closed {
+              margin-left: -${Theme.PINNED_BAR_WIDTH_PX}px;
+              transition: transform 2s ease-out, margin 2s ease-out;
             }
-            .menus-container {
+            .side-menu-content {
+              height: calc(100% - ${Theme.HEADER_HEIGHT_PX}px);
+              margin-top: ${Theme.HEADER_HEIGHT_PX}px;
+              width: var(--side-menu-width);
+            }
+            .side-bottom-menu {
+              position: absolute;
+              top: 0;
+              left: 0;
+              right: 0;
+              height: 0px;
               background-color: ${Theme.LAYOUT_HEADER_BACKGROUND_COLOR};
-              color: white;
-              min-height: 100vh;
+              display: block;
+              width: 100%;
+              max-width: var(--side-menu-width);
+              overflow: hidden;
+              z-index: 10;
+              width: var(--side-menu-width);
+            }
+            .side-menu:not(.visible) .side-menu-content {
               height: 100%;
             }
-            .pinned-bar {
-              background-color: ${Theme.LAYOUT_HEADER_BACKGROUND_COLOR};
+            .side-menu:not(.closed) .side-bottom-menu {
+              height: ${Theme.HEADER_HEIGHT_PX}px;
             }
             .pinned-boards {
-              background-color: ${Theme.LAYOUT_HEADER_BACKGROUND_COLOR};
-              z-index: 48;
-              padding-top: ${Theme.HEADER_HEIGHT_PX}px;
-              left: 0px;
-              bottom: 0px;
-              min-height: calc(100vh - ${Theme.HEADER_HEIGHT_PX}px);
-              width: ${Theme.PINNED_BAR_WIDTH_PX}px;
-              display: block;
-              position: fixed;
-              top: 0;
-              overflow: hidden scroll;
-              overscroll-behavior: contain;
-              scrollbar-width: none;
+              transform: translateX(-${Theme.PINNED_BAR_WIDTH_PX}px);
+              transition: transform 1s ease-out;
             }
-            .pinned-boards::-webkit-scrollbar {
-              width: 0px;
-              background: transparent; /* Chrome/Safari/Webkit */
+            .side-menu-open .pinned-boards {
+              transform: translateX(0);
             }
-            @media only screen and (max-width: 600px) {
-              .side-menu {
-                background-color: ${Theme.LAYOUT_BOARD_SIDEBAR_BACKGROUND_COLOR};
-                maring-left: 0;
-                transform: translateX(calc(-1 * var(--side-menu-width)));
-              }
-              .side-menu.closed {
-                margin-left: -${Theme.PINNED_BAR_WIDTH_PX}px;
-                transition: transform 2s ease-out, margin 2s ease-out;
-              }
-              .side-menu-content {
-                height: calc(100% - ${Theme.HEADER_HEIGHT_PX}px);
-                margin-top: ${Theme.HEADER_HEIGHT_PX}px;
-                width: var(--side-menu-width);
-              }
-              .side-bottom-menu {
-                position: absolute;
-                top: 0;
-                left: 0;
-                right: 0;
-                height: 0px;
-                background-color: ${Theme.LAYOUT_HEADER_BACKGROUND_COLOR};
-                display: block;
-                width: 100%;
-                max-width: var(--side-menu-width);
-                overflow: hidden;
-                z-index: 10;
-                width: var(--side-menu-width);
-              }
-              .side-menu:not(.visible) .side-menu-content {
-                height: 100%;
-              }
-              .side-menu:not(.closed) .side-bottom-menu {
-                height: ${Theme.HEADER_HEIGHT_PX}px;
-              }
-              .pinned-boards {
-                transform: translateX(-${Theme.PINNED_BAR_WIDTH_PX}px);
-                transition: transform 1s ease-out;
-              }
-              .side-menu-open .pinned-boards {
-                transform: translateX(0);
-              }
-              .layout-body.side-menu-open,
-              .side-menu-open :global(header),
-              .backdrop.visible {
-                 {
-                  /* transform: translateX(var(--side-menu-width)); */
-                }
+            .layout-body.side-menu-open,
+            .side-menu-open :global(header),
+            .backdrop.visible {
+               {
+                /* transform: translateX(var(--side-menu-width)); */
               }
             }
-            @media only screen and (max-width: 450px) {
-              .sidemenu-button.menu {
-                margin-right: 0;
-              }
+          }
+          @media only screen and (max-width: 450px) {
+            .sidemenu-button.menu {
+              margin-right: 0;
             }
-          `}</style>
-        </div>
+          }
+        `}</style>
       </div>
     );
   }
