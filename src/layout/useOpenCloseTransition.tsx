@@ -14,9 +14,9 @@ if (typeof window !== "undefined") {
   delete Hammer.defaults.cssProps.touchCallout;
 }
 export const useSwipeHandler = ({
-  setShowSideMenu,
+  setOpen,
 }: {
-  setShowSideMenu: (show: boolean) => void;
+  setOpen: (show: boolean) => void;
 }) => {
   return React.useCallback(
     (ref: HTMLDivElement | null) => {
@@ -39,13 +39,13 @@ export const useSwipeHandler = ({
         threshold: 30,
       });
       swipeHandler.on("swiperight", () => {
-        setShowSideMenu(true);
+        setOpen(true);
       });
       swipeHandler.on("swipeleft", () => {
-        setShowSideMenu(false);
+        setOpen(false);
       });
     },
-    [setShowSideMenu]
+    [setOpen]
   );
 };
 
@@ -86,7 +86,6 @@ const getTransitionEndHandler = ({
 }) => {
   const activeTransitions: string[] = [];
   return (e: TransitionEvent) => {
-    console.log(e.type, e.propertyName);
     switch (e.type) {
       case "transitionstart": {
         setInTransition(true);
@@ -112,18 +111,16 @@ const getTransitionEndHandler = ({
   };
 };
 
-// TODO: remove references to sideMenu here and just call this something like
-// "useOpenCloseTransition".
-const useSideMenuTransition = (): {
-  sideMenuRefHandler: (ref: HTMLDivElement | null) => void;
-  showSideMenu: boolean;
+export const useOpenCloseTransition = (): {
+  transitionerRefHandler: (ref: HTMLDivElement | null) => void;
+  isOpen: boolean;
   inTransition: boolean;
-  setShowSideMenu: React.Dispatch<React.SetStateAction<boolean>>;
+  setOpen: React.Dispatch<React.SetStateAction<boolean>>;
 } => {
   const currentSideMenuRef = React.useRef<HTMLDivElement | null>(null);
   const isOpenRef = React.useRef<boolean>(false);
 
-  const [showSideMenu, setShowSideMenu] = React.useState(false);
+  const [isOpen, setOpen] = React.useState(false);
   const [inTransition, setInTransition] = React.useState(false);
   // We create a stable reference to a transition handler, so we can easily add
   // and remove it as we deal with different refs to sideMenu
@@ -135,43 +132,45 @@ const useSideMenuTransition = (): {
     })
   );
 
-  const sideMenuRefHandler = React.useCallback((ref: HTMLDivElement | null) => {
-    if (!ref) {
-      currentSideMenuRef.current = null;
-      return;
-    }
-    const isSameRef = currentSideMenuRef.current == ref;
-    if (isSameRef) {
-      return;
-    }
-    // Remove all the transition handlers that we had added to the previous menu
-    removeTransitionHandlers(
-      currentSideMenuRef.current,
-      transitionHandler.current
-    );
-    currentSideMenuRef.current = ref;
-    // Save a reference to the transition handler so we can remove it later
-    addTransitionHandlers(
-      currentSideMenuRef.current,
-      transitionHandler.current
-    );
-  }, []);
-  if (isOpenRef.current != showSideMenu) {
+  const transitionerRefHandler = React.useCallback(
+    (ref: HTMLDivElement | null) => {
+      if (!ref) {
+        currentSideMenuRef.current = null;
+        return;
+      }
+      const isSameRef = currentSideMenuRef.current == ref;
+      if (isSameRef) {
+        return;
+      }
+      // Remove all the transition handlers that we had added to the previous menu
+      removeTransitionHandlers(
+        currentSideMenuRef.current,
+        transitionHandler.current
+      );
+      currentSideMenuRef.current = ref;
+      // Save a reference to the transition handler so we can remove it later
+      addTransitionHandlers(
+        currentSideMenuRef.current,
+        transitionHandler.current
+      );
+    },
+    []
+  );
+  if (isOpenRef.current != isOpen) {
     // If the status of our ref is different from our saved status,
     // immediately mark the menu as being in transition, without waiting
     // for the React setState cycle to trigger.
-    isOpenRef.current = showSideMenu;
+    isOpenRef.current = isOpen;
     setInTransition(true);
   }
 
   return React.useMemo(
     () => ({
-      setShowSideMenu,
-      showSideMenu,
+      setOpen,
+      isOpen,
       inTransition,
-      sideMenuRefHandler,
+      transitionerRefHandler,
     }),
-    [setShowSideMenu, sideMenuRefHandler, showSideMenu, inTransition]
+    [setOpen, transitionerRefHandler, isOpen, inTransition]
   );
 };
-export default useSideMenuTransition;

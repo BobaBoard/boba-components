@@ -3,9 +3,10 @@ import "normalize.css";
 
 import { CreateBaseCompound, extractCompound } from "utils/compound-utils";
 import MenuBar, { MenuBarProps } from "./MenuBar";
-import useSideMenuTransition, {
+import {
+  useOpenCloseTransition,
   useSwipeHandler,
-} from "./useSideMenuTransition";
+} from "./useOpenCloseTransition";
 
 import { DropdownProps } from "common/DropdownListMenu";
 import Header from "./Header";
@@ -71,9 +72,13 @@ const Layout = React.forwardRef<LayoutHandler, LayoutProps>(
     const pinnedMenuContent = extractCompound(children, PinnedMenuContent);
     const actionButton = extractCompound(children, ActionButton);
 
-    const { setShowSideMenu, sideMenuRefHandler, showSideMenu, inTransition } =
-      useSideMenuTransition();
-    const swipeHandler = useSwipeHandler({ setShowSideMenu });
+    const {
+      setOpen: setShowSideMenu,
+      transitionerRefHandler: sideMenuRefHandler,
+      isOpen: showSideMenu,
+      inTransition,
+    } = useOpenCloseTransition();
+    const swipeHandler = useSwipeHandler({ setOpen: setShowSideMenu });
     const sideMenuFullyClosed = !showSideMenu && !inTransition;
 
     React.useImperativeHandle(
@@ -115,8 +120,7 @@ const Layout = React.forwardRef<LayoutHandler, LayoutProps>(
       <main
         ref={swipeHandler}
         className={classnames({
-          // TODO: note that this is only FULLY closed
-          "side-menu-closed": sideMenuFullyClosed,
+          "side-menu-fully-closed": sideMenuFullyClosed,
           "side-menu-open": showSideMenu,
           "side-menu-closing": !showSideMenu && inTransition,
         })}
@@ -285,7 +289,7 @@ const Layout = React.forwardRef<LayoutHandler, LayoutProps>(
           }
         `}</style>
         <style jsx>{`
-          main:not(.side-menu-closed) {
+          main:not(.side-menu-fully-closed) {
             overflow: hidden;
           }
           .side-menu-open .layout-content {
@@ -314,7 +318,7 @@ const Layout = React.forwardRef<LayoutHandler, LayoutProps>(
             .side-menu {
               transform: translateX(calc(-1 * var(--side-menu-width)));
             }
-            main.side-menu-closed .side-menu {
+            main.side-menu-fully-closed .side-menu {
               margin-left: -${Theme.PINNED_BAR_WIDTH_PX}px;
             }
             main.side-menu-closing .side-menu {
@@ -325,7 +329,7 @@ const Layout = React.forwardRef<LayoutHandler, LayoutProps>(
               // and not tied to how long it will take to transition from the in-between
               // point). Unfortunately, I can't figure out how to fix this.
               transition: transform 0.6s ease-out,
-                margin-left 0.4s ease-out 0.5s;
+                margin-left 0.4s ease-out 0.58s;
             }
             main.side-menu-open .side-menu {
               margin-left: 0;
