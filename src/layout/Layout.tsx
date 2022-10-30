@@ -126,9 +126,7 @@ const Layout = React.forwardRef<LayoutHandler, LayoutProps>(
           label="header loading bar"
         />
         <div
-          className={classnames("backdrop", {
-            visible: showSideMenu,
-          })}
+          className="backdrop"
           onClick={() => {
             setShowSideMenu(false);
           }}
@@ -173,14 +171,7 @@ const Layout = React.forwardRef<LayoutHandler, LayoutProps>(
           />
         </div>
         <div className="pinned-boards">{pinnedMenuContent}</div>
-        <div
-          className={classnames("side-menu", {
-            visible: showSideMenu,
-            open: showSideMenu,
-            closed: !showSideMenu,
-          })}
-          ref={sideMenuRefHandler}
-        >
+        <div className={classnames("side-menu")} ref={sideMenuRefHandler}>
           <div className="side-bottom-menu">{menuBar}</div>
           {sideMenuFullyClosed ? null : sideMenuContent}
         </div>
@@ -200,35 +191,12 @@ const Layout = React.forwardRef<LayoutHandler, LayoutProps>(
             position: relative;
           }
           .layout-content {
-            display: flex;
-            flex-direction: column;
-            flex-grow: 1;
             position: relative;
             margin-left: ${Theme.PINNED_BAR_WIDTH_PX}px;
-            flex-shrink: 0;
             width: calc(100% - ${Theme.PINNED_BAR_WIDTH_PX}px);
-            overflow: hidden;
-            background-color: ${Theme.LAYOUT_BOARD_SIDEBAR_BACKGROUND_COLOR};
+            background-color: ${Theme.LAYOUT_BOARD_BACKGROUND_COLOR};
             transition: transform 2s ease-out;
-          }
-          .side-menu-open .layout-content {
-            transform: translateX(var(--side-menu-width));
-          }
-          :global(header) {
-            transition: transform 2s ease-out;
-          }
-          .side-menu-open :global(header) {
-            transform: translateX(var(--side-menu-width));
-          }
-          .layout-content {
-            display: flex;
-            flex-grow: 1;
-            position: relative;
-            padding-top: ${Theme.HEADER_HEIGHT_PX}px;
-            background: ${Theme.LAYOUT_BOARD_BACKGROUND_COLOR};
-          }
-          main:not(.side-menu-closed) {
-            overflow: hidden;
+            margin-top: ${Theme.HEADER_HEIGHT_PX}px;
           }
           .backdrop {
             position: absolute;
@@ -242,22 +210,6 @@ const Layout = React.forwardRef<LayoutHandler, LayoutProps>(
             z-index: 100;
             width: 0;
           }
-          .backdrop.visible {
-            display: block;
-            width: 100%;
-            transform: translateX(var(--side-menu-width));
-            left: 65px;
-          }
-          @media only screen and (max-width: 600px) {
-            .layout-content {
-              margin-left: 0px;
-            }
-            .side-menu-open .layout-content {
-              margin-left: ${Theme.PINNED_BAR_WIDTH_PX}px;
-            }
-          }
-        `}</style>
-        <style jsx>{`
           .sidemenu-button {
             width: ${Theme.PINNED_BAR_WIDTH_PX}px;
             height: ${Theme.HEADER_HEIGHT_PX}px;
@@ -281,16 +233,6 @@ const Layout = React.forwardRef<LayoutHandler, LayoutProps>(
             left: ${Theme.PINNED_BAR_WIDTH_PX}px;
             bottom: 0;
             transition: transform 2s ease-out;
-            transform: translateX(
-              calc(-1 * var(--side-menu-width) - ${Theme.PINNED_BAR_WIDTH_PX}px)
-            );
-          }
-          .side-menu.closed {
-            //visibility: hidden;
-          }
-          .side-menu.visible {
-            transform: translateX(0);
-            visibility: visible;
           }
           .side-bottom-menu {
             display: none;
@@ -315,14 +257,15 @@ const Layout = React.forwardRef<LayoutHandler, LayoutProps>(
           }
           @media only screen and (max-width: 600px) {
             .side-menu {
-              background-color: ${Theme.LAYOUT_BOARD_SIDEBAR_BACKGROUND_COLOR};
               margin-left: 0;
               margin-top: ${Theme.HEADER_HEIGHT_PX}px;
-              transform: translateX(calc(-1 * var(--side-menu-width)));
             }
-            .side-menu.closed {
-              margin-left: -${Theme.PINNED_BAR_WIDTH_PX}px;
-              transition: transform 2s ease-out, margin 2s ease-out;
+            .layout-content {
+              margin-left: 0px;
+              width: 100%;
+            }
+            .side-menu-open .layout-content {
+              margin-left: ${Theme.PINNED_BAR_WIDTH_PX}px;
             }
             .side-bottom-menu {
               position: absolute;
@@ -337,6 +280,44 @@ const Layout = React.forwardRef<LayoutHandler, LayoutProps>(
               overflow: hidden;
               z-index: 10;
               width: var(--side-menu-width);
+            }
+          }
+        `}</style>
+        <style jsx>{`
+          main:not(.side-menu-closed) {
+            overflow: hidden;
+          }
+          .side-menu-open .layout-content {
+            transform: translateX(var(--side-menu-width));
+          }
+          :global(header) {
+            transition: transform 2s ease-out;
+          }
+          .side-menu-open :global(header) {
+            transform: translateX(var(--side-menu-width));
+          }
+          main.side-menu-open .backdrop {
+            display: block;
+            width: 100%;
+            transform: translateX(var(--side-menu-width));
+            left: ${Theme.PINNED_BAR_WIDTH_PX}px;
+          }
+          .side-menu {
+            transform: translateX(
+              calc(-1 * var(--side-menu-width) - ${Theme.PINNED_BAR_WIDTH_PX}px)
+            );
+          }
+          main.side-menu-open .side-menu {
+            transform: translateX(0);
+            visibility: visible;
+          }
+          @media only screen and (max-width: 600px) {
+            .side-menu {
+              transform: translateX(calc(-1 * var(--side-menu-width)));
+            }
+            main:not(.side-menu-open) .side-menu {
+              margin-left: -${Theme.PINNED_BAR_WIDTH_PX}px;
+              transition: transform 2s ease-out, margin 2s ease-out;
             }
             .pinned-boards {
               transform: translateX(-${Theme.PINNED_BAR_WIDTH_PX}px);
