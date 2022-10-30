@@ -175,11 +175,11 @@ const Layout = React.forwardRef<LayoutHandler, LayoutProps>(
             }, [setShowSideMenu])}
           />
         </div>
-        <div className="pinned-boards">{pinnedMenuContent}</div>
-        <div className={classnames("side-menu")} ref={sideMenuRefHandler}>
-          <div className="side-bottom-menu">{menuBar}</div>
+        <nav className="pinned-menu">{pinnedMenuContent}</nav>
+        <nav className="side-menu" ref={sideMenuRefHandler}>
+          <div className="side-menu-options">{menuBar}</div>
           {sideMenuFullyClosed ? null : sideMenuContent}
-        </div>
+        </nav>
         <div className="layout-content">
           {mainContent}
           {actionButton}
@@ -239,10 +239,10 @@ const Layout = React.forwardRef<LayoutHandler, LayoutProps>(
             bottom: 0;
             transition: transform 0.6s ease-out;
           }
-          .side-bottom-menu {
+          .side-menu-options {
             display: none;
           }
-          .pinned-boards {
+          .pinned-menu {
             background-color: ${Theme.LAYOUT_HEADER_BACKGROUND_COLOR};
             z-index: 48;
             left: 0px;
@@ -256,7 +256,7 @@ const Layout = React.forwardRef<LayoutHandler, LayoutProps>(
             overscroll-behavior: contain;
             scrollbar-width: none;
           }
-          .pinned-boards::-webkit-scrollbar {
+          .pinned-menu::-webkit-scrollbar {
             width: 0px;
             background: transparent; /* Chrome/Safari/Webkit */
           }
@@ -272,7 +272,7 @@ const Layout = React.forwardRef<LayoutHandler, LayoutProps>(
             .side-menu-open .layout-content {
               margin-left: ${Theme.PINNED_BAR_WIDTH_PX}px;
             }
-            .side-bottom-menu {
+            .side-menu-options {
               position: absolute;
               top: -${Theme.HEADER_HEIGHT_PX}px;
               left: 0;
@@ -292,13 +292,13 @@ const Layout = React.forwardRef<LayoutHandler, LayoutProps>(
           main:not(.side-menu-fully-closed) {
             overflow: hidden;
           }
-          .side-menu-open .layout-content {
+          main.side-menu-open .layout-content {
             transform: translateX(var(--side-menu-width));
           }
           :global(header) {
             transition: transform 0.6s ease-out;
           }
-          .side-menu-open :global(header) {
+          main.side-menu-open :global(header) {
             transform: translateX(var(--side-menu-width));
           }
           main.side-menu-open .backdrop {
@@ -334,11 +334,11 @@ const Layout = React.forwardRef<LayoutHandler, LayoutProps>(
             main.side-menu-open .side-menu {
               margin-left: 0;
             }
-            .pinned-boards {
+            .pinned-menu {
               transform: translateX(-${Theme.PINNED_BAR_WIDTH_PX}px);
               transition: transform 0.5s ease-out;
             }
-            .side-menu-open .pinned-boards {
+            main.side-menu-open .pinned-menu {
               transform: translateX(0);
             }
           }
