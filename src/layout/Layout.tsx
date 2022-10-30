@@ -184,15 +184,9 @@ const Layout = React.forwardRef<LayoutHandler, LayoutProps>(
           <div className="side-bottom-menu">{menuBar}</div>
           {sideMenuFullyClosed ? null : sideMenuContent}
         </div>
-        <div
-          className={classnames("layout-body", {
-            "side-menu-open": showSideMenu,
-          })}
-        >
-          <div className="layout-content">
-            {mainContent}
-            {actionButton}
-          </div>
+        <div className="layout-content">
+          {mainContent}
+          {actionButton}
         </div>
         <style jsx>{`
           main {
@@ -205,7 +199,7 @@ const Layout = React.forwardRef<LayoutHandler, LayoutProps>(
             );
             position: relative;
           }
-          .layout-body {
+          .layout-content {
             display: flex;
             flex-direction: column;
             flex-grow: 1;
@@ -217,7 +211,7 @@ const Layout = React.forwardRef<LayoutHandler, LayoutProps>(
             background-color: ${Theme.LAYOUT_BOARD_SIDEBAR_BACKGROUND_COLOR};
             transition: transform 2s ease-out;
           }
-          .layout-body.side-menu-open {
+          .side-menu-open .layout-content {
             transform: translateX(var(--side-menu-width));
           }
           :global(header) {
@@ -225,9 +219,6 @@ const Layout = React.forwardRef<LayoutHandler, LayoutProps>(
           }
           .side-menu-open :global(header) {
             transform: translateX(var(--side-menu-width));
-          }
-          .layout-body.side-menu-open .layout-content {
-            flex-shrink: 0;
           }
           .layout-content {
             display: flex;
@@ -257,20 +248,11 @@ const Layout = React.forwardRef<LayoutHandler, LayoutProps>(
             transform: translateX(var(--side-menu-width));
             left: 65px;
           }
-          @media only screen and (max-width: 850px) {
-            .layout-body {
-              flex-direction: column;
-              flex-shrink: 1;
-            }
-            .sidebar-button {
-              display: inline-block;
-            }
-          }
           @media only screen and (max-width: 600px) {
-            .layout-body {
+            .layout-content {
               margin-left: 0px;
             }
-            .layout-body.side-menu-open {
+            .side-menu-open .layout-content {
               margin-left: ${Theme.PINNED_BAR_WIDTH_PX}px;
             }
           }
@@ -362,13 +344,6 @@ const Layout = React.forwardRef<LayoutHandler, LayoutProps>(
             }
             .side-menu-open .pinned-boards {
               transform: translateX(0);
-            }
-            .layout-body.side-menu-open,
-            .side-menu-open :global(header),
-            .backdrop.visible {
-               {
-                /* transform: translateX(var(--side-menu-width)); */
-              }
             }
           }
         `}</style>
