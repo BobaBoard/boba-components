@@ -2,7 +2,6 @@
 import type HammerManager from "hammerjs";
 import React from "react";
 
-type SideMenuStatus = "closed" | "open" | "closing" | "opening";
 type TransitionHandler = (e: TransitionEvent) => void;
 
 let swipeHandler: HammerManager | null = null;
@@ -75,12 +74,15 @@ const getTransitionHandler = ({
   setInTransition: React.Dispatch<React.SetStateAction<boolean>>;
 }) => {
   return (e: TransitionEvent) => {
+    if (e.propertyName != "transform") {
+      return;
+    }
     const sideMenu = e.target as HTMLDivElement;
-    const isOpen = sideMenu.classList.contains("open");
     switch (e.type) {
       case "transitionstart": {
         setInTransition(true);
         setShowSideMenu((showSideMenu) => {
+          const isOpen = sideMenu.classList.contains("open");
           if (isOpen == showSideMenu) {
             // If the CSS state and the React state agree
             // then we don't need to update the status.
@@ -106,8 +108,9 @@ const getTransitionHandler = ({
 const useSideMenuTransition = (): {
   layoutRefHandler: (ref: HTMLDivElement | null) => void;
   sideMenuRefHandler: (ref: HTMLDivElement | null) => void;
-  status: SideMenuStatus;
-  setShowSideMenu: (show: boolean) => void;
+  showSideMenu: boolean;
+  inTransition: boolean;
+  setShowSideMenu: React.Dispatch<React.SetStateAction<boolean>>;
 } => {
   const currentSideMenuRef = React.useRef<HTMLDivElement | null>(null);
 
@@ -163,19 +166,21 @@ const useSideMenuTransition = (): {
   currentSideMenuRef.current?.classList.toggle("open", showSideMenu);
   currentSideMenuRef.current?.classList.toggle("in-transition", inTransition);
 
-  let status: SideMenuStatus = showSideMenu ? "open" : "closed";
-  if (inTransition) {
-    status = showSideMenu ? "opening" : "closing";
-  }
-
   return React.useMemo(
     () => ({
       setShowSideMenu,
-      status,
+      showSideMenu,
+      inTransition,
       layoutRefHandler,
       sideMenuRefHandler,
     }),
-    [setShowSideMenu, layoutRefHandler, sideMenuRefHandler, status]
+    [
+      setShowSideMenu,
+      layoutRefHandler,
+      sideMenuRefHandler,
+      showSideMenu,
+      inTransition,
+    ]
   );
 };
 export default useSideMenuTransition;

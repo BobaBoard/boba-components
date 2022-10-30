@@ -59,7 +59,6 @@ const Layout = React.forwardRef<LayoutHandler, LayoutProps>(
       hideTitleOnDesktop,
       loggedInMenuOptions,
       forceHideIdentity,
-      onSideMenuButtonClick,
       onCompassClick,
       children,
     },
@@ -70,15 +69,13 @@ const Layout = React.forwardRef<LayoutHandler, LayoutProps>(
     const pinnedMenuContent = extractCompound(children, PinnedMenuContent);
     const actionButton = extractCompound(children, ActionButton);
 
-    const [sideMenuFullyClosed, setSideMenuFullyClosed] = React.useState(true);
-    const { layoutRefHandler, setShowSideMenu, sideMenuRefHandler, status } =
-      useSideMenuTransition();
-    const showSideMenu = status != "closed" && status != "closing";
-    React.useEffect(() => {
-      if (showSideMenu) {
-        setSideMenuFullyClosed(false);
-      }
-    }, [showSideMenu]);
+    const {
+      layoutRefHandler,
+      setShowSideMenu,
+      sideMenuRefHandler,
+      showSideMenu,
+      inTransition,
+    } = useSideMenuTransition();
 
     React.useImperativeHandle(ref, () => ({
       closeSideMenu: () => {
@@ -95,13 +92,10 @@ const Layout = React.forwardRef<LayoutHandler, LayoutProps>(
     const sideMenuButtonAction = React.useMemo(() => {
       return {
         onClick: () => {
-          if (!showSideMenu) {
-            onSideMenuButtonClick?.();
-          }
-          setShowSideMenu(!showSideMenu);
+          setShowSideMenu((showSideMenu) => !showSideMenu);
         },
       };
-    }, [showSideMenu, setShowSideMenu, onSideMenuButtonClick]);
+    }, [setShowSideMenu]);
 
     const compassAction = React.useMemo(() => {
       return {
@@ -184,7 +178,7 @@ const Layout = React.forwardRef<LayoutHandler, LayoutProps>(
               >
                 <div className="side-bottom-menu">{menuBar}</div>
                 <div className="side-menu-content">
-                  {status == "closed" ? null : sideMenuContent}
+                  {!showSideMenu && !inTransition ? null : sideMenuContent}
                 </div>
               </div>
             </div>
@@ -445,6 +439,7 @@ export interface LayoutProps {
   menuOptions?: MenuBarProps["menuOptions"];
   selectedMenuOption?: string | null;
   loggedInMenuOptions?: DropdownProps["options"];
+  // TODO: switch this to "onSideMenuStatusChange"
   onSideMenuButtonClick?: () => void;
   forceHideIdentity?: boolean;
   children: JSX.Element[];
