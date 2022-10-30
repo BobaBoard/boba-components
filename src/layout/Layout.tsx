@@ -8,7 +8,6 @@ import {
   useSwipeHandler,
 } from "./useOpenCloseTransition";
 
-import { DropdownProps } from "common/DropdownListMenu";
 import Header from "./Header";
 import IconButton from "buttons/IconButton";
 import { IconProps } from "common/Icon";
@@ -24,6 +23,8 @@ import { faBars } from "@fortawesome/free-solid-svg-icons";
 // const log = debug("bobaui:layout-log");
 
 const MemoizedMenuBar = React.memo(MenuBar);
+
+type SideMenuStatus = "open" | "opening" | "closed" | "closing";
 
 export interface LayoutHandler {
   closeSideMenu: () => void;
@@ -89,23 +90,19 @@ const Backdrop = (props: { onClick: () => void }) => (
 const Layout = React.forwardRef<LayoutHandler, LayoutProps>(
   function LayoutForwardRef(
     {
-      headerAccent,
+      accentColor,
       title,
       menuOptions,
       selectedMenuOption,
       onUserBarClick,
       titleLink,
-      userLoading,
       user,
       loading,
       logoLink,
-      hasNotifications,
-      hasOutdatedNotifications,
       notificationIcon,
-      notificationColor,
-      hideTitleOnDesktop,
-      loggedInMenuOptions,
+      hideTitleFromDesktopHeader,
       forceHideIdentity,
+      onSideMenuStatusChange,
       onCompassClick,
       children,
     },
@@ -136,6 +133,8 @@ const Layout = React.forwardRef<LayoutHandler, LayoutProps>(
 
     const sideMenuFullyClosed = !showSideMenu && !inTransition;
     React.useEffect(() => {
+      // This is to manage the overflow status of the body while the menu
+      // opens or closes.
       if (!sideMenuFullyClosed) {
         document.body.style.overflow = "hidden";
       } else {
@@ -150,20 +149,22 @@ const Layout = React.forwardRef<LayoutHandler, LayoutProps>(
       <MemoizedMenuBar
         menuOptions={menuOptions}
         selectedOption={selectedMenuOption}
-        userMenuOptions={loggedInMenuOptions}
         onLoggedOutUserClick={onUserBarClick}
         user={user}
-        accentColor={headerAccent}
-        loading={userLoading}
+        accentColor={accentColor}
         onHomeMenuClick={logoLink}
         forceHideIdentity={forceHideIdentity}
       />
     );
 
-    let sideMenuStatus = showSideMenu ? "open" : "closed";
+    let sideMenuStatus: SideMenuStatus = showSideMenu ? "open" : "closed";
     if (inTransition) {
       sideMenuStatus = showSideMenu ? "opening" : "closing";
     }
+    React.useEffect(() => {
+      onSideMenuStatusChange?.(sideMenuStatus);
+    }, [sideMenuStatus, onSideMenuStatusChange]);
+
     return (
       <div
         ref={swipeHandler}
@@ -172,7 +173,7 @@ const Layout = React.forwardRef<LayoutHandler, LayoutProps>(
       >
         <LoadingBar
           loading={loading}
-          accentColor={headerAccent}
+          accentColor={accentColor}
           label="header loading bar"
         />
         <Backdrop
@@ -184,16 +185,12 @@ const Layout = React.forwardRef<LayoutHandler, LayoutProps>(
           className={classnames(headerClassName, {
             "side-menu-open": showSideMenu,
           })}
-          accentColor={headerAccent}
+          accentColor={accentColor}
           logoLink={logoLink}
           title={title}
           titleLink={titleLink}
-          hideTitleOnDesktop={hideTitleOnDesktop}
-          onCompassClick={React.useMemo(() => {
-            return {
-              onClick: onCompassClick,
-            };
-          }, [onCompassClick])}
+          hideTitleOnDesktop={hideTitleFromDesktopHeader}
+          onCompassClick={onCompassClick}
         >
           {menuBar}
         </Header>
@@ -201,18 +198,7 @@ const Layout = React.forwardRef<LayoutHandler, LayoutProps>(
           <IconButton
             icon={{ icon: faBars }}
             aria-label="menu"
-            withNotifications={
-              hasNotifications
-                ? {
-                    icon: notificationIcon,
-                    color:
-                      notificationColor ??
-                      (hasOutdatedNotifications
-                        ? Theme.NOTIFICATIONS_OUTDATED_COLOR
-                        : Theme.NOTIFICATIONS_NEW_COLOR),
-                  }
-                : undefined
-            }
+            withNotifications={notificationIcon}
             link={React.useMemo(() => {
               return {
                 onClick: () => {
@@ -246,6 +232,7 @@ const Layout = React.forwardRef<LayoutHandler, LayoutProps>(
             position: relative;
             margin-left: ${Theme.PINNED_BAR_WIDTH_PX}px;
             width: calc(100% - ${Theme.PINNED_BAR_WIDTH_PX}px);
+            min-height: calc(100vh - 70px);
             background-color: ${Theme.LAYOUT_BOARD_BACKGROUND_COLOR};
             margin-top: ${Theme.HEADER_HEIGHT_PX}px;
           }
@@ -377,28 +364,24 @@ const Layout = React.forwardRef<LayoutHandler, LayoutProps>(
 ) as LayoutCompoundComponent;
 
 export interface LayoutProps {
-  headerAccent?: string;
-  title?: string;
-  // Force hides the title from desktop
-  hideTitleOnDesktop?: boolean;
-  user?: { username: string; avatarUrl?: string };
+  notificationIcon?: IconProps;
+  accentColor?: string;
   logoLink?: LinkWithAction;
+  title?: string;
   titleLink?: LinkWithAction;
+  user?: MenuBarProps["user"];
   onUserBarClick: LinkWithAction;
-  onCompassClick?: () => void;
+  onCompassClick?: LinkWithAction;
   loading?: boolean;
-  userLoading?: boolean;
-  notificationIcon?: IconProps["icon"];
-  notificationColor?: string;
-  hasNotifications: boolean;
-  // TODO: remove this
-  hasOutdatedNotifications: boolean;
   menuOptions?: MenuBarProps["menuOptions"];
   selectedMenuOption?: string | null;
-  loggedInMenuOptions?: DropdownProps["options"];
-  // TODO: switch this to "onSideMenuStatusChange"
-  onSideMenuButtonClick?: () => void;
+  onSideMenuStatusChange?: (status: SideMenuStatus) => void;
   forceHideIdentity?: boolean;
+  // At desktop size, the "page title" is often repeated somewhere
+  // else in the UI (for example in the sidebar), which can create
+  // an unsightly repetition. When this is not desired, this prop
+  // can be used to hide the header title at desktop size.
+  hideTitleFromDesktopHeader?: boolean;
   children: JSX.Element[];
 }
 

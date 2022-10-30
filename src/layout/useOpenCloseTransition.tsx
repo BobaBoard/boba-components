@@ -84,6 +84,9 @@ const getTransitionEndHandler = ({
 }: {
   setInTransition: React.Dispatch<React.SetStateAction<boolean>>;
 }) => {
+  // We create a stack of the currently active transitions, and only
+  // change the transition status to false when all the transitions
+  // have effectively ended.
   const activeTransitions: string[] = [];
   return (e: TransitionEvent) => {
     switch (e.type) {
