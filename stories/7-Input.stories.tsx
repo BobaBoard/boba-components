@@ -1,107 +1,94 @@
-import Input, { InputStyle } from "common/Input";
+import ColorInput, { ColorInputProps } from "common/ColorInput";
+import { ComponentMeta, ComponentStory } from "@storybook/react";
+import Input, { InputProps } from "common/Input";
 
-import ColorInput from "common/ColorInput";
 import React from "react";
 
 export default {
   title: "Input",
   component: Input,
-};
+  decorators: [
+    (Story) => (
+      <div style={{ margin: "2em" }}>
+        <Story />
+      </div>
+    ),
+  ],
+} as ComponentMeta<typeof Input>;
 
-export const Editable = () => {
-  const [text, setText] = React.useState("");
+const Template: ComponentStory<typeof Input> = (args: InputProps) => {
+  const [text, setText] = React.useState(args.value ?? "");
 
   return (
-    <>
-      <div style={{ margin: "25px" }}>
-        <Input
-          id="test1"
-          value={text}
-          label="Simple text input"
-          placeholder="Placeholder"
-          onTextChange={(text) => setText(text)}
-        />
-      </div>
-      <div style={{ margin: "25px" }}>
-        <Input
-          id="test2"
-          value={text}
-          label="Text input with helper text"
-          placeholder="Placeholder"
-          helper="helper text"
-          onTextChange={(text) => setText(text)}
-        />
-      </div>
-      <div style={{ margin: "25px" }}>
-        <Input
-          id="test3"
-          value={text}
-          label="Text input with error message"
-          placeholder="Placeholder"
-          errorMessage="Error text"
-          onTextChange={(text) => setText(text)}
-        />
-      </div>
-      <div style={{ margin: "25px" }}>
-        <Input
-          id="test4"
-          value={text}
-          label="Text input with max length"
-          placeholder="Placeholder"
-          helper="helper text"
-          maxLength={30}
-          onTextChange={(text) => setText(text)}
-        />
-      </div>
-    </>
+    <Input {...args} value={text} onTextChange={(text) => setText(text)} />
   );
 };
 
-Editable.story = {
-  name: "editable",
+export const Regular = Template.bind({});
+
+Regular.args = {
+  id: "test1",
+  label: "Simple text input",
+  placeholder: "Placeholder",
 };
 
-export const Password = () => {
-  const [text, setText] = React.useState("password");
-  return (
-    <>
-      <div style={{ margin: "25px" }}>
-        <Input
-          id="test1"
-          value={text}
-          label="Password"
-          onTextChange={(text) => setText(text)}
-          password
-        />
-      </div>
-    </>
-  );
+Regular.storyName = "regular";
+
+export const WithHelper = Template.bind({});
+
+WithHelper.args = {
+  id: "test2",
+  label: "Text input with helper text",
+  placeholder: "Placeholder",
+  helper: "helper text",
 };
 
-Password.story = {
-  name: "password",
+WithHelper.storyName = "with helper";
+
+export const WithError = Template.bind({});
+
+WithError.args = {
+  id: "test3",
+  label: "Text input with error message",
+  placeholder: "Placeholder",
+  errorMessage: "Error text",
 };
 
-export const Disabled = () => {
-  const [text, setText] = React.useState("disabled");
-  return (
-    <>
-      <div style={{ margin: "25px" }}>
-        <Input
-          id="test1"
-          value={text}
-          label="A text input"
-          onTextChange={(text) => setText(text)}
-          disabled
-        />
-      </div>
-    </>
-  );
+WithError.storyName = "with error";
+
+export const MaxLength = Template.bind({});
+
+MaxLength.args = {
+  id: "test4",
+  label: "Text input with max length",
+  placeholder: "Placeholder",
+  helper: "helper text",
+  maxLength: 30,
 };
 
-Disabled.story = {
-  name: "disabled",
+MaxLength.storyName = "with max length";
+
+export const Password = Template.bind({});
+
+Password.args = {
+  id: "test1",
+  label: "Password",
+  password: true,
+  value: "password",
 };
+
+Password.storyName = "password";
+
+export const Disabled = Template.bind({});
+
+Disabled.args = {
+  id: "test1",
+  label: "A text input",
+  disabled: true,
+  value: "disabled",
+};
+
+Disabled.storyName = "disabled";
 
 export const ColorInputStory = () => {
   const [color, setColor] = React.useState("red");
@@ -112,6 +99,4 @@ export const ColorInputStory = () => {
   );
 };
 
-ColorInputStory.story = {
-  name: "color",
-};
+ColorInputStory.storyName = "color";
