@@ -53,5 +53,5 @@
     }
   },
   "include": ["image-types.d.ts", "extra-types.d.ts", "src/**/*"],
-  "exclude": ["node_modules", "build", "scripts"]
+  "exclude": ["node_modules", "build", "scripts", "test"]
 }

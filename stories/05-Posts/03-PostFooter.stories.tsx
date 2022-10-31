@@ -13,12 +13,14 @@ export default {
         <h2>Large container</h2>
         <div
           style={{ width: "100%", maxWidth: "500px", backgroundColor: "white" }}
+          data-testid="large-container"
         >
           {Story()}
         </div>
         <h2>Small container</h2>
         <div
           style={{ width: "100%", maxWidth: "250px", backgroundColor: "white" }}
+          data-testid="small-container"
         >
           {Story()}
         </div>
@@ -42,6 +44,8 @@ export const Answerable = FooterTemplate.bind({});
 Answerable.args = {
   allowsComment: true,
   allowsContribution: true,
+  onContribution: () => action("onContribution")(),
+  onComment: () => action("onComment")(),
 };
 
 export const WithNotes = FooterTemplate.bind({});
@@ -51,8 +55,6 @@ WithNotes.args = {
   totalContributions: 5,
   directContributions: 2,
   totalComments: 4,
-  // We need to do this because when action is given an event
-  // it causes an exception
   onContribution: action("contribution"),
   onComment: action("comment"),
 };

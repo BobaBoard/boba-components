@@ -14,7 +14,8 @@ const Avatar = React.forwardRef<HTMLImageElement, AvatarProps>((props, ref) => {
   return (
     <div
       className={classnames("avatar-container", {
-        compact: props.compact,
+        compact: props.compact === true,
+        mini: props.compact == "mini",
       })}
     >
       <img
@@ -58,6 +59,9 @@ const Avatar = React.forwardRef<HTMLImageElement, AvatarProps>((props, ref) => {
         .compact .accessory {
           transform: translate(calc(-50% - 3px), -50%) scale(0.85);
         }
+        .mini .accessory {
+          transform: translate(calc(-50% - 11px), -50%) scale(0.67);
+        }
         .avatar {
           position: relative;
           width: 40px;
@@ -95,6 +99,24 @@ const Avatar = React.forwardRef<HTMLImageElement, AvatarProps>((props, ref) => {
           width: 35px;
           height: 35px;
         }
+        .avatar-container.mini .avatar.with-secret {
+          mask: linear-gradient(0deg, rgba(0, 0, 0, 0), rgba(0, 0, 0, 0)) 0% 0% /
+              cover,
+            radial-gradient(
+                26px at right -4px bottom 12px,
+                transparent 50%,
+                black 51%
+              )
+              right bottom;
+          mask-size: cover;
+        }
+        .avatar-container.mini .avatar {
+          width: 25px;
+          height: 25px;
+        }
+        .avatar-container.mini .avatar.with-secret {
+          margin-right: 20px;
+        }
         .secret-avatar {
           position: absolute;
           top: 100%;
@@ -110,6 +132,11 @@ const Avatar = React.forwardRef<HTMLImageElement, AvatarProps>((props, ref) => {
           width: 20px;
           height: 20px;
           transform: translate(19px, -17px);
+        }
+        .avatar-container.mini .secret-avatar {
+          width: 25px;
+          height: 25px;
+          transform: translate(17px, -24px);
         }
         .secret-avatar.visible {
           display: block;
@@ -131,7 +158,10 @@ export interface AvatarProps {
       };
   userIdentity?: UserIdentityType;
   forceHide?: boolean;
-  compact?: boolean;
+  // TODO: this should really not be boolean | mini. Consider either changing
+  // it to have "mini" | "compact" as the type, or consider exporting different
+  // components for alt styles.
+  compact?: boolean | "mini";
 }
 
 export default Avatar;

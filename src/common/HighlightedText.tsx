@@ -2,7 +2,7 @@ import React from "react";
 
 const INITIAL_ROTATION = -5;
 const HighlightedText: React.FC<HighlightedTextProps> = (props) => {
-  const container = React.useRef<HTMLDivElement>();
+  const container = React.useRef<HTMLDivElement>(null);
   const [rotationAdjustment, setRotationAdjustment] = React.useState(0);
 
   React.useEffect(() => {
@@ -17,18 +17,17 @@ const HighlightedText: React.FC<HighlightedTextProps> = (props) => {
 
   return (
     <div>
-      <div className="container">
+      <div className="container" ref={container}>
         <div className="backgroundDivs"></div>
         {React.useMemo(
           () =>
-            React.isValidElement(props.children) &&
+            React.isValidElement<HTMLElement>(props.children) &&
             React.cloneElement(props.children, {
               style: {
                 ...props.children.props.style,
-                zIndex: 2,
+                zIndex: "2",
                 position: "relative",
               },
-              ref: container,
             }),
           [props.children]
         )}

@@ -2,22 +2,28 @@ import "@bobaboard/boba-editor/dist/main.css";
 import "normalize.css";
 
 import { CreateBaseCompound, extractCompound } from "utils/compound-utils";
+import IconButton, { IconButtonProps } from "buttons/IconButton";
 import MenuBar, { MenuBarProps } from "./MenuBar";
+import {
+  useOpenCloseTransition,
+  useSwipeHandler,
+} from "./useOpenCloseTransition";
 
 import Header from "./Header";
-import { IconProps } from "common/Icon";
 import { LinkWithAction } from "types";
 import LoadingBar from "common/LoadingBar";
-import QuickAccessBar from "./QuickAccessBar";
 import React from "react";
 import Theme from "theme/default";
 import classnames from "classnames";
-import useSideMenuTransition from "./useSideMenuTransition";
+import css from "styled-jsx/css";
+import { faBars } from "@fortawesome/free-solid-svg-icons";
 
 // import debug from "debug";
 // const log = debug("bobaui:layout-log");
 
 const MemoizedMenuBar = React.memo(MenuBar);
+
+type SideMenuStatus = "open" | "opening" | "closed" | "closing";
 
 export interface LayoutHandler {
   closeSideMenu: () => void;
@@ -37,28 +43,65 @@ export interface LayoutCompoundComponent
   ActionButton: React.FC<unknown>;
 }
 
+const { className: headerClassName, styles: headerStyles } = css.resolve`
+  header {
+    transition: transform 0.6s ease-out;
+    background-color: ${Theme.LAYOUT_HEADER_BACKGROUND_COLOR};
+    background-image: var(--header-background-image);
+    height: ${Theme.HEADER_HEIGHT_PX}px;
+    position: fixed;
+    top: 0;
+    right: 0;
+    left: ${Theme.PINNED_BAR_WIDTH_PX}px;
+    z-index: 10;
+  }
+  :global([data-side-menu-status^="open"]) header {
+    transform: translateX(var(--side-menu-width));
+  }
+`;
+
+const Backdrop = (props: { onClick: () => void }) => (
+  <div className="backdrop" onClick={props.onClick}>
+    <style jsx>{`
+      .backdrop {
+        position: absolute;
+        background-color: ${Theme.MODAL_BACKGROUND_COLOR};
+        top: 0;
+        bottom: 0;
+        left: 0;
+        right: 0;
+        transition: transform 0.6s ease-out;
+        opacity: 0.9;
+        z-index: 100;
+        width: 0;
+      }
+
+      :global([data-side-menu-status^="open"]) .backdrop {
+        display: block;
+        width: 100%;
+        transform: translateX(var(--side-menu-width));
+        left: ${Theme.PINNED_BAR_WIDTH_PX}px;
+      }
+    `}</style>
+  </div>
+);
+
 const Layout = React.forwardRef<LayoutHandler, LayoutProps>(
   function LayoutForwardRef(
     {
-      headerAccent,
+      accentColor,
       title,
       menuOptions,
       selectedMenuOption,
       onUserBarClick,
       titleLink,
-      userLoading,
       user,
       loading,
       logoLink,
-      hasNotifications,
-      hasOutdatedNotifications,
       notificationIcon,
-      notificationColor,
-      hideTitleOnDesktop,
-      loggedInMenuOptions,
+      hideTitleFromDesktopHeader,
       forceHideIdentity,
-      onSideMenuButtonClick,
-      onSideMenuFullyOpen,
+      onSideMenuStatusChange,
       onCompassClick,
       children,
     },
@@ -69,218 +112,274 @@ const Layout = React.forwardRef<LayoutHandler, LayoutProps>(
     const pinnedMenuContent = extractCompound(children, PinnedMenuContent);
     const actionButton = extractCompound(children, ActionButton);
 
-    const [sideMenuFullyClosed, setSideMenuFullyClosed] = React.useState(true);
     const {
-      layoutRef,
-      contentRef,
-      sideMenuRef,
-      setShowSideMenu,
-      showSideMenu,
-    } = useSideMenuTransition({
-      onSideMenuFullyOpen,
-      onSideMenuFullyClosed: React.useCallback(() => {
-        setSideMenuFullyClosed(true);
-      }, []),
-    });
-    React.useEffect(() => {
-      if (showSideMenu) {
-        setSideMenuFullyClosed(false);
-      }
-    }, [showSideMenu]);
+      setOpen: setShowSideMenu,
+      transitionerRefHandler: sideMenuRefHandler,
+      isOpen: showSideMenu,
+      inTransition,
+    } = useOpenCloseTransition();
+    const swipeHandler = useSwipeHandler({ setOpen: setShowSideMenu });
 
-    React.useImperativeHandle(ref, () => ({
-      closeSideMenu: () => {
-        setShowSideMenu(false);
-      },
-    }));
-
-    React.useEffect(() => {
-      return () => {
-        document.body.style.overflow = "";
-      };
-    }, []);
-
-    const sideMenuButtonAction = React.useMemo(() => {
-      return {
-        onClick: () => {
-          if (!showSideMenu) {
-            onSideMenuButtonClick?.();
-          }
-          setShowSideMenu(!showSideMenu);
+    React.useImperativeHandle(
+      ref,
+      () => ({
+        closeSideMenu: () => {
+          setShowSideMenu(false);
         },
-      };
-    }, [showSideMenu, setShowSideMenu, onSideMenuButtonClick]);
+      }),
+      [setShowSideMenu]
+    );
 
-    const compassAction = React.useMemo(() => {
-      return {
-        onClick: onCompassClick,
+    const sideMenuFullyClosed = !showSideMenu && !inTransition;
+    React.useEffect(() => {
+      // This is to manage the overflow status of the body while the menu
+      // opens or closes.
+      if (!sideMenuFullyClosed) {
+        document.body.style.overflow = "hidden";
+      } else {
+        document.body.style.removeProperty("overflow");
+      }
+      return () => {
+        document.body.style.removeProperty("overflow");
       };
-    }, [onCompassClick]);
+    }, [sideMenuFullyClosed]);
 
     const menuBar = (
       <MemoizedMenuBar
         menuOptions={menuOptions}
         selectedOption={selectedMenuOption}
-        userMenuOptions={loggedInMenuOptions}
         onLoggedOutUserClick={onUserBarClick}
         user={user}
-        accentColor={headerAccent}
-        loading={userLoading}
+        accentColor={accentColor}
         onHomeMenuClick={logoLink}
         forceHideIdentity={forceHideIdentity}
       />
     );
+
+    let sideMenuStatus: SideMenuStatus = showSideMenu ? "open" : "closed";
+    if (inTransition) {
+      sideMenuStatus = showSideMenu ? "opening" : "closing";
+    }
+    React.useEffect(() => {
+      onSideMenuStatusChange?.(sideMenuStatus);
+    }, [sideMenuStatus, onSideMenuStatusChange]);
+
     return (
-      <div ref={layoutRef}>
+      <div
+        ref={swipeHandler}
+        className="layout"
+        data-side-menu-status={sideMenuStatus}
+      >
         <LoadingBar
           loading={loading}
-          accentColor={headerAccent}
+          accentColor={accentColor}
           label="header loading bar"
         />
-        <div className="layout">
-          <QuickAccessBar
-            hasNotifications={!!hasNotifications}
-            hasOutdatedNotifications={!!hasOutdatedNotifications}
-            notificationIcon={notificationIcon}
-            notificationColor={notificationColor}
-            sideMenuOpen={showSideMenu}
-            sideMenuFullyClosed={sideMenuFullyClosed}
-            setShowSideMenu={setShowSideMenu}
-            onSideMenuButtonClick={sideMenuButtonAction}
-            pinnedMenuContent={pinnedMenuContent}
-            menuBarContent={menuBar}
-            sideMenuContent={sideMenuContent}
-            ref={sideMenuRef}
+        <Backdrop
+          onClick={() => {
+            setShowSideMenu(false);
+          }}
+        />
+        <Header
+          className={classnames(headerClassName, {
+            "side-menu-open": showSideMenu,
+          })}
+          accentColor={accentColor}
+          logoLink={logoLink}
+          title={title}
+          titleLink={titleLink}
+          hideTitleOnDesktop={hideTitleFromDesktopHeader}
+          onCompassClick={onCompassClick}
+        >
+          {menuBar}
+        </Header>
+        <div className={"side-menu-button"}>
+          <IconButton
+            icon={{ icon: faBars }}
+            aria-label="menu"
+            withNotifications={notificationIcon}
+            link={React.useMemo(() => {
+              return {
+                onClick: () => {
+                  setShowSideMenu((showSideMenu) => !showSideMenu);
+                },
+              };
+            }, [setShowSideMenu])}
           />
-          <div
-            className={classnames("layout-body", {
-              "side-menu-open": showSideMenu,
-            })}
-          >
-            <Header
-              accentColor={headerAccent}
-              logoLink={logoLink}
-              title={title}
-              titleLink={titleLink}
-              hideTitleOnDesktop={hideTitleOnDesktop}
-              onCompassClick={compassAction}
-            >
-              {menuBar}
-            </Header>
-            <div
-              className={classnames("backdrop", {
-                visible: showSideMenu,
-              })}
-              onClick={() => {
-                setShowSideMenu(false);
-              }}
-            />
-            <div ref={contentRef} className="layout-content">
-              {mainContent}
-              {actionButton}
-            </div>
-          </div>
-          <style jsx>{`
-            .layout {
-              background-color: ${Theme.LAYOUT_BOARD_BACKGROUND_COLOR};
-              display: flex;
-              font-family: "Inter", sans-serif;
-              --side-menu-width: min(
-                calc(100vw - 100px),
-                ${Theme.SIDE_MENU_MAX_WIDTH_PX}px
-              );
+        </div>
+        <nav className="pinned-menu">{pinnedMenuContent}</nav>
+        <nav className="side-menu" ref={sideMenuRefHandler}>
+          <div className="side-menu-options">{menuBar}</div>
+          {sideMenuFullyClosed ? null : sideMenuContent}
+        </nav>
+        <main>
+          {mainContent}
+          {actionButton}
+        </main>
+        <style jsx>{`
+          .layout {
+            background-color: ${Theme.LAYOUT_BOARD_BACKGROUND_COLOR};
+            display: flex;
+            font-family: "Inter", sans-serif;
+            --side-menu-width: min(
+              calc(100vw - 100px),
+              ${Theme.SIDE_MENU_MAX_WIDTH_PX}px
+            );
+            position: relative;
+          }
+          main {
+            position: relative;
+            margin-left: ${Theme.PINNED_BAR_WIDTH_PX}px;
+            width: calc(100% - ${Theme.PINNED_BAR_WIDTH_PX}px);
+            min-height: calc(100vh - 70px);
+            background-color: ${Theme.LAYOUT_BOARD_BACKGROUND_COLOR};
+            margin-top: ${Theme.HEADER_HEIGHT_PX}px;
+          }
+          .side-menu-button {
+            width: ${Theme.PINNED_BAR_WIDTH_PX}px;
+            height: ${Theme.HEADER_HEIGHT_PX}px;
+            background-color: ${Theme.LAYOUT_HEADER_BACKGROUND_COLOR};
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            position: fixed;
+            top: 0;
+            left: 0;
+            z-index: 49;
+          }
+          .side-menu {
+            background-color: ${Theme.LAYOUT_BOARD_BACKGROUND_COLOR};
+            z-index: 1;
+            width: var(--side-menu-width);
+            flex-shrink: 0;
+            overscroll-behavior: contain;
+            position: fixed;
+            top: 0;
+            left: ${Theme.PINNED_BAR_WIDTH_PX}px;
+            bottom: 0;
+          }
+          .side-menu-options {
+            display: none;
+          }
+          .pinned-menu {
+            background-color: ${Theme.LAYOUT_HEADER_BACKGROUND_COLOR};
+            z-index: 48;
+            left: 0px;
+            bottom: 0px;
+            min-height: calc(100vh - ${Theme.HEADER_HEIGHT_PX}px);
+            width: ${Theme.PINNED_BAR_WIDTH_PX}px;
+            display: block;
+            position: fixed;
+            top: ${Theme.HEADER_HEIGHT_PX}px;
+            overflow: hidden scroll;
+            overscroll-behavior: contain;
+            scrollbar-width: none;
+          }
+          .pinned-menu::-webkit-scrollbar {
+            width: 0px;
+            background: transparent; /* Chrome/Safari/Webkit */
+          }
+          @media only screen and (max-width: 600px) {
+            .side-menu {
+              margin-left: 0;
+              margin-top: ${Theme.HEADER_HEIGHT_PX}px;
             }
-            .layout-body {
-              display: flex;
-              flex-direction: column;
-              flex-grow: 1;
-              position: relative;
-              margin-left: ${Theme.PINNED_BAR_WIDTH_PX}px;
-              flex-shrink: 0;
-              width: calc(100% - ${Theme.PINNED_BAR_WIDTH_PX}px);
-              overflow: hidden;
-              background-color: ${Theme.LAYOUT_BOARD_SIDEBAR_BACKGROUND_COLOR};
-              transition: transform 0.3s ease-out;
-            }
-            .layout-body.side-menu-open {
-              transform: translateX(var(--side-menu-width));
-            }
-            .layout-body.side-menu-open .layout-content {
-              flex-shrink: 0;
-            }
-            .layout-content {
-              display: flex;
-              flex-grow: 1;
-              position: relative;
-              padding-top: ${Theme.HEADER_HEIGHT_PX}px;
-              background: ${Theme.LAYOUT_BOARD_BACKGROUND_COLOR};
-            }
-            .backdrop {
-              position: absolute;
-              background-color: ${Theme.MODAL_BACKGROUND_COLOR};
-              top: 0;
-              bottom: 0;
-              left: 0;
-              right: 0;
-              opacity: 0.9;
-              z-index: 100;
-              width: 0;
-            }
-            .backdrop.visible {
-              display: block;
+            main {
+              margin-left: 0px;
               width: 100%;
             }
-            @media only screen and (max-width: 850px) {
-              .layout-body {
-                flex-direction: column;
-                flex-shrink: 1;
-              }
-              .sidebar-button {
-                display: inline-block;
-              }
+            .side-menu-options {
+              position: absolute;
+              top: -${Theme.HEADER_HEIGHT_PX}px;
+              left: 0;
+              right: 0;
+              height: ${Theme.HEADER_HEIGHT_PX}px;
+              background-color: ${Theme.LAYOUT_HEADER_BACKGROUND_COLOR};
+              display: block;
+              width: 100%;
+              max-width: var(--side-menu-width);
+              overflow: hidden;
+              z-index: 10;
+              width: var(--side-menu-width);
             }
-            @media only screen and (max-width: 600px) {
-              .layout-body {
-                margin-left: 0px;
-              }
-              .layout-body.side-menu-open {
-                margin-left: ${Theme.PINNED_BAR_WIDTH_PX}px;
-              }
+          }
+        `}</style>
+        <style jsx>{`
+          // These are all the styles related to the opening/closing animation
+          .layout:not([data-side-menu-status="closed"]) {
+            overflow: hidden;
+          }
+          main {
+            transition: transform 0.6s ease-out;
+          }
+          [data-side-menu-status^="open"] main {
+            transform: translateX(var(--side-menu-width));
+          }
+          .side-menu {
+            transition: transform 0.6s ease-out;
+            transform: translateX(calc(-1 * var(--side-menu-width)));
+          }
+          [data-side-menu-status^="open"] .side-menu {
+            transform: translateX(0);
+          }
+          @media only screen and (max-width: 600px) {
+            .side-menu {
+              transform: translateX(calc(-1 * var(--side-menu-width)));
             }
-          `}</style>
-        </div>
+            [data-side-menu-status="closed"] .side-menu {
+              margin-left: -${Theme.PINNED_BAR_WIDTH_PX}px;
+            }
+            [data-side-menu-status="closing"] .side-menu {
+              margin-left: -${Theme.PINNED_BAR_WIDTH_PX}px;
+              // Note: this works well as an animation for when the menu goes all
+              // the way out and then back in, but it still jumps when the animation
+              // is cancelled halfway through (because the animation delay is static,
+              // and not tied to how long it will take to transition from the in-between
+              // point). Unfortunately, I can't figure out how to fix this.
+              transition: transform 0.6s ease-out,
+                margin-left 0.2s ease-out 0.58s;
+            }
+            [data-side-menu-status^="open"] main {
+              margin-left: ${Theme.PINNED_BAR_WIDTH_PX}px;
+            }
+
+            [data-side-menu-status^="open"] .side-menu {
+              margin-left: 0;
+            }
+            .pinned-menu {
+              transform: translateX(-${Theme.PINNED_BAR_WIDTH_PX}px);
+              transition: transform 0.5s ease-out;
+            }
+            [data-side-menu-status^="open"] .pinned-menu {
+              transform: translateX(0);
+            }
+          }
+        `}</style>
+        {headerStyles}
       </div>
     );
   }
 ) as LayoutCompoundComponent;
 
 export interface LayoutProps {
-  headerAccent?: string;
-  title?: string;
-  // Force hides the title from desktop
-  hideTitleOnDesktop?: boolean;
-  user?: { username: string; avatarUrl?: string };
+  notificationIcon?: IconButtonProps["withNotifications"];
+  accentColor?: string;
   logoLink?: LinkWithAction;
+  title?: string;
   titleLink?: LinkWithAction;
+  user?: MenuBarProps["user"];
   onUserBarClick: LinkWithAction;
-  onCompassClick?: () => void;
+  onCompassClick?: LinkWithAction;
   loading?: boolean;
-  userLoading?: boolean;
-  notificationIcon?: IconProps["icon"];
-  notificationColor?: string;
-  hasNotifications: boolean;
-  // TODO: remove this
-  hasOutdatedNotifications: boolean;
   menuOptions?: MenuBarProps["menuOptions"];
   selectedMenuOption?: string | null;
-  loggedInMenuOptions?: {
-    icon: IconProps;
-    name: string;
-    link: LinkWithAction;
-  }[];
-  onSideMenuButtonClick?: () => void;
-  onSideMenuFullyOpen?: () => void;
+  onSideMenuStatusChange?: (status: SideMenuStatus) => void;
   forceHideIdentity?: boolean;
+  // At desktop size, the "page title" is often repeated somewhere
+  // else in the UI (for example in the sidebar), which can create
+  // an unsightly repetition. When this is not desired, this prop
+  // can be used to hide the header title at desktop size.
+  hideTitleFromDesktopHeader?: boolean;
   children: JSX.Element[];
 }
 

@@ -1,9 +1,12 @@
-import DropdownListMenu, { DropdownStyle } from "common/DropdownListMenu";
+import DropdownListMenu, {
+  DropdownProps,
+  DropdownStyle,
+} from "common/DropdownListMenu";
+import { LinkWithAction, UserIdentityType } from "types";
 import { faHome, faUser } from "@fortawesome/free-solid-svg-icons";
 
 import CircleButton from "buttons/CircleButton";
 import { IconProps } from "common/Icon";
-import { LinkWithAction } from "types";
 import React from "react";
 
 const MenuBar: React.FC<MenuBarProps> = ({
@@ -11,13 +14,11 @@ const MenuBar: React.FC<MenuBarProps> = ({
   accentColor,
   onHomeMenuClick,
   onLoggedOutUserClick,
-  loading,
   menuOptions,
-  userMenuOptions,
   selectedOption,
   forceHideIdentity,
 }) => {
-  const isLoggedIn = !loading && user?.avatarUrl;
+  const isLoggedIn = !user?.loading && user?.avatar;
   return (
     <div className="container">
       {onHomeMenuClick && (
@@ -26,7 +27,7 @@ const MenuBar: React.FC<MenuBarProps> = ({
             icon={{ icon: faHome }}
             link={onHomeMenuClick}
             accentColor={accentColor}
-            loading={loading}
+            loading={user?.loading}
           />
         </div>
       )}
@@ -41,22 +42,24 @@ const MenuBar: React.FC<MenuBarProps> = ({
         </div>
       ))}
       <DropdownListMenu
-        options={isLoggedIn ? userMenuOptions : undefined}
+        options={isLoggedIn ? user.menuOptions : undefined}
         style={DropdownStyle.DARK}
         accentColor={accentColor}
       >
         <div className="menu-item">
           <CircleButton
-            icon={{ icon: user?.avatarUrl ? user?.avatarUrl : faUser }}
-            link={!loading && !isLoggedIn ? onLoggedOutUserClick : undefined}
+            icon={{ icon: user?.avatar ?? faUser }}
+            link={
+              !user?.loading && !isLoggedIn ? onLoggedOutUserClick : undefined
+            }
             accentColor={accentColor}
             defaultBorderColor={isLoggedIn ? "green" : undefined}
-            loading={loading}
+            loading={user?.loading}
             withDropdown={
-              !!isLoggedIn && !!userMenuOptions?.length ? {} : undefined
+              !!isLoggedIn && !!user.menuOptions?.length ? {} : undefined
             }
             blurred={forceHideIdentity}
-            aria-label={!loading && !isLoggedIn ? "login" : "User menu"}
+            aria-label={!user?.loading && !isLoggedIn ? "login" : "User menu"}
           />
         </div>
       </DropdownListMenu>
@@ -89,7 +92,6 @@ const MenuBar: React.FC<MenuBarProps> = ({
 export default MenuBar;
 
 export interface MenuBarProps {
-  loading?: boolean;
   accentColor?: string;
   onLoggedOutUserClick: LinkWithAction;
   onHomeMenuClick?: LinkWithAction;
@@ -98,11 +100,11 @@ export interface MenuBarProps {
     icon: IconProps;
     link: LinkWithAction;
   }[];
-  userMenuOptions?: {
-    name: string;
-    link: LinkWithAction;
-  }[];
   selectedOption?: string | null;
-  user?: { username: string; avatarUrl?: string };
+  user?:
+    | Partial<UserIdentityType> & {
+        loading?: boolean;
+        menuOptions?: DropdownProps["options"];
+      };
   forceHideIdentity?: boolean;
 }

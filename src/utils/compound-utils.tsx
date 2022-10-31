@@ -44,3 +44,7 @@ export function CreateBaseCompound<T>(displayName: string) {
 export function hasChildren(component: React.ReactNode) {
   return React.isValidElement(component) && !!component.props.children;
 }
+
+export type GetProps<C extends React.FC<unknown>> = C extends React.FC<infer T>
+  ? T
+  : unknown;

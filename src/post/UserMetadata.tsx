@@ -73,6 +73,7 @@ const IdentityMetadata: React.FC<UserMetadataProps> = (props) => {
         "with-identity-selector": !!identityOptions?.length,
         "with-accessory-selector": accessories?.length && onSelectAccessory,
         "with-message-icon": props.createdMessageIcon,
+        "with-user-identity": showUserIdentity,
       })}
     >
       <DropdownListMenu
@@ -131,6 +132,15 @@ const IdentityMetadata: React.FC<UserMetadataProps> = (props) => {
             justify-items: start;
             position: relative;
             width: 100%;
+          }
+          .metadata:not(.with-user-identity):not(.with-accessory-selector) {
+            // When there's no user identity or accessory selector, the second line
+            // of the grid becomes useless. We remove it so it doesn't cause extra
+            // space because of the two grid graps one after the other.
+            grid-template-rows: auto auto;
+            grid-template-areas:
+              "user-identity user-identity user-identity"
+              "message-icon timestamp timestamp";
           }
           @media only screen and (max-width: 450px) {
             .metadata {
