@@ -102,13 +102,9 @@ export interface MenuBarProps {
   }[];
   selectedOption?: string | null;
   user?:
-    | (UserIdentityType & {
-        loading?: false;
+    | Partial<UserIdentityType> & {
+        loading?: boolean;
         menuOptions?: DropdownProps["options"];
-      })
-    | (Partial<UserIdentityType> & {
-        loading?: true;
-        menuOptions?: DropdownProps["options"];
-      });
+      };
   forceHideIdentity?: boolean;
 }

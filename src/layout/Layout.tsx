@@ -2,6 +2,7 @@ import "@bobaboard/boba-editor/dist/main.css";
 import "normalize.css";
 
 import { CreateBaseCompound, extractCompound } from "utils/compound-utils";
+import IconButton, { IconButtonProps } from "buttons/IconButton";
 import MenuBar, { MenuBarProps } from "./MenuBar";
 import {
   useOpenCloseTransition,
@@ -9,8 +10,6 @@ import {
 } from "./useOpenCloseTransition";
 
 import Header from "./Header";
-import IconButton from "buttons/IconButton";
-import { IconProps } from "common/Icon";
 import { LinkWithAction } from "types";
 import LoadingBar from "common/LoadingBar";
 import React from "react";
@@ -322,7 +321,6 @@ const Layout = React.forwardRef<LayoutHandler, LayoutProps>(
           }
           [data-side-menu-status^="open"] .side-menu {
             transform: translateX(0);
-            visibility: visible;
           }
           @media only screen and (max-width: 600px) {
             .side-menu {
@@ -364,7 +362,7 @@ const Layout = React.forwardRef<LayoutHandler, LayoutProps>(
 ) as LayoutCompoundComponent;
 
 export interface LayoutProps {
-  notificationIcon?: IconProps;
+  notificationIcon?: IconButtonProps["withNotifications"];
   accentColor?: string;
   logoLink?: LinkWithAction;
   title?: string;
