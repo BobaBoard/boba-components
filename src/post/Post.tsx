@@ -238,7 +238,6 @@ export interface PostData {
     slug: string;
     accentColor: string;
   };
-  notesLink: LinkWithAction;
 }
 
 export interface PostProps extends PostData {
