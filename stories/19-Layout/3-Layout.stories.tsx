@@ -8,6 +8,7 @@ import {
 
 import { MultipleSections } from "stories/20-SideMenu/01-PinnedMenu.stories";
 import React from "react";
+import { SideMenuPreview } from "stories/20-SideMenu/20-SideMenu.stories";
 import { Story } from "@storybook/react";
 import { action } from "@storybook/addon-actions";
 import mamoru from "stories/images/mamoru.png";
@@ -18,7 +19,7 @@ const defaultLayoutArgs: Partial<LayoutTemplate> = {
   pinnedMenuContent: <MultipleSections {...MultipleSections.args} />,
   mainContent: (
     <div
-      style={{ backgroundColor: "darkgray", height: "2000px", width: "100%" }}
+      style={{ backgroundColor: "#29d3ff", height: "2000px", width: "100%" }}
     >
       This is the main content!
     </div>
@@ -96,7 +97,7 @@ const LayoutTemplate: Story<LayoutTemplate> = (args) => {
 export const SimpleLayout = LayoutTemplate.bind({});
 SimpleLayout.args = {
   title: "!aReallyLongOne",
-  headerAccent: "purple",
+  accentColor: "purple",
 };
 
 export const LoggedInLayout = LayoutTemplate.bind({});
@@ -104,40 +105,45 @@ LoggedInLayout.args = {
   sideMenuContent: <div>Get a load of this menu content!</div>,
   title: "!gore",
   user: {
-    username: "SexyDaddy69",
-    avatarUrl: mamoru,
+    name: "SexyDaddy69",
+    avatar: mamoru,
+    menuOptions: [
+      {
+        icon: faSearch,
+        name: "opt1",
+        link: {
+          onClick: action("opt1"),
+        },
+      },
+      {
+        icon: faInbox,
+        name: "opt2askldjaskdjaskdjaskldjaskldjaskldjaskldjaskldjaskldjaskldjaskldjaklsj",
+        link: {
+          onClick: action("opt2"),
+        },
+      },
+    ],
   },
   onUserBarClick: {
     onClick: action("userbarClick"),
   },
-  loggedInMenuOptions: [
-    {
-      icon: { icon: faSearch },
-      name: "opt1",
-      link: {
-        onClick: action("opt1"),
-      },
-    },
-    {
-      icon: { icon: faInbox },
-      name: "opt2askldjaskdjaskdjaskldjaskldjaskldjaskldjaskldjaskldjaskldjaskldjaklsj",
-      link: {
-        onClick: action("opt2"),
-      },
-    },
-  ],
-  hasNotifications: true,
-  notificationIcon: faStar,
-  notificationColor: "#f4cb2e",
+  notificationIcon: {
+    icon: faStar,
+    color: "#f4cb2e",
+  },
 };
 
 export const LoadingLayout = LayoutTemplate.bind({});
 LoadingLayout.args = {
   ...LoggedInLayout.args,
   loading: true,
-  userLoading: true,
-  hasNotifications: true,
-  headerAccent: "red",
+  user: {
+    avatar: mamoru,
+    name: "SexyDaddy69",
+    menuOptions: LoggedInLayout.args.user?.menuOptions,
+    loading: true,
+  },
+  accentColor: "red",
 };
 LoadingLayout.decorators = [
   (Story, storyArgs) => {
@@ -175,3 +181,21 @@ LoadingLayout.decorators = [
     );
   },
 ];
+export const WithSideMenu = LayoutTemplate.bind({});
+WithSideMenu.args = {
+  ...LoggedInLayout,
+  // @ts-ignore
+  sideMenuContent: <SideMenuPreview {...SideMenuPreview.args} />,
+};
+
+export const ShortContent = LayoutTemplate.bind({});
+ShortContent.args = {
+  ...LoggedInLayout,
+  // @ts-ignore
+  sideMenuContent: <SideMenuPreview {...SideMenuPreview.args} />,
+  mainContent: (
+    <div style={{ backgroundColor: "#29d3ff", height: "100px", width: "100%" }}>
+      This is a short main content!
+    </div>
+  ),
+};

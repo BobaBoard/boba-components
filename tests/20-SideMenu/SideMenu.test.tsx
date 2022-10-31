@@ -31,82 +31,36 @@ jest.mock("@storybook/addon-actions");
 
 const { SideMenuPreview } = composeStories(stories);
 
-test("Renders pinned menu", async () => {
-  render(<SideMenuPreview />);
-
-  const sections = document.getElementsByTagName("section");
-  expect(sections).toHaveLength(7);
-
-  const argsItems = (Icons.args as WithPinnedSectionProps)
-    .items as (CircleButtonProps & {
-    id: string;
-    menuOptions?: DropdownProps["options"];
-  })[];
-  const linkArgs = argsItems.filter((item) => !item.menuOptions);
-  const buttonArgs = argsItems.filter((item) => item.menuOptions);
-
-  expect(
-    within(sections[0]).getByLabelText(
-      (Icons!.args! as BasePinnedSectionProps).sectionId!
-    )
-  ).toBeVisible();
-  expect(within(sections[0]).getAllByRole("link")).toHaveLength(
-    linkArgs.length
-  );
-  expect(within(sections[0]).getAllByRole("button")).toHaveLength(
-    buttonArgs.length
-  );
-
-  expect(
-    within(sections[1]).getByLabelText(
-      (Boards!.args! as BasePinnedSectionProps).sectionId!
-    )
-  ).toBeVisible();
-  expect(within(sections[1]).getAllByRole("link")).toHaveLength(
-    (Boards.args as WithPinnedSectionProps).items.length
-  );
-});
-
-test("Pinned Menu doesn't render when turned off", async () => {
-  render(<SideMenuPreview showPinned={false} />);
-
-  expect(
-    screen.getByLabelText((Icons!.args! as BasePinnedSectionProps).sectionId!)
-  ).not.toBeVisible();
-  expect(
-    screen.getByLabelText((Boards!.args! as BasePinnedSectionProps).sectionId!)
-  ).not.toBeVisible();
-});
-
 test("Renders boards menu", async () => {
   render(<SideMenuPreview />);
 
+  // TODO: this should be done without tag name
   const sections = document.getElementsByTagName("section");
-  expect(sections).toHaveLength(7);
+  expect(sections).toHaveLength(5);
 
-  expect(within(sections[2]).getByText("Recent boards")).toBeVisible();
-  expect(within(sections[2]).getAllByRole("link")).toHaveLength(4);
+  expect(within(sections[0]).getByText("Recent boards")).toBeVisible();
+  expect(within(sections[0]).getAllByRole("link")).toHaveLength(4);
 
-  expect(within(sections[3]).getByText("Fandom boards")).toBeVisible();
-  expect(within(sections[3]).getAllByRole("link")).toHaveLength(3);
+  expect(within(sections[1]).getByText("Fandom boards")).toBeVisible();
+  expect(within(sections[1]).getAllByRole("link")).toHaveLength(3);
 
-  expect(within(sections[4]).getByText(Regular!.args!.title!)).toBeVisible();
-  expect(within(sections[4]).getAllByRole("link")).toHaveLength(
+  expect(within(sections[2]).getByText(Regular!.args!.title!)).toBeVisible();
+  expect(within(sections[2]).getAllByRole("link")).toHaveLength(
     (Regular.args as BoardsSectionProps).boards!.length
   );
 
-  expect(within(sections[5]).getByText(Loading!.args!.title!)).toBeVisible();
+  expect(within(sections[3]).getByText(Loading!.args!.title!)).toBeVisible();
   expect(
-    within(sections[5]).getAllByLabelText("board is loading")
+    within(sections[3]).getAllByLabelText("board is loading")
   ).toHaveLength((Loading.args as LoadingSectionProps).placeholdersCount);
 
-  expect(within(sections[6]).getByText(Empty!.args!.title!)).toBeVisible();
-  expect(within(sections[6]).queryAllByRole("link")).toHaveLength(0);
+  expect(within(sections[4]).getByText(Empty!.args!.title!)).toBeVisible();
+  expect(within(sections[4]).queryAllByRole("link")).toHaveLength(0);
   expect(
-    within(sections[6]).getByText((Empty.args as EmptySectionProps).emptyTitle)
+    within(sections[4]).getByText((Empty.args as EmptySectionProps).emptyTitle)
   ).toBeVisible();
   expect(
-    within(sections[6]).getByText(
+    within(sections[4]).getByText(
       (Empty.args as EmptySectionProps).emptyDescription
     )
   ).toBeVisible();

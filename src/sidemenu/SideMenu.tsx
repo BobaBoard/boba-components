@@ -8,7 +8,6 @@ import { BoardType } from "types";
 import BoardsMenuSection from "./BoardsMenuSection";
 import DefaultTheme from "theme/default";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import PinnedMenu from "./PinnedMenu";
 import React from "react";
 import classnames from "classnames";
 import { extractCompounds } from "utils/compound-utils";
@@ -26,7 +25,7 @@ export interface SideMenuCompoundComponent
 //
 const SideMenu = React.forwardRef<SideMenuHandler, SideMenuProps>(
   function SideMenuForwardRef(
-    { menuOptions, showPinned, onFilterChange, currentBoardSlug, children },
+    { menuOptions, onFilterChange, currentBoardSlug, children },
     ref
   ) {
     const boardFilterRef = React.useRef<HTMLInputElement>(null);
@@ -37,16 +36,8 @@ const SideMenu = React.forwardRef<SideMenuHandler, SideMenuProps>(
     }));
 
     const boardSections = extractCompounds(children, BoardsMenuSection);
-    const pinnedSections = extractCompounds(children, PinnedMenu);
     return (
       <div className="side-menu">
-        <div
-          className={classnames("pinned-boards-container", {
-            visible: !!showPinned && !!pinnedSections?.length,
-          })}
-        >
-          {pinnedSections}
-        </div>
         <div className="board-menus">
           <div
             className={classnames("board-filter", {
@@ -109,15 +100,6 @@ const SideMenu = React.forwardRef<SideMenuHandler, SideMenuProps>(
             }
             .boards {
               display: flex;
-            }
-            .pinned-boards-container {
-              display: none;
-            }
-            .pinned-boards-container.visible {
-              display: block;
-            }
-            .pinned-boards-container.visible::-webkit-scrollbar {
-              display: none;
             }
             .board-sections {
               height: 100%;

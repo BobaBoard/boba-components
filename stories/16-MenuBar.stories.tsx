@@ -48,24 +48,24 @@ MenuBarSimple.args = {
   accentColor: "orange",
   selectedOption: "inbox",
   user: {
-    username: "SexyDaddy69",
-    avatarUrl: mamoru,
+    name: "SexyDaddy69",
+    avatar: mamoru,
+    menuOptions: [
+      {
+        name: "no href",
+        link: {
+          onClick: action("noHrefClick"),
+        },
+      },
+      {
+        name: "with href",
+        link: {
+          onClick: action("withHref"),
+          href: "https://www.youtube.com/watch?v=dQw4w9WgXcQ",
+        },
+      },
+    ],
   },
-  userMenuOptions: [
-    {
-      name: "no href",
-      link: {
-        onClick: action("noHrefClick"),
-      },
-    },
-    {
-      name: "with href",
-      link: {
-        onClick: action("withHref"),
-        href: "https://www.youtube.com/watch?v=dQw4w9WgXcQ",
-      },
-    },
-  ],
   onLoggedOutUserClick: {
     onClick: action("LoggedOutUserClick"),
   },
@@ -104,22 +104,24 @@ MenuBarLoading.args = {
   ],
   accentColor: "orange",
   selectedOption: "inbox",
-  loading: true,
-  userMenuOptions: [
-    {
-      name: "no href",
-      link: {
-        onClick: action("noHrefClick"),
+  user: {
+    loading: true,
+    menuOptions: [
+      {
+        name: "no href",
+        link: {
+          onClick: action("noHrefClick"),
+        },
       },
-    },
-    {
-      name: "with href",
-      link: {
-        onClick: action("withHref"),
-        href: "https://www.youtube.com/watch?v=dQw4w9WgXcQ",
+      {
+        name: "with href",
+        link: {
+          onClick: action("withHref"),
+          href: "https://www.youtube.com/watch?v=dQw4w9WgXcQ",
+        },
       },
-    },
-  ],
+    ],
+  },
   onLoggedOutUserClick: {
     onClick: action("LoggedOutUserClick"),
   },
@@ -152,21 +154,6 @@ MenuBarLoggedOut.args = {
   ],
   accentColor: "orange",
   selectedOption: "inbox",
-  userMenuOptions: [
-    {
-      name: "no href",
-      link: {
-        onClick: action("noHrefClick"),
-      },
-    },
-    {
-      name: "with href",
-      link: {
-        onClick: action("withHref"),
-        href: "https://www.youtube.com/watch?v=dQw4w9WgXcQ",
-      },
-    },
-  ],
   onLoggedOutUserClick: {
     onClick: action("LoggedOutUserClick"),
   },
