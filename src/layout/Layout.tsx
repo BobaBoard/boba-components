@@ -316,8 +316,11 @@ const Layout = React.forwardRef<LayoutHandler, LayoutProps>(
             transform: translateX(var(--side-menu-width));
           }
           .side-menu {
-            transition: transform 0.6s ease-out;
             transform: translateX(calc(-1 * var(--side-menu-width)));
+            transition: transform 0.6s ease-out;
+          }
+          [data-side-menu-status^="closed"] .side-menu {
+            transition: unset;
           }
           [data-side-menu-status^="open"] .side-menu {
             transform: translateX(0);
