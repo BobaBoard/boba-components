@@ -90,6 +90,7 @@ Disabled.args = {
 
 Disabled.storyName = "disabled";
 
+// TODO: switch to new storybook format
 export const ColorInputStory = () => {
   const [color, setColor] = React.useState("red");
   return (
