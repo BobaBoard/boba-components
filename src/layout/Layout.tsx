@@ -45,7 +45,7 @@ export interface LayoutCompoundComponent
 
 const { className: headerClassName, styles: headerStyles } = css.resolve`
   header {
-    transition: transform 0.6s ease-out;
+    transition: transform 0.35s ease-out;
     background-color: ${Theme.LAYOUT_HEADER_BACKGROUND_COLOR};
     background-image: var(--header-background-image);
     height: ${Theme.HEADER_HEIGHT_PX}px;
@@ -70,7 +70,7 @@ const Backdrop = (props: { onClick: () => void }) => (
         bottom: 0;
         left: 0;
         right: 0;
-        transition: transform 0.6s ease-out;
+        transition: transform 0.35s ease-out;
         opacity: 0.9;
         z-index: 100;
         width: 0;
@@ -310,14 +310,17 @@ const Layout = React.forwardRef<LayoutHandler, LayoutProps>(
             overflow: hidden;
           }
           main {
-            transition: transform 0.6s ease-out;
+            transition: transform 0.35s ease-out;
           }
           [data-side-menu-status^="open"] main {
             transform: translateX(var(--side-menu-width));
           }
           .side-menu {
-            transition: transform 0.6s ease-out;
             transform: translateX(calc(-1 * var(--side-menu-width)));
+            transition: transform 0.35s ease-out;
+          }
+          [data-side-menu-status^="closed"] .side-menu {
+            transition: unset;
           }
           [data-side-menu-status^="open"] .side-menu {
             transform: translateX(0);
@@ -336,8 +339,8 @@ const Layout = React.forwardRef<LayoutHandler, LayoutProps>(
               // is cancelled halfway through (because the animation delay is static,
               // and not tied to how long it will take to transition from the in-between
               // point). Unfortunately, I can't figure out how to fix this.
-              transition: transform 0.6s ease-out,
-                margin-left 0.2s ease-out 0.58s;
+              transition: transform 0.35s ease-out,
+                margin-left 0.12s ease-out 0.33s;
             }
             [data-side-menu-status^="open"] main {
               margin-left: ${Theme.PINNED_BAR_WIDTH_PX}px;
@@ -348,10 +351,11 @@ const Layout = React.forwardRef<LayoutHandler, LayoutProps>(
             }
             .pinned-menu {
               transform: translateX(-${Theme.PINNED_BAR_WIDTH_PX}px);
-              transition: transform 0.5s ease-out;
+              transition: transform 0.7s ease-out;
             }
             [data-side-menu-status^="open"] .pinned-menu {
               transform: translateX(0);
+              transition: transform 0.2s ease-out;
             }
           }
         `}</style>
