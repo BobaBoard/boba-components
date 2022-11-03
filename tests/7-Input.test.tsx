@@ -14,7 +14,7 @@ describe("Password", () => {
       <Password {...(Password.args as InputProps)} />
     );
 
-    const visibilityToggle = getByRole("button");
+    const visibilityToggle = getByRole("checkbox");
 
     expect(visibilityToggle).toBeInTheDocument();
   });
@@ -24,7 +24,7 @@ describe("Password", () => {
       <Password {...(Password.args as InputProps)} />
     );
 
-    const visibilityToggle = getByRole("button");
+    const visibilityToggle = getByRole("checkbox");
     const passwordInput = getByLabelText("Password");
 
     userEvent.click(visibilityToggle);
