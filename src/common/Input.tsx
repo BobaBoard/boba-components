@@ -122,7 +122,8 @@ const Input: React.FC<InputProps> = (props) => {
           width: 100%;
           box-sizing: border-box;
         }
-        input:focus {
+        input:focus,
+        label:focus-within {
           outline: none;
           border: 1px solid rgba(255, 255, 255, 0.5);
           box-sizing: border-box;
@@ -167,10 +168,11 @@ const Input: React.FC<InputProps> = (props) => {
           position: absolute;
           right: 0px;
           top: 0px;
-          line-height: 17.5px;
-          font-size: var(--font-size-regular);
           padding: 13px 0px;
           width: 50px;
+          height: 100%;
+          box-sizing: border-box;
+          border-radius: 0 8px 8px 0;
           display: flex;
           align-items: center;
           justify-content: center;
