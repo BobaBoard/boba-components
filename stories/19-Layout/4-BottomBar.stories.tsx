@@ -4,9 +4,13 @@ import {
   faAnglesUp,
   faCertificate,
   faCompass,
+  faEye,
   faEyeSlash,
+  faInbox,
   faPlusSquare,
+  faSearch,
   faStar,
+  faTh,
   faThumbTack,
   faVolumeMute,
 } from "@fortawesome/free-solid-svg-icons";
@@ -58,9 +62,41 @@ BottomBarExample.args = {
       { id: "faStar", icon: faStar, color: "gray" },
       { id: "faThumbTack", icon: faThumbTack, color: "white" },
     ],
-    link: {
-      onClick: action("context-menu"),
-    },
+    info: <div style={{ padding: "20px" }}>Last updated: 20 days ago</div>,
+    options: [
+      {
+        name: "Unmute",
+        icon: faVolumeMute,
+        link: {
+          href: "https://www.youtube.com/watch?v=dQw4w9WgXcQ",
+          onClick: action("unmute"),
+        },
+      },
+      {
+        name: "Unhide",
+        icon: faEyeSlash,
+        link: {
+          href: "https://www.youtube.com/watch?v=dQw4w9WgXcQ",
+          onClick: action("unmute"),
+        },
+      },
+      {
+        name: "Unpin",
+        icon: faThumbTack,
+        link: {
+          href: "https://www.youtube.com/watch?v=dQw4w9WgXcQ",
+          onClick: action("unpin"),
+        },
+      },
+      {
+        name: "Star",
+        icon: faStar,
+        link: {
+          href: "https://www.youtube.com/watch?v=dQw4w9WgXcQ",
+          onClick: action("search"),
+        },
+      },
+    ],
   },
 } as BottomBarProps;
 
