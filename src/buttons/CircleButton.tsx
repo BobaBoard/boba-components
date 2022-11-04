@@ -92,6 +92,7 @@ export interface CircleButtonProps extends AriaAttributes {
   icon: IconButtonProps["icon"];
   selected?: boolean;
   selectLightPosition?: "left" | "top";
+  className?: string;
   link?: LinkWithAction;
   /**
    * The color to use to highlight the button when selected or hovered.
@@ -113,6 +114,7 @@ export interface CircleButtonProps extends AriaAttributes {
 const CircleButton: React.FC<CircleButtonProps> = ({
   loading,
   icon,
+  className,
   selected,
   selectLightPosition,
   link,
@@ -137,7 +139,7 @@ const CircleButton: React.FC<CircleButtonProps> = ({
   };
   return (
     <div
-      className={classnames("circle-button", {
+      className={classnames("circle-button", className, {
         selected,
         loading,
       })}
