@@ -267,7 +267,7 @@ const Layout = React.forwardRef<LayoutHandler, LayoutProps>(
           }
           .pinned-menu {
             background-color: ${Theme.LAYOUT_HEADER_BACKGROUND_COLOR};
-            z-index: 48;
+            z-index: 2;
             left: 0px;
             bottom: 0px;
             min-height: calc(100vh - ${Theme.HEADER_HEIGHT_PX}px);

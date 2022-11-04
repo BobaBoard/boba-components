@@ -1,4 +1,8 @@
 import CircleButton, { CircleButtonProps } from "buttons/CircleButton";
+import DropdownMenu, {
+  DropdownProps,
+  DropdownStyle,
+} from "common/DropdownListMenu";
 import Icon, { IconProps } from "common/Icon";
 
 import ActionLink from "buttons/ActionLink";
@@ -10,7 +14,8 @@ import css from "styled-jsx/css";
 
 interface ContextMenuProps {
   icons: (IconProps & { id: string })[];
-  link: LinkWithAction;
+  options: DropdownProps["options"];
+  info?: React.ReactNode;
 }
 
 export interface BottomBarProps {
@@ -68,20 +73,20 @@ const contextMenuCss = css.resolve`
 `;
 
 const ContextMenu = (props: ContextMenuProps) => (
-  <ActionLink
-    className={classnames("context-menu", contextMenuCss.className)}
-    link={props.link}
-  >
-    {props.icons.map((icon) => (
-      <div
-        key={icon.id}
-        className={classnames("icon", contextMenuCss.className)}
-      >
-        <Icon {...icon} />
-      </div>
-    ))}
-    {contextMenuCss.styles}
-  </ActionLink>
+  <DropdownMenu options={props.options} style={DropdownStyle.DARK}>
+    {props.info && <DropdownMenu.Header>{props.info}</DropdownMenu.Header>}
+    <div className={classnames("context-menu", contextMenuCss.className)}>
+      {props.icons.map((icon) => (
+        <div
+          key={icon.id}
+          className={classnames("icon", contextMenuCss.className)}
+        >
+          <Icon {...icon} />
+        </div>
+      ))}
+      {contextMenuCss.styles}
+    </div>
+  </DropdownMenu>
 );
 
 const ACTION_BUTTON_SIZE_PX = 55;
@@ -105,13 +110,15 @@ const CenterButton = (
 ) => {
   const css = getCenterButtonCss({ accentColor: props.accentColor });
   return (
-    <ActionLink
-      className={classnames("action-button", css.className)}
-      link={props.link}
-    >
-      <Icon {...props} />
-      {css.styles}
-    </ActionLink>
+    <DropdownMenu>
+      <ActionLink
+        className={classnames("action-button", css.className)}
+        link={props.link}
+      >
+        <Icon {...props} />
+        {css.styles}
+      </ActionLink>
+    </DropdownMenu>
   );
 };
 
