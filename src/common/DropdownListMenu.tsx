@@ -530,6 +530,7 @@ const DropdownMenu: React.FC<DropdownProps> & {
 
   const header = extractCompound(props.children, DropdownHeader);
   const rest = extractRest(props.children, [DropdownHeader]);
+  const { reverseThemeColor } = getThemeColors(props.style);
 
   if (!props.options?.length && !header) {
     return <>{props.children}</>;
@@ -660,6 +661,9 @@ const DropdownMenu: React.FC<DropdownProps> & {
         }
         .button-wrapper.with-header:hover {
           cursor: pointer;
+        }
+        .header-wrapper {
+          color: ${reverseThemeColor};
         }
         @keyframes slideUp {
           from {
