@@ -15,6 +15,7 @@ const DefaultTheme: ThemeProperties = {
   DROPDOWN_BACKGROUND_COLOR_DARK: "#1c1c1c",
   DROPDOWN_HOVER_BACKGROUND_COLOR: "#d9d9d9",
   HEADER_HEIGHT_PX: 70,
+  BOTTOM_BAR_HEIGHT_PX: 50,
   //INDENT_COLORS: ["#f96680", "#24d282", "#27caba", "#f9e066"],
   //INDENT_COLORS: ["#535353", "#808080", "#27caba", "#f9e066"],
   INDENT_COLORS: ["#65E8B7", "#FEF48F", "#A1C6FA", "#F9B7CB"],
@@ -143,6 +144,7 @@ export interface LayoutProperties {
   LAYOUT_HEADER_BACKGROUND_COLOR: string;
   LAYOUT_BOARD_SIDEBAR_BACKGROUND_COLOR: string;
   HEADER_HEIGHT_PX: number;
+  BOTTOM_BAR_HEIGHT_PX: number;
   MODAL_BACKGROUND_COLOR: string;
   DEFAULT_ACCENT_COLOR: string;
 }

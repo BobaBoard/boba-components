@@ -33,6 +33,7 @@ const MainContent = CreateBaseCompound("MainContent");
 const PinnedMenuContent = CreateBaseCompound("PinnedMenuContent");
 const SideMenuContent = CreateBaseCompound("SideMenuContent");
 const ActionButton = CreateBaseCompound("ActionButton");
+const BottomBar = CreateBaseCompound("BottomBar");
 export interface LayoutCompoundComponent
   extends React.ForwardRefExoticComponent<
     LayoutProps & React.RefAttributes<LayoutHandler>
@@ -41,6 +42,7 @@ export interface LayoutCompoundComponent
   PinnedMenuContent: React.FC<unknown>;
   SideMenuContent: React.FC<unknown>;
   ActionButton: React.FC<unknown>;
+  BottomBar: React.FC<unknown>;
 }
 
 const { className: headerClassName, styles: headerStyles } = css.resolve`
@@ -111,6 +113,7 @@ const Layout = React.forwardRef<LayoutHandler, LayoutProps>(
     const mainContent = extractCompound(children, MainContent);
     const pinnedMenuContent = extractCompound(children, PinnedMenuContent);
     const actionButton = extractCompound(children, ActionButton);
+    const bottomBar = extractCompound(children, BottomBar);
 
     const {
       setOpen: setShowSideMenu,
@@ -216,6 +219,7 @@ const Layout = React.forwardRef<LayoutHandler, LayoutProps>(
           {mainContent}
           {actionButton}
         </main>
+        <nav className="bottom-bar">{bottomBar}</nav>
         <style jsx>{`
           .layout {
             background-color: ${Theme.LAYOUT_BOARD_BACKGROUND_COLOR};
@@ -278,6 +282,20 @@ const Layout = React.forwardRef<LayoutHandler, LayoutProps>(
           .pinned-menu::-webkit-scrollbar {
             width: 0px;
             background: transparent; /* Chrome/Safari/Webkit */
+          }
+          .bottom-bar {
+            transition: transform 0.35s ease-out;
+            background-color: ${Theme.LAYOUT_HEADER_BACKGROUND_COLOR};
+            background-image: var(--header-background-image);
+            height: ${Theme.BOTTOM_BAR_HEIGHT_PX}px;
+            position: fixed;
+            bottom: 0;
+            right: 0;
+            left: ${Theme.PINNED_BAR_WIDTH_PX}px;
+            z-index: 10;
+          }
+          :global([data-side-menu-status^="open"]) .bottom-bar {
+            transform: translateX(var(--side-menu-width));
           }
           @media only screen and (max-width: 600px) {
             .side-menu {
@@ -353,6 +371,9 @@ const Layout = React.forwardRef<LayoutHandler, LayoutProps>(
               transform: translateX(-${Theme.PINNED_BAR_WIDTH_PX}px);
               transition: transform 0.7s ease-out;
             }
+            .bottom-bar {
+              left: 0;
+            }
             [data-side-menu-status^="open"] .pinned-menu {
               transform: translateX(0);
               transition: transform 0.2s ease-out;
@@ -394,5 +415,6 @@ Layout.MainContent = MainContent;
 Layout.PinnedMenuContent = PinnedMenuContent;
 Layout.SideMenuContent = SideMenuContent;
 Layout.ActionButton = ActionButton;
+Layout.BottomBar = BottomBar;
 
 export default Layout;
