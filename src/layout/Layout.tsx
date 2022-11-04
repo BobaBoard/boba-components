@@ -215,11 +215,11 @@ const Layout = React.forwardRef<LayoutHandler, LayoutProps>(
           <div className="side-menu-options">{menuBar}</div>
           {sideMenuFullyClosed ? null : sideMenuContent}
         </nav>
+        <nav className="bottom-bar">{bottomBar}</nav>
         <main>
           {mainContent}
           {actionButton}
         </main>
-        <nav className="bottom-bar">{bottomBar}</nav>
         <style jsx>{`
           .layout {
             background-color: ${Theme.LAYOUT_BOARD_BACKGROUND_COLOR};
@@ -306,6 +306,9 @@ const Layout = React.forwardRef<LayoutHandler, LayoutProps>(
               margin-left: 0px;
               width: 100%;
             }
+            .bottom-bar {
+              left: 0;
+            }
             .side-menu-options {
               position: absolute;
               top: -${Theme.HEADER_HEIGHT_PX}px;
@@ -327,10 +330,12 @@ const Layout = React.forwardRef<LayoutHandler, LayoutProps>(
           .layout:not([data-side-menu-status="closed"]) {
             overflow: hidden;
           }
-          main {
+          main,
+          .bottom-menu {
             transition: transform 0.35s ease-out;
           }
-          [data-side-menu-status^="open"] main {
+          [data-side-menu-status^="open"] main,
+          [data-side-menu-status^="open"] .bottom-menu {
             transform: translateX(var(--side-menu-width));
           }
           .side-menu {
@@ -360,19 +365,23 @@ const Layout = React.forwardRef<LayoutHandler, LayoutProps>(
               transition: transform 0.35s ease-out,
                 margin-left 0.12s ease-out 0.33s;
             }
-            [data-side-menu-status^="open"] main {
-              margin-left: ${Theme.PINNED_BAR_WIDTH_PX}px;
-            }
 
             [data-side-menu-status^="open"] .side-menu {
               margin-left: 0;
             }
+            [data-side-menu-status^="open"] main,
+            [data-side-menu-status^="open"] .bottom-bar {
+              margin-left: ${Theme.PINNED_BAR_WIDTH_PX}px;
+            }
+            [data-side-menu-status="closing"] main,
+            [data-side-menu-status="closing"] .bottom-bar {
+              margin-left: 0px;
+              transition: transform 0.35s ease-out,
+                margin-left 0.12s ease-out 0.33s;
+            }
             .pinned-menu {
               transform: translateX(-${Theme.PINNED_BAR_WIDTH_PX}px);
               transition: transform 0.7s ease-out;
-            }
-            .bottom-bar {
-              left: 0;
             }
             [data-side-menu-status^="open"] .pinned-menu {
               transform: translateX(0);
