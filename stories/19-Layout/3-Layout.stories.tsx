@@ -77,7 +77,7 @@ interface LayoutTemplate extends LayoutProps {
   mainContent: React.ReactNode;
   sideMenuContent: React.ReactNode;
   pinnedMenuContent: React.ReactNode;
-  bottomBarContent: React.ReactNode;
+  bottomBarContent?: React.ReactNode;
 }
 
 const LayoutTemplate: Story<LayoutTemplate> = (args) => {
@@ -95,7 +95,9 @@ const LayoutTemplate: Story<LayoutTemplate> = (args) => {
         <Layout.SideMenuContent>{sideMenuContent}</Layout.SideMenuContent>
         <Layout.PinnedMenuContent>{pinnedMenuContent}</Layout.PinnedMenuContent>
         <Layout.ActionButton></Layout.ActionButton>
-        <Layout.BottomBar>{bottomBarContent}</Layout.BottomBar>
+        {bottomBarContent && (
+          <Layout.BottomBar>{bottomBarContent}</Layout.BottomBar>
+        )}
       </Layout>
       <style jsx>
         {`

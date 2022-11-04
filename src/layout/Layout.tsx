@@ -170,7 +170,9 @@ const Layout = React.forwardRef<LayoutHandler, LayoutProps>(
     return (
       <div
         ref={swipeHandler}
-        className="layout"
+        className={classnames("layout", {
+          "with-bottom-bar": !!bottomBar,
+        })}
         data-side-menu-status={sideMenuStatus}
       >
         <LoadingBar
@@ -215,7 +217,7 @@ const Layout = React.forwardRef<LayoutHandler, LayoutProps>(
           <div className="side-menu-options">{menuBar}</div>
           {sideMenuFullyClosed ? null : sideMenuContent}
         </nav>
-        <nav className="bottom-bar">{bottomBar}</nav>
+        {bottomBar && <nav className="bottom-bar">{bottomBar}</nav>}
         <main>
           {mainContent}
           {actionButton}
@@ -238,6 +240,9 @@ const Layout = React.forwardRef<LayoutHandler, LayoutProps>(
             min-height: calc(100vh - 70px);
             background-color: ${Theme.LAYOUT_BOARD_BACKGROUND_COLOR};
             margin-top: ${Theme.HEADER_HEIGHT_PX}px;
+          }
+          .with-bottom-bar main {
+            margin-bottom: ${Theme.BOTTOM_BAR_HEIGHT_PX}px;
           }
           .side-menu-button {
             width: ${Theme.PINNED_BAR_WIDTH_PX}px;
@@ -417,7 +422,7 @@ export interface LayoutProps {
   // an unsightly repetition. When this is not desired, this prop
   // can be used to hide the header title at desktop size.
   hideTitleFromDesktopHeader?: boolean;
-  children: JSX.Element[];
+  children: React.ReactNode[];
 }
 
 Layout.MainContent = MainContent;
