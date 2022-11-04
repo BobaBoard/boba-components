@@ -29,6 +29,8 @@ const defaultLayoutArgs: Partial<LayoutTemplate> = {
     href: "https://www.youtube.com/watch?v=dQw4w9WgXcQ",
     onClick: action("logoClick"),
   },
+  title: "a board",
+  accentColor: "purple",
   titleLink: {
     href: "https://www.youtube.com/watch?v=dQw4w9WgXcQ",
     onClick: action("titleClick"),
@@ -60,6 +62,9 @@ const defaultLayoutArgs: Partial<LayoutTemplate> = {
     },
   ],
   selectedMenuOption: "inbox",
+  onCompassClick: {
+    onClick: action("compass"),
+  },
 };
 
 export default {
