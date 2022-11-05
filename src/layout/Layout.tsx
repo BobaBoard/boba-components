@@ -357,6 +357,9 @@ const Layout = React.forwardRef<LayoutHandler, LayoutProps>(
               transform: translateX(0);
               transition: transform 0.2s ease-out;
             }
+            [data-side-menu-status^="closed"] .pinned-menu {
+              transition: unset;
+            }
           }
         `}</style>
         {headerStyles}
