@@ -34,37 +34,14 @@ const contextMenuCss = css.resolve`
     align-items: center;
     justify-content: center;
     position: relative;
-    background: linear-gradient(
-        180deg,
-        rgba(115 121 130 / 20%),
-        rgba(48 40 40 / 91%)
-      ),
-      rgb(46, 46, 48);
-    box-shadow: rgb(42 47 55 / 18%) 1px 3px 2px 2px;
+    background: black;
     border-radius: 15px 15px 0 0;
     box-shadow: inset 0 0 0 1px hsl(0deg 0% 100% / 20%);
   }
   .context-menu {
     display: grid;
     grid-template: 1fr 1fr / 1fr 1fr;
-    border: 0;
     gap: 4px;
-  }
-  .context-menu-wrapper::after {
-    content: "";
-    position: absolute;
-    top: 0;
-    left: 0;
-    width: 100%;
-    height: 100%;
-    border-radius: 15px 15px 0 0;
-    background: linear-gradient(
-        126.16deg,
-        rgb(48 40 40 / 91%) 1.01%,
-        rgb(115 121 130 / 20%) 110.27%
-      ),
-      rgb(46, 46, 48);
-    opacity: 20%;
   }
   .icon {
     width: 15px;
@@ -76,6 +53,22 @@ const contextMenuCss = css.resolve`
 
   .icon :global(svg) {
     max-width: 100%;
+  }
+
+  @media only screen and (min-width: 520px) {
+    .context-menu-wrapper {
+      width: auto;
+      height: auto;
+      padding: 5px 8px;
+      border-radius: 999px;
+    }
+    .context-menu {
+      display: flex;
+    }
+
+    .icon {
+      padding: 5px;
+    }
   }
 `;
 
@@ -108,12 +101,18 @@ const getCenterButtonCss = (props: { accentColor?: string }) => css.resolve`
     border-radius: 999px;
     width: ${ACTION_BUTTON_SIZE_PX}px;
     height: ${ACTION_BUTTON_SIZE_PX}px;
-    margin-top: -3px;
     left: 50%;
     display: flex;
     justify-content: center;
     align-items: center;
     margin-bottom: 3px;
+    grid-area: center-button;
+  }
+
+  @media only screen and (min-width: 520px) {
+    .action-button {
+      margin-bottom: 0;
+    }
   }
 `;
 const CenterButton = (
@@ -141,6 +140,15 @@ const circleButtonCss = css.resolve`
 
   .circle-button {
     width: ${CONTEXT_BUTTON_SIZE_PX}px;
+  }
+  @media only screen and (min-width: 520px) {
+    .button {
+      margin-top: 0;
+    }
+
+    .circle-button {
+      width: auto;
+    }
   }
 `;
 const BottomBar = (props: BottomBarProps) => (
@@ -173,11 +181,46 @@ const BottomBar = (props: BottomBarProps) => (
         left: 0;
         right: 0;
         bottom: 0;
+        gap: 8px;
       }
       .left-buttons,
       .right-buttons {
         display: flex;
         justify-content: space-evenly;
+        gap: 8px;
+      }
+
+      .left-buttons {
+        grid-area: left-buttons;
+      }
+
+      .right-buttons {
+        grid-area: right-buttons;
+      }
+
+      @media only screen and (min-width: 520px) {
+        .bottom-bar {
+          display: grid;
+          grid-template-columns: ${ACTION_BUTTON_SIZE_PX}px auto auto;
+          grid-template-areas: "center-button left-buttons right-buttons";
+          justify-content: flex-end;
+          gap: 0;
+          top: auto;
+          padding: 5px;
+        }
+
+        .left-buttons {
+          margin-left: 5px;
+          border-radius: 999px 0 0 999px;
+          background: rgb(19, 21, 24);
+          padding: 10px 5px 10px 10px;
+        }
+
+        .right-buttons {
+          border-radius: 0 999px 999px 0;
+          background: rgb(19, 21, 24);
+          padding: 10px 10px 10px 5px;
+        }
       }
     `}</style>
     {circleButtonCss.styles}

@@ -302,6 +302,13 @@ const Layout = React.forwardRef<LayoutHandler, LayoutProps>(
           :global([data-side-menu-status^="open"]) .bottom-bar {
             transform: translateX(var(--side-menu-width));
           }
+
+          @media only screen and (min-width: 520px) {
+            .bottom-bar {
+              background: transparent;
+            }
+          }
+
           @media only screen and (max-width: 600px) {
             .side-menu {
               margin-left: 0;
