@@ -25,32 +25,39 @@ export interface BottomBarProps {
   contextMenu: ContextMenuProps;
 }
 
+const CONTEXT_BUTTON_SIZE_PX = 58;
 const contextMenuCss = css.resolve`
+  .context-menu-wrapper {
+    display: flex;
+    height: ${CONTEXT_BUTTON_SIZE_PX}px;
+    width: ${CONTEXT_BUTTON_SIZE_PX}px;
+    align-items: center;
+    justify-content: center;
+    position: relative;
+    background: linear-gradient(
+        180deg,
+        rgba(115 121 130 / 20%),
+        rgba(48 40 40 / 91%)
+      ),
+      rgb(46, 46, 48);
+    box-shadow: rgb(42 47 55 / 18%) 1px 3px 2px 2px;
+    border-radius: 15px 15px 0 0;
+    box-shadow: inset 0 0 0 1px hsl(0deg 0% 100% / 20%);
+  }
   .context-menu {
     display: grid;
     grid-template: 1fr 1fr / 1fr 1fr;
     border: 0;
-    background: linear-gradient(
-        126.16deg,
-        rgb(48 40 40 / 91%) 1.01%,
-        rgb(115 121 130 / 20%) 110.27%
-      ),
-      rgb(46, 46, 48);
-    box-shadow: rgb(42 47 55 / 18%) 1px 3px 2px 2px;
-    border-radius: 0 15px 15px 0;
-    padding: 8px 10px 8px 6px;
     gap: 4px;
-    position: relative;
-    margin-bottom: 3px;
   }
-  .context-menu::after {
+  .context-menu-wrapper::after {
     content: "";
     position: absolute;
     top: 0;
     left: 0;
     width: 100%;
     height: 100%;
-    border-radius: 0 15px 15px 0;
+    border-radius: 15px 15px 0 0;
     background: linear-gradient(
         126.16deg,
         rgb(48 40 40 / 91%) 1.01%,
@@ -75,15 +82,19 @@ const contextMenuCss = css.resolve`
 const ContextMenu = (props: ContextMenuProps) => (
   <DropdownMenu options={props.options} style={DropdownStyle.DARK}>
     {props.info && <DropdownMenu.Header>{props.info}</DropdownMenu.Header>}
-    <div className={classnames("context-menu", contextMenuCss.className)}>
-      {props.icons.map((icon) => (
-        <div
-          key={icon.id}
-          className={classnames("icon", contextMenuCss.className)}
-        >
-          <Icon {...icon} />
-        </div>
-      ))}
+    <div
+      className={classnames("context-menu-wrapper", contextMenuCss.className)}
+    >
+      <div className={classnames("context-menu", contextMenuCss.className)}>
+        {props.icons.map((icon) => (
+          <div
+            key={icon.id}
+            className={classnames("icon", contextMenuCss.className)}
+          >
+            <Icon {...icon} />
+          </div>
+        ))}
+      </div>
       {contextMenuCss.styles}
     </div>
   </DropdownMenu>
@@ -94,10 +105,10 @@ const getCenterButtonCss = (props: { accentColor?: string }) => css.resolve`
   .action-button {
     background: ${props.accentColor ?? DefaultTheme.DEFAULT_ACCENT_COLOR};
     border: none;
-    border-radius: 15px;
+    border-radius: 999px;
     width: ${ACTION_BUTTON_SIZE_PX}px;
     height: ${ACTION_BUTTON_SIZE_PX}px;
-    top: -10px;
+    margin-top: -3px;
     left: 50%;
     display: flex;
     justify-content: center;
@@ -127,14 +138,20 @@ const circleButtonCss = css.resolve`
     margin-top: 7px;
     height: auto;
   }
+
+  .circle-button {
+    width: ${CONTEXT_BUTTON_SIZE_PX}px;
+  }
 `;
 const BottomBar = (props: BottomBarProps) => (
   <div className="bottom-bar">
-    <ContextMenu {...props.contextMenu} />
-    <CircleButton
-      className={classnames("button", circleButtonCss.className)}
-      {...props.circleButtons[0]}
-    />
+    <div className="left-buttons">
+      <ContextMenu {...props.contextMenu} />
+      <CircleButton
+        className={classnames("button", circleButtonCss.className)}
+        {...props.circleButtons[0]}
+      />
+    </div>
     <CenterButton {...props.centerButton} accentColor={props.accentColor} />
     <div className="right-buttons">
       <CircleButton
@@ -149,19 +166,18 @@ const BottomBar = (props: BottomBarProps) => (
     <style jsx>{`
       .bottom-bar {
         display: grid;
-        grid-template-columns: ${ACTION_BUTTON_SIZE_PX}px 1fr ${ACTION_BUTTON_SIZE_PX}px 1fr ${ACTION_BUTTON_SIZE_PX}px;
-        grid-template-areas: "context-menu left-buttons center-button right-buttons-1 right-buttons-2";
+        grid-template-columns: 1fr ${ACTION_BUTTON_SIZE_PX}px 1fr;
+        grid-template-areas: "left-buttons center-button right-buttons";
         position: absolute;
         top: -7px;
         left: 0;
         right: 0;
         bottom: 0;
       }
+      .left-buttons,
       .right-buttons {
-        grid-column-start: right-buttons-1-start;
-        grid-column-end: right-buttons-2-end;
         display: flex;
-        justify-content: space-around;
+        justify-content: space-evenly;
       }
     `}</style>
     {circleButtonCss.styles}
