@@ -8,8 +8,8 @@ import userEvent from "@testing-library/user-event";
 
 jest.mock("@storybook/addon-actions");
 
-describe("Password", () => {
-  test("Input has a visibility toggle", () => {
+describe("when a password input is displayed", () => {
+  it("displays a visibility toggle", () => {
     const { getByRole } = render(
       <Password {...(Password.args as InputProps)} />
     );
@@ -19,7 +19,7 @@ describe("Password", () => {
     expect(visibilityToggle).toBeInTheDocument();
   });
 
-  test("Clicking visibility toggle makes password visible", () => {
+  it("changes the input to text when the toggle is clicked", () => {
     const { getByRole, getByLabelText } = render(
       <Password {...(Password.args as InputProps)} />
     );
