@@ -45,8 +45,8 @@ interface IdentitySelector {
 }
 
 interface BoardSelector {
-  selectedBoard: BoardDataType | undefined;
-  availableBoards: BoardDataType[] | undefined;
+  selectedBoard: BoardDataType;
+  availableBoards: BoardDataType[];
   onSelectBoard: (board: BoardDataType | undefined) => void;
 }
 
@@ -72,7 +72,7 @@ const { styles: headerStyles, className: headerClassName } = css.resolve`
 const PostEditorHeader = (
   props: AccessorySelector &
     IdentitySelector &
-    BoardSelector & { showBoardSelector: boolean }
+    Partial<BoardSelector> & { showBoardSelector: boolean }
 ) => {
   // TODO: double-check whether we ever have a string here or can directly
   // use "selected identity".
@@ -100,6 +100,7 @@ const PostEditorHeader = (
         // TODO: remove this condition when the board can be null in
         // the post editor
         props.selectedBoard &&
+        props.onSelectBoard &&
         props.showBoardSelector && (
           <div className="select-board">
             Posting in:{" "}
@@ -131,7 +132,7 @@ const { styles: tagsStyles, className: tagsClassName } = css.resolve`
   border-top: 1px solid #d2d2d2;
 `;
 const PostEditorFooter = (
-  props: BoardSelector & {
+  props: Partial<BoardSelector> & {
     suggestibleCategories: string[] | undefined;
     tags: TagsType[];
     onTagsChange: (tags: TagsType[]) => void;
@@ -178,6 +179,7 @@ const PostEditorFooter = (
       >
         {props.availableBoards &&
           props.showBoardSelector &&
+          props.onSelectBoard &&
           props.selectedBoard && (
             <BoardSelector
               availableBoards={props.availableBoards}
@@ -262,9 +264,6 @@ const PostEditor = React.forwardRef<PostEditorHandler, PostEditorProps>(
       React.useState<AccessoryType | undefined>();
     const imageUploader = React.useContext(ImageUploaderContext);
 
-    const [selectedBoard, setSelectedBoard] = React.useState(
-      props.initialBoard
-    );
     const [tags, setTags] = React.useState<TagsType[]>(
       props.initialTags
         ? TagsFactory.getTagsFromTagObject(props.initialTags)
@@ -313,7 +312,6 @@ const PostEditor = React.forwardRef<PostEditorHandler, PostEditorProps>(
               ? selectedIdentity.id
               : selectedIdentity,
           accessoryId: selectedAccessory?.id,
-          boardSlug: selectedBoard?.slug,
         }))
       );
     }, [
@@ -325,7 +323,6 @@ const PostEditor = React.forwardRef<PostEditorHandler, PostEditorProps>(
       selectedAccessory,
       onSubmit,
       tags,
-      selectedBoard,
     ]);
 
     useHotkeys(
@@ -357,11 +354,11 @@ const PostEditor = React.forwardRef<PostEditorHandler, PostEditorProps>(
               props.editableSections ? undefined : props.additionalIdentities
             }
             onSelectIdentity={setSelectedIdentity}
-            selectedBoard={selectedBoard}
+            selectedBoard={props.selectedBoard}
             availableBoards={
               props.editableSections ? undefined : props.availableBoards
             }
-            onSelectBoard={setSelectedBoard}
+            onSelectBoard={props.onSelectBoard}
             showBoardSelector={boardSelectorPosition == "header"}
           />
         </Card.Header>
@@ -393,11 +390,11 @@ const PostEditor = React.forwardRef<PostEditorHandler, PostEditorProps>(
         </Card.Content>
         <Card.Footer aria-label="The post editor footer">
           <PostEditorFooter
-            selectedBoard={selectedBoard}
+            selectedBoard={props.selectedBoard}
             availableBoards={
               props.editableSections ? undefined : props.availableBoards
             }
-            onSelectBoard={setSelectedBoard}
+            onSelectBoard={props.onSelectBoard}
             showBoardSelector={boardSelectorPosition == "footer"}
             suggestibleCategories={props.suggestedCategories}
             tags={tags}
@@ -438,7 +435,6 @@ export interface PostEditorProps {
       viewOptionName?: string;
       identityId?: string;
       accessoryId?: string;
-      boardSlug?: string;
     }>
   ) => void;
   onCancel: (empty: boolean) => void;
@@ -450,5 +446,6 @@ export interface PostEditorProps {
     tags?: boolean;
   };
   availableBoards?: BoardSelectorProps["availableBoards"];
-  initialBoard?: BoardSelectorProps["selectedBoard"];
+  selectedBoard?: BoardSelectorProps["selectedBoard"];
+  onSelectBoard?: BoardSelectorProps["onBoardSelected"];
 }

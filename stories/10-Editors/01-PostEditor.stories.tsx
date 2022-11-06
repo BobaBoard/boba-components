@@ -15,6 +15,7 @@ import {
   faPortrait,
 } from "@fortawesome/free-solid-svg-icons";
 
+import { BoardDataType } from "types";
 import Button from "buttons/Button";
 import Modal from "common/Modal";
 import React from "react";
@@ -34,22 +35,39 @@ export default {
   title: "Editors / Post Editor",
   component: PostEditor,
   decorators: [
-    (Story) => (
-      <EditorContext.Provider value={{ fetchers: embedFetchers }}>
-        <ImageUploaderContext.Provider
-          value={{
-            onImageUploadRequest: async (url) => {
-              action("imageUpload")(url);
-              return Promise.resolve(`uploaded: ${url}`);
-            },
-          }}
-        >
-          {Story()}
-        </ImageUploaderContext.Provider>
-      </EditorContext.Provider>
-    ),
+    (Story, ctx) => {
+      const args = ctx.args as PostEditorProps;
+      const [selectedBoard, setSelectedBoard] = React.useState(
+        args.selectedBoard
+      );
+      return (
+        <EditorContext.Provider value={{ fetchers: embedFetchers }}>
+          <ImageUploaderContext.Provider
+            value={{
+              onImageUploadRequest: async (url) => {
+                action("imageUpload")(url);
+                return Promise.resolve(`uploaded: ${url}`);
+              },
+            }}
+          >
+            {Story({
+              args: {
+                ...args,
+                onSelectBoard: args.onSelectBoard
+                  ? (boardSlug: BoardDataType) => {
+                      ctx.initialArgs.onSelectBoard?.(boardSlug);
+                      setSelectedBoard(boardSlug);
+                    }
+                  : undefined,
+                selectedBoard,
+              },
+            })}
+          </ImageUploaderContext.Provider>
+        </EditorContext.Provider>
+      );
+    },
   ],
-} as Meta;
+} as Meta<PostEditorProps>;
 
 const embedFetchers = {
   getOEmbedFromUrl: (url: string) => {
@@ -133,7 +151,8 @@ Base.args = {
     "off topic",
   ],
   availableBoards: RECENT_BOARDS,
-  initialBoard: RECENT_BOARDS[0],
+  selectedBoard: RECENT_BOARDS[0],
+  onSelectBoard: action("select-board"),
 };
 
 export const WithAdditionalIdentities = PostEditorTemplate.bind({});
