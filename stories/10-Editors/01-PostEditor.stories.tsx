@@ -290,3 +290,10 @@ EditTagsOnly.args = {
     tags: true,
   },
 };
+
+export const WithCategoriesSuggestions = PostEditorTemplate.bind({});
+EditTagsOnly.args = {
+  ...WithAccessories.args,
+  initialText: getInitialTextString(EDITOR_TEXT_VALUES.LONG_WORD),
+  suggestedCategories: ["category 1", "category 2", "category 3"],
+};
