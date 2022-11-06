@@ -146,10 +146,11 @@ const PostEditorFooter = (
   }
 ) => {
   const currentlyUsedCategories = props.tags.filter((tag) => tag.category);
-  const toSuggest = props.suggestibleCategories?.filter((suggestibleCategory) =>
-    currentlyUsedCategories.some(
-      (usedCategory) => usedCategory.name == suggestibleCategory
-    )
+  const toSuggest = props.suggestibleCategories?.filter(
+    (suggestibleCategory) =>
+      !currentlyUsedCategories.some(
+        (usedCategory) => usedCategory.name == suggestibleCategory
+      )
   );
   const { tags, onTagsChange } = props;
   return (
