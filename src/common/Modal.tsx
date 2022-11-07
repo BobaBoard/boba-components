@@ -57,7 +57,7 @@ const Modal: React.FC<ModalProps> = (props) => {
           props.isMinimized ? "minimized-modal-overlay" : "modal-overlay"
         }
       >
-        <Div100vh style={{ overflowY: "scroll", height: "100rvh" }}>
+        <Div100vh style={{ height: "100dvh" }}>
           <div className="content">
             {props.minimizable && (
               <div className="button-wrapper">
