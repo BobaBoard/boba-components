@@ -204,11 +204,27 @@ WithinModal.args = {
   ...WithAccessories.args,
 };
 WithinModal.decorators = [
-  (Story) => (
-    <Modal isOpen={true}>
-      <Story />
-    </Modal>
-  ),
+  (Story) => {
+    const [isMinimized, setMinimize] = React.useState(false);
+    return (
+      <Modal
+        isOpen={true}
+        minimizable
+        isMinimized={isMinimized}
+        onMinimize={() => setMinimize((minimize) => !minimize)}
+      >
+        <div
+          style={{
+            display: "flex",
+            justifyContent: "center",
+            padding: "15px",
+          }}
+        >
+          <Story />
+        </div>
+      </Modal>
+    );
+  },
 ];
 
 export const LongWithinModal = PostEditorTemplate.bind({});
@@ -217,13 +233,7 @@ LongWithinModal.args = {
   initialText:
     '[{"insert":"Open RP"},{"attributes":{"header":1},"insert":"\\n"},{"insert":{"block-image":"https://cdn.discordapp.com/attachments/443967088118333442/691486081895628830/unknown.png"}}, {"attributes":{"italic":true},"insert":"You have my sword..."},{"insert":"Open RP"},{"attributes":{"header":1},"insert":"\\n"},{"insert":{"block-image":"https://cdn.discordapp.com/attachments/443967088118333442/691486081895628830/unknown.png"}}, {"attributes":{"italic":true},"insert":"You have my sword..."},{"insert":"Open RP"},{"attributes":{"header":1},"insert":"\\n"},{"insert":{"block-image":"https://cdn.discordapp.com/attachments/443967088118333442/691486081895628830/unknown.png"}}, {"attributes":{"italic":true},"insert":"You have my sword..."}]',
 };
-LongWithinModal.decorators = [
-  (Story) => (
-    <Modal isOpen={true}>
-      <Story />
-    </Modal>
-  ),
-];
+LongWithinModal.decorators = WithinModal.decorators;
 
 export const Loading = PostEditorTemplate.bind({});
 Loading.args = {
