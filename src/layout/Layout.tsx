@@ -33,6 +33,7 @@ const MainContent = CreateBaseCompound("MainContent");
 const PinnedMenuContent = CreateBaseCompound("PinnedMenuContent");
 const SideMenuContent = CreateBaseCompound("SideMenuContent");
 const ActionButton = CreateBaseCompound("ActionButton");
+const BottomBar = CreateBaseCompound("BottomBar");
 export interface LayoutCompoundComponent
   extends React.ForwardRefExoticComponent<
     LayoutProps & React.RefAttributes<LayoutHandler>
@@ -41,6 +42,7 @@ export interface LayoutCompoundComponent
   PinnedMenuContent: React.FC<unknown>;
   SideMenuContent: React.FC<unknown>;
   ActionButton: React.FC<unknown>;
+  BottomBar: React.FC<unknown>;
 }
 
 const { className: headerClassName, styles: headerStyles } = css.resolve`
@@ -111,6 +113,7 @@ const Layout = React.forwardRef<LayoutHandler, LayoutProps>(
     const mainContent = extractCompound(children, MainContent);
     const pinnedMenuContent = extractCompound(children, PinnedMenuContent);
     const actionButton = extractCompound(children, ActionButton);
+    const bottomBar = extractCompound(children, BottomBar);
 
     const {
       setOpen: setShowSideMenu,
@@ -167,7 +170,9 @@ const Layout = React.forwardRef<LayoutHandler, LayoutProps>(
     return (
       <div
         ref={swipeHandler}
-        className="layout"
+        className={classnames("layout", {
+          "with-bottom-bar": !!bottomBar,
+        })}
         data-side-menu-status={sideMenuStatus}
       >
         <LoadingBar
@@ -212,6 +217,7 @@ const Layout = React.forwardRef<LayoutHandler, LayoutProps>(
           <div className="side-menu-options">{menuBar}</div>
           {sideMenuFullyClosed ? null : sideMenuContent}
         </nav>
+        {bottomBar && <nav className="bottom-bar">{bottomBar}</nav>}
         <main>
           {mainContent}
           {actionButton}
@@ -234,6 +240,9 @@ const Layout = React.forwardRef<LayoutHandler, LayoutProps>(
             min-height: calc(100vh - 70px);
             background-color: ${Theme.LAYOUT_BOARD_BACKGROUND_COLOR};
             margin-top: ${Theme.HEADER_HEIGHT_PX}px;
+          }
+          .with-bottom-bar main {
+            margin-bottom: ${Theme.BOTTOM_BAR_HEIGHT_PX}px;
           }
           .side-menu-button {
             width: ${Theme.PINNED_BAR_WIDTH_PX}px;
@@ -263,7 +272,7 @@ const Layout = React.forwardRef<LayoutHandler, LayoutProps>(
           }
           .pinned-menu {
             background-color: ${Theme.LAYOUT_HEADER_BACKGROUND_COLOR};
-            z-index: 48;
+            z-index: 2;
             left: 0px;
             bottom: 0px;
             min-height: calc(100vh - ${Theme.HEADER_HEIGHT_PX}px);
@@ -279,6 +288,20 @@ const Layout = React.forwardRef<LayoutHandler, LayoutProps>(
             width: 0px;
             background: transparent; /* Chrome/Safari/Webkit */
           }
+          .bottom-bar {
+            transition: transform 0.35s ease-out;
+            background-color: ${Theme.LAYOUT_HEADER_BACKGROUND_COLOR};
+            background-image: var(--header-background-image);
+            height: ${Theme.BOTTOM_BAR_HEIGHT_PX}px;
+            position: fixed;
+            bottom: 0;
+            right: 0;
+            left: ${Theme.PINNED_BAR_WIDTH_PX}px;
+            z-index: 10;
+          }
+          :global([data-side-menu-status^="open"]) .bottom-bar {
+            transform: translateX(var(--side-menu-width));
+          }
           @media only screen and (max-width: 600px) {
             .side-menu {
               margin-left: 0;
@@ -287,6 +310,9 @@ const Layout = React.forwardRef<LayoutHandler, LayoutProps>(
             main {
               margin-left: 0px;
               width: 100%;
+            }
+            .bottom-bar {
+              left: 0;
             }
             .side-menu-options {
               position: absolute;
@@ -309,10 +335,12 @@ const Layout = React.forwardRef<LayoutHandler, LayoutProps>(
           .layout:not([data-side-menu-status="closed"]) {
             overflow: hidden;
           }
-          main {
+          main,
+          .bottom-menu {
             transition: transform 0.35s ease-out;
           }
-          [data-side-menu-status^="open"] main {
+          [data-side-menu-status^="open"] main,
+          [data-side-menu-status^="open"] .bottom-menu {
             transform: translateX(var(--side-menu-width));
           }
           .side-menu {
@@ -342,12 +370,19 @@ const Layout = React.forwardRef<LayoutHandler, LayoutProps>(
               transition: transform 0.35s ease-out,
                 margin-left 0.12s ease-out 0.33s;
             }
-            [data-side-menu-status^="open"] main {
-              margin-left: ${Theme.PINNED_BAR_WIDTH_PX}px;
-            }
 
             [data-side-menu-status^="open"] .side-menu {
               margin-left: 0;
+            }
+            [data-side-menu-status^="open"] main,
+            [data-side-menu-status^="open"] .bottom-bar {
+              margin-left: ${Theme.PINNED_BAR_WIDTH_PX}px;
+            }
+            [data-side-menu-status="closing"] main,
+            [data-side-menu-status="closing"] .bottom-bar {
+              margin-left: 0px;
+              transition: transform 0.35s ease-out,
+                margin-left 0.12s ease-out 0.33s;
             }
             .pinned-menu {
               transform: translateX(-${Theme.PINNED_BAR_WIDTH_PX}px);
@@ -387,12 +422,13 @@ export interface LayoutProps {
   // an unsightly repetition. When this is not desired, this prop
   // can be used to hide the header title at desktop size.
   hideTitleFromDesktopHeader?: boolean;
-  children: JSX.Element[];
+  children: React.ReactNode[];
 }
 
 Layout.MainContent = MainContent;
 Layout.PinnedMenuContent = PinnedMenuContent;
 Layout.SideMenuContent = SideMenuContent;
 Layout.ActionButton = ActionButton;
+Layout.BottomBar = BottomBar;
 
 export default Layout;

@@ -1,3 +1,7 @@
+import { faArrowDown, faArrowUp } from "@fortawesome/free-solid-svg-icons";
+
+import Button from "buttons/Button";
+import DefaultTheme from "theme/default";
 import Div100vh from "react-div-100vh";
 import LibraryModal from "react-modal";
 import React from "react";
@@ -5,19 +9,14 @@ import Theme from "theme/default";
 
 const customStyles = {
   content: {
-    top: "50%",
-    left: "50%",
-    right: "auto",
-    bottom: "auto",
-    marginRight: "-50%",
-    transform: "translate(-50%, -50%)",
+    top: 0,
+    bottom: 0,
+    left: 0,
+    right: 0,
+    padding: "0px",
     backgroundColor: "transparent",
     border: "none",
     width: "100%",
-  },
-  overlay: {
-    backgroundColor: Theme.MODAL_BACKGROUND_COLOR,
-    zIndex: 100,
   },
 };
 
@@ -25,14 +24,14 @@ const customStyles = {
 // Make sure to bind modal to your appElement (http://reactcommunity.org/react-modal/accessibility/)
 //Modal.setAppElement('#yourAppElement')
 
-const Modal: React.FC<LibraryModal.Props> = (props) => {
+const Modal: React.FC<ModalProps> = (props) => {
   return (
     <div>
       <LibraryModal
         isOpen={props.isOpen}
         onAfterOpen={() => {
           document.body.style.overflow = "hidden";
-          // TODO: this is bad and horrible (we should not use query selctor)
+          // TODO: this is bad and horrible (we should not use query selector)
           const layoutNode = document.querySelector(
             ".layout"
           ) as HTMLDivElement;
@@ -43,7 +42,7 @@ const Modal: React.FC<LibraryModal.Props> = (props) => {
         }}
         onAfterClose={() => {
           document.body.style.overflow = "";
-          // TODO: this is bad and horrible (we should not use query selctor)
+          // TODO: this is bad and horrible (we should not use query selector)
           const layoutNode = document.querySelector(
             ".layout"
           ) as HTMLDivElement;
@@ -54,9 +53,26 @@ const Modal: React.FC<LibraryModal.Props> = (props) => {
         onRequestClose={props.onRequestClose}
         shouldCloseOnOverlayClick={props.shouldCloseOnOverlayClick}
         style={customStyles}
+        overlayClassName={
+          props.isMinimized ? "minimized-modal-overlay" : "modal-overlay"
+        }
       >
-        <Div100vh style={{ overflowY: "scroll", height: "100rvh" }}>
-          <div className="content">{props.children}</div>
+        <Div100vh style={{ height: "100dvh" }}>
+          <div className="content">
+            {props.minimizable && (
+              <div className="button-wrapper">
+                <div className="minimize-button">
+                  <Button
+                    icon={props.isMinimized ? faArrowUp : faArrowDown}
+                    onClick={props.onMinimize}
+                  >
+                    {props.isMinimized ? "Restore" : "Minimize"}
+                  </Button>
+                </div>
+              </div>
+            )}
+            {props.children}
+          </div>
         </Div100vh>
       </LibraryModal>
 
@@ -64,6 +80,36 @@ const Modal: React.FC<LibraryModal.Props> = (props) => {
         .content {
           margin-top: 3vh;
           margin-bottom: 3vh;
+          padding-top: ${props.minimizable ? 0 : 15}px;
+        }
+        :global(.modal-overlay) {
+          position: fixed;
+          top: 0;
+          left: 0;
+          right: 0;
+          bottom: 0;
+          background-color: ${Theme.MODAL_BACKGROUND_COLOR};
+          z-index: 100;
+        }
+        :global(.minimized-modal-overlay) {
+          position: fixed;
+          top: 80vh;
+          left: 0;
+          right: 0;
+          bottom: 0;
+          background-color: ${Theme.MODAL_BACKGROUND_COLOR};
+          z-index: 100;
+        }
+        .button-wrapper {
+          display: flex;
+          justify-content: center;
+          padding: 0px 15px 3px;
+        }
+        .minimize-button {
+          display: flex;
+          width: 100%;
+          max-width: ${DefaultTheme.POST_WIDTH_PX}px;
+          justify-content: end;
         }
       `}</style>
     </div>
@@ -71,3 +117,9 @@ const Modal: React.FC<LibraryModal.Props> = (props) => {
 };
 
 export default Modal;
+
+export interface ModalProps extends LibraryModal.Props {
+  isMinimized?: boolean;
+  minimizable?: boolean;
+  onMinimize?: () => void;
+}

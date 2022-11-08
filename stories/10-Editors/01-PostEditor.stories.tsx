@@ -15,6 +15,7 @@ import {
   faPortrait,
 } from "@fortawesome/free-solid-svg-icons";
 
+import { BoardDataType } from "types";
 import Button from "buttons/Button";
 import Modal from "common/Modal";
 import React from "react";
@@ -34,22 +35,39 @@ export default {
   title: "Editors / Post Editor",
   component: PostEditor,
   decorators: [
-    (Story) => (
-      <EditorContext.Provider value={{ fetchers: embedFetchers }}>
-        <ImageUploaderContext.Provider
-          value={{
-            onImageUploadRequest: async (url) => {
-              action("imageUpload")(url);
-              return Promise.resolve(`uploaded: ${url}`);
-            },
-          }}
-        >
-          {Story()}
-        </ImageUploaderContext.Provider>
-      </EditorContext.Provider>
-    ),
+    (Story, ctx) => {
+      const args = ctx.args as PostEditorProps;
+      const [selectedBoard, setSelectedBoard] = React.useState(
+        args.selectedBoard
+      );
+      return (
+        <EditorContext.Provider value={{ fetchers: embedFetchers }}>
+          <ImageUploaderContext.Provider
+            value={{
+              onImageUploadRequest: async (url) => {
+                action("imageUpload")(url);
+                return Promise.resolve(`uploaded: ${url}`);
+              },
+            }}
+          >
+            {Story({
+              args: {
+                ...args,
+                onSelectBoard: args.onSelectBoard
+                  ? (boardSlug: BoardDataType) => {
+                      ctx.initialArgs.onSelectBoard?.(boardSlug);
+                      setSelectedBoard(boardSlug);
+                    }
+                  : undefined,
+                selectedBoard,
+              },
+            })}
+          </ImageUploaderContext.Provider>
+        </EditorContext.Provider>
+      );
+    },
   ],
-} as Meta;
+} as Meta<PostEditorProps>;
 
 const embedFetchers = {
   getOEmbedFromUrl: (url: string) => {
@@ -133,7 +151,8 @@ Base.args = {
     "off topic",
   ],
   availableBoards: RECENT_BOARDS,
-  initialBoard: RECENT_BOARDS[0],
+  selectedBoard: RECENT_BOARDS[0],
+  onSelectBoard: action("select-board"),
 };
 
 export const WithAdditionalIdentities = PostEditorTemplate.bind({});
@@ -204,11 +223,27 @@ WithinModal.args = {
   ...WithAccessories.args,
 };
 WithinModal.decorators = [
-  (Story) => (
-    <Modal isOpen={true}>
-      <Story />
-    </Modal>
-  ),
+  (Story) => {
+    const [isMinimized, setMinimize] = React.useState(false);
+    return (
+      <Modal
+        isOpen={true}
+        minimizable
+        isMinimized={isMinimized}
+        onMinimize={() => setMinimize((minimize) => !minimize)}
+      >
+        <div
+          style={{
+            display: "flex",
+            justifyContent: "center",
+            padding: "15px",
+          }}
+        >
+          <Story />
+        </div>
+      </Modal>
+    );
+  },
 ];
 
 export const LongWithinModal = PostEditorTemplate.bind({});
@@ -217,13 +252,7 @@ LongWithinModal.args = {
   initialText:
     '[{"insert":"Open RP"},{"attributes":{"header":1},"insert":"\\n"},{"insert":{"block-image":"https://cdn.discordapp.com/attachments/443967088118333442/691486081895628830/unknown.png"}}, {"attributes":{"italic":true},"insert":"You have my sword..."},{"insert":"Open RP"},{"attributes":{"header":1},"insert":"\\n"},{"insert":{"block-image":"https://cdn.discordapp.com/attachments/443967088118333442/691486081895628830/unknown.png"}}, {"attributes":{"italic":true},"insert":"You have my sword..."},{"insert":"Open RP"},{"attributes":{"header":1},"insert":"\\n"},{"insert":{"block-image":"https://cdn.discordapp.com/attachments/443967088118333442/691486081895628830/unknown.png"}}, {"attributes":{"italic":true},"insert":"You have my sword..."}]',
 };
-LongWithinModal.decorators = [
-  (Story) => (
-    <Modal isOpen={true}>
-      <Story />
-    </Modal>
-  ),
-];
+LongWithinModal.decorators = WithinModal.decorators;
 
 export const Loading = PostEditorTemplate.bind({});
 Loading.args = {
@@ -289,4 +318,11 @@ EditTagsOnly.args = {
   editableSections: {
     tags: true,
   },
+};
+
+export const WithCategoriesSuggestions = PostEditorTemplate.bind({});
+EditTagsOnly.args = {
+  ...WithAccessories.args,
+  initialText: getInitialTextString(EDITOR_TEXT_VALUES.LONG_WORD),
+  suggestedCategories: ["category 1", "category 2", "category 3"],
 };

@@ -6,6 +6,7 @@ import {
   faTh,
 } from "@fortawesome/free-solid-svg-icons";
 
+import { BottomBarExample } from "stories/19-Layout/4-BottomBar.stories";
 import { MultipleSections } from "stories/20-SideMenu/01-PinnedMenu.stories";
 import React from "react";
 import { SideMenuPreview } from "stories/20-SideMenu/20-SideMenu.stories";
@@ -28,6 +29,8 @@ const defaultLayoutArgs: Partial<LayoutTemplate> = {
     href: "https://www.youtube.com/watch?v=dQw4w9WgXcQ",
     onClick: action("logoClick"),
   },
+  title: "a board",
+  accentColor: "purple",
   titleLink: {
     href: "https://www.youtube.com/watch?v=dQw4w9WgXcQ",
     onClick: action("titleClick"),
@@ -59,6 +62,9 @@ const defaultLayoutArgs: Partial<LayoutTemplate> = {
     },
   ],
   selectedMenuOption: "inbox",
+  onCompassClick: {
+    onClick: action("compass"),
+  },
 };
 
 export default {
@@ -71,10 +77,17 @@ interface LayoutTemplate extends LayoutProps {
   mainContent: React.ReactNode;
   sideMenuContent: React.ReactNode;
   pinnedMenuContent: React.ReactNode;
+  bottomBarContent?: React.ReactNode;
 }
 
 const LayoutTemplate: Story<LayoutTemplate> = (args) => {
-  const { mainContent, sideMenuContent, pinnedMenuContent, ...rest } = args;
+  const {
+    mainContent,
+    sideMenuContent,
+    pinnedMenuContent,
+    bottomBarContent,
+    ...rest
+  } = args;
   return (
     <>
       <Layout {...rest}>
@@ -82,6 +95,9 @@ const LayoutTemplate: Story<LayoutTemplate> = (args) => {
         <Layout.SideMenuContent>{sideMenuContent}</Layout.SideMenuContent>
         <Layout.PinnedMenuContent>{pinnedMenuContent}</Layout.PinnedMenuContent>
         <Layout.ActionButton></Layout.ActionButton>
+        {bottomBarContent && (
+          <Layout.BottomBar>{bottomBarContent}</Layout.BottomBar>
+        )}
       </Layout>
       <style jsx>
         {`
@@ -186,6 +202,7 @@ WithSideMenu.args = {
   ...LoggedInLayout,
   // @ts-ignore
   sideMenuContent: <SideMenuPreview {...SideMenuPreview.args} />,
+  bottomBarContent: <BottomBarExample {...BottomBarExample.args} />,
 };
 
 export const ShortContent = LayoutTemplate.bind({});
