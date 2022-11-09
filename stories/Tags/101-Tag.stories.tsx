@@ -8,7 +8,7 @@ import { action } from "@storybook/addon-actions";
 import { faCalendar } from "@fortawesome/free-solid-svg-icons";
 
 export default {
-  title: "Tags/Tags",
+  title: "Tags/Tag",
   component: Tag,
   parameters: {
     actions: {

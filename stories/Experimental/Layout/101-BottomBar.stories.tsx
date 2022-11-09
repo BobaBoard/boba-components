@@ -101,6 +101,6 @@ BottomBarExample.args = {
 } as BottomBarProps;
 
 export default {
-  title: "Layout / BottomBar",
+  title: "Experimental / Layout / BottomBar",
   component: BottomBar,
 };

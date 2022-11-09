@@ -13,7 +13,7 @@ import React from "react";
 import { action } from "@storybook/addon-actions";
 
 export default {
-  title: "Dropdown Preview",
+  title: "Dropdown/Dropdown List Menu",
   component: DropdownListMenu,
 };
 

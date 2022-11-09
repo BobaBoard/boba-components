@@ -1,6 +1,6 @@
 import "@testing-library/jest-dom/extend-expect";
 
-import * as stories from "stories/Sidebar/03-SectionsList.stories";
+import * as stories from "stories/Sidebar/103-SectionsList.stories";
 
 import { fireEvent, render, screen, waitFor } from "@testing-library/react";
 

@@ -1,6 +1,6 @@
 import "@testing-library/jest-dom/extend-expect";
 
-import * as stories from "stories/SideMenu/00-BoardsMenuSection.stories";
+import * as stories from "stories/SideMenu/101-BoardsMenuSection.stories";
 
 import {
   BoardsSectionProps,

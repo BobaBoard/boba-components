@@ -7,7 +7,7 @@ import { action } from "@storybook/addon-actions";
 import mamoru from "stories/images/mamoru.png";
 
 export default {
-  title: "MenuBar",
+  title: "Layout / MenuBar",
   component: MenuBar,
   argTypes: {
     accentColor: { control: "color" },

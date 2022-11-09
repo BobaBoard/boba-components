@@ -9,7 +9,7 @@ import { action } from "@storybook/addon-actions";
 import { faSearch } from "@fortawesome/free-solid-svg-icons";
 
 export default {
-  title: "Settings Preview",
+  title: "Settings / Settings Preview",
   component: SettingsContainer,
 } as Meta;
 
@@ -40,10 +40,8 @@ export const SettingsLayout = () => {
   return (
     <Layout
       onUserBarClick={{ onClick: action("onUserbarClick") }}
-      hasNotifications
-      hasOutdatedNotifications={false}
       title="test!"
-      headerAccent="purple"
+      accentColor="purple"
     >
       <Layout.SideMenuContent></Layout.SideMenuContent>
       <Layout.MainContent>

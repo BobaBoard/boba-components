@@ -1,6 +1,6 @@
 import "@testing-library/jest-dom/extend-expect";
 
-import * as sectionStories from "stories/Sidebar/04-SidebarSection.stories";
+import * as sectionStories from "stories/Sidebar/104-SidebarSection.stories";
 
 import SidebarSection, {
   SidebarSectionProps,

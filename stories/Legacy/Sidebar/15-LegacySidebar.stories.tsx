@@ -10,7 +10,7 @@ import { action } from "@storybook/addon-actions";
 import goreBackground from "stories/images/gore.png";
 
 export default {
-  title: "Sidebar/Legacy Sidebar",
+  title: "Legacy/Legacy Sidebar",
   component: LegacyBoardSidebar,
   decorators: [
     (Story) => (

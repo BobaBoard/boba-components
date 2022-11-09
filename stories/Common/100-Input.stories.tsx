@@ -5,7 +5,7 @@ import Input, { InputProps } from "common/Input";
 import React from "react";
 
 export default {
-  title: "Input",
+  title: "Input/Input",
   component: Input,
   decorators: [
     (Story) => (

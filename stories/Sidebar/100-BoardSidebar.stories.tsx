@@ -8,8 +8,8 @@ import TextSection, { TextSectionProps } from "sidebar/TextSection";
 import DefaultTheme from "theme/default";
 import React from "react";
 import { SidebarSectionProps } from "sidebar/SidebarSection";
-import { Regular as TagsRegular } from "./01-TagsSection.stories";
-import { Regular as TextRegular } from "./02-TextSection.stories";
+import { Regular as TagsRegular } from "./101-TagsSection.stories";
+import { Regular as TextRegular } from "./102-TextSection.stories";
 import { action } from "@storybook/addon-actions";
 import goreBackground from "stories/images/gore.png";
 

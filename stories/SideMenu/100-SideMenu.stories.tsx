@@ -1,5 +1,5 @@
-import { Boards, Icons } from "./01-PinnedMenu.stories";
-import { Empty, Loading, Regular } from "./00-BoardsMenuSection.stories";
+import { Boards, Icons } from "./200-PinnedMenu.stories";
+import { Empty, Loading, Regular } from "./101-BoardsMenuSection.stories";
 import SideMenu, { SideMenuHandler, SideMenuProps } from "sidemenu/SideMenu";
 import { faClock, faLemon } from "@fortawesome/free-solid-svg-icons";
 
