@@ -1,6 +1,7 @@
 import Layout, { LayoutProps } from "layout/Layout";
 import { Meta, Story } from "@storybook/react";
 import {
+  faCircle,
   faClock,
   faInbox,
   faLink,
@@ -42,6 +43,7 @@ import useBoos from "extra/useBoos";
 import { useStateWithCallbackLazy } from "use-state-with-callback";
 import villains from "stories/images/villains.png";
 import wand from "stories/images/sailor_wand.png";
+import Theme from "theme/default";
 
 const log = debug("bobaui:stories:layout-log");
 
@@ -154,7 +156,7 @@ const RECENT_BOARDS = [
 ];
 
 export default {
-  title: "Feeds Preview",
+  title: "Feeds/Feed",
   component: FeedWithMenu,
 } as Meta;
 
@@ -237,10 +239,9 @@ FeedWithMenuShortPreview.args = {
   ),
   sideMenuContent: <div>Side menu side menu!</div>,
   title: "!test",
-  headerAccent: "purple",
+  accentColor: "purple",
   onUserBarClick: { onClick: action("onUserbarClick") },
-  hasNotifications: true,
-  hasOutdatedNotifications: false,
+  notificationIcon: { icon: faCircle, color: Theme.NOTIFICATIONS_NEW_COLOR },
 };
 
 FeedWithMenuShortPreview.story = {
@@ -257,11 +258,13 @@ export const FeedWithMenuPreview = () => {
   return (
     <Layout
       onUserBarClick={{ onClick: action("onUserbarClick") }}
-      hasNotifications
-      hasOutdatedNotifications={false}
+      notificationIcon={{
+        icon: faCircle,
+        color: Theme.NOTIFICATIONS_NEW_COLOR,
+      }}
       title="test!"
       titleLink={{ onClick: () => setShowSidebar(true) }}
-      headerAccent="purple"
+      accentColor="purple"
       loading={loading}
     >
       <Layout.ActionButton>
@@ -571,30 +574,15 @@ export const Attempt1 = () => {
         }}
       />
       <Layout
-        headerAccent="#f96680"
+        accentColor="#f96680"
         title="!goreisthebestweloveit"
         titleLink={{ onClick: () => setShowSidebar(!showSidebar) }}
         onUserBarClick={{ onClick: action("onUserbarClick") }}
-        hasNotifications
-        hasOutdatedNotifications
-        onCompassClick={() => setShowSidebar(!showSidebar)}
-        loggedInMenuOptions={[
-          {
-            name: "no href",
-            icon: { icon: faUnlink },
-            link: {
-              onClick: action("noHrefClick"),
-            },
-          },
-          {
-            name: "with href",
-            icon: { icon: faLink },
-            link: {
-              onClick: action("withHref"),
-              href: "https://www.youtube.com/watch?v=dQw4w9WgXcQ",
-            },
-          },
-        ]}
+        notificationIcon={{
+          icon: faCircle,
+          color: Theme.NOTIFICATIONS_OUTDATED_COLOR,
+        }}
+        onCompassClick={{ onClick: () => setShowSidebar(!showSidebar) }}
         {...menuOptions}
       >
         <Layout.SideMenuContent>
@@ -730,7 +718,7 @@ export const MasonryLayout = () => {
   return (
     <>
       <Layout
-        headerAccent="#f96680"
+        accentColor="#f96680"
         title="!gore"
         logoLink={{
           onClick: action("logo!"),
@@ -739,19 +727,23 @@ export const MasonryLayout = () => {
           onClick: () => setShowSidebar(!showSidebar),
         }}
         onUserBarClick={{ onClick: action("onUserbarClick") }}
-        hasNotifications
-        hasOutdatedNotifications
-        onCompassClick={() => setShowSidebar(!showSidebar)}
-        loggedInMenuOptions={[
+        notificationIcon={{
+          icon: faCircle,
+          color: Theme.NOTIFICATIONS_OUTDATED_COLOR,
+        }}
+        onCompassClick={{
+          onClick: () => setShowSidebar(!showSidebar),
+        }}
+        menuOptions={[
           {
-            name: "no href",
+            id: "no href",
             icon: { icon: faUnlink },
             link: {
               onClick: action("noHrefClick"),
             },
           },
           {
-            name: "with href",
+            id: "with href",
             icon: { icon: faLink },
             link: {
               onClick: action("withHref"),

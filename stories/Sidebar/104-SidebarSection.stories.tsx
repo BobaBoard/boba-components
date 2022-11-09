@@ -1,5 +1,5 @@
-import * as TagsFilterStories from "./01-TagsSection.stories";
-import * as TextSectionStories from "./02-TextSection.stories";
+import * as TagsFilterStories from "./101-TagsSection.stories";
+import * as TextSectionStories from "./102-TextSection.stories";
 
 import { Meta, Story } from "@storybook/react";
 import SidebarSection, { SidebarSectionProps } from "sidebar/SidebarSection";

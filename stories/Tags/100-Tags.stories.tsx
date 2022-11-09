@@ -13,7 +13,7 @@ import kinkmeme from "stories/images/kink-meme.png";
 import oncelerBoard from "stories/images/onceler-board.png";
 
 export default {
-  title: "Tags Preview",
+  title: "Tags/Tags",
   component: Tags,
 };
 

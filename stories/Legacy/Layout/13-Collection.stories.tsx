@@ -13,7 +13,7 @@ import mamoruAvatar from "stories/images/mamoru.png";
 import tuxedoAvatar from "stories/images/tuxedo-mask.jpg";
 
 export default {
-  title: "Collections Preview",
+  title: "Legacy/Collections Preview",
   component: Layout,
 };
 

@@ -3,7 +3,7 @@ import Reaction from "common/Reaction";
 import oncieReaction from "stories/images/oncie-reaction.png";
 
 export default {
-  title: "Reactions Preview",
+  title: "Experimental/Reactions/Reaction",
   component: Reaction,
 };
 

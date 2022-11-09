@@ -13,7 +13,7 @@ import crown from "stories/images/crown.png";
 import tuxedoAvatar from "stories/images/tuxedo-mask.jpg";
 
 export default {
-  title: "UI Blocks/Subscription Block",
+  title: "Blocks/Subscription Block",
   component: SubscriptionBlock,
 };
 

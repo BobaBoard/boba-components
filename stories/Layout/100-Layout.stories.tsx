@@ -6,10 +6,10 @@ import {
   faTh,
 } from "@fortawesome/free-solid-svg-icons";
 
-import { BottomBarExample } from "stories/19-Layout/4-BottomBar.stories";
-import { MultipleSections } from "stories/20-SideMenu/01-PinnedMenu.stories";
+import { BottomBarExample } from "stories/Experimental/Layout/101-BottomBar.stories";
+import { MultipleSections } from "stories/SideMenu/200-PinnedMenu.stories";
 import React from "react";
-import { SideMenuPreview } from "stories/20-SideMenu/20-SideMenu.stories";
+import { SideMenuPreview } from "stories/SideMenu/100-SideMenu.stories";
 import { Story } from "@storybook/react";
 import { action } from "@storybook/addon-actions";
 import mamoru from "stories/images/mamoru.png";

@@ -1,6 +1,6 @@
 import "@testing-library/jest-dom/extend-expect";
 
-import * as stories from "stories/Post/02-PostHeader.stories";
+import * as stories from "stories/Post/102-PostHeader.stories";
 
 import {
   RenderResult,

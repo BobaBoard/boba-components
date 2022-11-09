@@ -10,7 +10,7 @@ import mamoruAvatar from "stories/images/mamoru.png";
 import tuxedoAvatar from "stories/images/tuxedo-mask.jpg";
 
 export default {
-  title: "Comment/Comments Thread",
+  title: "Thread/Comments Thread",
   component: NewCommentsThread,
   argTypes: {
     ...editorArgTypes,

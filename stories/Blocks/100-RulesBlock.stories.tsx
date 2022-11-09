@@ -5,7 +5,7 @@ import { Story } from "@storybook/react";
 import { action } from "@storybook/addon-actions";
 
 export default {
-  title: "UI Blocks/Rules Block",
+  title: "Blocks/Rules Block",
   component: RulesBlock,
 };
 

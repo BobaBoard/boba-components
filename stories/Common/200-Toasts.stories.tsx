@@ -4,7 +4,7 @@ import ToastContainer, { toast } from "common/Toast";
 import React from "react";
 
 export default {
-  title: "Toast Preview",
+  title: "Toast/Toast",
   component: ToastContainer,
 };
 

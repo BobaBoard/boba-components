@@ -5,7 +5,7 @@ import UserDetails from "user/UserDetails";
 import goreBackground from "stories/images/gore.png";
 
 export default {
-  title: "Users Preview",
+  title: "User/User Details",
   component: UserDetails,
 };
 
