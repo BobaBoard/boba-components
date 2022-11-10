@@ -26,6 +26,7 @@ export default {
     "^tags(.*)$": "<rootDir>/src/tags$1",
     "^thread(.*)$": "<rootDir>/src/thread$1",
     "^user(.*)$": "<rootDir>/src/user$1",
+    "^index": "<rootDir>/src/index.ts",
   },
   transformIgnorePatterns: [
     "/!node_modules\\/fitty/",

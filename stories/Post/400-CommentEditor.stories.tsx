@@ -3,7 +3,7 @@ import CommentChainEditor, {
 } from "post/CommentChainEditor";
 import { Meta, Story } from "@storybook/react";
 
-import { ImageUploaderContext } from "src/index";
+import { ImageUploaderContext } from "index";
 import React from "react";
 import { action } from "@storybook/addon-actions";
 import crown from "stories/images/crown.png";
