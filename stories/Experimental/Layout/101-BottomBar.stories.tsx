@@ -4,13 +4,9 @@ import {
   faAnglesUp,
   faCertificate,
   faCompass,
-  faEye,
   faEyeSlash,
-  faInbox,
   faPlusSquare,
-  faSearch,
   faStar,
-  faTh,
   faThumbTack,
   faVolumeMute,
 } from "@fortawesome/free-solid-svg-icons";
@@ -32,24 +28,34 @@ BottomBarExample.args = {
     color: "white",
     link: { onClick: action("center-button") },
   },
-  circleButtons: [
-    { icon: { icon: faCompass }, link: { onClick: action("button1") } },
-    {
-      icon: { icon: faAnglesUp },
-      link: { onClick: action("button2") },
-      withNotification: {
+  children: [
+    <BottomBar.Button
+      key="compass"
+      icon={{ icon: faCompass }}
+      link={{ onClick: action("button1") }}
+      position="left"
+      desktopOnly
+    />,
+    <BottomBar.Button
+      key="jump up"
+      icon={{ icon: faAnglesUp }}
+      withNotification={{
         icon: faCertificate,
         color: Theme.DEFAULT_ACCENT_COLOR,
-      },
-    },
-    {
-      icon: { icon: faAnglesDown },
-      link: { onClick: action("button3") },
-      withNotification: {
+      }}
+      link={{ onClick: action("button1") }}
+      position="right"
+    />,
+    <BottomBar.Button
+      key="jump down"
+      icon={{ icon: faAnglesDown }}
+      withNotification={{
         icon: faCertificate,
         color: Theme.DEFAULT_ACCENT_COLOR,
-      },
-    },
+      }}
+      link={{ onClick: action("button2") }}
+      position="right"
+    />,
   ],
   contextMenu: {
     icons: [
@@ -98,7 +104,7 @@ BottomBarExample.args = {
       },
     ],
   },
-} as BottomBarProps;
+};
 
 export default {
   title: "Experimental / BottomBar",
