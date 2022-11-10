@@ -1,14 +1,20 @@
 import CircleButton, { CircleButtonProps } from "buttons/CircleButton";
+import {
+  CreateBaseCompound,
+  GetProps,
+  extractCompounds,
+} from "utils/compound-utils";
 import DropdownMenu, {
   DropdownProps,
   DropdownStyle,
 } from "common/DropdownListMenu";
 import Icon, { IconProps } from "common/Icon";
+import React, { AriaAttributes } from "react";
 
 import ActionLink from "buttons/ActionLink";
 import DefaultTheme from "theme/default";
 import { LinkWithAction } from "types";
-import React from "react";
+import Theme from "theme/default";
 import classnames from "classnames";
 import css from "styled-jsx/css";
 
@@ -17,13 +23,26 @@ interface ContextMenuProps {
   options: DropdownProps["options"];
   info?: React.ReactNode;
 }
-
 export interface BottomBarProps {
   accentColor?: string;
   centerButton: IconProps & { link: LinkWithAction };
-  circleButtons: CircleButtonProps[];
   contextMenu: ContextMenuProps;
+  children: CompoundComponents["Button"][];
 }
+
+const Button =
+  CreateBaseCompound<GetProps<CompoundComponents["Button"]>>("Button");
+interface CompoundComponents {
+  Button: React.FC<
+    CircleButtonProps &
+      AriaAttributes & {
+        position: "left" | "right";
+        desktopOnly?: boolean;
+      }
+  >;
+}
+
+export type BottomBarCompound = React.FC<BottomBarProps> & CompoundComponents;
 
 const CONTEXT_BUTTON_SIZE_PX = 58;
 const contextMenuCss = css.resolve`
@@ -150,81 +169,112 @@ const circleButtonCss = css.resolve`
       width: auto;
     }
   }
+  @media only screen and (min-width: ${Theme.MOBILE_WIDTH_TRIGGER_PX}px) {
+    .desktop-only {
+      display: none;
+    }
+  }
 `;
-const BottomBar = (props: BottomBarProps) => (
-  <div className="bottom-bar">
-    <div className="left-buttons">
-      <ContextMenu {...props.contextMenu} />
-      <CircleButton
-        className={classnames("button", circleButtonCss.className)}
-        {...props.circleButtons[0]}
-      />
-    </div>
-    <CenterButton {...props.centerButton} accentColor={props.accentColor} />
-    <div className="right-buttons">
-      <CircleButton
-        className={classnames("button", circleButtonCss.className)}
-        {...props.circleButtons[1]}
-      />
-      <CircleButton
-        className={classnames("button", circleButtonCss.className)}
-        {...props.circleButtons[2]}
-      />
-    </div>
-    <style jsx>{`
-      .bottom-bar {
-        display: grid;
-        grid-template-columns: 1fr ${ACTION_BUTTON_SIZE_PX}px 1fr;
-        grid-template-areas: "left-buttons center-button right-buttons";
-        position: absolute;
-        top: -7px;
-        left: 0;
-        right: 0;
-        bottom: 0;
-        gap: 8px;
-      }
-      .left-buttons,
-      .right-buttons {
-        display: flex;
-        justify-content: space-evenly;
-        gap: 8px;
-      }
 
-      .left-buttons {
-        grid-area: left-buttons;
-      }
+const BottomBar = (props: BottomBarProps) => {
+  const buttons = extractCompounds(props.children, Button);
+  const leftButtons = buttons.filter(
+    (button) => button.props.position == "left"
+  );
+  const rightButtons = buttons.filter(
+    (button) => button.props.position == "right"
+  );
 
-      .right-buttons {
-        grid-area: right-buttons;
-      }
+  if (rightButtons.length > 2) {
+    throw new Error("BottomBar cannot display more than 2 right buttons");
+  }
 
-      @media only screen and (min-width: 520px) {
+  if (leftButtons.length > 1) {
+    throw new Error("BottomBar cannot display more than 1 left button");
+  }
+
+  return (
+    <div className="bottom-bar">
+      <div className="left-buttons">
+        <ContextMenu {...props.contextMenu} />
+        {leftButtons.map((button) => (
+          <CircleButton
+            key={button.key}
+            className={classnames("button", circleButtonCss.className, {
+              "desktop-only": button.props.desktopOnly,
+            })}
+            {...button.props}
+          />
+        ))}
+      </div>
+      <CenterButton {...props.centerButton} accentColor={props.accentColor} />
+      <div className="right-buttons">
+        {rightButtons.map((button) => (
+          <CircleButton
+            key={button.key}
+            className={classnames("button", circleButtonCss.className, {
+              "desktop-only": button.props.desktopOnly,
+            })}
+            {...button.props}
+          />
+        ))}
+      </div>
+      <style jsx>{`
         .bottom-bar {
           display: grid;
-          grid-template-columns: ${ACTION_BUTTON_SIZE_PX}px auto auto;
-          grid-template-areas: "center-button left-buttons right-buttons";
-          justify-content: flex-end;
-          gap: 0;
-          top: auto;
-          padding: 5px;
+          grid-template-columns: 1fr ${ACTION_BUTTON_SIZE_PX}px 1fr;
+          grid-template-areas: "left-buttons center-button right-buttons";
+          position: absolute;
+          top: -7px;
+          left: 0;
+          right: 0;
+          bottom: 0;
+          gap: 8px;
+        }
+        .left-buttons,
+        .right-buttons {
+          display: flex;
+          justify-content: space-evenly;
+          gap: 8px;
         }
 
         .left-buttons {
-          margin-left: 5px;
-          border-radius: 999px 0 0 999px;
-          background: rgb(19, 21, 24);
-          padding: 10px 5px 10px 10px;
+          grid-area: left-buttons;
         }
 
         .right-buttons {
-          border-radius: 0 999px 999px 0;
-          background: rgb(19, 21, 24);
-          padding: 10px 10px 10px 5px;
+          grid-area: right-buttons;
         }
-      }
-    `}</style>
-    {circleButtonCss.styles}
-  </div>
-);
 
-export default BottomBar;
+        @media only screen and (min-width: 520px) {
+          .bottom-bar {
+            display: grid;
+            grid-template-columns: ${ACTION_BUTTON_SIZE_PX}px auto auto;
+            grid-template-areas: "center-button left-buttons right-buttons";
+            justify-content: flex-end;
+            gap: 0;
+            top: auto;
+            padding: 5px;
+          }
+
+          .left-buttons {
+            margin-left: 5px;
+            border-radius: 999px 0 0 999px;
+            background: rgb(19, 21, 24);
+            padding: 10px 5px 10px 10px;
+          }
+
+          .right-buttons {
+            border-radius: 0 999px 999px 0;
+            background: rgb(19, 21, 24);
+            padding: 10px 10px 10px 5px;
+          }
+        }
+      `}</style>
+      {circleButtonCss.styles}
+    </div>
+  );
+};
+BottomBar.Button = Button;
+
+export default BottomBar as BottomBarCompound;
