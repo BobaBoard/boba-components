@@ -1,6 +1,6 @@
 import "@testing-library/jest-dom/extend-expect";
 
-import * as postFooterStories from "stories/05-Posts/03-PostFooter.stories";
+import * as postFooterStories from "stories/Post/103-PostFooter.stories";
 
 import { render, screen, within } from "@testing-library/react";
 

@@ -1,6 +1,6 @@
 import "@testing-library/jest-dom/extend-expect";
 
-import * as stories from "stories/Editors/02-CommentEditor.stories";
+import * as stories from "stories/Post/400-CommentEditor.stories";
 
 import {
   fireEvent,

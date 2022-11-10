@@ -1,7 +1,7 @@
 import "@testing-library/jest-dom/extend-expect";
 
 // Import the stories you're going to test against
-import * as stories from "stories/22-UIBlocks/01-RulesBlock.stories.tsx";
+import * as stories from "stories/Blocks/100-RulesBlock.stories";
 
 import { render, screen, waitFor, within } from "@testing-library/react";
 
@@ -29,11 +29,11 @@ describe("Multiple", () => {
     render(<Multiple />);
 
     const rules = screen.getAllByRole("group");
-    const sortedRules = [...Multiple.args.rules].sort(
+    const sortedRules = [...Multiple!.args!.rules!].sort(
       (a, b) => a.index - b.index
     );
 
-    expect(rules).toHaveLength(Multiple.args.rules.length);
+    expect(rules).toHaveLength(Multiple!.args!.rules!.length);
 
     rules.sort().forEach((rule, i) => {
       expect(rule).toHaveTextContent(
@@ -52,14 +52,25 @@ describe("Single", () => {
   test("A single rule is being rendered", async () => {
     render(<Single />);
 
-    expect(screen.getAllByRole("group")).toHaveLength(Single.args.rules.length);
-    expect(screen.queryByRole("heading")).toHaveTextContent(Single.args.title);
+    expect(screen.getAllByRole("group")).toHaveLength(
+      Single!.args!.rules!.length
+    );
+    expect(screen.queryByRole("heading")).toHaveTextContent(
+      Single!.args!.title!
+    );
   });
 });
 
 describe("Empty", () => {
   test("Doesn't render items when there are no rules", async () => {
-    render(<RulesBlock title="No Rules, Go Wild" seeAllLink="" rules={[]} />);
+    render(
+      <RulesBlock
+        headerLinkLabel="see all"
+        title="No Rules, Go Wild"
+        seeAllLink={{ onClick: jest.fn() }}
+        rules={[]}
+      />
+    );
 
     expect(screen.queryByRole("group")).not.toBeInTheDocument();
   });

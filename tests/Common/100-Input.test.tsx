@@ -1,7 +1,7 @@
 import "@testing-library/jest-dom/extend-expect";
 
 import { InputProps } from "common/Input";
-import { Password } from "stories/7-Input.stories";
+import { Password } from "stories/Common/100-Input.stories";
 import React from "react";
 import { render } from "@testing-library/react";
 import userEvent from "@testing-library/user-event";

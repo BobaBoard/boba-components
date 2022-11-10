@@ -1,6 +1,6 @@
 import "@testing-library/jest-dom/extend-expect";
 
-import * as stories from "stories/Comments/02-ChainComment.stories";
+import * as stories from "stories/Post/200b-ChainComment.stories";
 
 import { render, screen, waitFor } from "@testing-library/react";
 

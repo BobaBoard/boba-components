@@ -14,6 +14,7 @@ const Template: Story<RulesBlockProps> = (args) => <RulesBlock {...args} />;
 export const Single = Template.bind({});
 Single.args = {
   title: "One Rule to Rule them All",
+  headerLinkLabel: "see all",
   seeAllLink: {
     onClick: action("withHref"),
     href: "https://www.youtube.com/watch?v=dQw4w9WgXcQ",
