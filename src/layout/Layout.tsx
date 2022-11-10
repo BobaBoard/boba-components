@@ -303,7 +303,7 @@ const Layout = React.forwardRef<LayoutHandler, LayoutProps>(
             transform: translateX(var(--side-menu-width));
           }
 
-          @media only screen and (min-width: 520px) {
+          @media only screen and (min-width: 600px) {
             .bottom-bar {
               background: transparent;
             }
