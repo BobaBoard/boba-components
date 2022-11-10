@@ -74,7 +74,7 @@ const contextMenuCss = css.resolve`
     max-width: 100%;
   }
 
-  @media only screen and (min-width: 520px) {
+  @media only screen and (min-width: 600px) {
     .context-menu-wrapper {
       width: auto;
       height: auto;
@@ -128,7 +128,7 @@ const getCenterButtonCss = (props: { accentColor?: string }) => css.resolve`
     grid-area: center-button;
   }
 
-  @media only screen and (min-width: 520px) {
+  @media only screen and (min-width: 600px) {
     .action-button {
       margin-bottom: 0;
     }
@@ -160,7 +160,7 @@ const circleButtonCss = css.resolve`
   .circle-button {
     width: ${CONTEXT_BUTTON_SIZE_PX}px;
   }
-  @media only screen and (min-width: 520px) {
+  @media only screen and (min-width: 600px) {
     .button {
       margin-top: 0;
     }
@@ -246,7 +246,7 @@ const BottomBar = (props: BottomBarProps) => {
           grid-area: right-buttons;
         }
 
-        @media only screen and (min-width: 520px) {
+        @media only screen and (min-width: 600px) {
           .bottom-bar {
             display: grid;
             grid-template-columns: ${ACTION_BUTTON_SIZE_PX}px auto auto;
