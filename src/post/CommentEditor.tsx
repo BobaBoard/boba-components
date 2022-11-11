@@ -1,9 +1,9 @@
+import Button, { ButtonStyle } from "buttons/Button";
 import { DefaultTheme, ImageUploaderContext } from "../index";
 import Header, { HeaderStyle, PostHeaderProps } from "./Header";
 import { SecretIdentityType, UserIdentityType } from "types";
 import { faCheck, faCross } from "@fortawesome/free-solid-svg-icons";
 
-import Button from "buttons/Button";
 import Editor from "@bobaboard/boba-editor";
 import React from "react";
 import Spinner from "common/Spinner";
@@ -54,6 +54,7 @@ const CommentFooter = (props: {
           })}
         >
           <Button
+            theme={ButtonStyle.LIGHT}
             onClick={props.onCancel}
             icon={faCross}
             compact={size === SIZES.COMPACT}
@@ -63,6 +64,7 @@ const CommentFooter = (props: {
             Cancel
           </Button>
           <Button
+            theme={ButtonStyle.DARK}
             onClick={props.onSubmit}
             disabled={!props.canSubmit}
             icon={faCheck}

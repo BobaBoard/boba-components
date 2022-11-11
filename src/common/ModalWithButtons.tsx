@@ -30,7 +30,7 @@ const ModalWithButtons: React.FC<ModalWithButtonsProps> = (props) => {
           <div>
             <Button
               disabled={!!props.primaryDisabled}
-              theme={ButtonStyle.DARK}
+              theme={ButtonStyle.LIGHT}
               color={props.color}
               onClick={() => {
                 props.onSubmit();

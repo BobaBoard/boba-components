@@ -113,7 +113,7 @@ const EditHeader: React.FC<{
       >
         Back
       </Button>
-      <Button icon={faCheck} onClick={props.onSubmit} theme={ButtonStyle.DARK}>
+      <Button icon={faCheck} onClick={props.onSubmit} theme={ButtonStyle.LIGHT}>
         Save
       </Button>
       <style jsx>{`

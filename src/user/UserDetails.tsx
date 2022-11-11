@@ -85,7 +85,7 @@ const UserDetails: React.FC<UserDetailsProps> = (props) => {
 
         <div className="save">
           <Button
-            theme={ButtonStyle.DARK}
+            theme={ButtonStyle.LIGHT}
             icon={faCheck}
             onClick={() => {
               log(avatarEdited);
