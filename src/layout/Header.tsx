@@ -1,23 +1,32 @@
+import DropdownListMenu, {
+  DropdownProps,
+  DropdownStyle,
+} from "common/DropdownListMenu";
+import { LinkWithAction, UserIdentityType } from "types";
+
 import BoardTitle from "board/BoardTitle";
-import IconButton from "buttons/IconButton";
-import { LinkWithAction } from "types";
+import CircleButton from "buttons/CircleButton";
 import Logo from "./Logo";
 import React from "react";
-import Theme from "theme/default";
 import classnames from "classnames";
-import { faCompass } from "@fortawesome/free-solid-svg-icons";
+import { faUser } from "@fortawesome/free-solid-svg-icons";
 
 interface HeaderProps {
   accentColor?: string;
   logoLink?: LinkWithAction;
   titleLink?: LinkWithAction;
-  onCompassClick?: LinkWithAction;
   title?: string;
   hideTitleOnDesktop?: boolean;
   className?: string;
+  user?:
+    | Partial<UserIdentityType> & {
+        loading?: boolean;
+        menuOptions?: DropdownProps["options"];
+      };
+  onLoggedOutUserClick: LinkWithAction;
+  forceHideIdentity?: boolean;
 }
 
-const compassIcon = { icon: faCompass };
 const Header: React.FC<HeaderProps> = ({
   className,
   accentColor,
@@ -25,9 +34,12 @@ const Header: React.FC<HeaderProps> = ({
   title,
   titleLink,
   hideTitleOnDesktop,
-  onCompassClick,
   children,
+  user,
+  forceHideIdentity,
+  onLoggedOutUserClick,
 }) => {
+  const isLoggedIn = !user?.loading && user?.avatar;
   return (
     <header className={className}>
       <Logo accentColor={accentColor} link={logoLink} />
@@ -39,19 +51,30 @@ const Header: React.FC<HeaderProps> = ({
           hideOnDesktop={hideTitleOnDesktop}
         />
       )}
-      <div
-        className={classnames("header-menu-bar", {
-          "has-compass": !!onCompassClick,
-        })}
-      >
-        <div className="compass">
-          <IconButton
-            icon={compassIcon}
-            link={onCompassClick}
-            aria-label="compass-menu"
-          />
-        </div>
+      <div className={classnames("header-menu-bar")}>
         <div className="menu-bar">{children}</div>
+        <DropdownListMenu
+          options={isLoggedIn ? user.menuOptions : undefined}
+          style={DropdownStyle.DARK}
+          accentColor={accentColor}
+        >
+          <div className="user-menu">
+            <CircleButton
+              icon={{ icon: user?.avatar ?? faUser }}
+              link={
+                !user?.loading && !isLoggedIn ? onLoggedOutUserClick : undefined
+              }
+              accentColor={accentColor}
+              defaultBorderColor={isLoggedIn ? "green" : undefined}
+              loading={user?.loading}
+              withDropdown={
+                !!isLoggedIn && !!user.menuOptions?.length ? {} : undefined
+              }
+              blurred={forceHideIdentity}
+              aria-label={!user?.loading && !isLoggedIn ? "login" : "User menu"}
+            />
+          </div>
+        </DropdownListMenu>
       </div>
       <style jsx>{`
         header {
@@ -68,36 +91,11 @@ const Header: React.FC<HeaderProps> = ({
           justify-content: flex-end;
           align-items: center;
         }
-        .compass {
-          display: none;
-          margin-right: -3px;
-        }
-        .header-menu-bar:not(.has-compass) .compass {
-          display: none;
-        }
         .menu-bar {
           height: 100%;
         }
-        @media only screen and (max-width: ${Theme.MOBILE_WIDTH_TRIGGER_PX}px) {
-          .compass {
-            display: block;
-            margin-right: 15px;
-            align-self: center;
-          }
-          .header-menu-bar.has-compass .menu-bar {
-            padding-left: 10px;
-            border-left: 2px solid #2e2e30;
-            border-image: linear-gradient(
-              to bottom,
-              #131518 0%,
-              #131518 15%,
-              #2e2e30 20%,
-              #2e2e30 80%,
-              #131518 85%,
-              #131518 100%
-            );
-            border-image-slice: 1;
-          }
+        .user-menu {
+          margin-left: 10px;
         }
         @media only screen and (max-width: 600px) {
           header {
@@ -106,9 +104,6 @@ const Header: React.FC<HeaderProps> = ({
           }
           .header-menu-bar {
             flex-grow: 0;
-          }
-          .compass {
-            margin-right: 0;
           }
           .menu-bar {
             display: none;

@@ -23,6 +23,7 @@ import Post from "post/Post";
 import PostingActionButton from "board/PostingActionButton";
 import React from "react";
 import SideMenu from "sidemenu/SideMenu";
+import Theme from "theme/default";
 import { action } from "@storybook/addon-actions";
 import anime from "stories/images/anime.png";
 import art from "stories/images/art-crit.png";
@@ -43,7 +44,6 @@ import useBoos from "extra/useBoos";
 import { useStateWithCallbackLazy } from "use-state-with-callback";
 import villains from "stories/images/villains.png";
 import wand from "stories/images/sailor_wand.png";
-import Theme from "theme/default";
 
 const log = debug("bobaui:stories:layout-log");
 
@@ -582,7 +582,6 @@ export const Attempt1 = () => {
           icon: faCircle,
           color: Theme.NOTIFICATIONS_OUTDATED_COLOR,
         }}
-        onCompassClick={{ onClick: () => setShowSidebar(!showSidebar) }}
         {...menuOptions}
       >
         <Layout.SideMenuContent>
@@ -730,9 +729,6 @@ export const MasonryLayout = () => {
         notificationIcon={{
           icon: faCircle,
           color: Theme.NOTIFICATIONS_OUTDATED_COLOR,
-        }}
-        onCompassClick={{
-          onClick: () => setShowSidebar(!showSidebar),
         }}
         menuOptions={[
           {

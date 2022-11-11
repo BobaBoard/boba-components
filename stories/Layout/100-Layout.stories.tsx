@@ -62,9 +62,6 @@ const defaultLayoutArgs: Partial<LayoutTemplate> = {
     },
   ],
   selectedMenuOption: "inbox",
-  onCompassClick: {
-    onClick: action("compass"),
-  },
 };
 
 export default {
