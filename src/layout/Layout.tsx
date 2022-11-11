@@ -290,7 +290,6 @@ const Layout = React.forwardRef<LayoutHandler, LayoutProps>(
           }
           .bottom-bar {
             transition: transform 0.35s ease-out;
-            background-color: ${Theme.LAYOUT_HEADER_BACKGROUND_COLOR};
             background-image: var(--header-background-image);
             height: ${Theme.BOTTOM_BAR_HEIGHT_PX}px;
             position: fixed;
@@ -301,12 +300,6 @@ const Layout = React.forwardRef<LayoutHandler, LayoutProps>(
           }
           :global([data-side-menu-status^="open"]) .bottom-bar {
             transform: translateX(var(--side-menu-width));
-          }
-
-          @media only screen and (min-width: 600px) {
-            .bottom-bar {
-              background: transparent;
-            }
           }
 
           @media only screen and (max-width: 600px) {
