@@ -46,7 +46,7 @@ const MenuBar: React.FC<MenuBarProps> = ({
         style={DropdownStyle.DARK}
         accentColor={accentColor}
       >
-        <div className="menu-item">
+        <div className="menu-item user">
           <CircleButton
             icon={{ icon: user?.avatar ?? faUser }}
             link={
@@ -73,6 +73,9 @@ const MenuBar: React.FC<MenuBarProps> = ({
         .home {
           display: none;
         }
+        .user {
+          display: none;
+        }
         .menu-item {
           padding: 0 10px;
         }
@@ -81,6 +84,9 @@ const MenuBar: React.FC<MenuBarProps> = ({
         }
         @media only screen and (max-width: 450px) {
           .home {
+            display: block;
+          }
+          .user {
             display: block;
           }
         }

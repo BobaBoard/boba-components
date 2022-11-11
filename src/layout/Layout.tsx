@@ -104,7 +104,6 @@ const Layout = React.forwardRef<LayoutHandler, LayoutProps>(
       hideTitleFromDesktopHeader,
       forceHideIdentity,
       onSideMenuStatusChange,
-      onCompassClick,
       children,
     },
     ref
@@ -194,7 +193,9 @@ const Layout = React.forwardRef<LayoutHandler, LayoutProps>(
           title={title}
           titleLink={titleLink}
           hideTitleOnDesktop={hideTitleFromDesktopHeader}
-          onCompassClick={onCompassClick}
+          onLoggedOutUserClick={onUserBarClick}
+          user={user}
+          forceHideIdentity={forceHideIdentity}
         >
           {menuBar}
         </Header>
@@ -411,7 +412,6 @@ export interface LayoutProps {
   titleLink?: LinkWithAction;
   user?: MenuBarProps["user"];
   onUserBarClick: LinkWithAction;
-  onCompassClick?: LinkWithAction;
   loading?: boolean;
   menuOptions?: MenuBarProps["menuOptions"];
   selectedMenuOption?: string | null;
