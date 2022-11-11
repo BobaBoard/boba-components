@@ -242,9 +242,6 @@ const Layout = React.forwardRef<LayoutHandler, LayoutProps>(
             background-color: ${Theme.LAYOUT_BOARD_BACKGROUND_COLOR};
             margin-top: ${Theme.HEADER_HEIGHT_PX}px;
           }
-          .with-bottom-bar main {
-            margin-bottom: ${Theme.BOTTOM_BAR_HEIGHT_PX}px;
-          }
           .side-menu-button {
             width: ${Theme.PINNED_BAR_WIDTH_PX}px;
             height: ${Theme.HEADER_HEIGHT_PX}px;
@@ -314,6 +311,9 @@ const Layout = React.forwardRef<LayoutHandler, LayoutProps>(
             }
             .bottom-bar {
               left: 0;
+            }
+            .with-bottom-bar main {
+              margin-bottom: ${Theme.BOTTOM_BAR_HEIGHT_PX}px;
             }
             .side-menu-options {
               position: absolute;
