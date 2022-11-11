@@ -126,6 +126,7 @@ const getCenterButtonCss = (props: { accentColor?: string }) => css.resolve`
     align-items: center;
     margin-bottom: 3px;
     grid-area: center-button;
+    z-index: 2;
   }
 
   @media only screen and (min-width: 600px) {
@@ -231,6 +232,15 @@ const BottomBar = (props: BottomBarProps) => {
           bottom: 0;
           gap: 8px;
         }
+        .bottom-bar::before {
+          content: "";
+          background-color: ${Theme.LAYOUT_HEADER_BACKGROUND_COLOR};
+          position: absolute;
+          top: 7px;
+          left: 0;
+          right: 0;
+          bottom: 0;
+        }
         .left-buttons,
         .right-buttons {
           display: flex;
@@ -255,6 +265,9 @@ const BottomBar = (props: BottomBarProps) => {
             gap: 0;
             top: auto;
             padding: 5px;
+          }
+          .bottom-bar::before {
+            display: none;
           }
 
           .left-buttons {
