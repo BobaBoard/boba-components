@@ -383,7 +383,11 @@ const RECENT_BOARDS = [
   },
 ];
 export const BoardSelectorStory = () => {
-  const [selectedBoard, setSelectedBoard] = React.useState("gore");
+  const [selectedBoard, setSelectedBoard] = React.useState({
+    slug: "gore",
+    avatar: "/" + goreBackground,
+    color: "#f96680",
+  });
   return (
     <div style={{ width: "500px", backgroundColor: "white", padding: "10px" }}>
       <BoardSelector
@@ -400,7 +404,11 @@ BoardSelectorStory.story = {
 };
 
 export const BoardSelectorLongListStory = () => {
-  const [selectedBoard, setSelectedBoard] = React.useState("gore");
+  const [selectedBoard, setSelectedBoard] = React.useState({
+    slug: "gore",
+    avatar: "/" + goreBackground,
+    color: "#f96680",
+  });
   return (
     <div style={{ width: "500px", backgroundColor: "white", padding: "10px" }}>
       <BoardSelector
