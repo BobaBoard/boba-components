@@ -32,7 +32,7 @@ export interface BottomBarProps {
 
 const Button =
   CreateBaseCompound<GetProps<CompoundComponents["Button"]>>("Button");
-interface CompoundComponents {
+export interface CompoundComponents {
   Button: React.FC<
     CircleButtonProps &
       AriaAttributes & {

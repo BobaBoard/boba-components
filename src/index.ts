@@ -9,6 +9,7 @@ import ToastContainer, { toast } from "common/Toast";
 import BoardSidebar from "sidebar/BoardSidebar";
 import BoardsDisplay from "board/BoardsDisplay";
 import BobaDex from "user/BobaDex";
+import BottomBar from "layout/BottomBar";
 import CollapsedPlaceholder from "thread/CollapsedPlaceholder";
 import Comment from "post/Comment";
 import CommentChainEditor from "post/CommentChainEditor";
@@ -103,6 +104,7 @@ export {
   TabsGroup,
   useBoos,
   getDeltaSummary,
+  BottomBar,
 };
 
 export type {
