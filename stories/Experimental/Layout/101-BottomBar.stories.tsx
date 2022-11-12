@@ -1,4 +1,5 @@
 import BottomBar, { BottomBarProps } from "layout/BottomBar";
+import { Meta, Story } from "@storybook/react";
 import {
   faAnglesDown,
   faAnglesUp,
@@ -12,7 +13,6 @@ import {
 } from "@fortawesome/free-solid-svg-icons";
 
 import React from "react";
-import { Story } from "@storybook/react";
 import Theme from "theme/default";
 import { action } from "@storybook/addon-actions";
 
@@ -20,8 +20,8 @@ const ButtonTemplate: Story = (args: BottomBarProps) => {
   return <BottomBar {...args} />;
 };
 
-export const BottomBarExample = ButtonTemplate.bind({});
-BottomBarExample.args = {
+export const Regular = ButtonTemplate.bind({});
+Regular.args = {
   accentColor: Theme.DEFAULT_ACCENT_COLOR,
   centerButton: {
     icon: faPlusSquare,
@@ -109,4 +109,17 @@ BottomBarExample.args = {
 export default {
   title: "Experimental / BottomBar",
   component: BottomBar,
-};
+  decorators: [
+    (Story) => (
+      <div
+        style={{
+          height: Theme.BOTTOM_BAR_HEIGHT_PX + "px",
+          position: "relative",
+          marginTop: "20px",
+        }}
+      >
+        <Story />
+      </div>
+    ),
+  ],
+} as Meta;
