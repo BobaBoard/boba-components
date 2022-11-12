@@ -198,6 +198,9 @@ const CommentChainEditor = React.forwardRef<
                   empty,
                 };
                 setChainComments([...chainComments]);
+                props.onIsEmptyChange?.(
+                  chainComments.every((comment) => comment.empty)
+                );
               }
             }}
             onTextChange={(text) => {
@@ -340,6 +343,7 @@ export interface CommentChainEditorProps {
   userIdentity?: UserIdentityType;
   additionalIdentities?: SecretIdentityType[];
   accessories?: PostHeaderProps["accessories"];
+  onIsEmptyChange?: (empty: boolean) => void;
 }
 
 CommentChainEditor.displayName = "CommentChainEditorForwardRef";
