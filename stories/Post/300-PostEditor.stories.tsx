@@ -230,6 +230,7 @@ WithinModal.decorators = [
         minimizable
         isMinimized={isMinimized}
         onMinimize={() => setMinimize((minimize) => !minimize)}
+        onRequestClose={action("closemodal")}
       >
         <div
           style={{

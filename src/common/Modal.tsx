@@ -6,6 +6,7 @@ import Div100vh from "react-div-100vh";
 import LibraryModal from "react-modal";
 import React from "react";
 import Theme from "theme/default";
+import { useHotkeys } from "react-hotkeys-hook";
 
 const customStyles = {
   content: {
@@ -25,6 +26,19 @@ const customStyles = {
 //Modal.setAppElement('#yourAppElement')
 
 const Modal: React.FC<ModalProps> = (props) => {
+  useHotkeys(
+    "esc",
+    (e) => {
+      if (!props.isOpen) {
+        return;
+      }
+      props.onRequestClose?.();
+      e.preventDefault();
+    },
+    { keydown: true, enableOnContentEditable: true },
+    [props.onRequestClose, props.isOpen]
+  );
+
   return (
     <div>
       <LibraryModal
@@ -122,4 +136,5 @@ export interface ModalProps extends LibraryModal.Props {
   isMinimized?: boolean;
   minimizable?: boolean;
   onMinimize?: () => void;
+  onRequestClose?: () => void;
 }
