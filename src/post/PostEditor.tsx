@@ -381,7 +381,12 @@ const PostEditor = React.forwardRef<PostEditorHandler, PostEditorProps>(
               }
               editable={!props.loading && !props.editableSections}
               onIsEmptyChange={(empty: boolean) => {
-                setIsEmpty(empty);
+                setIsEmpty((currentlyEmpty) => {
+                  if (currentlyEmpty != empty) {
+                    props.onIsEmptyChange?.(empty);
+                  }
+                  return empty;
+                });
               }}
               // This is a no op because we're using the handler to access the content directly.
               onTextChange={noop}
@@ -448,4 +453,5 @@ export interface PostEditorProps {
   availableBoards?: BoardSelectorProps["availableBoards"];
   selectedBoard?: BoardSelectorProps["selectedBoard"];
   onSelectBoard?: BoardSelectorProps["onBoardSelected"];
+  onIsEmptyChange?: (empty: boolean) => void;
 }
