@@ -91,26 +91,32 @@ const contextMenuCss = css.resolve`
   }
 `;
 
-const ContextMenu = (props: ContextMenuProps) => (
-  <DropdownMenu options={props.options} style={DropdownStyle.DARK}>
-    {props.info && <DropdownMenu.Header>{props.info}</DropdownMenu.Header>}
-    <div
-      className={classnames("context-menu-wrapper", contextMenuCss.className)}
-    >
-      <div className={classnames("context-menu", contextMenuCss.className)}>
-        {props.icons.map((icon) => (
-          <div
-            key={icon.id}
-            className={classnames("icon", contextMenuCss.className)}
-          >
-            <Icon {...icon} />
-          </div>
-        ))}
+const ContextMenu = (props: ContextMenuProps) => {
+  if (!props.icons.length) {
+    return null;
+  }
+
+  return (
+    <DropdownMenu options={props.options} style={DropdownStyle.DARK}>
+      {props.info && <DropdownMenu.Header>{props.info}</DropdownMenu.Header>}
+      <div
+        className={classnames("context-menu-wrapper", contextMenuCss.className)}
+      >
+        <div className={classnames("context-menu", contextMenuCss.className)}>
+          {props.icons.map((icon) => (
+            <div
+              key={icon.id}
+              className={classnames("icon", contextMenuCss.className)}
+            >
+              <Icon {...icon} />
+            </div>
+          ))}
+        </div>
+        {contextMenuCss.styles}
       </div>
-      {contextMenuCss.styles}
-    </div>
-  </DropdownMenu>
-);
+    </DropdownMenu>
+  );
+};
 
 const ACTION_BUTTON_SIZE_PX = 55;
 const getCenterButtonCss = (props: { accentColor?: string }) => css.resolve`
@@ -194,9 +200,17 @@ const BottomBar = (props: BottomBarProps) => {
     throw new Error("BottomBar cannot display more than 1 left button");
   }
 
+  const noLeftButtonsOnDesktop =
+    leftButtons.length == 0 ||
+    leftButtons.every((button) => button.props.desktopOnly);
   return (
     <div className="bottom-bar">
-      <div className="left-buttons">
+      <div
+        className={classnames("left-buttons", {
+          "hidden-on-desktop":
+            noLeftButtonsOnDesktop && !props.contextMenu.icons.length,
+        })}
+      >
         <ContextMenu {...props.contextMenu} />
         {leftButtons.map((button) => (
           <CircleButton
@@ -208,8 +222,15 @@ const BottomBar = (props: BottomBarProps) => {
           />
         ))}
       </div>
-      <CenterButton {...props.centerButton} accentColor={props.accentColor} />
-      <div className="right-buttons">
+      {props.centerButton && (
+        <CenterButton {...props.centerButton} accentColor={props.accentColor} />
+      )}
+      <div
+        className={classnames("right-buttons", {
+          "desktop-left-rounded":
+            noLeftButtonsOnDesktop && !props.contextMenu.icons.length,
+        })}
+      >
         {rightButtons.map((button) => (
           <CircleButton
             key={button.key}
@@ -276,11 +297,19 @@ const BottomBar = (props: BottomBarProps) => {
             background: rgb(19, 21, 24);
             padding: 10px 5px 10px 10px;
           }
+          .left-buttons.hidden-on-desktop {
+            display: none;
+          }
 
           .right-buttons {
             border-radius: 0 999px 999px 0;
             background: rgb(19, 21, 24);
             padding: 10px 10px 10px 5px;
+          }
+          .right-buttons.desktop-left-rounded {
+            padding: 10px 10px 10px 10px;
+            border-radius: 999px;
+            margin-left: 5px;
           }
         }
       `}</style>
