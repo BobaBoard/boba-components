@@ -20,6 +20,38 @@ const ButtonTemplate: Story = (args: BottomBarProps) => {
   return <BottomBar {...args} />;
 };
 
+const LEFT_BUTTON = (
+  <BottomBar.Button
+    key="compass"
+    icon={{ icon: faCompass }}
+    link={{ onClick: action("button1") }}
+    position="left"
+    desktopOnly
+  />
+);
+const RIGHT_BUTTONS = [
+  <BottomBar.Button
+    key="jump up"
+    icon={{ icon: faAnglesUp }}
+    withNotification={{
+      icon: faCertificate,
+      color: Theme.DEFAULT_ACCENT_COLOR,
+    }}
+    link={{ onClick: action("button1") }}
+    position="right"
+  />,
+  <BottomBar.Button
+    key="jump down"
+    icon={{ icon: faAnglesDown }}
+    withNotification={{
+      icon: faCertificate,
+      color: Theme.DEFAULT_ACCENT_COLOR,
+    }}
+    link={{ onClick: action("button2") }}
+    position="right"
+  />,
+];
+
 export const Regular = ButtonTemplate.bind({});
 Regular.args = {
   accentColor: Theme.DEFAULT_ACCENT_COLOR,
@@ -28,35 +60,7 @@ Regular.args = {
     color: "white",
     link: { onClick: action("center-button") },
   },
-  children: [
-    <BottomBar.Button
-      key="compass"
-      icon={{ icon: faCompass }}
-      link={{ onClick: action("button1") }}
-      position="left"
-      desktopOnly
-    />,
-    <BottomBar.Button
-      key="jump up"
-      icon={{ icon: faAnglesUp }}
-      withNotification={{
-        icon: faCertificate,
-        color: Theme.DEFAULT_ACCENT_COLOR,
-      }}
-      link={{ onClick: action("button1") }}
-      position="right"
-    />,
-    <BottomBar.Button
-      key="jump down"
-      icon={{ icon: faAnglesDown }}
-      withNotification={{
-        icon: faCertificate,
-        color: Theme.DEFAULT_ACCENT_COLOR,
-      }}
-      link={{ onClick: action("button2") }}
-      position="right"
-    />,
-  ],
+  children: [LEFT_BUTTON, ...RIGHT_BUTTONS],
   contextMenu: {
     icons: [
       { id: "faEyeSlash", icon: faEyeSlash, color: Theme.DEFAULT_ACCENT_COLOR },
@@ -103,6 +107,26 @@ Regular.args = {
         },
       },
     ],
+  },
+};
+
+export const NoCenterButton = ButtonTemplate.bind({});
+NoCenterButton.args = {
+  ...Regular.args,
+  centerButton: null,
+};
+
+export const NoLeftButton = ButtonTemplate.bind({});
+NoLeftButton.args = {
+  ...Regular.args,
+  children: RIGHT_BUTTONS,
+};
+
+export const EmptyContextMenu = ButtonTemplate.bind({});
+EmptyContextMenu.args = {
+  ...Regular.args,
+  contextMenu: {
+    icons: [],
   },
 };
 
