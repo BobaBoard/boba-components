@@ -199,7 +199,7 @@ LoadingLayout.decorators = [
 ];
 export const WithSideMenu = LayoutTemplate.bind({});
 WithSideMenu.args = {
-  ...LoggedInLayout,
+  ...LoggedInLayout.args,
   // @ts-ignore
   sideMenuContent: <SideMenuPreview {...SideMenuPreview.args} />,
   bottomBarContent: <BottomBarExample {...BottomBarExample.args} />,
@@ -207,7 +207,7 @@ WithSideMenu.args = {
 
 export const ShortContent = LayoutTemplate.bind({});
 ShortContent.args = {
-  ...LoggedInLayout,
+  ...LoggedInLayout.args,
   // @ts-ignore
   sideMenuContent: <SideMenuPreview {...SideMenuPreview.args} />,
   mainContent: (
