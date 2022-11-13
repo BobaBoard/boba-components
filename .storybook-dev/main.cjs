@@ -10,7 +10,7 @@ module.exports = {
     "@storybook/addon-interactions",
   ],
   typescript: {
-    check: false,
+    check: true,
     checkOptions: {
       compilerOptions: {
         noUnusedLocals: false,
