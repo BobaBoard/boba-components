@@ -16,7 +16,7 @@ import React from "react";
 import Theme from "theme/default";
 import { action } from "@storybook/addon-actions";
 
-const ButtonTemplate: Story = (args: BottomBarProps) => {
+const ButtonTemplate: Story<BottomBarProps> = (args: BottomBarProps) => {
   return <BottomBar {...args} />;
 };
 
@@ -58,12 +58,18 @@ Regular.args = {
   centerButton: {
     icon: faPlusSquare,
     color: "white",
+    "aria-label": "center-button",
     link: { onClick: action("center-button") },
   },
   children: [LEFT_BUTTON, ...RIGHT_BUTTONS],
   contextMenu: {
     icons: [
-      { id: "faEyeSlash", icon: faEyeSlash, color: Theme.DEFAULT_ACCENT_COLOR },
+      {
+        id: "unhide-button",
+        icon: faEyeSlash,
+        color: Theme.DEFAULT_ACCENT_COLOR,
+        "aria-label": "unhide-button",
+      },
       {
         id: "faVolumeMute",
         icon: faVolumeMute,
@@ -87,7 +93,7 @@ Regular.args = {
         icon: faEyeSlash,
         link: {
           href: "https://www.youtube.com/watch?v=dQw4w9WgXcQ",
-          onClick: action("unmute"),
+          onClick: action("unhide"),
         },
       },
       {
@@ -146,4 +152,4 @@ export default {
       </div>
     ),
   ],
-} as Meta;
+} as Meta<BottomBarProps>;

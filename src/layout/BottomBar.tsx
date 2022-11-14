@@ -97,7 +97,11 @@ const ContextMenu = (props: ContextMenuProps) => {
   }
 
   return (
-    <DropdownMenu options={props.options} style={DropdownStyle.DARK}>
+    <DropdownMenu
+      options={props.options}
+      style={DropdownStyle.DARK}
+      label="context menu"
+    >
       {props.info && <DropdownMenu.Header>{props.info}</DropdownMenu.Header>}
       <div
         className={classnames("context-menu-wrapper", contextMenuCss.className)}
