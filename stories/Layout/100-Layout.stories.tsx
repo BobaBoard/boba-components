@@ -6,9 +6,10 @@ import {
   faTh,
 } from "@fortawesome/free-solid-svg-icons";
 
-import { BottomBarExample } from "stories/Experimental/Layout/101-BottomBar.stories";
 import { MultipleSections } from "stories/SideMenu/200-PinnedMenu.stories";
 import React from "react";
+import { Regular } from "stories/Experimental/Layout/101-BottomBar.stories";
+import { RequiredStoryArgs } from "stories/utils/story-utils";
 import { SideMenuPreview } from "stories/SideMenu/100-SideMenu.stories";
 import { Story } from "@storybook/react";
 import { action } from "@storybook/addon-actions";
@@ -16,8 +17,11 @@ import mamoru from "stories/images/mamoru.png";
 
 const defaultLayoutArgs: Partial<LayoutTemplate> = {
   sideMenuContent: <div>Get a load of this menu content!</div>,
-  // @ts-ignore-error
-  pinnedMenuContent: <MultipleSections {...MultipleSections.args} />,
+  pinnedMenuContent: (
+    <MultipleSections
+      {...(MultipleSections.args as RequiredStoryArgs<typeof MultipleSections>)}
+    />
+  ),
   mainContent: (
     <div
       style={{ backgroundColor: "#29d3ff", height: "2000px", width: "100%" }}
@@ -197,16 +201,26 @@ LoadingLayout.decorators = [
 export const WithSideMenu = LayoutTemplate.bind({});
 WithSideMenu.args = {
   ...LoggedInLayout.args,
-  // @ts-ignore
-  sideMenuContent: <SideMenuPreview {...SideMenuPreview.args} />,
-  bottomBarContent: <BottomBarExample {...BottomBarExample.args} />,
+  sideMenuContent: (
+    <SideMenuPreview
+      {...(SideMenuPreview.args as Required<
+        NonNullable<typeof SideMenuPreview.args>
+      >)}
+    />
+  ),
+  bottomBarContent: (
+    <Regular {...(Regular.args as RequiredStoryArgs<typeof Regular>)} />
+  ),
 };
 
 export const ShortContent = LayoutTemplate.bind({});
 ShortContent.args = {
   ...LoggedInLayout.args,
-  // @ts-ignore
-  sideMenuContent: <SideMenuPreview {...SideMenuPreview.args} />,
+  sideMenuContent: (
+    <SideMenuPreview
+      {...(SideMenuPreview.args as RequiredStoryArgs<typeof SideMenuPreview>)}
+    />
+  ),
   mainContent: (
     <div style={{ backgroundColor: "#29d3ff", height: "100px", width: "100%" }}>
       This is a short main content!
