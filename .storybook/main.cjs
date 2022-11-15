@@ -10,17 +10,10 @@ module.exports = {
     "@storybook/addon-interactions",
   ],
   typescript: {
-    check: false,
+    check: true,
     checkOptions: {
       compilerOptions: {
         noUnusedLocals: false,
-        // This should keep it from reporting errors from node_modules, but doesn't seem to work
-        // (see docs here: https://github.com/TypeStrong/fork-ts-checker-webpack-plugin/blob/v4.1.6/README.md#options)
-        reportFiles: [
-          "src/**/*.{ts,tsx}",
-          "stories/**/*.{ts,tsx}",
-          "!node_modules/**",
-        ],
       },
     },
     reactDocgen: "react-docgen-typescript",

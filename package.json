@@ -11,7 +11,7 @@
     "test": "jest",
     "test:watch": "yarn run test --watch",
     "test:ci": "yarn run test --ci --runInBand --no-cache",
-    "storybook": "start-storybook -p 6006 -c .storybook-dev",
+    "storybook": "start-storybook -p 6006",
     "build-storybook": "build-storybook",
     "visual-testing": "backstop test",
     "approve-visuals": "backstop approve",
