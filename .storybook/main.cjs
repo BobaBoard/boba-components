@@ -1,5 +1,3 @@
-const ReactDocgenTypescriptPlugin =
-  require("react-docgen-typescript-plugin").default;
 const TsconfigPathsPlugin = require("tsconfig-paths-webpack-plugin");
 
 module.exports = {
@@ -11,10 +9,21 @@ module.exports = {
     "storybook-addon-pseudo-states",
     "@storybook/addon-interactions",
   ],
-  plugins: [
-    // Will default to loading your root tsconfig.json
-    new ReactDocgenTypescriptPlugin(),
-  ],
+  typescript: {
+    check: true,
+    checkOptions: {
+      compilerOptions: {
+        noUnusedLocals: false,
+      },
+    },
+    reactDocgen: "react-docgen-typescript",
+    reactDocgenTypescriptOptions: {
+      shouldExtractLiteralValuesFromEnum: true,
+      propFilter: (prop) =>
+        prop.parent ? !/node_modules/.test(prop.parent.fileName) : true,
+    },
+  },
+  framework: "@storybook/react",
   webpackFinal: async (config, { configType }) => {
     config.resolve.plugins.push(
       new TsconfigPathsPlugin({
