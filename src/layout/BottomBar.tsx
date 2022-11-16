@@ -187,7 +187,7 @@ const circleButtonCss = css.resolve`
   }
 `;
 
-const BottomBar = (props: BottomBarProps) => {
+const BottomBar: BottomBarCompound = (props: BottomBarProps) => {
   const buttons = extractCompounds(props.children, Button);
   const leftButtons = buttons.filter(
     (button) => button.props.position == "left"
@@ -323,4 +323,4 @@ const BottomBar = (props: BottomBarProps) => {
 };
 BottomBar.Button = Button;
 
-export default BottomBar as BottomBarCompound;
+export default BottomBar;

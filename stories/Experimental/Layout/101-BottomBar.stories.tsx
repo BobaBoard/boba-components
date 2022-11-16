@@ -16,7 +16,7 @@ import React from "react";
 import Theme from "theme/default";
 import { action } from "@storybook/addon-actions";
 
-const ButtonTemplate: Story<BottomBarProps> = (args: BottomBarProps) => {
+const ButtonTemplate: Story<BottomBarProps> = (args) => {
   return <BottomBar {...args} />;
 };
 
@@ -27,8 +27,9 @@ const LEFT_BUTTON = (
     link={{ onClick: action("button1") }}
     position="left"
     desktopOnly
-  />
-);
+  /> // TODO: remove the need for this #typescript
+) as unknown as typeof BottomBar.Button;
+
 const RIGHT_BUTTONS = [
   <BottomBar.Button
     key="jump up"
@@ -50,7 +51,8 @@ const RIGHT_BUTTONS = [
     link={{ onClick: action("button2") }}
     position="right"
   />,
-];
+  // TODO: remove the need for this #typescript
+] as unknown as typeof BottomBar.Button[];
 
 export const Regular = ButtonTemplate.bind({});
 Regular.args = {
@@ -119,7 +121,7 @@ Regular.args = {
 export const NoCenterButton = ButtonTemplate.bind({});
 NoCenterButton.args = {
   ...Regular.args,
-  centerButton: null,
+  centerButton: undefined,
 };
 
 export const NoLeftButton = ButtonTemplate.bind({});
@@ -133,6 +135,7 @@ EmptyContextMenu.args = {
   ...Regular.args,
   contextMenu: {
     icons: [],
+    options: [],
   },
 };
 
