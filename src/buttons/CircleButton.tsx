@@ -221,8 +221,18 @@ const CircleButton: React.FC<CircleButtonProps> = ({
           color: ${DefaultTheme.MENU_ITEM_ICON_HIGHLIGHT_COLOR};
         }
         .disabled {
-          opacity: 70%;
           filter: grayscale(100%);
+        }
+        .disabled .icon-circle,
+        .disabled:hover .icon-circle:hover :global(.icon-button) {
+          background-color: ${DefaultTheme.BOARD_MENU_BACKGROUND};
+          border-color: ${DefaultTheme.BOARD_MENU_BACKGROUND};
+          cursor: not-allowed;
+        }
+        .disabled :global(svg),
+        .disabled .icon-circle:hover :global(.${iconClassName}) {
+          color: ${DefaultTheme.BOARD_MENU_ITEM_BACKGROUND};
+          cursor: not-allowed;
         }
       `}</style>
     </div>
