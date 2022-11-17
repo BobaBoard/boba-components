@@ -25,9 +25,9 @@ interface ContextMenuProps {
 }
 export interface BottomBarProps {
   accentColor?: string;
-  centerButton: IconProps & { link: LinkWithAction };
+  centerButton?: IconProps & { link: LinkWithAction };
   contextMenu: ContextMenuProps;
-  children: CompoundComponents["Button"][];
+  children: React.ReactNode;
 }
 
 const Button =
@@ -207,12 +207,28 @@ const BottomBar: BottomBarCompound = (props: BottomBarProps) => {
   const noLeftButtonsOnDesktop =
     leftButtons.length == 0 ||
     leftButtons.every((button) => button.props.desktopOnly);
+
+  const hasLeftPortionOnDestkop =
+    noLeftButtonsOnDesktop && !props.contextMenu.icons.length;
+
+  const isEmptyOnDesktop =
+    noLeftButtonsOnDesktop &&
+    rightButtons.length == 0 &&
+    props.contextMenu.icons.length == 0 &&
+    !props.centerButton;
   return (
-    <div className="bottom-bar">
+    <div
+      className={classnames("bottom-bar", {
+        // If there's elements, but there's none on desktop, then we hide the bottom bar
+        // when the desktop UI is triggered.
+        "empty-on-desktop": isEmptyOnDesktop,
+      })}
+    >
       <div
         className={classnames("left-buttons", {
-          "hidden-on-desktop":
-            noLeftButtonsOnDesktop && !props.contextMenu.icons.length,
+          // If there's neither a context menu nor a left button that is displayed on
+          // desktop, then we completely hide this left part.
+          "hidden-on-desktop": hasLeftPortionOnDestkop,
         })}
       >
         <ContextMenu {...props.contextMenu} />
@@ -231,8 +247,7 @@ const BottomBar: BottomBarCompound = (props: BottomBarProps) => {
       )}
       <div
         className={classnames("right-buttons", {
-          "desktop-left-rounded":
-            noLeftButtonsOnDesktop && !props.contextMenu.icons.length,
+          "desktop-left-rounded": hasLeftPortionOnDestkop,
         })}
       >
         {rightButtons.map((button) => (
@@ -281,6 +296,7 @@ const BottomBar: BottomBarCompound = (props: BottomBarProps) => {
           grid-area: right-buttons;
         }
 
+        // This is the desktop portion of the CSS
         @media only screen and (min-width: 600px) {
           .bottom-bar {
             display: grid;
@@ -294,7 +310,9 @@ const BottomBar: BottomBarCompound = (props: BottomBarProps) => {
           .bottom-bar::before {
             display: none;
           }
-
+          .bottom-bar.empty-on-desktop {
+            display: none;
+          }
           .left-buttons {
             margin-left: 5px;
             border-radius: 999px 0 0 999px;

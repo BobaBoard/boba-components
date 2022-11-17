@@ -115,6 +115,7 @@ export interface IconButtonProps extends AriaAttributes {
   link?: LinkWithAction;
   withNotifications?: Partial<IconProps>;
   withDropdown?: Partial<IconProps>;
+  disabled?: boolean;
 }
 
 const { className: linkWrapper, styles: linkWrapperStyles } = css.resolve`
@@ -130,6 +131,7 @@ const IconButton: React.FC<IconButtonProps> = (props) => {
       aria-current={props["aria-current"]}
       link={props.link}
       className={classnames(props.className, linkWrapper)}
+      disabled={props.disabled}
     >
       {props.withNotifications && <NotificationDot {...props} />}
       <div className={classnames("icon-button")}>

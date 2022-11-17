@@ -14,7 +14,7 @@ type WithRequiredProperty<Type, Key extends keyof Type> = Type &
  * your way.
  */
 const NeutralButton: React.FC<ActionLinkProps> = (props) => {
-  const { children, link, className, allowDefault } = props;
+  const { children, link, className, allowDefault, disabled } = props;
   return (
     <button
       className={className}
@@ -37,6 +37,7 @@ const NeutralButton: React.FC<ActionLinkProps> = (props) => {
       )}
       aria-label={link?.label ?? props["aria-label"]}
       aria-current={props["aria-current"]}
+      disabled={disabled}
     >
       {children}
       <style jsx>{`
@@ -93,6 +94,7 @@ const NeutralAnchor: React.FC<WithRequiredProperty<ActionLinkProps, "link">> = (
       )}
       aria-label={link?.label ?? props["aria-label"]}
       aria-current={props["aria-current"]}
+      aria-disabled={props.disabled}
     >
       {children}
       <style jsx>{`
@@ -129,7 +131,11 @@ const ActionLink = (props: PropsWithChildren<ActionLinkProps>) => {
     return className ? (
       // TODO: check if we can just pass the classname directly to the
       // underlying element.
-      <span className={className} aria-label={props["aria-label"]}>
+      <span
+        className={className}
+        aria-label={props["aria-label"]}
+        aria-disabled={props.disabled}
+      >
         {children}
       </span>
     ) : (
@@ -150,6 +156,7 @@ interface ActionLinkProps extends AriaAttributes {
   link?: LinkWithAction<unknown>;
   className?: string;
   allowDefault?: boolean;
+  disabled?: boolean;
 }
 
 export default ActionLink;
