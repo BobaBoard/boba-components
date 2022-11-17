@@ -23,6 +23,7 @@ export default {
             justify-content: space-evenly;
             flex-wrap: wrap;
             height: 45px;
+            background-color: cornflowerblue;
           }
         `}</style>
       </div>
@@ -87,6 +88,12 @@ export const Loading = ButtonTemplate.bind({});
 Loading.args = {
   ...Selected.args,
   loading: true,
+};
+
+export const Disabled = ButtonTemplate.bind({});
+Disabled.args = {
+  ...WithBorderColor.args,
+  disabled: true,
 };
 
 export const WithImage = ButtonTemplate.bind({});
