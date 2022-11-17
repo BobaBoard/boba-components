@@ -107,6 +107,7 @@ export interface CircleButtonProps extends AriaAttributes {
    * Applies a blurred filter to the icon.
    */
   blurred?: boolean;
+  disabled?: boolean;
   withDropdown?: IconButtonProps["withDropdown"];
   withNotification?: IconButtonProps["withNotifications"];
 }
@@ -125,6 +126,7 @@ const CircleButton: React.FC<CircleButtonProps> = ({
   defaultBorderColor,
   withDropdown,
   withNotification,
+  disabled,
   blurred,
   ...props
 }) => {
@@ -142,6 +144,7 @@ const CircleButton: React.FC<CircleButtonProps> = ({
       className={classnames("circle-button", className, {
         selected,
         loading,
+        disabled,
       })}
     >
       <div className="icon-circle">
@@ -155,6 +158,7 @@ const CircleButton: React.FC<CircleButtonProps> = ({
           // TODO: we should pass aria-current from above, in case it's
           // not just used to select pages anymore.
           aria-current={selected ? "page" : false}
+          disabled={disabled}
         />
       </div>
       {selected && <SelectBar selectLightPosition={selectLightPosition} />}
@@ -174,7 +178,8 @@ const CircleButton: React.FC<CircleButtonProps> = ({
           --accent-color: ${accentColor ?? "inherit"};
           --top-icon-border-color: ${defaultBorderColor ?? "inherit"};
         }
-        .circle-button:hover {
+        .circle-button:hover,
+        .circle-button:hover :global(*) {
           cursor: pointer;
         }
         .circle-button :global(button):focus {
@@ -214,6 +219,10 @@ const CircleButton: React.FC<CircleButtonProps> = ({
         .selected :global(.${iconClassName}),
         .icon-circle:hover :global(.${iconClassName}) {
           color: ${DefaultTheme.MENU_ITEM_ICON_HIGHLIGHT_COLOR};
+        }
+        .disabled {
+          opacity: 70%;
+          filter: grayscale(100%);
         }
       `}</style>
     </div>

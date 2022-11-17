@@ -27,8 +27,8 @@ const LEFT_BUTTON = (
     link={{ onClick: action("button1") }}
     position="left"
     desktopOnly
-  /> // TODO: remove the need for this #typescript
-) as unknown as typeof BottomBar.Button;
+  />
+);
 
 const RIGHT_BUTTONS = [
   <BottomBar.Button
@@ -40,6 +40,7 @@ const RIGHT_BUTTONS = [
     }}
     link={{ onClick: action("button1") }}
     position="right"
+    disabled
   />,
   <BottomBar.Button
     key="jump down"
@@ -51,8 +52,7 @@ const RIGHT_BUTTONS = [
     link={{ onClick: action("button2") }}
     position="right"
   />,
-  // TODO: remove the need for this #typescript
-] as unknown as typeof BottomBar.Button[];
+];
 
 export const Regular = ButtonTemplate.bind({});
 Regular.args = {

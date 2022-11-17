@@ -136,6 +136,7 @@ const Card = Object.assign(
               border-radius: ${DefaultTheme.BORDER_RADIUS_REGULAR};
               width: 100%;
               position: relative;
+              z-index: 0;
             }
             .card::after {
               content: "";
