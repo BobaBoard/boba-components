@@ -41,28 +41,33 @@ const MenuBar: React.FC<MenuBarProps> = ({
           />
         </div>
       ))}
-      <DropdownListMenu
-        options={isLoggedIn ? user.menuOptions : undefined}
-        style={DropdownStyle.DARK}
-        accentColor={accentColor}
-      >
-        <div className="menu-item user">
-          <CircleButton
-            icon={{ icon: user?.avatar ?? faUser }}
-            link={
-              !user?.loading && !isLoggedIn ? onLoggedOutUserClick : undefined
-            }
-            accentColor={accentColor}
-            defaultBorderColor={isLoggedIn ? "green" : undefined}
-            loading={user?.loading}
-            withDropdown={
-              !!isLoggedIn && !!user.menuOptions?.length ? {} : undefined
-            }
-            blurred={forceHideIdentity}
-            aria-label={!user?.loading && !isLoggedIn ? "login" : "User menu"}
-          />
-        </div>
-      </DropdownListMenu>
+
+      {(user || onLoggedOutUserClick) && (
+        // TODO: this should probably be extracted in its own component and
+        // specifically added to the places we want to see it show up
+        <DropdownListMenu
+          options={isLoggedIn ? user.menuOptions : undefined}
+          style={DropdownStyle.DARK}
+          accentColor={accentColor}
+        >
+          <div className="menu-item user">
+            <CircleButton
+              icon={{ icon: user?.avatar ?? faUser }}
+              link={
+                !user?.loading && !isLoggedIn ? onLoggedOutUserClick : undefined
+              }
+              accentColor={accentColor}
+              defaultBorderColor={isLoggedIn ? "green" : undefined}
+              loading={user?.loading}
+              withDropdown={
+                !!isLoggedIn && !!user.menuOptions?.length ? {} : undefined
+              }
+              blurred={forceHideIdentity}
+              aria-label={!user?.loading && !isLoggedIn ? "login" : "User menu"}
+            />
+          </div>
+        </DropdownListMenu>
+      )}
       <style jsx>{`
         .container {
           height: 100%;
@@ -99,7 +104,7 @@ export default MenuBar;
 
 export interface MenuBarProps {
   accentColor?: string;
-  onLoggedOutUserClick: LinkWithAction;
+  onLoggedOutUserClick?: LinkWithAction;
   onHomeMenuClick?: LinkWithAction;
   menuOptions?: {
     id: string;

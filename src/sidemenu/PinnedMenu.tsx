@@ -259,6 +259,7 @@ export type PinnedMenuSectionProps = BasePinnedSectionProps &
 export interface BasePinnedSectionProps {
   icon: IconProps["icon"];
   // For accessibility, sections need to be labeled by something beyond an icon. I've made sectionId optional so as not to break anything for now, but should really be required.
+  // TODO: swap section id for aria-label
   sectionId?: string;
 }
 export interface WithPinnedSectionProps {
