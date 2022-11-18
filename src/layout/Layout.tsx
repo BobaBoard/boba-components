@@ -146,18 +146,6 @@ const Layout = React.forwardRef<LayoutHandler, LayoutProps>(
       };
     }, [sideMenuFullyClosed]);
 
-    const menuBar = (
-      <MemoizedMenuBar
-        menuOptions={menuOptions}
-        selectedOption={selectedMenuOption}
-        onLoggedOutUserClick={onUserBarClick}
-        user={user}
-        accentColor={accentColor}
-        onHomeMenuClick={logoLink}
-        forceHideIdentity={forceHideIdentity}
-      />
-    );
-
     let sideMenuStatus: SideMenuStatus = showSideMenu ? "open" : "closed";
     if (inTransition) {
       sideMenuStatus = showSideMenu ? "opening" : "closing";
@@ -197,7 +185,13 @@ const Layout = React.forwardRef<LayoutHandler, LayoutProps>(
           user={user}
           forceHideIdentity={forceHideIdentity}
         >
-          {menuBar}
+          <MemoizedMenuBar
+            menuOptions={menuOptions}
+            selectedOption={selectedMenuOption}
+            accentColor={accentColor}
+            onHomeMenuClick={logoLink}
+            forceHideIdentity={forceHideIdentity}
+          />
         </Header>
         <div className={"side-menu-button"}>
           <IconButton
@@ -215,7 +209,17 @@ const Layout = React.forwardRef<LayoutHandler, LayoutProps>(
         </div>
         <nav className="pinned-menu">{pinnedMenuContent}</nav>
         <nav className="side-menu" ref={sideMenuRefHandler}>
-          <div className="side-menu-options">{menuBar}</div>
+          <div className="side-menu-options">
+            <MemoizedMenuBar
+              menuOptions={menuOptions}
+              selectedOption={selectedMenuOption}
+              accentColor={accentColor}
+              onHomeMenuClick={logoLink}
+              forceHideIdentity={forceHideIdentity}
+              onLoggedOutUserClick={onUserBarClick}
+              user={user}
+            />
+          </div>
           {sideMenuFullyClosed ? null : sideMenuContent}
         </nav>
         {bottomBar && <nav className="bottom-bar">{bottomBar}</nav>}
