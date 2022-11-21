@@ -164,7 +164,6 @@ const Card = Object.assign(
             section {
               max-height: ${height + "px" || "unset"};
               position: relative;
-              overflow: hidden;
             }
             .card.expanded section {
               max-height: unset;
