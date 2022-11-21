@@ -69,6 +69,7 @@ export const useExpand = (
       currentStyle.height != options.compactHeight + "px" &&
       ref.current.getBoundingClientRect().height > options.compactHeight
     ) {
+      ref.current.dataset.shrinkable = "true";
       setOldStyle(currentStyle);
       toggleCompact(ref.current, currentStyle, options.compactHeight);
       setExpanded(false);
