@@ -5,7 +5,6 @@ import Avatar from "./Avatar";
 import Editor from "@bobaboard/boba-editor";
 import React from "react";
 import Theme from "theme/default";
-import classNames from "classnames";
 import css from "styled-jsx/css";
 import { useExpand } from "utils/useExpand";
 
@@ -48,11 +47,7 @@ const PostQuote: React.FC<PostQuoteProps> = (props) => {
   }, [props.text]);
 
   return (
-    <article
-      className={classNames({
-        "can-shrink": !!props.maxHeightPx,
-      })}
-    >
+    <article>
       <div className="quote" ref={props.maxHeightPx ? container : null}>
         <Editor initialText={parsedText} editable={false} />
         {clicker}
@@ -84,7 +79,7 @@ const PostQuote: React.FC<PostQuoteProps> = (props) => {
           margin-bottom: 15px;
           --text-color: white;
         }
-        .can-shrink .quote:not([data-shrunk]) {
+        .quote[data-shrinkable]:not([data-shrunk]) {
           padding-bottom: 10px;
         }
         .avatar-container {
