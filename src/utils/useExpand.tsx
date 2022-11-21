@@ -47,6 +47,7 @@ export const useExpand = (
   options: {
     compactHeight: number;
     backgroundColor?: string;
+    className?: string;
   }
 ) => {
   const [oldStyle, setOldStyle] =
@@ -82,7 +83,7 @@ export const useExpand = (
   const backgroundColor = options.backgroundColor || refStyle.backgroundColor;
   return (
     <button
-      className={classnames("expand-overlay", {
+      className={classnames("expand-overlay", options.className, {
         expanded,
       })}
       onClick={() => {
