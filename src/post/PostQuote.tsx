@@ -5,7 +5,9 @@ import Avatar from "./Avatar";
 import Editor from "@bobaboard/boba-editor";
 import React from "react";
 import Theme from "theme/default";
+import classNames from "classnames";
 import css from "styled-jsx/css";
+import { useExpand } from "utils/useExpand";
 
 const parseText = (text: string) => {
   try {
@@ -16,7 +18,7 @@ const parseText = (text: string) => {
   }
 };
 
-const { className, styles } = css.resolve`
+const linkStyles = css.resolve`
   a {
     color: rgba(255, 255, 255, 0.5);
   }
@@ -25,7 +27,20 @@ const { className, styles } = css.resolve`
   }
 `;
 
+const clickerStyles = css.resolve`
+  border-bottom-left-radius: 15px;
+  border-bottom-right-radius: 15px;
+`;
+
 const PostQuote: React.FC<PostQuoteProps> = (props) => {
+  const container = React.useRef<HTMLDivElement>(null);
+  // TODO: make use epand do nothing with a null height, so we can avoid
+  // conditional rendering within here.
+  const clicker = useExpand(container, {
+    compactHeight: props.maxHeightPx || 350,
+    backgroundColor: Theme.LAYOUT_BOARD_BACKGROUND_COLOR,
+    className: clickerStyles.className,
+  });
   const [parsedText, setParsedText] = React.useState(parseText(props.text));
 
   React.useEffect(() => {
@@ -33,34 +48,44 @@ const PostQuote: React.FC<PostQuoteProps> = (props) => {
   }, [props.text]);
 
   return (
-    <div className="quote">
-      <div className="quote-editor">
+    <article
+      className={classNames({
+        "can-shrink": !!props.maxHeightPx,
+      })}
+    >
+      <div className="quote" ref={props.maxHeightPx ? container : null}>
         <Editor initialText={parsedText} editable={false} />
-        <div className="avatar-container">
-          <Avatar
-            secretIdentity={props.secretIdentity}
-            userIdentity={props.userIdentity}
-            forceHide={props.forceHideIdentity}
-          />
-        </div>
-        <div className="creation-time">
-          <ActionLink link={props.createdTimeLink} className={className}>
-            published: {props.createdTime}
-          </ActionLink>
-        </div>
+        {clicker}
       </div>
-      {styles}
+      <div className="avatar-container">
+        <Avatar
+          secretIdentity={props.secretIdentity}
+          userIdentity={props.userIdentity}
+          forceHide={props.forceHideIdentity}
+        />
+      </div>
+      <div className="creation-time">
+        <ActionLink
+          link={props.createdTimeLink}
+          className={linkStyles.className}
+        >
+          published: {props.createdTime}
+        </ActionLink>
+      </div>
+      {linkStyles.styles}
+      {clickerStyles.styles}
       <style jsx>{`
-        .quote {
-          --text-color: white;
-        }
-        .quote-editor {
+        article {
           background-color: ${Theme.LAYOUT_BOARD_BACKGROUND_COLOR};
           border: 2px solid ${Theme.LAYOUT_HEADER_BACKGROUND_COLOR};
           padding: 5px 0px;
           border-radius: 15px;
           position: relative;
           margin-bottom: 15px;
+          --text-color: white;
+        }
+        .can-shrink .quote:not([data-shrunk]) {
+          padding-bottom: 10px;
         }
         .avatar-container {
           bottom: 0;
@@ -69,6 +94,7 @@ const PostQuote: React.FC<PostQuoteProps> = (props) => {
           width: 50px;
           height: 50px;
           position: absolute;
+          z-index: 2;
         }
         .creation-time {
           position: absolute;
@@ -77,9 +103,10 @@ const PostQuote: React.FC<PostQuoteProps> = (props) => {
           color: rgba(255, 255, 255, 0.5);
           transform: translateY(120%);
           font-size: 12px;
+          z-index: 2;
         }
       `}</style>
-    </div>
+    </article>
   );
 };
 
@@ -93,6 +120,9 @@ export interface PostQuoteProps {
     name: string;
   };
   forceHideIdentity?: boolean;
+  // The max height this post quote can occupy before its
+  // content is shrunk to fix.
+  maxHeightPx?: number;
 }
 
 export default PostQuote;

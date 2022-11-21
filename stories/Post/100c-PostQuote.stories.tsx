@@ -36,3 +36,19 @@ Quote.args = {
   userIdentity: { name: "SexyDaddy69", avatar: `/${mamoruAvatar}` },
 };
 Quote.decorators = [(Story) => <div style={{ width: "300px" }}>{Story()}</div>];
+
+export const LongQuoteWithShrink = PostQuoteStoryTemplate.bind({});
+LongQuoteWithShrink.args = {
+  ...Quote.args,
+  text: getInitialTextString(EDITOR_TEXT_VALUES.LONG_TEXT),
+  maxHeightPx: 500,
+};
+LongQuoteWithShrink.decorators = [
+  (Story) => (
+    <div
+      style={{ width: "300px", backgroundColor: "darkblue", padding: "20px" }}
+    >
+      {Story()}
+    </div>
+  ),
+];

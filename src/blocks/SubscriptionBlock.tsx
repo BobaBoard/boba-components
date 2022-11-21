@@ -13,6 +13,9 @@ export interface SubscriptionBlockProps {
   lastUpdatedTimeLink: LinkWithAction;
   post: string;
   secretIdentity: SecretIdentityType;
+  // The max height the quote within block can occupy before its
+  // content is shrunk to fix.
+  maxHeightPx?: number;
 }
 
 const { className: linkClassName, styles: linkStyles } = css.resolve`
@@ -30,6 +33,7 @@ const SubscriptionBlock = ({
   lastUpdatedTimeLink,
   post,
   secretIdentity,
+  maxHeightPx,
 }: SubscriptionBlockProps) => {
   return (
     <div className="subscription-block">
@@ -51,6 +55,7 @@ const SubscriptionBlock = ({
           createdTimeLink={lastUpdatedTimeLink}
           text={post}
           secretIdentity={secretIdentity}
+          maxHeightPx={maxHeightPx}
         />
       </div>
       <style jsx>{`
@@ -74,9 +79,6 @@ const SubscriptionBlock = ({
           position: relative;
           font-size: small;
           margin-bottom: 5px;
-        }
-        .subscription-block :global(.expand-overlay) :global(svg) {
-          margin-top: 15px;
         }
       `}</style>
       {linkStyles}

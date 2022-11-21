@@ -41,3 +41,9 @@ Single.args = {
     color: "#f30cb5",
   },
 };
+
+export const Shrinkable = Template.bind({});
+Shrinkable.args = {
+  ...Single.args,
+  maxHeightPx: 300,
+};
