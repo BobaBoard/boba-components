@@ -72,7 +72,7 @@ const embedFetchers = {
   getOEmbedFromUrl: (url: string) => {
     const LOAD_DELAY = 1000;
     const promise = new Promise((resolve, reject) => {
-      fetch(`http://localhost:8061/iframely?uri=${url}`)
+      fetch(`https://embeds.bobaboard.com/iframely?uri=${url}`)
         .then((response) => {
           setTimeout(() => {
             resolve(response.json());
