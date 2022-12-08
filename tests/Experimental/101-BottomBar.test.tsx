@@ -54,11 +54,26 @@ describe("when context menu is present", () => {
     );
   });
 
-  it.todo("displays the faVolumeMute icon");
+  it("displays the faVolumeMute icon", () => {
+    const unmuteButton = screen.getByLabelText("unmute-button");
+    expect(unmuteButton).toHaveClass(
+      `fa-${Regular.args!.contextMenu?.icons[1].icon["iconName"]}`
+    );
+  });
 
-  it.todo("displays the faStar icon");
+  it("displays the faStar icon", () => {
+    const starButton = screen.getByLabelText("star-button");
+    expect(starButton).toHaveClass(
+      `fa-${Regular.args!.contextMenu?.icons[2].icon["iconName"]}`
+    );
+  });
 
-  it.todo("displays the faThumbTack icon");
+  it("displays the faThumbTack icon", () => {
+    const unpinButton = screen.getByLabelText("unpin-button");
+    expect(unpinButton).toHaveClass(
+      `fa-${Regular.args!.contextMenu?.icons[3].icon["iconName"]}`
+    );
+  });
 
   describe("when context menu is clicked", () => {
     beforeEach(() => {
