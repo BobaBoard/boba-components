@@ -76,9 +76,20 @@ Regular.args = {
         id: "faVolumeMute",
         icon: faVolumeMute,
         color: Theme.DEFAULT_ACCENT_COLOR,
+        "aria-label": "unmute-button",
       },
-      { id: "faStar", icon: faStar, color: "gray" },
-      { id: "faThumbTack", icon: faThumbTack, color: "white" },
+      {
+        id: "faStar",
+        icon: faStar,
+        color: "gray",
+        "aria-label": "star-button",
+      },
+      {
+        id: "faThumbTack",
+        icon: faThumbTack,
+        color: "white",
+        "aria-label": "unpin-button",
+      },
     ],
     info: <div style={{ padding: "20px" }}>Last updated: 20 days ago</div>,
     options: [
