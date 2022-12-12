@@ -291,6 +291,7 @@ const Layout = React.forwardRef<LayoutHandler, LayoutProps>(
             background: transparent; /* Chrome/Safari/Webkit */
           }
           .bottom-bar {
+            pointer-events: none;
             transition: transform 0.35s ease-out;
             background-image: var(--header-background-image);
             height: ${Theme.BOTTOM_BAR_HEIGHT_PX}px;

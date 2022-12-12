@@ -262,6 +262,7 @@ const BottomBar: BottomBarCompound = (props: BottomBarProps) => {
       </div>
       <style jsx>{`
         .bottom-bar {
+          pointer-events: all;
           display: grid;
           grid-template-columns: 1fr ${ACTION_BUTTON_SIZE_PX}px 1fr;
           grid-template-areas: "left-buttons center-button right-buttons";
@@ -306,6 +307,8 @@ const BottomBar: BottomBarCompound = (props: BottomBarProps) => {
             gap: 0;
             top: auto;
             padding: 5px;
+            width: fit-content;
+            margin-left: auto;
           }
           .bottom-bar::before {
             display: none;

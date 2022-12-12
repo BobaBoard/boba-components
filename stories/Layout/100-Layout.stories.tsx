@@ -148,6 +148,9 @@ LoggedInLayout.args = {
     icon: faStar,
     color: "#f4cb2e",
   },
+  bottomBarContent: (
+    <Regular {...(Regular.args as RequiredStoryArgs<typeof Regular>)} />
+  ),
 };
 
 export const LoadingLayout = LayoutTemplate.bind({});
@@ -207,9 +210,6 @@ WithSideMenu.args = {
         NonNullable<typeof SideMenuPreview.args>
       >)}
     />
-  ),
-  bottomBarContent: (
-    <Regular {...(Regular.args as RequiredStoryArgs<typeof Regular>)} />
   ),
 };
 
