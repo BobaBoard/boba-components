@@ -586,6 +586,7 @@ const DropdownMenu: React.FC<DropdownProps> & {
         </button>
       </Tooltip>
       {isSmallScreen() &&
+        isOpen &&
         ReactDOM.createPortal(
           <div
             className={classnames("portal-content", {
