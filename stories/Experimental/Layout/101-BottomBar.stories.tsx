@@ -23,6 +23,7 @@ const ButtonTemplate: Story<BottomBarProps> = (args) => {
 const LEFT_BUTTON = (
   <BottomBar.Button
     key="compass"
+    id="compass"
     icon={{ icon: faCompass }}
     link={{ onClick: action("button1") }}
     position="left"
@@ -33,6 +34,7 @@ const LEFT_BUTTON = (
 const RIGHT_BUTTONS = [
   <BottomBar.Button
     key="jump up"
+    id="jump up"
     icon={{ icon: faAnglesUp }}
     withNotification={{
       icon: faCertificate,
@@ -44,6 +46,7 @@ const RIGHT_BUTTONS = [
   />,
   <BottomBar.Button
     key="jump down"
+    id="jump down"
     icon={{ icon: faAnglesDown }}
     withNotification={{
       icon: faCertificate,

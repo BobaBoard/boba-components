@@ -36,6 +36,7 @@ export interface CompoundComponents {
   Button: React.FC<
     CircleButtonProps &
       AriaAttributes & {
+        id: string;
         position: "left" | "right";
         desktopOnly?: boolean;
       }
@@ -234,7 +235,7 @@ const BottomBar: BottomBarCompound = (props: BottomBarProps) => {
         <ContextMenu {...props.contextMenu} />
         {leftButtons.map((button) => (
           <CircleButton
-            key={button.key}
+            key={button.props.id}
             className={classnames("button", circleButtonCss.className, {
               "desktop-only": button.props.desktopOnly,
             })}
@@ -252,7 +253,7 @@ const BottomBar: BottomBarCompound = (props: BottomBarProps) => {
       >
         {rightButtons.map((button) => (
           <CircleButton
-            key={button.key}
+            key={button.props.id}
             className={classnames("button", circleButtonCss.className, {
               "desktop-only": button.props.desktopOnly,
             })}
