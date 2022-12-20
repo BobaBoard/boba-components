@@ -132,9 +132,12 @@ const Modal: React.FC<ModalProps> = (props) => {
 
 export default Modal;
 
-export interface ModalProps extends LibraryModal.Props {
+export interface ModalProps {
   isMinimized?: boolean;
   minimizable?: boolean;
   onMinimize?: () => void;
   onRequestClose?: () => void;
+  isOpen: LibraryModal.Props["isOpen"];
+  shouldCloseOnOverlayClick?: LibraryModal.Props["shouldCloseOnOverlayClick"];
+  onAfterOpen?: LibraryModal.Props["onAfterOpen"];
 }
