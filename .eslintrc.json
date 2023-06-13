@@ -20,7 +20,7 @@
   },
   "plugins": ["react", "@typescript-eslint", "react-hooks"],
   "rules": {
-    "react/no-unknown-property": ["error", { "ignore": ["jsx"] }],
+    "react/no-unknown-property": ["warn", { "ignore": ["jsx"] }],
     "react/prop-types": "off",
     "prefer-template":"warn",
     "no-var": "warn",
