@@ -21,8 +21,23 @@
   "plugins": ["react", "@typescript-eslint", "react-hooks"],
   "rules": {
     "react/no-unknown-property": ["error", { "ignore": ["jsx"] }],
-    "react/prop-types": "off"
+    "react/prop-types": "off",
+    "prefer-template":"warn",
+    "no-var": "warn",
+    "no-useless-rename": "warn",
+    "no-magic-numbers": "warn",
+    "no-inline-comments": "warn",
+    "no-implicit-coercion": "warn",
+    "no-alert": "warn"
   },
+  "overrides": [
+    {
+      "files": ["\"stories/**/*.{ts,tsx}\"", "tests/**/*.{ts,tsx}"],
+      "rules": {
+        "@typescript-eslint/no-non-null-assertion": "off"
+      }
+    }
+  ],
   "settings": {
     "react": { "version": "detect" }
   }
