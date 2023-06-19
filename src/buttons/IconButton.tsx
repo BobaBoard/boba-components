@@ -124,8 +124,7 @@ const { className: linkWrapper, styles: linkWrapperStyles } = css.resolve`
   position: relative;
 `;
 
-const IconButton: React.FC<IconButtonProps> = (props) => {
-  return (
+const IconButton: React.FC<IconButtonProps> = (props) => (
     <ActionLink
       aria-label={props["aria-label"]}
       aria-current={props["aria-current"]}
@@ -173,6 +172,5 @@ const IconButton: React.FC<IconButtonProps> = (props) => {
       `}</style>
     </ActionLink>
   );
-};
 
 export default IconButton;

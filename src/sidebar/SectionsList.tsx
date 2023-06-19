@@ -14,8 +14,7 @@ export interface SectionsListProps {
   onAddSection: (type: "category_filter" | "text") => void;
 }
 
-const SectionsList: React.FC<SectionsListProps> = (props) => {
-  return (
+const SectionsList: React.FC<SectionsListProps> = (props) => (
     <div className={classnames("edit-container")}>
       {props.sections.map((section) => (
         <div className={classnames("section")} key={section.id}>
@@ -62,6 +61,5 @@ const SectionsList: React.FC<SectionsListProps> = (props) => {
       `}</style>
     </div>
   );
-};
 
 export default SectionsList;

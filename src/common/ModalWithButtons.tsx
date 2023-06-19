@@ -4,8 +4,7 @@ import Modal from "./Modal";
 import React from "react";
 import classnames from "classnames";
 
-const ModalWithButtons: React.FC<ModalWithButtonsProps> = (props) => {
-  return (
+const ModalWithButtons: React.FC<ModalWithButtonsProps> = (props) => (
     <Modal
       isOpen={props.isOpen}
       shouldCloseOnOverlayClick={props.shouldCloseOnOverlayClick}
@@ -66,7 +65,6 @@ const ModalWithButtons: React.FC<ModalWithButtonsProps> = (props) => {
       `}</style>
     </Modal>
   );
-};
 
 export interface ModalWithButtonsProps {
   isOpen: boolean;

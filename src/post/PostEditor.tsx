@@ -77,7 +77,7 @@ const PostEditorHeader = (
   // TODO: double-check whether we ever have a string here or can directly
   // use "selected identity".
   const selectedIdentity =
-    typeof props.selectedIdentity == "object"
+    typeof props.selectedIdentity === "object"
       ? props.selectedIdentity
       : props.additionalIdentities?.find(
           (identity) => identity.id == props.selectedIdentity

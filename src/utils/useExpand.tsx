@@ -22,8 +22,8 @@ const toggleCompact = (
     div.style.height = oldStyle.height;
     div.style.overflow = oldStyle.overflow;
     delete div.dataset.shrunk;
-  } else if (refStyle.height != compactHeight + "px") {
-    div.style.height = compactHeight + "px";
+  } else if (refStyle.height != `${compactHeight  }px`) {
+    div.style.height = `${compactHeight  }px`;
     div.style.overflow = "hidden";
     div.dataset.shrunk = "";
   }
@@ -66,7 +66,7 @@ export const useExpand = (
       overflow: ref.current.style.overflow,
     };
     if (
-      currentStyle.height != options.compactHeight + "px" &&
+      currentStyle.height != `${options.compactHeight  }px` &&
       ref.current.getBoundingClientRect().height > options.compactHeight
     ) {
       ref.current.dataset.shrinkable = "true";

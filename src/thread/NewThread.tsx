@@ -49,21 +49,15 @@ interface CollapseGroupProps extends IndentProps {
 
 const isIndentElement = (
   node: React.ReactNode
-): node is React.Component<IndentProps> => {
-  return React.isValidElement(node) && node.type == Indent;
-};
+): node is React.Component<IndentProps> => React.isValidElement(node) && node.type == Indent;
 
 const isThreadItem = (
   node: React.ReactNode
-): node is React.Component<IndentProps> => {
-  return React.isValidElement(node) && node.type == Item;
-};
+): node is React.Component<IndentProps> => React.isValidElement(node) && node.type == Item;
 
 const isCollapseGroup = (
   node: React.ReactNode
-): node is React.Component<CollapseGroupProps> => {
-  return React.isValidElement(node) && node.type == CollapseGroup;
-};
+): node is React.Component<CollapseGroupProps> => React.isValidElement(node) && node.type == CollapseGroup;
 
 const processItemChildren = (children: React.ReactNode | undefined) => {
   const indent = Children.toArray(children).find(isIndentElement);
@@ -181,7 +175,7 @@ const Thread: React.FC<ThreadProps & ChildrenWithRenderProps> & {
           removeResizeCallback,
           onPopupOpenRequest,
           setPreventClick,
-          popupData: popupData,
+          popupData,
           boundaries: boundaries.current,
         }),
         [props, addResizeCallback, removeResizeCallback, popupData]
@@ -317,8 +311,8 @@ const Item: React.FC<ChildrenWithRenderProps> = (props) => {
   // it's always up to date in time for the commit phase.
   threadContext?.boundaries.set(boundaryId.current, boundaryElement);
 
-  let children: React.ReactNode = props.children;
-  if (typeof props.children == "function") {
+  let {children} = props;
+  if (typeof props.children === "function") {
     children = props.children(setBoundaryElement, boundaryId.current);
     // Since thread indent must always be a direct child of Item, but the component
     // rendered by using a render props function will likely need to wrap more than one
@@ -583,9 +577,9 @@ export const Indent: React.FC<IndentProps> = (props) => {
   // If the child is an uncollapsed CollapseGroup, then skip the CollapseGroup
   // and render its children instead. If not, render whatever the child is.
   const childrenForRendering = childrenArray.flatMap((child) =>
-    isCollapseGroup(child) && !child.props.collapsed
+    (isCollapseGroup(child) && !child.props.collapsed
       ? child.props.children
-      : child
+      : child)
   );
 
   return (

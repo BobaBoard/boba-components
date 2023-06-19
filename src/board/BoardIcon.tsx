@@ -17,8 +17,7 @@ const BoardIcon: React.FC<BoardIconProps> = ({
   muted,
   outdated,
   current,
-}) => {
-  return (
+}) => (
     <>
       <div
         className={cx("board-icon", {
@@ -182,7 +181,6 @@ const BoardIcon: React.FC<BoardIconProps> = ({
       `}</style>
     </>
   );
-};
 
 export default BoardIcon;
 

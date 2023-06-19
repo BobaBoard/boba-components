@@ -46,8 +46,7 @@ const { className: iconClassName, styles: iconStyle } = css.resolve`
  * An element indicating that the current circle button is in the
  * "selected" state.
  */
-const SelectBar = (props: Pick<CircleButtonProps, "selectLightPosition">) => {
-  return (
+const SelectBar = (props: Pick<CircleButtonProps, "selectLightPosition">) => (
     <div
       role="presentation"
       className={classnames("select-bar", {
@@ -78,7 +77,6 @@ const SelectBar = (props: Pick<CircleButtonProps, "selectLightPosition">) => {
       </style>
     </div>
   );
-};
 
 // Make the underlying link take the full width of the "circle button",
 // as not to "influence" its rendering.

@@ -61,7 +61,7 @@ const AccessorySelector: React.FC<AccessorySelectorProps> = (props) => {
   }
 
   const selectedAccessoryDisplayName = props.selectedAccessory
-    ? typeof props.selectedAccessory == "string"
+    ? typeof props.selectedAccessory === "string"
       ? "Unknown"
       : props.selectedAccessory.name
     : "None";

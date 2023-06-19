@@ -3,8 +3,7 @@ import BoardPreview, { DisplayStyle } from "./BoardPreview";
 import { LinkWithAction } from "types";
 import React from "react";
 
-const BoardsDisplay: React.FC<BoardsDisplayProps> = (props) => {
-  return (
+const BoardsDisplay: React.FC<BoardsDisplayProps> = (props) => (
     <div className="boards-display">
       {props.title && <div className="title">{props.title}</div>}
       <div className="boards">
@@ -51,7 +50,6 @@ const BoardsDisplay: React.FC<BoardsDisplayProps> = (props) => {
       `}</style>
     </div>
   );
-};
 
 export default BoardsDisplay;
 

@@ -22,8 +22,7 @@ export interface DeletableTagProps {
   compact?: boolean;
 }
 
-const Tag: React.FC<TagProps | DeletableTagProps> = (props) => {
-  return (
+const Tag: React.FC<TagProps | DeletableTagProps> = (props) => (
     <>
       <div
         className={classnames("tag", {
@@ -140,6 +139,5 @@ const Tag: React.FC<TagProps | DeletableTagProps> = (props) => {
       `}</style>
     </>
   );
-};
 
 export default Tag;

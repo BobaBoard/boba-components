@@ -121,7 +121,7 @@ const moveGhost = (ghost: HTMLElement, onRemoveCallback?: () => void) => {
   // info(`${deltaX} ${deltaY}`);
   // info(`translate(${nextX}px, ${nextY}px)`);
   ghost.style.transform = `translate(${nextX}px, ${nextY}px)`;
-  ghost.dataset.moves = "" + (parseInt(ghost.dataset.moves || "0") + 1);
+  ghost.dataset.moves = `${  parseInt(ghost.dataset.moves || "0") + 1}`;
 };
 
 const clearGhost = (ghost: HTMLElement, onRemoveCallback?: () => void) => {
@@ -155,7 +155,7 @@ const newGhost = (onRemoveCallback: () => void) => {
   newGhost.style.transform = `translate(${getRandomInt(
     innerWidth - GHOST_SIZE
   )}px, ${pageYOffset + getRandomInt(innerHeight - GHOST_SIZE)}px)`;
-  newGhost.dataset.lifespan = "" + (4 + getRandomInt(4));
+  newGhost.dataset.lifespan = `${  4 + getRandomInt(4)}`;
   info(`New ghost at ${newGhost.style.transform}`);
 
   // Whenever a ghost is done moving (its transition is finished),
@@ -181,7 +181,7 @@ const newGhost = (onRemoveCallback: () => void) => {
   setTimeout(() => {
     newGhost.style.transition = `transform 2.5s linear, opacity 2.5s linear`;
     newGhost.style.opacity = "1";
-    newGhost.dataset.index = "" + currentGhosts;
+    newGhost.dataset.index = `${  currentGhosts}`;
     moveGhost(newGhost);
   }, 200);
 

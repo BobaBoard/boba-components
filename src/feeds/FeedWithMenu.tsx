@@ -26,29 +26,21 @@ interface CompoundComponents {
   FeedContent: React.FC<{ children: React.ReactNode }>;
 }
 
-const Sidebar: CompoundComponents["Sidebar"] = (props) => {
-  return <>{props.children}</>;
-};
+const Sidebar: CompoundComponents["Sidebar"] = (props) => <>{props.children}</>;
 
-const FeedContent: CompoundComponents["FeedContent"] = (props) => {
-  return <>{props.children}</>;
-};
+const FeedContent: CompoundComponents["FeedContent"] = (props) => <>{props.children}</>;
 
 const extractFeedContent = (
   children: React.ReactNode
-): typeof FeedContent | undefined => {
-  return React.Children.toArray(children).find(
+): typeof FeedContent | undefined => React.Children.toArray(children).find(
     (node) => React.isValidElement(node) && node.type == FeedContent
   ) as typeof FeedContent;
-};
 
 const extractSidebar = (
   children: React.ReactNode
-): typeof Sidebar | undefined => {
-  return React.Children.toArray(children).find(
+): typeof Sidebar | undefined => React.Children.toArray(children).find(
     (node) => React.isValidElement(node) && node.type == Sidebar
   ) as typeof Sidebar;
-};
 
 const FeedWithMenu: React.FC<FeedWithMenuProps> & CompoundComponents = ({
   children,
@@ -62,7 +54,7 @@ const FeedWithMenu: React.FC<FeedWithMenuProps> & CompoundComponents = ({
   const intersectionObserverRef = React.useRef<HTMLDivElement>(null);
   const hasReachedBottom = React.useRef<boolean>(false);
   const [canOpenSidebar, setCanOpenSidebar] = React.useState(
-    typeof window != "undefined" &&
+    typeof window !== "undefined" &&
       matchMedia("only screen and (max-width: 850px)").matches
   );
   const { setOpen: setBackdropOpen } = useBackdrop({

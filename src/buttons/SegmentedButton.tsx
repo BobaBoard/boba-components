@@ -131,7 +131,7 @@ const SegmentedButton: React.FC<SegmentedButtonProps> = (props) => {
           updates={option.updates}
           theme={props.theme}
           color={props.color}
-          key={"" + option.id}
+          key={`${  option.id}`}
         />
       ))}
       <style jsx>{`

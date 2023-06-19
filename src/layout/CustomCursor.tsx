@@ -46,8 +46,8 @@ const CustomCursor: React.FC<CustomCursorProps> = (props) => {
       if (!imageRef.current) {
         return;
       }
-      const x = e.x;
-      const y = e.y;
+      const {x} = e;
+      const {y} = e;
       imageRef.current.style.transform = `translate3d(${x}px, ${y}px, 0)`;
       if (!props.cursorTrail || CURRENT++ % EVERY !== 0) {
         return;
@@ -97,8 +97,8 @@ const CustomCursor: React.FC<CustomCursorProps> = (props) => {
           src={props.cursorTrail}
           ref={imageRef}
           style={{
-            width: props.size?.w + "px",
-            height: props.size?.h + "px",
+            width: `${props.size?.w  }px`,
+            height: `${props.size?.h  }px`,
           }}
         />
       )}
@@ -118,10 +118,10 @@ const CustomCursor: React.FC<CustomCursorProps> = (props) => {
         }
         .cursor-container :global(img) {
           position: absolute;
-          top: ${typeof props.offset == "object"
+          top: ${typeof props.offset === "object"
             ? props.offset.y
             : props.offset ?? 0}px;
-          left: ${typeof props.offset == "object"
+          left: ${typeof props.offset === "object"
             ? props.offset.x
             : props.offset ?? 0}px;
           max-width: 50px;

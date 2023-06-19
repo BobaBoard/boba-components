@@ -17,8 +17,7 @@ export const useSwipeHandler = ({
   setOpen,
 }: {
   setOpen: (show: boolean) => void;
-}) => {
-  return React.useCallback(
+}) => React.useCallback(
     (ref: HTMLDivElement | null) => {
       if (!ref) {
         if (swipeHandler) {
@@ -47,7 +46,6 @@ export const useSwipeHandler = ({
     },
     [setOpen]
   );
-};
 
 /**
  * Adds all the transition handlers in a single function call.

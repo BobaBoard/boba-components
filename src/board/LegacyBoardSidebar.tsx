@@ -8,8 +8,7 @@ import Tag from "tags/Tag";
 import classnames from "classnames";
 import { faCaretDown } from "@fortawesome/free-solid-svg-icons";
 
-const BoardSidebar: React.FC<BoardSidebarProps> = (props) => {
-  return (
+const BoardSidebar: React.FC<BoardSidebarProps> = (props) => (
     <div className="sidebar">
       <div className="board-details">
         <div className="board-preview">
@@ -132,7 +131,6 @@ const BoardSidebar: React.FC<BoardSidebarProps> = (props) => {
       `}</style>
     </div>
   );
-};
 
 export default BoardSidebar;
 

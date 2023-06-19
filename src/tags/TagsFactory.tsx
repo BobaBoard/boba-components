@@ -62,14 +62,14 @@ export const getDataForTagType = (tag: TagsType | TagType) => {
       type: TagType.CONTENT_WARNING,
       accentColor: "black",
     };
-  } else {
+  } 
     return {
       symbol: WHISPER_PREFIX,
       color: undefined,
       type: TagType.WHISPER,
       accentColor: "black",
     };
-  }
+  
 };
 
 export class TagsFactory {
@@ -161,7 +161,7 @@ export class TagsFactory {
         contentWarning: true,
         type: TagType.CONTENT_WARNING,
       };
-    } else {
+    } 
       return {
         name: (tag.trim().startsWith(WHISPER_PREFIX)
           ? tag.trim().substring(WHISPER_PREFIX.length)
@@ -169,7 +169,7 @@ export class TagsFactory {
         ).trim(),
         type: TagType.WHISPER,
       };
-    }
+    
   }
 
   static getTagTypeFromString(tag: string) {
@@ -182,9 +182,9 @@ export class TagsFactory {
       CONTENT_NOTICE_PREFIXES.some((prefix) => lowerCaseTag.startsWith(prefix))
     ) {
       return TagType.CONTENT_WARNING;
-    } else {
+    } 
       return TagType.WHISPER;
-    }
+    
   }
 
   static isTagValid(tag: string) {

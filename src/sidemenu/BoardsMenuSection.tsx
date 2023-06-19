@@ -17,7 +17,7 @@ const BoardsMenuSection: React.FC<BoardsMenuSectionProps> = (props) => {
     <section>
       <div className="title">
         <div className="icon">
-          {typeof icon == "string" ? (
+          {typeof icon === "string" ? (
             <img src={icon} alt={`${emptyTitle} icon`} />
           ) : (
             <FontAwesomeIcon icon={icon} />

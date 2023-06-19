@@ -7,8 +7,7 @@ export interface PostingActionButtonProps {
   onNewPost: () => void;
 }
 
-const PostingActionButtion: React.FC<PostingActionButtonProps> = (props) => {
-  return (
+const PostingActionButtion: React.FC<PostingActionButtonProps> = (props) => (
     <FloatingActionButton
       accentColor={props.accentColor}
       actions={[
@@ -20,6 +19,5 @@ const PostingActionButtion: React.FC<PostingActionButtonProps> = (props) => {
       ]}
     />
   );
-};
 
 export default PostingActionButtion;
