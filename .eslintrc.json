@@ -12,6 +12,8 @@
   ],
   "parser": "@typescript-eslint/parser",
   "parserOptions": {
+    "project": true,
+    "tsconfigRootDir": "__dirname",
     "ecmaFeatures": {
       "jsx": true
     },
@@ -23,18 +25,23 @@
     "react/no-unknown-property": ["warn", { "ignore": ["jsx"] }],
     "react/prop-types": "off",
     "prefer-template":"warn",
-    "no-var": "warn",
+    "no-var": "error",
     "no-useless-rename": "warn",
-    "no-magic-numbers": "warn",
-    "no-inline-comments": "warn",
-    "no-implicit-coercion": "warn",
-    "no-alert": "warn"
+    "no-magic-numbers": "off",
+    "no-inline-comments": "off",
+    "no-implicit-coercion": ["warn", { 
+     "string": false,
+    "allow": ["!!"] }],
+    "no-alert": "warn",
+    "no-console": "warn",
+    "prefer-destructuring": "warn"
   },
   "overrides": [
     {
-      "files": ["\"stories/**/*.{ts,tsx}\"", "tests/**/*.{ts,tsx}"],
+      "files": ["stories/**/*.{ts,tsx}", "tests/**/*.{ts,tsx}"],
       "rules": {
-        "@typescript-eslint/no-non-null-assertion": "off"
+        "@typescript-eslint/no-non-null-assertion": "off",
+        "no-magic-numbers": "off"
       }
     }
   ],
