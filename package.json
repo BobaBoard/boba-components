@@ -6,7 +6,11 @@
   "types": "dist/index.d.ts",
   "type": "module",
   "scripts": {
-    "lint": "eslint --report-unused-disable-directives \"**/*.{ts,tsx}\"",
+    "lint": "eslint --max-warnings 0 --report-unused-disable-directives \"**/*.{ts,tsx}\"",
+    "lint:src": "eslint --report-unused-disable-directives \"src/**/*.{ts,tsx}\"",
+    "lint:tests": "eslint --report-unused-disable-directives \"tests/**/*.{ts,tsx}\"",
+    "lint:stories": "eslint --report-unused-disable-directives \"stories/**/*.{ts,tsx}\"",
+    "lint:fix": "yarn run lint -- --fix",
     "build": "rm -rf dist && tsc -p tsconfig.export.json --emitDeclarationOnly && tsc-alias -p tsconfig.export.json && webpack --mode production --config webpack.config.cjs --stats-error-details",
     "profile": "tsc -p tsconfig.export.json --emitDeclarationOnly && webpack --mode production  --config webpack.config.cjs --profile --json > stats.json",
     "test": "jest",
