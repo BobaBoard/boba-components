@@ -43,8 +43,7 @@ const UpdatesIndicator = ({
 }: {
   newContributions: number | undefined;
   newComments: number | undefined;
-}) => {
-  return (
+}) => (
     <div className="notes-update" aria-label="post updates indicator">
       {!!newContributions && (
         <span
@@ -85,7 +84,6 @@ const UpdatesIndicator = ({
       `}</style>
     </div>
   );
-};
 
 const NotesDisplay: React.FC<{
   link?: LinkWithAction;

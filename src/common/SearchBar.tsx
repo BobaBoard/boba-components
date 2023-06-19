@@ -3,8 +3,7 @@ import Button, { ButtonStyle } from "buttons/Button";
 import React from "react";
 import { faSearch } from "@fortawesome/free-solid-svg-icons";
 
-const SearchBar: React.FC<SearchBarProps> = (props) => {
-  return (
+const SearchBar: React.FC<SearchBarProps> = (props) => (
     <>
       <input
         placeholder={props.initialText}
@@ -37,7 +36,6 @@ const SearchBar: React.FC<SearchBarProps> = (props) => {
       </style>
     </>
   );
-};
 
 export default SearchBar;
 

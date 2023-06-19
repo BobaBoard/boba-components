@@ -56,8 +56,7 @@ export type BoardSidebarProps = BoardMetadataType &
 const BoardOptionsDropdown: React.FC<{
   accentColor: string;
   previewOptions: DropdownProps["options"];
-}> = ({ accentColor, previewOptions }) => {
-  return (
+}> = ({ accentColor, previewOptions }) => (
     <div className={classnames("preview-options")}>
       <DropdownMenu
         options={previewOptions}
@@ -98,13 +97,11 @@ const BoardOptionsDropdown: React.FC<{
       `}</style>
     </div>
   );
-};
 
 const EditHeader: React.FC<{
   onBack: () => void;
   onSubmit: () => void;
-}> = (props) => {
-  return (
+}> = (props) => (
     <div className={classnames("buttons")}>
       <Button
         icon={faArrowLeft}
@@ -124,7 +121,6 @@ const EditHeader: React.FC<{
       `}</style>
     </div>
   );
-};
 
 const createBlankSection = (
   type: "text" | "category_filter",
@@ -151,15 +147,13 @@ const createBlankSection = (
 const getNextIndex = (sectionsData: {
   sections: React.ReactElement<SidebarSectionProps>[];
   newSections: DescriptionType[];
-}) => {
-  return (
+}) => (
     Math.max(
       0,
       ...sectionsData.sections.map(getSectionData).map((data) => data!.index),
       ...sectionsData.newSections.map((data) => data.index)
     ) + 1
   );
-};
 
 const BoardSidebar: React.FC<BoardSidebarProps> & {
   SidebarSection: React.FC<SidebarSectionProps>;

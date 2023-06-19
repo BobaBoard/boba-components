@@ -10,8 +10,7 @@ export interface TagSuggestionsProps {
   type: TagType;
 }
 
-const TagSuggestions: React.FC<TagSuggestionsProps> = (props) => {
-  return (
+const TagSuggestions: React.FC<TagSuggestionsProps> = (props) => (
     <div className={classnames("tags-suggestions")}>
       <div className="description">{props.description}</div>
       <div className="tags-container">
@@ -65,6 +64,5 @@ const TagSuggestions: React.FC<TagSuggestionsProps> = (props) => {
       `}</style>
     </div>
   );
-};
 
 export default TagSuggestions;

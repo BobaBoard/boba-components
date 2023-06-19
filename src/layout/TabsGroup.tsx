@@ -65,8 +65,7 @@ interface TabsGroupProps {
   children: React.ReactNode;
 }
 
-const TabsGroup: React.FC<TabsGroupProps> & CompoundComponents = (props) => {
-  return (
+const TabsGroup: React.FC<TabsGroupProps> & CompoundComponents = (props) => (
     <div className="tab-group">
       <div className="title">
         {props.icon && (
@@ -101,7 +100,6 @@ const TabsGroup: React.FC<TabsGroupProps> & CompoundComponents = (props) => {
       `}</style>
     </div>
   );
-};
 TabsGroup.Option = Option;
 
 export default TabsGroup;

@@ -43,15 +43,11 @@ interface ThreadProps {
 
 const isIndentElement = (
   node: React.ReactNode
-): node is React.Component<IndentProps> => {
-  return React.isValidElement(node) && node.type == Indent;
-};
+): node is React.Component<IndentProps> => React.isValidElement(node) && node.type == Indent;
 
 const isThreadItem = (
   node: React.ReactNode
-): node is React.Component<ChildrenWithRenderProps> => {
-  return React.isValidElement(node) && node.type == Item;
-};
+): node is React.Component<ChildrenWithRenderProps> => React.isValidElement(node) && node.type == Item;
 
 const processItemChildren = (children: React.ReactNode | undefined) => {
   const indent = Children.toArray(children).find(isIndentElement);
@@ -429,8 +425,8 @@ const Item: React.FC<ChildrenWithRenderProps> = (props) => {
     [setBoundaryElement, boundaryElement]
   );
 
-  let children: React.ReactNode = props.children;
-  if (typeof props.children == "function") {
+  let {children} = props;
+  if (typeof props.children === "function") {
     children = props.children(boundaryElementCallback);
     // Since thread indent must always be a direct child of Item, but the component
     // rendered by using a render props function will likely need to wrap more than one
@@ -447,7 +443,7 @@ const Item: React.FC<ChildrenWithRenderProps> = (props) => {
     }
     const levelElement = levelContent.current;
     const index = getLevelIndex(levelElement);
-    levelElement.dataset.levelIndex = "" + index;
+    levelElement.dataset.levelIndex = `${  index}`;
     threadContext.registerItemBoundary({
       levelElement,
       boundaryElement,

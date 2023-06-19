@@ -53,9 +53,9 @@ const PinnedMenuItem: React.FC<
       return `${label} has new updates`;
     } else if (item.withNotification) {
       return `${label} has new updates`;
-    } else {
+    } 
       return label;
-    }
+    
   };
 
   return (
@@ -156,7 +156,7 @@ const Section: React.FC<PinnedMenuSectionProps> = (props) => {
           icon={icon}
         />
       </div>
-      <div className="items-container" aria-busy={loading ? true : false}>
+      <div className="items-container" aria-busy={!!loading}>
         {loading &&
           Array.from({ length: loadingElementsCount || 0 }).map((_, index) => (
             <PinnedMenuItem

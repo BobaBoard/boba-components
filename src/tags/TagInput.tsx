@@ -27,9 +27,7 @@ const isDeletingPrevious = (e: KeyboardEvent<HTMLElement>) => {
   const previousValue = e.currentTarget.getAttribute("data-previous");
   return !previousValue && e.key == "Backspace";
 };
-const isSubmissionAttempt = (e: KeyboardEvent<HTMLElement>) => {
-  return e.key === "Enter";
-};
+const isSubmissionAttempt = (e: KeyboardEvent<HTMLElement>) => e.key === "Enter";
 const log = debug("bobaui:TagInput-log");
 
 const maybePreventInput: FormEventHandler<HTMLDivElement> = (e) => {

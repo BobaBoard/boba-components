@@ -64,8 +64,7 @@ const UpdatesHeader = (props: {
   newPost?: boolean;
   newComments?: number;
   newContributions?: number;
-}) => {
-  return (
+}) => (
     <>
       {props.newPost && (
         <div className="update new-post">
@@ -97,7 +96,6 @@ const UpdatesHeader = (props: {
       `}</style>
     </>
   );
-};
 
 const PostPreamble: React.FC<PostPreambleProps> = (props) => {
   const hasUpdate =

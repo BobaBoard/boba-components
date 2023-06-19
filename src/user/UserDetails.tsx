@@ -98,13 +98,13 @@ const UserDetails: React.FC<UserDetailsProps> = (props) => {
                     ).then((result) => {
                       resolve({
                         editedImg: result,
-                        username: username,
+                        username,
                       });
                     });
                   } else {
                     resolve({
                       editedImg: props.imageUrl,
-                      username: username,
+                      username,
                     });
                   }
                 })

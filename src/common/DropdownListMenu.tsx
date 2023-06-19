@@ -69,11 +69,9 @@ export interface DropdownProps {
   buttonClassName?: string;
 }
 
-const isSmallScreen = () => {
-  return typeof matchMedia === "undefined"
+const isSmallScreen = () => (typeof matchMedia === "undefined"
     ? false
-    : matchMedia("only screen and (max-width: 575px)").matches;
-};
+    : matchMedia("only screen and (max-width: 575px)").matches);
 
 const getThemeColors = (style?: DropdownStyle) => {
   const themeColor =
@@ -116,7 +114,7 @@ const DropdownItem: React.FC<{
         onCloseRequest();
         option.link.onClick?.(e);
       },
-      href: option["link"]?.href,
+      href: option.link?.href,
     }),
     [onNestedOptions, onCloseRequest, option]
   );
@@ -401,21 +399,21 @@ const DropdownMenu: React.FC<DropdownProps> & {
             return;
           }
           const currentMenuRect = option.ref.current?.getBoundingClientRect();
-          optionsWrapper.style.height = (currentMenuRect?.height || 0) + "px";
+          optionsWrapper.style.height = `${currentMenuRect?.height || 0  }px`;
           if (!isSmallScreen()) {
-            optionsWrapper.style.width = (currentMenuRect?.width || 0) + "px";
+            optionsWrapper.style.width = `${currentMenuRect?.width || 0  }px`;
           } else {
             optionsSlider.style.width =
-              optionsWrapper.getBoundingClientRect().width + "px";
+              `${optionsWrapper.getBoundingClientRect().width  }px`;
           }
           // Only turn it in absolute when we're effectively in a multistack situation
           // so we don't interfere with the popover operation.
           optionsSlider.style.position = "absolute";
           optionsSlider.style.left =
-            -getMenuOffsetInSlider({
+            `${-getMenuOffsetInSlider({
               menuRef: option.ref,
               sliderRef: optionsSlider,
-            }) + "px";
+            })  }px`;
         },
         slideToPreviousOption: (option: OptionInfo) => {
           if (!optionsWrapper || !optionsSlider) {
@@ -423,15 +421,15 @@ const DropdownMenu: React.FC<DropdownProps> & {
           }
           const previousMenuRect = option.ref.current?.getBoundingClientRect();
           if (!isSmallScreen()) {
-            optionsWrapper.style.width = (previousMenuRect?.width || 0) + "px";
+            optionsWrapper.style.width = `${previousMenuRect?.width || 0  }px`;
           }
-          optionsWrapper.style.height = (previousMenuRect?.height || 0) + "px";
+          optionsWrapper.style.height = `${previousMenuRect?.height || 0  }px`;
 
           optionsSlider.style.left =
-            -getMenuOffsetInSlider({
+            `${-getMenuOffsetInSlider({
               menuRef: option.ref,
               sliderRef: optionsSlider,
-            }) + "px";
+            })  }px`;
           optionsSlider.addEventListener(
             "transitionend",
             () => {
@@ -495,9 +493,8 @@ const DropdownMenu: React.FC<DropdownProps> & {
 
   const content = React.useMemo(
     () =>
-      isOpen
-        ? optionsStack.map(({ options, ref }, index) => {
-            return (
+      (isOpen
+        ? optionsStack.map(({ options, ref }, index) => (
               <DropdownContent
                 ref={ref}
                 key={index}
@@ -514,9 +511,8 @@ const DropdownMenu: React.FC<DropdownProps> & {
                 onCloseRequest={close}
                 onNestedOptions={appendNestedOptions}
               />
-            );
-          })
-        : [],
+            ))
+        : []),
     [
       props.style,
       isOpen,

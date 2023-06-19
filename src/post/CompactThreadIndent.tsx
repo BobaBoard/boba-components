@@ -52,7 +52,7 @@ const CompactThreadIndent: React.FC<CompactThreadIndentProps> = (props) => {
     containerRef.current
       .querySelectorAll(".thread-container")
       .forEach((line: HTMLDivElement) => {
-        if (line.dataset.level !== "" + (props.level + 1)) {
+        if (line.dataset.level !== `${  props.level + 1}`) {
           return;
         }
         const dataset = line.dataset as {
@@ -94,8 +94,7 @@ const CompactThreadIndent: React.FC<CompactThreadIndentProps> = (props) => {
           />
 
           {innerLevelBounds &&
-            innerLevelBounds.map((bound) => {
-              return (
+            innerLevelBounds.map((bound) => (
                 <div
                   key={`${bound.top}_${bound.left}`}
                   className="thread-line-inner"
@@ -107,8 +106,7 @@ const CompactThreadIndent: React.FC<CompactThreadIndentProps> = (props) => {
                     display: props.hideLine ? "none" : "block",
                   }}
                 />
-              );
-            })}
+              ))}
         </>
       )}
       {props.children}

@@ -37,13 +37,11 @@ const TagsDisplay: React.FC<TagsDisplayProps> = ({
   const maybeWrapInDiv = (
     component: React.ReactNode[],
     wrapClassName: string
-  ) => {
-    return editable ? (
+  ) => (editable ? (
       component
     ) : (
       <div className={wrapClassName}>{component}</div>
-    );
-  };
+    ));
 
   return (
     <>

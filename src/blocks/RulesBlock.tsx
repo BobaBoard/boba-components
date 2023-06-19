@@ -15,8 +15,7 @@ const RulesBlockHeader: React.FC<{
   title: string;
   seeAllLink: LinkWithAction;
   headerLinkLabel: string;
-}> = ({ seeAllLink, title, headerLinkLabel }) => {
-  return (
+}> = ({ seeAllLink, title, headerLinkLabel }) => (
     <div className="rules-header">
       <h2>{title}</h2>
       <ActionLink className={linkClassName} link={seeAllLink}>
@@ -34,10 +33,8 @@ const RulesBlockHeader: React.FC<{
       {linkStyles}
     </div>
   );
-};
 
-const RuleDisplay: React.FC<{ rule: Rule }> = ({ rule }) => {
-  return (
+const RuleDisplay: React.FC<{ rule: Rule }> = ({ rule }) => (
     <li>
       <details>
         <summary>{rule.title}</summary>
@@ -77,10 +74,8 @@ const RuleDisplay: React.FC<{ rule: Rule }> = ({ rule }) => {
       `}</style>
     </li>
   );
-};
 
-const RulesList: React.FC<{ rules: Rule[] }> = ({ rules }) => {
-  return (
+const RulesList: React.FC<{ rules: Rule[] }> = ({ rules }) => (
     <ul>
       {[...rules]
         .sort((a, b) => a.index - b.index)
@@ -96,15 +91,13 @@ const RulesList: React.FC<{ rules: Rule[] }> = ({ rules }) => {
       `}</style>
     </ul>
   );
-};
 
 const RulesBlock: React.FC<RulesBlockProps> = ({
   title,
   seeAllLink,
   rules,
   headerLinkLabel,
-}) => {
-  return (
+}) => (
     <>
       <RulesBlockHeader
         seeAllLink={seeAllLink}
@@ -114,7 +107,6 @@ const RulesBlock: React.FC<RulesBlockProps> = ({
       <RulesList rules={rules} />
     </>
   );
-};
 
 export interface RulesBlockProps {
   title: string;

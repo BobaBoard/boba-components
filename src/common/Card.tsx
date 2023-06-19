@@ -162,7 +162,7 @@ const Card = Object.assign(
               padding: 0 12px 8px 12px;
             }
             section {
-              max-height: ${height + "px" || "unset"};
+              max-height: ${`${height  }px` || "unset"};
               position: relative;
             }
             .card.expanded section {

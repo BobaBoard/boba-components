@@ -83,7 +83,7 @@ export const useBackdrop = ({
     });
 
     backdropNode.style.display = open ? "block" : "none";
-    backdropNode.style.zIndex = "" + (zIndex || 50);
+    backdropNode.style.zIndex = `${  zIndex || 50}`;
     return () => {
       removeBackdropNode(id);
     };
@@ -101,12 +101,10 @@ export const prepareContentSubmission = (
   return Promise.all(images.map((src: string) => uploadFunction(src))).then(
     (uploadedImages) => {
       const replacements = images.reduce(
-        (obj: any, image: string, index: number) => {
-          return {
+        (obj: any, image: string, index: number) => ({
             ...obj,
             [image]: uploadedImages[index],
-          };
-        },
+          }),
         {}
       );
       replaceImages(delta, replacements);

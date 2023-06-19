@@ -28,16 +28,14 @@ const getSelectedAccessory = ({
   secretIdentity?: SecretIdentityType;
   accessories?: AccessoryType[];
   currentAccessory?: AccessoryType;
-}) => {
-  return currentAccessory
+}) => (currentAccessory
     ? accessories?.find((accessory) => accessory.id == currentAccessory?.id)
     : secretIdentity?.accessory
     ? {
         name: "Role",
         accessory: secretIdentity?.accessory,
       }
-    : undefined;
-};
+    : undefined);
 
 const mergeIdentityWithAccessory = ({
   secretIdentity,
@@ -45,8 +43,7 @@ const mergeIdentityWithAccessory = ({
 }: {
   secretIdentity?: SecretIdentityType;
   currentAccessory?: AccessoryType;
-}): SecretIdentityType => {
-  return secretIdentity
+}): SecretIdentityType => (secretIdentity
     ? {
         ...secretIdentity,
         accessory: currentAccessory?.accessory || secretIdentity?.accessory,
@@ -55,8 +52,7 @@ const mergeIdentityWithAccessory = ({
         name: "Random Identity",
         avatar: questionMark,
         accessory: currentAccessory?.accessory,
-      };
-};
+      });
 
 const useIdentitySelectionOptions = (props: {
   additionalIdentities: PostHeaderProps["additionalIdentities"];

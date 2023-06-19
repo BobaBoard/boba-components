@@ -14,8 +14,7 @@ export interface FloatingActionButtonProps {
   }[];
 }
 
-const FloatingActionButton: React.FC<FloatingActionButtonProps> = (props) => {
-  return (
+const FloatingActionButton: React.FC<FloatingActionButtonProps> = (props) => (
     <div className={classNames("fab-container")}>
       <button className="fab-clickable-area" onClick={props.actions[0].action}>
         <div className="fab">
@@ -89,6 +88,5 @@ const FloatingActionButton: React.FC<FloatingActionButtonProps> = (props) => {
       `}</style>
     </div>
   );
-};
 
 export default FloatingActionButton;

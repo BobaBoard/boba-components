@@ -108,8 +108,8 @@ const CommentChainEditor = React.forwardRef<
         chainEditorRef.current,
         emptyEditorRef
       );
-      deleteRef.current.style.left = differences.left + "px";
-      deleteRef.current.style.top = differences.top + "px";
+      deleteRef.current.style.left = `${differences.left  }px`;
+      deleteRef.current.style.top = `${differences.top  }px`;
       deleteRef.current.style.display = "block";
     } else if (deleteRef.current) {
       deleteRef.current.style.display = "none";

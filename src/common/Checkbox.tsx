@@ -6,8 +6,7 @@ interface CheckboxProps {
   onValueChange: (value: boolean) => void;
 }
 
-const Checkbox: React.FC<CheckboxProps> = (props) => {
-  return (
+const Checkbox: React.FC<CheckboxProps> = (props) => (
     <label className="switch">
       <input
         type="checkbox"
@@ -68,6 +67,5 @@ const Checkbox: React.FC<CheckboxProps> = (props) => {
       `}</style>
     </label>
   );
-};
 
 export default Checkbox;

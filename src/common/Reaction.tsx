@@ -6,8 +6,7 @@ export interface ReactionProps {
   count: number;
   onClick?: () => void;
 }
-const Reaction: React.FC<ReactionProps> = (props) => {
-  return (
+const Reaction: React.FC<ReactionProps> = (props) => (
     <>
       <div className={classnames("reaction")} onClick={props.onClick}>
         <div className="image" />
@@ -49,6 +48,5 @@ const Reaction: React.FC<ReactionProps> = (props) => {
       `}</style>
     </>
   );
-};
 
 export default Reaction;

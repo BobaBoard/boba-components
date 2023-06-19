@@ -81,7 +81,7 @@ const Button: React.FC<ButtonProps> = ({
           full,
           center,
           disabled,
-          "with-image": typeof icon == "string",
+          "with-image": typeof icon === "string",
         })}
       >
         {updates && (

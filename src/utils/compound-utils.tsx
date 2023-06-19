@@ -30,9 +30,7 @@ export function extractRest(
 }
 
 export function CreateBaseCompound<T>(displayName: string) {
-  const newComponent = ({ children }: React.PropsWithChildren<T>) => {
-    return <>{children}</>;
-  };
+  const newComponent = ({ children }: React.PropsWithChildren<T>) => <>{children}</>;
   newComponent.displayName = displayName;
   return newComponent;
 }

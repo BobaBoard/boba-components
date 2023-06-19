@@ -9,8 +9,7 @@ export interface CycleNewButtonProps {
   loading?: boolean;
 }
 
-const CycleNewButton: React.FC<CycleNewButtonProps> = (props) => {
-  return (
+const CycleNewButton: React.FC<CycleNewButtonProps> = (props) => (
     <FloatingActionButton
       spin={props.loading}
       accentColor={"grey"}
@@ -26,6 +25,5 @@ const CycleNewButton: React.FC<CycleNewButtonProps> = (props) => {
       )}
     />
   );
-};
 
 export default CycleNewButton;
