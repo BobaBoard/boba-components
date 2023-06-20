@@ -31,9 +31,7 @@ export default {
   ],
 } as Meta;
 
-const ButtonTemplate: Story<CircleButtonProps> = (args) => {
-  return <CircleButton {...args} />;
-};
+const ButtonTemplate: Story<CircleButtonProps> = (args) => <CircleButton {...args} />;
 
 export const Regular = ButtonTemplate.bind({});
 Regular.args = {

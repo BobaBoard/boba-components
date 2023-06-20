@@ -14,8 +14,7 @@ export default {
   component: ThreadIndent,
 };
 
-export const Regular = () => {
-  return (
+export const Regular = () => (
     <div
       style={{
         marginLeft: "100px",
@@ -212,10 +211,8 @@ export const Regular = () => {
       </ThreadIndent>
     </div>
   );
-};
 
-export const ShortContent = () => {
-  return (
+export const ShortContent = () => (
     <div
       style={{
         marginLeft: "100px",
@@ -276,7 +273,6 @@ export const ShortContent = () => {
       </ThreadIndent>
     </div>
   );
-};
 
 // Still broken after updating props and fixing all shown ts errors.
 // We may be able to simply get rid of this story as it may be covered by the CommentsThread stories in the Comments folder.
@@ -516,8 +512,7 @@ export const ShortContent = () => {
 //     </div>
 //   );
 // };
-export const CollapsePlaceholder = () => {
-  return (
+export const CollapsePlaceholder = () => (
     <div style={{ maxWidth: "500px", textAlign: "center" }}>
       <CollapsedPlaceholder
         onUncollapseClick={{ onClick: action("uncollapse") }}
@@ -569,4 +564,3 @@ export const CollapsePlaceholder = () => {
       </CollapsedPlaceholder>
     </div>
   );
-};

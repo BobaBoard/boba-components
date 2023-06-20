@@ -22,7 +22,7 @@ export default {
 const RECENT_BOARDS = [
   {
     slug: "gore",
-    avatar: "/" + goreBackground,
+    avatar: `/${goreBackground}`,
     description: "Love me some bruised bois (and more).",
     color: "#f96680",
     link: { href: "#slug", onClick: action("#slug") },
@@ -30,7 +30,7 @@ const RECENT_BOARDS = [
   },
   {
     slug: "a-super-long-slug-because-we-need-to-test-for-overflow",
-    avatar: "/" + book,
+    avatar: `/${book}`,
     description: "Come enjoy all the fics!",
     color: "#7724d2",
     updates: 5,
@@ -39,7 +39,7 @@ const RECENT_BOARDS = [
   },
   {
     slug: "kink-memes",
-    avatar: "/" + kinkmeme,
+    avatar: `/${kinkmeme}`,
     description: "No limits. No shame.",
     color: "#000000",
     link: { href: "#slug", onClick: action("#slug") },
@@ -47,7 +47,7 @@ const RECENT_BOARDS = [
   },
   {
     slug: "fic-club",
-    avatar: "/" + book,
+    avatar: `/${book}`,
     description: "Come enjoy all the fics!",
     color: "#7724d2",
     updates: 5,
@@ -59,7 +59,7 @@ const RECENT_BOARDS = [
 const FANDOM_BOARDS = [
   {
     slug: "fic-club",
-    avatar: "/" + book,
+    avatar: `/${book}`,
     description: "Come enjoy all the fics!",
     color: "#7724d2",
     updates: 5,
@@ -68,14 +68,14 @@ const FANDOM_BOARDS = [
   },
   {
     slug: "meta",
-    avatar: "/" + meta,
+    avatar: `/${meta}`,
     description: "In My TiMeS wE CaLlEd It WaNk",
     color: "#f9e066",
     link: { href: "#slug", onClick: action("#slug") },
   },
   {
     slug: "villain-thirst",
-    avatar: "/" + villains,
+    avatar: `/${villains}`,
     description: "Love to love 'em.",
     color: "#e22b4b",
     link: { href: "#slug", onClick: action("#slug") },
@@ -86,44 +86,42 @@ const SideMenuPreviewTemplate: Story<
   SideMenuProps & {
     loading: boolean;
   }
-> = (args, context) => {
-  return (
-    <SideMenu
-      showPinned={args.showPinned}
-      onFilterChange={args.onFilterChange}
-      menuOptions={args.menuOptions}
+> = (args, context) => (
+  <SideMenu
+    showPinned={args.showPinned}
+    onFilterChange={args.onFilterChange}
+    menuOptions={args.menuOptions}
+    currentBoardSlug={args.currentBoardSlug}
+    ref={context?.menuRef}
+  >
+    <PinnedMenu>
+      {/* @ts-expect-error (see: https://github.com/storybookjs/storybook/issues/13747) */}
+      <PinnedMenu.Section {...Icons.args} />
+      {/* @ts-expect-error (see: https://github.com/storybookjs/storybook/issues/13747) */}
+      <PinnedMenu.Section {...Boards.args} />
+    </PinnedMenu>
+    <BoardsMenuSection
+      boards={RECENT_BOARDS}
+      icon={faClock}
+      title="Recent boards"
       currentBoardSlug={args.currentBoardSlug}
-      ref={context?.menuRef}
-    >
-      <PinnedMenu>
-        {/* @ts-expect-error (see: https://github.com/storybookjs/storybook/issues/13747) */}
-        <PinnedMenu.Section {...Icons.args} />
-        {/* @ts-expect-error (see: https://github.com/storybookjs/storybook/issues/13747) */}
-        <PinnedMenu.Section {...Boards.args} />
-      </PinnedMenu>
-      <BoardsMenuSection
-        boards={RECENT_BOARDS}
-        icon={faClock}
-        title="Recent boards"
-        currentBoardSlug={args.currentBoardSlug}
-      />
-      <BoardsMenuSection
-        boards={FANDOM_BOARDS}
-        icon={faLemon}
-        title="Fandom boards"
-        currentBoardSlug={args.currentBoardSlug}
-      />
-      {/* @ts-expect-error (see: https://github.com/storybookjs/storybook/issues/13747) */}
-      <BoardsMenuSection {...Regular.args} />
-      {/* @ts-expect-error (see: https://github.com/storybookjs/storybook/issues/13747) */}
-      <BoardsMenuSection {...Loading.args} loading={args.loading} />
-      {/* @ts-expect-error (see: https://github.com/storybookjs/storybook/issues/13747) */}
-      <BoardsMenuSection {...Empty.args} />
-      {/* @ts-expect-error (see: https://github.com/storybookjs/storybook/issues/13747)
+    />
+    <BoardsMenuSection
+      boards={FANDOM_BOARDS}
+      icon={faLemon}
+      title="Fandom boards"
+      currentBoardSlug={args.currentBoardSlug}
+    />
+    {/* @ts-expect-error (see: https://github.com/storybookjs/storybook/issues/13747) */}
+    <BoardsMenuSection {...Regular.args} />
+    {/* @ts-expect-error (see: https://github.com/storybookjs/storybook/issues/13747) */}
+    <BoardsMenuSection {...Loading.args} loading={args.loading} />
+    {/* @ts-expect-error (see: https://github.com/storybookjs/storybook/issues/13747) */}
+    <BoardsMenuSection {...Empty.args} />
+    {/* @ts-expect-error (see: https://github.com/storybookjs/storybook/issues/13747)
       <BoardsMenuSection {...Long.args} /> */}
-    </SideMenu>
-  );
-};
+  </SideMenu>
+);
 
 export const SideMenuPreview = SideMenuPreviewTemplate.bind({});
 SideMenuPreview.args = {
@@ -162,7 +160,6 @@ SideMenuPreview.decorators = [
             minHeight: "500px",
           }}
         >
-          {/* @ts-ignore */}
           <Story menuRef={menuRef} />
         </div>
       </div>

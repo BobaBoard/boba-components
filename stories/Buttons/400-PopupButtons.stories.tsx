@@ -19,8 +19,7 @@ export const PopupButtons: Story<
   PopupButtonsProps & {
     setShow: (show: boolean) => void;
   }
-> = ({ show, setShow, container }) => {
-  return (
+> = ({ show, setShow, container }) => (
     <PopupButtonsComponent
       onCloseRequest={() => setShow(false)}
       options={[
@@ -72,7 +71,6 @@ export const PopupButtons: Story<
       container={container}
     />
   );
-};
 PopupButtons.decorators = [
   (Story, props) => {
     const container = React.useRef<HTMLDivElement>(null);

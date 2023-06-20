@@ -86,7 +86,8 @@
       "files": ["stories/**/*.{ts,tsx}", "tests/**/*.{ts,tsx}"],
       "rules": {
         "@typescript-eslint/no-non-null-assertion": "off",
-        "no-magic-numbers": "off"
+        "no-magic-numbers": "off",
+        "no-console": "off"
       }
     }
   ],
