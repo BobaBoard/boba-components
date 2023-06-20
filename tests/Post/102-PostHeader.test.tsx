@@ -51,7 +51,7 @@ const verifySecretIdentity = (render: RenderResult, story: Story) => {
 const verifyUserIdentity = (render: RenderResult, story: Story) => {
   const userIdentityElement = getByText(
     getContainer(),
-    "@" + story.args!.userIdentity!.name
+    `@${  story.args!.userIdentity!.name}`
   );
   const userIdentityAvatar = getByLabelText(
     getContainer(),
@@ -96,7 +96,7 @@ test("Tests for force hide", () => {
 
   const userIdentityElement = queryByText(
     getContainer(),
-    "@" + WithForceHideUserIdentity.args!.userIdentity!.name
+    `@${  WithForceHideUserIdentity.args!.userIdentity!.name}`
   );
   const userIdentityAvatar = getByLabelText(
     getContainer(),

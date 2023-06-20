@@ -10,17 +10,13 @@ import TagsFilterSection, {
   TagsFilterSectionProps,
 } from "sidebar/TagsFilterSection";
 import TextSection, { TextSectionProps } from "sidebar/TextSection";
-import { fireEvent, render, screen, waitFor } from "@testing-library/react";
+import { render, screen } from "@testing-library/react";
 
 import { DescriptionType } from "types";
 import React from "react";
 import { TagMatcher } from "../utils/matchers";
-import { action } from "@storybook/addon-actions";
 import { composeStories } from "@storybook/testing-react";
-import { findRenderedComponentWithType } from "react-dom/test-utils";
-import { mocked } from "jest-mock";
 import { suppressConsoleErrors } from "../utils/testUtils";
-import userEvent from "@testing-library/user-event";
 
 jest.mock("@storybook/addon-actions");
 

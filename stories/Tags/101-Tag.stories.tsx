@@ -37,7 +37,7 @@ const TagTemplate: Story<
   TagProps | DeletableTagProps | { tags: TagProps[] | DeletableTagProps[] }
 > = (args) => (
   <>
-    {(Array.isArray(args.tags) ? args.tags : [args]).map((tag) => (
+    {("tags" in args ? args.tags : [args]).map((tag) => (
       <Tag key={tag.name} {...tag} />
     ))}
   </>

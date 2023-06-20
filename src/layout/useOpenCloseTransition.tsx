@@ -1,4 +1,5 @@
-// @ts-expect-error (for some reason, typescript thinks this is unused)
+// eslint-disable-next-line @typescript-eslint/ban-ts-comment
+// @ts-ignore-error (for some reason, typescript thinks this is unused, but not storybook)
 import type HammerManager from "hammerjs";
 import React from "react";
 
