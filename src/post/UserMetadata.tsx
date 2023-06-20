@@ -263,12 +263,12 @@ const UserMetadata = React.forwardRef<HTMLImageElement, UserMetadataProps>(
       selectedAccessory,
       size = UserMetadataStyle.REGULAR,
     } = props;
-    const isCompact = size == UserMetadataStyle.COMPACT;
+    const isCompact = size === UserMetadataStyle.COMPACT;
 
     return (
       <div
         className={classnames("metadata-container", {
-          compact: UserMetadataStyle.COMPACT == size,
+          compact: UserMetadataStyle.COMPACT === size,
         })}
       >
         <DropdownListMenu
@@ -294,7 +294,7 @@ const UserMetadata = React.forwardRef<HTMLImageElement, UserMetadataProps>(
             forceHide={forceHideIdentity}
             userIdentity={userIdentity}
             secretIdentity={secretIdentity}
-            compact={size == UserMetadataStyle.COMPACT}
+            compact={size === UserMetadataStyle.COMPACT}
             ref={avatarRef}
           />
         </DropdownListMenu>

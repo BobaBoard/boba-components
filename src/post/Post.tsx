@@ -1,6 +1,7 @@
 import Card, { CardHandler } from "common/Card";
 import DropdownListMenu, { DropdownProps } from "common/DropdownListMenu";
 import Header, { HeaderStyle } from "./Header";
+import Icon, { type IconProps } from "common/Icon";
 import {
   LinkWithAction,
   SecretIdentityType,
@@ -11,8 +12,6 @@ import {
 
 import Editor from "@bobaboard/boba-editor";
 import Footer from "./Footer";
-import Icon from "common/Icon";
-import type { IconProps } from "common/Icon";
 import PostPreamble from "./PostPreamble";
 import React from "react";
 import Tags from "tags/Tags";

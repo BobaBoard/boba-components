@@ -72,7 +72,7 @@ const Button: React.FC<ButtonProps> = ({
 }) => {
   const THEME_COLOR = getThemeColor(theme);
   const REVERSE_THEME_COLOR = getReverseThemeColor(theme);
-  const transparent = ButtonStyle.TRANSPARENT == theme;
+  const transparent = ButtonStyle.TRANSPARENT === theme;
   return (
     <>
       <div
@@ -88,7 +88,7 @@ const Button: React.FC<ButtonProps> = ({
           <div className="updates">
             {updates === true ? (
               <FontAwesomeIcon icon={faCertificate} />
-            ) : updates == Infinity ? (
+            ) : updates === Infinity ? (
               "∞"
             ) : (
               updates

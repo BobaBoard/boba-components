@@ -77,11 +77,8 @@ const makeEditableChild = (
  * Given a valid child element of a SidebarSection, get its description data.
  */
 export const getSectionData = (
-  section?: React.ReactElement<SidebarSectionProps>
-): DescriptionType | null => {
-  if (!section) {
-    return null;
-  }
+  section: React.ReactElement<SidebarSectionProps>
+): DescriptionType => {
   const type = getType(section.props.children);
   switch (type) {
     case "text":

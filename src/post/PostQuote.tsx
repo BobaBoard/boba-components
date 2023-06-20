@@ -11,7 +11,7 @@ import { useExpand } from "utils/useExpand";
 const parseText = (text: string) => {
   try {
     return JSON.parse(text);
-  } catch (e) {
+  } catch (error) {
     // Ignore errors. The problem is coming from the passed text.
     return [];
   }

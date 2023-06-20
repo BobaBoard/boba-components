@@ -12,7 +12,6 @@ import Icon, { IconProps } from "common/Icon";
 import React, { AriaAttributes } from "react";
 
 import ActionLink from "buttons/ActionLink";
-import DefaultTheme from "theme/default";
 import { LinkWithAction } from "types";
 import Theme from "theme/default";
 import classnames from "classnames";
@@ -126,7 +125,7 @@ const ContextMenu = (props: ContextMenuProps) => {
 const ACTION_BUTTON_SIZE_PX = 55;
 const getCenterButtonCss = (props: { accentColor?: string }) => css.resolve`
   .action-button {
-    background: ${props.accentColor ?? DefaultTheme.DEFAULT_ACCENT_COLOR};
+    background: ${props.accentColor ?? Theme.DEFAULT_ACCENT_COLOR};
     border: none;
     border-radius: 999px;
     width: ${ACTION_BUTTON_SIZE_PX}px;
@@ -191,10 +190,10 @@ const circleButtonCss = css.resolve`
 const BottomBar: BottomBarCompound = (props: BottomBarProps) => {
   const buttons = extractCompounds(props.children, Button);
   const leftButtons = buttons.filter(
-    (button) => button.props.position == "left"
+    (button) => button.props.position === "left"
   );
   const rightButtons = buttons.filter(
-    (button) => button.props.position == "right"
+    (button) => button.props.position === "right"
   );
 
   if (rightButtons.length > 2) {
@@ -206,7 +205,7 @@ const BottomBar: BottomBarCompound = (props: BottomBarProps) => {
   }
 
   const noLeftButtonsOnDesktop =
-    leftButtons.length == 0 ||
+    !leftButtons.length ||
     leftButtons.every((button) => button.props.desktopOnly);
 
   const hasLeftPortionOnDestkop =
@@ -214,8 +213,8 @@ const BottomBar: BottomBarCompound = (props: BottomBarProps) => {
 
   const isEmptyOnDesktop =
     noLeftButtonsOnDesktop &&
-    rightButtons.length == 0 &&
-    props.contextMenu.icons.length == 0 &&
+    !rightButtons.length &&
+    !props.contextMenu.icons &&
     !props.centerButton;
   return (
     <div

@@ -75,7 +75,7 @@ const AccessorySelector: React.FC<AccessorySelectorProps> = (props) => {
         <div
           className={classnames("equip", {
             empty: !props.selectedAccessory,
-            compact: props.size == UserMetadataStyle.COMPACT,
+            compact: props.size === UserMetadataStyle.COMPACT,
           })}
         >
           <Icon icon={faShieldAlt} />
