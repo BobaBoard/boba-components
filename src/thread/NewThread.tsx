@@ -49,15 +49,18 @@ interface CollapseGroupProps extends IndentProps {
 
 const isIndentElement = (
   node: React.ReactNode
-): node is React.Component<IndentProps> => React.isValidElement(node) && node.type == Indent;
+): node is React.Component<IndentProps> =>
+  React.isValidElement(node) && node.type === Indent;
 
 const isThreadItem = (
   node: React.ReactNode
-): node is React.Component<IndentProps> => React.isValidElement(node) && node.type == Item;
+): node is React.Component<IndentProps> =>
+  React.isValidElement(node) && node.type === Item;
 
 const isCollapseGroup = (
   node: React.ReactNode
-): node is React.Component<CollapseGroupProps> => React.isValidElement(node) && node.type == CollapseGroup;
+): node is React.Component<CollapseGroupProps> =>
+  React.isValidElement(node) && node.type === CollapseGroup;
 
 const processItemChildren = (children: React.ReactNode | undefined) => {
   const indent = Children.toArray(children).find(isIndentElement);
@@ -70,8 +73,7 @@ const processItemChildren = (children: React.ReactNode | undefined) => {
 interface ChildrenWithRenderProps {
   parentBoundary?: string;
   children?:
-    | JSX.Element
-    | JSX.Element[]
+    | React.ReactNode
     | ((
         refCallback: (element: HTMLElement | null) => void,
         id: string
@@ -130,7 +132,7 @@ const Thread: React.FC<ThreadProps & ChildrenWithRenderProps> & {
   }, []);
   const removeResizeCallback = React.useCallback((callback: () => void) => {
     resizeCallbacks.current = resizeCallbacks.current.filter(
-      (entry) => callback != entry
+      (entry) => callback !== entry
     );
   }, []);
 
@@ -185,9 +187,9 @@ const Thread: React.FC<ThreadProps & ChildrenWithRenderProps> & {
         className="thread"
         ref={threadRef}
         onClick={React.useCallback(
-          (e) => {
+          (event) => {
             if (shouldPreventClick) {
-              e.nativeEvent.stopImmediatePropagation();
+              event.nativeEvent.stopImmediatePropagation();
               setPreventClick(false);
             }
           },
@@ -311,7 +313,7 @@ const Item: React.FC<ChildrenWithRenderProps> = (props) => {
   // it's always up to date in time for the commit phase.
   threadContext?.boundaries.set(boundaryId.current, boundaryElement);
 
-  let {children} = props;
+  let { children } = props;
   if (typeof props.children === "function") {
     children = props.children(setBoundaryElement, boundaryId.current);
     // Since thread indent must always be a direct child of Item, but the component
@@ -319,6 +321,7 @@ const Item: React.FC<ChildrenWithRenderProps> = (props) => {
     // element as a return value, we check if the returned children are a fragment,
     // and just iterate on the returned children in that case.
     if (React.isValidElement(children) && children.type === React.Fragment) {
+      // eslint-disable-next-line prefer-destructuring
       children = children.props.children;
     }
   }
@@ -426,22 +429,22 @@ export const Stem: React.FC<StemProps> = (props) => {
 
   const stemColor = Theme.INDENT_COLORS[level % Theme.INDENT_COLORS.length];
   const onStemClick = React.useCallback(
-    (e: React.PointerEvent<HTMLButtonElement>) => {
+    (event: React.PointerEvent<HTMLButtonElement>) => {
       threadContext?.onPopupOpenRequest({
         level,
         levelId: props.levelId,
-        x: e.pageX,
-        y: e.pageY,
+        x: event.pageX,
+        y: event.pageY,
       });
-      e.preventDefault();
-      e.stopPropagation();
-      e.nativeEvent.stopImmediatePropagation();
+      event.preventDefault();
+      event.stopPropagation();
+      event.nativeEvent.stopImmediatePropagation();
     },
     [level, threadContext, props.levelId]
   );
 
   const pointerMove = React.useCallback(
-    (e: React.PointerEvent<HTMLButtonElement>) => {
+    (event: React.PointerEvent<HTMLButtonElement>) => {
       if (threadContext?.popupData === null) {
         // We only use this event to handle the case when the popup data
         // is open and the user drags their pointer around.
@@ -449,11 +452,11 @@ export const Stem: React.FC<StemProps> = (props) => {
       }
       // If we're in a mouse situation, only do this when the main
       // button is pressed.
-      if (e.pointerType == "mouse" && e.buttons !== 1) {
+      if (event.pointerType === "mouse" && event.buttons !== 1) {
         return;
       }
       // Find the target underneath the new clientX and clientY
-      const target = document.elementFromPoint(e.clientX, e.clientY) as
+      const target = document.elementFromPoint(event.clientX, event.clientY) as
         | HTMLElement
         | undefined;
       const targetLevel = parseInt(target?.dataset?.level || "");
@@ -480,8 +483,8 @@ export const Stem: React.FC<StemProps> = (props) => {
       threadContext?.onPopupOpenRequest({
         level: targetLevel,
         levelId: targetLevelId,
-        x: e.pageX,
-        y: e.pageY,
+        x: event.pageX,
+        y: event.pageY,
       });
     },
     [threadContext]
@@ -494,13 +497,13 @@ export const Stem: React.FC<StemProps> = (props) => {
         className={`thread-stem`}
         data-level={level}
         data-level-id={props.levelId}
-        onPointerEnter={React.useCallback((e) => {
-          const target = e.target as HTMLElement;
+        onPointerEnter={React.useCallback((event) => {
+          const target = event.target as HTMLElement;
           target.classList.add("hover");
         }, [])}
         onPointerLeave={React.useCallback(
-          (e: React.PointerEvent<HTMLButtonElement>) => {
-            const target = e.target as HTMLElement;
+          (event: React.PointerEvent<HTMLButtonElement>) => {
+            const target = event.target as HTMLElement;
             target.classList.remove("hover");
           },
           []
@@ -510,16 +513,16 @@ export const Stem: React.FC<StemProps> = (props) => {
         onPointerUp={React.useCallback(() => {
           previousTarget.current = undefined;
         }, [])}
-        onClickCapture={React.useCallback((e) => {
+        onClickCapture={React.useCallback((event) => {
           // Prevents the click that opens the stem menu from bubbling up to document.
           // TODO: this should likely be taken care of by the popup buttons menu itself.
           // IMPORTANT TODO: readd accessibility on tabbing here.
-          e.nativeEvent.stopImmediatePropagation();
+          event.nativeEvent.stopImmediatePropagation();
         }, [])}
-        onContextMenu={React.useCallback((e) => {
+        onContextMenu={React.useCallback((event) => {
           // Prevents the opening of the contextual menu on android long press
-          e.stopPropagation();
-          e.preventDefault();
+          event.stopPropagation();
+          event.preventDefault();
 
           return false;
         }, [])}
@@ -577,9 +580,9 @@ export const Indent: React.FC<IndentProps> = (props) => {
   // If the child is an uncollapsed CollapseGroup, then skip the CollapseGroup
   // and render its children instead. If not, render whatever the child is.
   const childrenForRendering = childrenArray.flatMap((child) =>
-    (isCollapseGroup(child) && !child.props.collapsed
+    isCollapseGroup(child) && !child.props.collapsed
       ? child.props.children
-      : child)
+      : child
   );
 
   return (

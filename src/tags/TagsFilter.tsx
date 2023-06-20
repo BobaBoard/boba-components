@@ -1,17 +1,12 @@
+import Button, { ButtonStyle } from "buttons/Button";
 import Input, { InputStyle } from "common/Input";
 import TagsFactory, { getDataForTagType } from "./TagsFactory";
 
-import Button from "buttons/Button";
-import { ButtonStyle } from "buttons/Button";
 import React from "react";
 import Tag from "tags/Tag";
 import { TagType } from "types";
 import classnames from "classnames";
-import debug from "debug";
 import { faPlus } from "@fortawesome/free-solid-svg-icons";
-
-// @ts-ignore
-const log = debug("bobaui:common:TagsFilter");
 
 const TagsFilter: React.FC<TagsFilterProps> = (props) => {
   const [newTag, setNewTag] = React.useState("");
@@ -32,7 +27,7 @@ const TagsFilter: React.FC<TagsFilterProps> = (props) => {
               props.onTagStateChangeRequest?.({
                 name: tag.name,
                 state:
-                  tag.state == FilteredTagsState.ACTIVE
+                  tag.state === FilteredTagsState.ACTIVE
                     ? FilteredTagsState.DISABLED
                     : FilteredTagsState.ACTIVE,
               })
@@ -49,7 +44,7 @@ const TagsFilter: React.FC<TagsFilterProps> = (props) => {
                   props.editable &&
                     props.onTagsChange?.(
                       props.tags
-                        .filter((oldTag) => oldTag.name != tag.name)
+                        .filter((oldTag) => oldTag.name !== tag.name)
                         .map((tag) => ({ name: tag.name }))
                     );
                 }}
@@ -68,7 +63,7 @@ const TagsFilter: React.FC<TagsFilterProps> = (props) => {
             onClick={() =>
               !props.editable &&
               props.onUncategorizedStateChangeRequest?.(
-                props.uncategorized == FilteredTagsState.ACTIVE
+                props.uncategorized === FilteredTagsState.ACTIVE
                   ? FilteredTagsState.DISABLED
                   : FilteredTagsState.ACTIVE
               )
@@ -91,7 +86,7 @@ const TagsFilter: React.FC<TagsFilterProps> = (props) => {
           value={newTag}
           onTextChange={setNewTag}
           theme={InputStyle.DARK}
-          onEnter={(e) => {
+          onEnter={(event) => {
             // TODO: check if tag is effectively submittable
             props.editable &&
               props.onTagsChange?.([
@@ -99,7 +94,7 @@ const TagsFilter: React.FC<TagsFilterProps> = (props) => {
                 { name: newTag },
               ]);
             setNewTag("");
-            e.preventDefault();
+            event.preventDefault();
           }}
         />
         <div className="new-tag-button">

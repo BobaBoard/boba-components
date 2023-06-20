@@ -57,7 +57,7 @@ const getInputMessage = ({
   if (!isFocused) {
     return "Add a tag...";
   }
-  if (tagInputState == TagInputState.EMPTY || !currentTag?.length) {
+  if (tagInputState === TagInputState.EMPTY || !currentTag?.length) {
     return (
       <>
         Try prefixing tags with <strong>{INDEXABLE_PREFIX}</strong>,{" "}
@@ -66,16 +66,19 @@ const getInputMessage = ({
       </>
     );
   }
-  if (currentTag.length == 1 && tagInputState == TagInputState.CATEGORY) {
+  if (currentTag.length === 1 && tagInputState === TagInputState.CATEGORY) {
     return `${currentTag} category tags can be used to filter posts across threads or boards.`;
   }
   // TODO: this needs to account for all the possible lengths of CN prefixes.
-  if (currentTag.length == 3 && tagInputState == TagInputState.CONTENT_NOTICE) {
+  if (
+    currentTag.length === 3 &&
+    tagInputState === TagInputState.CONTENT_NOTICE
+  ) {
     return `${currentTag} content notices can help others avoid sensitive topics.`;
   }
 
   // TODO: this needs to account for all the possible lengths of CN prefixes.
-  if (currentTag.length == 1 && tagInputState == TagInputState.INDEXABLE) {
+  if (currentTag.length === 1 && tagInputState === TagInputState.INDEXABLE) {
     return `${currentTag} index tags can be searched across the realm.`;
   }
   return "";
@@ -102,7 +105,7 @@ const TagsInput: React.FC<TagsInputProps> = ({
     isFocused &&
     suggestedCategories &&
     suggestedCategories.length > 0 &&
-    tagInputState == TagInputState.CATEGORY;
+    tagInputState === TagInputState.CATEGORY;
   return (
     <>
       <div className={classnames("container", className, { editable })}>
@@ -152,7 +155,7 @@ const TagsInput: React.FC<TagsInputProps> = ({
               setPromptingDelete(false);
               setCurrentTag(value);
               const currentTag = TagsFactory.getTagDataFromString(value);
-              if (value.length == 0 && currentTag.type == TagType.WHISPER) {
+              if (!value.length && currentTag.type === TagType.WHISPER) {
                 setTagInputState(TagInputState.EMPTY);
                 return;
               }

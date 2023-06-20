@@ -41,35 +41,34 @@ const getTagType = (tag: TagsType | TagType) => {
 
 export const getDataForTagType = (tag: TagsType | TagType) => {
   const tagType = getTagType(tag);
-  if (tagType == TagType.INDEXABLE) {
+  if (tagType === TagType.INDEXABLE) {
     return {
       symbol: INDEXABLE_PREFIX,
       color: INDEXABLE_TAG_COLOR,
       type: TagType.INDEXABLE,
       accentColor: "white",
     };
-  } else if (tagType == TagType.CATEGORY) {
+  } else if (tagType === TagType.CATEGORY) {
     return {
       symbol: CATEGORY_PREFIX,
       color: CATEGORY_TAG_COLOR,
       type: TagType.CATEGORY,
       accentColor: "white",
     };
-  } else if (tagType == TagType.CONTENT_WARNING) {
+  } else if (tagType === TagType.CONTENT_WARNING) {
     return {
       symbol: CONTENT_NOTICE_DEFAULT_PREFIX,
       color: CW_TAG_COLOR,
       type: TagType.CONTENT_WARNING,
       accentColor: "black",
     };
-  } 
-    return {
-      symbol: WHISPER_PREFIX,
-      color: undefined,
-      type: TagType.WHISPER,
-      accentColor: "black",
-    };
-  
+  }
+  return {
+    symbol: WHISPER_PREFIX,
+    color: undefined,
+    type: TagType.WHISPER,
+    accentColor: "black",
+  };
 };
 
 export class TagsFactory {
@@ -137,7 +136,7 @@ export class TagsFactory {
   static getTagDataFromString(tag: string, accentColor?: string): TagsType {
     const tagType = TagsFactory.getTagTypeFromString(tag);
     const lowerCaseTag = tag.toLowerCase().trim();
-    if (tagType == TagType.INDEXABLE) {
+    if (tagType === TagType.INDEXABLE) {
       return {
         name: lowerCaseTag.substring(INDEXABLE_PREFIX.length).trim(),
         color: accentColor || INDEXABLE_TAG_COLOR,
@@ -145,14 +144,14 @@ export class TagsFactory {
         indexable: true,
         type: TagType.INDEXABLE,
       };
-    } else if (tagType == TagType.CATEGORY) {
+    } else if (tagType === TagType.CATEGORY) {
       return {
         name: tag.substring(CATEGORY_PREFIX.length).trim(),
         accentColor: "white",
         category: true,
         type: TagType.CATEGORY,
       };
-    } else if (tagType == TagType.CONTENT_WARNING) {
+    } else if (tagType === TagType.CONTENT_WARNING) {
       const cwPrefix = CONTENT_NOTICE_PREFIXES.find((prefix) =>
         lowerCaseTag.startsWith(prefix)
       ) as string;
@@ -161,15 +160,14 @@ export class TagsFactory {
         contentWarning: true,
         type: TagType.CONTENT_WARNING,
       };
-    } 
-      return {
-        name: (tag.trim().startsWith(WHISPER_PREFIX)
-          ? tag.trim().substring(WHISPER_PREFIX.length)
-          : tag
-        ).trim(),
-        type: TagType.WHISPER,
-      };
-    
+    }
+    return {
+      name: (tag.trim().startsWith(WHISPER_PREFIX)
+        ? tag.trim().substring(WHISPER_PREFIX.length)
+        : tag
+      ).trim(),
+      type: TagType.WHISPER,
+    };
   }
 
   static getTagTypeFromString(tag: string) {
@@ -182,9 +180,8 @@ export class TagsFactory {
       CONTENT_NOTICE_PREFIXES.some((prefix) => lowerCaseTag.startsWith(prefix))
     ) {
       return TagType.CONTENT_WARNING;
-    } 
-      return TagType.WHISPER;
-    
+    }
+    return TagType.WHISPER;
   }
 
   static isTagValid(tag: string) {

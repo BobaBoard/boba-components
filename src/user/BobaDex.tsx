@@ -5,7 +5,7 @@ const BobaDex: React.FC<BobaDexProps> = (props) => {
   const identityCircles = [];
 
   for (let i = 1; i <= props.totalIdentities; i++) {
-    const matchingID = props.revealedIdentities.find((el) => el.index == i);
+    const matchingID = props.revealedIdentities.find((el) => el.index === i);
 
     identityCircles.push(
       <div className="bobamon" key={matchingID?.id || i}>

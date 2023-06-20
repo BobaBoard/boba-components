@@ -43,11 +43,13 @@ interface ThreadProps {
 
 const isIndentElement = (
   node: React.ReactNode
-): node is React.Component<IndentProps> => React.isValidElement(node) && node.type == Indent;
+): node is React.Component<IndentProps> =>
+  React.isValidElement(node) && node.type === Indent;
 
 const isThreadItem = (
   node: React.ReactNode
-): node is React.Component<ChildrenWithRenderProps> => React.isValidElement(node) && node.type == Item;
+): node is React.Component<ChildrenWithRenderProps> =>
+  React.isValidElement(node) && node.type === Item;
 
 const processItemChildren = (children: React.ReactNode | undefined) => {
   const indent = Children.toArray(children).find(isIndentElement);
@@ -59,7 +61,7 @@ const processItemChildren = (children: React.ReactNode | undefined) => {
 
 interface ChildrenWithRenderProps {
   children?:
-    | JSX.Element
+    | React.ReactNode
     | ((
         refCallback: (
           element: HTMLElement | Partial<BoundaryElement> | null
@@ -86,7 +88,7 @@ const useResizeCallbacks = (toWatch: React.RefObject<HTMLElement>) => {
   }, []);
   const removeResizeCallback = React.useCallback((callback: () => void) => {
     resizeCallbacks.current = resizeCallbacks.current.filter(
-      (entry) => callback != entry
+      (entry) => callback !== entry
     );
   }, []);
 
@@ -425,7 +427,7 @@ const Item: React.FC<ChildrenWithRenderProps> = (props) => {
     [setBoundaryElement, boundaryElement]
   );
 
-  let {children} = props;
+  let { children } = props;
   if (typeof props.children === "function") {
     children = props.children(boundaryElementCallback);
     // Since thread indent must always be a direct child of Item, but the component
@@ -433,6 +435,7 @@ const Item: React.FC<ChildrenWithRenderProps> = (props) => {
     // element as a return value, we check if the returned children are a fragment,
     // and just iterate on the returned children in that case.
     if (React.isValidElement(children) && children.type === React.Fragment) {
+      // eslint-disable-next-line prefer-destructuring
       children = children.props.children;
     }
   }
@@ -443,7 +446,7 @@ const Item: React.FC<ChildrenWithRenderProps> = (props) => {
     }
     const levelElement = levelContent.current;
     const index = getLevelIndex(levelElement);
-    levelElement.dataset.levelIndex = `${  index}`;
+    levelElement.dataset.levelIndex = `${index}`;
     threadContext.registerItemBoundary({
       levelElement,
       boundaryElement,
@@ -454,7 +457,9 @@ const Item: React.FC<ChildrenWithRenderProps> = (props) => {
       setLevelStemBoundaries({
         levelElement,
         boundaryElement,
-        nextLevelBoundaries: nextLevelBoundaries.map((v) => v.boundaryElement),
+        nextLevelBoundaries: nextLevelBoundaries.map(
+          (boundary) => boundary.boundaryElement
+        ),
       });
       if (level === 0) {
         setNextLevelStemBoundaries({
@@ -579,8 +584,7 @@ const Item: React.FC<ChildrenWithRenderProps> = (props) => {
   );
 };
 
-interface StemProps {}
-export const Stem: React.FC<StemProps> = () => {
+export const Stem: React.FC = () => {
   const level = React.useContext(ThreadLevel);
 
   const stemColor = Theme.INDENT_COLORS[level % Theme.INDENT_COLORS.length];

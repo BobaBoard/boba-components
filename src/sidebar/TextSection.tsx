@@ -1,10 +1,6 @@
 import Editor from "@bobaboard/boba-editor";
 import React from "react";
 import classnames from "classnames";
-import debug from "debug";
-
-// @ts-ignore
-const log = debug("bobaui:boards:sidebarSection");
 
 const TextSection: React.FC<TextSectionProps> = (props) => {
   // For some reason, two description changes are triggered automatically
@@ -27,7 +23,8 @@ const TextSection: React.FC<TextSectionProps> = (props) => {
             editable={props.editable || false}
             onTextChange={(text) => {
               if (swallowInitialDescriptionChange.current) {
-                swallowInitialDescriptionChange.current--;
+                swallowInitialDescriptionChange.current =
+                  swallowInitialDescriptionChange.current - 1;
                 return;
               }
               props.editable &&
