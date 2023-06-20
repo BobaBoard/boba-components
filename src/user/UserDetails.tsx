@@ -18,7 +18,7 @@ const log = debug("bobaui:userDetails-log");
 
 const AREA_SIZE_PX = 100;
 
-const getMinZoomLevel = (mediaSize: any) => {
+const getMinZoomLevel = (mediaSize: MediaSize) => {
   const { height, width } = getObjectFitSize(
     true,
     100,
@@ -94,7 +94,7 @@ const UserDetails: React.FC<UserDetailsProps> = (props) => {
                   if (avatarEdited) {
                     getCroppedImg(
                       newImage || props.imageUrl,
-                      croppedAreaPixels!
+                      croppedAreaPixels
                     ).then((result) => {
                       resolve({
                         editedImg: result,
@@ -198,7 +198,7 @@ const UserDetails: React.FC<UserDetailsProps> = (props) => {
                   }}
                   onMediaLoaded={(mediaSize) => {
                     setMediaSize(mediaSize);
-                    if (zoom == 1) {
+                    if (zoom === 1) {
                       setZoom(getMinZoomLevel(mediaSize));
                     }
                   }}
@@ -225,15 +225,15 @@ const UserDetails: React.FC<UserDetailsProps> = (props) => {
                 style={{ display: "none" }}
                 ref={uploadRef}
                 accept="image/png, image/gif, image/jpeg, image/bmp, image/x-icon"
-                onChange={(e) => {
-                  const fileInput = e.target;
-                  if (fileInput.files != null && fileInput.files[0] != null) {
+                onChange={(event) => {
+                  const fileInput = event.target;
+                  if (fileInput.files && fileInput.files[0]) {
                     const reader = new FileReader();
-                    reader.onload = (e) => {
-                      if (!e.target?.result) {
+                    reader.onload = (event) => {
+                      if (!event.target?.result) {
                         return;
                       }
-                      setNewImage(e.target.result.toString());
+                      setNewImage(event.target.result.toString());
                       setAvatarEdited(true);
                       fileInput.value = "";
                     };

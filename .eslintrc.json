@@ -47,7 +47,7 @@
     "quote-props": ["error", "as-needed"],
     "prefer-object-spread": "error",
     "no-array-constructor": "error",
-    "array-callback-return": ["error", { "checkForEach": true }],
+    "array-callback-return": ["error"],
     "no-eval": "error",
     "wrap-iife": "error",
     "no-loop-func": "error",
@@ -58,12 +58,14 @@
     "prefer-spread": "error",
     "prefer-arrow-callback": ["error", { "allowNamedFunctions": true }],
     "arrow-body-style": "error",
-    "no-confusing-arrow": "error",
+    // TODO: conflicts with prettier rules, which remove unnecessary parentheses
+    // "no-confusing-arrow": ["error"],
     "no-useless-constructor": "error",
     "class-methods-use-this": "error",
     "no-duplicate-imports": "error",
     "import/no-mutable-exports": "error",
-    "import/prefer-default-export": "error",
+    // TODO: consider activating this later on after all other rules are fixed
+    // "import/no-default-export": "error",
     "import/first": "error",
     "import/no-webpack-loader-syntax": "error",
     "import/extensions": "error",
@@ -71,13 +73,14 @@
     "dot-notation": "error",
     "prefer-exponentiation-operator": "error",
     "no-multi-assign": "error",
-    "no-plusplus": "error",
+    "no-plusplus": ["error", { "allowForLoopAfterthoughts": true }],
     "eqeqeq": "error",
     "no-unneeded-ternary": "error",
-    "no-mixed-operators": "error",
+    // TODO: conflicts with prettier rules, which remove unnecessary parentheses
+    // "no-mixed-operators": ["error", { "allowSamePrecedence": true }],
     "no-else-return": "error",
     "no-new-wrappers": "error",
-    "id-length": "error"
+    "id-length": ["error", { "exceptions": ["_", "x", "y", "i"] }]
   },
   "overrides": [
     {
