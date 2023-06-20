@@ -131,7 +131,7 @@ describe("Editable", () => {
     await waitFor(() => {
       expect(action("tagChange")).toBeCalledWith(
         Editable.args?.tags
-          ?.filter((tag) => tag.name != "test4")
+          ?.filter((tag) => tag.name !== "test4")
           .map((tag) => ({ name: tag.name }))
       );
     });
