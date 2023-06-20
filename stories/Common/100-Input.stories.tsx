@@ -1,7 +1,7 @@
-import ColorInput, { ColorInputProps } from "common/ColorInput";
 import { ComponentMeta, ComponentStory } from "@storybook/react";
 import Input, { InputProps } from "common/Input";
 
+import ColorInput from "common/ColorInput";
 import React from "react";
 
 export default {

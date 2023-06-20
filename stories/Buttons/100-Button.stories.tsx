@@ -34,8 +34,7 @@ export default {
   ],
 } as Meta;
 
-const ButtonTemplate: Story<ButtonProps & { text: string }> = (args) => {
-  return (
+const ButtonTemplate: Story<ButtonProps & { text: string }> = (args) => (
     <>
       <Button {...args}>{args.text}</Button>
       <Button theme={ButtonStyle.DARK} {...args}>
@@ -55,7 +54,6 @@ const ButtonTemplate: Story<ButtonProps & { text: string }> = (args) => {
       </Button>
     </>
   );
-};
 
 export const Regular = ButtonTemplate.bind({});
 Regular.args = {

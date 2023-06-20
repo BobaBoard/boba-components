@@ -38,13 +38,11 @@ export default {
 const TagsFilterSidebarSectionTemplate: Story<{
   sidebarSectionProps: Omit<SidebarSectionProps, "children">;
   tagsFilterProps: TagsFilterSectionProps;
-}> = ({ sidebarSectionProps, tagsFilterProps }) => {
-  return (
+}> = ({ sidebarSectionProps, tagsFilterProps }) => (
     <SidebarSection {...sidebarSectionProps}>
       <TagsFilterSection {...tagsFilterProps} />
     </SidebarSection>
   );
-};
 
 export const TagsFilterRegular = TagsFilterSidebarSectionTemplate.bind({});
 TagsFilterRegular.args = {
@@ -84,13 +82,11 @@ TagsFilterEditable.args = {
 const TextSidebarSectionTemplate: Story<{
   sidebarSectionProps: Omit<SidebarSectionProps, "children">;
   textSectionProps: TextSectionProps;
-}> = ({ sidebarSectionProps, textSectionProps }) => {
-  return (
+}> = ({ sidebarSectionProps, textSectionProps }) => (
     <SidebarSection {...sidebarSectionProps}>
       <TextSection {...textSectionProps} />
     </SidebarSection>
   );
-};
 
 export const TextRegular = TextSidebarSectionTemplate.bind({});
 TextRegular.args = {
