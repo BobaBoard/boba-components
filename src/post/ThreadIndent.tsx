@@ -18,7 +18,7 @@ const withNesting = (
     onAddContributionClick: () => void;
   }[]
 ) => {
-  const end = ends?.find((ends) => ends.level == maxLevel - level);
+  const end = ends?.find((ends) => ends.level === maxLevel - level);
   let isOutermost = false;
   if (end) {
     // Check if this was the outermost beam up

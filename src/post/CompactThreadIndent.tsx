@@ -52,7 +52,7 @@ const CompactThreadIndent: React.FC<CompactThreadIndentProps> = (props) => {
     containerRef.current
       .querySelectorAll(".thread-container")
       .forEach((line: HTMLDivElement) => {
-        if (line.dataset.level !== `${  props.level + 1}`) {
+        if (line.dataset.level !== `${props.level + 1}`) {
           return;
         }
         const dataset = line.dataset as {
@@ -95,25 +95,25 @@ const CompactThreadIndent: React.FC<CompactThreadIndentProps> = (props) => {
 
           {innerLevelBounds &&
             innerLevelBounds.map((bound) => (
-                <div
-                  key={`${bound.top}_${bound.left}`}
-                  className="thread-line-inner"
-                  style={{
-                    top: bound.top - 6,
-                    left: startPointCoordinates.left,
-                    width: bound.left,
-                    height: 3,
-                    display: props.hideLine ? "none" : "block",
-                  }}
-                />
-              ))}
+              <div
+                key={`${bound.top}_${bound.left}`}
+                className="thread-line-inner"
+                style={{
+                  top: bound.top - 6,
+                  left: startPointCoordinates.left,
+                  width: bound.left,
+                  height: 3,
+                  display: props.hideLine ? "none" : "block",
+                }}
+              />
+            ))}
         </>
       )}
       {props.children}
       <style jsx>{`
         .thread-container {
           position: relative;
-          margin-left: ${props.level == 0 ? 0 : 12}px;
+          margin-left: ${props.level > 0 ? 12 : 0}px;
         }
         .thread-line {
           position: absolute;
@@ -170,8 +170,8 @@ export const useIndent = (): {
         left: boundingHeader.left - STEM_WIDTH_PX,
       };
       if (
-        newHeaderBounds.top != headerBounds?.top ||
-        newHeaderBounds.left != headerBounds?.left
+        newHeaderBounds.top !== headerBounds?.top ||
+        newHeaderBounds.left !== headerBounds?.left
       ) {
         setHeaderBounds(newHeaderBounds);
       }

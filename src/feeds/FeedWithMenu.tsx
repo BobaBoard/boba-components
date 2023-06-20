@@ -28,18 +28,22 @@ interface CompoundComponents {
 
 const Sidebar: CompoundComponents["Sidebar"] = (props) => <>{props.children}</>;
 
-const FeedContent: CompoundComponents["FeedContent"] = (props) => <>{props.children}</>;
+const FeedContent: CompoundComponents["FeedContent"] = (props) => (
+  <>{props.children}</>
+);
 
 const extractFeedContent = (
   children: React.ReactNode
-): typeof FeedContent | undefined => React.Children.toArray(children).find(
-    (node) => React.isValidElement(node) && node.type == FeedContent
+): typeof FeedContent | undefined =>
+  React.Children.toArray(children).find(
+    (node) => React.isValidElement(node) && node.type === FeedContent
   ) as typeof FeedContent;
 
 const extractSidebar = (
   children: React.ReactNode
-): typeof Sidebar | undefined => React.Children.toArray(children).find(
-    (node) => React.isValidElement(node) && node.type == Sidebar
+): typeof Sidebar | undefined =>
+  React.Children.toArray(children).find(
+    (node) => React.isValidElement(node) && node.type === Sidebar
   ) as typeof Sidebar;
 
 const FeedWithMenu: React.FC<FeedWithMenuProps> & CompoundComponents = ({

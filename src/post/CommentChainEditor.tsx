@@ -81,7 +81,7 @@ const CommentChainEditor = React.forwardRef<
       if (!ref?.editorRef.current) {
         return;
       }
-      if (index != 0) {
+      if (index !== 0) {
         ref.editorRef.current.style.borderTopLeftRadius = "0px";
         ref.editorRef.current.style.borderTopRightRadius = "0px";
         ref.editorRef.current.style.borderTop = "1px dotted black";
@@ -101,15 +101,15 @@ const CommentChainEditor = React.forwardRef<
       chainEditorRef.current &&
       deleteRef.current &&
       comment.empty &&
-      (focusedChainIndex != 0 || chainComments.length > 1) &&
+      (focusedChainIndex !== 0 || chainComments.length > 1) &&
       emptyEditorRef
     ) {
       const differences = getTopRightCornerPosition(
         chainEditorRef.current,
         emptyEditorRef
       );
-      deleteRef.current.style.left = `${differences.left  }px`;
-      deleteRef.current.style.top = `${differences.top  }px`;
+      deleteRef.current.style.left = `${differences.left}px`;
+      deleteRef.current.style.top = `${differences.top}px`;
       deleteRef.current.style.display = "block";
     } else if (deleteRef.current) {
       deleteRef.current.style.display = "none";
@@ -140,7 +140,7 @@ const CommentChainEditor = React.forwardRef<
             )
         )
       ),
-      identityId: additionalIdentities?.find((id) => id.id == selectedIdentity)
+      identityId: additionalIdentities?.find((id) => id.id === selectedIdentity)
         ?.id,
       accessoryId: selectedAccessory,
     };
@@ -155,16 +155,16 @@ const CommentChainEditor = React.forwardRef<
   ]);
   useHotkeys(
     "control+enter,command+enter",
-    (e) => {
+    (event) => {
       onSubmitHandler();
-      e.preventDefault();
+      event.preventDefault();
     },
     { keydown: true, enableOnContentEditable: true },
     [onSubmitHandler]
   );
 
   const selectedIdentityData = props.additionalIdentities?.find(
-    (id) => id.id == selectedIdentity
+    (id) => id.id === selectedIdentity
   );
 
   return (
@@ -173,7 +173,7 @@ const CommentChainEditor = React.forwardRef<
         <div
           key={index}
           className={classnames("comment-container", {
-            focused: index == focusedChainIndex,
+            focused: index === focusedChainIndex,
           })}
           onClickCapture={() => {
             setFocusedChainIndex(index);
@@ -185,14 +185,14 @@ const CommentChainEditor = React.forwardRef<
             initialText={comment.text}
             userIdentity={props.userIdentity}
             secretIdentity={selectedIdentityData || props.secretIdentity}
-            muted={focusedChainIndex != index}
+            muted={focusedChainIndex !== index}
             onSubmit={onSubmitHandler}
             // We add this to avoid double upload
             prepareSubmission={false}
-            withActions={index == chainComments.length - 1}
+            withActions={index === chainComments.length - 1}
             onIsEmptyChange={(empty) => {
               log(`Empty status change: ${empty}`);
-              if (comment.empty != empty) {
+              if (comment.empty !== empty) {
                 chainComments[index] = {
                   ...chainComments[index],
                   empty,
@@ -210,7 +210,7 @@ const CommentChainEditor = React.forwardRef<
               props.onCancel(chainComments.every((comment) => comment.empty))
             }
             onCanSubmitChange={(canSubmit) => {
-              if (comment.canSubmit != canSubmit) {
+              if (comment.canSubmit !== canSubmit) {
                 chainComments[index] = {
                   ...chainComments[index],
                   canSubmit,
@@ -224,7 +224,7 @@ const CommentChainEditor = React.forwardRef<
             onSelectIdentity={(id) => setSelectedIdentity(id?.id)}
             accessories={props.accessories}
             accessory={props.accessories?.find(
-              (accessory) => accessory.id == selectedAccessory
+              (accessory) => accessory.id === selectedAccessory
             )}
             onSelectAccessory={(accessory) =>
               setSelectedAccessory(accessory?.id)
@@ -258,12 +258,14 @@ const CommentChainEditor = React.forwardRef<
             // In the latter case, it should stay the same because we want to
             // focus the one after which, after the present chain is gone, will
             // be at the same index as the present one
-            focusedChainIndex != chainComments.length - 1
+            focusedChainIndex !== chainComments.length - 1
               ? focusedChainIndex
               : chainComments.length - 2
           );
           setChainComments(
-            chainComments.filter((comment, index) => index != focusedChainIndex)
+            chainComments.filter(
+              (comment, index) => index !== focusedChainIndex
+            )
           );
         }}
         ref={deleteRef}

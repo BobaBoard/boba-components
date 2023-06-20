@@ -1,7 +1,6 @@
 import { faArrowDown, faArrowUp } from "@fortawesome/free-solid-svg-icons";
 
 import Button from "buttons/Button";
-import DefaultTheme from "theme/default";
 import Div100vh from "react-div-100vh";
 import LibraryModal from "react-modal";
 import React from "react";
@@ -28,12 +27,12 @@ const customStyles = {
 const Modal: React.FC<ModalProps> = (props) => {
   useHotkeys(
     "esc",
-    (e) => {
+    (event) => {
       if (!props.isOpen) {
         return;
       }
       props.onRequestClose?.();
-      e.preventDefault();
+      event.preventDefault();
     },
     { keydown: true, enableOnContentEditable: true },
     [props.onRequestClose, props.isOpen]
@@ -122,7 +121,7 @@ const Modal: React.FC<ModalProps> = (props) => {
         .minimize-button {
           display: flex;
           width: 100%;
-          max-width: ${DefaultTheme.POST_WIDTH_PX}px;
+          max-width: ${Theme.POST_WIDTH_PX}px;
           justify-content: end;
         }
       `}</style>

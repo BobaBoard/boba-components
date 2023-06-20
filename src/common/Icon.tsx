@@ -10,9 +10,8 @@ export interface IconProps extends AriaAttributes {
   color?: string;
 }
 
-export const isIcon = (prop: any): prop is IconProps => "icon" in prop;
-
-const Icon: React.FC<IconProps> = ({ icon, className, color, ...props }) => (typeof icon === "string" ? (
+const Icon: React.FC<IconProps> = ({ icon, className, color, ...props }) =>
+  typeof icon === "string" ? (
     <img
       src={icon}
       className={classNames("icon", className)}
@@ -25,6 +24,6 @@ const Icon: React.FC<IconProps> = ({ icon, className, color, ...props }) => (typ
       aria-label={props["aria-label"]}
       color={color}
     />
-  ));
+  );
 
 export default Icon;

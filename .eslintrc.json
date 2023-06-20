@@ -22,7 +22,7 @@
   },
   "plugins": ["react", "react-hooks", "@typescript-eslint", "import"],
   "rules": {
-    "react/no-unknown-property": ["warn", { "ignore": ["jsx"] }],
+    "react/no-unknown-property": ["warn", { "ignore": ["jsx", "global"] }],
     "react/prop-types": "off",
     "prefer-template": "warn",
     "no-var": "error",
@@ -68,7 +68,6 @@
     // "import/no-default-export": "error",
     "import/first": "error",
     "import/no-webpack-loader-syntax": "error",
-    "import/extensions": "error",
     "no-iterator": "error",
     "dot-notation": "error",
     "prefer-exponentiation-operator": "error",

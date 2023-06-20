@@ -15,7 +15,7 @@ const Avatar = React.forwardRef<HTMLImageElement, AvatarProps>((props, ref) => {
     <div
       className={classnames("avatar-container", {
         compact: props.compact === true,
-        mini: props.compact == "mini",
+        mini: props.compact === "mini",
       })}
     >
       <img
