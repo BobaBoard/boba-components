@@ -103,9 +103,6 @@ dist
 # TernJS port file
 .tern-port
 
-# VSCode Preference
-.vscode
-
 # MacOS cache
 *.DS_Store
 
