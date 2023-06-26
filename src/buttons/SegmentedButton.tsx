@@ -82,7 +82,7 @@ const SegmentedButtonOption: React.FC<SegmentedButtonOptionProps> = (props) => {
     <div className={classnames("option", optionsClass)}>
       {props.updates && (
         <div className={classnames("updates", optionsClass)}>
-          {props.updates ? ( // Special case to display faCertificate
+          {props.updates === true ? ( // Special case to display faCertificate
             <FontAwesomeIcon icon={faCertificate} />
           ) : props.updates === Infinity ? (
             "∞"
