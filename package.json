@@ -13,8 +13,6 @@
     "test:ci": "yarn run test --ci --runInBand --no-cache",
     "storybook": "start-storybook -p 6006",
     "build-storybook": "build-storybook",
-    "visual-testing": "backstop test",
-    "approve-visuals": "backstop approve",
     "postinstall": "patch-package",
     "chromatic": "npx chromatic --project-token=CHROMATIC_PROJECT_TOKEN"
   },
@@ -115,7 +113,6 @@
     "@typescript-eslint/parser": "^5.10.1",
     "babel-loader": "^8.1.0",
     "babel-preset-react-app": "^9.1.2",
-    "backstopjs": "^5.0.1",
     "chromatic": "^6.10.1",
     "cross-env": "^7.0.2",
     "css-loader": "^6.7.1",
