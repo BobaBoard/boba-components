@@ -82,10 +82,17 @@ const NeutralAnchor: React.FC<WithRequiredProperty<ActionLinkProps, "link">> = (
           // prevent the default action from happening (if not
           // forced to happen through `allowDefault`).
           // TODO: see about moving "allowDefault" directly on Link
-          if (!link?.onClick) {
+          if (
+            !link?.onClick ||
+            event.ctrlKey ||
+            event.metaKey ||
+            event.altKey ||
+            event.shiftKey
+          ) {
             return;
           }
           link.onClick(event);
+          
           if (!allowDefault) {
             event.preventDefault();
           }
