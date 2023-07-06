@@ -25,13 +25,7 @@ const NeutralButton: React.FC<ActionLinkProps> = (props) => {
           // prevent the default action from happening (if not
           // forced to happen through `allowDefault`).
           // TODO: see about moving "allowDefault" directly on Link
-          if (
-            !link?.onClick ||
-            e.ctrlKey ||
-            e.metaKey ||
-            e.altKey ||
-            e.shiftKey
-          ) {
+          if (!link?.onClick) {
             return;
           }
           link.onClick(e);
