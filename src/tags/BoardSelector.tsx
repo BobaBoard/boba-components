@@ -25,7 +25,7 @@ const BoardSelector: React.FC<BoardSelectorProps> = (props) => {
       options={props.availableBoards
         ?.filter(
           (board) =>
-            filter == "" ||
+            filter === "" ||
             board.slug.toLowerCase().includes(filter.toLowerCase())
         )
         .map((board) => ({
@@ -50,7 +50,7 @@ const BoardSelector: React.FC<BoardSelectorProps> = (props) => {
           <input
             placeholder="Filter boards"
             value={filter}
-            onChange={(e) => setFilter(e.target.value)}
+            onChange={(event) => setFilter(event.target.value)}
             ref={inputRef}
           />
           <style jsx>{`
@@ -84,11 +84,11 @@ const BoardSelector: React.FC<BoardSelectorProps> = (props) => {
           style={{
             backgroundImage: `url(${
               props.availableBoards?.find(
-                (board) => props.selectedBoard.slug == board.slug
+                (board) => props.selectedBoard.slug === board.slug
               )?.avatar
             })`,
             borderColor: props.availableBoards?.find(
-              (board) => props.selectedBoard.slug == board.slug
+              (board) => props.selectedBoard.slug === board.slug
             )?.color,
           }}
         />

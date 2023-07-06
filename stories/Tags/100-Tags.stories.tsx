@@ -44,7 +44,7 @@ export const EditableTags = () => {
         tags={tags}
         onTagsAdd={(tag) => setTags([...tags, tag])}
         onTagsDelete={(tag) => {
-          setTags(tags.filter((currentTag) => currentTag != tag));
+          setTags(tags.filter((currentTag) => currentTag !== tag));
         }}
         suggestedCategories={[
           "sexy trains",
@@ -64,7 +64,7 @@ EditableTags.story = {
 };
 
 export const DisplayTags = () => {
-  const [tags, setTags] = React.useState<TagsType[]>([
+  const [tags] = React.useState<TagsType[]>([
     {
       name: "this is an indexable tag",
       color: "#19a4e6",
@@ -107,7 +107,7 @@ DisplayTags.story = {
 };
 
 export const TagsWithOptions = () => {
-  const [tags, setTags] = React.useState<TagsType[]>([
+  const [tags] = React.useState<TagsType[]>([
     {
       name: "this is an indexable tag",
       color: "#19a4e6",
@@ -145,7 +145,7 @@ export const TagsWithOptions = () => {
       <Tags
         tags={tags}
         getOptionsForTag={(tag: TagsType) => {
-          if (tag.name == "no options!") {
+          if (tag.name === "no options!") {
             return;
           }
           const options = [
@@ -214,7 +214,7 @@ export const FilterTags = () => {
         onCategoryStateChangeRequest={(name) => {
           setTags(
             tags.map((tag) =>
-              tag.name == name ? { name, active: !tag.active } : tag
+              tag.name === name ? { name, active: !tag.active } : tag
             )
           );
         }}
@@ -252,7 +252,7 @@ export const TagsFilterStory = () => {
         type={TagType.CONTENT_WARNING}
         onTagStateChangeRequest={(changedTag) =>
           setTags(
-            tags.map((tag) => (changedTag.name == tag.name ? changedTag : tag))
+            tags.map((tag) => (changedTag.name === tag.name ? changedTag : tag))
           )
         }
       />
@@ -292,7 +292,7 @@ export const TagsFilterUncategorizedStory = () => {
         type={TagType.CONTENT_WARNING}
         onTagStateChangeRequest={(changedTag) =>
           setTags(
-            tags.map((tag) => (changedTag.name == tag.name ? changedTag : tag))
+            tags.map((tag) => (changedTag.name === tag.name ? changedTag : tag))
           )
         }
         uncategorized={uncategorizedState}
@@ -340,7 +340,7 @@ EditableTagsFilterStory.story = {
 const RECENT_BOARDS = [
   {
     slug: "gore",
-    avatar: "/" + goreBackground,
+    avatar: `/${goreBackground}`,
     description: "Love me some bruised bois (and more).",
     color: "#f96680",
     link: { href: "#slug", onClick: action("#slug") },
@@ -348,7 +348,7 @@ const RECENT_BOARDS = [
   },
   {
     slug: "oncie-den",
-    avatar: "/" + oncelerBoard,
+    avatar: `/${oncelerBoard}`,
     description: "Party like it's 2012",
     color: "#27caba",
     updates: 10,
@@ -357,7 +357,7 @@ const RECENT_BOARDS = [
   },
   {
     slug: "fic-club",
-    avatar: "/" + book,
+    avatar: `/${book}`,
     description: "Come enjoy all the fics!",
     color: "#7724d2",
     updates: 5,
@@ -366,7 +366,7 @@ const RECENT_BOARDS = [
   },
   {
     slug: "kink-memes",
-    avatar: "/" + kinkmeme,
+    avatar: `/${kinkmeme}`,
     description: "No limits. No shame.",
     color: "#000000",
     link: { href: "#slug", onClick: action("#slug") },
@@ -374,7 +374,7 @@ const RECENT_BOARDS = [
   },
   {
     slug: "crack",
-    avatar: "/" + crack,
+    avatar: `/${crack}`,
     description: "What's crackalackin",
     color: "#f9e066",
     updates: 3,
@@ -385,7 +385,7 @@ const RECENT_BOARDS = [
 export const BoardSelectorStory = () => {
   const [selectedBoard, setSelectedBoard] = React.useState({
     slug: "gore",
-    avatar: "/" + goreBackground,
+    avatar: `/${goreBackground}`,
     color: "#f96680",
   });
   return (
@@ -406,7 +406,7 @@ BoardSelectorStory.story = {
 export const BoardSelectorLongListStory = () => {
   const [selectedBoard, setSelectedBoard] = React.useState({
     slug: "gore",
-    avatar: "/" + goreBackground,
+    avatar: `/${goreBackground}`,
     color: "#f96680",
   });
   return (

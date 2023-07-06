@@ -121,7 +121,7 @@ const moveGhost = (ghost: HTMLElement, onRemoveCallback?: () => void) => {
   // info(`${deltaX} ${deltaY}`);
   // info(`translate(${nextX}px, ${nextY}px)`);
   ghost.style.transform = `translate(${nextX}px, ${nextY}px)`;
-  ghost.dataset.moves = "" + (parseInt(ghost.dataset.moves || "0") + 1);
+  ghost.dataset.moves = `${parseInt(ghost.dataset.moves || "0") + 1}`;
 };
 
 const clearGhost = (ghost: HTMLElement, onRemoveCallback?: () => void) => {
@@ -155,7 +155,7 @@ const newGhost = (onRemoveCallback: () => void) => {
   newGhost.style.transform = `translate(${getRandomInt(
     innerWidth - GHOST_SIZE
   )}px, ${pageYOffset + getRandomInt(innerHeight - GHOST_SIZE)}px)`;
-  newGhost.dataset.lifespan = "" + (4 + getRandomInt(4));
+  newGhost.dataset.lifespan = `${4 + getRandomInt(4)}`;
   info(`New ghost at ${newGhost.style.transform}`);
 
   // Whenever a ghost is done moving (its transition is finished),
@@ -166,9 +166,9 @@ const newGhost = (onRemoveCallback: () => void) => {
     // // info(`${currentX} ${currentY}`);
     moveGhost(newGhost, onRemoveCallback);
   });
-  newGhost.addEventListener("click", (e) => {
+  newGhost.addEventListener("click", (event) => {
     clearGhost(newGhost, onRemoveCallback);
-    e.stopPropagation();
+    event.stopPropagation();
   });
 
   // Rather than immediately adding the opacity/position transition to the new ghost,
@@ -181,7 +181,7 @@ const newGhost = (onRemoveCallback: () => void) => {
   setTimeout(() => {
     newGhost.style.transition = `transform 2.5s linear, opacity 2.5s linear`;
     newGhost.style.opacity = "1";
-    newGhost.dataset.index = "" + currentGhosts;
+    newGhost.dataset.index = `${currentGhosts}`;
     moveGhost(newGhost);
   }, 200);
 
@@ -190,7 +190,7 @@ const newGhost = (onRemoveCallback: () => void) => {
 
 const useBoos = ({ startActive }: { startActive: boolean }) => {
   const ghosts = React.useRef<HTMLElement[]>([]);
-  const timeout = React.useRef<NodeJS.Timeout>(null);
+  const timeout = React.useRef<NodeJS.Timeout | null>(null);
   const [active, setActive] = React.useState(startActive);
 
   React.useEffect(() => {
@@ -203,7 +203,6 @@ const useBoos = ({ startActive }: { startActive: boolean }) => {
   React.useEffect(() => {
     if (!active) {
       timeout.current && clearTimeout(timeout.current);
-      // @ts-ignore
       timeout.current = null;
       return;
     }
@@ -213,22 +212,20 @@ const useBoos = ({ startActive }: { startActive: boolean }) => {
       if (
         active &&
         currentGhosts < MAX_GHOSTS &&
-        getRandomInt(GHOST_CHANCE) % GHOST_CHANCE == 0
+        getRandomInt(GHOST_CHANCE) % GHOST_CHANCE === 0
       ) {
         currentGhosts = currentGhosts + 1;
         const spawned = newGhost(() => {
           // info(currentGhosts);
-          ghosts.current = ghosts.current.filter((ghost) => ghost != spawned);
+          ghosts.current = ghosts.current.filter((ghost) => ghost !== spawned);
           currentGhosts = currentGhosts - 1;
         });
         ghosts.current.push(spawned);
       }
-      // @ts-ignore
       timeout.current = setTimeout(() => {
         maybeCreateGhost();
       }, GHOST_INTERVAL);
     };
-    // @ts-ignore
     timeout.current = setTimeout(() => {
       maybeCreateGhost();
     }, GHOST_INTERVAL);

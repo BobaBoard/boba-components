@@ -11,8 +11,7 @@ export default {
   title: "Posts / Compact Post Thread",
   component: CompactPostThread,
 };
-export const CompactThreadStory = () => {
-  return (
+export const CompactThreadStory = () => (
     <CompactPostThread
       onNewComment={action("comment")}
       onNewContribution={action("contribute")}
@@ -109,7 +108,6 @@ export const CompactThreadStory = () => {
       }}
     />
   );
-};
 
 CompactThreadStory.story = {
   name: "compact",

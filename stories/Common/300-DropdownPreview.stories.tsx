@@ -17,8 +17,7 @@ export default {
   component: DropdownListMenu,
 };
 
-export const ClassicDropdownStory = () => {
-  return (
+export const ClassicDropdownStory = () => (
     <div style={{ width: "500px", backgroundColor: "white", padding: "15px" }}>
       <DropdownListMenu
         options={[
@@ -53,14 +52,12 @@ export const ClassicDropdownStory = () => {
       </DropdownListMenu>
     </div>
   );
-};
 
 ClassicDropdownStory.story = {
   name: "classic",
 };
 
-export const IconDropwdownStory = () => {
-  return (
+export const IconDropwdownStory = () => (
     <div style={{ width: "500px", backgroundColor: "white", padding: "15px" }}>
       <DropdownListMenu
         options={[
@@ -100,14 +97,12 @@ export const IconDropwdownStory = () => {
       </DropdownListMenu>
     </div>
   );
-};
 
 IconDropwdownStory.story = {
   name: "icon",
 };
 
-export const MultipleDropdowns = () => {
-  return (
+export const MultipleDropdowns = () => (
     <div style={{ width: "500px", backgroundColor: "white", padding: "15px" }}>
       <DropdownListMenu
         options={[
@@ -186,14 +181,12 @@ export const MultipleDropdowns = () => {
       </DropdownListMenu>
     </div>
   );
-};
 
 MultipleDropdowns.story = {
   name: "multiple",
 };
 
-export const WithHeader = () => {
-  return (
+export const WithHeader = () => (
     <div style={{ width: "500px", backgroundColor: "white", padding: "15px" }}>
       <DropdownListMenu
         options={[
@@ -278,7 +271,6 @@ export const WithHeader = () => {
       </DropdownListMenu>
     </div>
   );
-};
 
 WithHeader.story = {
   name: "with header",

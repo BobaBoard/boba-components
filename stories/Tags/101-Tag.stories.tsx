@@ -1,8 +1,8 @@
-import Icon, { IconProps, isIcon } from "common/Icon";
 import { Meta, Story } from "@storybook/react";
-import React, { useState } from "react";
 import Tag, { DeletableTagProps, TagProps } from "tags/Tag";
 
+import Icon from "common/Icon";
+import React from "react";
 import { TagsFactory } from "tags/TagsFactory";
 import { action } from "@storybook/addon-actions";
 import { faCalendar } from "@fortawesome/free-solid-svg-icons";
@@ -35,15 +35,13 @@ export default {
 
 const TagTemplate: Story<
   TagProps | DeletableTagProps | { tags: TagProps[] | DeletableTagProps[] }
-> = (args) => {
-  return (
-    <>
-      {(Array.isArray(args["tags"]) ? args["tags"] : [args]).map((tag) => (
-        <Tag key={tag.name} {...tag} />
-      ))}
-    </>
-  );
-};
+> = (args) => (
+  <>
+    {("tags" in args ? args.tags : [args]).map((tag) => (
+      <Tag key={tag.name} {...tag} />
+    ))}
+  </>
+);
 
 export const NameOnly = TagTemplate.bind({});
 NameOnly.args = {
@@ -111,21 +109,19 @@ Long.args = {
   ),
 };
 Long.decorators = [
-  (Story) => {
-    return (
-      <div className="story">
-        {Story()}
-        <style jsx>{`
-          .story {
-            display: flex;
-            justify-content: space-evenly;
-            flex-wrap: wrap;
-            background-color: white;
-            max-width: 300px;
-            padding: 20px;
-          }
-        `}</style>
-      </div>
-    );
-  },
+  (Story) => (
+    <div className="story">
+      {Story()}
+      <style jsx>{`
+        .story {
+          display: flex;
+          justify-content: space-evenly;
+          flex-wrap: wrap;
+          background-color: white;
+          max-width: 300px;
+          padding: 20px;
+        }
+      `}</style>
+    </div>
+  ),
 ];

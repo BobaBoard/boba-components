@@ -6,8 +6,7 @@ const Spinner: React.FC<{
   color?: string;
   size?: number;
   className?: string;
-}> = (props) => {
-  return (
+}> = (props) => (
     <ThreeDots
       color={props.color || Theme.DEFAULT_ACCENT_COLOR}
       height={props.size || 100}
@@ -15,5 +14,4 @@ const Spinner: React.FC<{
       wrapperClass={props.className}
     />
   );
-};
 export default Spinner;

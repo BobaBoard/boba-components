@@ -43,49 +43,47 @@ const UpdatesIndicator = ({
 }: {
   newContributions: number | undefined;
   newComments: number | undefined;
-}) => {
-  return (
-    <div className="notes-update" aria-label="post updates indicator">
-      {!!newContributions && (
-        <span
-          className="contributions-update"
-          aria-label={`${newContributions} new contributions`}
-        >
-          +{newContributions > 99 ? "∞" : newContributions}
-          <Icon icon={faPlusSquare} />
-        </span>
-      )}
-      {!!newComments && (
-        <span
-          className="comments-update"
-          aria-label={`${newComments} new comments`}
-        >
-          +{newComments > 99 ? "∞" : newComments}
-          <Icon icon={faComment} />
-        </span>
-      )}
-      <style jsx>{`
-        .notes-update {
-          background-color: ${Theme.BUTTON_BACKGROUND_COLOR_DARK};
-          border-radius: 25px;
-          color: ${Theme.BUTTON_ACCENT_COLOR_DARK};
-          padding: 2px 5px;
-          position: absolute;
-          right: -5%;
-          top: -30%;
-          font-size: var(--font-size-small);
-          display: flex;
-        }
-        .notes-update :global(svg) {
-          height: 12px;
-          display: inline-block;
-          padding-right: 2px;
-          padding-left: 2px;
-        }
-      `}</style>
-    </div>
-  );
-};
+}) => (
+  <div className="notes-update" aria-label="post updates indicator">
+    {!!newContributions && (
+      <span
+        className="contributions-update"
+        aria-label={`${newContributions} new contributions`}
+      >
+        +{newContributions > 99 ? "∞" : newContributions}
+        <Icon icon={faPlusSquare} />
+      </span>
+    )}
+    {!!newComments && (
+      <span
+        className="comments-update"
+        aria-label={`${newComments} new comments`}
+      >
+        +{newComments > 99 ? "∞" : newComments}
+        <Icon icon={faComment} />
+      </span>
+    )}
+    <style jsx>{`
+      .notes-update {
+        background-color: ${Theme.BUTTON_BACKGROUND_COLOR_DARK};
+        border-radius: 25px;
+        color: ${Theme.BUTTON_ACCENT_COLOR_DARK};
+        padding: 2px 5px;
+        position: absolute;
+        right: -5%;
+        top: -30%;
+        font-size: var(--font-size-small);
+        display: flex;
+      }
+      .notes-update :global(svg) {
+        height: 12px;
+        display: inline-block;
+        padding-right: 2px;
+        padding-left: 2px;
+      }
+    `}</style>
+  </div>
+);
 
 const NotesDisplay: React.FC<{
   link?: LinkWithAction;
@@ -201,14 +199,14 @@ const Footer: React.FC<FooterProps> = ({
         totalComments={totalComments}
         newComments={newComments}
         newContributions={newContributions}
-        compact={currentBreakpoint == "compact"}
+        compact={currentBreakpoint === "compact"}
       />
       {answerable && (
         <div className={classnames("footer-actions")}>
           <Button
             onClick={onContribution}
             icon={faPlusSquare}
-            compact={currentBreakpoint == "compact"}
+            compact={currentBreakpoint === "compact"}
             theme={ButtonStyle.TRANSPARENT}
             disabled={!allowsContribution}
             label="contribute"
@@ -218,7 +216,7 @@ const Footer: React.FC<FooterProps> = ({
           <Button
             onClick={onComment}
             icon={faComment}
-            compact={currentBreakpoint == "compact"}
+            compact={currentBreakpoint === "compact"}
             theme={ButtonStyle.TRANSPARENT}
             disabled={!allowsComment}
             label="comment"

@@ -27,7 +27,9 @@ const TagsDisplay: React.FC<TagsDisplayProps> = ({
   const whisperTags: TagsType[] = [];
   const specialTags: TagsType[] = [];
   tags.forEach((tag) => {
-    tag.type == TagType.WHISPER ? whisperTags.push(tag) : specialTags.push(tag);
+    tag.type === TagType.WHISPER
+      ? whisperTags.push(tag)
+      : specialTags.push(tag);
   });
 
   // We cannot just wrap in a div/span because making things in different divs
@@ -37,13 +39,8 @@ const TagsDisplay: React.FC<TagsDisplayProps> = ({
   const maybeWrapInDiv = (
     component: React.ReactNode[],
     wrapClassName: string
-  ) => {
-    return editable ? (
-      component
-    ) : (
-      <div className={wrapClassName}>{component}</div>
-    );
-  };
+  ) =>
+    editable ? component : <div className={wrapClassName}>{component}</div>;
 
   return (
     <>
@@ -54,7 +51,7 @@ const TagsDisplay: React.FC<TagsDisplayProps> = ({
               <div
                 key={index}
                 className={classnames("tag-container", {
-                  deleting: deleting && index == tags.length - 1,
+                  deleting: deleting && index === tags.length - 1,
                   // TODO: listing all things this isn't for condition, bad.
                   whisper: !(
                     tag.category ||
@@ -88,8 +85,8 @@ const TagsDisplay: React.FC<TagsDisplayProps> = ({
               key={index}
               className={classnames("tag-container", {
                 deleting:
-                  deleting && specialTags.length + index == tags.length - 1,
-                whisper: tag.type == TagType.WHISPER,
+                  deleting && specialTags.length + index === tags.length - 1,
+                whisper: tag.type === TagType.WHISPER,
               })}
             >
               <DropdownListMenu options={getOptionsForTag?.(tag)}>

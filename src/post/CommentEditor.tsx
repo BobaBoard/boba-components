@@ -36,7 +36,7 @@ const CommentFooter = (props: {
       breakpoints: { compact: 0, regular: SIZE_TRIGGER },
       updateOnBreakpointChange: true,
     });
-  const size = currentBreakpoint == "regular" ? SIZES.REGULAR : SIZES.COMPACT;
+  const size = currentBreakpoint === "regular" ? SIZES.REGULAR : SIZES.COMPACT;
   return (
     <>
       <div className="footer" ref={containerRef}>
@@ -112,7 +112,7 @@ const MAX_CHARACTERS = 421;
 const Comment = React.forwardRef<EditorRef, CommentProps>((props, ref) => {
   const headerRef = React.useRef<HTMLDivElement>(null);
   const editorRef = React.useRef<HTMLDivElement>(null);
-  const focusRef = React.useRef<any>(null);
+  const focusRef = React.useRef<Editor>(null);
   const [charactersTyped, setCharactersTyped] = React.useState(1);
   const [text, setText] = React.useState(props.initialText || "[]");
   const imageUploader = React.useContext(ImageUploaderContext);
@@ -133,7 +133,7 @@ const Comment = React.forwardRef<EditorRef, CommentProps>((props, ref) => {
 
   const canSubmit = (charactersTyped: number) =>
     !(
-      charactersTyped == 1 ||
+      charactersTyped === 1 ||
       MAX_CHARACTERS - charactersTyped < 0 ||
       props.loading
     );
@@ -203,7 +203,7 @@ const Comment = React.forwardRef<EditorRef, CommentProps>((props, ref) => {
             </div>
             <CommentFooter
               charactersLeft={MAX_CHARACTERS - charactersTyped}
-              isEmpty={charactersTyped == 1}
+              isEmpty={charactersTyped === 1}
               onSubmit={onSubmitHandler}
               onCancel={props.onCancel}
               loading={!!props.loading}

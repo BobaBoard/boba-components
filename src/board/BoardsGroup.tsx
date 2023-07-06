@@ -1,7 +1,6 @@
 import React from "react";
 
-const BoardsGroup: React.FC<BoardsGroupProps> = (props) => {
-  return (
+const BoardsGroup: React.FC<BoardsGroupProps> = (props) => (
     <div className="boards-group">
       {props.title && <div className="title">{props.title}</div>}
       <div className="boards">
@@ -31,7 +30,6 @@ const BoardsGroup: React.FC<BoardsGroupProps> = (props) => {
       `}</style>
     </div>
   );
-};
 
 export default BoardsGroup;
 

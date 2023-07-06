@@ -3,11 +3,6 @@ import "@testing-library/jest-dom/extend-expect";
 import * as stories from "stories/SideMenu/100-SideMenu.stories";
 
 import {
-  BasePinnedSectionProps,
-  WithPinnedSectionProps,
-} from "sidemenu/PinnedMenu";
-import { Boards, Icons } from "stories/SideMenu/200-PinnedMenu.stories";
-import {
   BoardsSectionProps,
   EmptySectionProps,
   LoadingSectionProps,
@@ -19,12 +14,9 @@ import {
 } from "stories/SideMenu/101-BoardsMenuSection.stories";
 import { render, screen, waitFor, within } from "@testing-library/react";
 
-import { CircleButtonProps } from "buttons/CircleButton";
-import { DropdownProps } from "common/DropdownListMenu";
 import React from "react";
 import { action } from "@storybook/addon-actions";
 import { composeStories } from "@storybook/testing-react";
-import { mocked } from "jest-mock";
 import userEvent from "@testing-library/user-event";
 
 jest.mock("@storybook/addon-actions");

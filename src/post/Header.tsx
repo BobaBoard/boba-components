@@ -28,16 +28,15 @@ const getSelectedAccessory = ({
   secretIdentity?: SecretIdentityType;
   accessories?: AccessoryType[];
   currentAccessory?: AccessoryType;
-}) => {
-  return currentAccessory
-    ? accessories?.find((accessory) => accessory.id == currentAccessory?.id)
+}) =>
+  currentAccessory
+    ? accessories?.find((accessory) => accessory.id === currentAccessory?.id)
     : secretIdentity?.accessory
     ? {
         name: "Role",
         accessory: secretIdentity?.accessory,
       }
     : undefined;
-};
 
 const mergeIdentityWithAccessory = ({
   secretIdentity,
@@ -45,8 +44,8 @@ const mergeIdentityWithAccessory = ({
 }: {
   secretIdentity?: SecretIdentityType;
   currentAccessory?: AccessoryType;
-}): SecretIdentityType => {
-  return secretIdentity
+}): SecretIdentityType =>
+  secretIdentity
     ? {
         ...secretIdentity,
         accessory: currentAccessory?.accessory || secretIdentity?.accessory,
@@ -56,7 +55,6 @@ const mergeIdentityWithAccessory = ({
         avatar: questionMark,
         accessory: currentAccessory?.accessory,
       };
-};
 
 const useIdentitySelectionOptions = (props: {
   additionalIdentities: PostHeaderProps["additionalIdentities"];
@@ -90,7 +88,7 @@ const useIdentitySelectionOptions = (props: {
 const PostHeader = React.forwardRef<HTMLImageElement, PostHeaderProps>(
   (props, avatarRef) => {
     info(`Rendering post header`);
-    const isCompact = props.size == HeaderStyle.COMPACT;
+    const isCompact = props.size === HeaderStyle.COMPACT;
     const selectedAccessory = getSelectedAccessory({
       secretIdentity: props.secretIdentity,
       accessories: props.accessories,

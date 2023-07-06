@@ -40,9 +40,7 @@ export default {
   ],
 } as Meta;
 
-const CommentTemplate: Story<CommentProps> = (args) => {
-  return <Comment {...args} ref={args.ref || undefined} />;
-};
+const CommentTemplate: Story<CommentProps> = (args) => <Comment {...args} ref={args.ref || undefined} />;
 
 export const TextComment = CommentTemplate.bind({});
 TextComment.args = {

@@ -9,8 +9,7 @@ const PreviewEditor: React.FC<{
   accentColor: string;
   onSetAccentColor: (color: string) => void;
   onSetTagline: (tagline: string) => void;
-}> = ({ tagline, accentColor, onSetAccentColor, onSetTagline }) => {
-  return (
+}> = ({ tagline, accentColor, onSetAccentColor, onSetTagline }) => (
     <div className={classnames("preview-editor")}>
       <Input
         id="tagline"
@@ -35,6 +34,5 @@ const PreviewEditor: React.FC<{
       `}</style>
     </div>
   );
-};
 
 export default PreviewEditor;

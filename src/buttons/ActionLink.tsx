@@ -19,7 +19,7 @@ const NeutralButton: React.FC<ActionLinkProps> = (props) => {
     <button
       className={className}
       onClick={React.useCallback(
-        (e: React.MouseEvent) => {
+        (event: React.MouseEvent) => {
           // If there's no an onClick event defined, do nothing;
           // If there is an onClick event defined, do it, then
           // prevent the default action from happening (if not
@@ -28,9 +28,9 @@ const NeutralButton: React.FC<ActionLinkProps> = (props) => {
           if (!link?.onClick) {
             return;
           }
-          link.onClick(e);
+          link.onClick(event);
           if (!allowDefault) {
-            e.preventDefault();
+            event.preventDefault();
           }
         },
         [link, allowDefault]
@@ -76,7 +76,7 @@ const NeutralAnchor: React.FC<WithRequiredProperty<ActionLinkProps, "link">> = (
       className={className}
       href={link.href}
       onClick={React.useCallback(
-        (e: React.MouseEvent) => {
+        (event: React.MouseEvent) => {
           // If there's no an onClick event defined, do nothing;
           // If there is an onClick event defined, do it, then
           // prevent the default action from happening (if not
@@ -91,11 +91,10 @@ const NeutralAnchor: React.FC<WithRequiredProperty<ActionLinkProps, "link">> = (
           ) {
             return;
           }
-
-          link.onClick(e);
-
+          link.onClick(event);
+          
           if (!allowDefault) {
-            e.preventDefault();
+            event.preventDefault();
           }
         },
         [link, allowDefault]

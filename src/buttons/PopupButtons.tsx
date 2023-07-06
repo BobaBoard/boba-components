@@ -12,7 +12,7 @@ import { lightenColor } from "utils";
 export interface PopupButtonsProps {
   options?: ({
     name: string;
-    icon?: IconProp | string;
+    icon: IconProp;
     color?: string;
   } & { link: LinkWithAction })[];
   onCloseRequest: () => void;
@@ -58,7 +58,6 @@ const PopupButton: React.FC<NonNullable<PopupButtonsProps["options"]>[0]> = (
   return (
     <ActionLink link={option.link} className={`icon ${buttonClass}`}>
       <FontAwesomeIcon
-        // @ts-ignore
         icon={option.icon}
         style={{
           position: "absolute",

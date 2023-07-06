@@ -13,8 +13,7 @@ const ViewSelector = (props: {
   views: ViewOption[] | undefined;
   selectedView: ViewOption | undefined;
   onSelectView: (selectedView: ViewOption) => void;
-}) => {
-  return (
+}) => (
     <DropdownListMenu
       options={props.views?.map((option) => ({
         name: option.name,
@@ -51,6 +50,5 @@ const ViewSelector = (props: {
       `}</style>
     </DropdownListMenu>
   );
-};
 
 export default ViewSelector;

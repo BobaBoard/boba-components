@@ -36,7 +36,7 @@ const MenuBar: React.FC<MenuBarProps> = ({
           <CircleButton
             icon={option.icon}
             link={option.link}
-            selected={selectedOption == option.id}
+            selected={selectedOption === option.id}
             accentColor={accentColor}
           />
         </div>

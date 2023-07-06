@@ -172,19 +172,19 @@ WithThreadTypeIcon.decorators = [
         <div style={{ marginTop: "20px" }}>
           <button
             onClick={() => setCurrentIcon(faCodeBranch)}
-            disabled={currentIcon == faCodeBranch}
+            disabled={currentIcon === faCodeBranch}
           >
             Thread
           </button>
           <button
             onClick={() => setCurrentIcon(faImages)}
-            disabled={currentIcon == faImages}
+            disabled={currentIcon === faImages}
           >
             Gallery
           </button>
           <button
             onClick={() => setCurrentIcon(faFilm)}
-            disabled={currentIcon == faFilm}
+            disabled={currentIcon === faFilm}
           >
             Timeline
           </button>
@@ -205,7 +205,6 @@ TestHighlight.decorators = [
     const postRef = React.createRef<PostHandler>();
     return (
       <div style={{ marginLeft: "20px" }}>
-        {/* @ts-ignore */}
         <Story postRef={postRef} />
         <div style={{ marginTop: "20px" }}>
           <Button

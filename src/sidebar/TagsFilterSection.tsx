@@ -3,11 +3,7 @@ import TagsFilter, { FilteredTagsState } from "tags/TagsFilter";
 import React from "react";
 import { TagType } from "types";
 import classnames from "classnames";
-import debug from "debug";
 import noop from "noop-ts";
-
-// @ts-ignore
-const log = debug("bobaui:boards:CategoryFilterSection");
 
 const TagsFilterSection: React.FC<TagsFilterSectionProps> & {
   FilteredTagsState: typeof FilteredTagsState;
@@ -31,8 +27,8 @@ const TagsFilterSection: React.FC<TagsFilterSectionProps> & {
             tags={
               !props.editable
                 ? props.tags
-                : props.tags?.map((c) => ({
-                    name: c.name,
+                : props.tags?.map((category) => ({
+                    name: category.name,
                     state: FilteredTagsState.ACTIVE,
                   }))
             }

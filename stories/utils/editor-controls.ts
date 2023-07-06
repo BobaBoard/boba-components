@@ -4,9 +4,7 @@ export enum EDITOR_TEXT_VALUES {
   LONG_TEXT = "LONG_TEXT",
 }
 
-export const getInitialText = (textValue: EDITOR_TEXT_VALUES) => {
-  return JSON.parse(getInitialTextString(textValue));
-};
+export const getInitialText = (textValue: EDITOR_TEXT_VALUES) => JSON.parse(getInitialTextString(textValue));
 
 export const getInitialTextString = (textValue: EDITOR_TEXT_VALUES) => {
   switch (textValue) {

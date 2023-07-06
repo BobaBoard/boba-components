@@ -16,9 +16,7 @@ import React from "react";
 import Theme from "theme/default";
 import { action } from "@storybook/addon-actions";
 
-const ButtonTemplate: Story<BottomBarProps> = (args) => {
-  return <BottomBar {...args} />;
-};
+const ButtonTemplate: Story<BottomBarProps> = (args) => <BottomBar {...args} />;
 
 const LEFT_BUTTON = (
   <BottomBar.Button
@@ -160,7 +158,7 @@ export default {
     (Story) => (
       <div
         style={{
-          height: Theme.BOTTOM_BAR_HEIGHT_PX + "px",
+          height: `${Theme.BOTTOM_BAR_HEIGHT_PX  }px`,
           position: "relative",
           marginTop: "20px",
         }}

@@ -13,8 +13,7 @@ const bobaTransition = cssTransition({
   exit: "slide-out-blurred-top-animation",
 });
 
-const Toast = () => {
-  return (
+const Toast = () => (
     <>
       <ToastLibContainer
         transition={bobaTransition}
@@ -150,7 +149,6 @@ const Toast = () => {
       `}</style>
     </>
   );
-};
 
 export default Toast;
 export const toast = toastLib;

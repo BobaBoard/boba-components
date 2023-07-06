@@ -44,13 +44,11 @@ const { styles: headerStyles, className: headerClassName } = css.resolve`
   }
 `;
 
-const hasFooterTags = (post: PostData) => {
-  return (
+const hasFooterTags = (post: PostData) => (
     !!post.tags?.categoryTags?.length ||
     !!post.tags?.indexTags?.length ||
     !!post.tags?.whisperTags?.length
   );
-};
 
 // TODO: make this only include posts that aren't marked as being new
 const PreviousContent = (props: CompactThreadProps) => {

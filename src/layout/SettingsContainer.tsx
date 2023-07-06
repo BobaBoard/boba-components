@@ -14,8 +14,7 @@ export type SettingType = CheckboxSettingType;
 const CheckboxSetting: React.FC<{
   value: CheckboxSettingType;
   onValueChange: (value: CheckboxSettingType) => void;
-}> = (props) => {
-  return (
+}> = (props) => (
     <>
       <label htmlFor={props.value.name} className="label">
         {props.value.label}
@@ -55,13 +54,11 @@ const CheckboxSetting: React.FC<{
       `}</style>
     </>
   );
-};
 
 const Setting: React.FC<{
   value: SettingType;
   onValueChange: (value: SettingType) => void;
-}> = (props) => {
-  return (
+}> = (props) => (
     <div className="setting">
       {
         {
@@ -87,7 +84,6 @@ const Setting: React.FC<{
       `}</style>
     </div>
   );
-};
 
 interface SettingsContainerProps {
   title: string;
@@ -96,8 +92,7 @@ interface SettingsContainerProps {
   globalValue?: boolean;
   onGlobaValueChange?: (value: boolean) => void;
 }
-const SettingsContainer: React.FC<SettingsContainerProps> = (props) => {
-  return (
+const SettingsContainer: React.FC<SettingsContainerProps> = (props) => (
     <section>
       <div className="title">
         <h2>{props.title}</h2>
@@ -133,6 +128,5 @@ const SettingsContainer: React.FC<SettingsContainerProps> = (props) => {
       `}</style>
     </section>
   );
-};
 
 export default SettingsContainer;

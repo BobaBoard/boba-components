@@ -198,13 +198,11 @@ const Layout = React.forwardRef<LayoutHandler, LayoutProps>(
             icon={{ icon: faBars }}
             aria-label="menu"
             withNotifications={notificationIcon}
-            link={React.useMemo(() => {
-              return {
+            link={React.useMemo(() => ({
                 onClick: () => {
                   setShowSideMenu((showSideMenu) => !showSideMenu);
                 },
-              };
-            }, [setShowSideMenu])}
+              }), [setShowSideMenu])}
           />
         </div>
         <nav className="pinned-menu">{pinnedMenuContent}</nav>

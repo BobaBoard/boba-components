@@ -20,8 +20,7 @@ interface TootlipProps extends LibraryPopoverProps {
 }
 
 const DEFAULT_ZINDEX = 15;
-const Tootlip: React.FC<TootlipProps> = (props) => {
-  return (
+const Tootlip: React.FC<TootlipProps> = (props) => (
     <>
       <LibraryPopover
         isOpen={props.isOpen}
@@ -29,14 +28,11 @@ const Tootlip: React.FC<TootlipProps> = (props) => {
         padding={props.padding || 10}
         windowBorderPadding={10}
         onClickOutside={props.onClickOutside}
-        containerStyle={React.useMemo(() => {
-          return {
+        containerStyle={React.useMemo(() => ({
             zIndex: props.zIndex?.toString() || DEFAULT_ZINDEX.toString(),
-          };
-        }, [props.zIndex])}
+          }), [props.zIndex])}
         content={React.useCallback(
-          ({ position, targetRect, popoverRect }) => {
-            return (
+          ({ position, targetRect, popoverRect }) => (
               <ArrowContainer
                 position={position}
                 targetRect={targetRect}
@@ -55,8 +51,7 @@ const Tootlip: React.FC<TootlipProps> = (props) => {
                   <div />
                 )}
               </ArrowContainer>
-            );
-          },
+            ),
           [props.content, props.accentColor, props.zIndex, props.isOpen]
         )}
         transitionDuration={0.2}
@@ -90,6 +85,5 @@ const Tootlip: React.FC<TootlipProps> = (props) => {
       `}</style>
     </>
   );
-};
 
 export default Tootlip;
