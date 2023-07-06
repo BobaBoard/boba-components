@@ -84,10 +84,10 @@ const NeutralAnchor: React.FC<WithRequiredProperty<ActionLinkProps, "link">> = (
           // TODO: see about moving "allowDefault" directly on Link
           if (
             !link?.onClick ||
-            e.ctrlKey ||
-            e.metaKey ||
-            e.altKey ||
-            e.shiftKey
+            event.ctrlKey ||
+            event.metaKey ||
+            event.altKey ||
+            event.shiftKey
           ) {
             return;
           }
