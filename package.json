@@ -25,8 +25,8 @@
     "storybook": "start-storybook -p 6006",
     "test": "jest",
     "test:ci": "yarn run test --ci --runInBand --no-cache",
-    "test:watch": "yarn run test --watch",
-    "visual": "npx chromatic --project-token=CHROMATIC_PROJECT_TOKEN"
+    "test:visual": "npx chromatic --project-token=CHROMATIC_PROJECT_TOKEN",
+    "test:watch": "yarn run test --watch"
   },
   "resolutions": {
     "**/@types/react": "^17.0.2"
