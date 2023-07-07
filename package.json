@@ -2,13 +2,13 @@
   "name": "@bobaboard/ui-components",
   "version": "0.3.10",
   "description": "BobaBoard's UI components",
-  "homepage": "https://github.com/essential-randomness/bobaboard-ui#readme",
+  "homepage": "https://docs.bobaboard.com/",
   "bugs": {
-    "url": "https://github.com/essential-randomness/bobaboard-ui/issues"
+    "url": "https://github.com/BobaBoard/boba-components/issues"
   },
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/essential-randomness/bobaboard-ui.git"
+    "url": "git+https://github.com/BobaBoard/boba-components.git"
   },
   "license": "mit",
   "author": {
@@ -20,13 +20,13 @@
   "scripts": {
     "build": "rm -rf dist && tsc -p tsconfig.export.json --emitDeclarationOnly && tsc-alias -p tsconfig.export.json && webpack --mode production --config webpack.config.cjs --stats-error-details",
     "build-storybook": "build-storybook",
-    "chromatic": "npx chromatic --project-token=CHROMATIC_PROJECT_TOKEN",
     "postinstall": "patch-package",
     "profile": "tsc -p tsconfig.export.json --emitDeclarationOnly && webpack --mode production  --config webpack.config.cjs --profile --json > stats.json",
     "storybook": "start-storybook -p 6006",
     "test": "jest",
     "test:ci": "yarn run test --ci --runInBand --no-cache",
-    "test:watch": "yarn run test --watch"
+    "test:watch": "yarn run test --watch",
+    "visual": "npx chromatic --project-token=CHROMATIC_PROJECT_TOKEN"
   },
   "resolutions": {
     "**/@types/react": "^17.0.2"
