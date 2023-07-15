@@ -1,7 +1,6 @@
 import React from "react";
 
-
-export const HiddenThread: React.FC<HiddenThreadProps> = ({ 
+const HiddenThread: React.FC<HiddenThreadProps> = ({ 
     threadId, 
     boardId, 
     threadHidden, 
@@ -16,7 +15,7 @@ export const HiddenThread: React.FC<HiddenThreadProps> = ({
           setHideCallback({
             threadId: threadId,
             boardId: boardId,
-            hide: !threadHidden,
+            hide: threadHidden,
           });
           e.preventDefault();
         }}
@@ -49,3 +48,5 @@ export interface HiddenThreadProps {
                       boardId: string, 
                       hide: boolean }) => void;
 }
+
+export default HiddenThread;
