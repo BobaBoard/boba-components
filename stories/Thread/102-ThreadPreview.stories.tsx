@@ -1,4 +1,4 @@
-import { HiddenThread, HiddenThreadProps } from "thread/ThreadPreview";
+import HiddenThread, { HiddenThreadProps } from "thread/ThreadPreview";
 
 import type { Meta, Story/*, StoryObj*/ } from "@storybook/react";
 
