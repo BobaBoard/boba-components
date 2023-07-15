@@ -31,9 +31,7 @@ export default {
   ],
 } as Meta;
 
-const ButtonTemplate: Story<IconButtonProps> = (args) => {
-  return <IconButtonComponent {...args} />;
-};
+const ButtonTemplate: Story<IconButtonProps> = (args) => <IconButtonComponent {...args} />;
 
 export const IconButton = ButtonTemplate.bind({});
 IconButton.args = {

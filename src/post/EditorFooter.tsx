@@ -9,8 +9,7 @@ const EditorFooter: React.FC<FooterProps> = ({
   onSubmit,
   submittable,
   cancellable,
-}) => {
-  return (
+}) => (
     <>
       <div className={classNames("footer-actions", "footer-edit-actions")}>
         <Button
@@ -51,7 +50,6 @@ const EditorFooter: React.FC<FooterProps> = ({
       `}</style>
     </>
   );
-};
 
 export default EditorFooter;
 

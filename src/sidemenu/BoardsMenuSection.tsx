@@ -12,12 +12,12 @@ const BoardsMenuSection: React.FC<BoardsMenuSectionProps> = (props) => {
   const { emptyTitle, emptyDescription } = props as EmptySectionProps;
   const { loading, placeholdersCount, accentColor } =
     props as LoadingSectionProps;
-  const isEmpty = !loading && (!boards || boards.length == 0);
+  const isEmpty = !loading && (!boards || !boards.length);
   return (
     <section>
       <div className="title">
         <div className="icon">
-          {typeof icon == "string" ? (
+          {typeof icon === "string" ? (
             <img src={icon} alt={`${emptyTitle} icon`} />
           ) : (
             <FontAwesomeIcon icon={icon} />

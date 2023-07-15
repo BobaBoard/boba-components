@@ -96,7 +96,6 @@ const Comment = React.forwardRef<CommentHandler, CommentProps>(
 
     React.useImperativeHandle(ref, () => ({
       highlight: (color: string) => {
-        console.log("highlight");
         log(`Highlighting comment with ${color}!`);
         if (!commentContainerRef.current) {
           return;

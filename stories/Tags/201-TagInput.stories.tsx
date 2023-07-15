@@ -29,9 +29,7 @@ export default {
   ],
 } as Meta;
 
-const TagTemplate: Story<TagInputProps> = (args) => {
-  return <TagInput {...args} />;
-};
+const TagTemplate: Story<TagInputProps> = (args) => <TagInput {...args} />;
 
 export const Editable = TagTemplate.bind({});
 Editable.args = {

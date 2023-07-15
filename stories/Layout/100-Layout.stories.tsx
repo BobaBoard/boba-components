@@ -172,7 +172,7 @@ LoadingLayout.decorators = [
       ...storyArgs,
       args: {
         ...storyArgs.args,
-        loading: loading,
+        loading,
       },
     };
 

@@ -27,9 +27,7 @@ export default {
   ],
 } as Meta;
 
-const SectionsListTemplate: Story<SectionsListProps> = (args) => {
-  return <SectionsList {...args} />;
-};
+const SectionsListTemplate: Story<SectionsListProps> = (args) => <SectionsList {...args} />;
 
 export const Regular = SectionsListTemplate.bind({});
 Regular.args = {

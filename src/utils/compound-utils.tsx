@@ -5,7 +5,7 @@ export function extractCompound<T>(
   CompoundType: React.FC<T>
 ): React.ReactElement<T> | undefined {
   return React.Children.toArray(children).find(
-    (node) => React.isValidElement(node) && node.type == CompoundType
+    (node) => React.isValidElement(node) && node.type === CompoundType
   ) as React.ReactElement<T>;
 }
 
@@ -14,7 +14,7 @@ export function extractCompounds<T>(
   CompoundType: React.FC<T>
 ): React.ReactElement<T>[] {
   return React.Children.toArray(children).filter(
-    (node) => React.isValidElement(node) && node.type == CompoundType
+    (node) => React.isValidElement(node) && node.type === CompoundType
   ) as React.ReactElement<T>[];
 }
 
@@ -25,14 +25,14 @@ export function extractRest(
   return React.Children.toArray(children).filter(
     (child) =>
       !React.isValidElement(child) ||
-      !excludedCompoundTypes.find((compoundType) => child.type == compoundType)
+      !excludedCompoundTypes.find((compoundType) => child.type === compoundType)
   );
 }
 
 export function CreateBaseCompound<T>(displayName: string) {
-  const newComponent = ({ children }: React.PropsWithChildren<T>) => {
-    return <>{children}</>;
-  };
+  const newComponent = ({ children }: React.PropsWithChildren<T>) => (
+    <>{children}</>
+  );
   newComponent.displayName = displayName;
   return newComponent;
 }

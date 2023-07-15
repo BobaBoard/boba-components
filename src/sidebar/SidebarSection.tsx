@@ -15,21 +15,19 @@ type SidebarSectionChild = React.ReactElement<
 
 const isCategoryFilterSection = (
   section: SidebarSectionChild
-): section is React.ReactElement<TagsFilterSectionProps> => {
-  return getType(section) == "category_filter";
-};
+): section is React.ReactElement<TagsFilterSectionProps> =>
+  getType(section) === "category_filter";
 
 /**
  * Get the type of a valid child element of a SidebarSection.
  */
 const getType = (child: SidebarSectionChild) => {
-  if (child.type == TagsFilterSection) {
+  if (child.type === TagsFilterSection) {
     return "category_filter";
-  } else if (child.type == TextSection) {
+  } else if (child.type === TextSection) {
     return "text";
-  } else {
-    throw new Error("Unknown sidebar section type");
   }
+  throw new Error("Unknown sidebar section type");
 };
 
 /**
@@ -79,11 +77,8 @@ const makeEditableChild = (
  * Given a valid child element of a SidebarSection, get its description data.
  */
 export const getSectionData = (
-  section?: React.ReactElement<SidebarSectionProps>
-): DescriptionType | null => {
-  if (!section) {
-    return null;
-  }
+  section: React.ReactElement<SidebarSectionProps>
+): DescriptionType => {
   const type = getType(section.props.children);
   switch (type) {
     case "text":
@@ -138,17 +133,15 @@ const makeSidebarChild = (
  */
 export const makeSidebarSection = (
   description: DescriptionType
-): React.ReactElement<SidebarSectionProps> => {
-  return (
-    <SidebarSection
-      id={description.id}
-      index={description.index}
-      title={description.title}
-    >
-      {makeSidebarChild(description)}
-    </SidebarSection>
-  );
-};
+): React.ReactElement<SidebarSectionProps> => (
+  <SidebarSection
+    id={description.id}
+    index={description.index}
+    title={description.title}
+  >
+    {makeSidebarChild(description)}
+  </SidebarSection>
+);
 
 export interface SidebarSectionProps {
   id: string;

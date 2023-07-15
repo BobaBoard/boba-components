@@ -4,7 +4,6 @@ import BoardsMenuSection, {
 import { Meta, Story } from "@storybook/react";
 import {
   faBatteryEmpty,
-  faClock,
   faSpinner,
   faTh,
 } from "@fortawesome/free-solid-svg-icons";
@@ -12,14 +11,11 @@ import {
 import React from "react";
 import { action } from "@storybook/addon-actions";
 import anime from "stories/images/anime.png";
-import art from "stories/images/art-crit.png";
 import book from "stories/images/book.png";
 import crack from "stories/images/crack.png";
 import goreBackground from "stories/images/gore.png";
 import kinkmeme from "stories/images/kink-meme.png";
-import meta from "stories/images/meta.png";
 import oncelerBoard from "stories/images/onceler-board.png";
-import villains from "stories/images/villains.png";
 
 // Extra boards not currently being used
 // const PINNED_BOARDS = [
@@ -85,7 +81,7 @@ import villains from "stories/images/villains.png";
 const GENERAL_BOARDS = [
   {
     slug: "gore",
-    avatar: "/" + goreBackground,
+    avatar: `/${goreBackground}`,
     description: "Love me some bruised bois (and more).",
     color: "#f96680",
     link: { href: "#slug", onClick: action("#slug") },
@@ -93,7 +89,7 @@ const GENERAL_BOARDS = [
   },
   {
     slug: "oncie-den",
-    avatar: "/" + oncelerBoard,
+    avatar: `/${oncelerBoard}`,
     description: "Party like it's 2012",
     color: "#27caba",
     backgroundColor: "#131518",
@@ -101,7 +97,7 @@ const GENERAL_BOARDS = [
   },
   {
     slug: "a-super-long-slug-because-we-need-to-test-for-overflow",
-    avatar: "/" + book,
+    avatar: `/${book}`,
     description: "Come enjoy all the fics!",
     color: "#7724d2",
     updates: 5,
@@ -110,7 +106,7 @@ const GENERAL_BOARDS = [
   },
   {
     slug: "kink-memes",
-    avatar: "/" + kinkmeme,
+    avatar: `/${kinkmeme}`,
     description: "No limits. No shame.",
     color: "#000000",
     link: { href: "#slug", onClick: action("#slug") },
@@ -118,7 +114,7 @@ const GENERAL_BOARDS = [
   },
   {
     slug: "crack",
-    avatar: "/" + crack,
+    avatar: `/${crack}`,
     description: "What's crackalackin",
     color: "#f9e066",
     updates: 3,
@@ -129,7 +125,7 @@ const GENERAL_BOARDS = [
   {
     slug: "anime",
     muted: true,
-    avatar: "/" + anime,
+    avatar: `/${anime}`,
     description: "We put the weeb in dweeb.",
     color: "#24d282",
     backgroundColor: "#131518",
@@ -157,9 +153,7 @@ export default {
 
 const BoardsMenuSectionTemplate: Story<BoardsMenuSectionProps> = (
   args: BoardsMenuSectionProps
-) => {
-  return <BoardsMenuSection {...args} />;
-};
+) => <BoardsMenuSection {...args} />;
 
 export const Regular = BoardsMenuSectionTemplate.bind({});
 Regular.args = {

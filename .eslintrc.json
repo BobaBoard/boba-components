@@ -1,7 +1,8 @@
 {
   "env": {
     "browser": true,
-    "es2021": true
+    "es2021": true,
+    "jest/globals": true
   },
   "extends": [
     "eslint:recommended",
@@ -12,29 +13,85 @@
   ],
   "parser": "@typescript-eslint/parser",
   "parserOptions": {
+    "project": true,
+    "tsconfigRootDir": "__dirname",
     "ecmaFeatures": {
       "jsx": true
     },
     "ecmaVersion": 12,
     "sourceType": "module"
   },
-  "plugins": ["react", "@typescript-eslint", "react-hooks"],
+  "plugins": ["react", "react-hooks", "@typescript-eslint", "import", "jest"],
   "rules": {
-    "no-const-assign": "warn",
-    "no-this-before-super": "warn",
-    // Disable this because typescript does a better job anyway
-    "no-undef": "off",
-    "no-unreachable": "warn",
-    "no-unused-vars": "off",
-    "constructor-super": "warn",
-    "valid-typeof": "warn",
-    "@typescript-eslint/ban-ts-comment": "off",
+    "react/no-unknown-property": ["warn", { "ignore": ["jsx", "global"] }],
     "react/prop-types": "off",
-    "@typescript-eslint/explicit-module-boundary-types": "off",
-    "@typescript-eslint/no-var-requires": "off",
-    "@typescript-eslint/no-unused-vars": "warn",
-    "@typescript-eslint/no-empty-interface": "off"
+    "prefer-template": "warn",
+    "no-var": "error",
+    "no-useless-rename": "warn",
+    // This isn't reccommended as typescript does a much better job at it
+    "no-use-before-define": "off",
+    "no-magic-numbers": "off",
+    "no-inline-comments": "off",
+    "no-implicit-coercion": [
+      "warn",
+      {
+        "string": false,
+        "allow": ["!!"]
+      }
+    ],
+    "no-alert": "warn",
+    "no-console": "warn",
+    "prefer-destructuring": "warn",
+    "prefer-const": "error",
+    "no-new-object": "error",
+    "object-shorthand": ["error", "always"],
+    "quote-props": ["error", "as-needed"],
+    "prefer-object-spread": "error",
+    "no-array-constructor": "error",
+    "array-callback-return": ["error"],
+    "no-eval": "error",
+    "wrap-iife": "error",
+    "no-loop-func": "error",
+    "prefer-rest-params": "error",
+    "default-param-last": "error",
+    "no-new-func": "error",
+    "no-param-reassign": "error",
+    "prefer-spread": "error",
+    "prefer-arrow-callback": ["error", { "allowNamedFunctions": true }],
+    "arrow-body-style": "error",
+    // TODO: conflicts with prettier rules, which remove unnecessary parentheses
+    // "no-confusing-arrow": ["error"],
+    "no-useless-constructor": "error",
+    "class-methods-use-this": "error",
+    "no-duplicate-imports": "error",
+    "import/no-mutable-exports": "error",
+    // TODO: consider activating this later on after all other rules are fixed
+    // "import/no-default-export": "error",
+    "import/first": "error",
+    "import/no-webpack-loader-syntax": "error",
+    "no-iterator": "error",
+    "dot-notation": "error",
+    "prefer-exponentiation-operator": "error",
+    "no-multi-assign": "error",
+    "no-plusplus": ["error", { "allowForLoopAfterthoughts": true }],
+    "eqeqeq": "error",
+    "no-unneeded-ternary": "error",
+    // TODO: conflicts with prettier rules, which remove unnecessary parentheses
+    // "no-mixed-operators": ["error", { "allowSamePrecedence": true }],
+    "no-else-return": "error",
+    "no-new-wrappers": "error",
+    "id-length": ["error", { "exceptions": ["_", "x", "y", "i"] }]
   },
+  "overrides": [
+    {
+      "files": ["stories/**/*.{ts,tsx}", "tests/**/*.{ts,tsx}"],
+      "rules": {
+        "@typescript-eslint/no-non-null-assertion": "off",
+        "no-magic-numbers": "off",
+        "no-console": "off"
+      }
+    }
+  ],
   "settings": {
     "react": { "version": "detect" }
   }

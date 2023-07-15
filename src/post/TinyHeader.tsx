@@ -49,8 +49,7 @@ const { styles: headerStyles, className: headerClassName } = css.resolve`
  * have a lot of space
  */
 const TinyHeader = React.forwardRef<HTMLImageElement, TinyHeaderProps>(
-  (props, avatarRef) => {
-    return (
+  (props, avatarRef) => (
       <div className={classnames("header-container", props.className)}>
         <Avatar
           secretIdentity={props.secretIdentity}
@@ -100,8 +99,7 @@ const TinyHeader = React.forwardRef<HTMLImageElement, TinyHeaderProps>(
         `}</style>
         {headerStyles}
       </div>
-    );
-  }
+    )
 );
 
 TinyHeader.displayName = "TinyHeader";

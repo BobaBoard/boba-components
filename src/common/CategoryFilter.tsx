@@ -3,8 +3,7 @@ import { TagType } from "types";
 import TagsFactory from "tags/TagsFactory";
 import classnames from "classnames";
 
-const CateogyFilter: React.FC<CateogyFilterProps> = (props) => {
-  return (
+const CateogyFilter: React.FC<CateogyFilterProps> = (props) => (
     <div className="filter-container">
       {props.categories.map((category) => (
         <div
@@ -44,7 +43,6 @@ const CateogyFilter: React.FC<CateogyFilterProps> = (props) => {
       `}</style>
     </div>
   );
-};
 
 export default CateogyFilter;
 

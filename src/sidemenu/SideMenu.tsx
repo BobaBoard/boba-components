@@ -51,7 +51,7 @@ const SideMenu = React.forwardRef<SideMenuHandler, SideMenuProps>(
               placeholder="Filter boards"
               role="searchbox"
               aria-label="board filter"
-              onChange={(e) => onFilterChange?.(e.target.value)}
+              onChange={(event) => onFilterChange?.(event.target.value)}
               ref={boardFilterRef}
             />
             <DropdownMenu

@@ -77,10 +77,10 @@ const PostEditorHeader = (
   // TODO: double-check whether we ever have a string here or can directly
   // use "selected identity".
   const selectedIdentity =
-    typeof props.selectedIdentity == "object"
+    typeof props.selectedIdentity === "object"
       ? props.selectedIdentity
       : props.additionalIdentities?.find(
-          (identity) => identity.id == props.selectedIdentity
+          (identity) => identity.id === props.selectedIdentity
         );
 
   return (
@@ -150,7 +150,7 @@ const PostEditorFooter = (
   const toSuggest = props.suggestibleCategories?.filter(
     (suggestibleCategory) =>
       !currentlyUsedCategories.some(
-        (usedCategory) => usedCategory.name == suggestibleCategory
+        (usedCategory) => usedCategory.name === suggestibleCategory
       )
   );
   const { tags, onTagsChange } = props;
@@ -169,7 +169,7 @@ const PostEditorFooter = (
         )}
         onTagsDelete={React.useCallback(
           (tag: TagsType) => {
-            onTagsChange(tags.filter((currentTag) => currentTag != tag));
+            onTagsChange(tags.filter((currentTag) => currentTag !== tag));
           },
           [tags, onTagsChange]
         )}
@@ -359,7 +359,7 @@ const PostEditor = React.forwardRef<PostEditorHandler, PostEditorProps>(
               props.editableSections ? undefined : props.availableBoards
             }
             onSelectBoard={props.onSelectBoard}
-            showBoardSelector={boardSelectorPosition == "header"}
+            showBoardSelector={boardSelectorPosition === "header"}
           />
         </Card.Header>
         <Card.Content
@@ -382,7 +382,7 @@ const PostEditor = React.forwardRef<PostEditorHandler, PostEditorProps>(
               editable={!props.loading && !props.editableSections}
               onIsEmptyChange={(empty: boolean) => {
                 setIsEmpty((currentlyEmpty) => {
-                  if (currentlyEmpty != empty) {
+                  if (currentlyEmpty !== empty) {
                     props.onIsEmptyChange?.(empty);
                   }
                   return empty;
@@ -400,7 +400,7 @@ const PostEditor = React.forwardRef<PostEditorHandler, PostEditorProps>(
               props.editableSections ? undefined : props.availableBoards
             }
             onSelectBoard={props.onSelectBoard}
-            showBoardSelector={boardSelectorPosition == "footer"}
+            showBoardSelector={boardSelectorPosition === "footer"}
             suggestibleCategories={props.suggestedCategories}
             tags={tags}
             onTagsChange={setTags}

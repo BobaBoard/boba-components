@@ -61,7 +61,7 @@ const AccessorySelector: React.FC<AccessorySelectorProps> = (props) => {
   }
 
   const selectedAccessoryDisplayName = props.selectedAccessory
-    ? typeof props.selectedAccessory == "string"
+    ? typeof props.selectedAccessory === "string"
       ? "Unknown"
       : props.selectedAccessory.name
     : "None";
@@ -75,7 +75,7 @@ const AccessorySelector: React.FC<AccessorySelectorProps> = (props) => {
         <div
           className={classnames("equip", {
             empty: !props.selectedAccessory,
-            compact: props.size == UserMetadataStyle.COMPACT,
+            compact: props.size === UserMetadataStyle.COMPACT,
           })}
         >
           <Icon icon={faShieldAlt} />

@@ -76,7 +76,7 @@ const SegmentedButtonOption: React.FC<SegmentedButtonOptionProps> = (props) => {
   const { className: optionsClass, styles: optionsStyles } = getOptionsStyle({
     color: props.color || THEME_COLOR,
     reverseColor: REVERSE_THEME_COLOR,
-    transparent: ButtonStyle.TRANSPARENT == props.theme,
+    transparent: ButtonStyle.TRANSPARENT === props.theme,
   });
   return (
     <div className={classnames("option", optionsClass)}>
@@ -84,7 +84,7 @@ const SegmentedButtonOption: React.FC<SegmentedButtonOptionProps> = (props) => {
         <div className={classnames("updates", optionsClass)}>
           {props.updates === true ? ( // Special case to display faCertificate
             <FontAwesomeIcon icon={faCertificate} />
-          ) : props.updates == Infinity ? (
+          ) : props.updates === Infinity ? (
             "∞"
           ) : (
             props.updates
@@ -127,11 +127,11 @@ const SegmentedButton: React.FC<SegmentedButtonProps> = (props) => {
           id={option.id}
           label={option.label}
           link={option.link}
-          isSelected={option.id == props.selected}
+          isSelected={option.id === props.selected}
           updates={option.updates}
           theme={props.theme}
           color={props.color}
-          key={"" + option.id}
+          key={`${option.id}`}
         />
       ))}
       <style jsx>{`

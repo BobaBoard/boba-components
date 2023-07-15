@@ -1,4 +1,5 @@
-// @ts-ignore (for some reason, typescript thinks this is unused)
+// eslint-disable-next-line @typescript-eslint/ban-ts-comment
+// @ts-ignore-error (for some reason, typescript thinks this is unused, but not storybook)
 import type HammerManager from "hammerjs";
 import React from "react";
 
@@ -7,18 +8,20 @@ type TransitionHandler = (e: TransitionEvent) => void;
 let swipeHandler: HammerManager | null = null;
 let Hammer: HammerStatic | null = null;
 if (typeof window !== "undefined") {
+  // TODO: check if there's a more modern way to do this
+  // eslint-disable-next-line @typescript-eslint/no-var-requires
   Hammer = require("hammerjs") as HammerStatic;
-  // @ts-ignore
+  // @ts-expect-error hammerjs wants us to do this to avoid issues
   delete Hammer.defaults.cssProps.userSelect;
-  // @ts-ignore
+  // @ts-expect-error hammerjs wants us to do this to avoid issues
   delete Hammer.defaults.cssProps.touchCallout;
 }
 export const useSwipeHandler = ({
   setOpen,
 }: {
   setOpen: (show: boolean) => void;
-}) => {
-  return React.useCallback(
+}) =>
+  React.useCallback(
     (ref: HTMLDivElement | null) => {
       if (!ref) {
         if (swipeHandler) {
@@ -47,7 +50,6 @@ export const useSwipeHandler = ({
     },
     [setOpen]
   );
-};
 
 /**
  * Adds all the transition handlers in a single function call.
@@ -88,16 +90,16 @@ const getTransitionEndHandler = ({
   // change the transition status to false when all the transitions
   // have effectively ended.
   const activeTransitions: string[] = [];
-  return (e: TransitionEvent) => {
-    switch (e.type) {
+  return (event: TransitionEvent) => {
+    switch (event.type) {
       case "transitionstart": {
         setInTransition(true);
-        activeTransitions.push(e.type);
+        activeTransitions.push(event.type);
         break;
       }
       case "transitionend": {
         activeTransitions.shift();
-        if (activeTransitions.length == 0) {
+        if (!activeTransitions.length) {
           setInTransition(false);
         }
         break;
@@ -141,7 +143,7 @@ export const useOpenCloseTransition = (): {
         currentSideMenuRef.current = null;
         return;
       }
-      const isSameRef = currentSideMenuRef.current == ref;
+      const isSameRef = currentSideMenuRef.current === ref;
       if (isSameRef) {
         return;
       }
@@ -159,7 +161,7 @@ export const useOpenCloseTransition = (): {
     },
     []
   );
-  if (isOpenRef.current != isOpen) {
+  if (isOpenRef.current !== isOpen) {
     // If the status of our ref is different from our saved status,
     // immediately mark the menu as being in transition, without waiting
     // for the React setState cycle to trigger.

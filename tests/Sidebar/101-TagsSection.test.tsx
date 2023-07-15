@@ -4,7 +4,6 @@ import * as tagStories from "stories/Sidebar/101-TagsSection.stories";
 
 import {
   fireEvent,
-  prettyDOM,
   render,
   screen,
   waitFor,
@@ -16,7 +15,6 @@ import React from "react";
 import { TagMatcher } from "../utils/matchers";
 import { action } from "@storybook/addon-actions";
 import { composeStories } from "@storybook/testing-react";
-import { mocked } from "jest-mock";
 import { suppressConsoleErrors } from "../utils/testUtils";
 import userEvent from "@testing-library/user-event";
 
@@ -133,7 +131,7 @@ describe("Editable", () => {
     await waitFor(() => {
       expect(action("tagChange")).toBeCalledWith(
         Editable.args?.tags
-          ?.filter((tag) => tag.name != "test4")
+          ?.filter((tag) => tag.name !== "test4")
           .map((tag) => ({ name: tag.name }))
       );
     });

@@ -34,8 +34,7 @@ const SubscriptionBlock = ({
   post,
   secretIdentity,
   maxHeightPx,
-}: SubscriptionBlockProps) => {
-  return (
+}: SubscriptionBlockProps) => (
     <div className="subscription-block">
       <h2>{title}</h2>
       <div className="last">
@@ -84,6 +83,5 @@ const SubscriptionBlock = ({
       {linkStyles}
     </div>
   );
-};
 
 export default SubscriptionBlock;
