@@ -31,6 +31,6 @@ export const Default = ThreadPreviewTemplate.bind({});
 Default.args = {
   threadId: '0',
   boardId: '0',
-  threadHidden: true,
-  setHideCallback: mockUnhide,
+  hide: true,
+  onThreadHidden: {action: 'noHref'},
 };

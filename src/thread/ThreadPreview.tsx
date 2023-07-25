@@ -1,27 +1,25 @@
 import React from "react";
 
+import ActionLink from "buttons/ActionLink";
+import { LinkWithAction } from "types";
+
 const HiddenThread: React.FC<HiddenThreadProps> = ({ 
     threadId, 
     boardId, 
-    threadHidden, 
-    setHideCallback 
+    hide, 
+    onThreadHidden
 }) => {
+  let link = { 
+    href: "#",
+    onClick: () => onThreadHidden({threadId: threadId, boardId: boardId, hide: hide}), 
+  }
+
   return (
     <div className="post hidden" key={threadId}>
       This thread was hidden{" "}
-      <a
-        href="#"
-        onClick={(e) => {
-          setHideCallback({
-            threadId: threadId,
-            boardId: boardId,
-            hide: threadHidden,
-          });
-          e.preventDefault();
-        }}
-      >
+      <ActionLink link={link} allowDefault={false}>
         [unhide]
-      </a>
+      </ActionLink>
       <style jsx>{`
         .post.hidden {
           margin: 0 auto;
@@ -40,13 +38,13 @@ const HiddenThread: React.FC<HiddenThreadProps> = ({
 export interface HiddenThreadProps {
   threadId: string;
   boardId: string;
-  threadHidden: boolean;
-  setHideCallback: ({ threadId,
-                      boardId,
-                      hide, } : 
-                    { threadId: string, 
-                      boardId: string, 
-                      hide: boolean }) => void;
+  hide: boolean;
+  onThreadHidden: ({ threadId,
+                     boardId,
+                     hide, } : 
+                   { threadId: string, 
+                     boardId: string, 
+                     hide: boolean }) => void;
 }
 
 export default HiddenThread;
