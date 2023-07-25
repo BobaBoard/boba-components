@@ -32,5 +32,5 @@ Default.args = {
   threadId: '0',
   boardId: '0',
   hide: true,
-  onThreadHidden: {action: 'noHref'},
+  onThreadHidden: mockUnhide,
 };
