@@ -110,3 +110,5 @@ dist
 stats.json
 
 storybook-static
+
+.vscode/settings.json
