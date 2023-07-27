@@ -57,13 +57,13 @@ const Input: React.FC<InputProps> = (props) => {
           className={classnames({ "password-input": props.password })}
           value={value}
           placeholder={props.placeholder}
-          onChange={(e) =>
-            !props.disabled && props.onTextChange(e.target.value)
+          onChange={(event) =>
+            !props.disabled && props.onTextChange(event.target.value)
           }
           disabled={props.disabled}
-          onKeyDown={(e) => {
-            if (e.key === "Enter") {
-              props.onEnter?.(e);
+          onKeyDown={(event) => {
+            if (event.key === "Enter") {
+              props.onEnter?.(event);
             }
           }}
           ref={(input) => {

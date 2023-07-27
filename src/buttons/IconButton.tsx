@@ -1,13 +1,12 @@
 import Icon, { IconProps } from "common/Icon";
+import React, { AriaAttributes } from "react";
 import {
   faChevronCircleDown,
   faCircle,
 } from "@fortawesome/free-solid-svg-icons";
 
 import ActionLink from "./ActionLink";
-import { AriaAttributes } from "react";
 import { LinkWithAction } from "types";
-import React from "react";
 import Theme from "theme/default";
 import classnames from "classnames";
 import css from "styled-jsx/css";
@@ -124,55 +123,53 @@ const { className: linkWrapper, styles: linkWrapperStyles } = css.resolve`
   position: relative;
 `;
 
-const IconButton: React.FC<IconButtonProps> = (props) => {
-  return (
-    <ActionLink
-      aria-label={props["aria-label"]}
-      aria-current={props["aria-current"]}
-      link={props.link}
-      className={classnames(props.className, linkWrapper)}
-      disabled={props.disabled}
-    >
-      {props.withNotifications && <NotificationDot {...props} />}
-      <div className={classnames("icon-button")}>
-        <Icon {...props.icon} />
-      </div>
-      {props.withDropdown && <DropdownIndicator {...props} />}
-      {linkWrapperStyles}
-      <style jsx>{`
-        .icon-button {
-          border-radius: 50%;
-          border: 0;
-          background: transparent;
-          color: ${Theme.MENU_ITEM_ICON_COLOR};
-          position: relative;
-          text-align: center;
-          display: flex;
-          align-items: center;
-          justify-content: center;
-          position: relative;
-          flex-shrink: 0;
-          padding: 0;
-          width: 100%;
-          height: 100%;
-        }
-        .icon-button:focus {
-          outline: none;
-        }
-        .icon-button:focus-visible {
-          box-shadow: ${Theme.MENU_ITEM_ICON_COLOR} 0px 0px 0px 3px;
-        }
-        .icon-button:hover {
-          cursor: pointer;
-          background-color: ${Theme.MENU_ITEM_ICON_BACKGROUND_COLOR};
-          color: ${Theme.MENU_ITEM_ICON_HIGHLIGHT_COLOR};
-        }
-        .icon-button :global(svg) {
-          display: block;
-        }
-      `}</style>
-    </ActionLink>
-  );
-};
+const IconButton: React.FC<IconButtonProps> = (props) => (
+  <ActionLink
+    aria-label={props["aria-label"]}
+    aria-current={props["aria-current"]}
+    link={props.link}
+    className={classnames(props.className, linkWrapper)}
+    disabled={props.disabled}
+  >
+    {props.withNotifications && <NotificationDot {...props} />}
+    <div className={classnames("icon-button")}>
+      <Icon {...props.icon} />
+    </div>
+    {props.withDropdown && <DropdownIndicator {...props} />}
+    {linkWrapperStyles}
+    <style jsx>{`
+      .icon-button {
+        border-radius: 50%;
+        border: 0;
+        background: transparent;
+        color: ${Theme.MENU_ITEM_ICON_COLOR};
+        position: relative;
+        text-align: center;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        position: relative;
+        flex-shrink: 0;
+        padding: 0;
+        width: 100%;
+        height: 100%;
+      }
+      .icon-button:focus {
+        outline: none;
+      }
+      .icon-button:focus-visible {
+        box-shadow: ${Theme.MENU_ITEM_ICON_COLOR} 0px 0px 0px 3px;
+      }
+      .icon-button:hover {
+        cursor: pointer;
+        background-color: ${Theme.MENU_ITEM_ICON_BACKGROUND_COLOR};
+        color: ${Theme.MENU_ITEM_ICON_HIGHLIGHT_COLOR};
+      }
+      .icon-button :global(svg) {
+        display: block;
+      }
+    `}</style>
+  </ActionLink>
+);
 
 export default IconButton;

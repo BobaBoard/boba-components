@@ -89,7 +89,7 @@ const embedFetchers = {
 const RECENT_BOARDS = [
   {
     slug: "gore",
-    avatar: "/" + goreBackground,
+    avatar: `/${goreBackground}`,
     description: "Love me some bruised bois (and more).",
     color: "#f96680",
     link: { href: "#slug", onClick: action("#slug") },
@@ -97,7 +97,7 @@ const RECENT_BOARDS = [
   },
   {
     slug: "oncie-den",
-    avatar: "/" + oncelerBoard,
+    avatar: `/${oncelerBoard}`,
     description: "Party like it's 2012",
     color: "#27caba",
     updates: 10,
@@ -106,7 +106,7 @@ const RECENT_BOARDS = [
   },
   {
     slug: "fic-club",
-    avatar: "/" + book,
+    avatar: `/${book}`,
     description: "Come enjoy all the fics!",
     color: "#7724d2",
     updates: 5,
@@ -115,7 +115,7 @@ const RECENT_BOARDS = [
   },
   {
     slug: "kink-memes",
-    avatar: "/" + kinkmeme,
+    avatar: `/${kinkmeme}`,
     description: "No limits. No shame.",
     color: "#000000",
     link: { href: "#slug", onClick: action("#slug") },
@@ -123,7 +123,7 @@ const RECENT_BOARDS = [
   },
   {
     slug: "areallylongcrackyslug",
-    avatar: "/" + crack,
+    avatar: `/${crack}`,
     description: "What's crackalackin",
     color: "#f9e066",
     updates: 3,
@@ -266,7 +266,6 @@ Loading.decorators = [
     storyArgs.args.loading = loading;
     return (
       <div style={{ marginLeft: "20px" }}>
-        {/* @ts-ignore */}
         <Story />
         <div
           style={{
@@ -294,7 +293,6 @@ TestFocus.decorators = [
     const postRef = React.createRef<PostEditorHandler>();
     return (
       <div style={{ marginLeft: "20px" }}>
-        {/* @ts-ignore */}
         <Story postRef={postRef} />
         <div style={{ marginTop: "20px" }}>
           <Button

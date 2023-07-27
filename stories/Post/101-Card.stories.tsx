@@ -40,8 +40,7 @@ const CardTemplate: Story<
       footer: React.ReactNode;
       header: React.ReactNode;
     }
-> = ({ footer, header, ...args }) => {
-  return (
+> = ({ footer, header, ...args }) => (
     <Card {...args}>
       <Card.Footer>{footer}</Card.Footer>
       <Card.Header>{header}</Card.Header>
@@ -53,7 +52,6 @@ const CardTemplate: Story<
       </Card.Content>
     </Card>
   );
-};
 
 export const Regular = CardTemplate.bind({});
 Regular.args = {

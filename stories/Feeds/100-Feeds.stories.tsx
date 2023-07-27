@@ -51,14 +51,14 @@ const PINNED_BOARDS = [
   {
     slug: "gore",
     muted: true,
-    avatar: "/" + goreBackground,
+    avatar: `/${goreBackground}`,
     description: "Love me some bruised bois (and more).",
     color: "#f96680",
     link: { href: "#slug", onClick: action("#slug") },
   },
   {
     slug: "anime",
-    avatar: "/" + anime,
+    avatar: `/${anime}`,
     description: "We put the weeb in dweeb.",
     color: "#24d282",
     updates: 2,
@@ -67,7 +67,7 @@ const PINNED_BOARDS = [
   },
   {
     slug: "crack",
-    avatar: "/" + crack,
+    avatar: `/${crack}`,
     description: "What's crackalackin",
     color: "#f9e066",
     updates: 3,
@@ -76,7 +76,7 @@ const PINNED_BOARDS = [
   },
   {
     slug: "fic-club",
-    avatar: "/" + book,
+    avatar: `/${book}`,
     description: "Come enjoy all the fics!",
     color: "#7724d2",
     updates: 5,
@@ -85,7 +85,7 @@ const PINNED_BOARDS = [
   },
   {
     slug: "dasdjkasdjaklsdjaklsdjaslkdjaslkjdakldjalksjaslk",
-    avatar: "/" + meta,
+    avatar: `/${meta}`,
     description: "In My TiMeS wE CaLlEd It WaNk",
     color: "#f9e066",
     link: { href: "#slug", onClick: action("#slug") },
@@ -94,14 +94,14 @@ const PINNED_BOARDS = [
 const SEARCH_BOARDS = [
   {
     slug: "villain-thirst",
-    avatar: "/" + villains,
+    avatar: `/${villains}`,
     description: "Love to love 'em.",
     color: "#e22b4b",
     link: { href: "#slug", onClick: action("#slug") },
   },
   {
     slug: "art-crit",
-    avatar: "/" + art,
+    avatar: `/${art}`,
     description: "Let's learn together!",
     color: "#27caba",
     link: { href: "#slug", onClick: action("#slug") },
@@ -110,7 +110,7 @@ const SEARCH_BOARDS = [
 const RECENT_BOARDS = [
   {
     slug: "gore",
-    avatar: "/" + goreBackground,
+    avatar: `/${goreBackground}`,
     description: "Love me some bruised bois (and more).",
     color: "#f96680",
     link: { href: "#slug", onClick: action("#slug") },
@@ -118,7 +118,7 @@ const RECENT_BOARDS = [
   },
   {
     slug: "oncie-den",
-    avatar: "/" + oncelerBoard,
+    avatar: `/${oncelerBoard}`,
     description: "Party like it's 2012",
     color: "#27caba",
     updates: 10,
@@ -128,7 +128,7 @@ const RECENT_BOARDS = [
   },
   {
     slug: "fic-club",
-    avatar: "/" + book,
+    avatar: `/${book}`,
     description: "Come enjoy all the fics!",
     color: "#7724d2",
     updates: 5,
@@ -137,7 +137,7 @@ const RECENT_BOARDS = [
   },
   {
     slug: "kink-memes",
-    avatar: "/" + kinkmeme,
+    avatar: `/${kinkmeme}`,
     description: "No limits. No shame.",
     color: "#000000",
     link: { href: "#slug", onClick: action("#slug") },
@@ -145,7 +145,7 @@ const RECENT_BOARDS = [
   },
   {
     slug: "crack",
-    avatar: "/" + crack,
+    avatar: `/${crack}`,
     description: "What's crackalackin",
     color: "#f9e066",
     updates: 3,
@@ -802,15 +802,18 @@ export const MasonryLayout = () => {
             onCloseSidebar={closeSidebar}
             forceHideSidebar={true}
             reachToBottom={showMax < POSTS.length}
-            onReachEnd={React.useCallback((more) => {
-              setShowMax(
-                (showMax) => showMax + 1,
-                (showMax: number) => {
-                  more(showMax < POSTS.length);
-                }
-              );
-              log(`Reached end`);
-            }, [])}
+            onReachEnd={React.useCallback(
+              (more) => {
+                setShowMax(
+                  (showMax) => showMax + 1,
+                  (showMax: number) => {
+                    more(showMax < POSTS.length);
+                  }
+                );
+                log(`Reached end`);
+              },
+              [setShowMax]
+            )}
           >
             <FeedWithMenu.FeedContent>
               <Button onClick={() => masonryRef.current?.reposition()}>

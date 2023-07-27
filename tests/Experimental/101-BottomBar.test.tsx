@@ -2,18 +2,24 @@ import "@testing-library/jest-dom/extend-expect";
 
 import * as bottomBarStories from "stories/Experimental/Layout/101-BottomBar.stories";
 
-import { render, screen, within } from "@testing-library/react";
+import { render, screen } from "@testing-library/react";
 
+import { IconProps } from "common/Icon";
 import React from "react";
 import { action } from "@storybook/addon-actions";
 import { composeStories } from "@storybook/testing-react";
-import { faMapMarkerAlt } from "@fortawesome/free-solid-svg-icons";
 import { userEvent } from "@storybook/testing-library";
 
 jest.mock("@storybook/addon-actions");
 
-const { Regular, NoCenterButton, NoLeftButton, EmptyContextMenu } =
-  composeStories(bottomBarStories);
+const { Regular } = composeStories(bottomBarStories);
+
+const getIconName = (icon: IconProps["icon"]) => {
+  if (typeof icon === "string") {
+    throw new Error("Expected icon to be a FontAwesomeIcon");
+  }
+  return "iconName" in icon ? icon.iconName : null;
+};
 
 describe("when the center button is displayed", () => {
   beforeEach(() => {
@@ -26,7 +32,7 @@ describe("when the center button is displayed", () => {
     const centerButton = screen.getByLabelText("center-button");
     expect(centerButton).toBeInTheDocument();
     expect(centerButton).toHaveClass(
-      `fa-${Regular.args!.centerButton!.icon["iconName"]}`
+      `fa-${getIconName(Regular.args!.centerButton!.icon)}`
     );
     expect(centerButton).toHaveAttribute(
       "color",
@@ -50,28 +56,28 @@ describe("when context menu is present", () => {
   it("displays the faEyeSlash icon", () => {
     const unhideButton = screen.getByLabelText("unhide-button");
     expect(unhideButton).toHaveClass(
-      `fa-${Regular.args!.contextMenu?.icons[0].icon["iconName"]}`
+      `fa-${getIconName(Regular.args!.contextMenu!.icons[0].icon)}`
     );
   });
 
   it("displays the faVolumeMute icon", () => {
     const unmuteButton = screen.getByLabelText("unmute-button");
     expect(unmuteButton).toHaveClass(
-      `fa-${Regular.args!.contextMenu?.icons[1].icon["iconName"]}`
+      `fa-${getIconName(Regular.args!.contextMenu!.icons[1].icon)}`
     );
   });
 
   it("displays the faStar icon", () => {
     const starButton = screen.getByLabelText("star-button");
     expect(starButton).toHaveClass(
-      `fa-${Regular.args!.contextMenu?.icons[2].icon["iconName"]}`
+      `fa-${getIconName(Regular.args!.contextMenu!.icons[2].icon)}`
     );
   });
 
   it("displays the faThumbTack icon", () => {
     const unpinButton = screen.getByLabelText("unpin-button");
     expect(unpinButton).toHaveClass(
-      `fa-${Regular.args!.contextMenu?.icons[3].icon["iconName"]}`
+      `fa-${getIconName(Regular.args!.contextMenu!.icons[3].icon)}`
     );
   });
 

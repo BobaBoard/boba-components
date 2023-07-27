@@ -22,7 +22,7 @@ export const BoardsDisplayStory = () => (
       boards={[
         {
           slug: "gore",
-          avatar: "/" + goreBackground,
+          avatar: `/${  goreBackground}`,
           description: "Love me some bruised bois (and more).",
           color: "#f96680",
           link: {
@@ -32,7 +32,7 @@ export const BoardsDisplayStory = () => (
         },
         {
           slug: "anime",
-          avatar: "/" + anime,
+          avatar: `/${  anime}`,
           description: "We put the weeb in dweeb.",
           color: "#24d282",
           link: {
@@ -43,7 +43,7 @@ export const BoardsDisplayStory = () => (
         },
         {
           slug: "crack",
-          avatar: "/" + crack,
+          avatar: `/${  crack}`,
           description: "What's crackalackin",
           color: "#f9e066",
           link: {
@@ -54,7 +54,7 @@ export const BoardsDisplayStory = () => (
         },
         {
           slug: "fic-club",
-          avatar: "/" + book,
+          avatar: `/${  book}`,
           description: "Come enjoy all the fics!",
           color: "#7724d2",
           link: {
@@ -66,7 +66,7 @@ export const BoardsDisplayStory = () => (
         },
         {
           slug: "meta",
-          avatar: "/" + meta,
+          avatar: `/${  meta}`,
           description: "In My TiMeS wE CaLlEd It WaNk",
           color: "#f9e066",
           link: {
@@ -76,7 +76,7 @@ export const BoardsDisplayStory = () => (
         },
         {
           slug: "villain-thirst",
-          avatar: "/" + villains,
+          avatar: `/${  villains}`,
           description: "Love to love 'em.",
           color: "#e22b4b",
           link: {

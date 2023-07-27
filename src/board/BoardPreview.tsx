@@ -28,7 +28,6 @@ const Slug: React.FC<{
     if (!ref.current) {
       return;
     }
-    // @ts-ignore
     fitty(ref.current, {
       maxSize: 70,
     });
@@ -38,12 +37,12 @@ const Slug: React.FC<{
     <div
       className={classnames("slug-container", {
         hidden: !visible,
-        compact: displayStyle == DisplayStyle.COMPACT,
-        regular: displayStyle == DisplayStyle.REGULAR,
-        mini: displayStyle == DisplayStyle.MINI,
+        compact: displayStyle === DisplayStyle.COMPACT,
+        regular: displayStyle === DisplayStyle.REGULAR,
+        mini: displayStyle === DisplayStyle.MINI,
       })}
     >
-      {displayStyle == DisplayStyle.REGULAR ? (
+      {displayStyle === DisplayStyle.REGULAR ? (
         <HighlightedText highlightColor={color}>
           <span className="slug">!{name}</span>
         </HighlightedText>
@@ -120,10 +119,9 @@ const Description: React.FC<{
   const ref = React.useRef<HTMLDivElement>(null);
 
   React.useEffect(() => {
-    if (!ref.current || displayStyle == DisplayStyle.REGULAR) {
+    if (!ref.current || displayStyle === DisplayStyle.REGULAR) {
       return;
     }
-    // @ts-ignore
     fitty(ref.current, {
       maxSize: 70,
     });
@@ -131,9 +129,9 @@ const Description: React.FC<{
   return (
     <div
       className={classnames("description-container", {
-        compact: displayStyle == DisplayStyle.COMPACT,
-        regular: displayStyle == DisplayStyle.REGULAR,
-        mini: displayStyle == DisplayStyle.MINI,
+        compact: displayStyle === DisplayStyle.COMPACT,
+        regular: displayStyle === DisplayStyle.REGULAR,
+        mini: displayStyle === DisplayStyle.MINI,
         hidden: !visible,
       })}
       ref={ref}
@@ -203,7 +201,7 @@ const Description: React.FC<{
 const BoardPreview: React.FC<BoardPreviewProps> = ({
   slug,
   avatar,
-  displayStyle,
+  displayStyle = DisplayStyle.REGULAR,
   description,
   onClick,
   href,
@@ -216,13 +214,12 @@ const BoardPreview: React.FC<BoardPreviewProps> = ({
 }) => {
   const [showDescription, setShowDescription] = React.useState(false);
   const chosenColor = color || DEFAULT_COLOR;
-  displayStyle = displayStyle || DisplayStyle.REGULAR;
   return (
     <div
       className={classnames("container", {
-        compact: displayStyle == DisplayStyle.COMPACT,
-        regular: displayStyle == DisplayStyle.REGULAR,
-        mini: displayStyle == DisplayStyle.MINI,
+        compact: displayStyle === DisplayStyle.COMPACT,
+        regular: displayStyle === DisplayStyle.REGULAR,
+        mini: displayStyle === DisplayStyle.MINI,
       })}
       onMouseEnter={() => {
         setShowDescription(true);
@@ -235,19 +232,19 @@ const BoardPreview: React.FC<BoardPreviewProps> = ({
         <div
           className={classnames("board-image", {
             muted,
-            compact: displayStyle == DisplayStyle.COMPACT,
-            regular: displayStyle == DisplayStyle.REGULAR,
-            mini: displayStyle == DisplayStyle.MINI,
+            compact: displayStyle === DisplayStyle.COMPACT,
+            regular: displayStyle === DisplayStyle.REGULAR,
+            mini: displayStyle === DisplayStyle.MINI,
           })}
         >
           <a
             onClick={React.useCallback(
-              (e: React.MouseEvent<HTMLAnchorElement>) => {
-                if (e.ctrlKey || e.metaKey || e.altKey) {
+              (event: React.MouseEvent<HTMLAnchorElement>) => {
+                if (event.ctrlKey || event.metaKey || event.altKey) {
                   return;
                 }
                 onClick?.();
-                e.preventDefault();
+                event.preventDefault();
               },
               [onClick]
             )}
@@ -260,18 +257,18 @@ const BoardPreview: React.FC<BoardPreviewProps> = ({
             </div>
           )}
         </div>
-        {displayStyle != DisplayStyle.MINI && (
+        {displayStyle !== DisplayStyle.MINI && (
           <Slug
             name={slug}
-            visible={!showDescription || displayStyle == DisplayStyle.REGULAR}
+            visible={!showDescription || displayStyle === DisplayStyle.REGULAR}
             displayStyle={displayStyle}
             color={chosenColor}
           />
         )}
-        {displayStyle != DisplayStyle.MINI && (
+        {displayStyle !== DisplayStyle.MINI && (
           <Description
             description={description}
-            visible={showDescription || displayStyle == DisplayStyle.REGULAR}
+            visible={showDescription || displayStyle === DisplayStyle.REGULAR}
             displayStyle={displayStyle}
             color={chosenColor}
           />

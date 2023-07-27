@@ -9,12 +9,12 @@ import Theme from "theme/default";
 import chroma from "chroma-js";
 
 export const hex2rgba = (hex: string, alpha = 1) => {
-  const [r, g, b] =
-    hex.match(/\w\w/g)?.map((x: string) => parseInt(x, 16)) || [];
-  if (r == undefined) {
+  const [red, green, blue] =
+    hex.match(/\w\w/g)?.map((color: string) => parseInt(color, 16)) || [];
+  if (!red) {
     return hex;
   }
-  return `rgba(${r},${g},${b},${alpha})`;
+  return `rgba(${red},${green},${blue},${alpha})`;
 };
 
 const maybeCreateBackdropNode = (id: string, onClick: () => void) => {
@@ -38,9 +38,9 @@ const maybeCreateBackdropNode = (id: string, onClick: () => void) => {
   backdropNode.setAttribute("role", "presentation");
   document.body.appendChild(backdropNode);
 
-  backdropNode.addEventListener("click", (e) => {
+  backdropNode.addEventListener("click", (event) => {
     onClick();
-    e.stopPropagation();
+    event.stopPropagation();
   });
 
   return backdropNode;
@@ -83,7 +83,7 @@ export const useBackdrop = ({
     });
 
     backdropNode.style.display = open ? "block" : "none";
-    backdropNode.style.zIndex = "" + (zIndex || 50);
+    backdropNode.style.zIndex = `${zIndex || 50}`;
     return () => {
       removeBackdropNode(id);
     };
@@ -93,6 +93,7 @@ export const useBackdrop = ({
 };
 
 export const prepareContentSubmission = (
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
   text: any,
   uploadFunction: (src: string) => Promise<string>
 ) => {
@@ -101,12 +102,11 @@ export const prepareContentSubmission = (
   return Promise.all(images.map((src: string) => uploadFunction(src))).then(
     (uploadedImages) => {
       const replacements = images.reduce(
-        (obj: any, image: string, index: number) => {
-          return {
-            ...obj,
-            [image]: uploadedImages[index],
-          };
-        },
+        // eslint-disable-next-line @typescript-eslint/no-explicit-any
+        (obj: any, image: string, index: number) => ({
+          ...obj,
+          [image]: uploadedImages[index],
+        }),
         {}
       );
       replaceImages(delta, replacements);

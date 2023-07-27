@@ -56,75 +56,67 @@ export type BoardSidebarProps = BoardMetadataType &
 const BoardOptionsDropdown: React.FC<{
   accentColor: string;
   previewOptions: DropdownProps["options"];
-}> = ({ accentColor, previewOptions }) => {
-  return (
-    <div className={classnames("preview-options")}>
-      <DropdownMenu
-        options={previewOptions}
-        style={DropdownStyle.DARK}
-        accentColor={accentColor}
-        zIndex={200}
-        label="Board options"
-      >
-        <span className="options-button">
-          <FontAwesomeIcon icon={faCaretDown} />
-        </span>
-      </DropdownMenu>
-      <style jsx>{`
-        .preview-options {
-          position: absolute;
-          top: 8px;
-          right: 8px;
-        }
-        .options-button {
-          display: block;
-          width: 30px;
-          height: 30px;
-          background-color: ${Theme.BUTTON_BACKGROUND_COLOR_DARK};
-          border-radius: 50%;
-          border: 2px solid ${accentColor};
-          color: ${accentColor};
-          postion: relative;
-        }
-        .options-button:hover {
-          background-color: ${Theme.BUTTON_ACCENT_COLOR_DARK};
-        }
-        .options-button :global(svg) {
-          position: absolute;
-          top: calc(50% - 2px);
-          left: 50%;
-          transform: translate(-50%, -50%);
-        }
-      `}</style>
-    </div>
-  );
-};
+}> = ({ accentColor, previewOptions }) => (
+  <div className={classnames("preview-options")}>
+    <DropdownMenu
+      options={previewOptions}
+      style={DropdownStyle.DARK}
+      accentColor={accentColor}
+      zIndex={200}
+      label="Board options"
+    >
+      <span className="options-button">
+        <FontAwesomeIcon icon={faCaretDown} />
+      </span>
+    </DropdownMenu>
+    <style jsx>{`
+      .preview-options {
+        position: absolute;
+        top: 8px;
+        right: 8px;
+      }
+      .options-button {
+        display: block;
+        width: 30px;
+        height: 30px;
+        background-color: ${Theme.BUTTON_BACKGROUND_COLOR_DARK};
+        border-radius: 50%;
+        border: 2px solid ${accentColor};
+        color: ${accentColor};
+        postion: relative;
+      }
+      .options-button:hover {
+        background-color: ${Theme.BUTTON_ACCENT_COLOR_DARK};
+      }
+      .options-button :global(svg) {
+        position: absolute;
+        top: calc(50% - 2px);
+        left: 50%;
+        transform: translate(-50%, -50%);
+      }
+    `}</style>
+  </div>
+);
 
 const EditHeader: React.FC<{
   onBack: () => void;
   onSubmit: () => void;
-}> = (props) => {
-  return (
-    <div className={classnames("buttons")}>
-      <Button
-        icon={faArrowLeft}
-        onClick={props.onBack}
-        theme={ButtonStyle.DARK}
-      >
-        Back
-      </Button>
-      <Button icon={faCheck} onClick={props.onSubmit} theme={ButtonStyle.LIGHT}>
-        Save
-      </Button>
-      <style jsx>{`
-        .buttons {
-          display: flex;
-          justify-content: space-between;
-        }
-      `}</style>
-    </div>
-  );
-};
+}> = (props) => (
+  <div className={classnames("buttons")}>
+    <Button icon={faArrowLeft} onClick={props.onBack} theme={ButtonStyle.DARK}>
+      Back
+    </Button>
+    <Button icon={faCheck} onClick={props.onSubmit} theme={ButtonStyle.LIGHT}>
+      Save
+    </Button>
+    <style jsx>{`
+      .buttons {
+        display: flex;
+        justify-content: space-between;
+      }
+    `}</style>
+  </div>
+);
 
 const createBlankSection = (
   type: "text" | "category_filter",
@@ -135,7 +127,7 @@ const createBlankSection = (
     index: nextIndex,
     title: "",
   };
-  return type == "text"
+  return type === "text"
     ? {
         ...baseType,
         type,
@@ -151,15 +143,14 @@ const createBlankSection = (
 const getNextIndex = (sectionsData: {
   sections: React.ReactElement<SidebarSectionProps>[];
   newSections: DescriptionType[];
-}) => {
-  return (
-    Math.max(
-      0,
-      ...sectionsData.sections.map(getSectionData).map((data) => data!.index),
-      ...sectionsData.newSections.map((data) => data.index)
-    ) + 1
-  );
-};
+}) =>
+  Math.max(
+    0,
+    ...sectionsData.sections
+      .map(getSectionData)
+      .map((data) => data?.index || 0),
+    ...sectionsData.newSections.map((data) => data.index)
+  ) + 1;
 
 const BoardSidebar: React.FC<BoardSidebarProps> & {
   SidebarSection: React.FC<SidebarSectionProps>;
@@ -198,9 +189,9 @@ const BoardSidebar: React.FC<BoardSidebarProps> & {
     // Take the existing sections (the edited version, if one exists).
     ...sections.map((section) => {
       const editedData = editedSections.find(
-        (editedSection) => editedSection.id == section.props.id
+        (editedSection) => editedSection.id === section.props.id
       );
-      return editedData || getSectionData(section)!;
+      return editedData || getSectionData(section);
     }),
     // Add the new sections
     ...newSections,
@@ -238,7 +229,7 @@ const BoardSidebar: React.FC<BoardSidebarProps> & {
               return;
             }
             const isExisting = sections.find(
-              (section) => section.props.id == editingSection.id
+              (section) => section.props.id === editingSection.id
             );
             if (!isExisting) {
               setNewSections([...newSections, editingSection]);
@@ -301,7 +292,9 @@ const BoardSidebar: React.FC<BoardSidebarProps> & {
               sections={currentSectionsData}
               onSelectSection={(sectionId) => {
                 setEditingSection(
-                  currentSectionsData.find((section) => section.id == sectionId)
+                  currentSectionsData.find(
+                    (section) => section.id === sectionId
+                  )
                 );
               }}
               onAddSection={(type) => {

@@ -16,9 +16,7 @@ export default {
   component: PostQuote,
 } as Meta;
 
-const PostQuoteStoryTemplate: Story<PostQuoteProps> = (args) => {
-  return <PostQuote {...args} />;
-};
+const PostQuoteStoryTemplate: Story<PostQuoteProps> = (args) => <PostQuote {...args} />;
 export const Quote = PostQuoteStoryTemplate.bind({});
 Quote.args = {
   createdTime: "yesterday",

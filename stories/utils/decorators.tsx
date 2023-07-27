@@ -9,8 +9,7 @@ import scarf from "stories/images/scarf.png";
 import snow from "stories/images/snow.gif";
 import wreath from "stories/images/wreath.png";
 
-export const WRAP_COMPACT_DECORATOR = (Story: () => StoryFnReactReturnType) => {
-  return (
+export const WRAP_COMPACT_DECORATOR = (Story: () => StoryFnReactReturnType) => (
     <div className="story">
       {Story()}
       <style jsx>{`
@@ -20,7 +19,6 @@ export const WRAP_COMPACT_DECORATOR = (Story: () => StoryFnReactReturnType) => {
       `}</style>
     </div>
   );
-};
 
 export const WITH_ACCESSORIES_DECORATOR = (
   Story: () => StoryFnReactReturnType,

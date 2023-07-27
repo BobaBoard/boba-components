@@ -121,14 +121,14 @@ describe("Regular", () => {
     expect(
       within(sections[0]).getByText(
         RegularBoardSidebar.args!.sidebarSections!.find(
-          (description) => description.index == 1
+          (description) => description.index === 1
         )!.title
       )
     );
     expect(
       within(sections[1]).getByText(
         RegularBoardSidebar.args!.sidebarSections!.find(
-          (description) => description.index == 2
+          (description) => description.index === 2
         )!.title
       )
     );
@@ -149,7 +149,7 @@ describe("Editable", () => {
     render(<EditableBoardSidebar />);
     const taglineInput = screen.getByLabelText("Tagline") as HTMLInputElement;
     userEvent.type(taglineInput, "bar");
-    const expectedTagline = EditableBoardSidebar.args!.tagline + "bar";
+    const expectedTagline = `${EditableBoardSidebar.args!.tagline}bar`;
     await waitFor(() => {
       expect(taglineInput.value).toBe(expectedTagline);
     });

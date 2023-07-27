@@ -87,7 +87,7 @@ export const SettingsLayout = () => {
                 }}
                 onValueChange={(changedValue) => {
                   const updatedSettingIndex = currentSettings.findIndex(
-                    (el) => el.name == changedValue.name
+                    (el) => el.name === changedValue.name
                   );
                   const newSettings = [...currentSettings];
                   newSettings[updatedSettingIndex] = changedValue;

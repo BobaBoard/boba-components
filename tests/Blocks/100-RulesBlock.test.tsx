@@ -3,17 +3,11 @@ import "@testing-library/jest-dom/extend-expect";
 // Import the stories you're going to test against
 import * as stories from "stories/Blocks/100-RulesBlock.stories";
 
-import { render, screen, waitFor, within } from "@testing-library/react";
+import { render, screen } from "@testing-library/react";
 
 import React from "react";
-// import component?
 import RulesBlock from "blocks/RulesBlock";
-// Import the prop types for the component
-import { RulesBlockProps } from "blocks/RulesBlock";
-import { action } from "@storybook/addon-actions";
 import { composeStories } from "@storybook/testing-react";
-import { mocked } from "jest-mock";
-import userEvent from "@testing-library/user-event";
 
 // Set up jest to mock actions
 jest.mock("@storybook/addon-actions");
@@ -30,7 +24,7 @@ describe("Multiple", () => {
 
     const rules = screen.getAllByRole("group");
     const sortedRules = [...Multiple!.args!.rules!].sort(
-      (a, b) => a.index - b.index
+      (first, second) => first.index - second.index
     );
 
     expect(rules).toHaveLength(Multiple!.args!.rules!.length);
