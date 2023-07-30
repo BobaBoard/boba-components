@@ -4,18 +4,15 @@ import ActionLink from "buttons/ActionLink";
 import { LinkWithAction } from "types";
 
 const HiddenThread: React.FC<HiddenThreadProps> = ({ 
-    threadId, 
-    boardId, 
-    hide, 
+    hidden, 
     onThreadHidden
 }) => {
-  let link = { 
-    href: "#",
-    onClick: () => onThreadHidden({threadId: threadId, boardId: boardId, hide: hide}), 
+  let link : LinkWithAction = { 
+    onClick: () => onThreadHidden(!hidden), 
   }
 
   return (
-    <div className="post hidden" key={threadId}>
+    <div className="post hidden">
       This thread was hidden{" "}
       <ActionLink link={link} allowDefault={false}>
         [unhide]
@@ -36,15 +33,8 @@ const HiddenThread: React.FC<HiddenThreadProps> = ({
 };
 
 export interface HiddenThreadProps {
-  threadId: string;
-  boardId: string;
-  hide: boolean;
-  onThreadHidden: ({ threadId,
-                     boardId,
-                     hide, } : 
-                   { threadId: string, 
-                     boardId: string, 
-                     hide: boolean }) => void;
+  hidden: boolean;
+  onThreadHidden: (hide: boolean) => void;
 }
 
 export default HiddenThread;
