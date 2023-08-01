@@ -2,9 +2,21 @@
   "name": "@bobaboard/ui-components",
   "version": "0.3.11",
   "description": "BobaBoard's UI components",
+  "homepage": "https://docs.bobaboard.com/",
+  "bugs": {
+    "url": "https://github.com/BobaBoard/boba-components/issues"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/BobaBoard/boba-components.git"
+  },
+  "license": "mit",
+  "author": {
+    "name": "Essential Randomness"
+  },
+  "type": "module",
   "main": "dist/main.js",
   "types": "dist/index.d.ts",
-  "type": "module",
   "scripts": {
     "lint": "eslint --max-warnings 0 --report-unused-disable-directives \"**/*.{ts,tsx}\"",
     "lint:src": "eslint --report-unused-disable-directives \"src/**/*.{ts,tsx}\"",
@@ -12,29 +24,18 @@
     "lint:stories": "eslint --report-unused-disable-directives \"stories/**/*.{ts,tsx}\"",
     "lint:fix": "yarn run lint -- --fix",
     "build": "rm -rf dist && tsc -p tsconfig.export.json --emitDeclarationOnly && tsc-alias -p tsconfig.export.json && webpack --mode production --config webpack.config.cjs --stats-error-details",
-    "profile": "tsc -p tsconfig.export.json --emitDeclarationOnly && webpack --mode production  --config webpack.config.cjs --profile --json > stats.json",
-    "test": "jest",
-    "test:watch": "yarn run test --watch",
-    "test:ci": "yarn run test --ci --runInBand --no-cache",
-    "storybook": "start-storybook -p 6006",
     "build-storybook": "build-storybook",
-    "visual-testing": "backstop test",
-    "approve-visuals": "backstop approve",
     "postinstall": "patch-package",
-    "chromatic": "npx chromatic --project-token=CHROMATIC_PROJECT_TOKEN"
+    "profile": "tsc -p tsconfig.export.json --emitDeclarationOnly && webpack --mode production  --config webpack.config.cjs --profile --json > stats.json",
+    "storybook": "start-storybook -p 6006",
+    "test": "jest",
+    "test:ci": "yarn run test --ci --runInBand --no-cache",
+    "test:visual": "npx chromatic --project-token=CHROMATIC_PROJECT_TOKEN",
+    "test:watch": "yarn run test --watch"
   },
-  "repository": {
-    "type": "git",
-    "url": "git+https://github.com/essential-randomness/bobaboard-ui.git"
+  "resolutions": {
+    "**/@types/react": "^17.0.2"
   },
-  "author": {
-    "name": "Essential Randomness"
-  },
-  "license": "mit",
-  "bugs": {
-    "url": "https://github.com/essential-randomness/bobaboard-ui/issues"
-  },
-  "homepage": "https://github.com/essential-randomness/bobaboard-ui#readme",
   "dependencies": {
     "@fortawesome/fontawesome-common-types": "6.1.1",
     "@fortawesome/fontawesome-svg-core": "6.1.1",
@@ -120,7 +121,6 @@
     "@typescript-eslint/parser": "^5.59.9",
     "babel-loader": "^8.1.0",
     "babel-preset-react-app": "^9.1.2",
-    "backstopjs": "^5.0.1",
     "chromatic": "^6.10.1",
     "cross-env": "^7.0.2",
     "css-loader": "^6.7.1",
@@ -158,8 +158,5 @@
     "react": "^17.0.2",
     "react-dom": "^17.0.2",
     "styled-jsx": "4.0.1"
-  },
-  "resolutions": {
-    "**/@types/react": "^17.0.2"
   }
 }
