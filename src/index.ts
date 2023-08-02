@@ -26,6 +26,7 @@ import Modal from "common/Modal";
 import ModalWithButtons from "common/ModalWithButtons";
 import NewCommentsThread from "thread/NewCommentsThread";
 import NewThread from "thread/NewThread";
+import HiddenThread from "thread/ThreadPreview";
 import PinnedMenu from "sidemenu/PinnedMenu";
 import Post, { type PostHandler } from "post/Post";
 import PostEditor from "post/PostEditor";
@@ -89,6 +90,7 @@ export {
   TagsFilterSection,
   PostQuote,
   NewThread,
+  HiddenThread,
   CollapsedPlaceholder,
   BobaDex,
   SegmentedButton,
