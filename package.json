@@ -1,11 +1,14 @@
 {
   "name": "@bobaboard/ui-components",
-  "version": "0.3.11",
+  "version": "0.5.0",
   "description": "BobaBoard's UI components",
   "homepage": "https://docs.bobaboard.com/",
   "bugs": {
     "url": "https://github.com/BobaBoard/boba-components/issues"
   },
+  "files": [
+    "dist/"
+  ],
   "repository": {
     "type": "git",
     "url": "git+https://github.com/BobaBoard/boba-components.git"
