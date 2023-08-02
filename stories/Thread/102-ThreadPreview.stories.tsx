@@ -1,10 +1,10 @@
 import HiddenThread, { HiddenThreadProps } from "thread/ThreadPreview";
+import type { Meta, Story } from "@storybook/react";
 
-import type { Meta, Story/*, StoryObj*/ } from "@storybook/react";
 import { action } from "@storybook/addon-actions";
 
 export default {
-  title: "ThreadPreview / Hidden Thread",
+  title: "Thread / Hidden Thread",
   component: HiddenThread,
 };
 
