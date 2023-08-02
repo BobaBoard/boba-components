@@ -1,15 +1,18 @@
+import ActionLink from "buttons/ActionLink";
 import React from "react";
 
-import ActionLink from "buttons/ActionLink";
-import { LinkWithAction } from "types";
-
-const HiddenThread: React.FC<HiddenThreadProps> = ({ 
-    hidden, 
-    onThreadHidden
+const HiddenThread: React.FC<HiddenThreadProps> = ({
+  hidden,
+  onThreadHidden,
 }) => {
-  let link : LinkWithAction = { 
-    onClick: () => onThreadHidden(!hidden), 
-  }
+  // We memoize this so it will only re-render if onThreadHidden or
+  // hidden change
+  const link = React.useMemo(
+    () => ({
+      onClick: () => onThreadHidden(!hidden),
+    }),
+    [onThreadHidden, hidden]
+  );
 
   return (
     <div className="post hidden">
