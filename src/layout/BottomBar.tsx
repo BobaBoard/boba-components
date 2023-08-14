@@ -214,7 +214,7 @@ const BottomBar: BottomBarCompound = (props: BottomBarProps) => {
   const isEmptyOnDesktop =
     noLeftButtonsOnDesktop &&
     !rightButtons.length &&
-    !props.contextMenu.icons &&
+    !props.contextMenu.icons.length &&
     !props.centerButton;
   return (
     <div
