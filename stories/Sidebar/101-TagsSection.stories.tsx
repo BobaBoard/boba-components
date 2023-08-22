@@ -28,7 +28,9 @@ export default {
   ],
 } as Meta;
 
-const TagsFilterSectionTemplate: Story<TagsFilterSectionProps> = (args) => <TagsFilterSection {...args} />;
+const TagsFilterSectionTemplate: Story<TagsFilterSectionProps> = (
+  args: TagsFilterSectionProps
+) => <TagsFilterSection {...args} />;
 
 export const Regular = TagsFilterSectionTemplate.bind({});
 Regular.args = {

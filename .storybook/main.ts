@@ -17,6 +17,7 @@ const config: StorybookConfig = {
     check: true,
     checkOptions: {
       typescript: {
+        configFile: "./tsconfig.json",
         configOverwrite: {
           compilerOptions: {
             noUnusedLocals: false,

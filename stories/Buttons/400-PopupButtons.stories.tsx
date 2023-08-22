@@ -20,57 +20,57 @@ export const PopupButtons: Story<
     setShow: (show: boolean) => void;
   }
 > = ({ show, setShow, container }) => (
-    <PopupButtonsComponent
-      onCloseRequest={() => setShow(false)}
-      options={[
-        {
-          name: "Href Only",
-          color: DefaultTheme.INDENT_COLORS[0],
-          icon: faBellSlash,
-          link: {
-            href: "#href",
-          },
+  <PopupButtonsComponent
+    onCloseRequest={() => setShow(false)}
+    options={[
+      {
+        name: "Href Only",
+        color: DefaultTheme.INDENT_COLORS[0],
+        icon: faBellSlash,
+        link: {
+          href: "#href",
         },
-        {
-          name: "Both",
-          color: DefaultTheme.INDENT_COLORS[1],
-          icon: faPaintBrush,
-          link: {
-            href: "#href",
-            onClick: action("noHrefClick"),
-          },
+      },
+      {
+        name: "Both",
+        color: DefaultTheme.INDENT_COLORS[1],
+        icon: faPaintBrush,
+        link: {
+          href: "#href",
+          onClick: action("noHrefClick"),
         },
-        {
-          name: "Pin board",
-          icon: faMapPin,
-          link: {
-            onClick: action("noHrefClick"),
-          },
+      },
+      {
+        name: "Pin board",
+        icon: faMapPin,
+        link: {
+          onClick: action("noHrefClick"),
         },
-        {
-          name: "Href Only 2",
-          color: DefaultTheme.INDENT_COLORS[0],
-          icon: faBellSlash,
-          link: {
-            href: "#href",
-          },
+      },
+      {
+        name: "Href Only 2",
+        color: DefaultTheme.INDENT_COLORS[0],
+        icon: faBellSlash,
+        link: {
+          href: "#href",
         },
-        {
-          name: "Both 2",
-          color: DefaultTheme.INDENT_COLORS[1],
-          icon: faPaintBrush,
-          link: {
-            href: "#href",
-            onClick: action("noHrefClick"),
-          },
+      },
+      {
+        name: "Both 2",
+        color: DefaultTheme.INDENT_COLORS[1],
+        icon: faPaintBrush,
+        link: {
+          href: "#href",
+          onClick: action("noHrefClick"),
         },
-      ]}
-      show={show}
-      centerTop={"100px"}
-      centerLeft={"100px"}
-      container={container}
-    />
-  );
+      },
+    ]}
+    show={show}
+    centerTop={"100px"}
+    centerLeft={"100px"}
+    container={container}
+  />
+);
 PopupButtons.decorators = [
   (Story, props) => {
     const container = React.useRef<HTMLDivElement>(null);
@@ -81,9 +81,9 @@ PopupButtons.decorators = [
         {Story({
           args: {
             show,
-            setShow,
             container,
             ...props.args,
+            setShow,
           },
         })}
         <style jsx>{`
