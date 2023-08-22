@@ -1,23 +1,18 @@
-import { addParameters } from "@storybook/react";
 import { INITIAL_VIEWPORTS } from "@storybook/addon-viewport";
-import { DocsPage, DocsContainer } from "@storybook/addon-docs";
 
-addParameters({
+export const parameters = {
   viewport: {
     viewports: INITIAL_VIEWPORTS, // newViewports would be an ViewportMap. (see below for examples)
   },
-  controls: { expanded: true },
-});
-
-addParameters({
+  controls: {
+    expanded: true,
+    matchers: {
+      color: /(background|color)$/i,
+    },
+  },
   docs: {
     source: {
       excludeDecorators: true,
     },
   },
-  controls: {
-    matchers: {
-      color: /(background|color)$/i,
-    },
-  },
-});
+};

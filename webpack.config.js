@@ -1,8 +1,13 @@
-const path = require("path");
-const MiniCssExtractPlugin = require("mini-css-extract-plugin");
-const tsconfig = require("./tsconfig.export.json");
+import * as url from "url";
 
-module.exports = {
+import MiniCssExtractPlugin from "mini-css-extract-plugin";
+import path from "path";
+import tsconfig from "./tsconfig.export.json" assert { type: "json" };
+import * as createRequire from "create-require";
+
+const __dirname = url.fileURLToPath(new URL(".", import.meta.url));
+
+export default {
   // Currently we need to add '.ts' to the resolve.extensions array.
   resolve: {
     extensions: [".ts", ".tsx", ".js", ".jsx"],
@@ -16,7 +21,10 @@ module.exports = {
       },
       {}
     ),
-    fallback: { os: false, tty: require.resolve("tty-browserify") },
+    fallback: {
+      os: false,
+      tty: createRequire.default().resolve("tty-browserify"),
+    },
   },
   plugins: [
     new MiniCssExtractPlugin({
