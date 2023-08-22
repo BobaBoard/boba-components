@@ -19,7 +19,7 @@ describe("when a password input is displayed", () => {
     expect(visibilityToggle).toBeInTheDocument();
   });
 
-  it("changes the input to text when the toggle is clicked", () => {
+  it("changes the input to text when the toggle is clicked", async () => {
     const { getByRole, getByLabelText } = render(
       <Password {...(Password.args as InputProps)} />
     );
@@ -27,7 +27,7 @@ describe("when a password input is displayed", () => {
     const visibilityToggle = getByRole("checkbox");
     const passwordInput = getByLabelText("Password");
 
-    userEvent.click(visibilityToggle);
+    await userEvent.click(visibilityToggle);
 
     expect(passwordInput.getAttribute("type")).toBe("text");
   });

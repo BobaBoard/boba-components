@@ -44,7 +44,7 @@ describe("Regular", () => {
 
     const boardLinks = screen.getAllByRole("link");
     for (const boardLink of boardLinks) {
-      userEvent.click(boardLink);
+      await userEvent.click(boardLink);
       await waitFor(() => {
         expect(action("#slug")).toHaveBeenCalled();
         expect(boardLink).toHaveAttribute("href", "#slug");

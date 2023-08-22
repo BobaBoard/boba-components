@@ -6,12 +6,9 @@ import scarf from "stories/images/scarf.png";
 import snow from "stories/images/snow.gif";
 import wreath from "stories/images/wreath.png";
 
-export const WRAP_COMPACT_DECORATOR = (
-  Story: StoryFn,
-  storyArgs: StoryContext
-) => (
+export const WRAP_COMPACT_DECORATOR = (Story: StoryFn) => (
   <div className="story">
-    <Story args={storyArgs} />
+    <Story />
     <style jsx>{`
       .story {
         max-width: 250px;

@@ -61,11 +61,11 @@ test("Renders boards menu", async () => {
 test("Renders boards dropdown", async () => {
   render(<SideMenuPreview />);
 
-  userEvent.click(screen.getByLabelText("board menu options"));
+  await userEvent.click(screen.getByLabelText("board menu options"));
   await waitFor(() => {
     expect(screen.getByText("Dismiss notifications")).toBeVisible();
   });
-  userEvent.click(screen.getByText("Dismiss notifications"));
+  await userEvent.click(screen.getByText("Dismiss notifications"));
   await waitFor(() => {
     expect(action("dismissNotifications")).toHaveBeenCalled();
   });

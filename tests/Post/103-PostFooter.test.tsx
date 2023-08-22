@@ -33,15 +33,15 @@ describe("when an answerable footer is displayed", () => {
   it("displays the contribute button", () => {
     expect(within(largeContainer).getByText("Contribute")).toBeInTheDocument();
   });
-  it("emits callback when the contribute button is clicked", () => {
-    userEvent.click(within(largeContainer).getByText("Contribute"));
+  it("emits callback when the contribute button is clicked", async () => {
+    await userEvent.click(within(largeContainer).getByText("Contribute"));
     expect(action).toHaveBeenCalledWith("onContribution");
   });
   it("displays the comment button", () => {
     expect(within(largeContainer).getByText("Comment")).toBeInTheDocument();
   });
-  it("emits callback when the comment button is clicked", () => {
-    userEvent.click(within(largeContainer).getByText("Comment"));
+  it("emits callback when the comment button is clicked", async () => {
+    await userEvent.click(within(largeContainer).getByText("Comment"));
     expect(action).toHaveBeenCalledWith("onComment");
   });
 });
@@ -183,8 +183,8 @@ describe("when notes have a href link", () => {
     expect(NotesWithHref.args!.notesLink!.onClick).not.toBeNil();
     expect(NotesWithHref.args!.notesLink!.href).not.toBeNil();
   });
-  it("triggers the onClick handler when clicked", () => {
-    userEvent.click(within(largeContainer).getByLabelText("post notes"));
+  it("triggers the onClick handler when clicked", async () => {
+    await userEvent.click(within(largeContainer).getByLabelText("post notes"));
     expect(action).toHaveBeenCalledWith("withHref");
   });
   it("has the correct href", () => {

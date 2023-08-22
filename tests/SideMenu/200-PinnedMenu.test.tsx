@@ -55,7 +55,7 @@ describe("Boards", () => {
 
     const boardLinks = screen.getAllByRole("link");
     for (const boardLink of boardLinks) {
-      userEvent.click(boardLink);
+      await userEvent.click(boardLink);
       await waitFor(() => {
         expect(action("#slug")).toHaveBeenCalled();
         expect(boardLink).toHaveAttribute("href", "#slug");
@@ -194,7 +194,7 @@ describe("Icons", () => {
     const iconLinks = screen.getAllByRole("link");
 
     for (const [i, iconLink] of iconLinks.entries()) {
-      userEvent.click(iconLink);
+      await userEvent.click(iconLink);
       await waitFor(() => {
         expect(action).toBeCalledWith(`#${linkArgs[i].id}`);
         expect(iconLink).toHaveAttribute("href", `#${linkArgs[i].id}`);
@@ -238,11 +238,11 @@ describe("Icons", () => {
   test("Renders icon options dropdown", async () => {
     render(<Icons />);
 
-    userEvent.click(screen.getByLabelText("user options"));
+    await userEvent.click(screen.getByLabelText("user options"));
     await waitFor(() => {
       expect(screen.getByText("Option 1")).toBeVisible();
     });
-    userEvent.click(screen.getByText("Option 1"));
+    await userEvent.click(screen.getByText("Option 1"));
     await waitFor(() => {
       expect(action("userOption1")).toHaveBeenCalled();
     });
@@ -251,11 +251,11 @@ describe("Icons", () => {
       expect(screen.queryByText("Option 1")).not.toBeInTheDocument();
     });
 
-    userEvent.click(screen.getByLabelText("user options"));
+    await userEvent.click(screen.getByLabelText("user options"));
     await waitFor(() => {
       expect(screen.getByText("Option 2")).toBeVisible();
     });
-    userEvent.click(screen.getByText("Option 2"));
+    await userEvent.click(screen.getByText("Option 2"));
     await waitFor(() => {
       expect(action("userOption2")).toHaveBeenCalled();
     });

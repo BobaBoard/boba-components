@@ -112,9 +112,9 @@ Long.args = {
   ),
 };
 Long.decorators = [
-  (Story: StoryFn, args: any) => (
+  (Story: StoryFn) => (
     <div className="story">
-      <Story args={args} />
+      <Story />
       <style jsx>{`
         .story {
           display: flex;
