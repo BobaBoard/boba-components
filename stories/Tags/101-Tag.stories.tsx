@@ -1,5 +1,5 @@
-import { Meta, Story } from "@storybook/react";
-import Tag, { DeletableTagProps, TagProps } from "tags/Tag";
+import { Meta, StoryFn } from "@storybook/react";
+import Tag, { type DeletableTagProps, type TagProps } from "tags/Tag";
 
 import Icon from "common/Icon";
 import React from "react";
@@ -33,9 +33,12 @@ export default {
   ],
 } as Meta;
 
-const TagTemplate: Story<
-  TagProps | DeletableTagProps | { tags: TagProps[] | DeletableTagProps[] }
-> = (args) => (
+const TagTemplate: StoryFn = (
+  args:
+    | TagProps
+    | DeletableTagProps
+    | { tags: TagProps[] | DeletableTagProps[] }
+) => (
   <>
     {("tags" in args ? args.tags : [args]).map((tag) => (
       <Tag key={tag.name} {...tag} />
@@ -109,9 +112,9 @@ Long.args = {
   ),
 };
 Long.decorators = [
-  (Story) => (
+  (Story: StoryFn) => (
     <div className="story">
-      {Story()}
+      <Story />
       <style jsx>{`
         .story {
           display: flex;

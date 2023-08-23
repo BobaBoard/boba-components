@@ -40,8 +40,8 @@ describe("when the center button is displayed", () => {
     );
   });
 
-  it("emits the center button action when clicked", () => {
-    userEvent.click(screen.getByLabelText("center-button"));
+  it("emits the center button action when clicked", async () => {
+    await userEvent.click(screen.getByLabelText("center-button"));
     expect(action).toHaveBeenCalledWith("center-button");
   });
 });
@@ -82,15 +82,16 @@ describe("when context menu is present", () => {
   });
 
   describe("when context menu is clicked", () => {
-    beforeEach(() => {
-      userEvent.click(screen.getByLabelText("context menu"));
+    beforeEach(async () => {
+      await userEvent.click(screen.getByLabelText("context menu"));
     });
     it("displays the infobox", () => {
       expect(screen.getByText("Last updated: 20 days ago")).toBeInTheDocument();
     });
+
     describe("when unhide button is clicked", () => {
-      beforeEach(() => {
-        userEvent.click(screen.getByText("Unhide"));
+      beforeEach(async () => {
+        await userEvent.click(screen.getByText("Unhide"));
       });
       it("calls the unhide action", () => {
         expect(action).toHaveBeenCalledWith("unhide");

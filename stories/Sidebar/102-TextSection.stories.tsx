@@ -31,7 +31,9 @@ export default {
   ],
 } as Meta;
 
-const TextSectionTemplate: Story<TextSectionProps> = (args) => <TextSection {...args} />;
+const TextSectionTemplate: Story = (args: TextSectionProps) => (
+  <TextSection {...args} />
+);
 
 export const Regular = TextSectionTemplate.bind({});
 Regular.args = {

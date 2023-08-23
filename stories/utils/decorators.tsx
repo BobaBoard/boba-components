@@ -1,7 +1,4 @@
-import {
-  StoryContext,
-  StoryFnReactReturnType,
-} from "@storybook/react/dist/ts3.9/client/preview/types";
+import { StoryContext, StoryFn } from "@storybook/react";
 
 import React from "react";
 import reindeerEars from "stories/images/reindeer-ears.png";
@@ -9,25 +6,26 @@ import scarf from "stories/images/scarf.png";
 import snow from "stories/images/snow.gif";
 import wreath from "stories/images/wreath.png";
 
-export const WRAP_COMPACT_DECORATOR = (Story: () => StoryFnReactReturnType) => (
-    <div className="story">
-      {Story()}
-      <style jsx>{`
-        .story {
-          max-width: 250px;
-        }
-      `}</style>
-    </div>
-  );
+export const WRAP_COMPACT_DECORATOR = (Story: StoryFn) => (
+  <div className="story">
+    <Story />
+    <style jsx>{`
+      .story {
+        max-width: 250px;
+      }
+    `}</style>
+  </div>
+);
 
 export const WITH_ACCESSORIES_DECORATOR = (
-  Story: () => StoryFnReactReturnType,
+  Story: StoryFn,
   storyArgs: StoryContext
 ) => {
-  const [currentAccessory, setCurrentAccessory] =
-    React.useState<string | undefined>(reindeerEars);
+  const [currentAccessory, setCurrentAccessory] = React.useState<
+    string | undefined
+  >(reindeerEars);
   storyArgs.args.secretIdentity = {
-    ...storyArgs.args.secretIdentity,
+    ...(storyArgs.args.secretIdentity ?? {}),
     accessory: currentAccessory,
   };
   return (

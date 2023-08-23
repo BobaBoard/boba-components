@@ -2,7 +2,7 @@ import React from "react";
 import classnames from "classnames";
 
 const BobaDex: React.FC<BobaDexProps> = (props) => {
-  const identityCircles = [];
+  const identityCircles: React.JSX.Element[] = [];
 
   for (let i = 1; i <= props.totalIdentities; i++) {
     const matchingID = props.revealedIdentities.find((el) => el.index === i);

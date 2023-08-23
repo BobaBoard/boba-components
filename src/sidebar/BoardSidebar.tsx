@@ -27,21 +27,15 @@ import classnames from "classnames";
 import { extractCompounds } from "utils/compound-utils";
 import { v4 as uuidv4 } from "uuid";
 
-interface EditableBoardSidebarProps {
-  children:
-    | React.ReactElement<SidebarSectionProps>[]
-    | React.ReactElement<SidebarSectionProps>
-    | undefined;
+export interface EditableBoardSidebarProps {
+  children: React.ReactElement[] | React.ReactElement | undefined;
   editing: true;
   onCancelEditing: () => void;
   onUpdateMetadata: (metadata: BoardMetadataType) => void;
 }
 
-interface DisplayBoardSidebarProps {
-  children:
-    | React.ReactElement<SidebarSectionProps>[]
-    | React.ReactElement<SidebarSectionProps>
-    | undefined;
+export interface DisplayBoardSidebarProps {
+  children: React.ReactElement[] | React.ReactElement | undefined;
   editing?: false;
   previewOptions?: DropdownProps["options"];
   activeCategory: string | null;

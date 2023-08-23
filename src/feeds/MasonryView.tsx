@@ -7,10 +7,9 @@ const MasonryView: React.ForwardRefRenderFunction<
   { reposition: () => void },
   MasonryViewProps
 > = (props, ref) => {
-  const gridRef =
-    React.createRef<{
-      positionItems?: () => void;
-    }>();
+  const gridRef = React.createRef<{
+    positionItems?: () => void;
+  }>();
 
   React.useImperativeHandle(ref, () => ({
     reposition: () => {

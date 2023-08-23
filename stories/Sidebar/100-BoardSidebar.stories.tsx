@@ -1,5 +1,5 @@
 import BoardSidebar, { BoardSidebarProps } from "sidebar/BoardSidebar";
-import { Meta, Story } from "@storybook/react";
+import { Meta, StoryFn } from "@storybook/react";
 import TagsFilterSection, {
   TagsFilterSectionProps,
 } from "sidebar/TagsFilterSection";
@@ -7,7 +7,7 @@ import TextSection, { TextSectionProps } from "sidebar/TextSection";
 
 import DefaultTheme from "theme/default";
 import React from "react";
-import { SidebarSectionProps } from "sidebar/SidebarSection";
+import type { SidebarSectionProps } from "sidebar/SidebarSection";
 import { Regular as TagsRegular } from "./101-TagsSection.stories";
 import { Regular as TextRegular } from "./102-TextSection.stories";
 import { action } from "@storybook/addon-actions";
@@ -34,11 +34,16 @@ export default {
   ],
 } as Meta;
 
-const BoardSidebarTemplate: Story<
+const BoardSidebarTemplate: StoryFn<
   BoardSidebarProps & {
     sidebarSections: SidebarSectionProps[];
   }
-> = ({ sidebarSections, ...args }) => (
+> = ({
+  sidebarSections,
+  ...args
+}: BoardSidebarProps & {
+  sidebarSections: SidebarSectionProps[];
+}) => (
   <BoardSidebar {...args}>
     {sidebarSections.map(({ children, ...props }) => (
       <BoardSidebar.SidebarSection key={props.id} {...props}>
