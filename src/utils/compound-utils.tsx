@@ -1,5 +1,9 @@
 import React from "react";
 
+/**
+ * Returns the first component of type CompoundType in the first parameter array
+ * (usually a compound component's children array).
+ */
 export function extractCompound<T>(
   children: React.ReactNode,
   CompoundType: React.FC<T>
@@ -9,6 +13,10 @@ export function extractCompound<T>(
   ) as React.ReactElement<T>;
 }
 
+/**
+ * Returns all components of type CompoundType in the first parameter array
+ * (usually a compound component's children array).
+ */
 export function extractCompounds<T>(
   children: React.ReactNode,
   CompoundType: React.FC<T>
@@ -18,6 +26,10 @@ export function extractCompounds<T>(
   ) as React.ReactElement<T>[];
 }
 
+/**
+ * Returns all components whose types are not in the excludedCompoundTypes in the
+ * first parameter array (usually a compound component's children array).
+ */
 export function extractRest(
   children: React.ReactNode,
   excludedCompoundTypes: React.FC<unknown>[]
@@ -29,6 +41,12 @@ export function extractRest(
   );
 }
 
+/**
+ * Create a React Component that takes props T and has the given display
+ * name.
+ *
+ * This component does nothing but display the children passed to it.
+ */
 export function CreateBaseCompound<T>(displayName: string) {
   const newComponent = ({ children }: React.PropsWithChildren<T>) => (
     <>{children}</>
@@ -37,10 +55,18 @@ export function CreateBaseCompound<T>(displayName: string) {
   return newComponent;
 }
 
+/**
+ * Checks if the component has children.
+ */
 export function hasChildren(component: React.ReactNode) {
   return React.isValidElement(component) && !!component.props.children;
 }
 
+/**
+ * Extract the Props type out of a component.
+ *
+ * Often useful for compound components.
+ */
 export type GetProps<C extends React.FC<unknown>> = C extends React.FC<infer T>
   ? T
   : unknown;
