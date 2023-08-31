@@ -40,13 +40,11 @@ import SideMenu, { type SideMenuHandler } from "sidemenu/SideMenu";
 import SidebarSection from "sidebar/SidebarSection";
 import SubscriptionBlock from "blocks/SubscriptionBlock";
 import TabsGroup from "layout/TabsGroup";
-import { TagType, type TagsType} from "types";
+import { TagType, type TagsType } from "types";
 import TagsFilterSection from "sidebar/TagsFilterSection";
 import UserDetails from "user/UserDetails";
 import flush from "styled-jsx/server";
 import useBoos from "extra/useBoos";
-
-require("intersection-observer");
 
 interface ImageUploaderContextProps {
   onImageUploadRequest: (imgUrl: string) => Promise<string>;

@@ -14,10 +14,8 @@ const log = debug("bobaui:feed-with-menu-log");
 
 export interface FeedWithMenuProps {
   showSidebar?: boolean;
-  forceHideSidebar?: boolean;
   reachToBottom?: boolean;
-  onCloseSidebar?: () => void;
-  accentColor?: string;
+  onCloseSidebar: () => void;
   onReachEnd?: (more?: (more: boolean) => void) => void;
 }
 
@@ -36,14 +34,18 @@ const FeedWithMenu: React.FC<FeedWithMenuProps> & CompoundComponents = ({
   onCloseSidebar,
   onReachEnd,
   reachToBottom,
-  forceHideSidebar,
 }) => {
   const scrollableContentRef = React.useRef<HTMLDivElement>(null);
   const intersectionObserverRef = React.useRef<HTMLDivElement>(null);
   const hasReachedBottom = React.useRef<boolean>(false);
+
+  // This state controls whether the sidebar is collapsed by default
+  // and can be opened (like on mobile view)
   const [canOpenSidebar, setCanOpenSidebar] = React.useState(
     typeof window !== "undefined" &&
-      matchMedia("only screen and (max-width: 850px)").matches
+      matchMedia(
+        `only screen and (max-width: ${Theme.MOBILE_WIDTH_TRIGGER_PX}px)`
+      ).matches
   );
   const { setOpen: setBackdropOpen } = useBackdrop({
     id: "feed-with-menu",
@@ -55,18 +57,18 @@ const FeedWithMenu: React.FC<FeedWithMenuProps> & CompoundComponents = ({
 
   // Change overflow of content when sidebar is open
   React.useEffect(() => {
+    if (!scrollableContentRef.current) {
+      return;
+    }
+
     const shouldShowSidebar = !!(canOpenSidebar && showSidebar);
     log(`${shouldShowSidebar ? "Opening" : "Closing"} sidebar`);
     log(`Can open: ${canOpenSidebar}`);
 
-    if (showSidebar && !shouldShowSidebar) {
+    if (showSidebar && !canOpenSidebar) {
       // Parent is asking the sidebar to be displayed, but the sidebar
       // cannot be. Tell it to close it.
-      onCloseSidebar?.();
-    }
-
-    if (!scrollableContentRef.current) {
-      return;
+      onCloseSidebar();
     }
 
     log(`Changing overflow of content`);
@@ -107,58 +109,59 @@ const FeedWithMenu: React.FC<FeedWithMenuProps> & CompoundComponents = ({
 
   // Call reach end method when bottom of content is reached
   React.useEffect(() => {
-    if (intersectionObserverRef.current && onReachEnd) {
-      // Add a disconnection spy so that "loading to bottom" efforts
-      // can be abandoned if the useEffect hook has been refreshed.
-      let hasDisconnected = false;
-      const debouncedReachEnd = debounce(onReachEnd, 200, true);
-      const observer = new IntersectionObserver((entry) => {
-        log(`Reaching end of scrollable area.`);
-        log(entry);
-        if (entry[0]?.isIntersecting) {
-          log(`Found intersecting entry.`);
-          if (!reachToBottom || hasReachedBottom.current) {
-            debouncedReachEnd(noop);
-            return;
-          }
-          // If the feed asks to attempt loading to bottom, we trigger
-          // the onReachEnd callback until the intersection observer "spy"
-          // is below the fold of the viewport.
-          const attemptLoadingToBottom = () => {
-            const isAtEnd =
-              (intersectionObserverRef.current?.getBoundingClientRect().top ||
-                1) > (entry[0].rootBounds?.bottom || 0);
-            if (isAtEnd) {
-              // We have reached the fold! Let's signal that, and stop loading
-              // more.
-              hasReachedBottom.current = true;
-              return;
-            }
-            // Since "loading more" usually implies setting some state,
-            // and we need to wait for the state to be updated to check whether the
-            // intersection "spy" has reached below the fold, we pass a promise
-            // "resolve" method that we wait on to decide whether we should
-            // attempt loading more.
-            new Promise((resolve) => {
-              onReachEnd(resolve);
-            }).then((hasMore) => {
-              if (reachToBottom && !hasDisconnected && hasMore) {
-                attemptLoadingToBottom();
-              }
-            });
-          };
-          attemptLoadingToBottom();
-        } else {
-          log(`Intersecting entry not found.`);
-        }
-      });
-      observer.observe(intersectionObserverRef.current);
-      return () => {
-        observer.disconnect();
-        hasDisconnected = true;
-      };
+    if (!intersectionObserverRef.current || !onReachEnd) {
+      return undefined;
     }
-    return undefined;
+    // Add a disconnection spy so that "loading to bottom" efforts
+    // can be abandoned if the useEffect hook has been refreshed.
+    let hasDisconnected = false;
+    const debouncedReachEnd = debounce(onReachEnd, 200, true);
+    const observer = new IntersectionObserver((entry) => {
+      log(`Reaching end of scrollable area.`);
+      log(entry);
+      if (!entry[0]?.isIntersecting) {
+        log(`Intersecting entry not found.`);
+        return;
+      }
+      log(`Found intersecting entry.`);
+      if (!reachToBottom || hasReachedBottom.current) {
+        debouncedReachEnd(noop);
+        return;
+      }
+      // If the feed asks to attempt loading to bottom, we trigger
+      // the onReachEnd callback until the intersection observer "spy"
+      // is below the fold of the viewport.
+      const attemptLoadingToBottom = () => {
+        const isAtEnd =
+          (intersectionObserverRef.current?.getBoundingClientRect().top || 1) >
+          (entry[0].rootBounds?.bottom || 0);
+        if (isAtEnd) {
+          // TODO: figure out what this does and why is it working.
+          // We have reached the fold! Let's signal that, and stop loading
+          // more.
+          hasReachedBottom.current = true;
+          return;
+        }
+        // Since "loading more" usually implies setting some state,
+        // and we need to wait for the state to be updated to check whether the
+        // intersection "spy" has reached below the fold, we pass a promise
+        // "resolve" method that we wait on to decide whether we should
+        // attempt loading more.
+        new Promise<boolean>((resolve) => {
+          onReachEnd(resolve);
+        }).then((hasMore) => {
+          if (reachToBottom && !hasDisconnected && hasMore) {
+            attemptLoadingToBottom();
+          }
+        });
+      };
+      attemptLoadingToBottom();
+    });
+    observer.observe(intersectionObserverRef.current);
+    return () => {
+      observer.disconnect();
+      hasDisconnected = true;
+    };
   }, [onReachEnd, reachToBottom]);
 
   const sidebarContent = extractCompound(children, Sidebar);
@@ -169,12 +172,7 @@ const FeedWithMenu: React.FC<FeedWithMenuProps> & CompoundComponents = ({
         <div
           className={classnames("sidebar", {
             visible: showSidebar,
-            "force-hide": forceHideSidebar,
           })}
-          // onClick={(e) => {
-          //   e.stopPropagation();
-          // }}
-          // ref={scrollableMenuRef}
         >
           {showSidebar ? (
             <Scrollbar>
@@ -208,9 +206,6 @@ const FeedWithMenu: React.FC<FeedWithMenuProps> & CompoundComponents = ({
             padding: 0 20px;
             position: relative;
             overflow: auto;
-          }
-          .sidebar.force-hide {
-            display: none;
           }
           .sidebar {
             margin-top: -1px;
