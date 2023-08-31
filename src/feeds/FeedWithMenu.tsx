@@ -1,3 +1,5 @@
+import { CreateBaseCompound, extractCompound } from "utils/compound-utils";
+
 import { ResizeObserver as Polyfill } from "@juggle/resize-observer";
 import React from "react";
 import Scrollbar from "common/Scrollbar";
@@ -22,29 +24,13 @@ export interface FeedWithMenuProps {
 }
 
 interface CompoundComponents {
-  Sidebar: React.FC<{ children: React.ReactNode }>;
-  FeedContent: React.FC<{ children: React.ReactNode }>;
+  Sidebar: React.FC<unknown>;
+  FeedContent: React.FC<unknown>;
 }
 
-const Sidebar: CompoundComponents["Sidebar"] = (props) => <>{props.children}</>;
-
-const FeedContent: CompoundComponents["FeedContent"] = (props) => (
-  <>{props.children}</>
-);
-
-const extractFeedContent = (
-  children: React.ReactNode
-): typeof FeedContent | undefined =>
-  React.Children.toArray(children).find(
-    (node) => React.isValidElement(node) && node.type === FeedContent
-  ) as typeof FeedContent;
-
-const extractSidebar = (
-  children: React.ReactNode
-): typeof Sidebar | undefined =>
-  React.Children.toArray(children).find(
-    (node) => React.isValidElement(node) && node.type === Sidebar
-  ) as typeof Sidebar;
+const Sidebar = CreateBaseCompound<CompoundComponents["Sidebar"]>("Sidebar");
+const FeedContent =
+  CreateBaseCompound<CompoundComponents["FeedContent"]>("FeedContent");
 
 const FeedWithMenu: React.FC<FeedWithMenuProps> & CompoundComponents = ({
   children,
@@ -177,8 +163,8 @@ const FeedWithMenu: React.FC<FeedWithMenuProps> & CompoundComponents = ({
     return undefined;
   }, [onReachEnd, reachToBottom]);
 
-  const sidebarContent = extractSidebar(children);
-  const feedContent = extractFeedContent(children);
+  const sidebarContent = extractCompound(children, Sidebar);
+  const feedContent = extractCompound(children, FeedContent);
   return (
     <>
       <div className="content" ref={scrollableContentRef}>
