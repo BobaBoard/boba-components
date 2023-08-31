@@ -8,12 +8,9 @@ import React, { AriaAttributes } from "react";
 
 import DefaultTheme from "theme/default";
 import classnames from "classnames";
-import css from "styled-jsx/css";
-import { useExpand } from "utils/useExpand";
 
 export interface CardProps {
   children?: React.ReactNode;
-  height?: number;
   className?: string;
   // TODO: remove this background color from here
   backgroundColor?: string;
@@ -22,6 +19,7 @@ export interface CardProps {
 export interface CardHandler {
   highlight: (color: string) => void;
   cardRef: React.RefObject<HTMLDivElement>;
+  contentRef: React.RefObject<HTMLDivElement>;
 }
 
 interface CompoundComponents {
@@ -36,11 +34,6 @@ interface CompoundComponents {
   >;
 }
 
-const clickerStyles = css.resolve`
-  border-bottom-left-radius: 15px;
-  border-bottom-right-radius: 15px;
-`;
-
 const Footer =
   CreateBaseCompound<GetProps<CompoundComponents["Footer"]>>("Footer");
 const Header =
@@ -54,7 +47,7 @@ const Card = Object.assign(
   React.forwardRef<CardHandler, CardProps>(
     // We use a function here to avoid the  display name warning
     // for forwarded refs.
-    function Card({ children, height, className, backgroundColor }, ref) {
+    function Card({ children, className, backgroundColor }, ref) {
       const cardRef = React.useRef<HTMLDivElement>(null);
       const contentRef = React.useRef<HTMLDivElement>(null);
       const footer = extractCompound(children, Footer);
@@ -65,12 +58,6 @@ const Card = Object.assign(
 
       const currentBackground =
         backgroundColor || DefaultTheme.POST_BACKGROUND_COLOR;
-
-      const clicker = useExpand(contentRef, {
-        compactHeight: height,
-        backgroundColor: currentBackground,
-        className: clickerStyles.className,
-      });
 
       React.useImperativeHandle(ref, () => ({
         highlight: (color: string) => {
@@ -83,6 +70,7 @@ const Card = Object.assign(
           cardRef.current.style.setProperty("--card-container-shadow", color);
         },
         cardRef,
+        contentRef,
       }));
 
       return (
@@ -99,7 +87,6 @@ const Card = Object.assign(
             ref={contentRef}
           >
             {content}
-            {clicker}
           </section>
           <footer
             className={footer?.props.className}
