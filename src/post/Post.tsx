@@ -143,6 +143,7 @@ const Post = React.forwardRef<PostHandler, PostProps>((props, ref) => {
     !!props.tags?.categoryTags?.length ||
     !!props.tags?.indexTags?.length ||
     !!props.tags?.whisperTags?.length;
+
   return (
     <article>
       <PostPreamble {...props} />

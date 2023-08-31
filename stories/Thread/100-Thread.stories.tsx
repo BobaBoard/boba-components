@@ -371,7 +371,7 @@ export const NewWithPostsAndComments = () => (
                       }}
                       createdTime="2019/05/14 at 7:34pm"
                       text={
-                        '[{"insert":{"block-image":"https://si.wsj.net/public/resources/images/BN-GA217_legola_G_20141215080444.jpg"}}, {"attributes":{"italic":true}, "insert":"...and my bow..."}]'
+                        '[{"insert":{"block-image":{"src":"https://si.wsj.net/public/resources/images/BN-GA217_legola_G_20141215080444.jpg","width":550,"height":336}}}, {"attributes":{"italic":true}, "insert":"...and my bow..."}]'
                       }
                       secretIdentity={{
                         name: "Nice Therapist",
@@ -495,7 +495,7 @@ export const NewWithPostsAndComments = () => (
                       }}
                       createdTime="2019/05/14 at 7:34pm"
                       text={
-                        '[{"insert":{"block-image":"https://si.wsj.net/public/resources/images/BN-GA217_legola_G_20141215080444.jpg"}}, {"attributes":{"italic":true}, "insert":"...and my bow..."}]'
+                        '[{"insert":{"block-image":{"src":"https://si.wsj.net/public/resources/images/BN-GA217_legola_G_20141215080444.jpg","width":550,"height":336}}}, {"attributes":{"italic":true}, "insert":"...and my bow..."}]'
                       }
                       secretIdentity={{
                         name: "Nice Therapist",
