@@ -10,8 +10,6 @@ import debug from "debug";
 import noop from "noop-ts";
 import { useBackdrop } from "utils";
 
-require("intersection-observer");
-
 const log = debug("bobaui:feed-with-menu-log");
 
 export interface FeedWithMenuProps {
