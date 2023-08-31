@@ -97,7 +97,7 @@ const Card = Object.assign(
           <style jsx>{`
             /* Dynamic styles */
             .card {
-              background-color: ${currentBackground.toString()};
+              background-color: ${currentBackground};
             }
           `}</style>
           <style jsx>{`
