@@ -36,6 +36,7 @@ import hannibalAvatar from "stories/images/hannibal.png";
 import kinkmeme from "stories/images/kink-meme.png";
 import mamoruAvatar from "stories/images/mamoru.png";
 import meta from "stories/images/meta.png";
+import noop from "noop-ts";
 import oncelerAvatar from "stories/images/oncie.jpg";
 import oncelerBoard from "stories/images/onceler-board.png";
 import sparkle from "stories/images/sparkle.gif";
@@ -223,7 +224,7 @@ const LayoutTemplate: Story<LayoutStoryProps> = (args: LayoutStoryProps) => {
 export const FeedWithMenuShortPreview = LayoutTemplate.bind({});
 FeedWithMenuShortPreview.args = {
   mainContent: (
-    <FeedWithMenu>
+    <FeedWithMenu onCloseSidebar={noop}>
       <FeedWithMenu.Sidebar>
         {" "}
         <div style={{ height: "1500px", width: "50%", backgroundColor: "red" }}>
@@ -800,7 +801,6 @@ export const MasonryLayout = () => {
           <FeedWithMenu
             showSidebar={showSidebar}
             onCloseSidebar={closeSidebar}
-            forceHideSidebar={true}
             reachToBottom={showMax < POSTS.length}
             onReachEnd={React.useCallback(
               (more) => {
