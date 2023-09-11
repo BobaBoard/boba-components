@@ -91,7 +91,7 @@
     "@babel/preset-env": "^7.9.6",
     "@babel/preset-react": "^7.9.4",
     "@babel/preset-typescript": "^7.9.0",
-    "@bobaboard/boba-editor": "^0.0.15",
+    "@bobaboard/boba-editor": "^0.2.0",
     "@sinonjs/fake-timers": "^9.1.2",
     "@storybook/addon-a11y": "^7.3.2",
     "@storybook/addon-actions": "^7.3.2",
