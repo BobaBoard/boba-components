@@ -7,6 +7,7 @@ import React from "react";
 import TabsGroup from "layout/TabsGroup";
 import { action } from "@storybook/addon-actions";
 import { faSearch } from "@fortawesome/free-solid-svg-icons";
+import noop from "noop-ts";
 
 export default {
   title: "Settings / Settings Preview",
@@ -45,8 +46,7 @@ export const SettingsLayout = () => {
     >
       <Layout.SideMenuContent></Layout.SideMenuContent>
       <Layout.MainContent>
-        {" "}
-        <FeedWithMenu>
+        <FeedWithMenu onCloseSidebar={noop}>
           <FeedWithMenu.Sidebar>
             <div id="a11y-target">
               <TabsGroup title="User Settings">

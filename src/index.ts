@@ -47,8 +47,6 @@ import UserDetails from "user/UserDetails";
 import flush from "styled-jsx/server";
 import useBoos from "extra/useBoos";
 
-require("intersection-observer");
-
 interface ImageUploaderContextProps {
   onImageUploadRequest: (imgUrl: string) => Promise<string>;
 }

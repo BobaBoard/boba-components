@@ -41,17 +41,14 @@ const CardTemplate: Story<
       header: React.ReactNode;
     }
 > = ({ footer, header, ...args }) => (
-    <Card {...args}>
-      <Card.Footer>{footer}</Card.Footer>
-      <Card.Header>{header}</Card.Header>
-      <Card.Content>
-        <Editor
-          editable={false}
-          initialText={getInitialText(args.editorText)}
-        />
-      </Card.Content>
-    </Card>
-  );
+  <Card {...args}>
+    <Card.Footer>{footer}</Card.Footer>
+    <Card.Header>{header}</Card.Header>
+    <Card.Content>
+      <Editor editable={false} initialText={getInitialText(args.editorText)} />
+    </Card.Content>
+  </Card>
+);
 
 export const Regular = CardTemplate.bind({});
 Regular.args = {
@@ -62,12 +59,6 @@ export const WithBackgroundColor = CardTemplate.bind({});
 WithBackgroundColor.args = {
   editorText: EDITOR_TEXT_VALUES.WITH_IMAGE,
   backgroundColor: "pink",
-};
-
-export const WithFixedHeight = CardTemplate.bind({});
-WithFixedHeight.args = {
-  ...WithBackgroundColor.args,
-  height: 300,
 };
 
 export const WithHeaderAndFooter = CardTemplate.bind({});

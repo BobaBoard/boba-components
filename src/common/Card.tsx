@@ -5,19 +5,12 @@ import {
   extractRest,
 } from "utils/compound-utils";
 import React, { AriaAttributes } from "react";
-import {
-  faAngleDoubleDown,
-  faAngleDoubleUp,
-} from "@fortawesome/free-solid-svg-icons";
 
-import Color from "color";
 import DefaultTheme from "theme/default";
-import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import classnames from "classnames";
 
 export interface CardProps {
   children?: React.ReactNode;
-  height?: number;
   className?: string;
   // TODO: remove this background color from here
   backgroundColor?: string;
@@ -26,6 +19,7 @@ export interface CardProps {
 export interface CardHandler {
   highlight: (color: string) => void;
   cardRef: React.RefObject<HTMLDivElement>;
+  contentRef: React.RefObject<HTMLDivElement>;
 }
 
 interface CompoundComponents {
@@ -53,18 +47,17 @@ const Card = Object.assign(
   React.forwardRef<CardHandler, CardProps>(
     // We use a function here to avoid the  display name warning
     // for forwarded refs.
-    function Card({ children, height, className, backgroundColor }, ref) {
+    function Card({ children, className, backgroundColor }, ref) {
       const cardRef = React.useRef<HTMLDivElement>(null);
-      const [isExpanded, setExpanded] = React.useState(!height);
+      const contentRef = React.useRef<HTMLDivElement>(null);
       const footer = extractCompound(children, Footer);
       const header = extractCompound(children, Header);
       const content = extractCompound(children, Content);
       // This is here for e.g. jsx styles
       const rest = extractRest(children, [Footer, Header, Content]);
 
-      const processedColor = Color(
-        backgroundColor || DefaultTheme.POST_BACKGROUND_COLOR
-      );
+      const currentBackground =
+        backgroundColor || DefaultTheme.POST_BACKGROUND_COLOR;
 
       React.useImperativeHandle(ref, () => ({
         highlight: (color: string) => {
@@ -77,17 +70,11 @@ const Card = Object.assign(
           cardRef.current.style.setProperty("--card-container-shadow", color);
         },
         cardRef,
+        contentRef,
       }));
 
       return (
-        <div
-          className={classnames("card", className, {
-            // Only use the expanded class if there is an height defined in the
-            // first place
-            expanded: height ? isExpanded : undefined,
-          })}
-          ref={cardRef}
-        >
+        <div className={classnames("card", className)} ref={cardRef}>
           <header
             className={header?.props.className}
             aria-label={header?.props["aria-label"]}
@@ -97,20 +84,9 @@ const Card = Object.assign(
           <section
             className={content?.props.className}
             aria-label={content?.props["aria-label"]}
+            ref={contentRef}
           >
             {content}
-            {height && (
-              <div
-                className="expand-overlay"
-                onClick={() => {
-                  setExpanded(!isExpanded);
-                }}
-              >
-                <FontAwesomeIcon
-                  icon={isExpanded ? faAngleDoubleUp : faAngleDoubleDown}
-                />
-              </div>
-            )}
           </section>
           <footer
             className={footer?.props.className}
@@ -121,14 +97,7 @@ const Card = Object.assign(
           <style jsx>{`
             /* Dynamic styles */
             .card {
-              background-color: ${processedColor.toString()};
-            }
-            .expand-overlay {
-              background: linear-gradient(
-                ${processedColor.alpha(0.0001).toString()} 10%,
-                ${processedColor.toString()} 30%,
-                ${processedColor.toString()}
-              );
+              background-color: ${currentBackground};
             }
           `}</style>
           <style jsx>{`
@@ -162,25 +131,11 @@ const Card = Object.assign(
               padding: 0 12px 8px 12px;
             }
             section {
-              max-height: ${`${height  }px` || "unset"};
               position: relative;
             }
             .card.expanded section {
               max-height: unset;
               overflow: visible;
-            }
-            .expand-overlay {
-              position: absolute;
-              height: 40px;
-              left: 0;
-              right: 0;
-              bottom: 0;
-              cursor: pointer;
-              text-align: center;
-            }
-            .expand-overlay > :global(svg) {
-              position: absolute;
-              bottom: 0;
             }
           `}</style>
           {rest}

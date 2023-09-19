@@ -21,6 +21,7 @@ import classnames from "classnames";
 import css from "styled-jsx/css";
 import debug from "debug";
 import { faEllipsisV } from "@fortawesome/free-solid-svg-icons";
+import { useExpand } from "utils/useExpand";
 
 const log = debug("bobaui:post-log");
 
@@ -130,6 +131,11 @@ HeaderContent.displayName = "HeaderContent";
 const Post = React.forwardRef<PostHandler, PostProps>((props, ref) => {
   const cardRef = React.useRef<CardHandler>(null);
   const avatarRef = React.createRef<HTMLImageElement>();
+  const backgroundColor = props.muted ? "#dcdcdc" : props.backgroundColor;
+  const clicker = useExpand(cardRef.current?.contentRef, {
+    compactHeight: props.collapsed ? COLLAPSED_HEIGHT : undefined,
+    backgroundColor: backgroundColor || Theme.POST_BACKGROUND_COLOR,
+  });
 
   React.useImperativeHandle(ref, () => ({
     highlight: (color: string) => {
@@ -143,14 +149,11 @@ const Post = React.forwardRef<PostHandler, PostProps>((props, ref) => {
     !!props.tags?.categoryTags?.length ||
     !!props.tags?.indexTags?.length ||
     !!props.tags?.whisperTags?.length;
+
   return (
     <article>
       <PostPreamble {...props} />
-      <Card
-        height={props.collapsed ? COLLAPSED_HEIGHT : undefined}
-        backgroundColor={props.muted ? "#dcdcdc" : props.backgroundColor}
-        ref={cardRef}
-      >
+      <Card backgroundColor={backgroundColor} ref={cardRef}>
         <Card.Header
           className={classnames(cardClassName, {
             "with-board": props.board,
@@ -165,6 +168,7 @@ const Post = React.forwardRef<PostHandler, PostProps>((props, ref) => {
             editable={false}
             onEmbedLoaded={props.onEmbedLoaded}
           />
+          {clicker}
         </Card.Content>
         <Card.Footer
           className={classnames(cardClassName, {

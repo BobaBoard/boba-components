@@ -43,22 +43,22 @@ const { styles: iconStyles, className: iconClassName } = css.resolve`
  * can then be used to toggle the expansion/contraption of the component.
  */
 export const useExpand = (
-  ref: React.RefObject<HTMLDivElement>,
+  ref: React.RefObject<HTMLDivElement> | undefined,
   options: {
-    compactHeight: number;
+    // If compactHeight is not provided, the component will not be collapsed.
+    compactHeight: number | undefined;
     backgroundColor?: string;
     className?: string;
   }
 ) => {
-  const [oldStyle, setOldStyle] =
-    React.useState<{
-      height: string;
-      overflow: string;
-    }>();
+  const [oldStyle, setOldStyle] = React.useState<{
+    height: string;
+    overflow: string;
+  }>();
   const [expanded, setExpanded] = React.useState(true);
 
   React.useEffect(() => {
-    if (!ref.current) {
+    if (!ref?.current || !options.compactHeight) {
       return;
     }
     const currentStyle = {
@@ -76,7 +76,7 @@ export const useExpand = (
     }
   }, [ref, options.compactHeight]);
 
-  if (!ref.current || !oldStyle) {
+  if (!ref?.current || !oldStyle) {
     return null;
   }
 
@@ -88,7 +88,7 @@ export const useExpand = (
         expanded,
       })}
       onClick={() => {
-        if (!ref.current || !oldStyle) {
+        if (!ref.current || !oldStyle || !options.compactHeight) {
           return;
         }
         toggleCompact(ref.current, oldStyle, options.compactHeight);
