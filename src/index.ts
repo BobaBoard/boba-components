@@ -39,6 +39,7 @@ import SettingsContainer, { type SettingType } from "layout/SettingsContainer";
 import SideMenu, { type SideMenuHandler } from "sidemenu/SideMenu";
 import SidebarSection from "sidebar/SidebarSection";
 import SubscriptionBlock from "blocks/SubscriptionBlock";
+import BoardListBlock from "blocks/BoardListBlock";
 import TabsGroup from "layout/TabsGroup";
 import { TagType, type TagsType } from "types";
 import TagsFilterSection from "sidebar/TagsFilterSection";
@@ -57,6 +58,7 @@ export {
   Button,
   RulesBlock,
   SubscriptionBlock,
+  BoardListBlock,
   ButtonStyle,
   SideMenu,
   Input,
