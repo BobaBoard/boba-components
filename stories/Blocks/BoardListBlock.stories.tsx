@@ -1,7 +1,7 @@
-import type { Meta, StoryObj } from "@storybook/react";
-
 import BoardListBlock, { BoardListBlockProps } from "blocks/BoardListBlock";
+import type { Meta, StoryObj } from "@storybook/react";
 import React, { Fragment } from "react";
+
 import { action } from "@storybook/addon-actions";
 import anime from "stories/images/anime.png";
 import book from "stories/images/book.png";
@@ -71,22 +71,45 @@ const boards = [
 ];
 
 export const Single: Story = {
-  render: () => (
-    <div style={{ width: "500px" }}>
-      <BoardListBlock selectedBoardSlug="" icon="" title="Boards">
-        {boards.map((board) => (
-          <BoardListBlock.Item slug={board.slug} key={board.slug}  />
-        ))}
-      </BoardListBlock>
-    </div>
-  ),
+  render: function Render() {
+    const [selectedBoard, setSelectedBoard] = React.useState("");
+
+    return (
+      <div style={{ width: "500px" }}>
+        <BoardListBlock
+          icon=""
+          title="Boards"
+          selectedBoardSlug={selectedBoard}
+          onSelectBoard={(slug) => {
+            action("select-board")(slug);
+            setSelectedBoard(slug);
+          }}
+        >
+          <BoardListBlock.Empty>
+            <div>No boards here</div>
+          </BoardListBlock.Empty>
+          {boards.map((board) => (
+            <BoardListBlock.Item
+              slug={board.slug}
+              key={board.slug}
+              description={board.description}
+            />
+          ))}
+        </BoardListBlock>
+      </div>
+    );
+  },
 };
 
 export const Empty: Story = {
   render: () => (
     <div style={{ width: "500px" }}>
-      <BoardListBlock selectedBoardSlug="" icon="" title="Boards">
-        [<Fragment />]
+      <BoardListBlock
+        onSelectBoard={() => {
+          throw new Error("Function not implemented.");
+        }}
+      >
+        <BoardListBlock.Empty>kill me</BoardListBlock.Empty>
       </BoardListBlock>
     </div>
   ),
