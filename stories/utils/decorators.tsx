@@ -6,6 +6,21 @@ import scarf from "stories/images/scarf.png";
 import snow from "stories/images/snow.gif";
 import wreath from "stories/images/wreath.png";
 
+function getBase64(file: File) {
+  return new Promise<string | ArrayBuffer>((accept) => {
+    const reader = new FileReader();
+    reader.readAsDataURL(file);
+    reader.onload = function () {
+      if (reader.result) {
+        accept(reader.result);
+      }
+    };
+    reader.onerror = function (error) {
+      console.log("Error: ", error);
+    };
+  });
+}
+
 export const WRAP_COMPACT_DECORATOR = (Story: StoryFn) => (
   <div className="story">
     <Story />
@@ -48,6 +63,20 @@ export const WITH_ACCESSORIES_DECORATOR = (
         <button onClick={() => setCurrentAccessory(wreath)}>Wreath</button>
         <button onClick={() => setCurrentAccessory(scarf)}>Scarf</button>
         <button onClick={() => setCurrentAccessory(snow)}>Snow</button>
+        <input
+          key={currentAccessory}
+          type="file"
+          id="myFile"
+          name="filename"
+          onChange={async (event) => {
+            if (!event.target.files?.[0]) {
+              return;
+            }
+            setCurrentAccessory(
+              String(await getBase64(event.target.files?.[0]))
+            );
+          }}
+        />
       </div>
     </div>
   );
