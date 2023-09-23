@@ -24,9 +24,20 @@ export default {
   title: "Posts / Post",
   component: Post,
   argTypes: {
-    // NOTE: switching text doesn't work because the post doesn't respect text updates
-    // TODO: maybe rename this as "initial text"
     text: editorArgTypes.editorText,
+    secretIdentity: editorArgTypes.secretIdentity,
+
+    // TODO: figure out why this doesn't work
+    // accessory: {
+    //   options: ["wreath", "scarf"],
+    //   controls: {
+    //     type: "select",
+    //   },
+    //   mapping: {
+    //     wreath,
+    //     scarf,
+    //   },
+    // },
   },
   args: {
     text: EDITOR_TEXT_VALUES.WITH_IMAGE,

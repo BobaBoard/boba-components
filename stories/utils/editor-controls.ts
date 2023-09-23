@@ -1,10 +1,14 @@
+import oncelerAvatar from "stories/images/oncie.jpg";
+import tuxedoAvatar from "stories/images/tuxedo-mask.jpg";
+
 export enum EDITOR_TEXT_VALUES {
   WITH_IMAGE = "WITH_IMAGE",
   LONG_WORD = "LONG_WORD",
   LONG_TEXT = "LONG_TEXT",
 }
 
-export const getInitialText = (textValue: EDITOR_TEXT_VALUES) => JSON.parse(getInitialTextString(textValue));
+export const getInitialText = (textValue: EDITOR_TEXT_VALUES) =>
+  JSON.parse(getInitialTextString(textValue));
 
 export const getInitialTextString = (textValue: EDITOR_TEXT_VALUES) => {
   switch (textValue) {
@@ -27,5 +31,15 @@ export const editorArgTypes = {
   editorText: {
     options: Object.values(EDITOR_TEXT_VALUES),
     control: { type: "select" },
+  },
+  secretIdentity: {
+    options: ["sexydaddy", "oncie"],
+    mapping: {
+      sexydaddy: { name: "Tuxedo Mask", avatar: `/${tuxedoAvatar}` },
+      oncie: {
+        name: "Good Guy",
+        avatar: `/${oncelerAvatar}`,
+      },
+    },
   },
 };
