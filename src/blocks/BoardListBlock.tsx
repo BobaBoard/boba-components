@@ -31,6 +31,9 @@ const BoardListBlock: BoardListBlockCompound = (props: BoardListBlockProps) => {
   );
 };
 
+BoardListBlock.Empty = Empty;
+BoardListBlock.Item = Item;
+
 type BoardListBlockCompound = React.FC<BoardListBlockProps> & {
   Empty: React.FC<unknown>;
   Item: React.FC<ItemProps>;
@@ -53,8 +56,5 @@ export interface BoardListBlockProps {
   onSelectBoard: (slug: string) => void;
   children?: React.ReactNode;
 }
-
-BoardListBlock.Empty = Empty;
-BoardListBlock.Item = Item;
 
 export default BoardListBlock;

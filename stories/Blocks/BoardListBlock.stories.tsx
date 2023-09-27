@@ -1,8 +1,8 @@
-import BoardListBlock, { BoardListBlockProps } from "blocks/BoardListBlock";
 import type { Meta, StoryObj } from "@storybook/react";
-import React, { Fragment } from "react";
 
 import { action } from "@storybook/addon-actions";
+import BoardListBlock from "blocks/BoardListBlock";
+import React from "react";
 import anime from "stories/images/anime.png";
 import book from "stories/images/book.png";
 import crack from "stories/images/crack.png";
@@ -82,7 +82,12 @@ export const Single: Story = {
           selectedBoardSlug={selectedBoard}
           onSelectBoard={(slug) => {
             action("select-board")(slug);
-            setSelectedBoard(slug);
+            if (slug === selectedBoard) {
+              setSelectedBoard("")
+            } else {
+              setSelectedBoard(slug);
+            }
+            
           }}
         >
           <BoardListBlock.Empty>
