@@ -1,8 +1,8 @@
 import type { Meta, StoryObj } from "@storybook/react";
 
-import { action } from "@storybook/addon-actions";
 import BoardListBlock from "blocks/BoardListBlock";
 import React from "react";
+import { action } from "@storybook/addon-actions";
 import anime from "stories/images/anime.png";
 import book from "stories/images/book.png";
 import crack from "stories/images/crack.png";
@@ -70,7 +70,7 @@ const boards = [
   },
 ];
 
-export const Single: Story = {
+export const Simple: Story = {
   render: function Render() {
     const [selectedBoard, setSelectedBoard] = React.useState("");
 
