@@ -5,7 +5,7 @@ const Empty: React.FC<unknown> = ({ children }) => <p>{children}</p>;
 
 const Item = ({ slug, description, _selected, _onSelected }: ItemProps) => (
   <>
-    <p onClick={() => _onSelected?.(slug)}>!{slug}</p>
+    <button onClick={() => _onSelected?.(slug)}>!{slug}</button>
     {_selected && <p>{description}</p>}
   </>
 );
@@ -52,7 +52,7 @@ export interface ItemProps {
 export interface BoardListBlockProps {
   icon?: string;
   title?: string;
-  selectedBoardSlug?: string;
+  selectedBoardSlug?: string | null;
   onSelectBoard: (slug: string) => void;
   children?: React.ReactNode;
 }

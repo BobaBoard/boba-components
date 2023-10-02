@@ -72,7 +72,7 @@ const boards = [
 
 export const Simple: Story = {
   render: function Render() {
-    const [selectedBoard, setSelectedBoard] = React.useState("");
+    const [selectedBoard, setSelectedBoard] = React.useState<string | null>(null);
 
     return (
       <div style={{ width: "500px" }}>
@@ -82,12 +82,7 @@ export const Simple: Story = {
           selectedBoardSlug={selectedBoard}
           onSelectBoard={(slug) => {
             action("select-board")(slug);
-            if (slug === selectedBoard) {
-              setSelectedBoard("")
-            } else {
-              setSelectedBoard(slug);
-            }
-            
+            setSelectedBoard(slug === selectedBoard ? null : slug)
           }}
         >
           <BoardListBlock.Empty>
