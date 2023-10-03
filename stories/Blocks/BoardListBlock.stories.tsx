@@ -82,8 +82,9 @@ export const Simple: Story = {
           selectedBoardSlug={selectedBoard}
           onSelectBoard={(slug) => {
             action("select-board")(slug);
-            setSelectedBoard(slug === selectedBoard ? null : slug)
+            setSelectedBoard(slug === selectedBoard ? null : slug);
           }}
+          options={[]}
         >
           <BoardListBlock.Empty>
             <div>No boards here</div>
@@ -93,6 +94,7 @@ export const Simple: Story = {
               slug={board.slug}
               key={board.slug}
               description={board.description}
+              options={[]}
             />
           ))}
         </BoardListBlock>
@@ -108,9 +110,63 @@ export const Empty: Story = {
         onSelectBoard={() => {
           throw new Error("Function not implemented.");
         }}
+        options={[]}
       >
-        <BoardListBlock.Empty>There are no boards to display.</BoardListBlock.Empty>
+        <BoardListBlock.Empty>
+          There are no boards to display.
+        </BoardListBlock.Empty>
       </BoardListBlock>
     </div>
   ),
+};
+
+export const WithOptions: Story = {
+  render: function Render({ options }) {
+    const [selectedBoard, setSelectedBoard] = React.useState<string | null>(null);
+
+    return (
+      <BoardListBlock
+        icon=""
+        title="Boards with Options"
+        selectedBoardSlug={selectedBoard}
+        onSelectBoard={(slug) => {
+          action("select-board")(slug);
+          setSelectedBoard(slug === selectedBoard ? null : slug);
+        }}
+        options={options}
+      >
+        {boards.map((board) => (
+          <BoardListBlock.Item
+            slug={board.slug}
+            key={board.slug}
+            description={board.description}
+            options={options}
+          />
+        ))}
+      </BoardListBlock>
+    );
+  },
+};
+
+WithOptions.args = {
+  options: [
+    {
+      name: "Pin board",
+      link: {
+        onClick: action("noHrefClick"),
+      },
+    },
+    {
+      name: "Mute board",
+      link: {
+        onClick: action("noHrefClick"),
+      },
+    },
+    {
+      name: "Dismiss notifications",
+      link: {
+        onClick: action("noHrefClick"),
+      },
+    },
+  ],
 };
