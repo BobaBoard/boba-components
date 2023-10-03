@@ -1,10 +1,9 @@
-import DropdownMenu from "common/DropdownListMenu";
-import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import { LinkWithAction } from "types";
-import React from "react";
-import classnames from "classnames";
-import { extractCompounds } from "utils/compound-utils";
 import { faEllipsisV } from "@fortawesome/free-solid-svg-icons";
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import DropdownMenu from "common/DropdownListMenu";
+import React from "react";
+import { LinkWithAction } from "types";
+import { extractCompounds } from "utils/compound-utils";
 
 const Empty: React.FC<unknown> = ({ children }) => <p>{children}</p>;
 
@@ -21,17 +20,17 @@ const Item = ({
     </button>
     {options.length !== 0 && (
       <DropdownMenu options={options} zIndex={200} label="board list options">
-        <div className={classnames("board-filter-options")}>
+        <div className="board-list-options">
           <FontAwesomeIcon icon={faEllipsisV} />
         </div>
       </DropdownMenu>
     )}
     {_selected && <p className="item-details">{description}</p>}
     <style jsx>{`
-      .board-filter-options {
+      .board-list-options {
         padding: 0 1rem;
       }
-      .board-filter-options:hover {
+      .board-list-options:hover {
         cursor: pointer;
       }
     `}</style>
