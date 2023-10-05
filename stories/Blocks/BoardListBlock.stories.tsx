@@ -7,6 +7,8 @@ import anime from "stories/images/anime.png";
 import book from "stories/images/book.png";
 import crack from "stories/images/crack.png";
 import goreBackground from "stories/images/gore.png";
+import kinkmeme from "stories/images/kink-meme.png";
+import oncelerBoard from "stories/images/onceler-board.png";
 import villains from "stories/images/villains.png";
 
 const meta: Meta<typeof BoardListBlock> = {
@@ -16,6 +18,61 @@ const meta: Meta<typeof BoardListBlock> = {
 export default meta;
 
 type Story = StoryObj<typeof BoardListBlock>;
+
+const GENERAL_BOARDS = [
+  {
+    slug: "gore",
+    avatar: `/${goreBackground}`,
+    description: "Love me some bruised bois (and more).",
+    color: "#f96680",
+    link: { href: "#slug", onClick: action("#slug") },
+    updates: 10,
+  },
+  {
+    slug: "oncie-den",
+    avatar: `/${oncelerBoard}`,
+    description: "Party like it's 2012",
+    color: "#27caba",
+    backgroundColor: "#131518",
+    link: { href: "#slug", onClick: action("#slug") },
+  },
+  {
+    slug: "a-super-long-slug-because-we-need-to-test-for-overflow",
+    avatar: `/${book}`,
+    description: "Come enjoy all the fics!",
+    color: "#7724d2",
+    updates: 5,
+    backgroundColor: "#131518",
+    link: { href: "#slug", onClick: action("#slug") },
+  },
+  {
+    slug: "kink-memes",
+    avatar: `/${kinkmeme}`,
+    description: "No limits. No shame.",
+    color: "#000000",
+    link: { href: "#slug", onClick: action("#slug") },
+    updates: 10,
+  },
+  {
+    slug: "crack",
+    avatar: `/${crack}`,
+    description: "What's crackalackin",
+    color: "#f9e066",
+    updates: 3,
+    outdated: true,
+    backgroundColor: "#131518",
+    link: { href: "#slug", onClick: action("#slug") },
+  },
+  {
+    slug: "anime",
+    muted: true,
+    avatar: `/${anime}`,
+    description: "We put the weeb in dweeb.",
+    color: "#24d282",
+    backgroundColor: "#131518",
+    link: { href: "#slug", onClick: action("#slug") },
+  },
+];
 
 const boards = [
   {
@@ -72,10 +129,12 @@ const boards = [
 
 export const Simple: Story = {
   render: function Render() {
-    const [selectedBoard, setSelectedBoard] = React.useState<string | null>(null);
+    const [selectedBoard, setSelectedBoard] = React.useState<string | null>(
+      null
+    );
 
     return (
-      <div style={{ width: "500px" }}>
+      <div>
         <BoardListBlock
           icon=""
           title="Boards"
@@ -89,8 +148,11 @@ export const Simple: Story = {
           <BoardListBlock.Empty>
             <div>No boards here</div>
           </BoardListBlock.Empty>
-          {boards.map((board) => (
+          {GENERAL_BOARDS.map((board) => (
             <BoardListBlock.Item
+              avatar={board.avatar}
+              link={board.link}
+              color={board.color}
               slug={board.slug}
               key={board.slug}
               description={board.description}
@@ -122,28 +184,35 @@ export const Empty: Story = {
 
 export const WithOptions: Story = {
   render: function Render({ options }) {
-    const [selectedBoard, setSelectedBoard] = React.useState<string | null>(null);
+    const [selectedBoard, setSelectedBoard] = React.useState<string | null>(
+      null
+    );
 
     return (
-      <BoardListBlock
-        icon=""
-        title="Boards with Options"
-        selectedBoardSlug={selectedBoard}
-        onSelectBoard={(slug) => {
-          action("select-board")(slug);
-          setSelectedBoard(slug === selectedBoard ? null : slug);
-        }}
-        options={options}
-      >
-        {boards.map((board) => (
-          <BoardListBlock.Item
-            slug={board.slug}
-            key={board.slug}
-            description={board.description}
-            options={options}
-          />
-        ))}
-      </BoardListBlock>
+      <div>
+        <BoardListBlock
+          icon=""
+          title="Boards with Options"
+          selectedBoardSlug={selectedBoard}
+          onSelectBoard={(slug) => {
+            action("select-board")(slug);
+            setSelectedBoard(slug === selectedBoard ? null : slug);
+          }}
+          options={options}
+        >
+          {GENERAL_BOARDS.map((board) => (
+            <BoardListBlock.Item
+              slug={board.slug}
+              avatar={board.avatar}
+              link={board.link}
+              color={board.color}
+              key={board.slug}
+              description={board.description}
+              options={options}
+            />
+          ))}
+        </BoardListBlock>
+      </div>
     );
   },
 };
