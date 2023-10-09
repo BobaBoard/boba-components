@@ -1,10 +1,10 @@
+import { faEllipsisV } from "@fortawesome/free-solid-svg-icons";
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import BoardIcon from "board/BoardIcon";
 import DropdownMenu from "common/DropdownListMenu";
-import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import { LinkWithAction } from "types";
 import React from "react";
+import { LinkWithAction } from "types";
 import { extractCompounds } from "utils/compound-utils";
-import { faEllipsisV } from "@fortawesome/free-solid-svg-icons";
 
 const Empty: React.FC<unknown> = ({ children }) => <p>{children}</p>;
 
@@ -16,17 +16,23 @@ const Item = ({
   _selected,
   _onSelected,
   options,
+  updates,
+  muted,
+  outdated,
 }: ItemProps) => (
   <>
-    <div className="item-summary-container" style={{ border: "2px solid red" }}>
+    <div className="item-summary-container">
       <div className="rias-board-icon">
-        <BoardIcon avatar={avatar} color={color} large />
+        <BoardIcon
+          avatar={avatar}
+          color={color}
+          updates={updates}
+          muted={muted}
+          outdated={outdated}
+          large
+        />
       </div>
-      <button
-        onClick={() => _onSelected?.(slug)}
-        className="slug-container"
-        style={{ border: "3px solid green" }}
-      >
+      <button onClick={() => _onSelected?.(slug)} className="slug-container">
         <span className="slug">!{slug}</span>
       </button>
       {options.length !== 0 && (
@@ -49,11 +55,12 @@ const Item = ({
       * {
         box-sizing: border-box;
         text-align: center;
+        border: none;
       }
       :global(.insanity) {
-        background-color: red !important;
         min-width: 55px;
         min-height: 100%;
+        border-radius: 0 12px 12px 0;
       }
       .item-details {
         grid-column: -1 / 1;
@@ -68,6 +75,8 @@ const Item = ({
         justify-content: space-between;
         justify-self: stretch;
         align-self: center;
+        border-radius: 15px;
+        background-color: rgba(25, 28, 27, 0.291);
       }
       .rias-board-icon {
         flex: initial;
@@ -75,6 +84,7 @@ const Item = ({
 
       .slug-container {
         flex-grow: 1;
+        background-color: transparent;
       }
 
        {
@@ -126,10 +136,7 @@ const BoardListBlock: BoardListBlockCompound = (props: BoardListBlockProps) => {
       {items.length === 0 && empty}
 
       {items.length !== 0 && (
-        <div
-          className="list-container"
-          style={{ border: "2px solid chocolate" }}
-        >
+        <div className="list-container">
           {items.map((item) => {
             const ItemWithFunction = React.cloneElement(item, {
               ...item.props,
@@ -170,13 +177,16 @@ export interface EmptyProps {
 }
 export interface ItemProps {
   slug: string;
-  color: string;
+  color?: string;
   avatar: string;
   link?: LinkWithAction;
   description?: string;
   _onSelected?: (slug: string) => void;
   _selected?: boolean;
   options: { name: string; link: LinkWithAction }[];
+  muted?: boolean;
+  updates?: number | boolean;
+  outdated?: boolean;
 }
 
 export interface BoardListBlockProps {
