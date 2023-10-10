@@ -1,8 +1,11 @@
+import BoardPreview, { DisplayStyle } from "board/BoardPreview";
+
 import { faEllipsisV } from "@fortawesome/free-solid-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import BoardIcon from "board/BoardIcon";
 import DropdownMenu from "common/DropdownListMenu";
 import React from "react";
+import DefaultTheme from "theme/default";
 import { LinkWithAction } from "types";
 import { extractCompounds } from "utils/compound-utils";
 
@@ -47,9 +50,24 @@ const Item = ({
       )}
     </div>
     {_selected && (
-      <p className="item-details" style={{ border: "2px solid blueviolet" }}>
+      <div
+        className="item-details"
+        style={{
+          maxWidth: "100%",
+          display: "grid",
+          gridTemplateColumns: "1fr 2fr",
+        }}
+      >
+        <BoardPreview
+          slug={slug}
+          avatar={avatar}
+          description={description}
+          color={color}
+          muted={muted}
+          displayStyle={DisplayStyle.MINI}
+        />
         {description}
-      </p>
+      </div>
     )}
     <style jsx>{`
       * {
@@ -65,8 +83,8 @@ const Item = ({
       .item-details {
         grid-column: -1 / 1;
         border-radius: 12px;
-        background-color: #dddd;
-        height: 10rem;
+        background-color: ${DefaultTheme.BOARD_FILTER_BACKGROUND};
+        color: ${DefaultTheme.MENU_ITEM_ICON_COLOR};
         justify-self: stretch;
         align-self: stretch;
       }
@@ -76,7 +94,7 @@ const Item = ({
         justify-self: stretch;
         align-self: center;
         border-radius: 15px;
-        background-color: rgba(25, 28, 27, 0.291);
+        background-color: ${DefaultTheme.BOARD_MENU_ITEM_BACKGROUND};
       }
       .rias-board-icon {
         flex: initial;
@@ -85,6 +103,34 @@ const Item = ({
       .slug-container {
         flex-grow: 1;
         background-color: transparent;
+      }
+       {
+        /*       .slug-container {
+          max-width: calc(100% - 60px);
+          padding-left: 5px;
+          display: inline-block;
+          position: relative;
+          display: flex;
+          flex-grow: 1;
+        } */
+      }
+      .slug {
+        color: ${DefaultTheme.PINNED_BAR_TEXT_COLOR};
+        font-size: var(--font-size-large);
+        font-weight: 500;
+        overflow: hidden;
+        text-overflow: ellipsis;
+        white-space: nowrap;
+        flex-grow: 1;
+      }
+      .muted .slug {
+        text-decoration: line-through;
+      }
+      .has-updates .slug {
+        color: #fff;
+      }
+      .outdated .slug {
+        color: #c7c7c7;
       }
 
        {
@@ -151,7 +197,7 @@ const BoardListBlock: BoardListBlockCompound = (props: BoardListBlockProps) => {
               display: grid;
               grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
               gap: 16px;
-              background-color: #cccc;
+              background-color: ${DefaultTheme.BOARD_MENU_BACKGROUND};
               grid-auto-flow: dense;
               max-width: 1200px;
               margin: 0 auto;
@@ -180,7 +226,7 @@ export interface ItemProps {
   color?: string;
   avatar: string;
   link?: LinkWithAction;
-  description?: string;
+  description: string;
   _onSelected?: (slug: string) => void;
   _selected?: boolean;
   options: { name: string; link: LinkWithAction }[];

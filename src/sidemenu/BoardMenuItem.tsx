@@ -1,12 +1,12 @@
-import ActionLink from "buttons/ActionLink";
-import BoardIcon from "board/BoardIcon";
-import DefaultTheme from "theme/default";
-import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import { LinkWithAction } from "types";
-import React from "react";
-import classnames from "classnames";
-import css from "styled-jsx/css";
 import { faMapMarkerAlt } from "@fortawesome/free-solid-svg-icons";
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import BoardIcon from "board/BoardIcon";
+import ActionLink from "buttons/ActionLink";
+import classnames from "classnames";
+import React from "react";
+import css from "styled-jsx/css";
+import DefaultTheme from "theme/default";
+import { LinkWithAction } from "types";
 
 const { className: containerClassname, styles: containerStyles } = css.resolve`
   .board-menu-item {
@@ -74,7 +74,7 @@ const BoardMenuItem: React.FC<BoardMenuItemProps> = (props) => {
           flex-grow: 1;
         }
         .slug {
-          color: #969696;
+          color: ${DefaultTheme.PINNED_BAR_TEXT_COLOR};
           font-size: var(--font-size-large);
           font-weight: 500;
           overflow: hidden;
