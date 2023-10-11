@@ -97,9 +97,9 @@ const Item = ({
         color: ${DefaultTheme.MENU_ITEM_ICON_COLOR};
         justify-self: stretch;
         align-self: stretch;
-        max-width: "100%";
-        display: "grid";
-        grid-template-columns: "1fr 2fr";
+        max-width: 100%;
+        display: grid;
+        grid-template-columns: 1fr 2fr;
       }
       .item-summary-container {
         display: flex;
