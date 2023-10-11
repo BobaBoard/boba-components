@@ -1,4 +1,5 @@
 import type { Meta, StoryObj } from "@storybook/react";
+import { faAngleRight, faThList } from "@fortawesome/free-solid-svg-icons";
 
 import BoardListBlock from "blocks/BoardListBlock";
 import React from "react";
@@ -93,7 +94,7 @@ export const Simple: Story = {
     return (
       <div>
         <BoardListBlock
-          icon=""
+          icon={faAngleRight}
           title="Boards"
           selectedBoardSlug={selectedBoard}
           onSelectBoard={(slug) => {
@@ -129,6 +130,7 @@ export const Empty: Story = {
   render: () => (
     <div style={{ width: "500px" }}>
       <BoardListBlock
+        icon=""
         onSelectBoard={() => {
           throw new Error("Function not implemented.");
         }}
@@ -151,7 +153,7 @@ export const WithOptions: Story = {
     return (
       <div>
         <BoardListBlock
-          icon=""
+          icon={faThList}
           title="Boards with Options"
           selectedBoardSlug={selectedBoard}
           onSelectBoard={(slug) => {

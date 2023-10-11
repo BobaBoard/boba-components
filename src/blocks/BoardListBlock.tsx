@@ -1,11 +1,13 @@
 import BoardPreview, { DisplayStyle } from "board/BoardPreview";
+import DropdownMenu, { DropdownStyle } from "common/DropdownListMenu";
 
 import BoardIcon from "board/BoardIcon";
 import DefaultTheme from "theme/default";
-import DropdownMenu from "common/DropdownListMenu";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import { IconProp } from "@fortawesome/fontawesome-svg-core";
 import { LinkWithAction } from "types";
 import React from "react";
+import classnames from "classnames";
 import { extractCompounds } from "utils/compound-utils";
 import { faEllipsisV } from "@fortawesome/free-solid-svg-icons";
 
@@ -35,7 +37,15 @@ const Item = ({
           large
         />
       </div>
-      <button onClick={() => _onSelected?.(slug)} className="slug-container">
+      <button
+        onClick={() => _onSelected?.(slug)}
+        className={classnames("slug-container", {
+          "has-updates": !!updates,
+          muted: !!muted,
+          outdated: !!outdated,
+          "with-options": !!options.length,
+        })}
+      >
         <span className="slug">!{slug}</span>
       </button>
       {options.length !== 0 && (
@@ -44,20 +54,18 @@ const Item = ({
           zIndex={200}
           label="board list options"
           buttonClassName="insanity"
+          style={DropdownStyle.DARK}
         >
-          <FontAwesomeIcon icon={faEllipsisV} />
+          <FontAwesomeIcon
+            icon={faEllipsisV}
+            size="lg"
+            color={DefaultTheme.MENU_ITEM_ICON_COLOR}
+          />
         </DropdownMenu>
       )}
     </div>
     {_selected && (
-      <div
-        className="item-details"
-        style={{
-          maxWidth: "100%",
-          display: "grid",
-          gridTemplateColumns: "1fr 2fr",
-        }}
-      >
+      <div className="item-details">
         <BoardPreview
           slug={slug}
           avatar={avatar}
@@ -75,10 +83,12 @@ const Item = ({
         text-align: center;
         border: none;
       }
+      // TODO: see about switching to css.resolve
       :global(.insanity) {
-        min-width: 55px;
+        min-width: 45px;
         min-height: 100%;
         border-radius: 0 12px 12px 0;
+        background-color: ${DefaultTheme.MENU_ITEM_ICON_BACKGROUND_COLOR};
       }
       .item-details {
         grid-column: -1 / 1;
@@ -87,6 +97,9 @@ const Item = ({
         color: ${DefaultTheme.MENU_ITEM_ICON_COLOR};
         justify-self: stretch;
         align-self: stretch;
+        max-width: "100%";
+        display: "grid";
+        grid-template-columns: "1fr 2fr";
       }
       .item-summary-container {
         display: flex;
@@ -103,11 +116,14 @@ const Item = ({
         flex-grow: 1;
         background-color: transparent;
         max-width: calc(100% - 60px);
-        padding-left: 5px;
+        padding: 0 5px;
         display: flex;
         flex-grow: 1;
         justify-content: center;
         align-items: center;
+      }
+      .with-options {
+        max-width: calc(100% - 60px - 45px);
       }
       .slug {
         color: ${DefaultTheme.PINNED_BAR_TEXT_COLOR};
@@ -120,15 +136,13 @@ const Item = ({
       }
       .muted .slug {
         text-decoration: line-through;
+        color: #c7c7c7;
       }
       .has-updates .slug {
         color: #fff;
       }
       .outdated .slug {
         color: #c7c7c7;
-      }
-      .hidden {
-        display: none;
       }
     `}</style>
   </>
@@ -139,8 +153,19 @@ const BoardListBlock: BoardListBlockCompound = (props: BoardListBlockProps) => {
   const empty = extractCompounds(props.children, Empty);
 
   return (
-    <>
-      {props.title && <h2>{props.title}</h2>}
+    <section>
+      {props.title && (
+        <h2 className="title">
+          <span className="icon">
+            {typeof props.icon === "string" ? (
+              <img src={props.icon} alt="" />
+            ) : (
+              <FontAwesomeIcon icon={props.icon} />
+            )}
+          </span>
+          {props.title}
+        </h2>
+      )}
       {items.length === 0 && empty}
 
       {items.length !== 0 && (
@@ -154,21 +179,39 @@ const BoardListBlock: BoardListBlockCompound = (props: BoardListBlockProps) => {
             });
             return ItemWithFunction;
           })}
-          <style jsx>{`
-            .list-container {
-              display: grid;
-              grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
-              gap: 16px;
-              background-color: ${DefaultTheme.BOARD_MENU_BACKGROUND};
-              grid-auto-flow: dense;
-              max-width: 1200px;
-              margin: 0 auto;
-              gap: 1rem;
-            }
-          `}</style>
         </div>
       )}
-    </>
+      <style jsx>{`
+        * {
+          color: white;
+        }
+        section {
+          background-color: ${DefaultTheme.BOARD_MENU_BACKGROUND};
+          padding: 24px 20px;
+          border-radius: 15px;
+        }
+        .title {
+          color: #fff;
+          letter-spacing: 2px;
+          font-size: medium;
+          text-transform: uppercase;
+          margin-bottom: 2rem;
+        }
+        .title .icon {
+          margin-right: 2rem;
+        }
+        .list-container {
+          display: grid;
+          grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+          gap: 16px;
+          background-color: ${DefaultTheme.BOARD_MENU_BACKGROUND};
+          grid-auto-flow: dense;
+          max-width: 1200px;
+          margin: 0 auto;
+          gap: 1rem;
+        }
+      `}</style>
+    </section>
   );
 };
 
@@ -198,7 +241,7 @@ export interface ItemProps {
 }
 
 export interface BoardListBlockProps {
-  icon?: string;
+  icon: string | IconProp;
   title?: string;
   selectedBoardSlug?: string | null;
   onSelectBoard: (slug: string) => void;
