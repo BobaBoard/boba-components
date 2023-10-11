@@ -1,13 +1,13 @@
 import BoardPreview, { DisplayStyle } from "board/BoardPreview";
 
-import { faEllipsisV } from "@fortawesome/free-solid-svg-icons";
-import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import BoardIcon from "board/BoardIcon";
-import DropdownMenu from "common/DropdownListMenu";
-import React from "react";
 import DefaultTheme from "theme/default";
+import DropdownMenu from "common/DropdownListMenu";
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { LinkWithAction } from "types";
+import React from "react";
 import { extractCompounds } from "utils/compound-utils";
+import { faEllipsisV } from "@fortawesome/free-solid-svg-icons";
 
 const Empty: React.FC<unknown> = ({ children }) => <p>{children}</p>;
 
@@ -99,20 +99,15 @@ const Item = ({
       .rias-board-icon {
         flex: initial;
       }
-
       .slug-container {
         flex-grow: 1;
         background-color: transparent;
-      }
-       {
-        /*       .slug-container {
-          max-width: calc(100% - 60px);
-          padding-left: 5px;
-          display: inline-block;
-          position: relative;
-          display: flex;
-          flex-grow: 1;
-        } */
+        max-width: calc(100% - 60px);
+        padding-left: 5px;
+        display: flex;
+        flex-grow: 1;
+        justify-content: center;
+        align-items: center;
       }
       .slug {
         color: ${DefaultTheme.PINNED_BAR_TEXT_COLOR};
@@ -132,41 +127,8 @@ const Item = ({
       .outdated .slug {
         color: #c7c7c7;
       }
-
-       {
-        /*       
-      .item-container {
-        display: flex;
-        justify-content: stretch;
-        align-items: stretch;
-        border-radius: 12px;
-        background-color: rgba(0, 255, 255, 0.366);
-      }
-      .board-list-options {
-        padding: 0 1rem;
-      }
-      .board-list-options:hover {
-        cursor: pointer;
-      }
-      .board-icon {
-      }
-      .options-button {
-        flex: "initial";
-      }
-      .slug-container {
-        max-width: calc(100% - 40px);
-        position: relative;
-        flex-grow: 1;
-        display: flex;
-        justify-content: stretch;
-        align-items: stretch;
-      }
-      .slug {
-        overflow: hidden;
-        text-overflow: ellipsis;
-        white-space: nowrap;
-        flex-grow: 1;
-      } */
+      .hidden {
+        display: none;
       }
     `}</style>
   </>
