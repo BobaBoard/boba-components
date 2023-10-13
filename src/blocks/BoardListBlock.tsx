@@ -1,15 +1,117 @@
 import BoardPreview, { DisplayStyle } from "board/BoardPreview";
 import DropdownMenu, { DropdownStyle } from "common/DropdownListMenu";
+import {
+  faClock,
+  faEllipsisV,
+  faHome,
+} from "@fortawesome/free-solid-svg-icons";
 
 import BoardIcon from "board/BoardIcon";
+import CircleButton from "buttons/CircleButton";
 import DefaultTheme from "theme/default";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import HighlightedText from "common/HighlightedText";
 import { IconProp } from "@fortawesome/fontawesome-svg-core";
 import { LinkWithAction } from "types";
 import React from "react";
 import classnames from "classnames";
 import { extractCompounds } from "utils/compound-utils";
-import { faEllipsisV } from "@fortawesome/free-solid-svg-icons";
+import fitty from "fitty";
+import { hex2rgba } from "utils";
+
+const Slug: React.FC<{
+  name: string;
+  visible: boolean;
+  color: string;
+  displayStyle: DisplayStyle;
+}> = ({ name, visible, color, displayStyle }) => {
+  const ref = React.useRef<HTMLSpanElement>(null);
+
+  React.useEffect(() => {
+    if (!ref.current) {
+      return;
+    }
+    fitty(ref.current, {
+      maxSize: 70,
+    });
+  }, [ref]);
+
+  return (
+    <div
+      className={classnames("slug-container", {
+        hidden: !visible,
+        compact: displayStyle === DisplayStyle.COMPACT,
+        regular: displayStyle === DisplayStyle.REGULAR,
+        mini: displayStyle === DisplayStyle.MINI,
+      })}
+    >
+      {displayStyle === DisplayStyle.REGULAR ? (
+        <HighlightedText highlightColor={color}>
+          <span className="slug">!{name}</span>
+        </HighlightedText>
+      ) : (
+        <span ref={ref}>!{name}</span>
+      )}
+      <style jsx>{`
+        .slug-container {
+          height: 100%;
+          color: white;
+          font-size: 50px;
+          box-sizing: border-box;
+          text-align: center;
+          cursor: pointer;
+          margin: 0 auto;
+        }
+        .slug {
+          max-width: 100%;
+          text-overflow: ellipsis;
+          display: inline-block;
+          overflow: hidden;
+          box-sizing: border-box;
+        }
+        .slug-container.compact,
+        .slug-container.mini {
+          top: 0;
+          width: 100%;
+          position: absolute;
+          border: 3px ${color} solid;
+          background-color: ${hex2rgba(color, 0.2)};
+          border-radius: 15px;
+          pointer-events: none;
+        }
+        .slug-container.hidden {
+          display: none;
+        }
+        .slug-container.regular {
+          margin-bottom: -15px;
+          font-size: 30px;
+          max-width: 90%;
+        }
+        .slug-container.mini span {
+          display: none !important;
+        }
+        .slug-container.regular span:hover {
+          filter: invert(100%);
+        }
+        .slug-container.regular span {
+          font-weight: bold;
+          border-radius: 15px;
+          padding: 5px 15px;
+        }
+        .slug-container.compact span {
+          top: 50%;
+          left: 50%;
+          transform: translate(-50%, -50%);
+          position: absolute;
+          text-overflow: ellipsis;
+          width: 100%;
+          overflow: hidden;
+          padding: 5px;
+        }
+      `}</style>
+    </div>
+  );
+};
 
 const Empty: React.FC<unknown> = ({ children }) => <p>{children}</p>;
 
@@ -74,7 +176,24 @@ const Item = ({
           muted={muted}
           displayStyle={DisplayStyle.MINI}
         />
-        {description}
+        <div
+          style={{
+            display: "flex",
+            flexDirection: "column",
+            justifyContent: "space-between",
+          }}
+        >
+          <HighlightedText highlightColor={color}>
+            <span className="slug">!{slug}</span>
+          </HighlightedText>
+          <div className="description">{description}</div>
+          <div className="footer">
+            <div className="controls">
+              <CircleButton icon={{ icon: faHome }} />
+              <CircleButton icon={{ icon: faClock }} />
+            </div>
+          </div>
+        </div>
       </div>
     )}
     <style jsx>{`
@@ -83,6 +202,25 @@ const Item = ({
         text-align: center;
         border: none;
       }
+      .image {
+        grid-area: image;
+      }
+      .footer {
+        grid-area: footer;
+      }
+      .description {
+        grid-area: description;
+      }
+
+      .slugsy {
+        grid-area: slugsy;
+        height: min-content;
+      }
+
+      .slugsy * {
+        height: min-content;
+      }
+
       // TODO: see about switching to css.resolve
       :global(.insanity) {
         min-width: 45px;
@@ -100,6 +238,9 @@ const Item = ({
         max-width: 100%;
         display: grid;
         grid-template-columns: 1fr 2fr;
+        grid-template-rows: 1fr;
+        padding: 20px 10px;
+        grid-template-areas: "image slugsy" "image description" "image footer";
       }
       .item-summary-container {
         display: flex;
@@ -228,7 +369,7 @@ export interface EmptyProps {
 }
 export interface ItemProps {
   slug: string;
-  color?: string;
+  color: string;
   avatar: string;
   link?: LinkWithAction;
   description: string;
