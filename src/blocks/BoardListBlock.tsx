@@ -1,117 +1,24 @@
+import {
+  faEllipsisV,
+  faThumbTack,
+  faVolumeHigh,
+  faVolumeMute,
+} from "@fortawesome/free-solid-svg-icons";
 import BoardPreview, { DisplayStyle } from "board/BoardPreview";
 import DropdownMenu, { DropdownStyle } from "common/DropdownListMenu";
-import {
-  faClock,
-  faEllipsisV,
-  faHome,
-} from "@fortawesome/free-solid-svg-icons";
 
-import BoardIcon from "board/BoardIcon";
-import CircleButton from "buttons/CircleButton";
-import DefaultTheme from "theme/default";
-import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import HighlightedText from "common/HighlightedText";
 import { IconProp } from "@fortawesome/fontawesome-svg-core";
-import { LinkWithAction } from "types";
-import React from "react";
+import { faArrowAltCircleRight } from "@fortawesome/free-regular-svg-icons";
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import BoardIcon from "board/BoardIcon";
+import ActionLink from "buttons/ActionLink";
+import CircleButton from "buttons/CircleButton";
 import classnames from "classnames";
+import HighlightedText from "common/HighlightedText";
+import React from "react";
+import DefaultTheme from "theme/default";
+import { LinkWithAction } from "types";
 import { extractCompounds } from "utils/compound-utils";
-import fitty from "fitty";
-import { hex2rgba } from "utils";
-
-const Slug: React.FC<{
-  name: string;
-  visible: boolean;
-  color: string;
-  displayStyle: DisplayStyle;
-}> = ({ name, visible, color, displayStyle }) => {
-  const ref = React.useRef<HTMLSpanElement>(null);
-
-  React.useEffect(() => {
-    if (!ref.current) {
-      return;
-    }
-    fitty(ref.current, {
-      maxSize: 70,
-    });
-  }, [ref]);
-
-  return (
-    <div
-      className={classnames("slug-container", {
-        hidden: !visible,
-        compact: displayStyle === DisplayStyle.COMPACT,
-        regular: displayStyle === DisplayStyle.REGULAR,
-        mini: displayStyle === DisplayStyle.MINI,
-      })}
-    >
-      {displayStyle === DisplayStyle.REGULAR ? (
-        <HighlightedText highlightColor={color}>
-          <span className="slug">!{name}</span>
-        </HighlightedText>
-      ) : (
-        <span ref={ref}>!{name}</span>
-      )}
-      <style jsx>{`
-        .slug-container {
-          height: 100%;
-          color: white;
-          font-size: 50px;
-          box-sizing: border-box;
-          text-align: center;
-          cursor: pointer;
-          margin: 0 auto;
-        }
-        .slug {
-          max-width: 100%;
-          text-overflow: ellipsis;
-          display: inline-block;
-          overflow: hidden;
-          box-sizing: border-box;
-        }
-        .slug-container.compact,
-        .slug-container.mini {
-          top: 0;
-          width: 100%;
-          position: absolute;
-          border: 3px ${color} solid;
-          background-color: ${hex2rgba(color, 0.2)};
-          border-radius: 15px;
-          pointer-events: none;
-        }
-        .slug-container.hidden {
-          display: none;
-        }
-        .slug-container.regular {
-          margin-bottom: -15px;
-          font-size: 30px;
-          max-width: 90%;
-        }
-        .slug-container.mini span {
-          display: none !important;
-        }
-        .slug-container.regular span:hover {
-          filter: invert(100%);
-        }
-        .slug-container.regular span {
-          font-weight: bold;
-          border-radius: 15px;
-          padding: 5px 15px;
-        }
-        .slug-container.compact span {
-          top: 50%;
-          left: 50%;
-          transform: translate(-50%, -50%);
-          position: absolute;
-          text-overflow: ellipsis;
-          width: 100%;
-          overflow: hidden;
-          padding: 5px;
-        }
-      `}</style>
-    </div>
-  );
-};
 
 const Empty: React.FC<unknown> = ({ children }) => <p>{children}</p>;
 
@@ -120,6 +27,7 @@ const Item = ({
   avatar,
   color,
   description,
+  link,
   _selected,
   _onSelected,
   options,
@@ -129,7 +37,7 @@ const Item = ({
 }: ItemProps) => (
   <>
     <div className="item-summary-container">
-      <div className="rias-board-icon">
+      <ActionLink link={link}>
         <BoardIcon
           avatar={avatar}
           color={color}
@@ -138,7 +46,7 @@ const Item = ({
           outdated={outdated}
           large
         />
-      </div>
+      </ActionLink>
       <button
         onClick={() => _onSelected?.(slug)}
         className={classnames("slug-container", {
@@ -168,30 +76,48 @@ const Item = ({
     </div>
     {_selected && (
       <div className="item-details">
-        <BoardPreview
-          slug={slug}
-          avatar={avatar}
-          description={description}
-          color={color}
-          muted={muted}
-          displayStyle={DisplayStyle.MINI}
-        />
-        <div
-          style={{
-            display: "flex",
-            flexDirection: "column",
-            justifyContent: "space-between",
-          }}
-        >
-          <HighlightedText highlightColor={color}>
-            <span className="slug">!{slug}</span>
-          </HighlightedText>
-          <div className="description">{description}</div>
+        <div className="img">
+          <BoardPreview
+            slug={slug}
+            avatar={avatar}
+            description={description}
+            color={color}
+            muted={muted}
+            displayStyle={DisplayStyle.MINI}
+          />
+        </div>
+        <div className="rest">
+          <div className="sluggy">
+            <HighlightedText highlightColor={color}>
+              <span className="big-slug">!{slug}</span>
+            </HighlightedText>
+          </div>
+
+          <div className="desc">{description}</div>
           <div className="footer">
-            <div className="controls">
-              <CircleButton icon={{ icon: faHome }} />
-              <CircleButton icon={{ icon: faClock }} />
+            <div className="toggles">
+              <CircleButton
+                icon={{ icon: faThumbTack }}
+                defaultBorderColor={color}
+                className="pin"
+              />
+              <CircleButton
+                icon={{ icon: muted ? faVolumeMute : faVolumeHigh }}
+                defaultBorderColor={color}
+                className="mute"
+              />
             </div>
+
+            <span className="link">
+              <ActionLink link={{ href: "" }}>
+                Go to Board{" "}
+                <FontAwesomeIcon
+                  icon={faArrowAltCircleRight}
+                  size="lg"
+                  color={DefaultTheme.MENU_ITEM_ICON_COLOR}
+                />{" "}
+              </ActionLink>
+            </span>
           </div>
         </div>
       </div>
@@ -202,25 +128,6 @@ const Item = ({
         text-align: center;
         border: none;
       }
-      .image {
-        grid-area: image;
-      }
-      .footer {
-        grid-area: footer;
-      }
-      .description {
-        grid-area: description;
-      }
-
-      .slugsy {
-        grid-area: slugsy;
-        height: min-content;
-      }
-
-      .slugsy * {
-        height: min-content;
-      }
-
       // TODO: see about switching to css.resolve
       :global(.insanity) {
         min-width: 45px;
@@ -236,11 +143,47 @@ const Item = ({
         justify-self: stretch;
         align-self: stretch;
         max-width: 100%;
+        padding: 15px;
         display: grid;
-        grid-template-columns: 1fr 2fr;
-        grid-template-rows: 1fr;
-        padding: 20px 10px;
-        grid-template-areas: "image slugsy" "image description" "image footer";
+        grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+        gap: 20px;
+      }
+      .big-slug {
+        color: ${DefaultTheme.PINNED_BAR_TEXT_COLOR};
+        font-size: var(--font-size-large);
+        font-weight: 500;
+        overflow: hidden;
+        text-overflow: ellipsis;
+      }
+      .pin {
+        width: 55px;
+        max-width: min-content;
+      }
+      .mute {
+        max-width: min-content;
+        width: 55px;
+      }
+      .toggles {
+        display: flex;
+        justify-content: center;
+        gap: 1rem;
+      }
+      .desc {
+        padding: 1rem 1rem 0 1rem;
+      }
+      .footer {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+      }
+      .rest {
+        display: flex;
+        flex-direction: column;
+        justify-content: space-between;
+        row-gap: 1rem;
+      }
+      .rest > * {
+        padding: 1rem 1rem 0 1rem;
       }
       .item-summary-container {
         display: flex;
@@ -249,9 +192,6 @@ const Item = ({
         align-self: center;
         border-radius: 15px;
         background-color: ${DefaultTheme.BOARD_MENU_ITEM_BACKGROUND};
-      }
-      .rias-board-icon {
-        flex: initial;
       }
       .slug-container {
         flex-grow: 1;
@@ -343,7 +283,7 @@ const BoardListBlock: BoardListBlockCompound = (props: BoardListBlockProps) => {
         }
         .list-container {
           display: grid;
-          grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+          grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
           gap: 16px;
           background-color: ${DefaultTheme.BOARD_MENU_BACKGROUND};
           grid-auto-flow: dense;
