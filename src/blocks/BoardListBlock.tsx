@@ -34,6 +34,8 @@ const Item = ({
   updates,
   muted,
   outdated,
+  _onPinned,
+  _onMuted,
 }: ItemProps) => (
   <>
     <div className="item-summary-container">
@@ -100,16 +102,18 @@ const Item = ({
                 icon={{ icon: faThumbTack }}
                 defaultBorderColor={color}
                 className="pin"
+                link={{ onClick: _onPinned }}
               />
               <CircleButton
                 icon={{ icon: muted ? faVolumeMute : faVolumeHigh }}
                 defaultBorderColor={color}
                 className="mute"
+                link={{ onClick: _onMuted }}
               />
             </div>
 
             <span className="link">
-              <ActionLink link={{ href: "" }}>
+              <ActionLink link={link}>
                 Go to Board{" "}
                 <FontAwesomeIcon
                   icon={faArrowAltCircleRight}
@@ -252,13 +256,15 @@ const BoardListBlock: BoardListBlockCompound = (props: BoardListBlockProps) => {
       {items.length !== 0 && (
         <div className="list-container">
           {items.map((item) => {
-            const ItemWithFunction = React.cloneElement(item, {
+            const ItemWithMethods = React.cloneElement(item, {
               ...item.props,
               _selected: item.props.slug === props.selectedBoardSlug,
               _onSelected: () => props.onSelectBoard(item.props.slug),
               options: props.options,
+              _onPinned: () => props.onPinBoard(item.props.slug),
+              _onMuted: () => props.onMuteBoard(item.props.slug)
             });
-            return ItemWithFunction;
+            return ItemWithMethods;
           })}
         </div>
       )}
@@ -319,6 +325,9 @@ export interface ItemProps {
   muted?: boolean;
   updates?: number | boolean;
   outdated?: boolean;
+  _onLinkedClicked?: () => void;
+  _onPinned?: () => void;
+  _onMuted?: () => void;
 }
 
 export interface BoardListBlockProps {
@@ -326,6 +335,8 @@ export interface BoardListBlockProps {
   title?: string;
   selectedBoardSlug?: string | null;
   onSelectBoard: (slug: string) => void;
+  onPinBoard: (slug: string) => void;
+  onMuteBoard: (slug: string) => void;
   children?: React.ReactNode;
   options: { name: string; link: LinkWithAction }[];
 }

@@ -1,9 +1,9 @@
-import type { Meta, StoryObj } from "@storybook/react";
 import { faAngleRight, faThList } from "@fortawesome/free-solid-svg-icons";
+import type { Meta, StoryObj } from "@storybook/react";
 
+import { action } from "@storybook/addon-actions";
 import BoardListBlock from "blocks/BoardListBlock";
 import React from "react";
-import { action } from "@storybook/addon-actions";
 import anime from "stories/images/anime.png";
 import book from "stories/images/book.png";
 import crack from "stories/images/crack.png";
@@ -102,6 +102,12 @@ export const Simple: Story = {
             setSelectedBoard(slug === selectedBoard ? null : slug);
           }}
           options={[]}
+          onPinBoard={function (slug: string): void {
+            throw new Error("Function not implemented.");
+          }}
+          onMuteBoard={function (slug: string): void {
+            throw new Error("Function not implemented.");
+          }}
         >
           <BoardListBlock.Empty>
             <div>No boards here</div>
@@ -135,6 +141,12 @@ export const Empty: Story = {
           throw new Error("Function not implemented.");
         }}
         options={[]}
+        onPinBoard={function (slug: string): void {
+          throw new Error("Function not implemented.");
+        }}
+        onMuteBoard={function (slug: string): void {
+          throw new Error("Function not implemented.");
+        }}
       >
         <BoardListBlock.Empty>
           There are no boards to display.
@@ -161,6 +173,12 @@ export const WithOptions: Story = {
             setSelectedBoard(slug === selectedBoard ? null : slug);
           }}
           options={options}
+          onPinBoard={function (slug: string): void {
+            throw new Error("Function not implemented.");
+          }}
+          onMuteBoard={function (slug: string): void {
+            throw new Error("Function not implemented.");
+          }}
         >
           {BOARDS.map((board) => (
             <BoardListBlock.Item
