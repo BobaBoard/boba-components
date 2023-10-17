@@ -1,24 +1,24 @@
+import BoardPreview, { DisplayStyle } from "board/BoardPreview";
+import DropdownMenu, { DropdownStyle } from "common/DropdownListMenu";
 import {
   faEllipsisV,
   faThumbTack,
   faVolumeHigh,
   faVolumeMute,
 } from "@fortawesome/free-solid-svg-icons";
-import BoardPreview, { DisplayStyle } from "board/BoardPreview";
-import DropdownMenu, { DropdownStyle } from "common/DropdownListMenu";
 
-import { IconProp } from "@fortawesome/fontawesome-svg-core";
-import { faArrowAltCircleRight } from "@fortawesome/free-regular-svg-icons";
-import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import BoardIcon from "board/BoardIcon";
 import ActionLink from "buttons/ActionLink";
+import BoardIcon from "board/BoardIcon";
 import CircleButton from "buttons/CircleButton";
-import classnames from "classnames";
-import HighlightedText from "common/HighlightedText";
-import React from "react";
 import DefaultTheme from "theme/default";
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import HighlightedText from "common/HighlightedText";
+import { IconProp } from "@fortawesome/fontawesome-svg-core";
 import { LinkWithAction } from "types";
+import React from "react";
+import classnames from "classnames";
 import { extractCompounds } from "utils/compound-utils";
+import { faArrowAltCircleRight } from "@fortawesome/free-regular-svg-icons";
 
 const Empty: React.FC<unknown> = ({ children }) => <p>{children}</p>;
 
@@ -38,7 +38,7 @@ const Item = ({
   _onMuted,
 }: ItemProps) => (
   <>
-    <div className="item-summary-container">
+    <div className="item-summary">
       <ActionLink link={link}>
         <BoardIcon
           avatar={avatar}
@@ -78,41 +78,33 @@ const Item = ({
     </div>
     {_selected && (
       <div className="item-details">
-        <div className="img">
-          <BoardPreview
-            slug={slug}
-            avatar={avatar}
-            description={description}
-            color={color}
-            muted={muted}
-            displayStyle={DisplayStyle.MINI}
-          />
-        </div>
-        <div className="rest">
-          <div className="sluggy">
-            <HighlightedText highlightColor={color}>
-              <span className="big-slug">!{slug}</span>
-            </HighlightedText>
-          </div>
+        <BoardPreview
+          slug={slug}
+          avatar={avatar}
+          description={description}
+          color={color}
+          muted={muted}
+          displayStyle={DisplayStyle.MINI}
+        />
+        <div className="board-info">
+          <HighlightedText highlightColor={color}>
+            <span className="big-slug">!{slug}</span>
+          </HighlightedText>
 
-          <div className="desc">{description}</div>
-          <div className="footer">
-            <div className="toggles">
+          {description}
+          <div className="board-info-footer">
+            <div className="toggle-buttons">
               <CircleButton
                 icon={{ icon: faThumbTack }}
                 defaultBorderColor={color}
-                className="pin"
                 link={{ onClick: _onPinned }}
               />
               <CircleButton
                 icon={{ icon: muted ? faVolumeMute : faVolumeHigh }}
                 defaultBorderColor={color}
-                className="mute"
                 link={{ onClick: _onMuted }}
               />
             </div>
-
-            <span className="link">
               <ActionLink link={link}>
                 Go to Board{" "}
                 <FontAwesomeIcon
@@ -121,7 +113,7 @@ const Item = ({
                   color={DefaultTheme.MENU_ITEM_ICON_COLOR}
                 />{" "}
               </ActionLink>
-            </span>
+          
           </div>
         </div>
       </div>
@@ -152,44 +144,24 @@ const Item = ({
         grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
         gap: 20px;
       }
-      .big-slug {
-        color: ${DefaultTheme.PINNED_BAR_TEXT_COLOR};
-        font-size: var(--font-size-large);
-        font-weight: 500;
-        overflow: hidden;
-        text-overflow: ellipsis;
-      }
-      .pin {
-        width: 55px;
-        max-width: min-content;
-      }
-      .mute {
-        max-width: min-content;
-        width: 55px;
-      }
-      .toggles {
+      .toggle-buttons {
         display: flex;
         justify-content: center;
         gap: 1rem;
       }
-      .desc {
-        padding: 1rem 1rem 0 1rem;
+      .board-info {
+        display: flex;
+        flex-direction: column;
+        justify-content: space-between;
+        gap: 1rem;
+        padding: 1rem;
       }
-      .footer {
+      .board-info-footer {
         display: flex;
         justify-content: space-between;
         align-items: center;
       }
-      .rest {
-        display: flex;
-        flex-direction: column;
-        justify-content: space-between;
-        row-gap: 1rem;
-      }
-      .rest > * {
-        padding: 1rem 1rem 0 1rem;
-      }
-      .item-summary-container {
+      .item-summary {
         display: flex;
         justify-content: space-between;
         justify-self: stretch;
@@ -206,11 +178,13 @@ const Item = ({
         flex-grow: 1;
         justify-content: center;
         align-items: center;
+        cursor: pointer;
       }
       .with-options {
         max-width: calc(100% - 60px - 45px);
       }
-      .slug {
+      .slug,
+      .big-slug {
         color: ${DefaultTheme.PINNED_BAR_TEXT_COLOR};
         font-size: var(--font-size-large);
         font-weight: 500;
@@ -219,12 +193,15 @@ const Item = ({
         white-space: nowrap;
         flex-grow: 1;
       }
+      .big-slug {
+        white-space: unset;
+      }
       .muted .slug {
         text-decoration: line-through;
         color: #c7c7c7;
       }
       .has-updates .slug {
-        color: #fff;
+        color: ${DefaultTheme.PINNED_BAR_TEXT_COLOR};
       }
       .outdated .slug {
         color: #c7c7c7;
@@ -262,7 +239,7 @@ const BoardListBlock: BoardListBlockCompound = (props: BoardListBlockProps) => {
               _onSelected: () => props.onSelectBoard(item.props.slug),
               options: props.options,
               _onPinned: () => props.onPinBoard(item.props.slug),
-              _onMuted: () => props.onMuteBoard(item.props.slug)
+              _onMuted: () => props.onMuteBoard(item.props.slug),
             });
             return ItemWithMethods;
           })}
@@ -270,7 +247,7 @@ const BoardListBlock: BoardListBlockCompound = (props: BoardListBlockProps) => {
       )}
       <style jsx>{`
         * {
-          color: white;
+          color: ${DefaultTheme.PINNED_BAR_TEXT_COLOR};
         }
         section {
           background-color: ${DefaultTheme.BOARD_MENU_BACKGROUND};
@@ -278,7 +255,7 @@ const BoardListBlock: BoardListBlockCompound = (props: BoardListBlockProps) => {
           border-radius: 15px;
         }
         .title {
-          color: #fff;
+          color: ${DefaultTheme.PINNED_BAR_TEXT_COLOR};
           letter-spacing: 2px;
           font-size: medium;
           text-transform: uppercase;
