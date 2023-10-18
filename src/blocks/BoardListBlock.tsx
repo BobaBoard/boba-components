@@ -311,7 +311,7 @@ export interface ItemProps {
   pinned?: boolean;
   updates?: boolean;
   outdated?: boolean;
-  _onLinkedClicked?: () => void;
+  // TODO: remove private props from public types
   _onPinned?: () => void;
   _onMuted?: () => void;
 }
