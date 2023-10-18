@@ -1,24 +1,23 @@
-import BoardPreview, { DisplayStyle } from "board/BoardPreview";
-import DropdownMenu, { DropdownStyle } from "common/DropdownListMenu";
 import {
   faEllipsisV,
   faThumbTack,
   faVolumeHigh,
-  faVolumeMute,
+  faVolumeXmark,
 } from "@fortawesome/free-solid-svg-icons";
+import BoardPreview, { DisplayStyle } from "board/BoardPreview";
+import DropdownMenu, { DropdownStyle } from "common/DropdownListMenu";
+import Icon, { IconProps } from "common/Icon";
 
-import ActionLink from "buttons/ActionLink";
-import BoardIcon from "board/BoardIcon";
-import CircleButton from "buttons/CircleButton";
-import DefaultTheme from "theme/default";
-import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import HighlightedText from "common/HighlightedText";
-import { IconProp } from "@fortawesome/fontawesome-svg-core";
-import { LinkWithAction } from "types";
-import React from "react";
-import classnames from "classnames";
-import { extractCompounds } from "utils/compound-utils";
 import { faArrowAltCircleRight } from "@fortawesome/free-regular-svg-icons";
+import BoardIcon from "board/BoardIcon";
+import ActionLink from "buttons/ActionLink";
+import CircleButton from "buttons/CircleButton";
+import classnames from "classnames";
+import HighlightedText from "common/HighlightedText";
+import React from "react";
+import DefaultTheme from "theme/default";
+import { LinkWithAction } from "types";
+import { extractCompounds } from "utils/compound-utils";
 
 const Empty: React.FC<unknown> = ({ children }) => <p>{children}</p>;
 
@@ -33,6 +32,7 @@ const Item = ({
   options,
   updates,
   muted,
+  pinned,
   outdated,
   _onPinned,
   _onMuted,
@@ -65,14 +65,10 @@ const Item = ({
           options={options}
           zIndex={200}
           label="board list options"
-          buttonClassName="insanity"
+          buttonClassName="options-button"
           style={DropdownStyle.DARK}
         >
-          <FontAwesomeIcon
-            icon={faEllipsisV}
-            size="lg"
-            color={DefaultTheme.MENU_ITEM_ICON_COLOR}
-          />
+          <Icon icon={faEllipsisV} color={DefaultTheme.MENU_ITEM_ICON_COLOR} />
         </DropdownMenu>
       )}
     </div>
@@ -90,30 +86,35 @@ const Item = ({
           <HighlightedText highlightColor={color}>
             <span className="big-slug">!{slug}</span>
           </HighlightedText>
-
           {description}
           <div className="board-info-footer">
             <div className="toggle-buttons">
               <CircleButton
-                icon={{ icon: faThumbTack }}
                 defaultBorderColor={color}
+                icon={{
+                  icon: faThumbTack,
+                  color: pinned ? "white" : "#939393",
+                }}
                 link={{ onClick: _onPinned }}
               />
               <CircleButton
-                icon={{ icon: muted ? faVolumeMute : faVolumeHigh }}
                 defaultBorderColor={color}
+                icon={{
+                  icon: muted ? faVolumeXmark : faVolumeHigh,
+                  color: muted ? "red" : "#939393",
+                }}
                 link={{ onClick: _onMuted }}
               />
             </div>
-              <ActionLink link={link}>
-                Go to Board{" "}
-                <FontAwesomeIcon
-                  icon={faArrowAltCircleRight}
-                  size="lg"
-                  color={DefaultTheme.MENU_ITEM_ICON_COLOR}
-                />{" "}
-              </ActionLink>
-          
+
+            <ActionLink link={link} className="board-link">
+              Go to Board
+              <Icon
+                icon={faArrowAltCircleRight}
+                color={DefaultTheme.MENU_ITEM_ICON_COLOR}
+                className="board-link-icon"
+              />
+            </ActionLink>
           </div>
         </div>
       </div>
@@ -125,11 +126,21 @@ const Item = ({
         border: none;
       }
       // TODO: see about switching to css.resolve
-      :global(.insanity) {
+      .item-details :global(.board-link-icon) {
+        margin: 0 0 0 1rem;
+      }
+      .item-details :global(.board-link:hover),
+      .item-details :global(.board-link:hover) :global(svg) {
+        color: white;
+      }
+      .item-summary :global(.options-button) {
         min-width: 45px;
         min-height: 100%;
         border-radius: 0 12px 12px 0;
         background-color: ${DefaultTheme.MENU_ITEM_ICON_BACKGROUND_COLOR};
+      }
+      .item-summary :global(.options-button) :global(svg) {
+        height: 18px;
       }
       .item-details {
         grid-column: -1 / 1;
@@ -139,10 +150,10 @@ const Item = ({
         justify-self: stretch;
         align-self: stretch;
         max-width: 100%;
-        padding: 15px;
         display: grid;
         grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
-        gap: 20px;
+        padding: 2rem 1rem;
+        gap: 2rem;
       }
       .toggle-buttons {
         display: flex;
@@ -153,13 +164,14 @@ const Item = ({
         display: flex;
         flex-direction: column;
         justify-content: space-between;
-        gap: 1rem;
-        padding: 1rem;
+        gap: 2.5rem;
+        padding: 1rem 0;
       }
       .board-info-footer {
         display: flex;
         justify-content: space-between;
         align-items: center;
+        padding: 0.5rem 1rem;
       }
       .item-summary {
         display: flex;
@@ -219,11 +231,7 @@ const BoardListBlock: BoardListBlockCompound = (props: BoardListBlockProps) => {
       {props.title && (
         <h2 className="title">
           <span className="icon">
-            {typeof props.icon === "string" ? (
-              <img src={props.icon} alt="" />
-            ) : (
-              <FontAwesomeIcon icon={props.icon} />
-            )}
+            <Icon icon={props.icon} />
           </span>
           {props.title}
         </h2>
@@ -300,7 +308,8 @@ export interface ItemProps {
   _selected?: boolean;
   options: { name: string; link: LinkWithAction }[];
   muted?: boolean;
-  updates?: number | boolean;
+  pinned?: boolean;
+  updates?: boolean;
   outdated?: boolean;
   _onLinkedClicked?: () => void;
   _onPinned?: () => void;
@@ -308,8 +317,8 @@ export interface ItemProps {
 }
 
 export interface BoardListBlockProps {
-  icon: string | IconProp;
-  title?: string;
+  icon: IconProps["icon"];
+  title: string;
   selectedBoardSlug?: string | null;
   onSelectBoard: (slug: string) => void;
   onPinBoard: (slug: string) => void;

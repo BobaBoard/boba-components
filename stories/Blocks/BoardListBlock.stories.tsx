@@ -27,24 +27,25 @@ const BOARDS = [
     description: "Love me some bruised bois (and more).",
     color: "#f96680",
     link: { href: "#slug", onClick: action("#slug") },
-    updates: 10,
+    updates: true,
+    pinned: true,
   },
   {
     slug: "oncie-den",
     avatar: `/${oncelerBoard}`,
     description: "Party like it's 2012",
     color: "#27caba",
-    backgroundColor: "#131518",
     link: { href: "#slug", onClick: action("#slug") },
+    pinned: false,
+    muted: true,
   },
   {
     slug: "a-super-long-slug-because-we-need-to-test-for-overflow",
     avatar: `/${book}`,
     description: "Come enjoy all the fics!",
     color: "#7724d2",
-    updates: 5,
-    backgroundColor: "#131518",
     link: { href: "#slug", onClick: action("#slug") },
+    updates: true,
   },
   {
     slug: "kink-memes",
@@ -52,26 +53,25 @@ const BOARDS = [
     description: "No limits. No shame.",
     color: "#000000",
     link: { href: "#slug", onClick: action("#slug") },
-    updates: 10,
+    updates: true,
+    pinned: true,
   },
   {
     slug: "crack",
     avatar: `/${crack}`,
     description: "What's crackalackin",
     color: "#f9e066",
-    updates: 3,
-    outdated: true,
-    backgroundColor: "#131518",
     link: { href: "#slug", onClick: action("#slug") },
+    updates: true,
+    outdated: true,
   },
   {
     slug: "anime",
-    muted: true,
     avatar: `/${anime}`,
     description: "We put the weeb in dweeb.",
     color: "#24d282",
-    backgroundColor: "#131518",
     link: { href: "#slug", onClick: action("#slug") },
+    muted: true,
   },
   {
     slug: "villain-thirst",
@@ -82,6 +82,8 @@ const BOARDS = [
       href: "#href",
       onClick: action("hrefClick"),
     },
+    updates: true,
+    outdated: true,
   },
 ];
 
@@ -124,6 +126,7 @@ export const Simple: Story = {
               updates={board.updates}
               muted={board.muted}
               outdated={board.outdated}
+              pinned={board.pinned}
             />
           ))}
         </BoardListBlock>
@@ -136,6 +139,7 @@ export const Empty: Story = {
   render: () => (
     <div style={{ width: "500px" }}>
       <BoardListBlock
+        title="woo"
         icon=""
         onSelectBoard={() => {
           throw new Error("Function not implemented.");
@@ -192,6 +196,7 @@ export const WithOptions: Story = {
               updates={board.updates}
               muted={board.muted}
               outdated={board.outdated}
+              pinned={board.pinned}
             />
           ))}
         </BoardListBlock>
