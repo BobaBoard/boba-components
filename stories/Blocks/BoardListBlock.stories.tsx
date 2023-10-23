@@ -14,13 +14,13 @@ import villains from "stories/images/villains.png";
 import { expect } from "@storybook/jest";
 
 import { userEvent, waitFor, within } from "@storybook/testing-library";
+import { GetProps } from "utils/compound-utils";
 
 const meta: Meta<typeof BoardListBlock> = {
 	component: BoardListBlock,
 };
 
 export default meta;
-type Story = StoryObj<typeof BoardListBlock>;
 
 const BOARDS = [
 	{
@@ -86,8 +86,11 @@ const BOARDS = [
 	},
 ];
 
-export const Simple: Story = {
-	render: function Render() {
+type StoryArgs = { boards: typeof BOARDS } & GetProps<typeof BoardListBlock>;
+type Story = StoryObj<StoryArgs>;
+
+const StoryTemplate: Story = {
+	render: function Render({ title, boards, options }) {
 		const [selectedBoard, setSelectedBoard] = React.useState<string | null>(
 			null
 		);
@@ -96,119 +99,7 @@ export const Simple: Story = {
 			<div>
 				<BoardListBlock
 					icon={faAngleRight}
-					title="Boards"
-					selectedBoardSlug={selectedBoard}
-					onSelectBoard={(slug) => {
-						action("select-board")(slug);
-						setSelectedBoard(slug === selectedBoard ? null : slug);
-					}}
-					options={[]}
-					onPinBoard={function (slug: string): void {
-						throw new Error("Function not implemented.");
-					}}
-					onMuteBoard={function (slug: string): void {
-						throw new Error("Function not implemented.");
-					}}
-				>
-					<BoardListBlock.Empty>
-						<div>No boards here</div>
-					</BoardListBlock.Empty>
-					{BOARDS.map((board) => (
-						<BoardListBlock.Item
-							avatar={board.avatar}
-							link={board.link}
-							color={board.color}
-							slug={board.slug}
-							key={board.slug}
-							description={board.description}
-							options={[]}
-							updates={board.updates}
-							muted={board.muted}
-							outdated={board.outdated}
-							pinned={board.pinned}
-						/>
-					))}
-				</BoardListBlock>
-			</div>
-		);
-	},
-
-	play: async ({ canvasElement }) => {
-		const canvas = within(canvasElement);
-
-		const boardIcons = canvas.getAllByLabelText("icon", {
-			selector: "a",
-			exact: false,
-		});
-
-		console.log(this);
-
-		for (const boardIcon of boardIcons) {
-			await userEvent.click(boardIcon);
-			await waitFor(() => {
-				expect(boardIcon).toHaveAttribute("href", "#slug");
-				expect(action("#slug")).toHaveBeenCalled();
-			});
-		}
-
-		/* 		const emailInput = canvas.getByLabelText("email", {
-			selector: "input",
-		});
-
-		await userEvent.type(emailInput, "example-email@email.com", {
-			delay: 100,
-		});
-
-		const passwordInput = canvas.getByLabelText("password", {
-			selector: "input",
-		});
-
-		await userEvent.type(passwordInput, "ExamplePassword", {
-			delay: 100,
-		});
-		// See https://storybook.js.org/docs/react/essentials/actions#automatically-matching-args to learn how to setup logging in the Actions panel
-		const submitButton = canvas.getByRole("button");
-
-		await userEvent.click(submitButton); */
-	},
-};
-
-export const Empty: Story = {
-	render: () => (
-		<div style={{ width: "500px" }}>
-			<BoardListBlock
-				title="woo"
-				icon=""
-				onSelectBoard={() => {
-					throw new Error("Function not implemented.");
-				}}
-				options={[]}
-				onPinBoard={function (slug: string): void {
-					throw new Error("Function not implemented.");
-				}}
-				onMuteBoard={function (slug: string): void {
-					throw new Error("Function not implemented.");
-				}}
-			>
-				<BoardListBlock.Empty>
-					There are no boards to display.
-				</BoardListBlock.Empty>
-			</BoardListBlock>
-		</div>
-	),
-};
-
-export const WithOptions: Story = {
-	render: function Render({ options }) {
-		const [selectedBoard, setSelectedBoard] = React.useState<string | null>(
-			null
-		);
-
-		return (
-			<div>
-				<BoardListBlock
-					icon={faThList}
-					title="Boards with Options"
+					title={title}
 					selectedBoardSlug={selectedBoard}
 					onSelectBoard={(slug) => {
 						action("select-board")(slug);
@@ -222,20 +113,11 @@ export const WithOptions: Story = {
 						throw new Error("Function not implemented.");
 					}}
 				>
-					{BOARDS.map((board) => (
-						<BoardListBlock.Item
-							slug={board.slug}
-							avatar={board.avatar}
-							link={board.link}
-							color={board.color}
-							key={board.slug}
-							description={board.description}
-							options={options}
-							updates={board.updates}
-							muted={board.muted}
-							outdated={board.outdated}
-							pinned={board.pinned}
-						/>
+					<BoardListBlock.Empty>
+						<div>No boards here</div>
+					</BoardListBlock.Empty>
+					{boards.map((board) => (
+						<BoardListBlock.Item {...board} />
 					))}
 				</BoardListBlock>
 			</div>
@@ -243,7 +125,40 @@ export const WithOptions: Story = {
 	},
 };
 
+export const Simple: Story = {
+	...StoryTemplate,
+	play: async ({ canvasElement }) => {
+		const canvas = within(canvasElement);
+
+		const boardIcons = canvas.getAllByLabelText("icon", {
+			selector: "a",
+			exact: false,
+		});
+
+		for (const boardIcon of boardIcons) {
+			await userEvent.click(boardIcon);
+			await waitFor(() => {
+				expect(boardIcon).toHaveAttribute("href", "#slug");
+				expect(action("#slug")).toHaveBeenCalled();
+			});
+		}
+	},
+};
+Simple.args = {
+	boards: BOARDS,
+	title: "Boards test",
+	options: [],
+};
+
+export const Empty: Story = { ...StoryTemplate };
+Empty.args = {
+	title: "This is empty",
+	boards: [],
+};
+
+export const WithOptions = { ...StoryTemplate };
 WithOptions.args = {
+	...Simple.args,
 	options: [
 		{
 			name: "Pin board",

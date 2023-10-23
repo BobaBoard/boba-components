@@ -14,37 +14,33 @@ jest.mock("@storybook/addon-actions");
 
 const { Simple, Empty, WithOptions } = composeStories(boardListBlockStories);
 
-console.log(Simple);
-console.log(Empty);
-console.log(WithOptions);
-
 // 1) clicking on a board name opens the corresponding board drawer
-/* 
-describe("when a board name is clicked", () => {
-	
-	const boardLinks = screen.getAllByRole("link");
-		
-	for (const boardLink of boardLinks) {
-		beforeEach(async () => {
-			await userEvent.click(boardLink);
-		});
-		it("shows a detailed description of it", () => {
-		expect(boardLink).toHaveAttribute("href", "#slug");
-	}); 
-	
-	}
-	}); */
 
+describe("when a board name is clicked", () => {
+	render(<Simple />);
+	it("shows a detailed description of it", async () => {
+		const boardToClick = Simple.args!.boards![2];
+		const boardLink = screen.getByRole("button", {
+			name: `!${boardToClick.slug}`,
+		});
+
+		expect(screen.queryByText(boardToClick.description)).not.toBeInTheDocument();
+
+		await userEvent.click(boardLink);
+	
+		expect(screen.getByText(boardToClick.description)).toBeInTheDocument();
+	});
+});
 // 2) clicking on a board icon triggers the right action
 describe("when a board list is displayed", () => {
-	render(<Simple />);
-	expect(Simple.args!.children!).not.toBeNil();
-	describe("when a board name is clicked", () => {
-		it("just works", () => {
-			console.log({ screen });
-			expect(screen);
-		});
-		/* 		console.log(
+	// render(<Simple />);
+	// expect(Simple.args!.children!).not.toBeNil();
+	// describe("when a board name is clicked", () => {
+	// 	it("just works", () => {
+	// 		console.log({ screen });
+	// 		expect(screen);
+	// 	});
+	/* 		console.log(
 			screen.getByRole("button", {
 				hidden: true,
 				name: /!gore/i,
@@ -55,8 +51,7 @@ describe("when a board list is displayed", () => {
 
 		console.log(screen.getByRole("button", { hidden: true }));
 		const boardLinks = screen.getByRole("link", { hidden: true }); */
-
-		/* 		for (const boardLink of boardLinks) {
+	/* 		for (const boardLink of boardLinks) {
 			beforeEach(async () => {
 				await userEvent.click(boardLink);
 			});
@@ -64,7 +59,7 @@ describe("when a board list is displayed", () => {
 				expect(boardLink).toHaveAttribute("href", "#slug");
 			});
 		} */
-	});
+	// });
 });
 
 /*
