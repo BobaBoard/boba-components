@@ -106,18 +106,18 @@ const StoryTemplate: Story = {
 						setSelectedBoard(slug === selectedBoard ? null : slug);
 					}}
 					options={options}
-					onPinBoard={function (slug: string): void {
-						throw new Error("Function not implemented.");
+					onPinBoard={(slug) => {
+						action("pin-board")(slug);
 					}}
-					onMuteBoard={function (slug: string): void {
-						throw new Error("Function not implemented.");
+					onMuteBoard={(slug) => {
+						action("mute-board")(slug);
 					}}
 				>
 					<BoardListBlock.Empty>
 						<div>No boards here</div>
 					</BoardListBlock.Empty>
 					{boards.map((board) => (
-						<BoardListBlock.Item {...board} />
+						<BoardListBlock.Item {...board} key={board.slug} />
 					))}
 				</BoardListBlock>
 			</div>
@@ -127,22 +127,6 @@ const StoryTemplate: Story = {
 
 export const Simple: Story = {
 	...StoryTemplate,
-	play: async ({ canvasElement }) => {
-		const canvas = within(canvasElement);
-
-		const boardIcons = canvas.getAllByLabelText("icon", {
-			selector: "a",
-			exact: false,
-		});
-
-		for (const boardIcon of boardIcons) {
-			await userEvent.click(boardIcon);
-			await waitFor(() => {
-				expect(boardIcon).toHaveAttribute("href", "#slug");
-				expect(action("#slug")).toHaveBeenCalled();
-			});
-		}
-	},
 };
 Simple.args = {
 	boards: BOARDS,

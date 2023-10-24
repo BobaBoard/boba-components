@@ -96,6 +96,7 @@ const Item = ({
 									color: pinned ? "white" : "#939393",
 								}}
 								link={{ onClick: _onPinned }}
+								aria-label={pinned ? "Unpin board" : "Pin board"}
 							/>
 							<CircleButton
 								defaultBorderColor={color}
@@ -104,6 +105,7 @@ const Item = ({
 									color: muted ? "red" : "#939393",
 								}}
 								link={{ onClick: _onMuted }}
+								aria-label={muted ? "Unmute board" : "Mute board"}
 							/>
 						</div>
 
@@ -311,7 +313,7 @@ export interface ItemProps {
 	updates?: boolean;
 	outdated?: boolean;
 	// TODO: remove private props from public types
-	_options?: BoardListBlockProps["options"]
+	_options?: BoardListBlockProps["options"];
 	_onPinned?: () => void;
 	_onMuted?: () => void;
 }
