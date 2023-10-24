@@ -17,150 +17,150 @@ import { userEvent, waitFor, within } from "@storybook/testing-library";
 import { GetProps } from "utils/compound-utils";
 
 const meta: Meta<typeof BoardListBlock> = {
-	component: BoardListBlock,
+  component: BoardListBlock,
 };
 
 export default meta;
 
 const BOARDS = [
-	{
-		slug: "gore",
-		avatar: `/${goreBackground}`,
-		description: "Love me some bruised bois (and more).",
-		color: "#f96680",
-		link: { href: "#slug", onClick: action("#slug") },
-		updates: true,
-		pinned: true,
-	},
-	{
-		slug: "oncie-den",
-		avatar: `/${oncelerBoard}`,
-		description: "Party like it's 2012",
-		color: "#27caba",
-		link: { href: "#slug", onClick: action("#slug") },
-		pinned: false,
-		muted: true,
-	},
-	{
-		slug: "a-super-long-slug-because-we-need-to-test-for-overflow",
-		avatar: `/${book}`,
-		description: "Come enjoy all the fics!",
-		color: "#7724d2",
-		link: { href: "#slug", onClick: action("#slug") },
-		updates: true,
-	},
-	{
-		slug: "kink-memes",
-		avatar: `/${kinkmeme}`,
-		description: "No limits. No shame.",
-		color: "#000000",
-		link: { href: "#slug", onClick: action("#slug") },
-		updates: true,
-		pinned: true,
-	},
-	{
-		slug: "crack",
-		avatar: `/${crack}`,
-		description: "What's crackalackin",
-		color: "#f9e066",
-		link: { href: "#slug", onClick: action("#slug") },
-		updates: true,
-		outdated: true,
-	},
-	{
-		slug: "anime",
-		avatar: `/${anime}`,
-		description: "We put the weeb in dweeb.",
-		color: "#24d282",
-		link: { href: "#slug", onClick: action("#slug") },
-		muted: true,
-	},
-	{
-		slug: "villain-thirst",
-		avatar: `/${villains}`,
-		description: "Love to love 'em.",
-		color: "#e22b4b",
-		link: { href: "#slug", onClick: action("#slug") },
-		updates: true,
-		outdated: true,
-	},
+  {
+    slug: "gore",
+    avatar: `/${goreBackground}`,
+    description: "Love me some bruised bois (and more).",
+    color: "#f96680",
+    link: { href: "#slug", onClick: action("#slug") },
+    updates: true,
+    pinned: true,
+  },
+  {
+    slug: "oncie-den",
+    avatar: `/${oncelerBoard}`,
+    description: "Party like it's 2012",
+    color: "#27caba",
+    link: { href: "#slug", onClick: action("#slug") },
+    pinned: false,
+    muted: true,
+  },
+  {
+    slug: "a-super-long-slug-because-we-need-to-test-for-overflow",
+    avatar: `/${book}`,
+    description: "Come enjoy all the fics!",
+    color: "#7724d2",
+    link: { href: "#slug", onClick: action("#slug") },
+    updates: true,
+  },
+  {
+    slug: "kink-memes",
+    avatar: `/${kinkmeme}`,
+    description: "No limits. No shame.",
+    color: "#000000",
+    link: { href: "#slug", onClick: action("#slug") },
+    updates: true,
+    pinned: true,
+  },
+  {
+    slug: "crack",
+    avatar: `/${crack}`,
+    description: "What's crackalackin",
+    color: "#f9e066",
+    link: { href: "#slug", onClick: action("#slug") },
+    updates: true,
+    outdated: true,
+  },
+  {
+    slug: "anime",
+    avatar: `/${anime}`,
+    description: "We put the weeb in dweeb.",
+    color: "#24d282",
+    link: { href: "#slug", onClick: action("#slug") },
+    muted: true,
+  },
+  {
+    slug: "villain-thirst",
+    avatar: `/${villains}`,
+    description: "Love to love 'em.",
+    color: "#e22b4b",
+    link: { href: "#slug", onClick: action("#slug") },
+    updates: true,
+    outdated: true,
+  },
 ];
 
 type StoryArgs = { boards: typeof BOARDS } & GetProps<typeof BoardListBlock>;
 type Story = StoryObj<StoryArgs>;
 
 const StoryTemplate: Story = {
-	render: function Render({ title, boards, options }) {
-		const [selectedBoard, setSelectedBoard] = React.useState<string | null>(
-			null
-		);
+  render: function Render({ title, boards, options }) {
+    const [selectedBoard, setSelectedBoard] = React.useState<string | null>(
+      null
+    );
 
-		return (
-			<div>
-				<BoardListBlock
-					icon={faAngleRight}
-					title={title}
-					selectedBoardSlug={selectedBoard}
-					onSelectBoard={(slug) => {
-						action("select-board")(slug);
-						setSelectedBoard(slug === selectedBoard ? null : slug);
-					}}
-					options={options}
-					onPinBoard={(slug) => {
-						action("pin-board")(slug);
-					}}
-					onMuteBoard={(slug) => {
-						action("mute-board")(slug);
-					}}
-				>
-					<BoardListBlock.Empty>
-						<div>No boards here</div>
-					</BoardListBlock.Empty>
-					{boards.map((board) => (
-						<BoardListBlock.Item {...board} key={board.slug} />
-					))}
-				</BoardListBlock>
-			</div>
-		);
-	},
+    return (
+      <div>
+        <BoardListBlock
+          icon={faAngleRight}
+          title={title}
+          selectedBoardSlug={selectedBoard}
+          onSelectBoard={(slug) => {
+            action("select-board")(slug);
+            setSelectedBoard(slug === selectedBoard ? null : slug);
+          }}
+          options={options}
+          onPinBoard={(slug) => {
+            action("pin-board")(slug);
+          }}
+          onMuteBoard={(slug) => {
+            action("mute-board")(slug);
+          }}
+        >
+          <BoardListBlock.Empty>
+            <div>No boards here</div>
+          </BoardListBlock.Empty>
+          {boards.map((board) => (
+            <BoardListBlock.Item {...board} key={board.slug} />
+          ))}
+        </BoardListBlock>
+      </div>
+    );
+  },
 };
 
 export const Simple: Story = {
-	...StoryTemplate,
+  ...StoryTemplate,
 };
 Simple.args = {
-	boards: BOARDS,
-	title: "Boards test",
-	options: [],
+  boards: BOARDS,
+  title: "Boards test",
+  options: [],
 };
 
 export const Empty: Story = { ...StoryTemplate };
 Empty.args = {
-	title: "This is empty",
-	boards: [],
+  title: "This is empty",
+  boards: [],
 };
 
 export const WithOptions = { ...StoryTemplate };
 WithOptions.args = {
-	...Simple.args,
-	options: [
-		{
-			name: "Pin board",
-			link: {
-				onClick: action("noHrefClick"),
-			},
-		},
-		{
-			name: "Mute board",
-			link: {
-				onClick: action("noHrefClick"),
-			},
-		},
-		{
-			name: "Dismiss notifications",
-			link: {
-				onClick: action("noHrefClick"),
-			},
-		},
-	],
+  ...Simple.args,
+  options: [
+    {
+      name: "Pin board",
+      link: {
+        onClick: action("noHrefClick"),
+      },
+    },
+    {
+      name: "Mute board",
+      link: {
+        onClick: action("noHrefClick"),
+      },
+    },
+    {
+      name: "Dismiss notifications",
+      link: {
+        onClick: action("noHrefClick"),
+      },
+    },
+  ],
 };
