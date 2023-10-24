@@ -11,14 +11,16 @@ import goreBackground from "stories/images/gore.png";
 import kinkmeme from "stories/images/kink-meme.png";
 import oncelerBoard from "stories/images/onceler-board.png";
 import villains from "stories/images/villains.png";
+import { expect } from "@storybook/jest";
+
+import { userEvent, waitFor, within } from "@storybook/testing-library";
+import { GetProps } from "utils/compound-utils";
 
 const meta: Meta<typeof BoardListBlock> = {
   component: BoardListBlock,
 };
 
 export default meta;
-
-type Story = StoryObj<typeof BoardListBlock>;
 
 const BOARDS = [
   {
@@ -78,17 +80,17 @@ const BOARDS = [
     avatar: `/${villains}`,
     description: "Love to love 'em.",
     color: "#e22b4b",
-    link: {
-      href: "#href",
-      onClick: action("hrefClick"),
-    },
+    link: { href: "#slug", onClick: action("#slug") },
     updates: true,
     outdated: true,
   },
 ];
 
-export const Simple: Story = {
-  render: function Render() {
+type StoryArgs = { boards: typeof BOARDS } & GetProps<typeof BoardListBlock>;
+type Story = StoryObj<StoryArgs>;
+
+const StoryTemplate: Story = {
+  render: function Render({ title, boards, options }) {
     const [selectedBoard, setSelectedBoard] = React.useState<string | null>(
       null
     );
@@ -97,107 +99,25 @@ export const Simple: Story = {
       <div>
         <BoardListBlock
           icon={faAngleRight}
-          title="Boards"
-          selectedBoardSlug={selectedBoard}
-          onSelectBoard={(slug) => {
-            action("select-board")(slug);
-            setSelectedBoard(slug === selectedBoard ? null : slug);
-          }}
-          options={[]}
-          onPinBoard={function (slug: string): void {
-            throw new Error("Function not implemented.");
-          }}
-          onMuteBoard={function (slug: string): void {
-            throw new Error("Function not implemented.");
-          }}
-        >
-          <BoardListBlock.Empty>
-            <div>No boards here</div>
-          </BoardListBlock.Empty>
-          {BOARDS.map((board) => (
-            <BoardListBlock.Item
-              avatar={board.avatar}
-              link={board.link}
-              color={board.color}
-              slug={board.slug}
-              key={board.slug}
-              description={board.description}
-              options={[]}
-              updates={board.updates}
-              muted={board.muted}
-              outdated={board.outdated}
-              pinned={board.pinned}
-            />
-          ))}
-        </BoardListBlock>
-      </div>
-    );
-  },
-};
-
-export const Empty: Story = {
-  render: () => (
-    <div style={{ width: "500px" }}>
-      <BoardListBlock
-        title="woo"
-        icon=""
-        onSelectBoard={() => {
-          throw new Error("Function not implemented.");
-        }}
-        options={[]}
-        onPinBoard={function (slug: string): void {
-          throw new Error("Function not implemented.");
-        }}
-        onMuteBoard={function (slug: string): void {
-          throw new Error("Function not implemented.");
-        }}
-      >
-        <BoardListBlock.Empty>
-          There are no boards to display.
-        </BoardListBlock.Empty>
-      </BoardListBlock>
-    </div>
-  ),
-};
-
-export const WithOptions: Story = {
-  render: function Render({ options }) {
-    const [selectedBoard, setSelectedBoard] = React.useState<string | null>(
-      null
-    );
-
-    return (
-      <div>
-        <BoardListBlock
-          icon={faThList}
-          title="Boards with Options"
+          title={title}
           selectedBoardSlug={selectedBoard}
           onSelectBoard={(slug) => {
             action("select-board")(slug);
             setSelectedBoard(slug === selectedBoard ? null : slug);
           }}
           options={options}
-          onPinBoard={function (slug: string): void {
-            throw new Error("Function not implemented.");
+          onPinBoard={(slug) => {
+            action("pin-board")(slug);
           }}
-          onMuteBoard={function (slug: string): void {
-            throw new Error("Function not implemented.");
+          onMuteBoard={(slug) => {
+            action("mute-board")(slug);
           }}
         >
-          {BOARDS.map((board) => (
-            <BoardListBlock.Item
-              slug={board.slug}
-              avatar={board.avatar}
-              link={board.link}
-              color={board.color}
-              key={board.slug}
-              description={board.description}
-              options={options}
-              updates={board.updates}
-              muted={board.muted}
-              outdated={board.outdated}
-              pinned={board.pinned}
-            />
+          <BoardListBlock.Empty>
+            <div>No boards here</div>
+          </BoardListBlock.Empty>
+          {boards.map((board) => (
+            <BoardListBlock.Item {...board} key={board.slug} />
           ))}
         </BoardListBlock>
       </div>
@@ -205,7 +125,24 @@ export const WithOptions: Story = {
   },
 };
 
+export const Simple: Story = {
+  ...StoryTemplate,
+};
+Simple.args = {
+  boards: BOARDS,
+  title: "Boards test",
+  options: [],
+};
+
+export const Empty: Story = { ...StoryTemplate };
+Empty.args = {
+  title: "This is empty",
+  boards: [],
+};
+
+export const WithOptions = { ...StoryTemplate };
 WithOptions.args = {
+  ...Simple.args,
   options: [
     {
       name: "Pin board",

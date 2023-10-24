@@ -29,7 +29,7 @@ const Item = ({
   link,
   _selected,
   _onSelected,
-  options,
+  _options = [],
   updates,
   muted,
   pinned,
@@ -39,7 +39,7 @@ const Item = ({
 }: ItemProps) => (
   <>
     <div className="item-summary">
-      <ActionLink link={link}>
+      <ActionLink link={link} aria-label={`${slug} icon`}>
         <BoardIcon
           avatar={avatar}
           color={color}
@@ -55,14 +55,14 @@ const Item = ({
           "has-updates": !!updates,
           muted: !!muted,
           outdated: !!outdated,
-          "with-options": !!options.length,
+          "with-options": !!_options.length,
         })}
       >
         <span className="slug">!{slug}</span>
       </button>
-      {options.length !== 0 && (
+      {_options.length !== 0 && (
         <DropdownMenu
-          options={options}
+          options={_options}
           zIndex={200}
           label="board list options"
           buttonClassName="options-button"
@@ -96,6 +96,7 @@ const Item = ({
                   color: pinned ? "white" : "#939393",
                 }}
                 link={{ onClick: _onPinned }}
+                aria-label={pinned ? "Unpin board" : "Pin board"}
               />
               <CircleButton
                 defaultBorderColor={color}
@@ -104,6 +105,7 @@ const Item = ({
                   color: muted ? "red" : "#939393",
                 }}
                 link={{ onClick: _onMuted }}
+                aria-label={muted ? "Unmute board" : "Mute board"}
               />
             </div>
 
@@ -245,7 +247,7 @@ const BoardListBlock: BoardListBlockCompound = (props: BoardListBlockProps) => {
               ...item.props,
               _selected: item.props.slug === props.selectedBoardSlug,
               _onSelected: () => props.onSelectBoard(item.props.slug),
-              options: props.options,
+              _options: props.options,
               _onPinned: () => props.onPinBoard(item.props.slug),
               _onMuted: () => props.onMuteBoard(item.props.slug),
             });
@@ -306,12 +308,12 @@ export interface ItemProps {
   description: string;
   _onSelected?: (slug: string) => void;
   _selected?: boolean;
-  options: { name: string; link: LinkWithAction }[];
   muted?: boolean;
   pinned?: boolean;
   updates?: boolean;
   outdated?: boolean;
   // TODO: remove private props from public types
+  _options?: BoardListBlockProps["options"];
   _onPinned?: () => void;
   _onMuted?: () => void;
 }
