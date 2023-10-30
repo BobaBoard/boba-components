@@ -1,20 +1,20 @@
-import { faAngleRight, faThList } from "@fortawesome/free-solid-svg-icons";
 import type { Meta, StoryObj } from "@storybook/react";
+import { faAngleRight, faThList } from "@fortawesome/free-solid-svg-icons";
+import { userEvent, waitFor, within } from "@storybook/testing-library";
 
-import { action } from "@storybook/addon-actions";
 import BoardListBlock from "blocks/BoardListBlock";
+import { DropdownProps } from "common/DropdownListMenu";
+import { GetProps } from "utils/compound-utils";
 import React from "react";
+import { action } from "@storybook/addon-actions";
 import anime from "stories/images/anime.png";
 import book from "stories/images/book.png";
 import crack from "stories/images/crack.png";
+import { expect } from "@storybook/jest";
 import goreBackground from "stories/images/gore.png";
 import kinkmeme from "stories/images/kink-meme.png";
 import oncelerBoard from "stories/images/onceler-board.png";
 import villains from "stories/images/villains.png";
-import { expect } from "@storybook/jest";
-
-import { userEvent, waitFor, within } from "@storybook/testing-library";
-import { GetProps } from "utils/compound-utils";
 
 const meta: Meta<typeof BoardListBlock> = {
   component: BoardListBlock,
@@ -86,7 +86,9 @@ const BOARDS = [
   },
 ];
 
-type StoryArgs = { boards: typeof BOARDS } & GetProps<typeof BoardListBlock>;
+type StoryArgs = { boards: typeof BOARDS } & GetProps<typeof BoardListBlock> & {
+    options: DropdownProps["options"];
+  };
 type Story = StoryObj<StoryArgs>;
 
 const StoryTemplate: Story = {
@@ -105,7 +107,6 @@ const StoryTemplate: Story = {
             action("select-board")(slug);
             setSelectedBoard(slug === selectedBoard ? null : slug);
           }}
-          options={options}
           onPinBoard={(slug) => {
             action("pin-board")(slug);
           }}
@@ -117,7 +118,11 @@ const StoryTemplate: Story = {
             <div>No boards here</div>
           </BoardListBlock.Empty>
           {boards.map((board) => (
-            <BoardListBlock.Item {...board} key={board.slug} />
+            <BoardListBlock.Item
+              {...board}
+              key={board.slug}
+              options={options}
+            />
           ))}
         </BoardListBlock>
       </div>

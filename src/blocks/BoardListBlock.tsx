@@ -1,23 +1,26 @@
+import BoardPreview, { DisplayStyle } from "board/BoardPreview";
+import DropdownMenu, {
+  DropdownProps,
+  DropdownStyle,
+} from "common/DropdownListMenu";
+import Icon, { IconProps } from "common/Icon";
 import {
   faEllipsisV,
   faThumbTack,
   faVolumeHigh,
   faVolumeXmark,
 } from "@fortawesome/free-solid-svg-icons";
-import BoardPreview, { DisplayStyle } from "board/BoardPreview";
-import DropdownMenu, { DropdownStyle } from "common/DropdownListMenu";
-import Icon, { IconProps } from "common/Icon";
 
-import { faArrowAltCircleRight } from "@fortawesome/free-regular-svg-icons";
-import BoardIcon from "board/BoardIcon";
 import ActionLink from "buttons/ActionLink";
+import BoardIcon from "board/BoardIcon";
 import CircleButton from "buttons/CircleButton";
-import classnames from "classnames";
-import HighlightedText from "common/HighlightedText";
-import React from "react";
 import DefaultTheme from "theme/default";
+import HighlightedText from "common/HighlightedText";
 import { LinkWithAction } from "types";
+import React from "react";
+import classnames from "classnames";
 import { extractCompounds } from "utils/compound-utils";
+import { faArrowAltCircleRight } from "@fortawesome/free-regular-svg-icons";
 
 const Empty: React.FC<unknown> = ({ children }) => <p>{children}</p>;
 
@@ -29,7 +32,7 @@ const Item = ({
   link,
   _selected,
   _onSelected,
-  _options = [],
+  options = [],
   updates,
   muted,
   pinned,
@@ -55,14 +58,14 @@ const Item = ({
           "has-updates": !!updates,
           muted: !!muted,
           outdated: !!outdated,
-          "with-options": !!_options.length,
+          "with-options": !!options.length,
         })}
       >
         <span className="slug">!{slug}</span>
       </button>
-      {_options.length !== 0 && (
+      {options.length !== 0 && (
         <DropdownMenu
-          options={_options}
+          options={options}
           zIndex={200}
           label="board list options"
           buttonClassName="options-button"
@@ -247,7 +250,6 @@ const BoardListBlock: BoardListBlockCompound = (props: BoardListBlockProps) => {
               ...item.props,
               _selected: item.props.slug === props.selectedBoardSlug,
               _onSelected: () => props.onSelectBoard(item.props.slug),
-              _options: props.options,
               _onPinned: () => props.onPinBoard(item.props.slug),
               _onMuted: () => props.onMuteBoard(item.props.slug),
             });
@@ -312,8 +314,8 @@ export interface ItemProps {
   pinned?: boolean;
   updates?: boolean;
   outdated?: boolean;
+  options: DropdownProps["options"];
   // TODO: remove private props from public types
-  _options?: BoardListBlockProps["options"];
   _onPinned?: () => void;
   _onMuted?: () => void;
 }
@@ -326,7 +328,6 @@ export interface BoardListBlockProps {
   onPinBoard: (slug: string) => void;
   onMuteBoard: (slug: string) => void;
   children?: React.ReactNode;
-  options: { name: string; link: LinkWithAction }[];
 }
 
 export default BoardListBlock;
