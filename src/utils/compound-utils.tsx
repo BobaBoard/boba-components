@@ -9,7 +9,9 @@ export function extractCompound<T>(
   CompoundType: React.FC<T>
 ): React.ReactElement<T> | undefined {
   return React.Children.toArray(children).find(
-    (node) => React.isValidElement(node) && node.type === CompoundType
+    (node) =>
+      React.isValidElement(node) &&
+      (node.type === CompoundType || node.props.as === CompoundType)
   ) as React.ReactElement<T>;
 }
 
@@ -22,7 +24,9 @@ export function extractCompounds<T>(
   CompoundType: React.FC<T>
 ): React.ReactElement<T>[] {
   return React.Children.toArray(children).filter(
-    (node) => React.isValidElement(node) && node.type === CompoundType
+    (node) =>
+      React.isValidElement(node) &&
+      (node.type === CompoundType || node.props.as === CompoundType)
   ) as React.ReactElement<T>[];
 }
 
@@ -37,7 +41,10 @@ export function extractRest(
   return React.Children.toArray(children).filter(
     (child) =>
       !React.isValidElement(child) ||
-      !excludedCompoundTypes.find((compoundType) => child.type === compoundType)
+      !excludedCompoundTypes.find(
+        (compoundType) =>
+          child.type === compoundType || child.props.as === compoundType
+      )
   );
 }
 
