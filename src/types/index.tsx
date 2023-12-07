@@ -4,8 +4,8 @@ export interface SecretIdentityType {
   id?: string;
   avatar: string;
   name: string;
-  color?: string;
-  accessory?: string;
+  color?: string | null;
+  accessory?: string | null;
 }
 
 export interface UserIdentityType {

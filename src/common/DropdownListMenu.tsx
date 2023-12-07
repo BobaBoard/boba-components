@@ -59,7 +59,7 @@ export interface DropdownProps {
   options?: ({
     name: string;
     icon?: IconProp | string;
-    color?: string;
+    color?: string | null;
   } & ({ link: LinkWithAction } | { options: DropdownProps["options"] }))[];
   style?: DropdownStyle;
   accentColor?: string;
