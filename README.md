@@ -37,7 +37,7 @@ boba-components houses the UI components that add interactivity to BobaBoard.
 ### Relationships To Other Repos
 
 Boba-components uses [boba-editor](https://github.com/BobaBoard/boba-editor) to
-support creation and editing of posts. It works with
+support creation of posts and comments. It works with
 [boba-frontend](https://github.com/BobaBoard/boba-frontend) to provide the user
 facing website for BobaBoard.
 
