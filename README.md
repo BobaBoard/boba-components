@@ -48,7 +48,7 @@ facing website for BobaBoard.
 and database for BobaBoard.
 
 > [!NOTE]
-> The above description of the relationship between bob-components and boba-backend is an "aspirational state" for our repos. Te are still working on defining the boundaries between "boba-frontend" and "boba-components", so this may be fuzzy in practice.
+> The above description of the relationship between boba-components and boba-backend is an "aspirational state" for our repos. Te are still working on defining the boundaries between "boba-frontend" and "boba-components", so this may be fuzzy in practice.
 
 ## Local Development
 
