@@ -32,14 +32,17 @@ You can find out more about BobaBoard in general on our
 ![Storybook Badge](https://img.shields.io/badge/Storybook-222222?logo=storybook&logoColor=FF4785&style=for-the-badge)
 ![Yarn Badge](https://img.shields.io/badge/Yarn-222222?logo=yarn&logoColor=2C8EBB&style=for-the-badge)
 
-boba-components houses the UI components that add interactivity to BobaBoard.
+boba-components houses the UI components that add interactivity and style to BobaBoard.
 
 ### Relationships To Other Repos
 
-Boba-components uses [boba-editor](https://github.com/BobaBoard/boba-editor) to
-support creation of posts and comments. It works with
+Boba-components uses [boba-editor](https://github.com/BobaBoard/boba-editor)  to
+support creation of posts and comments.It works with
 [boba-frontend](https://github.com/BobaBoard/boba-frontend) to provide the user
 facing website for BobaBoard.
+
+> [!Important]
+> The current [boba-editor](https://github.com/BobaBoard/boba-editor) repo is being sunsetted. We are currently working on it replacement in the [boba-editor-next](https://github.com/essential-randomness/boba-editor-next/) repo.
 
 [Boba-backend](https://github.com/BobaBoard/boba-backend) provides the server
 and database for BobaBoard.
