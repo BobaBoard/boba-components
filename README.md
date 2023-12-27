@@ -42,10 +42,13 @@ support creation of posts and comments.It works with
 facing website for BobaBoard.
 
 > [!Important]
-> The current [boba-editor](https://github.com/BobaBoard/boba-editor) repo is being sunsetted. We are currently working on it replacement in the [boba-editor-next](https://github.com/essential-randomness/boba-editor-next/) repo.
+> The current [boba-editor](https://github.com/BobaBoard/boba-editor) repo is being sunset. We are currently working on it replacement in the [boba-editor-next](https://github.com/essential-randomness/boba-editor-next/) repo.
 
 [Boba-backend](https://github.com/BobaBoard/boba-backend) provides the server
 and database for BobaBoard.
+
+> [!NOTE]
+> The above description of the relationship between bob-components and boba-backend is an "aspirational state" for our repos. Te are still working on defining the boundaries between "boba-frontend" and "boba-components", so this may be fuzzy in practice.
 
 ## Local Development
 
@@ -58,6 +61,9 @@ links below:
 - [Install Boba-components](https://docs.bobaboard.com/docs/development/start-developing/boba-components)
 
 ## Contributing
+
+> [!Important]
+> Our issue tracker is not up-to-date and we are specifically looking for people to help us wrangle issues into order. If you're very eager to start working, please contact us through our [tech form](https://docs.google.com/forms/d/e/1FAIpQLSdCX2_fZgIYX0PXeCAA-pfQrcLw_lSp2clGHTt3uBTWgnwVSw/viewform)  (for coding) or our [non-tech form](https://forms.gle/Z44UreTxnbvFnoqc9) (for issue wrangling).
 
 BobaBoard welcomes one-time contributions. Our volunteer
 [Code of Conduct](https://docs.bobaboard.com/docs/volunteering/experience/code-of-conduct)
