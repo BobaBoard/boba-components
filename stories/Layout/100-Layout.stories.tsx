@@ -14,6 +14,7 @@ import { SideMenuPreview } from "stories/SideMenu/100-SideMenu.stories";
 import { Story } from "@storybook/react";
 import { action } from "@storybook/addon-actions";
 import mamoru from "stories/images/mamoru.png";
+import useBoos from "extra/useBoos";
 
 const defaultLayoutArgs: Partial<LayoutTemplate> = {
   sideMenuContent: <div>Get a load of this menu content!</div>,
@@ -79,6 +80,7 @@ interface LayoutTemplate extends LayoutProps {
   sideMenuContent: React.ReactNode;
   pinnedMenuContent: React.ReactNode;
   bottomBarContent?: React.ReactNode;
+  showBoos?: boolean;
 }
 
 const LayoutTemplate: Story<LayoutTemplate> = (args) => {
@@ -87,8 +89,10 @@ const LayoutTemplate: Story<LayoutTemplate> = (args) => {
     sideMenuContent,
     pinnedMenuContent,
     bottomBarContent,
+    showBoos,
     ...rest
   } = args;
+  const { styles } = useBoos({ startActive: !!showBoos });
   return (
     <>
       <Layout {...rest}>
@@ -107,6 +111,7 @@ const LayoutTemplate: Story<LayoutTemplate> = (args) => {
           }
         `}
       </style>
+      { styles }
     </>
   );
 };
@@ -226,4 +231,10 @@ ShortContent.args = {
       This is a short main content!
     </div>
   ),
+};
+
+export const WithBoos = LayoutTemplate.bind({});
+WithBoos.args = {
+  ...SimpleLayout.args,
+  showBoos: true
 };
