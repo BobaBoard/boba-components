@@ -11,7 +11,14 @@ const info = debug("bobafrontend:index-info");
 const GHOST_SIZE = 50;
 const BOUNDARY = 60;
 const { className, styles } = css.resolve`
+
+div {
+  display: none;
+}
+
+@media (prefers-reduced-motion: no-preference) {
   div {
+    display: block;
     position: absolute;
     z-index: 100;
     left: 0;
@@ -63,6 +70,8 @@ const { className, styles } = css.resolve`
       transform: scale(1.2);
     }
   }
+
+}
 `;
 
 function getRandomInt(max: number) {
