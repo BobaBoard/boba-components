@@ -50,9 +50,15 @@ export default function BoardTitle(props: BoardTitleProps) {
       })}
     >
       <HighlightedText highlightColor={props.accentColor || "#fffff"}>
-        <span className="title-text">{props.title}</span>
+        <div className="title-text">{props.title}</div>
       </HighlightedText>
       {titleStyles}
+      <style jsx>{`
+        .title-text {
+          overflow: hidden;
+          text-overflow: ellipsis;
+        }
+      `}</style>
     </ActionLink>
   );
 }
