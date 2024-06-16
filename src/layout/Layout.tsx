@@ -32,7 +32,6 @@ export interface LayoutHandler {
 const MainContent = CreateBaseCompound("MainContent");
 const PinnedMenuContent = CreateBaseCompound("PinnedMenuContent");
 const SideMenuContent = CreateBaseCompound("SideMenuContent");
-const ActionButton = CreateBaseCompound("ActionButton");
 const BottomBar = CreateBaseCompound("BottomBar");
 export interface LayoutCompoundComponent
   extends React.ForwardRefExoticComponent<
@@ -41,7 +40,6 @@ export interface LayoutCompoundComponent
   MainContent: React.FC<unknown>;
   PinnedMenuContent: React.FC<unknown>;
   SideMenuContent: React.FC<unknown>;
-  ActionButton: React.FC<unknown>;
   BottomBar: React.FC<unknown>;
 }
 
@@ -111,7 +109,6 @@ const Layout = React.forwardRef<LayoutHandler, LayoutProps>(
     const sideMenuContent = extractCompound(children, SideMenuContent);
     const mainContent = extractCompound(children, MainContent);
     const pinnedMenuContent = extractCompound(children, PinnedMenuContent);
-    const actionButton = extractCompound(children, ActionButton);
     const bottomBar = extractCompound(children, BottomBar);
 
     const {
@@ -199,10 +196,10 @@ const Layout = React.forwardRef<LayoutHandler, LayoutProps>(
             aria-label="menu"
             withNotifications={notificationIcon}
             link={React.useMemo(() => ({
-                onClick: () => {
-                  setShowSideMenu((showSideMenu) => !showSideMenu);
-                },
-              }), [setShowSideMenu])}
+              onClick: () => {
+                setShowSideMenu((showSideMenu) => !showSideMenu);
+              },
+            }), [setShowSideMenu])}
           />
         </div>
         <nav className="pinned-menu">{pinnedMenuContent}</nav>
@@ -223,7 +220,6 @@ const Layout = React.forwardRef<LayoutHandler, LayoutProps>(
         {bottomBar && <nav className="bottom-bar">{bottomBar}</nav>}
         <main>
           {mainContent}
-          {actionButton}
         </main>
         <style jsx>{`
           .layout {
@@ -425,13 +421,12 @@ export interface LayoutProps {
   // an unsightly repetition. When this is not desired, this prop
   // can be used to hide the header title at desktop size.
   hideTitleFromDesktopHeader?: boolean;
-  children: React.ReactNode[];
+  children: React.ReactNode | React.ReactNode[];
 }
 
 Layout.MainContent = MainContent;
 Layout.PinnedMenuContent = PinnedMenuContent;
 Layout.SideMenuContent = SideMenuContent;
-Layout.ActionButton = ActionButton;
 Layout.BottomBar = BottomBar;
 
 export default Layout;

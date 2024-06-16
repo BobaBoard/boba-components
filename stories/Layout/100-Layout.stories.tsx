@@ -99,7 +99,6 @@ const LayoutTemplate: Story<LayoutTemplate> = (args) => {
         <Layout.MainContent>{mainContent}</Layout.MainContent>
         <Layout.SideMenuContent>{sideMenuContent}</Layout.SideMenuContent>
         <Layout.PinnedMenuContent>{pinnedMenuContent}</Layout.PinnedMenuContent>
-        <Layout.ActionButton></Layout.ActionButton>
         {bottomBarContent && (
           <Layout.BottomBar>{bottomBarContent}</Layout.BottomBar>
         )}
@@ -111,7 +110,7 @@ const LayoutTemplate: Story<LayoutTemplate> = (args) => {
           }
         `}
       </style>
-      { styles }
+      {styles}
     </>
   );
 };

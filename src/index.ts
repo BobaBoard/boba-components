@@ -16,7 +16,6 @@ import CommentChainEditor from "post/CommentChainEditor";
 import CommentEditor from "post/CommentEditor";
 import CompactPostThread from "post/CompactPostThread";
 import CustomCursor from "layout/CustomCursor";
-import CycleNewButton from "board/CycleNewButton";
 import DefaultTheme from "theme/default";
 import FeedWithMenu from "feeds/FeedWithMenu";
 import Layout from "layout/Layout";
@@ -31,7 +30,6 @@ import PinnedMenu from "sidemenu/PinnedMenu";
 import Post, { type PostHandler } from "post/Post";
 import PostEditor from "post/PostEditor";
 import PostQuote from "post/PostQuote";
-import PostingActionButton from "board/PostingActionButton";
 import React from "react";
 import RulesBlock from "blocks/RulesBlock";
 import SegmentedButton from "buttons/SegmentedButton";
@@ -69,12 +67,10 @@ export {
   PinnedMenu,
   Post,
   PostEditor,
-  PostingActionButton,
   Comment,
   CommentChainEditor,
   CompactPostThread,
   CommentEditor,
-  CycleNewButton,
   FeedWithMenu,
   BoardSidebar,
   SidebarSection,
