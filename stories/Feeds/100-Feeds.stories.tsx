@@ -15,12 +15,10 @@ import {
 import BoardSidebar from "board/LegacyBoardSidebar";
 import Button from "buttons/Button";
 import CustomCursor from "layout/CustomCursor";
-import CycleNewButton from "board/CycleNewButton";
 import FeedWithMenu from "feeds/FeedWithMenu";
 import MasonryView from "feeds/MasonryView";
 import PinnedMenu from "sidemenu/PinnedMenu";
 import Post from "post/Post";
-import PostingActionButton from "board/PostingActionButton";
 import React from "react";
 import SideMenu from "sidemenu/SideMenu";
 import Theme from "theme/default";
@@ -208,7 +206,6 @@ const LayoutTemplate: Story<LayoutStoryProps> = (args: LayoutStoryProps) => {
         <Layout.MainContent>{mainContent}</Layout.MainContent>
         <Layout.SideMenuContent>{sideMenuContent}</Layout.SideMenuContent>
         <Layout.PinnedMenuContent>{pinnedMenuContent}</Layout.PinnedMenuContent>
-        <Layout.ActionButton></Layout.ActionButton>
       </Layout>
       <style jsx>
         {`
@@ -268,9 +265,6 @@ export const FeedWithMenuPreview = () => {
       accentColor="purple"
       loading={loading}
     >
-      <Layout.ActionButton>
-        <CycleNewButton text="Next New" onNext={() => console.log("hi!")} />
-      </Layout.ActionButton>
       <Layout.MainContent>
         <FeedWithMenu
           showSidebar={showSidebar}
@@ -686,12 +680,6 @@ export const Attempt1 = () => {
             </FeedWithMenu.FeedContent>
           </FeedWithMenu>
         </Layout.MainContent>
-        <Layout.ActionButton>
-          <PostingActionButton
-            accentColor="#f96680"
-            onNewPost={() => console.log("hi!")}
-          />
-        </Layout.ActionButton>
       </Layout>
       {styles}
       <style jsx>
@@ -749,12 +737,6 @@ export const MasonryLayout = () => {
           },
         ]}
       >
-        <Layout.ActionButton>
-          <PostingActionButton
-            accentColor="#f96680"
-            onNewPost={() => console.log("hi!")}
-          />
-        </Layout.ActionButton>
         <Layout.SideMenuContent>
           <SideMenu
             pinnedBoards={PINNED_BOARDS}
