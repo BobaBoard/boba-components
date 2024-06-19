@@ -35,25 +35,25 @@ export default {
 } as Meta;
 
 const ButtonTemplate: Story<ButtonProps & { text: string }> = (args) => (
-    <>
-      <Button {...args}>{args.text}</Button>
-      <Button theme={ButtonStyle.DARK} {...args}>
-        {args.text}
-      </Button>
-      <Button color="#f96680" {...args}>
-        {args.text}
-      </Button>
-      <Button theme={ButtonStyle.DARK} color="#f96680" {...args}>
-        {args.text}
-      </Button>
-      <Button theme={ButtonStyle.TRANSPARENT} {...args}>
-        {args.text}
-      </Button>
-      <Button theme={ButtonStyle.TRANSPARENT} color="#f96680" {...args}>
-        {args.text}
-      </Button>
-    </>
-  );
+  <>
+    <Button {...args}>{args.text}</Button>
+    <Button theme={ButtonStyle.DARK} {...args}>
+      {args.text}
+    </Button>
+    <Button color="#f96680" {...args}>
+      {args.text}
+    </Button>
+    <Button theme={ButtonStyle.DARK} color="#f96680" {...args}>
+      {args.text}
+    </Button>
+    <Button theme={ButtonStyle.TRANSPARENT} {...args}>
+      {args.text}
+    </Button>
+    <Button theme={ButtonStyle.TRANSPARENT} color="#f96680" {...args}>
+      {args.text}
+    </Button>
+  </>
+);
 
 export const Regular = ButtonTemplate.bind({});
 Regular.args = {
@@ -66,25 +66,16 @@ WithIcon.args = {
   icon: faCoffee,
 };
 
-export const WithUpdates = ButtonTemplate.bind({});
-WithUpdates.args = {
-  text: "A button with updates",
-  icon: faCoffee,
-  updates: 5,
-};
-
 export const WithImage = ButtonTemplate.bind({});
 WithImage.args = {
   text: "A button with image",
   icon: mamoru,
-  updates: 5,
 };
 
 export const Disabled = ButtonTemplate.bind({});
 Disabled.args = {
   text: "A disabled button",
   icon: faCoffee,
-  updates: 5,
   disabled: true,
 };
 
@@ -99,14 +90,6 @@ CompactWithIcon.args = {
   text: "A compact button (icon)",
   icon: faCoffee,
   compact: true,
-};
-
-export const CompactWithUpdates = ButtonTemplate.bind({});
-CompactWithUpdates.args = {
-  text: "A compact button (icon)",
-  icon: faCoffee,
-  compact: true,
-  updates: 5,
 };
 
 export const CompactWithImage = ButtonTemplate.bind({});
