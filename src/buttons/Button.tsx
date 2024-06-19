@@ -1,11 +1,9 @@
 import Icon, { IconProps } from "common/Icon";
 
 import DefaultTheme from "theme/default";
-import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import React from "react";
 import classnames from "classnames";
 import css from "styled-jsx/css";
-import { faCertificate } from "@fortawesome/free-solid-svg-icons";
 
 export enum ButtonStyle {
   LIGHT = "LIGHT",
@@ -67,7 +65,6 @@ const Button: React.FC<ButtonProps> = ({
   disabled,
   full,
   center,
-  updates,
   label,
 }) => {
   const THEME_COLOR = getThemeColor(theme);
@@ -84,17 +81,6 @@ const Button: React.FC<ButtonProps> = ({
           "with-image": typeof icon === "string",
         })}
       >
-        {updates && (
-          <div className="updates">
-            {updates === true ? (
-              <FontAwesomeIcon icon={faCertificate} />
-            ) : updates === Infinity ? (
-              "∞"
-            ) : (
-              updates
-            )}
-          </div>
-        )}
         <button onClick={onClick} disabled={disabled} aria-label={label}>
           {icon && (
             <Icon
@@ -157,23 +143,6 @@ const Button: React.FC<ButtonProps> = ({
           box-shadow: blue 0px 0px 0px 3px;
         }
 
-        .disabled .updates {
-          opacity: 0.8;
-        }
-        .updates {
-          background-color: ${color || REVERSE_THEME_COLOR};
-          position: absolute;
-          border-radius: 50%;
-          width: 20px;
-          height: 20px;
-          right: -5px;
-          top: -5px;
-          text-align: center;
-          color: ${transparent ? "white" : THEME_COLOR};
-          font-size: 14px;
-          line-height: 20px;
-          font-weight: bold;
-        }
         .compact button {
           min-width: 25px;
           max-width: 60px;
@@ -207,7 +176,6 @@ export interface ButtonProps {
   disabled?: boolean;
   color?: string;
   theme?: ButtonStyle;
-  updates?: number | boolean;
   label?: string;
   full?: boolean;
   center?: boolean;
