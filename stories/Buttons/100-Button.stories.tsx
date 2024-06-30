@@ -113,7 +113,6 @@ const SegmentedTemplate = (args: Partial<SegmentedButtonProps>) => {
         {
           id: SegmentedButtonOptions.LEFT,
           label: "Left",
-          updates: undefined,
           link: {
             onClick: () => setSelected(SegmentedButtonOptions.LEFT),
           },
@@ -121,7 +120,6 @@ const SegmentedTemplate = (args: Partial<SegmentedButtonProps>) => {
         {
           id: SegmentedButtonOptions.MIDDLE,
           label: "Middle",
-          updates: 5,
           link: {
             onClick: () => setSelected(SegmentedButtonOptions.MIDDLE),
           },
@@ -129,7 +127,6 @@ const SegmentedTemplate = (args: Partial<SegmentedButtonProps>) => {
         {
           id: SegmentedButtonOptions.RIGHT,
           label: "Right",
-          updates: 5,
           link: {
             onClick: () => setSelected(SegmentedButtonOptions.RIGHT),
           },
@@ -158,7 +155,6 @@ export const Segmented = () => {
             {
               id: SegmentedButtonOptions.LEFT,
               label: "onClick",
-              updates: undefined,
               link: {
                 onClick: () => {
                   setSelected(SegmentedButtonOptions.LEFT);
@@ -169,7 +165,6 @@ export const Segmented = () => {
             {
               id: SegmentedButtonOptions.MIDDLE,
               label: "href",
-              updates: 5,
               link: {
                 href: "https://boba.social/",
               },
@@ -177,7 +172,6 @@ export const Segmented = () => {
             {
               id: SegmentedButtonOptions.RIGHT,
               label: "Both",
-              updates: 5,
               link: {
                 href: "https://boba.social/",
                 onClick: () => {

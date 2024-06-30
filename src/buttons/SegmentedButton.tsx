@@ -24,23 +24,6 @@ const getOptionsStyle = (settings: {
     position: relative;
     flex: 1;
   }
-  .updates {
-    background-color: ${settings.color};
-    border: 2px solid ${settings.reverseColor};
-    color: ${settings.transparent ? "black" : settings.reverseColor};
-    position: absolute;
-    border-radius: 50%;
-    width: 20px;
-    height: 20px;
-    right: -5px;
-    top: -5px;
-    text-align: center;
-    font-size: 14px;
-    line-height: 20px;
-    font-weight: bold;
-    z-index: 2;
-    transition: all 0.2s linear 0s;
-  }
   .option-link {
     border-radius: 25px;
     padding: 8px 12px;
@@ -80,17 +63,6 @@ const SegmentedButtonOption: React.FC<SegmentedButtonOptionProps> = (props) => {
   });
   return (
     <div className={classnames("option", optionsClass)}>
-      {props.updates && (
-        <div className={classnames("updates", optionsClass)}>
-          {props.updates === true ? ( // Special case to display faCertificate
-            <FontAwesomeIcon icon={faCertificate} />
-          ) : props.updates === Infinity ? (
-            "∞"
-          ) : (
-            props.updates
-          )}
-        </div>
-      )}
       <ActionLink
         link={props.link}
         className={classnames(
@@ -112,7 +84,6 @@ interface SegmentedButtonOptionProps {
   label: string;
   link: LinkWithAction;
   isSelected: boolean;
-  updates?: number | boolean;
   theme?: ButtonStyle;
   color?: string;
 }
@@ -128,7 +99,6 @@ const SegmentedButton: React.FC<SegmentedButtonProps> = (props) => {
           label={option.label}
           link={option.link}
           isSelected={option.id === props.selected}
-          updates={option.updates}
           theme={props.theme}
           color={props.color}
           key={`${option.id}`}
@@ -151,7 +121,6 @@ export interface SegmentedButtonProps {
   options: {
     id: string;
     label: string;
-    updates?: number | boolean;
     link: LinkWithAction;
   }[];
   selected: string;
