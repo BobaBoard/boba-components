@@ -6,12 +6,10 @@ import {
 
 import ActionLink from "buttons/ActionLink";
 import Color from "color";
-import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { LinkWithAction } from "types";
 import React from "react";
 import classnames from "classnames";
 import css from "styled-jsx/css";
-import { faCertificate } from "@fortawesome/free-solid-svg-icons";
 
 const getOptionsStyle = (settings: {
   color: string;
